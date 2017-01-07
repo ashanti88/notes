@@ -1,0 +1,14 @@
+*Point to Point Protocol*
+
+Data Link Layer protocol.
+
+It establishes a link between 2 nodes.
+
+It can provide authentication, encryption and compression.
+
+PPP can be used over serial connection, phone line, trunk line, cellular
+connection, radio links, fiber(SONET) and over IP.
+
+2 Derivatives of PPP i) Point-to-Point Protocol over Ethernet ii)
+Point-to-Point Protocol over ATM These two are commonly used by ISP to
+establish a Digital Subscriber Line (DSL) connection for customers.

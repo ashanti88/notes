@@ -1,0 +1,29 @@
+
+
+* ethtool							   :net:anal:
+
+* Description
+This tool is used to configure physical network adapters.
+
+* Usage
+> ethtool <options> <interface>
+
+** Options
+i - provides info on the interface
+S - provides statistics on Rx and Tx
+
+** Setting interface parameters
+ethtool -s speed xxxx duplex full autoeng on
+speed - 100 or 1000
+autoneg - will auto-negotiate the speed
+duplex - full or half
+
+** Examples
+> ethtool -p <interface> N
+This will cause the NIC LED to blink for N seconds, where N can be 0 to 15 seconds.
+
+> ethtool -t <interface> [offline|online]
+This will run a set of tests to check the interface
+
+
+

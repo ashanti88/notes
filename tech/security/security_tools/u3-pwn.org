@@ -1,0 +1,4 @@
+
+
+This tool is designed to automate injecting executables to scandisk smart usb devices.
+

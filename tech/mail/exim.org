@@ -1,0 +1,28 @@
+print a count of the mail queue
+
+exim -bpc
+
+print a listing of the exim queue
+
+exim -bp
+
+print a summary of the messages in the queue
+
+exim -bp | exiqsumm
+
+print what exim is doing right now
+
+exiwhat
+
+test how exim will route a given address
+
+exim -bt [[mailto:me@localdomain.com][me@localdomain.com]]
+
+Pretend SMTP transaction from the given IP address. This is show Exim's
+checks, ACLs, and filters as they are applied.
+
+exim -bh 192.168.11.22
+
+display exim's configuration settings
+
+exim -bp

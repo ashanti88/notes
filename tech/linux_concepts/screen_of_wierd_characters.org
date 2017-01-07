@@ -1,0 +1,15 @@
+if stdout recieves some binary data
+
+resolve with
+
+> echo '\033c'
+
+some distros have 
+
+> reset
+
+this performs the same action
+
+*links:*
+
+http://www.unixguide.net/linux/faq/06.14.shtml

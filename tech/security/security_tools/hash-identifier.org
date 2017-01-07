@@ -1,0 +1,4 @@
+
+
+The tool aids in the hash identification process.
+It test a hash against many different formats for compatibility.

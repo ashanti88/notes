@@ -1,0 +1,15 @@
+
+
+* Get the kernel
+
++ 
+
+* Configuring the kernel
++ This can be done by copying the config file in /boot of the distro that you are running.
++ Otherwise you can run ./configure 
++ Otherwise you can run ./make menuconfig for an ncurses configuration.
+
+
+* Make the kernel
++ Just a matter of running make to compile the main kernel.
++ make modules will compile the kernel modules

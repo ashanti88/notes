@@ -1,0 +1,17 @@
+*Commands:*
+
+[Dig]
+
+[Host]
+
+[Nslookup]
+
+[Traceroute]
+
+[Nmap]
+
+[Ping]
+
+[Whois]
+
+[Tshark]

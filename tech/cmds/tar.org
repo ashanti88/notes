@@ -1,0 +1,54 @@
+
+
+* Description							 :comp:bakup:
+
+Tar is more efficient for copying large amounts of data apose to using
+cp.
+
+* Usage
+
+> tar <options> <archive\_name> <file\_name/s>
+
+Creating an Archive of files
+
+> tar -cf file.tar file1 file2 file3
+
+Creating an Archive of directories
+
+> tar -cf dir.tar dir1 dir2
+
+Compression of the tar file
+
+> tar -cvjf file.tar.bz2 file1 file2 file3 file4
+
+-  v is for verbose
+
+-  j is for bzip2
+
+>tar -cvzf file.tar.gzip file1 file2 file3
+
+- z is for gzip
+
+Adding files to an archive
+
+This adds additional files to an archive
+
+> tar -rf file.tar file5
+
+Removing files from an archive
+
+> tar -f file.tar --delete file1 file2
+
+List the archive
+
+> tar -tf file.tar
+
+Extracting files from an Archive
+
+bzip2
+
+> tar xvjf file.tar
+
+gzip
+
+> tar xvzf file.tar

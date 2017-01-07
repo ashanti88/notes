@@ -1,0 +1,27 @@
+*Use the following to check it has worked (when /move from server to
+server)/*
+
+for i in $(ip a|fgrep 'inet '|fgrep -v '127.0.0.1'|sort -t . -k 3,3n -k
+4,4n|awk '{print $2}'|sed "s/\/.*//"); do echo "$i <->
+=curl -s --interface $i --connect-timeout 3 icanhazip.com || echo dead=";done
+
+*/To add new extra IP's/*
+
+*/ /*
+
+*If a config exists for an addition IP then copy that*
+
+*/ /*
+
+cp ifcfg-eth0:1 ifcfg-eth0:2
+
+*If not then use the following:*
+
+DEVICE=eth0:1 (change this to the number of the device) ONBOOT=yes
+BOOTPROTO=static IPADDR= NETMASK= HWADDR=
+
+*Then use the following to switch this on*
+
+* *
+
+ifup eth0:1 (or whatever number it is)

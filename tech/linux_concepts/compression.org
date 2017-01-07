@@ -1,0 +1,9 @@
+*Types*
+
+gzip
+
+bzip2
+
+xz (RHEL)
+
+lzma (Deb)

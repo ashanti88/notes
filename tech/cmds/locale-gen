@@ -1,0 +1,7 @@
+
+this tool is used to generate the locales. These are used by glibc and other locale-aware languages to render language, date, currency and idiosyncrasies.
+
+The /etc/locale.gen first has to have the correct language type has to be uncommented before locale-gen is run.
+
+> locale-gene
+this will create the locales

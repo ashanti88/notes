@@ -1,0 +1,412 @@
+#+TAGS: db mysql
+
+
+* Usage:
+** Backup database
+ mysqldump -u <user> -p <database> > <backup.sql>
+
+** Restore an backup
+ mysql -u <user> -p <database\_name> < <backup.sql>
+
+** How to backup a table to a text file
+ysql> SELECT * INTO OUTFILE 'table\_backup\_file' FROM
+name\_of\_table';
+
+** Automysqlbackup
+his application allows you to automate your backups can be found in the
+ebian/ubuntu repo.
+
+ apt-get install automysqlbackup
+
+un with
+ automyqlbackup
+
+he main configuration file is /etc/default/automysqlbackup
+
+efault place for backups is /var/lib/automysqlbackup
+
+** Techniques that are no longer recomended
+
+yqlhotcopy shouldn't be used anymore due to limitations. One of these
+s it only works for data stored in 'MyISAM' and 'Archive' storage
+ngines. It also has to be run on the local machine, so no backing up
+rom a remote box.
+
+** Import
+
+irst create the database on the machine. Otherwise the database will
+ake on the name of the sql file.
+
+ mysql -u root -p <database\_name> < <database\_file.sql>
+
+** Export*
+
+ mysql -u root -p <database\_name> > <database\_file.sql>i
+y default the data directory can be found in /var/lib/mysql .
+
+his maybe moved due to size constraints.
+
+** Overview of the procedure
+
+. Move the MySQL database files from /var/lib/mysql to the new
+artition.
+
+. Modify the .cnf file to reflect the new position.
+
+. Update any SELinux settings.
+
+Take a backup of the current MySQL data*
+
+top the mysql service
+
+ systemctl stop mysql.service
+
+opy files to backup location
+
+ cp -r /var/lib/mysql <backup\_partition>
+
+r
+
+ql dump single database
+
+ sqldump -u root -p[password] <database> > dumpfilename.sql
+
+ll databases
+
+ sqldump -u root -p[password] --all-databases > /tmp/all-databases.sql
+
+** Move MySQL data directory to new partition
+
+. > mkdir -p <new\_data\_directory>
+. > cd <new\_data\_directory>
+. > mv <mysql\_datadir> <new\_data\_directory>
+. > chown -R mysql:mysql <new\_data\_directory>
+
+** Modify my.cnf and start MySQL
+
+ vi /etc/my.cnf
+
+atadir=<new\_data\_directory>
+ocket=<new\_data\_directory/mysql.sock>
+mp=<new\_data\_directory>
+
+ systemctl restart mysql.start
+
+** SELinux context type for MySQL
+
+heck the selinux context before moving moving data directory.
+
+ ls -Z
+myisamchk is used for MyISAM databases.
+
+mysqlcheck -uroot -p $databases is used for innodb.
+
+[http://www.laurencegellert.com/2011/07/mysql-maintenance-tasks-for-innodb-with-mysql-5-1/]]
+
+[http://www.techrepublic.com/article/checking-and-repairing-mysql-tables/]]
+heck the size of a databases
+
+ELECT table\_schema AS "Database name", SUM(data\_length +
+ndex\_length) / 1024 / 1024 AS "Size (MB)" FROM
+nformation\_schema.TABLES GROUP BY table\_schema;
+
+ database that uses a lot of transactions may cause fragmentation. This
+eans a lot of unused space. Recommended that the tables are defraged on
+n ongoing basis.
+
+** Identify Tables for Optimisation
+
+Use the following query to determine how much unused space is available
+in every table.
+
+sql> use <database>;
+
+sql> select <table\_name>,
+
+round(data\_length/1024/1024) as data\_length\_mb,
+
+round(data\_free/1024/1024) as data\_free\_mb
+
+     from information\_scheme tables
+
+     where round(data\_free/1024/1024) > 500
+
+     order by data\_free\_mb;
+
+The query will output - 
+
+1) a list of tables that has a minimum of 500MB of unused space.
+
+2) data\_length\_mb displays the total unused space in the particular
+   table.
+
+* Commands 
+- [[file://home/crito/org/tech/cmds/mysqladmin.org][mysqladmin]]
+- [[file://home/crito/org/tech/cmds/mysqldump.org][mysqldump]]
+- [[file://home/crito/org/tech/cmds/mytop.org][mytop]]
+- [[file://home/crito/org/tech/cmds/mysqlaccess.org][mysqlaccess]]
+
+
+* Optimization
+
+single table
+
+mysql> use <database>;
+
+mysql> optimize table <table\_name>/
+
+multiple tables
+
+mysql> use <database>;
+
+mysql> optimize table <table\_one>, <table\_two>, <table\_three>;
+
+Optimie table works for InnoDB engine, MyISAM engine and ARCHIVE tables.
+
+2 Defrag using mysqlcheck cmd
+
+> mysqlcheck -o <database> <table> -u root -p<password>
+
+o - option is to indicate that mysqlcheck should perform "optimize
+table" operation
+
+u - user
+
+p - password
+
+Defrag all tables on all databases
+
+> mysqlcheck -o --all-databases -u root -p<password>
+
+*After optimization*
+
+run the query that we an initially run. This time the data\_free\_mb
+should show zeros in the column.
+When no Plesk or Cpanel if facing a .htaccess file with the following:
+
+AuthName "Restricted Area" AuthType Basic AuthUserFile
+/var/www/html/phpMyAdmin-SBAL/.htpasswd AuthGroupFile /dev/null require
+valid-user
+
+Check the .htpasswd file in the same directory, if it contains a
+password, then this is fine. When catting this, it will show the
+encrypted version of the password so you need to get the password off
+the customer.
+
+*Cluster Setup*
+
+Make sure you use /etc/phpMyAdmin/config.inc.php instead of the one in
+/usr/share/phpmyadmin
+
+Set the host to the internal IP of the MySQL VIP
+
+*Example phpMyAdmin virtual host for nginx* *(make sure you also change
+fastcgi\_pass):*
+
+server {
+
+listen internalMySQLVIP:80 default;  <<CHANGE THIS to the MySQL VIP
+internal access\_log off; server\_name externalMySQLVIP; <<CHANGE THIS
+to the MySQL VIP external server\_name\_in\_redirect off; root
+/usr/share/; #root to the phpmyadmin files
+
+** php-fpm configuration
+  :PROPERTIES:
+  :CUSTOM_ID: php-fpm-configuration
+  :END:
+
+location ~ .php$ { # root /var/www/html; try\_files $uri =404;
+fastcgi\_pass slumberstreambackend;  <<< CHANGE THIS TO THE CORRECT
+php-fpm conf fastcgi\_index index.php; fastcgi\_param SCRIPT\_FILENAME
+$document_root$fastcgi\_script\_name; include fastcgi\_params;
+fastcgi\_buffer\_size 128k; fastcgi\_buffers 256 4k;
+fastcgi\_busy\_buffers\_size 256k; fastcgi\_temp\_file\_write\_size
+256k; }
+
+}
+
+*For any #2002 - Can't connect to local MySQL server through socket
+errors*
+[[https://serverfault.com/questions/592617/phpmyadmin-wont-connect-to-remote-mysql-instance]]
+*Stop mysql*
+
+> systemctl stop mysql.service
+
+or
+
+> /etc/init.d/mysql stop
+
+or
+
+> service mysql stop
+
+*Access MySQL Safe Mode*
+
+Enter safe mode
+
+> sudo mysqld\_safe --skip-grant-tables &
+
+login to mysql and the mysql database
+
+> mysql -u root mysql
+
+*Set new password*
+
+mysql> update user set password=PASSWORD("new\_password") where
+user='root';
+
+mysql> flush privileges;
+
+
+* Lectures
+** To Shard or Not to Shard? - Peter Zaitsev		     :db:mysql:shard:
+URL: [[https://www.youtube.com/watch?v%3D2MyyH-bH8Bw&list%3DWL&index%3D75][To Shard or Not to Shard?]]
++ Before you decide how to shard you'd best understand whether or not you really need to shard!
+
++ Single MySQL Can Do (Mid Range System)
+  - 100K+ queries per second
+  - 100K+ rows inserted/updated/deleted per second
+  - 5M+ rows scanned per second
+  - 10K+ concurrent connections
+  - 10TB+ data size
+
++ MySQL 5.7 can perform 645000 qps
+
++ Calculating query load
+Example:
+3M daily active users
+30 interactions per user per day
+10 queries per interaction
+3x peak versus average use
+= 31250 Queries/sec10 queries per interaction
+
++ Avoiding Sharding
+  - Enterprise with 200K+ wmployees internal Drupal installation
+  - E-commerce merchant with $10M+ sales per month
+    - both run on a single MySQL instance
+
++ Startegies to Delay Sharding
+  - Architecture
+    - Building up from small blocks
+    - Each "owning" its data
+    - "Microservices"
+  - Functional Partitioning
+    - Keep separate data separate
+  - Replication
+    - Scale reads
+    - Beware - MySQL replication is aynchronous
+  - Caching
+    - Scale Reads
+    - Query Cache
+    - Application Server Cache
+    - Memcache/Redis
+    - Summary Tables - caching mysql in mysql
+    - HTTP Cache
+  - Queueing
+    - Scale Writes
+    - Balance Demand Spikes
+    - Batch Work
+    - Redis
+    - RabbitMQ
+    - ActiveMQ
+    - Kafka
+  - Beyond MySQL
+    - Analytics
+      - Hadoop
+      - Vertica
+      - Spark
+    - Full Text Search
+      - ElasticSearch
+      - Sphinx
+      - Solr
+    - Document Store
+      - MongoDB
+      - CouchBase
+      - RethinkDB
+      - cassandra
+  - Optimize
+    - Do "Simple" optimization first    
+      
++ Hardware
+  - Fast CPUs - MySQL likes fast processor
+  - Plenty of memory
+  - Fast flash storage - shouldn't be using spinning disks
+  - Good network(keep it close) - latency will casue queries
+    - app server and db should not be many hops apart
+      
++ Environment
+  - Linux is the most common OS
+  - New MySQL versions scale better
+  - Use a recent GA version(MySQL 5.7)
+    
++ Configuration
+  - Configure MySQL Server Properly - the default configure shouldn't be used customize for your need
+  - What storage engine is reight for you
+    - innodb - good all rounder
+    - TokuDB is another option
+
++ Sharding - When?
+  - Too Early - waste resources
+  - Too Late - Run into the wall
+
++ Architectural Runway
+  - Sharding is architecture consideration
+    - sharding over a wkend is crazy, it should be apart of the arch development
+  - Make it part of your achitecture runway planning
+  - How long would it take you to implement Sharding?
+    
++ Capactiy Planning
+  - Know where your wall is!
+  - Be conservative in your estimates!
+  - Do not plan for linear scalability!
+
++ Benefits of Sharding
+  - It is the only way to get "Facebook" scale
+  - removes complex caching layer
+  - removes asynchronous replication for scaling
+  + Isolation
+    - Security - seperates data into own blocks
+    - Compliance - this speration my be required for compliance
+    - keeping data close to use - law regarding data remaining in county of origin
+  + Costs
+    - Can use lower power systems
+    - Especially important in the cloud
+
++ Sharding Questions
+  + Sharding Level
+    - Database Level
+    - Deployment Unit Level - normally when db are going to be in different physical locations
+  + Sharding Keys
+    - Most "small" accesses go to single shard
+    - No shard is too larde in terms of data or load
+    - May double-store date with different sharding keys if needed
+  + Sharding Unit
+    - Shard = Physical MySQL instance
+    - Shard = Schema
+    - Multiple "Shards" Per Schema/Table
+  + Sharding HA
+    - More chance of failure
+    - Increased need for HA
+    - Sharding over Master-Slave "Clusters"
+      
++ Sharding Technologies
+  - Roll-your-own
+  - Vitess - one to watch
+  - Jetpants    - not much support
+  - Shard-Query - not much support
+  - Clustrix - close source not much traction
+  - MySQL Cluster - complicated tech difficult to use
+  - MySQL Fabric - official solution from MySQL team at Oracle
+  - Tesora Database Virt Engine - Automated
+  - ScaleArc - Rule Based, Commercial popular
+  - ScaleBase - Died, Zombie
+    
++ Summary
+  - Multiple technologies for Sharding
+  - There is no standard solution used across the board
+
+** Scaling MySQL and MariaDB - Max Mether
+URL: [[https://www.youtube.com/watch?v%3D44tRhxGYXTY&list%3DWL&index%3D74][Scaling MySQL and MariaDB]]
+
+* Tutorials
+* Books

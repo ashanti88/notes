@@ -1,0 +1,28 @@
+
+
+
+
+* Description							   :sys:anal:
+
+
+
+* Usage
+
++ Show filesystem
+> df <options> <file>
+
++ Show filesystem in human readable form
+> df -a
+
++ Show filesystem in MB
+> df -h
+
++ Show filesystem inodes
+> df -m
+
++ Show filesystem types
+> df -i
+
++ Show only specific filesystems
+> df -Txxx
+

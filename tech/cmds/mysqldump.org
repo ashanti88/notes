@@ -1,0 +1,8 @@
+
+
+
+* Description							   :DB:bakup:
+
+* Usage
+
+> mysqldump -u <user> -p <database\_to\_backup> > <database.bakup.sql>

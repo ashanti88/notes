@@ -1,0 +1,11 @@
+
+
+
+* head
+* Description							     :sys:rw:
+Output the first part of a file.
+* Usage
+> head <option> <file>
+
++ Print a number of lines
+> head -n <N> <file>

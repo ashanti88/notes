@@ -1,0 +1,14 @@
+
+
+** Skipfish
+
+This is an active web application security recon tool.
+It creates an interactive sitemap of the targeted site.
+It does this by recursive crawl and dictionary based probes.
+
+
+Use
+> skipfish -o <output_dir> <site_ip>
+
+
+Options

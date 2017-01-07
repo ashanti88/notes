@@ -1,0 +1,37 @@
+*Commands:*
+
+sudo
+
+su
+
+usermod
+
+visudo
+
+*How to obtain root privileges*
+
+* *
+
+*Log in as root*
+
+login: root
+
+you are root from an initial login
+
+*Use "su" to become Root*
+
+> su
+
+using "substitute user" root can be moved into
+
+*Use "sudo" to execute commands as Root*
+
+> sudo <command>
+
+this allows root to be run for one off commands.
+
+*Configuring sudo*
+
+sudo is configured through the /etc/sudoers file. This file should not
+be edited directly but with the visudo command. This command will open
+/etc/sudoers in the set default text editor.

@@ -1,0 +1,85 @@
+
+
+* atop
+
+* Descripton							   :sys:anal:
+
+Atop allows analysis of a system over different periods of time by
+taking snapshots.These snapshots allow us to view individual processors
+at different times.
+
+Atop monitors CPU, memory, disks and network on system level.
+
+* Layout
+
+The top half of the screen is for system-wide information, and the
+bottom half is for per-process data.
+
+Top half
+
+CPU- provides an overview of CPU usage (all cores).  
+
+cpu - this line indicates each individual processor.
+
+adding up each colum sys, user, proc, irq, zombie, exit and this will
+correspond to the number of cores. Each 100% indicating a processor.
+
+DSK - this line shows I/O information on active disks at specified time.
+AVIO, average service time per request.
+
+LVM - this gives information on lvm groups.
+
+NET - provides information on the network.  
+
+* Bottom half (process level)
+
+Atop is different to other analysis tools as it takes into account
+exited processors. These processors are shown with angle brackets around
+their name. The EXC column shows the processors exit code.
+
+Sceduling (s) 
+
+TRUN - how many threads are in the "running" state
+
+TSLPI - how many threads are in the "sleeping interruptible" state.
+
+POLI - Shows the scheduling policy normal, round-robin, fifo, realtime
+etc.
+
+Disk (d)
+
+RDDSK - how much data is passed by the read system call.
+
+WDDSK - how much data is passed by the write system call.
+
+WCANCL - not all writes are written to disk, but are included in WDDSK.
+This colum shows how many how much write data has been cancelled.
+
+Network (n) - only available if kernel patch is added
+
+* Usage
++ Command line of the process (c)
+
+PID - pid of process
+
+COMMAND-LINE - this column provides the command line of the process.
+
++ Options
+g - generic output (default)
+m - sorts processors by memory in descending order.
+d - sorts by I/O usage
+n - network related information (kernel patch required)
+v - various process characteristics
+c - command line of the process
+u - process activity accumulated per user
+s - scheduling information of the processors
++ Output to commandline
+
+The information from atop can be output to the command line using the -P
+switch.
+
+> atop -P<col.name>,<col.name>
+
+* Links
+https://lwn.net/Articles/387202/
+https://www.maketecheasier.com/load-monitoring-linux-atop/

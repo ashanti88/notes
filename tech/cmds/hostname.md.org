@@ -1,0 +1,8 @@
+
+
+
+* Description							     :sys:op:
+
+* Usage
+
+> hostname <new\_hostname>

@@ -1,0 +1,10 @@
+
+
+
+
+
+* Description							     :sys:op:
+The tool specifies the number of processors that a user is authorized to have.
+
+
+* Usage

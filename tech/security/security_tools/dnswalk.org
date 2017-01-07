@@ -1,0 +1,18 @@
+
+
+** dnswalk
+
+This tool performs a zone transfer of specified domain.
+
+Usage
+> dnswalk <options> <domain.com>
+
+Options
+-r Recursively descend sub domains of the specified domain
+-a Turn on warnings of duplicate A records
+-d Print debugging and 'status' information to stderr
+-m Perform checks only if the zone has been modified since the previous run
+-F Perform Fascist checking. When checking an A record, compare the PTR name for each IP address with the forward name and report mismatches.
+-i Suppress check for invalid characters in a domain name.
+-l Perform "lame delegation" checking. For every NS record, check to see the listed host is indeed returning auth answers for this domain.
+ 

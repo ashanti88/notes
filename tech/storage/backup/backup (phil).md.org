@@ -1,0 +1,125 @@
+*<<BACULA>>*
+
+/*CheatSheet*/
+
+[[https://workaround.org/bacula-cheatsheet/]]
+
+/*Backup Estimate*/
+
+estimate job="IP\_IP\_IP\_IP Job" listing level=Full...
+
+estimate job="78\_109\_166\_17 Job" listing level=Full
+
+Put the estimate into a file:
+
+echo 'estimate job="IP\_IP\_IP\_IP Job" listing level=Full' | bconsole >
+fulllisiting.txt
+
+/*Get a list of files in previous backup done*/
+
+echo 'list files jobid=####' | bconsole > FILELISTING.txt
+
+/*Check if backups are running*/
+
+bcsonsole
+
+*status dir
+
+/*Watch as backups are running*/
+
+watch -n2 "echo 'status client=srv-46\_37\_183\_118' | bconsole"
+
+watch -n0.5 "echo 'status client=srv-46\_37\_183\_230' | bconsole"
+
+/*Get a File Estimate*/
+
+Open backup server over SSH
+
+In Putty go to Settings (icon in top left) >> Session >> Logging >> All
+Session Output
+
+Then set a file to log to in the option box
+
+Then run:
+
+estimate job="IP\_IP\_IP\_IP Job" listing level=Full/Incremental
+
+OR
+
+echo 'estimate job="46\_37\_183\_104 Job" listing level=Full' | bconsole
+> estimate.txt
+
+/*How to restore using bextract to the bacula server then rsync across*/
+
+ls -latr srv* | awk '{print $9}' | sed 's/\(.*\)/Volume=\1/' >
+bootstrap.bsr
+
+create includes.txt and add directories/files that you want included:
+
+vim includes.txt
+
+This then shows the files that will be included:
+
+bls -b bootstrap.bsr -i includes.txt -pv storage-94\_229\_164\_34
+(change this IP)
+
+to properly start it, you have to then create a directory called
+'output'
+
+mkdir output
+
+and then run the following:
+
+bextract -b bootstrap.bsr -i includes.txt -pv
+storage-94\_229\_164\_34(change this IP) output/
+
+Then when finished run the following to move to the actual server
+
+rsync -avzPh -e"ssh -p2020"
+/home/bacula/94\_229\_164\_34/output/home/trac/mail/therealapprenticeship.com/dshandley[[mailto:root@94.229.164.34:/home/ukfastemailrestore][root@94.229.164.34:/home/ukfastemailrestor]]e
+
+/If doing a CPanel mail restore run the following on the server:/
+
+rsync --ignore-existing -raz --progress
+/home/ukfastemailrestore/dshandley/
+/home/trac/mail/therealapprenticeship.comey/handle
+
+-  Run ‘status director' every 2 seconds
+
+watch -n2 'echo "status director" | bconsole'
+
+-  Get an estimate showing which files are going to be backed up (good
+   for checking exclusions!)
+
+echo "estimate job=94\_229\_166\_13 Job listing" | bconsole >
+13\_filelist\_est.txt
+
+-  Same as above, but specifying incremental
+
+echo "estimate job=94\_229\_166\_13 Job listing level=Incremental" |
+bconsole > 13\_inc\_filelist\_est.txt
+
+-  To purge old backups from backup server, make a note of the IP
+   address and run
+
+manage\_backups
+
+/*eth1 won't start up on server*/
+
+check /etc/sysconfig/network-scripts/ifcfg-eth1 and make sure it shows
+the following:
+
+ONBOOT=yes IPV6INIT=yes IPV6\_AUTOCONF=yes
+
+Afterwards do 'ifdown eth1' and then 'ifup eth1' and wait for the IP to
+be assigned when checking 'ip a'
+
+*/Full server restore files/directories to exclude:/*
+
+/etc/fstab
+
+/boot
+
+/etc/udev
+
+/etc/sysconfig/network-scripts

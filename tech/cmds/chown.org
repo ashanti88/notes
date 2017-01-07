@@ -1,0 +1,18 @@
+
+
+
+
+* Description							:sys:op:file:
+
+
+* Usage
+
++ Change the owner of a file*
+> chown <user> <file>
+
++ Change the owner and group of file*
+> chown <user>:<group> <file>
+
++ Change the owner of directory and subfiles*
+> chown <user> -R </directory>
+R - recursive

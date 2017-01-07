@@ -1,0 +1,15 @@
+*Simple Mail Transfer Protocol*
+
+*Ports*
+
+25 - Default transmission channel for internet email.
+
+465 - Not set by IETF, but by IANA for transmission of SMTP over SSL.
+Now revoked due to the implementation of STARTTLS and has been assigned
+to another service.
+
+587 - This is the default mail submission port.
+
+2525 - Alternative port. 
+
+*notes:*

@@ -1,0 +1,418 @@
+
+
+
+
+
+
+
+* Lectures
+** Structrue and Interpretation of Computer Programs - Harold abelson & Gerald Jay Sussman
+*** Overview and Introduction to Lisp - Lecture 1a
+[[https://www.youtube.com/watch?v%3DXYKRVNQ_MqE&t%3D1s&index%3D58&list%3DWL][url]]
+
++ Overview of the course   
+- Black box abstraction
+  - build a box around a complex instrument.
+  - helps to build bigger boxes.
+    
+- Conventional Interfaces
+  - Generic operations
+  - Large-scale structure and modularity
+  - obj-oriented 
+  - operations on aggregates
+    
+- Metaliguistic abstraction (Making new languages)
+  - Interpretation - APPLY-EVAL
+  - EXAMPLE - LOGIC Programming
+  - Register Machines
+
+    
+**** Introduction 
++ Primatives
++ operators
+  - + - \ *
++ operands
+  - 3
++ operators and operands -> combination
++ parenthesis -> apply operator to operand
+  - parenthesis help show trees in a linear combination.
++ lisp uses prefix notation - operator to the left of the operand.
+
++ (define A (* 5 5)) - set symbol to comination
+  - this didn't work in scratch, used setq instead.
+
++ setting square
+  - (define (SQUARE x) (* x x))
+  - (define SQUARE (lambda x) (* x x))
+    - lambda - make a procedure
+      
++ Conditionals
+(define (ABS x)
+  (cond ((< x 0) (- x))
+        ((= x 0) 0)
+        ((> x 0) x))) 
+this is the computational of absolute value
+
+(define (abs x)
+  (if (< x 0)
+      (- x)
+      x))
+this is the same as what is written above.
+
+- cond and if arer the same.
+  
+*** Procedures and Processes; Substitution model 1b
+
++ Kinds of expressions
+  - numbers
+  - symbols
+  - lambda expressions ----
+  - definitions            | special rules to implement
+  - conditionals           |
+  - combinations       ----
+    
++ Substitution Rule
+  To evaluate an application.
+    Evaluate the operator to get procedure
+    Evaluate the operands to get arguments
+    Apply the procedure to the arguments
+      Copy the body of the procedure,
+        substututing the arguments supplied
+        for the formal parameters of the procedure.
+      Evaluate the resulting new body.
+
++ Conditional Rule
+  To evaluate an IF expression
+    Evaluate the predicate expression
+      if it yields TRUE
+        evaluate the consequent expression
+      otherwise
+        evaluate the alternative espression
+
+(IF <predicate>
+    <consequent>
+    <alternative>)
+
+Example: if
+(define (+ x y)
+  (if (= x 0)
+    y
+    (+ (-1+ x) (1+ y))))
+    
+-1+ - decrement
+1+ - increment
+
+Example: Peano Arithmetic
++ Two ways to add whole numbers:
+linear interation
+(define (+ x y)
+  (if (= x 0)
+    y
+    (+ (-1+ x)(1+ y))))
+    
+time(x)
+space(1)
+
+or
+linear recursion
+(define (+ x y)
+  (if (= x 0)
+    y
+    (1+ (+ (1+ x) y))))
+
+time(x)
+space(x)
+
+Example: Fibonacci numbers
+(define (fib n)
+  (if (< n 2)
+    n
+    (+ (fib (- n1))
+       (fib (- n2)))))
+
+time = O(fib(n)) - exponential
+space = O(n)
+
+Example: Towers of Hanoi
+(define (move n from to spare)
+  (cond ((= n 0) DONE)
+    (else
+      (move (-H n) from to spare)
+      (print move from to)
+      (move (-H n) spare to from))
+
+*** Higher-order Procedures 2a
+    
+Example: Sum of a range
+
+(define (sum-int A B)
+  (if (> A B)
+      0
+      (+ A
+        (sum-int (1+ A) B))))
+	
+Example: Sum of a square
+
+(define (sum-sq A B)
+  (if (> A B)
+    0
+    (+ (sqr A)
+       (sum-sq (1+ A) B))))
+
++ above shows common patterns of language.
+
++ The general pattern of above
+(define (<name> a b)
+  (if (> a b)
+      0
+      (+ (<term> a)
+         (<name> (<next> a) b))))
+
+(define (sum term A next B)
+  (if (> A B)
+      0
+      (+ (term A)
+         (sum term
+              (next A)
+              next
+              B))))
+
++ Sum of ints with above function
+(define (sum-int A B)
+  (define (identity x) x)
+  (sum identity A 1+ B))
+
++ Sum of square with above function
+(define (sum-sq A B)
+  (sum square A 1+ B))
+  
+
++ Iterative implementation of sum
+(define (sum term a next)
+  (define (iter j ans)
+    (if (> j b)
+        ans
+        (iter (next j)
+              (+ (term j) ans))))
+  (iter a 0))
+
++ Finding functions fixed point
+(define (sqrt x)
+  (fixed-point
+    (lambda(y)(average (/ x y) y))
+    1))
+
+(define (fixed-point f start)
+  (define (iter old new)
+    (if (close-enuf? old new)
+        new
+        (iter new (f new))))
+  (iter start (f start)))
+
++ in a more clear way - this will damp out osillations
+(define (sqrt x)
+  (fixed-point
+    (average-damp (lambda(y)(y x y)))
+    1)) 
+
+(define average-damp (lambda(f) (lambda(x)(average (fx) x))))
+
+Example: Newtons Method
+to find a y such that f(y) = 0
+
+(define (sqrt x)
+  (newton (lambda(y) (- x (square y)))
+          1))
+	  
+(define (newton f guess)
+  (define df (deriv f))
+  (fixed-point
+    (lambda(x) (- x (/ (f x)(df x)))
+    guess))
+
+(define deriv
+  (lambda (f)
+    (lambda (x)
+            (/ (- (f (+ x dx))
+                  (f x))
+               dx))))
+
+(define dx .0000001)
+
++ The rights and privileges of first-class citizens
+  - To be named by variables
+  - To be passed as arguments to procedures.
+  - To be returned as values of procedures.
+  - To be incorporated into data structures.
+
+*** Compound data 2b
+    
++ Constructors
+  - creates data sturcture
++ Selectors
+  - pull the elements from the data sturcture
+
+Example: Rational numbers
+(define (* RAT x y)
+  (make-RAT
+    (* (numer x)(numer y))
+    (* (denom x)(denom y))
+
++ List Structure
+  - Pairs
+    -(cons x y) - constructs a pair whose second part is y
+      -(car p) - selects the first part of the pair p
+      -(cdr p) - selects the second part of the pair p
+    
+for any x and y
+  (car (cons x y)) is x
+  (cdr (cons x y)) is y
+  
++ An implementation tht will use the lowest denominator
+(define (make-rat n d)
+  (let ((g (gcd n d)))
+    (cons (/ n g)
+          (/ d g))))
+
+Example: Represent vectors in the plane
+
+(define (make-vector x y) (cons x y))
+
+(define (xcor p) (car p))
+
+(define (ycor p) (cdr p))
+
++ Represent line segment
+(define (make-seg p q) (cons p q))
+
+(define (seg-start s) (car s))
+
+(define (seg-end s) (cdr s))
+
++ midpoint
+(define (midpoint s)
+  (let ((a (seg-start s))
+        (b (seg-end s)))
+    (make-vector
+      (average (xcor a) (xcor b))
+      (average (ycor a) (ycor b)))))
+
++ length
+(define (length s)
+  (let 
+    ((dx (- (xcor (seg-end s))
+            (xcor (seg-start s))))
+     (dy (- (ycor (seg-end s))
+            (ycor (seg-start s))))
+    (sqrt (+ (square dx)
+             (square dy))))))
+
+
+*** Henderson Escher Example - Lecture 3A
+
++ Using Vectors
+(define (+vect v1 v2)
+  (make-vector
+    (+ (xcor v1) (xcor v2))
+    (+ (ycor v1) (ycor v2))))
+
+(define (scale s v)
+  (make-vector (* s (xcor v))
+               (* s (ycor v))))
+
++ Representing Vectors
+(define make-vector cons)
+(define xcor car)
+(define ycor cdr)
+
++ Represnting th line segment
+(define make-segent cons)
+(define seg-start car)
+(define seg-end cdr)
+
+(make-seg (make-vector 2 3)
+          (make-vector 5 1))
+- just a pair of pairs
+  
++ Closure
+  - allows the building of abstraction
+
++ a list in lisp is a chain of pairs
+
+ |1|-|--->|2|-|--->|3|-|--->|4|nil|
+  
+  or
+ 
+ (define 1to4 (list 1 2 3 4))
+
+
++ CDR-ing down a list
+
+(define (scale-list s l)
+  (if (null? 1)
+      nil
+      (cons (* (car l) s)             first element of the list
+            (scale-list s (cdr 1))))) rest of scaled list
+
++ high order procedure - map
+(define (map p l)
+  (if (null? l)
+      nil
+      (cons (p (car l))         apply p to first element
+            (map p (cdr 1)))))  map down the rest of the list
+	    
++ for-each
+(define (for-each proc list)
+  (cond ((null? list) "done")
+        (else (proc (car list))         do it to the first element
+              (for-each proc            do it to the rest of the list
+                        (cdr list))))) 
+  
+Henderson Escher Example:
+
+(define (coord-map rect)
+  (lambda (point)
+    (+vect
+      (+vect (scale (xcor point)
+                    (horiz rect))
+             (scale (ycor point)
+                    (vert rect)))
+      (origin rect))))
+      
++ Constructing Primitive Picture from lists of segments
+
+(define (make-picture seglist)
+  (lambda (rect)
+    (for-each
+      (lambda (s)
+        (drawline
+          ((coord-map rect) (seg-start s))
+          ((coord-map rect) (seg-end s))))
+    seglist)))
+    
++ beside - this function takes two pictures and places them into the rect with specified ratio implemented
+  
+(define (beside p1 p2 a)
+  (lambda (rect)
+    (p1 (make-rect
+          (origin rect)
+          (scale a (horiz rect))
+          (vert rect)))
+    (p2 (make-rect
+          (+vect (origin rect)
+                 (scale a (horiz rect)))
+          (scale (- 1 a) (horiz rect))
+          (vert rect)))))
++ rotate
+
+(define (rotate90 pict)
+  (lambda (rect)
+    (pict (make-rect
+            (+vect (origin rect)
+                   (horiz rect))
+            (vert rect)
+            (scale -1 (horiz rect))))))
+
+
+    
+

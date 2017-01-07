@@ -1,0 +1,10 @@
+
+
+
+
+* Description
+This tools allows for timezones to be displayed.
+
+
+* Usage
+> zdump <options> <timezone>

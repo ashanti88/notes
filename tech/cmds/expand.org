@@ -1,0 +1,5 @@
+Thsi command will convert tabs to spaces.
+
+*Basic Syntax*
+
+> expand <option> <file>

@@ -1,0 +1,14 @@
+
+
+
+
+* Description							   :sys:anal:
+kdump is used to capture the system core dump in the event of a system crash. 
+
+These core dumps can be used later to determine a system failure.
+
+Kdump uses two kernels
+  - normal/system kernel
+  - dump capture kernel
+    
+/proc/vmcore to get access to crashed system kernel

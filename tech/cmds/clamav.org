@@ -1,0 +1,14 @@
+
+
+
+
+* Usage
++ Update clamav
+> freshclam
+
++ Scanning files
+> clamscan <options> <file/directory>
+--recursive -r
+--infected  -i       - print only the infected files
+--max-filesize=4000M - 4000M is the max size
+--max-scansize=4000M

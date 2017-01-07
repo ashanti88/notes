@@ -1,0 +1,15 @@
+
+
+* findmnt							:sys:fs:anal:
+
+* Description
+Findmnt will list all the mounted filesystems or search for a
+filesystem.
+
+It searches:
+
+/etc/fstab
+
+/etc/mtab
+
+/proc/self/mountinfo

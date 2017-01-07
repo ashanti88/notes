@@ -1,0 +1,12 @@
+[[http://builtwith.com]]
+
+This site will provide alot of information regarding the underpinings of
+the site.
+
+FRAMEWORK
+
+Below need looking into for how they can help with website analysis
+
+[[https://www.netcraft.com]]
+
+[[http://www.domaintools.com]]

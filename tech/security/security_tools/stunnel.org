@@ -1,0 +1,18 @@
+Stunnel allows secure communication between server and client through
+ssl.
+
+This aids in bypassing IDS/IPS
+
+Can be used with POP2, POP3 and IMAP
+
+Configuration file /etc/stunnel/stunnel.conf
+
+example: client = no [squid] accept = 8888 connect = 127.0.0.1:3128 cert
+= /etc/stunnel/stunnel.pem
+
+You need to create the above key
+
+The stunnel client needs to be installed on the target machine, for
+windows it can be found here https://www.stunnel.org/downloads.html The
+key and configuration has to be copied from the attack box to the
+target.

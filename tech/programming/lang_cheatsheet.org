@@ -1,0 +1,28 @@
+,C,Perl,Python,Php,Bash
+Function,,sub name { },def name():,Function name() { },Function name { }
+,,,,,
+,,,,,
+Concatenate,strcat(),.,+,.,
+String length,strlen(),length(array);,len(string),,
+Array length,(int) sizeof(array),scalar(array);,len(array),,
+Join array,,"join(“:”, @array);",,,
+Open file,"fp = fopen(“file”, “w”);","open(my $fh, “<”, “file”) or die “Can’t open file: $!”;",,,
+Remove trailing ws,,chomp($string),,,
+,,,,,
+,,,,,
+Array,"type name[x] = {x1, x2, x3};","my @name = ( “x1”, “x2”, “x3”);","list = [x1, x2, x3] starts at 0","$array =  array(“x1”, “x2”, “x3”);",name=(“x1” “x2” “x3”); - starts at 1
+,,,,,
+,,,,,
+,,,,,
+Associated Array,,"my %name = ( key1, value1, key2, value2);","aarray = { “key1”: “value1”, “key2”: “value2”}","$array =  array(“x1”, “x2”, “x3”);",
+,,,"Aarray = dict(key1=’one’, key2=’two)",,
+Add element to dict,,,aarray[‘key’] = ‘value’,,
+delete element from dict,,,del aarray[‘key’],,
+delete all elements,,,aarray.clear(),,
+copy dict,,,new_dict = aarray.copy(),,
+get element,,,dict.get(key),,
+pop element,,,dict.pop(key),,
+,,,,,
+for,for(init; conditional; incremental) { statement(s); },for(init; conditional; incremental) { statement(s); },for <var> in <sequence>:,for(init; conditional; incremental) { statement(s); },for <variable> in <sequence>:
+if,,if(condition) { statement; } elseif (condition) { statement; } else { statement; } ,,,
+while,,while(condition) { statement },,,

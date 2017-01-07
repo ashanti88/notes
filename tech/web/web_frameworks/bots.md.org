@@ -1,0 +1,4 @@
+Stopping Baiduspider add below to .htaccess file
+
+RewriteEngine On RewriteCond %{HTTP\_USER\_AGENT} Baiduspider [NC]
+RewriteRule .* - [F,L]

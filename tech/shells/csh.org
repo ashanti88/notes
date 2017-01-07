@@ -1,0 +1,199 @@
+*File queries*
+
+-e file           file exists (may be protected from user)
+
+-r file            file exists and is readable by user
+
+-w file          file is writable by user
+
+-x file           file is executable by user
+
+-o file           file is owned by user
+
+-z file           file has size 0
+
+-f file            file is an ordinary file
+
+-d file           file is a directory
+
+*Booleans*
+
+! -- negate
+
+|| -- logical or
+
+&& -- logical and
+
+*Variables*
+
+To set a variable use
+
+> set <variable> = <value>
+
+To delete a variable use
+
+> unset <variable>
+
+Null values are set by
+
+> set <variable> =
+
+Special variable $$ holds the pid of the of the shell, or shell script
+that is running.
+
+Arithmetic Variables
+
+These are set using the @ instead of the set command. This is so that
+numbers are stored correctly and not as strings.
+
+@ <variable> = <number>
+
+eg
+
+@ i = 2
+
+there is also a -- and a ++ operator which will decrement and increment
+numeric variables. There should be a space between the @ and the
+variable.
+
+@ i --
+
+@ i ++
+
+Expressions and True and False
+
+0 is treated as false and anything else as true.
+
+An infinite loop can be written as
+
+while (1)
+
+     ...
+
+end
+
+use a break or exit to get out of the loop
+
+*Boolean conditions*
+
+Expressions and operators
+
+==           equal
+
+!=            not equal
+
+=~           string match
+
+!~            string mismatch
+
+<=           numerical less than or equal to
+
+>=           numerical greater than or equal to
+
+>             numerical greater than
+
+<             numerical less than
+
+*Built-in Variables*
+
+$user     --      whoami
+
+$hostess      --      name of the computer I am logged on to
+
+$path      --      my execution path
+
+$term      --      what kind of terminal I am using
+
+$status      --      a numeric variable, usually used to return error
+codes
+
+$prompt      --      what I am currently using for a prompt
+
+$shell      --      which shell am I using
+
+*Array Variables*
+
+Setting an array
+
+> set <array> = (value1 value2 ... value3)
+
+How many elements in an array
+
+> echo $#<array>
+
+Accessing elements in an array
+
+> echo $<array>[n]
+
+or
+
+> echo $<array>[m-n]
+
+or
+
+> echo $<array>[m-]
+
+Adding to an array
+
+to the end
+
+>set  <array> = ($<array> new\_element)
+
+to the begining
+
+> set <array> = (new\_element $<array>)
+
+in the middle
+
+> set <array> = ($<array>[a-l] new\_element $<array>[m-])
+
+Remove the first element of an array
+
+> shift <array>
+
+Switch statements
+
+general format
+
+switch ( expression )
+
+     case a:
+
+                  commands
+
+                   breaksw
+
+     case b:
+
+                  commands
+
+                   breaksw
+
+endsw
+
+-  important is that commands are not on the same line as the case line.
+
+-  breaksw is used instead of the C language break
+
+*Executing commands*
+
+Executing commands inside a command back ticks are used.
+
+eg
+
+echo "hello, I am =whoami=. How are you?"
+
+*Return code*
+
+A script should return a 0 if "all ok", while a non-zero value indicates
+some error code. If "exit" with no argument, 0 is assumed.
+
+*Hash bang #!*
+
+* - what follows is the interpreter for the file
+  :PROPERTIES:
+  :CUSTOM_ID: what-follows-is-the-interpreter-for-the-file
+  :END:
+
+! - don't load the preamble file for this interpreter (.tchrc, .zshrc
+etc)

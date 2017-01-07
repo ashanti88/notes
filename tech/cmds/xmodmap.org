@@ -1,0 +1,11 @@
+
+
+
+
+This is used for the setting and manipulation of key bindings.
+
++ View current keybindings
+> xmodmap -pke
+
++ Change Keyboard to GB
+> setxkbmap gb

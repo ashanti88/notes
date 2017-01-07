@@ -1,0 +1,6 @@
+
+
+
+* Description 								:sys:
+This command will display the status of the current jobs in teh session.
+

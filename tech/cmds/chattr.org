@@ -1,0 +1,28 @@
+
+
+
+* Description
+change attribute is a command that is used to set/unset certain attributes.
+
+** Attributes & Flags
+A - atime record is not updated
+S - updates synchronously on the disk.
+a - can only be opened in append mode
+i - immutable, no renaming, no symbolic link creation, no execution, no writable, only root can unset the attribute.
+j - all of its information updated to the ext3 journal before being updated to the file.
+t - no tail-merging
+u - allows for undeletion
+
+** Operator
++ - adds the attribute
+- - removes the attribute
+= - keep attributes that the file has
+
+* Usage
++ How to add attributes
+> chattr +<options> <file>
+
++ How to remove attributes
+> chattr -<options> <file>
+
+

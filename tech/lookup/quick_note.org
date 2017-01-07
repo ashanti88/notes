@@ -1,0 +1,45 @@
+
+* note 							      :findout:linux:
+- rowhammer for rooting
+- zone transfer
+- gpg chain of trust
+- redhat 32 and 64 lib interchangable?
+
+
+* emacs						      :findout:emacs:
+** org mode
+- agenda file
+- calc
+- org babel - create other format 
+- wiki mode
+- remember mode - capture
+- on focus
+  
+
+* kernel 						     :findout:kernel:
+- git am
+- asm leal - what is this cmd
+- i2c
+- D state - ps - unkillable process
+  
+* Mongodb
+ 
+* Russian Cyber
+- Fancy Bear
+- Russian cyber weapon called Snake or "Ouroboros" - Ukrainian Gov
+- Grizzly steppe - russian cyber op
+** APT 29
+- Hammertoss - malware found in 2015
+
+
+* MySQL
+sharding technologies
+  - mysql router
+  - mysql fabric
+    
+mysql replication
+  - amazon arura
+    
+What is architectural runway???
+
+mdme instead of sata or sas

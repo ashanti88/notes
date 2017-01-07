@@ -1,0 +1,69 @@
+A database that uses a lot of transactions may cause fragmentation. This
+means a lot of unused space. Recommended that the tables are defraged on
+an ongoing basis.
+
+*Identify Tables for Optimisation*
+
+Use the following query to determine how much unused space is available
+in every table.
+
+sql> use <database>;
+
+sql> select <table\_name>,
+
+round(data\_length/1024/1024) as data\_length\_mb,
+
+round(data\_free/1024/1024) as data\_free\_mb
+
+     from information\_scheme tables
+
+     where round(data\_free/1024/1024) > 500
+
+     order by data\_free\_mb;
+
+The query will output - 
+
+1) a list of tables that has a minimum of 500MB of unused space.
+
+2) data\_length\_mb displays the total unused space in the particular
+   table.
+
+*Optimise the tables*
+
+There are two ways to do this.
+
+1 Optimize 
+
+single table
+
+mysql> use <database>;
+
+mysql> optimize table <table\_name>/
+
+multiple tables
+
+mysql> use <database>;
+
+mysql> optimize table <table\_one>, <table\_two>, <table\_three>;
+
+Optimie table works for InnoDB engine, MyISAM engine and ARCHIVE tables.
+
+2 Defrag using mysqlcheck cmd
+
+> mysqlcheck -o <database> <table> -u root -p<password>
+
+o - option is to indicate that mysqlcheck should perform "optimize
+table" operation
+
+u - user
+
+p - password
+
+Defrag all tables on all databases
+
+> mysqlcheck -o --all-databases -u root -p<password>
+
+*After optimization*
+
+run the query that we an initially run. This time the data\_free\_mb
+should show zeros in the column.

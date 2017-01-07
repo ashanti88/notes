@@ -1,0 +1,7 @@
+Setting permissions on a file
+
+[[evernote:///view/47830806/s238/5b1c28a8-ee6a-4462-8716-8044b6e27b45/5b1c28a8-ee6a-4462-8716-8044b6e27b45/][chmod]]
+
+Setting ownership of  a file
+
+[[evernote:///view/47830806/s238/87fa8c09-9b8e-4ce8-a4f7-c8a1ecbb4cfb/87fa8c09-9b8e-4ce8-a4f7-c8a1ecbb4cfb/][chown]]

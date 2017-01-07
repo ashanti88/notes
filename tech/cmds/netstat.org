@@ -1,0 +1,105 @@
+
+
+
+* Description							   :net:anal:
+
+
+* Usage
+
++ List all ports (both listening and non-listening)
+
+> netstat -a | more
+
+a - all ports
+
++ List all tcp ports
+
+> netstat -at
+
+t - tcp
+
++ List all udp ports
+
+> netstat -au
+
+u - udp
+
++ List sockets which are in listening state
+
+> netstat -l
+
+l - listen
+
+> netstat -lt
+
+t - tcp
+
+> netstat -lu
+
+u -udp
+
+> netstat -lx
+
+x - unix
+
++ Show statistics for each protocol
+
+> netstat -s
+
+s - statistics
+
+for tcp
+
+> netstat -st
+
+for udp
+
+> netstat -su
+
++ Display PID and program names in netstat output using netstat -p
+
+> netstat -pt
+
+this will display the pid's for tcp ports
+
++ Don't resolve host, port and user name in netstat output
+
+> netstat -an 
+
+to specify which one not ot resolve
+
+> netstat -a --numeric-ports
+
+> netstat -a --numeric-hosts
+
+> netstat -a --numeric-users
+
++ Print netstat information continuously
+
+> netstat -c
+
++ Find the none supportive address families in your system
+
+> netstat --verbose
+
++ Display the kernel routing information
+
+> netstat -r
+
++ Find out on which port a program is running 
+
+> netstat  -an | grep <program>
+
+or
+
+> netstat -an | grep ':<port>'
+
++ Use this to find which process is running on a specific port
+
++Show a list of network interfaces
+
+> netstat -i 
+
+> netstat -ie
+
+e - extended information

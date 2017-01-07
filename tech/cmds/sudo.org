@@ -1,0 +1,40 @@
+
+
+
+
+* Descriptio							     :sys:op:
+
+* Usage
+
+> sudo <command>
+
+*Sudo as another user*
+
+> sudo -u <run\_as\_user> <command>
+
+*Sudo as another group*
+
+> sudo -g <run\_as\_group> <command>
+
+*Clear authentication*
+
+> sudo -k
+
+authentication is held for a certain period of time this will clear
+this.
+
+*Prime sudo*
+
+> sudo -v
+
+This means that you won't be prompted later for the password.
+
+*List user privileges*
+
+> sudo -l
+
+this will list all the rules in /etc/sudoers that apply to the user
+
+*Perform previous command with sudo*
+
+> sudo !!

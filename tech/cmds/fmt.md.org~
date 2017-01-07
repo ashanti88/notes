@@ -1,0 +1,13 @@
+This command will edit the line length of a file
+
+*Basic Syntax*
+
+> fmt <option> <file>
+
+default is 75 columns wide
+
+Set line to a specific width
+
+> fmt -w x <file>
+
+this will set the line length to x

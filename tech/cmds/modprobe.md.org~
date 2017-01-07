@@ -1,0 +1,11 @@
+This command is used to add and remove kernel modules.
+
+Add a module
+
+> modprobe <module>
+
+this will install any dependent modules
+
+Remove a module
+
+> modprobe -r <module>

@@ -1,0 +1,14 @@
+This is the default client for ftp protocol.
+
+*Basic Syntax*
+
+> ftp <domain.com>
+
+with no user supplied the ftp server will use the local machines
+username.
+
+*Cmds*
+
+get - pull a file from the remote machine to the local machine
+
+put - push a file from the local machine to the local machine

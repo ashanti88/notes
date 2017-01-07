@@ -1,0 +1,462 @@
+Good article on Mail Spoofing and how we CANNOT DO ANYTHING ABOUT IT
+
+https://itservices.uchicago.edu/news/why-am-i-receiving-email-bounce-back-messages
+
+Good article on mail reputation
+
+https://documentation.mailgun.com/faqs.html#if-i-m-just-starting-to-send-mail-how-do-i-build-a-good-reputation
+
+How to gain email headers from outlook
+
+https://support.office.com/en-us/article/View-e-mail-message-headers-cd039382-dc6e-4264-ac74-c048563d212c
+
+>>For CPanel>>
+
+google exim cheatsheet, that is all
+
+Search for where mail is being sent from when its a script sending
+
+zegrep 'cwd=/home/pal' =ls -tr /var/log/exim_mainlog*= | less
+
+To restore CPanel email see 'backups'
+
+Find all accounts using POP3
+
+Can be tailored for other protocols. Also this is for servers with
+Exim+Courier, it needs changing a little for Exim+Dovecot
+
+grep "pop" /var/log/maillog | awk '{print $7}' | sort | uniq -c | sort
+-gr | grep user | cut -d'=' -f2
+
+SPAM issues in CPanel when it just keeps spamming excessively
+
+Check here, if it keeps increasing, delete the files under the
+directories in here:
+
+/var/spool/exim/input
+
+using the command:
+
+find . -type f -delete
+
+and using this to check the amount:
+
+find . -type f | wcL
+
+also check the domlogs for the site (cpanel) this often says where this
+is originating from if its a script:
+
+/usr/local/apache/domlogs/domainname.com
+
+* Exim
+  :PROPERTIES:
+  :CUSTOM_ID: exim
+  :END:
+
+exim -bpc
+
+* cheatsheet:
+  :PROPERTIES:
+  :CUSTOM_ID: cheatsheet
+  :END:
+
+http://bradthemad.org/tech/notes/exim\_cheatsheet.php
+
+* man:
+  :PROPERTIES:
+  :CUSTOM_ID: man
+  :END:
+
+http://linux.die.net/man/8/exim
+
+* Remove mails older than 30 mins (1800 seconds):
+  :PROPERTIES:
+  :CUSTOM_ID: remove-mails-older-than-30-mins-1800-seconds
+  :END:
+
+exiqgrep -o 1800 -i | xargs -r exim -Mrm
+
+* Remove all emails from the queue:
+  :PROPERTIES:
+  :CUSTOM_ID: remove-all-emails-from-the-queue
+  :END:
+
+exiqgrep -o 0 -i | xargs -r exim -Mrm
+
+or
+
+exim -bp | awk '/\^ *[0-9]+[mhd]/{print "exim -Mrm " $3}' | bash
+
+or
+
+exim -bp | exiqgrep -i | xargs exim -Mrm
+
+* from someone (or -r for recipient, -y for younger than, -z frozen, -x
+non-frozen)
+  :PROPERTIES:
+  :CUSTOM_ID: from-someone-or--r-for-recipient--y-for-younger-than--z-frozen--x-non-frozen
+  :END:
+
+exiqgrep -f countrye@mail.snow1.co.uk -i | xargs -r exim -Mrm
+
+* which doesn't really work if it's a really big queue, so hack it with:
+  :PROPERTIES:
+  :CUSTOM_ID: which-doesnt-really-work-if-its-a-really-big-queue-so-hack-it-with
+  :END:
+
+cd /var/spool/exim ; find input msglog -type f -mmin +30 -delete
+
+* Spot spammers sending mail from their /home/ directory (through a
+script):
+  :PROPERTIES:
+  :CUSTOM_ID: spot-spammers-sending-mail-from-their-home-directory-through-a-script
+  :END:
+
+zegrep 'cwd=/home' =ls -tr /var/log/exim_mainlog= | awk '{print $3}' |
+sort -bg | uniq -c | sort -bgr | head -n20
+
+also
+
+grep cwd /var/log/exim\_mainlog | grep -v /var/spool | awk -F"cwd="
+'{print $2}' | awk '{print $1}' | sort | uniq -c | sort -gr | head -20
+
+* find who's sending a lot of mail, after authing (exim / dovecot on
+cPanel)
+  :PROPERTIES:
+  :CUSTOM_ID: find-whos-sending-a-lot-of-mail-after-authing-exim-dovecot-on-cpanel
+  :END:
+
+Dovecot
+
+zegrep -oh 'A=dovecot[\^ ]+' =ls -tr /var/log/exim_mainlog*= | sort |
+uniq -c | sort -gr | head -10
+
+Courier
+
+zegrep -oh 'A=courier\_login[\^ ]+' =ls -tr /var/log/exim_mainlog*= |
+sort | uniq -c | sort -gr | head -10
+
+>>For PLESK MAIL>>
+
+Random Plesk STARTTLS issue
+
+http://kb.odin.com/en/122364
+
+Check passwords for IMAP accounts (Plesk)
+
+/usr/local/psa/admin/sbin/mail\_auth\_view
+
+Mailcheck thingamajig (check if postfix won't start again)
+
+/usr/local/psa/admin/sbin/mchk --with-spam
+
+This is where the current mail for whatever account is:
+
+cd /var/qmail/mailnames/sdavieshomesolutions.com/mail/Maildir/
+
+-----QMAIL-----
+
+If it isn't already installed, install qmhandle from the atomic repo
+(atomic repo must be on the system for this to work) -
+
+yum install qmhandle && --enablerepo=atomic
+
+QMail Status - qmhandle.pl -s
+
+Print Qmail queue - qmhandle.pl -R
+
+Mail Log location (Plesk) - /usr/local/psa/var/log/maillog
+
+Check for BRUTE FORCE logins for pop3
+
+grep 'pop3d: LOGIN FAILED' /usr/local/psa/var/log/maillog | awk '{print
+$8}' | sort | uniq -c | sort -gr
+
+Check for brute force attempts and grab IP
+
+grep 'password incorrect' /var/log/maillog | awk '{print $13}' | sort |
+uniq -c | sort -gr | head -6 | cut -d '[' -f2 | cut -d ']' -f1
+
+Check the mail log for a specific term - grep smtp\_auth
+/usr/local/psa/var/log/maillog | grep mincher
+
+Check the previous mail logs that have been compressed for a term -
+
+zgrep smtp\_auth /usr/local/psa/var/log/maillog.processed.1.gz | grep
+mincher
+
+Send mail locally from a server - mail -s 'test'
+support@sequencemi.co.uk (test is subject, test email used too)
+
+Show maillog live - tail -f /usr/local/psa/var/log/maillog
+
+Delete mail in the queue - find /var/qmail/queue/remote -type f -exec rm
+{} ;
+
+or
+
+/etc/init.d/qmail stop && cd /var/qmail/queue && find intd todo local
+remote mess info bounce\\
+-type f -print0 | xargs -0 rm -v && /etc/init.d/qmail start
+
+Better and more efficient way of getting qmail queue size
+
+qmail-qstat(){ echo "Messages in queue: $(find /var/qmail/queue/mess
+-type f | wc -l), messages in queue but not yet preprocessed: $(find
+/var/qmail/queue/todo -type f | wc -l)";}
+
+then run qmail-qstat again
+
+----POSTFIX----
+
+Check for email originating from scripts (Patrick's fine work)
+
+find /var/spool/postfix -type f -exec grep --null-data -i "X-PHP" {} ; |
+strings -a | grep -o "X-PHP-Originating-Script.*"
+
+find /var/spool/postfix -type f -exec grep --null-data -i "X-PHP" {} ; |
+strings -a | grep -o "X-PHP-Originating-Script.*" | awk '{print $1, $2}'
+| sort | uniq -c | sort -gr | head -10
+
+find /var/spool/postfix -type f -exec grep --null-data -i "X-PHP" {} ; |
+strings -a | grep -o "X-Additional-Header.*" | awk '{print $1, $2}' |
+sort | uniq -c | sort -gr | head -10
+
+If Postfix is reverting to a local search then comment out these lines
+in /etc/postfix/main.cf (Postfix main config)
+
+677 #virtual\_mailbox\_domains = $virtual\_mailbox\_maps,
+hash:/var/spool/postfix/plesk/virtual\_domains
+
+678 #virtual\_alias\_maps = $virtual\_maps,
+hash:/var/spool/postfix/plesk/virtual
+
+679 #virtual\_mailbox\_maps = hash:/povar/spool/postfix/plesk/vmailbox
+
+postsuper -d ALL - To empty the mail queue
+
+postqueue -p - Show mail queue (Also shows mail ID's)
+
+mailq | grep -c '\^\w'- Show mail queue count
+
+postcat -q F1B4CE7A87 - Show mail headers based on ID
+
+Postfix mail server block .bat, .exe .com .vbs mime attachments --
+common virus spreading files
+
+http://www.cyberciti.biz/tips/postfix-block-mime-attachment-files.html
+
+Define mine header checks
+
+Open main.cf file:
+
+* vi /etc/postfix/main.cf
+  :PROPERTIES:
+  :CUSTOM_ID: vi-etcpostfixmain.cf
+  :END:
+
+Append / set mime\_header\_checks directive as follows:
+
+mime\_header\_checks = regexp:/etc/postfix/mime\_header\_checks
+
+Block attachments
+
+Now open /etc/postfix/mime\_header\_checks file:
+
+* vi /etc/postfix/mime\_header\_checks
+  :PROPERTIES:
+  :CUSTOM_ID: vi-etcpostfixmime_header_checks
+  :END:
+
+Append following line:
+
+/name=[\^&gt;]*\.(bat|com|exe|dll|vbs)/ REJECT
+
+Restart postfix
+
+First create postfix lookup table for mime\_header\_checks file:
+
+* /etc/init.d/postfix restart
+  :PROPERTIES:
+  :CUSTOM_ID: etcinit.dpostfix-restart
+  :END:
+
+Watch log file
+
+You should see rejected mail log in /var/log/maillog file:
+
+* tail -f /var/log/maillog
+  :PROPERTIES:
+  :CUSTOM_ID: tail--f-varlogmaillog
+  :END:
+
+Tail the mail queue for SASL logins
+
+tail -f /usr/local/psa/var/log/maillog | grep -i sasl
+
+CHANGE FROM QMAIL TO POSTFIX TO SORT OUT A HUGE MOTHERFUCKING MAIL QUEUE
+
+/usr/local/psa/admin/sbin/autoinstaller --select-release-current
+--install-component postfix
+
+---------------------------------------------------------------------------------------------
+
+If the server is SMTP alerting due to port 25
+
+netstat -plnt |grep :25
+
+if this shows the following:
+
+tcp 0 0 127.0.0.1:25 0.0.0.0:* LISTEN 2460/master
+
+or something similar, then its only listening locally, so check:
+
+check /etc/postfix/main.cf
+
+look at 'inet\_interfaces' if it is set to 'localhost' this should be
+'all' otherwise its only listening locally :)
+
+Change hostname on server so that the server appears to send from a
+particular hostname
+
+/etc/postfix/master.cf
+
+change 'myhostname' to the new hostname specified
+
+Compromise Checker (from lee spotts)
+
+wget curl.li/compromise.sh
+
+find /home -mindepth 1 -maxdepth 2 -type d -name public\_html -print0 |
+xargs -I% -r -0 -n 1 bash -c 'cd % ; /root/compromise.sh . ; mv
+/root/complog.log /root/complog-$(basename $(readlink -f ..)).log'
+
+Run using ./comprimise /locationyouwantoscan
+
+DEALING WITH SPAM
+
+DNS Blacklists - https://en.wikipedia.org/wiki/DNSBL
+
+---------------------------------------------------------------------------------------------
+
+MAIL MOTHERFUCKING COMPROMISES FROM .PHP OR .PL FILES
+
+http://kb.ukfast.net/Mail\_Issues\_Triage\_Guide
+
+Here is a nice reply for customers who have their IP as the hostname of
+their mail server
+
+This is down to the fact that the server hostname and rDNS are currently
+the IP of the server instead of a subdomain hosted on the server. This
+means that the server to several external mail servers, such as Gmail
+who often reject on this basis, appears to not verify correctly and for
+some servers will be rejected as it appears to be a spam server (this is
+down to spammers using the IP of the server as the hostname to send
+spam).
+
+For CPanel
+
+I would recommend changing the hostname of the the server to a valid
+subdomain for any of the domains hosted on the servers primary IP and
+then setting the rDNS to match the hostname. For the hostname and with
+WHM/CPanel being installed, the hostname cannot be a 'mail.' subdomain
+as this will cause issues with WHM/CPanel's interal DNS setup, this also
+applies to any subdomain that has been already set in the server. Due to
+this I recommend setting the hostname to something like
+server.exampledomain.com which would need to also exist as an A record
+in the DNS records for the domain. If this doesn't already exist as an A
+record for the domain, this will need to be created and to have
+propagated fully before making the change.
+
+The hostname can be changed via logging into WHM and navigating to
+'Networking Setup >> Change Hostname', and the entering the new hostname
+in the box at the bottom of this page.
+
+To change the rDNS, this will require logging into your MyUKFast area
+and navigating to 'Products and Services >> Dedicated Servers/eCloud >>
+Servers/Cloud/Virtual >> clicking on the IP of the server >> and then
+changing the 'rDNS Host
+
+For Plesk
+
+I would recommend changing the hostname of the the server to a valid
+subdomain for any of the domains hosted on the servers primary IP and
+then setting the rDNS to match the hostname.
+
+For this I would recommend creating an A record called server.domainname
+and have this point at ip.ip.ip.ip. This can be done via your MyUKFast
+area by going to 'Products and Services >> SafeDNS >> domainname' and
+then adding this here. Once this has propagated which normally takes a
+maximum of 24 hours I would then set this as the hostname and rDNS.
+
+The hostname can be changed via logging into Plesk and navigating to
+'Tools and Settings >> Change Hostname', and the entering the new
+hostname in 'Full hostname'.
+
+To change the rDNS, this will require logging into your MyUKFast area
+and navigating to 'Products and Services >> Dedicated Servers/eCloud >>
+Servers/Cloud/Virtual >> clicking on the IP of the server >> and then
+changing the 'rDNS Host'.
+
+For a DRBD Cluster
+
+Thanks for your time on the phone. As discussed the reason that you are
+on the spamcannibal blacklist will likely be down to the rDNS and mail
+hostname not being set to a valid subdomain/domain and also down to them
+not matching. At this current time the rDNS (and mail service hostname)
+is currently the IP of the server instead of a subdomain hosted on the
+server. This means that the server to several external mail servers,
+appears to not verify correctly and for some servers will be rejected as
+it appears to be a spam server (this is down to spammers using the IP of
+the server as the hostname to send spam).
+
+As mentioned on the phone I would recommend creating an A record of
+server.domainname.com and have this point at ip.ip.ip.ip. This can be
+done via your DNS provider. Once this has propagated which normally
+takes a maximum of 24 hours I would then set this as the rDNS and mail
+service hostname.
+
+To change the hostname, due to the way that the DRBD cluster works, this
+is done via the mail service configuration at /etc/postfix/main.cf by
+changing the myhostname parameter. At this current time this is set as
+follows and is commented out and not in use:
+
+* myhostname = host.domain.tld
+  :PROPERTIES:
+  :CUSTOM_ID: myhostname-host.domain.tld
+  :END:
+
+Once you are ready to make the change, this would need changing to the
+following with the '#' removed to make this setting live:
+
+myhostname = server.domainname.com
+
+After which the file needs saving and postfix will need restarting for
+this to take effect.
+
+To change the rDNS, this will require logging into your MyUKFast area
+and navigating to 'Products and Services >> Dedicated Servers >> Servers
+>> clicking on the IP of the server >> and then changing the 'rDNS Host'
+for the primary IP.
+
+For Blacklist removal from AOL/Yahoo etc
+
+Unfortunately each of these companies do not give a great deal of help
+on how to remove yourself from their lists.
+
+The only thing I could find for Yahoo is the following:
+
+https://help.yahoo.com/l/us/yahoo/mail/postmaster/bulkv2.html
+
+Google have the following:
+
+https://support.google.com/mail/contact/msgdelivery
+
+Hotmail have this:
+
+https://support.live.com/eform.aspx?productKey=edfsmsbl3&ct=eformts&scrx=1
+
+and finally AOL have this to help out which isn't great but its all they
+have unfortunately:
+
+http://postmaster.aol.com/

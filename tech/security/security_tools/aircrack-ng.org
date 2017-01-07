@@ -1,0 +1,20 @@
+*Airmon-ng*
+
+> airmon-ng stop <interface> <channel>
+
+will show available interfaces. the channel is optional.
+
+> airmon-ng start <interface>
+
+should bring up a mon interface
+
+*Airodump-ng*
+
+> airodump-ng <channel optional> <bssid optional> -w <filename>
+<interface>
+
+*Aircrack-ng*
+
+> aircrack-ng -w <password.lst> -b <bssid> psk*.cap
+
+John the ripper can be used to feed a list into aircrack.

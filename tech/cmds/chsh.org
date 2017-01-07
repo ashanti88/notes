@@ -1,0 +1,14 @@
+
+
+
+* Description							     :sys:op:
+
+
+
+* Usage
+
+> chsh -s <FQDN\_Shell> <user>
+
+s - shell
+
+available shells can be found in /etc/shells

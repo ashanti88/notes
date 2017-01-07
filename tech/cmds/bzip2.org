@@ -1,0 +1,15 @@
+
+
+
+
+* Description							       :comp:
+
+
+bzip2 provides a better compression rate than gzip, the price for this
+is time.
+
+* Usage
++Compress a file
+
+> bzip2 <file>
+this will compress the file turning it to a .bz2 file.

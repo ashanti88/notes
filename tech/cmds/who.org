@@ -1,0 +1,16 @@
+
+
+* who
+
+* Description
+
+
+* Usage
+> who <options>
+
+** Options
+a - display all options in verbose mode
+b - display time of last system boot
+d - display any dead processors
+H - prints a line of column headings
+--login - prints the system login process

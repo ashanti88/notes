@@ -1,0 +1,66 @@
+*Reload config files*
+
+/reload <file.conf>
+
+*Bar Settings*
+
+toggle network tab on and off
+
+/bar toggle buffers
+
+*CTCP Settings*
+
+for security these should be set to ""
+
+irc.ctcp.ping
+
+irc.ctcp.version
+
+irc.ctcp.clientinfo
+
+irc.ctcp.time
+
+irc.ctcp.source
+
+irc.ctcp.userinfo
+
+*Proxies*
+
+list proxies - /proxy list
+
+add proxy - /proxy add <name> <type> <address> <port>
+
+delete proxy - /proxy <name> | -all
+
+*Setting proxy for tor*
+
+/proxy add <proxy\_id> socks5 127.0.0.1 9050
+
+This should not be a blanket setting as it will cause problems login on
+to some irc servers.
+
+-  for a server to use this proxy set the irc.server.<server\_id>.proxy
+   <proxy\_id>
+
+*Hidding Hostname*
+
+unable to hide <username>@<ip> without a cloak from the irc
+server/network, or by using a proxy.
+
+The username part can be changed with the irc.server\_default.username
+
+*Plugins*
+
+/plugin list
+
+/plugin unload <plugin>
+
+/plugin load <plugin>
+
+* *
+
+*Useful Commands*
+
+/uptime - how long has weechat been running
+
+/version - version that is running plus date it was compiled

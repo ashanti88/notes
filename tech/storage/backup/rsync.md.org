@@ -1,0 +1,9 @@
+*Remote Synchronization*
+
+* *
+
+*Cmds:*
+
+rsync
+
+Checking if url remains the same

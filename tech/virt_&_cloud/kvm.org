@@ -1,0 +1,43 @@
+
+
+
+
+* Lecture
+** KVM and QEMU Internals - Understanding the IO subsystem - Kyle Bader :openstack:
+   
++ Full virtualization and Paravirtualization
+  - Full 
+    - runs normal guest os iso
+    - slow
+    - trap emulate
+    - doesn't require intel-VT or AMD-V extensions
+
+  - Paravirtualization
+    - best for I/O performance.
+    - requires modification of guest os.
+    - virtio-blk and virtio-scsi
+      - either of these drivers can be choosen on the glance image.  
+	
++ AIO Modes in Nova
+  - Asynchronious IO
+    - uses kernel AIO io_submit(2)
+    - can help performance, but io_submit can block causing jitter in VM(missed ticks)
+  - Synchronious IO
+    - default in Nova
+    - pread64, pwrite64 calls
+    - userspace implementation of AIO using thread pool.
+
++ Caching modes available in QEMU
+  - uses host caching
+  - guest disk WCE
+  - rbd_cache
+  - rbd_max_dirty
+
+- cache modes are influenced by Nova.
+- Example: disk_cachemodes='writeback' in nova.conf
+- forces same cache behaviour for all vm's and cinder volume types
+
+*** L^
+- Supermicro - mentioned with percona
+- gorilla scalability model - neil gunther
+- rbd based cluster

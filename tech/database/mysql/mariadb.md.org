@@ -1,0 +1,3 @@
+set root with
+
+/usr/bin/mysqladmin -u root password

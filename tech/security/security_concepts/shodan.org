@@ -1,0 +1,52 @@
+
+
+** Filters
+  
+Country - country:"XX" - GB, CN, US etc
+Organization - org:"Company Name" - "China Telecom Beijing"
+Port - port:"XX" - "21"
+
+Examples
+"default password" country:"RU" port:"23" city:"Vorotynsk"
+This will find targets with default passwords set on port 23 telnet.
+
+Server:SQ-WEBCAM
+
+vuln:cve-2014-0160 country:"DE" country:"DE"
+This will search for the heartbleed in Germany
+
+
+** Cli API
+   
+*** Command Overview
+    
+| alert      | Manage the network alerts for your account                                                                                                              |
+| count      | Returns the number of results for a search query                                                                                                        |
+| download   | Search Shodan and download the results into a file where each line is a JSON banner                                                                     |
+| honeyscore | check wether the ip is a honeypot or not                                                                                                                |
+| host       | show information of a specific ip addr                                                                                                                  |
+| info       | show general info about own account                                                                                                                     |
+| init       | Initalises the Shodan command-line                                                                                                                      |
+| myip       | Returns own internet facing ip                                                                                                                          |
+| parse      | extract information from generated JSON files                                                                                                           |
+| scan       | Scan ip/network block with shodan                                                                                                                       |
+| search     | Searches Shodan and prints results in a terminal friendly way. Defulat output is IP,port,hostnames and data. Fields can be specified with --fields flag                             |
+| stats      | Provide summary information about a search                                                                                                              |
+| stream     | Stream data in real time                                                                                                                                |
+*** Filters
+
+The basic search filters
+| city         | find device in a particular city    |
+| country      | find device in a particular country |
+| geo          | coordinates can be passed           |
+| hostname     | find values that match a hostname   |
+| net          | search based on IP or CIDR          |
+| os           | search based on OS                  |
+| port         | find particular ports that are open |
+| before/after | find results within a timeframe     |
+
+
+*** Examples
+
+Find apache servers in San Francisco
+> shod

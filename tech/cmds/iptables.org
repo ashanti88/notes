@@ -1,0 +1,17 @@
+*Delete existing rules*
+
+> iptables -F
+
+or
+
+> iptables --flush
+
+*Set default chain policies*
+
+> 
+
+*Links:*
+
+[[http://www.thegeekstuff.com/category/iptables/]]
+
+[[https://wiki.debian.org/iptables]]

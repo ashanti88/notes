@@ -1,0 +1,8 @@
+*Commands*
+
+date
+
+touch
+
+dpkg-reconfigure tzdata this will provide an ncurse menu to choose your
+time zone from

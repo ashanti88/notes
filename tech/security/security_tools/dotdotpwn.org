@@ -1,0 +1,8 @@
+
+
+** DotDotPwn
+
+Fuzzer to detect traversal directory vulns.
+
+Useful for HTTP/FTP/TFTP severs, CMS, ERP, Blogs etc
+

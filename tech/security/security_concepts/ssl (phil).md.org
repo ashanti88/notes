@@ -1,0 +1,46 @@
+*Checking how a non SNI comp would load an SSL*
+
+openssl s\_server -cert
+/etc/pki/tls/certs/www.greatgardensonline.com.crt -key
+/etc/pki/tls/private/www.greatgardensonline.com.key &
+
+then
+
+openssl s\_client -connect localhost:4433 | openssl x509 -text
+
+*/Comodo Trust logo/*
+
+[[https://trustlogo.com/ssl-certificate-support/][]][[https://trustlogo.com/ssl-certificate-support/]]
+
+/*CSR Generation*/
+
+This can be done via Plesk by proceeding through the following steps:
+
+Log in to Plesk and go to 'Domains >> Manage Hosting for the domain you
+want to generate it for' >> Secure Your Sites >> Click Add SSL
+Certificate'. When in here enter a Certificate Name, select the bit size
+of which 2048 or higher is normally required for modern SSL's, select
+the country, enter the state or province, enter the location, enter the
+Organization Name, enter the Department (if applicable), enter the
+Domain Name and then enter your Email Address. Once you have filled this
+in proceed to click 'Request' to generate the CSR. Next in SSL
+Certificates below this, click the name of the certificate to open this
+up. This will then show you the CSR section which when providing to
+generate an SSL you will need the entire of this including the header
+and footer of this that will look like the following:
+
+-----BEGIN CERTIFICATE SIGNING REQUEST-----
+
+-----END CERTIFICATE SIGNING REQUEST-----
+
+If you need this as a file you can simply copy and paste this into a
+text file using something such as notepad on Windows save this file then
+provide the file itself.
+
+You can also do this on an IP basis by running through the same steps
+via Plesk by going to 'Tools and Settings >> SSL Certificates'
+
+Alternatively you can also do this over SSH using the instructions found
+at the following link:
+
+[[http://tecadmin.net/simple-steps-to-generate-csr-on-centos/]]

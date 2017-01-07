@@ -1,0 +1,36 @@
+
+
+
+* Description							   :sys:anal:
+
+
+* Usage
++ Produce the current available space of physical memory and swap memory in KB.
+> free
+
++ Produce the output in Bytes.
+> free -b
+
++ Produce the output in Kilobytes.
+> free -k
+
++ Produce the output in Megabytes.
+> free -m
+
++ Produce the output in Gigabytes.
+> free -g
+
++ Produce a total at the end
+> free -t
+
++ Disable the "buffer adjusted" line
+> free -o
+
++ Update the free the specified time
+> free -s <time>
+
++ Show low and high memory size statistics
+> free -l
+
++ Show the version
+> free -V

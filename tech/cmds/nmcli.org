@@ -1,0 +1,7 @@
+
+
+nmcli - Network Manager Command Line Interface
+url: https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Networking_Guide/sec-Network_Config_Using_nmcli.html
+
+
+This tool allows for changes to the network via the cmd line.

@@ -1,0 +1,35 @@
+
+
+
+* git								   :code:vcs:
+* Usage
+** Clone
+> git clone <url_of_repo>
+
+** Create a new repo
+> git init 
+do this inside the directory to create a repo
+
+** Commits
+1. add files to repo for commit
+> git <file_name> | > git *
+2. now make the commit
+> git commit -m "message to be added"
+
+** Push commits
+> git push origin <remote_repo>
+
+** Branchs
+> git checkout -b <new_branch>
+create a new branch
+> git checkout master
+switch to master branch
+> git branch -d <branch>
+delete a certain branch
+> git push orgin <branch>
+
+** Update & Merge
+> git pull
+update repo to most current
+> git merge <branch>
+merge branch into your active branch

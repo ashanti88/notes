@@ -1,0 +1,19 @@
+
+
+
+
+* Description							     :sys:op:
+
+
+* Usage
+
+> chgrp <options> <groupname> <file>
+
++ Change a files group
+> chgrp <group> <file>
+
++ Recursively change directory and underlying files
+> chgrp -R <group> </directory/>
+
++ Change a file's group forcible*
+> chgrp -f <group> <file>

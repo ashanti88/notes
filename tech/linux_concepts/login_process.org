@@ -1,0 +1,20 @@
+*An overview of the login Process*
+
+1. Init creates the getty process
+
+2. getty process initiates login command
+
+3. login command try to check user credentials
+
+4. getty creates user shell process
+
+5. getty read shell property files
+
+6. getty provides you with PS1 prompt
+
+Usually login command will allow three attemps before terminating.
+
+If correct username and password, getty will then read the user
+properties like uid, gid, home dir, shell etc.
+
+Then the motd is file is displayed before the shell is started.

@@ -1,0 +1,52 @@
+
+
+
+* Description							   :sys:anal:
+
+* Usage
+
+* Lecture
+** Your System Calls and You - A Brief Exploration of Usint strace
+url: https://www.youtube.com/watch?v=nxQ-V9yrUNU
+
+*** Why strace
+  - available on all *nix (90s)
+  
+*** What is strace
+  - strace can interrupt a process intercepting system calls and their return codes.
+
+*** Using strace
+  - > strace <cmd>
+  - this will produce all the system calls made by the cmd
+  - > strace -p <pid> - trace a running process
+  - *** Warning!! some propriety code will detect they are being traced and send a SIGSTOP in an attempt to stop the trace. (Plesk)
+  - > strace -ff -o <file> -p <pid> - ff will follow the child processors created by the parent - should be used with -o as each child will have their own output. 
+    - Example: a specific file is killing all child processors, this will confirm as the call to that file will be that last call on all the files.
+  - strace -c <cmd> - a summary of where the cmd is speeding its time with sys calls
+  - Process exiting - final line
+    - +++ exited with 0 +++ - exited correctly
+    - +++ killed by sigint +++ - exited incorrectly 
+      
++ too capture a little more > strace -v <cmd> 2>&1 - strace needs to be redirected.
+
+*** System Calls
+  - about 441 sys calls
+  - to read sys call man pages - man 2 <sys_call> - incase application with same name.
+  - sys call structure
+    - the call
+    - any args
+    - return value
+
++ sys calls to learn
+  - open 
+  - read
+  - fstat - return info about a file - returns inode info
+  - mmap - map memory - shows allocated memory
+    
+*** Examples
+> strace -e trace-file -o <file> <cmd>
+  - only grab syscalls that invole the file
+
+*** Continued Learning
++ https://github.com/mralexjuarez/strace-code-examples - examples
++ use simple self built c files to run strace on to see what is going

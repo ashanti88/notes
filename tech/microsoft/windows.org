@@ -1,0 +1,7 @@
+to view all connections on a server
+
+netstat -ano
+
+to view a count of all connections on specific port
+
+netstat -ano | find ":XX" /c

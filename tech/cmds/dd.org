@@ -1,0 +1,50 @@
+
+
+
+
+* dd
+* Description							  :sys:op:io:
+
+* Usage
+
+> dd if=<source> of=<destination> <options>
+if - input file
+of - output file
+
++ Copying one harddrive to another
+> dd if=/dev/sda of=/dev/sdb bs=4096 conv=noerror,sync
+conv - conversion parameters
+noerror - the copy will continue even if it runs into errors
+sync - synchronized I/O
+
++ Creating a disk image
+> dd if=/dev/sda of=/dev/sdadisk.img
+
++ Converting data formats
+  - Converting from ASCII to EBCDIC
+  > dd if=<file.ascii> of=<file.ebcdic> conv=ebcdic
+
+  - Convert from EBCDIC to ASCII
+  > dd if=<file.ebcdic> of=<file.ascii> conv=ascii
+
++ Converting case of a file
+  - Convert file to upper case
+  > dd if=<file.lower> of=<file.upper> conv=ucase
+
+  - Convert file to lower case
+  > dd if=<file.upper> of=<file.lower> conv=lcase
+
++ Creating or modifying data file
+  - Create a fixed size file
+  > dd if=/dev/zero of=<file.size> bs=<size\_of\_file> count=1
+
+/block size is measured xmb = x / 1024 * 1024
+
+Modify the first part of a file with null data
+
+> dd if=/dev/zero of=<file> bs=<size\_to\_null> count=1 conv=notrunc
+
+notrunc - do not truncate the file
+
++ Copying an image for Raspberry Pi
+> dd if=raspberry\_pi.img of=/dev/mmblk0

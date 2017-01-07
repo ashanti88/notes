@@ -1,0 +1,12 @@
+*Authoritative Vs Non-authoritative Answer*
+
+If the answer for the query comes from a name server that contains the
+complete zone file information for the domain the answer is said to be
+authoritative.
+
+If the server doesn't contain the complete zone file information for the
+domain the answer is said to be non-authoritative. The name server
+contains a cached file which has the results of all queries performed in
+the past for which it has gotten authoritative response. When a DNS
+query is given, it searches the cache file and returns the available
+information.

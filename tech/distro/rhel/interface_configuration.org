@@ -1,0 +1,25 @@
+*Settings for ifcfg-x*
+
+* *
+
+*static config*
+
+DEVICE=eth0
+
+BOOTPROTO=none
+
+ONBOOT=yes
+
+NETMASK=255.255.255.0
+
+IPADDR=10.0.0.1
+
+USERCTL=no
+
+*dhcp config*
+
+DEVICE=eth0
+
+BOOTPROTO=dhcp
+
+ONBOOT=yes

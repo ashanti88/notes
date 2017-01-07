@@ -1,0 +1,41 @@
+*** Creating a bridge
+    :PROPERTIES:
+    :CUSTOM_ID: creating-a-bridge
+    :END:
+
+**** iproute2
+     :PROPERTIES:
+     :CUSTOM_ID: iproute2
+     :END:
+
+Create <ip link add name <bridge\_name> type bridge <ip link set
+<bridge\_name> up
+
+To add an interface into the bridge it must be up <ip link set
+<interface> up <ip link set <interface> master <bridge\_name>
+
+To show existing bridges and associated interfaces use <bridge link
+
+To remove an interface from the bridge <ip link set <interface> nomaster
+
+To delete a bridge <ip link delete <bridge\_name> type bridge
+
+**** bridge-utils
+     :PROPERTIES:
+     :CUSTOM_ID: bridge-utils
+     :END:
+
+Create <brctl addbr <bridge\_name>
+
+To add an interface into the bridge <brctl addif <bridge\_name>
+<interface>
+
+Adding an interface to a bridge will cause that interface to loose its
+ip address.
+
+To show existing bridges and associated interfaces use <brctl show
+
+Set the bridge device up <ip link set up dev <bridge\_name>
+
+Deleting a bridge requires that the bridge is down <ip link set dev
+<bridge\_name> down <brctl delbr <bridge\_name>

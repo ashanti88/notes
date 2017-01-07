@@ -1,0 +1,10 @@
+
+
+** enumiax
+
+This tool is an Inter Asterisk Exchange protocol username brute-force enumerator.
+
+
+
+Use
+> enumiax -d <dictionary.txt> <target_ip>

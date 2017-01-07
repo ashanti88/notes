@@ -1,0 +1,13 @@
+
+
+* Usage								    :Network:
++ Capture packet from a specific interface
+
+> tcpdump -i <int>
+
++ Capture a certain number of packets
+
+> tcpdump -c <number> -i <int>
+
+* Links
+[http://www.thegeekstuff.com/2010/08/tcpdump-command-examples/]

@@ -1,0 +1,13 @@
+
+
+** DNSmap
+
+Used for brute-forcing of domains.
+
+It can use an internal wordlist or an external dictionary file.
+
+Usage:
+> dnsmap <target_ip>
+or
+> dnsmap <target_ip> <wordlist.txt>
+

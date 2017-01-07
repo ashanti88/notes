@@ -1,0 +1,110 @@
+selinux rules are checked after DAC rules, and selinux rules aren't used
+if the DAC rules deny access.
+
+selinux has it's own users, linux users are mapped to these.
+
+selinux default action is to deny. If an selinux rule does not exitst to
+allow access, such as for process opening a file, access is denied.
+
+selinux is able to confine users. A number of selinux users exist in
+selinux policy. Linux users can be mapped to these uses to restrict
+their behaviour.
+
+SELinux Modes
+
+Enforcing - SELinux policy is enforced. SELinux denies access based on
+SELinux policy rules.
+
+Permissive - SELinux policy is not enforced. SELinux does not deny
+access, but denials are logged for actions that would have been denied
+if running in enforcing mode.
+
+to check what mode selinux is in use getenforce.
+
+> getenforce
+
+Enforcing
+
+change to permissive with 
+
+> setenforcing 0
+
+> getenforcing
+
+Permissive
+
+> setenforcing 1
+
+> getenforcing
+
+Enforcing
+
+SELinux Contexts
+
+Processes and files are labeled with an SELinux context that contains
+additional information, such as -
+
+SELinux user
+
+Role
+
+type
+
+level
+
+SELinux uses a combination of RBAC, TE and MLS. 
+
+To configure selinux users you use the semanage command. This command is
+found in the policycoreutils-python.
+
+to list all selinux users run:
+
+> semanage login -l
+
+level
+
+The leve is an attribute of MLS and MCS. An MLS range is a pair of
+levels, written as lowlevel - highlevel if the levels differ or lowlevel
+if the levels are identical (s0 -s0 is the same as s0). Each level is a
+sensistivity-category pair, with categories being optional. If there are
+categories the level is written as sensitivity:category-set. If there
+are no categories, it is written as sensitivity.
+
+If the category set is a contiguous series, it can be written as c0.c3,
+and is the same as c0,c1,c2,c3. The /etc/selinux/targeted/setrans.conf
+file maps levels to human-readable form. Do not use an editor to alter
+this file, amend using the semange cmd. 
+
+RHEL supports 1024 different categories, c0 - c1023.
+
+s0-s0:c0.c1023 is sensitivity s0 and authorized for all categories.
+
+Domain Transititions
+
+A process in one domain transitions to another domain by executing an
+application that has the entrypoint type dor the new domain. The
+entrypoint permission is used in selinux policy and econtrols which
+applications can be used to enter a domain.
+
+system\_r - this is a role used for a system process, such as a daemons.
+
+id -Z command will show the selinux context associated with your linux
+user. By default RHEL linux users run unconfined by default.
+
+*Glossary*
+
+SELinux - Security Enhanced Linux
+
+MAC - Mandatory Access Control
+
+DAC - Discretionary Access Control
+
+RBAC - Role-Based Access Control
+
+TE - Type Enforcement
+
+MLS - Multi-Level Security
+
+MCS - Muti-Category Security
+
+LSPP - Labeled Security Protection Profile

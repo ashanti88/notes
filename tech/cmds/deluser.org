@@ -1,0 +1,11 @@
+
+
+
+
+* Description							     :sys:op:
+
+This tool is used to remove a user from the system.
+
+
+
+* Usage

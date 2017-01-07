@@ -1,0 +1,10 @@
+
+
+
+* Comparison of Technologies
+[[https://www.datanami.com/2015/12/03/which-type-of-ssd-is-best-sata-sas-or-pcie/][Which Type of SSD is Best: SATA, SAS, or PCIe?]] - datanami.com
+
+* Data Rates
+  - SATA read - 6Gb/s write - little less
+  - SAS  read - 12Gb/s write - 12Gb/s
+  - PCIe each lane read - 985MB/s (some vendors releasing 20 lane storage device)

@@ -1,0 +1,276 @@
+
+
+** Lectures
+*** Introduction to Make and GNU Autotools - Barry Smith, Argonne National Laboratory
+url: https://www.youtube.com/watch?v=WFLvcMiG38w
+
+
+**** Makefile1
+
+ex1: ex1.c util1.c
+        gcc -o ex1 ex1.c util1.c
+
+This tells us that we have an executable called ex2 that is dependent on ex2.c and util2.c .
+The second line provides the rule to build the executable.
+
++ Make is able to determine if a file needs to be compilied or not. This provides an advantage where there are large numbers of files to compile.
+
+
+**** Makefile2
+
+ex2: ex2.o util2.o
+        gcc -o ex2 ex2.o util.o
+
+This change ensures that if one of the .c files is changed then not all of them are required to be rebuilt as the first makefile would do.
+
+
+**** Makefile3
+
+ex3: ex3.o util3.o
+        gcc -o ex3 ex3.o util3.o
+
+util3.o: util3.h
+
+This chage now lets us know that util3.o is dependent on util3.h . So any change to this file will require that util3.o is rebuilt.
+
+
+**** Makefile4
+
+GCC    = gcc
+CFLAGS = -g
+
+ex4: ex4.o util4.o
+        ${GCC} -o ex4 ex4.o util4.o
+
+util4.o: util4.h
+
+These changes have just cleaned up the makefile slightly. CFLAGS set and the complier that's to be used.
+
+
+**** Makefile5
+
+GCC    = gcc
+CFLAGS = -g
+
+ex5: ex5.o util5.o
+        ${GCC} -o ex5 ex5.o util5.o
+
+util5.o: util5.h
+
+etags:
+         etags *.c *.h
+
+Here we have added etags. This option creates an index file of the source code that emacs can use to run searches. For vim it is just tags.
+
+
+**** Makefile6
+
+GCC    = gcc
+CFLAGS = -g
+
+SOURCE = ex6.c util.6.c
+OBJS   = $(SOURCE:.c=.o)     // this part tells us to replace .c with .o
+
+ex6: ${OBJS}
+        ${GCC} -o ex6 ${OBJS}
+
+util6.o: util6.h
+
+etags:
+         etags *.c *.h
+	 
+The files are no longer hardwired in to placed into a variable that is then passed.
+
+
+**** Makefile7
+
+GCC    = gcc
+CFLAGS = -g
+
+SOURCE = $(wildcard *7.c)    
+OBJS   = $(SOURCE:.c=.o)    
+
+ex7: ${OBJS}
+        ${GCC} -o ex7 ${OBJS}
+
+util7.o: util7.h
+
+etags:
+         etags *.c *.h
+	 
+This makefile will determine from the file structure which files to include in the build.
+
+
+**** Makefile8
+
+GCC    = gcc
+CFLAGS = -g
+OUTPUT_OPTION = -MMD -MP -o $@
+
+SOURCE = $(wildcard *8.c)    
+OBJS   = $(SOURCE:.c=.o)    
+DEPS   = $(SOURCE:.c=.d)
+-include ${DEPS}
+
+ex8: ${OBJS}
+        ${GCC} -o ex8 ${OBJS}
+
+etags:
+         etags *.c *.h
+	 
+This makefile has removed the dependency utilx.o: utilx.h . Include dependancies will now be resolved by the compiler using the given options. It will now create a .d file which shows these dependencies. Now anytime that the includes are altered it will automatically be changed with make is run again.
+
+
+**** Makefile9
+
+
+GCC    = gcc
+CFLAGS = -g
+OUTPUT_OPTION = -MMD -MP -o $@
+
+SOURCE = $(wildcard *9.c)    
+OBJS   = $(SOURCE:.c=.o)    
+DEPS   = $(SOURCE:.c=.d)
+-include ${DEPS}
+
+ex9: ${OBJS}
+        ${GCC} -o ex9 ${OBJS}
+
+etags:
+         etags *.c *.h
+	 
+help:
+         echo "make ex9: make the executable"
+         echo "make etags: build the etags file"
+
+We have now included a help section. This can be called from the cmd line with > make -f help Makefile9 : and it will print
+
+echo "make ex9: make the executable"
+"make ex9: make the executable"
+echo "make etags: build the etags file"
+"make etags: build the etags file"
+
+to stop the rule ("echo") being printed a -@ needs to be added to the rule in the help section.
+        -@echo "make ex9: make the executable"
+        -@echo "make etags: build the etags file"
+-@ - means don't print the rule and continue if fail.
++ Video unsure which of the two did which task.
+  
+
+**** Makefile10
+
+GCC    = gcc
+CFLAGS = -g
+OUTPUT_OPTION = -MMD -MP -o $@
+
+SOURCE = $(wildcard *10.c)    
+OBJS   = $(SOURCE:.c=.o)    
+DEPS   = $(SOURCE:.c=.d)
+-include ${DEPS}
+
+lib: libex10(${OBJS})
+
+etags:
+         etags *.c *.h
+	 
+help:
+         echo "make ex9: make the executable"
+         echo "make etags: build the etags file"
+
+Always build as though you are building a library. This way you will produce more organized code and if a project does grow you are already prepared. This would be used for building static libraries.
+
+
+**** Makefile11
+
+GCC                      = gcc
+CFLAGS                   = -g
+OUTPUT_OPTION            = -MMD -MP -o $@
+SHARED_LIBRARY_EXTENSION = dylib                // this is mac so for linux 
+SHARED_LIBRARY_FLAG      = -dynamiclib          // machine specific
+
+SOURCE = $(wildcard *11.c)    
+OBJS   = $(SOURCE:.c=.o)    
+DEPS   = $(SOURCE:.c=.d)
+-include ${DEPS}
+
+lib: libex11(${OBJS})
+
+libex11.${SHARED_LIBRARY_EXTENSION}: ${OBJS}
+        ${CC} ${SHARED_LIBRARY_FLAG} -o $@ $^       
+
+etags:
+         etags *.c *.h
+	 
+help:
+         echo "make ex9: make the executable"
+         echo "make etags: build the etags file"
+
+This is how a makefile that used dynamic libs would be put together. 
+$@ - is ${SHARED_LIBRARY_EXTENSION}
+$^ - is ${OBJS}
+
+
+**** Makefile12
+
+include makefile12.config
+
+SOURCE = $(wildcard *11.c)    
+OBJS   = $(SOURCE:.c=.o)    
+DEPS   = $(SOURCE:.c=.d)
+-include ${DEPS}
+
+lib: libex11(${OBJS})
+
+libex11.${SHARED_LIBRARY_EXTENSION}: ${OBJS}
+        ${CC} ${SHARED_LIBRARY_FLAG} -o $@ $^       
+
+etags:
+         etags *.c *.h
+	 
+help:
+         echo "make ex9: make the executable"
+         echo "make etags: build the etags file"
+	 
+***** Makefile12.config
+
+GCC                      = gcc
+CFLAGS                   = -g
+OUTPUT_OPTION            = -MMD -MP -o $@
+SHARED_LIBRARY_EXTENSION = dylib                // this is mac so for linux 
+SHARED_LIBRARY_FLAG      = -dynamiclib          // machine specific
+
+The makefile is now split into two. Makefile12.config is architecture dependent and means only this file has to be changed when the code is ported to other machines. + + Draw back you don't know what the dependencies are for other arch.
++ To counter this the use - makefile12.config.in
+                          - configure.in
+
+**** Configure.in
+
+AC_INIT()
+
+AC_CHECK_PROGS(CC, [clang gcc xlc icc], [""]) // check for complier
+AC_PROG_CC
+AC_SUBST(CC)                                  // sub CC in .config.in
+
+AC_CONFIG_FILES([makefile12.config])
+AC_OUTPUT
+
+Very basic autoconfig file. Autoconf command is run on this file.
++ Autoconf is used by the package builder.
++ ./configure is run by the end user.
++ ./configure CC=clang - this explicitly sets the compiler to clang.
+
+
+**** Clean
+
+if a package is compiled incorrectly you can roll back the configure files to their initial state with 
+> make clean
+
+To be able to do this a clean section needs to be present in the makefile
+
+clean:
+        -@rm -f ${OBJS}
+
+realclean: clean                         
+        -@rm -f libex12.a
+	
+** Articles

@@ -1,0 +1,14 @@
+
+
+
+* Description							   :sys:anal:
+
+
+* Usage
+ps -eZ
+
+This command shows the selinux contexts for running processes.
+
+ps -ax -o pid,ni,cmd This will show the nice value of the processes
+
+rtprio - real time priority

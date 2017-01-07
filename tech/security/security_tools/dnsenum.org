@@ -1,0 +1,13 @@
+pulls dns records of specified domain
+
+*Basic Syntax*
+
+> dnsenum <domain>
+
+w - whois queries
+
+o - specifies output location
+
+d - sets the delay between whois lookups
+
+r - recursive lookups

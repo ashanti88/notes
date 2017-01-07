@@ -1,0 +1,50 @@
+
+
+** Notes from the irc transcprit
+http://krebsonsecurity.com/wp-content/uploads/2016/08/Spamhaus-2013-DDoS-chat-log1.txt
+
+forker.c is used to create a process for a list of ips in iplist.txt(spamhaus), spoofs those as 
+
+nntp - 
+
+irc - chatcentral - http://www.unrealircd.com - efnet/wondernet/hackint - 
+
+Nat rules gprs
+
+dns attack
+
+icann udrp procedure
+
+enom.com 
+
+wdpr process
+
+ahnames.com
+
+just a tool for manipulating packets -  http://www.softpedia.com/get/Network-Tools/Misc-Networking-Tools/UDPSZ.shtml
+probably better using hping or alike
+
+root.lu - regards provider that allows spoofing
+
+serverius - will host until dutch law incurred
+
+KoDDOS - ??
+
+girus.eu
+
+irc password used - stevelinford - changed to fucklinford
+
+optimate-servers.de
+
+eDataKing - blog 
+
+this was the created irc
+http://stophau\s.com/showthread.php?31-IRC-Chatroom&p=32#post32
+
+OVH???
+
+laura atkins (steven atkins of spamhaus wife)  blog - some interseting articles https://wordtothewise.com/author/laura/
+
+host-tacker.com
+
+human flesh search - searching online for pictures of people

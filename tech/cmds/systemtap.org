@@ -1,0 +1,65 @@
+
+
+
+
+* Lecture
+** What my system doing? Full System Observability with SystemTap - Mark Wielaard
+[[https://www.youtube.com/watch?v%3Dl7aQWoTRqKw&list%3DWL&index%3D53][URL]]
+
++ The circle of observability
+
+             Profiling - top, oprofile, perf 
+
+
+                        SytemTap
+
+
+
+
+   Debugging - GDB                      Tracing - strace, ltrace, ftrace
+   
+
++ Tracing
+  - nice to have
+    - provides info while running
+    - quick overview of code
+
+  - Limitations
+    - often specialized tools (strace, ltrace, ftrace)
+    - limited filtering
+    - overwhelming amount of information
+      
++ Profiling
+  - monitors while running (sampling)
+  - can (often) see sys wide
+    
+  - Limitations
+    - often one kind of event (time)
+      
++ Debugging
+  - full context (vars, paras, mem, regs, backtrace)
+  - conditional breakpoints
+
+  - Limitations
+    - Stops the program under inspection
+    - one program at a time (not sys wide)
+      
++ SystemTap
+  - unobtrusive, non-stop
+  - system wide
+  - monitoring multiple event types. Synchronous and Asynchronous
+  - Scriptable filtering and stats
+  - Safe (enforces limits, stops dumb things)
+
++ How it works
+  - probe <event> {handler}
+    - where event is kernel function, process.statement, timer.ms, begin, end
+  - handler can have:
+    - filtering/conditionals (if...next)
+    - control structures (foreach, while)
+  - Variables are primitive (number, string), ass arrays or statistical aggregate
+  - Helper functions (log, pringf, gettimeofday, pid)
+
++ How to run
+> stap -e '<script'> [-c <target program>]
+

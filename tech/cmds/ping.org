@@ -1,0 +1,78 @@
+
+
+
+* Description							   :net:anal:
+
+Ping measures the round trip time from host to destination. It sends
+Internet Control Message Protocol Echo Request packets and waits for
+ICMP Echo Reply.
+
+* Usage
+
++ Increase and Decrease time interval between packets
+
+The default ping is 1 second before sending the next packet.
+
+Increase the interval
+
+> ping -i <seconds> <ipaddress>
+
+Decrease the interval
+
+>ping -i <seconds> <ipaddress>
+
+-  Only root can specify a time less than 0.2 seconds
+
++ Check the localhost connectivity
+
+> ping 0
+
+or
+
+> ping localhost
+
+or
+
+> ping 127.0.0.1
+
++ Send n packets and stop
+
+> ping -c <packets> <ipaddress>
+
+CTRL+C is used to stop the exit.
+
++ Flood the network
+
+> ping -f <ipaddress>
+
+This can send hundreds of packets a second and can only be used by root.
+
++ Find a domains ip address
+
+> ping -c 1 <domain.com>
+
+This sends only one packet and shows the domains ip address.
+
++ Print only the summary output
+
+> ping -c <packets> -q <ipaddress>
+
++ Change the packet size
+
+> ping -s <bytes> <ipaddress>
+
+By defaut the packet size is between 56-100. The overall size of the
+packet will be the bytes specified and the header.
+
++ Specify the timeout
+
+> ping -w <seconds> <ipaddress>
+
+If both -c and -w are used which ever comes first terminates the
+application.
+
++ Check route of ping request
+
+> ping -R <ipaddress>
+
+This shows the route of the ping.

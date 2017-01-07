@@ -1,0 +1,34 @@
+
+
+* fsck
+* Description							     :sys:fs:
+
+* Usage
+
+File System Consistency checK
+This is tool is used to perform file system checks and recovery.
+
+** Examples
+> fsck.xxx <options></dev/sdx>
+
+>fsck -a /dev/sdx
+this will automatically repair the filesystem.
+
++ Options
+a - auto repair
+M - do not check mounted fs
+A - check all fs
+t - specify fs type
+
+
+> fsck -C
+This will show surrent process of all running instances of fsck
+
+** Types
+*** fsck.extx
+*** fsck.vfat
+*** fsck.reiserfs
+
+* Lectures
+
+* Articles

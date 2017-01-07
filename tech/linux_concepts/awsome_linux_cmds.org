@@ -1,0 +1,153 @@
+*Pipe a log in to that and it scrapes the IPs*
+
+sed -e 's/\([0-9]\+\.[0-9]\+\.[0-9]\+\.[0-9]\+\).*$/\1/' -e t -e d -
+
+*Find Atop Tree Files*
+
+find . -name "atop\_????????.*"
+
+remove them:
+
+find . -name "atop\_????????.*" -exec rm -rf {} ;
+
+*Get a list of all sites/domains on the box*
+
+httpd -S|grep '.co.uk'|awk {'print $4'}\^
+
+*Get a list of installed programs, listed by install date*
+
+#+BEGIN_EXAMPLE
+    rpm -qa --last
+
+    **Add more swap space from a directory**
+    dd if=/dev/zero of=swap bs=1024 count=1048576
+
+
+
+
+
+
+
+
+
+    **Grep the Access log for hits from specific IP's**
+#+END_EXAMPLE
+
+*Nginx*
+
+grep "=date +%d/%b/%Y=" /var/log/nginx/access.log | awk '{print $1}' |
+cut -d: -f2 | sort | uniq -c | sort -gr | head -n 20 | awk '{
+printf("%5d\t%-15s\t", $1, $2); system("geoiplookup " $2 " | head -1 |
+cut -d \: -f2 ") }'
+
+grep "=date +%d/%b/%Y=" /var/log/nginx/access.log | awk '{print $1, $6,
+$7, $11}' | sort | uniq -c | sort -gr | head -n 20
+
+* *
+
+*Plesk*
+
+grep "=date +%d/%b/%Y=" /var/www/vhosts/system/*/logs/access\_log | awk
+'{print $1, $6, $7, $11}' | sort | uniq -c | sort -gr | head -n 20
+
+grep "=date +%d/%b/%Y=" /var/www/vhosts/*/statistics/logs/access\_log |
+awk '{print $1, $6, $7, $11}' | sort | uniq -c | sort -gr | head -n 20
+
+grep "=date +%d/%b/%Y=" /usr/local/psa/admin/logs/httpsd\_access\_log |
+awk '{print $1, $6, $7, $11}' | sort | uniq -c | sort -gr | head -n 20
+
+*CPanel*
+
+grep "=date +%d/%b/%Y=" /usr/local/apache/domlogs////.* | awk '{print
+$1, $6, $7, $11}' | sort | uniq -c | sort -gr | head -n 20
+
+zegrep "=date +%d/%b/%Y=" /home///logs//.gz | awk '{print $1, $6, $7,
+$11}' | sort | uniq -c | sort -gr | head -n 20
+
+*Ubuntu/Debian*
+
+grep "=date +%d/%b/%Y=" /var/log/apache2/*.access.log| awk '{print $1,
+$6, $7, $11}' | sort | uniq -c | sort -gr | head -n 20
+
+*Other Stuff (Weird log locations)*
+
+grep "=date +%d/%b/%Y=" /usr/local/apache/logs/access\_log | awk '{print
+$1, $6, $7, $11}' | sort | uniq -c | sort -gr | head -n 20
+
+grep "=date +%d/%b/%Y=" /var/log/nginx/access.log | awk '{print $1, $6,
+$7, $11}' | sort | uniq -c | sort -gr | head -n 20 | awk '{
+printf("%5d\t%-15s\t", $1, $2); system("geoiplookup " $2 " | head -1 |
+cut -d \: -f2 ") }'
+
+grep "=date +%d/%b/%Y=" /var/www/vhosts/*/statistics/logs/access\_log |
+awk '{print $1, $6, $7, $11}' | sort | uniq -c | sort -gr | head -n 20 |
+awk '{ printf("%5d\t%-15s\t", $1, $2); system("geoiplookup " $2 " | head
+-1 | cut -d \: -f2 ") }'
+
+awk '{ printf("%5d\t%-15s\t", $1, $2); system("geoiplookup " $2 " | head
+-1 | cut -d \: -f2 ") }'
+
+awk '{print $1, $2}' | awk '{ printf("%5d\t%-15s\t", $1, $2);
+system("geoiplookup " $2 " | head -1 | cut -d \: -f2 ") }'
+
+#+BEGIN_EXAMPLE
+    **Also this works really nicely especially for a specific timescale for example the following one for the 12PM timescale on the 10th of March:**
+#+END_EXAMPLE
+
+=grep "10/Mar/2015:12" /var/log/httpd/access_log | awk '{print $1}' | sort | uniq -c | sort -gr | head -10=
+
+==
+
+=For CPanel (domlogs)=
+
+*Nick's script:*
+
+For entire day
+
+curl -s 46.37.172.196/access.sh | bash
+
+specific hour
+
+curl -s 46.37.172.196/access.sh | bash -s t 15
+
+specific query
+
+curl -s 46.37.172.196/access.sh | bash -s q wp-login
+
+==
+
+[[https://fedoraproject.org/wiki/SysVinit_to_Systemd_Cheatsheet]]
+
+*Search for string within files in a directory*
+
+grep -rnw 'directory' -e "pattern"
+
+*Echo things to the wall*
+
+ echo "whateveryouwanthere" | wall
+
+*Grep for bots in access logs*
+
+grep -i 'bot|spider|crawl'
+/var/www/vhosts/memorycow.co.uk/logs/access\_log | awk '{print $12}' |
+sort | uniq -c
+
+*How to search for location of this ?? No idea what this was originally*
+
+*httpd -S 2>&1|grep*
+
+alt+. << this is great when copying a file, its adds the same directory
+
+ctrl+w << this deletes the last word of the syntax
+
+Show all services status's - service --status-all
+
+*Instant reboot*
+
+echo 1 > /proc/sys/kernel/sysrq  
+
+echo b > /proc/sysrq-trigger
+
+*Delete files with bad file names such as badly compromised files*
+
+[[https://www.linux.com/community/blogs/133-general-linux/760530-linux-shell-tip-remove-files-with-names-that-contains-spaces-and-special-characters-such-as-]]

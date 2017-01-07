@@ -1,0 +1,14 @@
+
+
+* aspell
+  
+* Description
+This is a cmd line spell check application.
+
++ for en_GB makesure that aspell-en is also installed.
+
+
+* Examples
+> aspell check <file>
++ This will check set file
+

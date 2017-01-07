@@ -1,0 +1,9 @@
+*How to run a clamscan (this pushes it into a results file)*
+
+clamscan -r -i /var/www/vhosts/ >clamresults\_20140627
+
+*Cpanel*
+
+clamscan -r -i --exclude-dir=mail /home/ >clamresults\_20140718
+
+maybe using -rvi

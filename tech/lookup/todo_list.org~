@@ -1,0 +1,117 @@
+
+* Personal
+** Arse_in_gear
+*** DONE Set cv in orgmode
+    - State "DONE"       from "TODO"       [2016-12-20 Tue 02:30]
+   - State "TODO"       from ""           [2016-11-18 Fri 06:01]
+
+*** DONE Update cv 
+    - State "DONE"       from "TODO"       [2016-12-20 Tue 02:28]
+    - State "TODO"       from ""           [2016-11-18 Fri 06:03]
+      
+** Write ups
+*** Article Jekyll
+    
+*** Org write ups
+**** IDEA How does grub work
+     url:http://0xax.github.io/
+     - State "IDEA"       from "TODO"       [2016-11-20 Sun 01:30]
+
+**** IDEA Dictionary Access under Linux
+     url:http://arachnoid.com/linux/dictionary.html
+     - State "IDEA"       from "TODO"       [2016-11-20 Sun 01:29]
+
+**** IDEA Guymager - Forensic imager
+     url:http://guymager.sourceforge.net/
+     - State "IDEA"       from ""           [2016-11-20 Sun 01:29]
+       
+**** IDEA PDF tools
+     url:https://blog.didierstevens.com/programs/pdf-tools/
+     - State "IDEA"       from ""           [2016-11-20 Sun 01:32]
+       
+**** IDEA Replacing ifconfig with ip
+     url:https://www.linux.com/learn/replacing-ifconfig-ip
+     - State "IDEA"       from ""           [2016-11-20 Sun 01:34]
+       
+**** IDEA Locale
+     url:https://wiki.archlinux.org/index.php/locale
+     - State "IDEA"       from ""           [2016-11-20 Sun 01:35]
+**** IDEA Checking a Remote Certificate Chain with OpenSSL
+     url:https://langui.sh/2009/03/14/checking-a-remote-certificate-chain-with-openssl/
+     - State "IDEA"       from ""           [2016-11-20 Sun 01:37]
+**** IDEA Writing Shellcode for Linux and Windows
+     url:http://althing.cs.dartmouth.edu/local/shellcode.html
+     - State "IDEA"       from ""           [2016-11-20 Sun 01:39]
+**** IDEA Understanding Processors
+     url:https://www.linux.com/learn/make-peace-your-processes-part-1
+     - State "IDEA"       from ""           [2016-11-20 Sun 01:48]
+**** IDEA Perf
+     url: https://perf.wiki.kernel.org/index.php/Tutorial
+     - State "IDEA"       from ""           [2016-11-20 Sun 01:49]
+**** IDEA Schedstats
+     url:http://eaglet.rain.com/rick/linux/schedstat/
+     - State "IDEA"       from ""           [2016-11-20 Sun 01:53]
+**** IDEA Peeking into Linux Kernel-land
+     url:http://blog.tanelpoder.com/2013/02/21/peeking-into-linux-kernel-land-using-proc-filesystem-for-quickndirty-troubleshooting/
+     - State "IDEA"       from ""           [2016-11-20 Sun 01:54]
+**** IDEA Libvirt
+     url:https://wiki.libvirt.org/page/VirtualNetworking
+     - State "IDEA"       from ""           [2016-11-20 Sun 01:55]
+**** IDEA CAP_SYS_ADMIN: The New Root
+     url:https://lwn.net/Articles/486306/
+     - State "IDEA"       from ""           [2016-11-20 Sun 01:56]
+**** IDEA Proper handling of unknown flags in system calls
+     url:https://lwn.net/Articles/588444/
+     - State "IDEA"       from ""           [2016-11-20 Sun 01:59]
+**** IDEA Filesystem Notification
+     url:https://lwn.net/Articles/604686/
+     - State "IDEA"       from ""           [2016-11-20 Sun 02:00]
+**** IDEA Termite
+     url:https://wiki.archlinux.org/index.php/Termite
+     - State "IDEA"       from ""           [2016-11-20 Sun 02:01]
+**** IDEA Ranger
+     url:http://ranger.nongnu.org/
+     - State "IDEA"       from ""           [2016-11-20 Sun 02:06]
+**** IDEA Cmus
+     url:https://cmus.github.io/
+     - State "IDEA"       from ""           [2016-11-20 Sun 02:08]
+**** IDEA w3m
+     url:http://w3m.sourceforge.net/
+     - State "IDEA"       from ""           [2016-11-20 Sun 02:09]
+**** IDEA newsbeuter
+     url:http://newsbeuter.org/
+     - State "IDEA"       from ""           [2016-11-20 Sun 02:10]
+**** IDEA rtorrent
+     url:https://wiki.archlinux.org/index.php/RTorrent
+     - State "IDEA"       from ""           [2016-11-20 Sun 02:11]
+**** IDEA Patch Philosophy
+     url:https://kernelnewbies.org/PatchPhilosophy
+     - State "IDEA"       from ""           [2016-11-20 Sun 02:14]
+
+** System
+*** TODO sort layout on start up
+    - State "TODO"       from ""           [2016-11-20 Sun 03:57]
+       
+* Work
+* bluelevers
+** Site
+*** DONE Complete Site Build
+    - State "DONE"       from "TODO"       [2016-12-20 Tue 02:30]
+    - State "TODO"       from ""           [2016-11-20 Sun 02:18]
+
+  
+
+
+  
+*** TODO set up php-fpm correctly
+    - State "TODO"       from ""           [2016-12-20 Tue 02:31]
+      
+currently have two sysd scripts
+  - php7.0-fpm.service - failed state
+  - php-7.0.13-fpm.service - active
+    
+php-fpm is working, need to check which needs to be removed
+*** TODO set up SELinux
+    - State "TODO"       from ""           [2016-12-20 Tue 02:34]
+      
+currently installed but disabled.

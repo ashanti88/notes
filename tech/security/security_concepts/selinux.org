@@ -1,0 +1,84 @@
+
+
+
+
+* Lecture 							      :sec_d:
+
+** A Fresh Look at SELinux - Daniel Walsh
+[[https://www.youtube.com/watch?v%3DX1NAJbLqEv8&list%3DWL&index%3D86][URL]]
+
++ Protects against the know and the unknown.
+  - well shellshock hit selinux enabled machines were the only machines that stopped it. 
+    
+*** SELinux 4 Things it trys to tell you with errors
+  1. You have something wrong with your labels
+  2. You changed the system defaults but did not tell SELinux about it.
+  3. Applications or SELinux has bugs that have not been fixed yet
+  4. You could be COMPROMIZED!!!
+     
+*** Wrong Labels
+    Dan Walsh's Mantra
+"SELinux is a LABELING system
+Every Process has a LABEL
+Every File, Directory, System object has a LABEL
+Policy rules control access between tabeled processes and labeled objects
+The Kernel enforces the rules"
+
++ SELinux is a Labeling System
+  - if the labels are wrong, SELinux will generate issues. Solution? Fix your labels.
+    
+**** Type Field - user:role:TYPE:level
++ apache user
+  - system_u:system_r:httpd_t:s0
++ policy rules will allow apache to only access certain system objects.
++ SELinux default behaviour is to block.
+  
+**** Level Field - user:role:type:LEVEL
++ system_u:system_r:svirt_t:s0:c1,c2
++ MCS Enforcement
+  - Protects like processes from each other.
+  - VM's, Openshift Gears, SELinux Sandboxes, Docker Containers.
+  - Tooling picks out random MCS label
+    - s0:c1,c2
+  - Assigns MCS label to all content 
+  - Launches the processes with same label
+  - Tooling guarantees uniqueness
+    
+
+*** File Labeling
++ SELinux File labels definitions stored in /etc/selinux/targeted/xontexts/file_xontext.*
++ File labels are uaually stored in the inode Xattrs 
++ matchpathcon /path -tells you what the label should be    
++ ls -Z /path - tells you what the label is
++ semangae fcontext - used to change default labeling
++ restorecon - applies labels to file system objects
+
+*** DEFAULT_T Files
++ By default all non distro directories in / will be labeld default_t
+  - SELinux has no idea what type of content is in a default_t file
+    
+- mv carries file properties, so if file is moved to a new environ properties may need to be changed for selinux to function correctly
+- mv -Z will relabe the contents of the moved file
+  - alias mv='mv -iZ'
+    
+*** Machine labeling is so wrong that it won't boot
++ Add enforcing=0 too kernel boot line
+  - not selinux=0 it will destroy labeling
++ touch /.autorelabel;reboot will relabel entire system
+  
+*** You Could Be Compromized
++ if you have a confined domain that tries to:
+  - Load a kernel module
+  - Turn off SELinux enforcing mode
+  - Write to etc_t? shadow_t
+  - Modify iptables rules
+You might be compromised
+
+*** Notes
+- Disscreationary access control - this is the rwx premissions
+- Leaked File Descriptors
+  - inheritance of parent of processors
+- S0 - S15 - this is the sensitivity
+
+OpenShift - account
+

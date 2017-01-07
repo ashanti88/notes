@@ -1,0 +1,46 @@
+*Basic usage*
+
+> touch <options> <file>
+
+*Create an empty file*
+
+> touch <file.name>
+
+*Change a files diffrent status times*
+
+> touch -a <file>
+
+this will change the access time, alone it will set the current time.
+
+> touch -m <file>
+
+this will change the modification time, alone it will set the current
+time.
+
+-  the change time can't be set with touch.
+
+Format to explicitly set time
+
+> touch -t [[CC]YY]MMDDhhmm[.SS]
+
+CC - century
+
+YY - year
+
+MM - month
+
+DD - date
+
+hh - hour
+
+mm - minute
+
+SS - second
+
+example:
+
+> touch -a -m -t 203801201844.02 file.txt
+
+*Copy timestamp from another file*
+
+> touch <file.source> -r <file.destination>

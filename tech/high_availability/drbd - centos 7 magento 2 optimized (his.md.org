@@ -1,0 +1,155 @@
+[root@MARS-WEBDB-02 ~]# history 1 rpm -Uvh
+https://centos7.iuscommunity.org/ius-release.rpm 2 yum install php56u 3
+vim /etc/yum.repos.d/MariaDB10.repo 4 yum install mariadb-server
+mariadb-client 5 systemctl enable mysq 6 systemctl enable mysql 7
+systemctl start mysql 8 mysql\_upgrade 9 umount /ukfast/ 10 rm -rf
+/ukfast/ 11 vi /etc/fstab 12 lvremove /dev/vg\_main/lv\_ukfast 13 vgs 14
+lvextend -L 40G /dev/vg\_main/lv\_root 15 vgs 16 lvcreate -n web -l
++50%FREE vg\_main 17 lvcreate -n mysql -l +100%FREE vg\_main 18 lvs 19
+vim /etc/hostname 20 hostname 21 hostname MARS-WEBDB-02 22 hostname 23
+ssh root@MARS-WEBDB-01 24 ssh-keygen -t rsa -b 4096 -C $(hostname) 25
+vim .ssh/id\_rsa.pub 26 hostname 27 vim .ssh/authorized\_keys 28
+hostname 29 cd .ssh/ 30 ll 31 less id\_rsa.pub 32 ssh root@MARS-WEBDB-01
+33 ssh root@78.137.112.35 34 ssh root@78.137.112.35 -p2020 35 cd 36 less
+/etc/resolv.conf 37 yum install
+https://dl.fedoraproject.org/pub/epel/6/x86\_64/unison227-2.27.57-13.el6.x86\_64.rpm
+38 less .ssh/authorized\_keys 39 vim .ssh/authorized\_keys 40 vim
+.ssh/id\_rsa.pub 41 ssh root@MARS-WEBDB-01 42 vim .ssh/config 43 ssh
+root@MARS-WEBDB-01 44 vim .ssh/config 45 ssh root@MARS-WEBDB-01 46 vim
+.ssh/config 47 ssh root@mars-webdb-01 48 ssh mars-webdb-01 49 clust 50
+pcs status 51 ps awux 52 lsof -i: 53 lsof -i:80 54 ps awux 55 pcs status
+56 rpm -qa | grep pcs 57 rpm -qa | grep pace 58 ps awux | grep my 59 ssh
+MARS-WEBDB-01 60 clustat 61 pcs status 62 crm status 63 ll 64 ll -a 65
+yum install
+https://dl.fedoraproject.org/pub/epel/6/x86\_64/unison227-2.27.57-13.el6.x86\_64.rpm
+66 yum install mlocate 67 updatedb 68 mkdir .unison 69 vim
+./.unison/default.prf 70 vim /usr/bin/file\_sync.sh 71 vim
+/var/spool/cron/root 72 stat /var/spool/cron/root 73 chmod 600
+/var/spool/cron/root 74 chmod 755 /usr/bin/file\_sync.sh 75 systemctl
+status crond 76 cd /etc/php.d/ 77 ll 78 less /var/spool/cron/ 79 less
+/var/log/cron 80 ll 81 less /var/spool/mail/root 82 cd 83 vim
+.ssh/config 84 cd /var/spool/cron/ 85 ll 86 stat /usr/bin/file\_sync.sh
+87 cd /etc/php.d/ 88 ll 89 less /var/spool/mail/root 90 cd /usr/bin/ 91
+ll 92 less file\_sync.sh 93 vim file\_sync.sh 94 ll 95 cd /etc/php.d/ 96
+ll 97 less /var/spool/mail/root 98 less file\_sync.sh 99 cd /usr/bin/
+100 less file\_sync.sh 101 ssh root@MARS-WEBDB-01 102 cd /etc/php.d/ 103
+ll 104 less file\_sync.sh 105 less /var/spool/mail/root 106 vim
+/usr/bin/file\_sync.sh 107 ll 108 less /var/spool/mail/root 109 ll 110
+vim /etc/motd 111 less /var/spool/mail/root 112 ll 113 less
+/var/spool/mail/root 114 less /root/.unison/default.prf 115 vim
+/root/.unison/default.prf 116 ll 117 less /var/spool/mail/root 118 ll
+119 yum -y install OpenIPMI OpenIPMI-tools 120 systemctl start ipmi 121
+systemctl enable ipmi 122 wget -qO -
+http://linux.dell.com/repo/hardware/latest/bootstrap.cgi | bash 123 yum
+install -y srvadmin-all 124 /opt/dell/srvadmin/sbin/srvadmin-services.sh
+start 125 /opt/dell/srvadmin/sbin/srvadmin-services.sh enable 126 ip a
+127 ipmitool user set password 6 128 ipmitool user set name 6 marsipmi
+129 ipmitool lan set 1 ipsrc statitc 130 ipmitool lan set 1 ipsrc static
+131 ipmitool user enable 6 132 ipmitool lan set 1 ipaddr 78.137.112.42
+133 ipmitool lan set 1 netmask 255.255.255.0 134 ipmitool lan set 1
+defgw ipaddr 78.137.112.3 135 lsof -i:1311 136 ipmitool -H 78.137.112.41
+-U marsipmi -P UreqwRAs -I lanplus chassis power status 137 ipmitool -H
+78.137.112.42 -U marsipmi -P UreqwRAs -I lanplus chassis power status
+138 ipmitool -H 78.137.112.41 -U marsipmi -P Hawup5lu -I lanplus chassis
+power status 139 rpm --import http://elrepo.org/RPM-GPG-KEY-elrepo.org
+140 rpm -Uvh http://elrepo.org/elrepo-release-6-6.el6.elrepo.noarch.rpm
+141 rpm -Uvh
+http://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm 142 yum
+install kmod-drbd84 drbd84-utils 143 ip a 144 less /etc/my.cnf 145 vim
+/etc/sysconfig/network-scripts/ifcfg-eth3 146 vim
+/etc/sysconfig/network-scripts/ifcfg-em3 147 systemctl restart network
+148 systemctl status network 149 p a 150 ip a 151 less /var/log/ems 152
+less /var/log/messages 153 vim /etc/sysconfig/network-scripts/ifcfg-em3
+154 systemctl restart network 155 ip a 156 ping 10.0.0.1 157 vi
+/etc/drbd.conf 158 modprobe drbd 159 lsmod | grep drbd 160 drbdadm
+create-md web 161 less /etc/drbd.conf 162 sed -i
+'s/ABC-WEBDB-02/MARS-WEBDB-02/g' /etc/drbd.conf 163 sed -i
+'s/ABC-WEBDB-01/MARS-WEBDB-01/g' /etc/drbd.conf 164 sed -i
+'s//dev/VolGroup00/web//dev/vg\_main/web/g' /etc/drbd.conf 165 sed -i
+'s//dev/VolGroup00/mysql//dev/vg\_main/mysql/g' /etc/drbd.conf 166 less
+/etc/drbd.conf 167 drbdadm create-md web 168 drbdadm create-md mysql 169
+service drbd start 170 chkconfig drbd on 171 watch cat /proc/drbd 172
+cat /proc/drbd 173 mkfs.ext4 /dev/drbd0 174 mkfs.ext4 /dev/drbd0 175
+mkfs.ext4 /dev/drbd01 176 df -jh 177 df -h 178 mkfs.ext4 /dev/drbd1 179
+yum install pcs 180 yum install fence-agents-all 181 passwd hacluster
+182 systemctl start pcsd.service 183 systemctl enable pcsd.service 184
+passwd hacluster 185 systemctl stop pcsd.service 186 cat /proc/drbd 187
+ll 188 ssh MARS-WEBDB-01 189 systemctl start pcsd.service 190 systemctl
+enable pcsd.service 191 passwd hacluster 192 ssh MARS-WEBDB-01 193 rm
+/etc/yum.repos.d/MariaDB10.repo 194 yum install mariadb-server 195
+systemctl disable mariadb-server 196 ll 197 mount 198 cd /var/lib/mysql
+199 ll 200 mysql\_install\_db 201 kk 202 ll 203 systemctl start mariadb
+204 systemctl status mariadb 205 less /var/log/mariadb/mariadb.log 206
+ll 207 cd .. 208 ll 209 chown -R mysql:mysql mysql 210
+mysql\_install\_db 211 systemctl start mariadb 212 systemctl status
+mariadb 213 systemctl stop mariadb 214 pcs status 215 pcs resource
+enable g\_mysql 216 pcs status 217 pcs resource cleanup 218 pcs status
+219 pcs resource disable g\_mysql 220 pcs status 221 pcs resource enable
+g\_mysql 222 pcs status 223 less /var/log/messages 224 less
+/var/log/mariadb/mariadb.log 225 mount 226 cd mysql/ 227 ll 228 cd ..
+229 chown -R mysql:mysql mysql 230 pcs resource enable g\_mysql 231 pcs
+status 232 pcs resource move g\_mysql 233 pcs resource clear g\_mysql
+234 pcs constraintt 235 pcs constraint 236 pcs status 237 ipmitool help
+238 fence\_ipmilan help 239 fence\_ipmilan -h 240 pcs config 241
+fence\_ipmilan -h 242 fence\_ipmilan -a 78.137.112.41 -l marsipmi -p
+Hawup5lu -P 243 crontab -e 244 pcs status 245 drbdadm primary web 246
+mount 247 w 248 drbdadm secondary web 249 pcs status 250 pcs resource
+enable g\_web 251 pcs status 252 pcs resource cleanup 253 pcs status 254
+less /var/log/messages 255 less /etc/drbd.conf 256 ip a 257 cat
+/proc/drbd 258 pcs status 259 mount /dev/drbd0 /var/www/vhosts 260 cat
+/proc/drbd 261 pcs status 262 tail -f /var/log/messages 263 less
+/var/log/messages 264 watch -n0.5 pcs status 265 pcs resource cleanup
+266 pcs status 267 less /var/log/nginx 268 rpm -qa | grep nginx 269 yum
+install nginx 270 pcs stautts 271 pcs status 272 pcs resource cleanup
+273 pcs status 274 pcs resource enable g\_web 275 pcs status 276 pcs
+stauts 277 pcs status 278 pcs constraint 279 pcs status 280 ifdown em1
+281 ipmi mc reset cold 282 ipmitool mc reset cold 283 ifup em1 284 ping
+8.8.8.8 285 iptables -vnL 286 cd /root/.unison/ 287 ll 288 rm
+lk8a00bf7d54bc37ecfa5b03560a240902 289 vi /root/.unison/default.prf 290
+systemctl disable mysql 291 systemctl disable httpd 292 systemctl
+disable nginx 293 systemctl disable php-fpm 294 systemctl disable
+memcached 295 systemctl enable drbd 296 systemctl enable pcsd 297 wget
+mage.zy.io/initial.sh 298 vi initial.sh 299 chmod 744 initial.sh 300
+./initial.sh 301 php pv 302 ll 303 wget
+http://rpms.famillecollet.com/enterprise/remi-release-7.rpm 304 rpm -Uvh
+remi-release-7/.rpm 305 rpm -qa | grep php 306 yum remove php56u 307 vi
+/ 308 vi /etc/yum.repos.d/remi-php70.repo 309 yum install php php-pdo
+php-mysqlnd php-opcache php-xml php-mcrypt php-gd php-devel php-mysql
+php-intl php-mbstring php-bcmath php-json php-iconv --enablerepo=epel
+310 yum remove php56u/ 311 yum install php php-pdo php-mysqlnd
+php-opcache php-xml php-mcrypt php-gd php-devel php-mysql php-intl
+php-mbstring php-bcmath php-json php-iconv --enablerepo=epel 312 php -v
+313 rm /etc/php.d/apc.ini 314 rm /etc/php.d/memcache.ini 315 rm
+/etc/php.d/redis.ini 316 php -b 317 php -v 318 wget -O /usr/bin/composer
+http://getcomposer.org/composer.phar && chmod +x /usr/bin/compose 319 ll
+320 wget -O /usr/bin/composer http://getcomposer.org/composer.phar &&
+chmod +x /usr/bin/composer 321 less
+/etc/nginx/conf.d/spillers-feeds.com.conf 322 scp
+/etc/nginx/conf.d/spillers-feeds.com.conf
+root@MARS-WEBDB-01:/etc/nginx/conf.d/spillers-feeds.com.conf 323 vi
+/root/.unison/default.prf 324 pcs status 325 pcs status 326 ls 327 less
+finishedspillers-feeds.com 328 mysql -uroot -p 329 ipmitool -H
+78.137.112.41 -U marsipmi -P Hawup5lu -I lanplus chassis power status
+330 pcs status 331 mysql 332 mysql -uroot -p 333 vim
+/usr/local/bin/crm\_mon.sh 334 vim /usr/local/bin/drbd\_mon.sh 335 chmod
+u+x /usr/local/bin/crm\_mon.sh 336 chmod u+x /usr/local/bin/drbd\_mon.sh
+337 crontab -e 338 mysql -uroot -p 339 less finishedspillers-feeds.com
+340 mysql -uroot -p 341 pcs status 342 mysql -uroot -p 343 lsof -i:3306
+344 vim /etc/my.cnf. 345 vim /etc/my.cnf 346 pcs status 347 mysql 348
+vim /etc/my.cnf 349 pcs status 350 pcs resource move g\_mysql
+MARS-WEBDB-02 351 pcs resource move g\_mysql MARS-WEBDB-01 352 cd /etc
+353 ls 354 pcs resource move g\_mysql MARS-WEBDB-01 355 lsof -i:3306 356
+pcs status 357 pcs resource disable g\_mysql MARS-WEBDB-01 358 pcs
+resource disable g\_mysql 359 pcs status 360 pcs resource cleanup 361
+pcs status 362 pcs resource move g\_mysql MARS-WEBDB-01 363 pcs resource
+move g\_mysql MARS-WEBDB-02 364 pcs statu 365 pcs resource move g\_mysql
+MARS-WEBDB-01 366 pcs status 367 mysql 368 lsof -i:3306 369 pcs status
+370 pcs resource move g\_mysql MARS-WEBDB-02 371 less /etc/my.cnf 372 mv
+/etc/my.cnf /etc/my.cnf.bak 373 pcs resource cleanup 374 pcs resource
+move g\_mysql MARS-WEBDB-02 375 pcs status 376 mysql 377 mysql -uroot -p
+378 cd ~ 379 wget 94.229.165.106/mysql\_grants 380 wget
+94.229.165.106/mysql\_grants.sh 381 vi mysql\_grants.sh 382 less
+finishedspillers-feeds.com 383 vi mysql\_grants.sh 384 chmod 744
+mysql\_grants.sh 385 ./mysql\_grants.sh 386 vi /root/.my.cnf 387
+./mysql\_grants.sh 388 mysql 389 pcs resource move g\_mysql
+MARS-WEBDB-01 390 pcs 391 pcs status 392 yum list nginx 393 history

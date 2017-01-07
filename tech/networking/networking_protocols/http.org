@@ -1,0 +1,176 @@
+
+
+
+
+* Tutorial
+** HTTP fundamentals - Pluralsight
+*** Resources
++ Uniform Resourse Locator
+  - specific resource
+    - page
+    - picture
+    - files
+    - etc
+
++ Address breakdown e.g. http://food.com/recipe/grilled-cauliflower
+  - http:// - URL scheme
+  - food.com - host
+  - recipe/grilled-cauliflower - URL Path
+
++ developers try to keep use of file names to a minimum.
+  - usually dynamic content is used to create pages
+  - file name postfix is not used as url will out live the technology.
+    
++ query - /url_path?xxxx
++ fragment - /url_path#xxxx
+  - not processed, but used on the client side for navigation
+    
++ URL Encoding
+  - unsafe characters - space, hash, carrot, 
+  - safe a-z 1-0 A-Z $-_.+*'(),
+  - unsafe characters can be added using percent values
+    - space - %20
+    - !     - %21
+    - "     - %22
+    - #     - %23
+    - $     - %24
+    - %     - %25
+    - &     - %26
+      
++ Content Type - MIME Types
+  - Type/SubType
+  - application/atom+xml  - Atom feed
+  - application/json      - JSON data
+  - image/gif             - GIF image
+  - image/png             - PNG image
+  - video/mp4             - MP4 video
+  - text/xml              - XML
+  - text/html             - HTML
+  - text/plain            - Plain text
+- These types inform the browser what content is to be rendered.
+  
++ Content Negotiation
+  - client specifies media types they require - e.g html and french
+  - server attempts to retrieve request, but if no html or french will get best fit. e.g pdf and english
+  - his is handy when dev wants info maybe in Json or other format for easy application consumption.
+
+*** Messages
++ Message Types - 2 types
+  - HTTP Request
+  - HTTP Response
+  - both fit inside a single http transaction
+    
++ Request
+> telnet odetocode.com 80
+> GET /odetocode.jpg HTTP/1.1 - http request
+> Host: www.odetocode.com - specifies host as can be more than one on a server
+
++ Request Methods
+  - tells server what client is "wanting to do"
+  - GET, POST, PUT, DELETE, HEAD
+  - GET and POST are the workhorses of the web.
+  - GET - Retrieve a resource
+  - POST - Update a resource
+  
++ Safe Methods
+  - don't alter data on the server
+  - GET is considered safe and shouldn't have any side effects
+  - POST is considered unsafe as it changes data on the server.
+    
++ POST/Redirect/GET
+  - this method is used to stop a user from duplicate POSTs
+  - will run against a database to confirm data has already been input.  
+
++ Full Request Messages
+  [ method ] [ URL ] [ version ]
+  [ headers ]
+    Referer:             - The url of the referring page (correct sp)
+    User-Agent:          - Infromation about the browser
+    Accept:              - Prefered media types
+    Accept-Language:     - Prefered language
+    Date:                - Creation timestamp for the message
+    If-Modified-Since    - Date of last retrieval
+    Cookie:              - cookie info
+  [ body ]
+  
++ Full Response Message
+  [ version ] [ status ] [ reason ]
+  [ headers ]
+    Cache-Control: private - only cache on local machine 
+    Server: Microsoft-IIS/7.0
+    X-AspNet-Version: 2.0  - X-headers are reserved for nonstandard headers
+    X-Powered-By: ASP.NET 
+    Date:
+    Content-Length:
+  [ body ]
+  
++ HTTP Fiddler - Windows tool for http inspection
+  
++ Status Code Categories
+  - 100 - 199  Info
+  - 200 - 299  Successful
+  - 300 - 399  Redirect
+  - 400 - 499  Client Error
+  - 500 - 599  Server Error
+    
+  - Common Status Codes
+    - 200 ok
+    - 301 permanent redirect
+    - 302 temp redirect
+    - 304 not modified since last retrieved
+    - 400 bad request - bad syntax?
+    - 401 unauthorized - client might have to authenticate
+    - 403 forbidden - refused access
+    - 404 not found - resource doesn't exist
+    - 500 internal server error - something went wrong during processing
+    - 503 service unavailable - server will not service the request - possible when server is under strain, try again later.
+      
+*** Connections
++ persistent connections
+  - this is the default connection type.
+  - can be removed.
+  - on most shared servers it is switched off as not to cause congestion.
++ pipline connection
+  - more effiecent packing of requests
+  - not supported by all servers.
+*** ArchitectureiAA
+URL
+  - can't restrict a client to a specific technology
+  - can't restrict storage medium
+
++ Web server
+  - knows what technology to pass http requests to php, asp, c#
+  - loging is done as the request passes through the server.
+
++ Proxies
+  - transparent to the end user
+  - proxies can be used to monitor and function as access control proxy (stop fb and twitter access)
+    - Forward proxy
+      - closer to client than server
+      - provides a specific network with services
+    - Reverse Proxy
+      - closer to server than client
+      - used to take load off of server, e.g. performing the compression of requests, taking this function away from the main servers.
+  - Services
+    - Load balancing
+    - encyrption and decryption of ssl
+    - application firewall
+    - caching 
+      - reduce latency
+      - aides with handling large loads
+      - types of cache
+        - public cahe
+          - caching popular request
+	- private cache 
+          - these are kept on the file system
+      - Cache Control
+        - public   - a response for everyone
+        - private  - a response for a single user	    
+	- no-cache - don't cache the response
+	- no-store - you never saw this response
+
+*** Security
+*** L^
+- razor syntax - regards asp programming
+- tcp slow start - persistent connections
+- Roy Thomas Fielding - Architectural Styles and the Design of Network-based Software Architecture

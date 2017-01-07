@@ -1,0 +1,7 @@
+> chkrootkit
+
+this produces a lot of output
+
+> chkrootkit -x | less
+
+to look for suspicious strings

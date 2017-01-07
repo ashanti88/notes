@@ -1,0 +1,38 @@
+
+
+* Cmds
+** dddd
+
+
+** iotop
+
+[file:///home/crito/public_html/tech/cmds/iotop.html]
+
+** fio
+
+* Tests
+
+** Measuring Write Performance
++ Modern OS don't usually write to RAID or hard disk. Temporary memory that is not currently in use will be used to cache reads and writes.
+  - To account for caching, the oflag parameter can be used. 
+  - 3 options for oflag i) direct - use direct I/O for data
+                       ii) dsync  - use synchronized I/O for data.
+                      iii) sync   - likewise, but also for metadata
+    
++ For measuring write performance the data should be read from the /dev/zero, and ideally written to an empty hard drive or partition.
+
+These test should be run at least 3 times
+*** Laptop Throughput
+
+> dd if=/dev/zero of=/dev/sdx bs=1G count=1 oflag=direct
+
+*** Laptop Latency
+
+> dd if=/dev/zero of=/dev/sdx bs=512 count=1000 oflag=direct
+*** Sever RAID10 Throughput
+    
+> dd if=/dev/zero of=/dev/sdx bs=1G count=1 oflag=dsync 
+
+*** Sever RAID10 Latency
+
+> dd if=/dev/zero of=/dev/sdx bs=512 count=1000 oflag=dsync

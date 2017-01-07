@@ -1,0 +1,12 @@
+
+
+* 7z								   :sys:file:
+* Description
+A file compressor with a high compression ratio
+
+* Usage
++ Uncompress file
+> 7za e <file.7z>
+
++ Uncompress file and retain file structure
+> 7za x <file.7z>

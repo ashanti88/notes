@@ -1,0 +1,39 @@
+this is a web vulnerability framework similar in design to msf.
+
+*Admin*
+
+the framework uses workspaces similar to msf. Domains can be attached to
+these workspaces.
+
+> workspace [list | add | select | delete]
+
+modules can be run against these domains and an overview of the results
+can be view with
+
+> show dashboard
+
+This can be broken down further by specifying the category.
+
+> show <category>
+
+*Commands*
+
+* *
+
+view all modules
+
+> show modules
+
+set module
+
+> use recon/domains-vulnerabilities/xssposed
+
+view the info on a module
+
+> show info
+
+this will show all available options for selected module
+
+*Modules*
+
+For more detailed information on a module look it up in the wiki.

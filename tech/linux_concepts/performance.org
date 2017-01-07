@@ -1,0 +1,83 @@
+
+
+
+* Performance
+  
+* Tools & Applications
+  - perf
+  - top
+  - dstat
+  - iostat
+
+* Books
+[[file://home/crito/Documents/SysAdmin/System/Systems_Performance.pdf][Systems Performance - Brendan Gregg]]
+** Notes
+*** Latency
++ Latency is the time take for a function or process to be performed.
++ Its normally the best metric for analyising performance.
+*** Dynamic Tracing
++ first introduced in 2005 solaris 10 with dtrace.
+  - been ported to OS X, BSD, and currently being ported to linux (systap is another alternative)
++ dtrace has its own programming language D.
++ Prior to dtrace, analysis was reliant on static probes.
+
+*** Methodologies
+**** Performance Terminology
+  - IOPS - input/output operations per second
+         - reads and writes per second
+  - Throughput - the rate of work performed, data rate.
+  - Response Time - the time for an operation to complete
+  - Utilisation - measure of how busy a resource is over a given time
+  - Saturation - the degree to which a resource has queued work it cannot service
+  - Bottleneck - a resource that limits the performance of the system
+  - Workload - the input to the system
+             - for a database this includes queries and commands sent by the client
+  - Cache - a fast storage area that can duplicate or buffer a limited amount of data
+  - SUT - System Under Test
+**** Latency of a website
+The load time for a website can be broken down into 3 areas
+1. DNS latency
+2. TCP latency
+3. TCP data transfer time
+**** Common Trade offs
++ Filesystem record size 
+  - Small record size - close to the application io size will perform better for random io workloads and make a more efficient fs cache while application is running.
+  - Large record size - will improve streaming workloads, including fs backups 
++ Network buffer size
+  - Small buffer size - reduce memory overhead for every connection
+  - Large buffer size - improve network throughput
+**** Metrics
++ IOPS
++ Throughput
++ Utilisation
++ Latency
+The collection of these metrics will have an impact on the system, and add an overhead.
+This is referred to as the observer effect.
+***** Utilisation
+This can be measured in two ways
+1. time based
+2. capacity based
+Though knowing both would greatly help, normally only time based is available.
+***** Saturation
+Saturation occurs at 100% Utilisation (capacity based), extra work can not be processed so is queued.
+
+**** Profiling
+This builds a picture of the target so that it can be studied and understood.
+The profile will be built be taking reading at different intervals
+
+**** Caching 
+Method to measure cache performance is cache hit-ratio - number of time the data was found in the cache (hit) vs the number of time not found (miss)
+hit-ratio = hits/total accesses(hits and misses)
++ Alogrithms
+  - MRU - Most recently used
+  - LRU - Least recently used
+  - MFU - Most fequently used
+  - LFU - Least fequently used
++ Types of cache
+  - Cold - empty or populated with unwanted data. Hit-ratio is zero
+  - Hot - populated with commonly requested data. Hit-ratio is high
+  - Warm - contains some requested data but not enought to be considered hot
+  - Warmth - this describes how hot or cold a cache is
+
+
+* Tutorials

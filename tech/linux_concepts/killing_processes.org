@@ -1,0 +1,9 @@
+*Commands*
+
+[[evernote:///view/47830806/s238/c50a5bb6-db75-4a63-a94b-903cfc3b3b14/c50a5bb6-db75-4a63-a94b-903cfc3b3b14/][kill]]
+
+[[evernote:///view/47830806/s238/e2fa13fd-3fdb-408f-940e-7978bd671176/e2fa13fd-3fdb-408f-940e-7978bd671176/][killall]]
+
+[[evernote:///view/47830806/s238/99714eb9-2c5a-413e-9da6-014aad962681/99714eb9-2c5a-413e-9da6-014aad962681/][pkill]]
+
+[[evernote:///view/47830806/s238/d8946eef-fad7-4fc2-b48a-f4ed64245cb3/d8946eef-fad7-4fc2-b48a-f4ed64245cb3/][xkill]]

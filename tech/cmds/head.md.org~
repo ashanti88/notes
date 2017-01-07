@@ -1,0 +1,14 @@
+
+
+
+
+* Description							     :sys:rw:
+
+
+* Usage
+
+> head <option> <file>
+
++ Print a number of lines
+
+> head -n <N> <file>

@@ -1,0 +1,67 @@
+using host to query common DNS record types
+
+> host -t ns <domain.com>
+
+-t - record type
+
+ns - nameserver
+
+> host -t a <domain.com>
+
+a - the ip address of the domain
+
+> host -t aaaa <domain.com>
+
+aaaa - the ipv6 address of the domain
+
+> host -t soa <domain.com>
+
+soa - source of authority for dns records
+
+These commands provide a starting point for further investigation.
+Thourgh zone transfer requests are denied by most dns servers it is
+worth trying in the off chance against all ns records that are found. 
+
+Attempting a zone transfer
+
+> dig @found\_ns\_address -t AXFR <domain.com>
+
+Ensure that domain is owned by said organisation
+
+> whois <domain.com/address>
+
+Finding smaller companies ISP ip allocation
+
+Some isp's use Shared Whois (SWIP) or Referral Whois (RWhois). Both of
+these will provide the companies netblock.
+
+We can't search whois for specific company but there are other search
+queries that can help
+
+> whois -h whois.arin.net @<domain.com>
+
+this will search for all contacts with an email address at domain.com
+
+> whois -h whois.arin.net "n domain*"
+
+this shows all the netblock handles that start with domain
+
+> whois -h whois.arin.net "o domain*"
+
+this will search all organisation names starting with domain
+
+arin - north america
+
+ripe - europe/russia/middle east
+
+afrinic - africa
+
+apnic - asia/au/nz
+
+lacnic - latin america
+
+[[http://searchdns.netcraft.com]] this site is useful for searching for
+sub domains
+
+[[http://asn.cymru.com]] this site can provide the AS number for a
+larger organisation

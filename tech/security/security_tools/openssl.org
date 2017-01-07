@@ -1,0 +1,11 @@
+#+BEGIN_EXAMPLE
+    **Strip the password off a key file for when Apache restarts
+    **
+    openssl rsa -in key.pem -out newkey.pem
+
+    Debian - /etc/ssl
+    Centos - /etc/pki/tls/certs
+
+    **Find all sites that use SSL's**
+    /etc/ssl/certs# apache2ctl -S 2>&1|grep "port 443 name"|grep -v `hostname`| awk {'print $4'}
+#+END_EXAMPLE

@@ -1,0 +1,10 @@
+
+
+
+* nice
+* Description							     :sys:op:
+run a program with a modified scheduling priority.
+* Usage
+> nice <options> [cmd <options>]
+
+** Options

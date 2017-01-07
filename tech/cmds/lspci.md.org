@@ -1,0 +1,83 @@
+
+
+* lspc
+* Description							   :sys:anal:
+
+This command provides information about the pci bus of a given system.
+
+* Installed
+
+Redhat
+
+> yum install pciutils
+
+Deb
+
+comes installed
+
+* Usage
+
+> lspci
+
+This will provide all the information available.
+
+format is [domain]:bus:device:function
+
++ Output for parsing
+
+> lspci -m
+
+or
+
+> lspci -mm
+
++ Output into tree format
+
+> lspci -t 
+
+This cmd provides info about the bus and how devices are connected to
+those buses.
+
++ Add to the level of detail
+
+> lspci -v
+
+or
+
+> lspci -vv
+
+v - verbose
+
+vv- more verbose
+
+vvv - even more verbose
+
+*Display vendor codes with output*
+
+> lspci -n
+
+This will display device and vendor code only
+
+> lspci -nn
+
+This will display both the description and code
+
+*Lookup a specific device*
+
+> lspci -s <code>
+
+> lspci -s 03:00.2
+
+s - vendor code
+
+>lspci -d <device\_id>
+
+>lspci -d 168c:0032
+
+d - device code
+
+*Display kernel drivers*
+
+> lspci -k
+
+k - kernel modules

@@ -1,0 +1,29 @@
+
+
+This is a UPnP administration tool.
+
+Work can be saved to a file and continued at a later date.
+
+Miranda can find UPnP hosts both passively and actively. All hosts devices types, services, actions and variables can be enumerated.
+
+Usage
+> miranda
+this will take you into a shell
+
+Commands
+msearch - begins an active UPnP search
+
+host - list - list of hosts
+   get  - gets detailed information of host
+   summary - short summary
+   info - enumerates all objects
+   send - allows SOAP requests to be sent 
+
+pcap - this enables passive listening of UPnP
+
+seti - show - displays the current program settings
+
+
+
+Link:
+https://www.ethicalhacker.net/columns/heffner/plug-n-play-network-hacking  

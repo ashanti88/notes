@@ -1,0 +1,122 @@
+
+
+
+
+* Lecture
+** DNSSEC - Solving a Decades-Old Vulnerability - Southern California Linux Expon - Carlos Meza
+https://www.youtube.com/watch?v=99NLF2cfLvo&index=88&list=WL
+
++ DNS - pairs user friendly labels to internet network addresses
++ DNSSEC - ensures accuracy of that information
+  
++ Benefits of DNSSEC
+  - Protects users
+  - Strengthens trust in the internet
+  - New possiblitities
+  - Mitigate risk of cyber crime
+    
++ The Problem
+  - Not designed with security in mind
+    - Malicious user can redirect non secured dns traffic
+    - phising
+    - wire tap 
+    - stealing passwords
+      
+
++ Anatomy of a Domain Name
+
+  www.example.org.
+
+ - www - subdomain
+ - example - SLD - Second Level Domain
+ - org - TLD - Top Level Domain
+ - . - root
+   
++ Terminology
+  - Zones - delegated subsets of the hierarchical DNS structure
+  - Resource Records (RR) - the data in zones, such as the mappings between domain namesand ip addrs. e.g. A, AAAA, MX, 
+  - Nameserver (NS) - maintains a directory of domain names to their IP addresses. Nameservers are "The Internet's Phone Books"
+    - responsible for the zone
+      
++ Exploits
+  - DNS Hijacking
+  - DNS Spoofing
+  - Cache Poisoning
+  - Examples
+    - Kaminsky Bug
+    - Rogue DNS Servers
+    - MITM
+    - Direct Manipulation
+    - Route Hijacking
+      
++ Example - DNS Poisoning
+  - Flood with fake answers
+    - hoping that one is picked up
+      
+
++ DNSSEC
+  - DNS data originated from a legitimate sender
+  - Data was not tampered in transit
+  - Nonexistent data does not exist 
+
++ Does not provide
+  - Provide confidentiality
+  - Guarantee availability
+  - Protect against compromised nameservers
+    
++ when dns is queried with dnssec extra information is provided
+  - DNSKEY - DNS Public Key
+  - RRSIG - Resource Record Signature
+  - DS - Delegation Signer
+    
++ NSEC (Next Secure)
+  - Points to the next name in the zone, if record queried does exist.
+  - Zone-Walking
+    - A side effect allows discovery of zone content.
+  - NSEC3 - impedes zone-walking by using hashes
+  - NSEC5 - improvement on NSEC3
+
++ DANE - DNS-based Authentication of Named Entities  
+  - Secure Key Learning
+  - Applications can easily discover authenticated ekys for sevices by using info available in DNS.
+  - No longer dependent on CA and TLS
+  - TLSA - TLS associations
+    - Stores a cert or key for TLS.
+    - Can work in conjunction with CA
+  - Dane can authenticate and enforce TLS for the SMTP connection
+  - other coms
+    - VoIP
+    - SIP
+    - IM etc
+  - Currently being worked on
+    - OpenPGPKey - discoverable pgp
+    - SMIMEA - discoverable S/MIME
+    - IPSECA - IPsec for dane std
+    - PMTA - Payment Association
+
++ Implementation
+  - Storage - Expect zone files to increase at least 3x
+  - CPU - There will be an increase to CPU load.
+        - Resolvers caching helps
+  - RAM - 4x as much 
+  - Bandwidth - 5x as large
+  - Compatibility - DNSSEC is an extension of DNS it was implimented in 1999, most hardware should be compatible.
+
++ Incomplete
+  - "Last Mile" / "First Hop" Issue
+    - validation between you and initial dns server.
+  - Solutions
+    - getdns - dnssec aware applications
+    - fedora - validating resolvers 
+    - MS - IPsec tunnel from every client to the DNS server
+    - DNScrypt - authenticates coms between a DNS client and resolver
+      
++ Servers
+  - BIND9- DNS reference implementation can automate zone signing, even for dynamic zones.
+  - PowerDNS - Database backend
+  - Knot-DNS - High performance, scales well
+  - NSD - Fast, simple, secure    
+    
++ Tools
+  - OpenDNSSEC
+  - DNSSEC-Tools

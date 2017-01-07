@@ -1,0 +1,15 @@
+Kalis tools can be added to a debian machine with katoolin
+
+> git [[https://github.com/LionSec/katoolin.git]]
+
+>cp katoolin/katoolin /usr/bin/katoolin
+
+> chmod +x /usr/bin/katoolin
+
+You now have an application called katoolin
+
+> katoolin
+
+This will provide numerical options to choose from
+
+To exit ctrl c

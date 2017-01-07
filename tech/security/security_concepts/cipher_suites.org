@@ -1,0 +1,11 @@
+*/Good for generating new cipher suite config etc/*
+
+[[https://mozilla.github.io/server-side-tls/ssl-config-generator/]]
+
+Also good
+
+[[https://weakdh.org/sysadmin.html]]
+
+/*For specific ciphers*/
+
+[[http://geoff.greer.fm/ciphersuite/]]

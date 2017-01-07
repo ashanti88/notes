@@ -1,0 +1,145 @@
+*Apache*
+
+*Traceenable:*
+
+<?php if (!$VAR->server->webserver->apache->traceEnableCompliance): ?>
+        TraceEnable off
+
+<?php endif; ?>
+
+Before Apache 2.4.7, the DH parameter is always set to 1024 bits and is
+not user configurable. This has been fixed in mod\_ssl 2.4.7 that Red
+Hat has backported into their RHEL 6 Apache 2.2 distribution with
+httpd-2.2.15-32.el6
+
+If this doesn't work then you can also do the following which is
+outlined in the following guide which is to generate a new key as normal
+but then append this to the end of the site certificate:
+
+[[https://serverfault.com/questions/693241/how-to-fix-logjam-vulnerability-in-apache-httpd]]
+
+which is then followed by a standard 1024-bit DH parameter. From this we
+can infer that the custom-generated DH parameters may simply be appended
+to the relevant SSLCertificateFile in question.
+
+To do so, run something similar to the following:
+
+cat /path/to/custom/dhparam >> /path/to/sslcertfile
+
+--------------
+
+*Nginx*
+
+* *
+
+*Good cipher suite for Apple ATS bullshit and also for backwards
+compatibility*
+
+ssl\_prefer\_server\_ciphers on;
+
+ssl\_ciphers
+'EECDH+AESGCM:EDH+AESGCM:ECDHE-RSA-AES128-GCM-SHA256:AES256+EECDH:DHE-RSA-AES128-GCM-SHA256:AES256+EDH:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES128-SHA256:DHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES256-GCM-SHA384:AES128-GCM-SHA256:AES256-SHA256:AES128-SHA256:AES256-SHA:AES128-SHA:DES-CBC3-SHA:HIGH:!aNULL:!eNULL:!EXPORT:!DES:!MD5:!PSK:!RC4';
+
+*This worked for the Apple ATS shit for a guys site but will also work
+for helping out with PCI compliance*
+
+So the changes were all made in the nginx configuration file for
+certaslim which is "/etc/nginx/conf.d/domain.com.conf". In this file I
+changed the 'ssl\_ciphers' line from the following:
+
+* *
+
+*ssl\_ciphers         
+'EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH';*
+
+**to
+
+ssl\_ciphers
+'EECDH+AESGCM:EDH+AESGCM:ECDHE-RSA-AES128-GCM-SHA256:AES256+EECDH:DHE-RSA-AES128-GCM-SHA256:AES256+EDH:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES128-SHA256:DHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES256-GCM-SHA384:AES128-GCM-SHA256:AES256-SHA256:AES128-SHA256:AES256-SHA:AES128-SHA:DES-CBC3-SHA:HIGH:!aNULL:!eNULL:!EXPORT:!DES:!MD5:!PSK:!RC4';
+
+Whilst here I also updated the key used for the Diffie-Hellman key
+exchange that nginx relies on openssl for. By default nginx relies on
+openssl for input parameters for this exchange. Unfortunately openssl's
+defaults include a 1024-bit key for the key exchange. This becomes a
+problem when using a 2048-bit certificate which is the case with all
+modern certificates. This is fairly straightforward to update however by
+using the following command to generate a new more secure key whilst
+inside of /etc/ssl/certs:
+
+openssl dhparam -out dhparam.pem 4096
+
+After this is generated (takes a very long time), I then added the
+following line into the above config file
+(/etc/nginx/conf.d/certaslim.com.conf) to tell this to use this newly
+generated and stronger key:
+
+ssl\_dhparam /etc/ssl/certs/dhparam.pem;
+
+I also then added the following lines to the same config file:
+
+ssl\_prefer\_server\_ciphers on;**
+
+*ssl\_session\_cache shared:SSL:10m;*
+
+* *
+
+These two lines mean that when a browser/client is choosing a cipher
+during an SSLv3 or TLSv1 handshake the server's preference will be used
+instead of the browser/client's preference meaning a more secure
+connection.
+
+*POSTFIX (Ports 25, 465 and 587)*
+
+* *
+
+*In /etc/postfix/main.cf*
+
+smtpd\_tls\_protocols=!SSLv2,!SSLv3 smtp\_tls\_protocols=!SSLv2,!SSLv3
+
+smtpd\_tls\_mandatory\_protocols = !SSLv2, !SSLv3
+
+smtpd\_tls\_ciphers = high
+
+smtpd\_tls\_mandatory\_ciphers=high
+
+tls\_high\_cipherlist=EDH+CAMELLIA:EDH+aRSA:EECDH+aRSA+AESGCM:EECDH+aRSA+SHA384:EECDH+aRSA+SHA256:EECDH:+CAMELLIA256:+AES256:+CAMELLIA128:+AES128:+SSLv3:!aNULL:!eNULL:!LOW:!3DES:!MD5:!EXP:!PSK:!DSS:!RC4:!SEED:!ECDSA:CAMELLIA256-SHA:AES256-SHA:CAMELLIA128-SHA:AES128-SHA
+
+*Courier IMAP/POP3 (Ports 143/993 for IMAP and 110/995 for POP)*
+
+* *
+
+*In both /etc/courier-imap/imapd-ssl and /etc/courier-imap/pop3d-ssl*
+
+TLS\_PROTOCOL=TLS1
+
+TLS\_STARTTLS\_PROTOCOL=TLS1
+
+TLS\_CIPHER\_LIST="ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS"
+
+*Recently discovered that some scans look for cipher suites on port 143
+and 110 so this means you also need to add the above
+to* */etc/courier-imap/imapd and /etc/courier-imap/pop3d too.*
+
+* *
+
+* *
+
+--------------
+
+* *
+
+*/SSH/*
+
+* *
+
+*Disable 1024-bit key exchange for Diffie-Hellman (or stop fall back to
+this to make it use a stronger key)*
+
+Put this in /etc/ssh/ssh\_config:
+
+KexAlgorithms diffie-hellman-group-exchange-sha256
+
+or even:
+
+KexAlgorithms
+diffie-hellman-group-exchange-sha256,curve25519-sha256@libssh.org

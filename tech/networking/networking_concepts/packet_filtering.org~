@@ -1,0 +1,76 @@
+*Display IPTables*
+
+iptables -vnL
+
+*Use SAM's site to generate iptables code (iptabl.es)*
+
+curl iptabl.es/accept/79.77.20.95/8443
+
+*How to ADD/DELETE additional IP's to IPTables*
+
+iptables -I INPUT -p tcp -s 79.77.20.95 --dport 8443 -j ACCEPT
+
+iptables -I INPUT -s 37.220.91.13 -j DROP
+
+-I adds the line to the top of the table
+
+-A appends it to the end
+
+-D deletes the line instead of adding it
+
+-s is the source IP
+
+-j means that it jumps to the command specified afterwards i.e.
+ACCEPT/REJECT/DROP
+
+-p is the port type i.e. tcp
+
+INPUT/OUTPUT mean incoming or outgoing
+
+You can delete them based on what they're doing:
+
+#+BEGIN_EXAMPLE
+    iptables -D INPUT -s 127.0.0.1 -p tcp --dport 111 -j ACCEPT
+#+END_EXAMPLE
+
+--------------
+
+Or you can delete them based on their number and chain name:
+
+#+BEGIN_EXAMPLE
+    iptables -D INPUT 4
+#+END_EXAMPLE
+
+--------------
+
+*Save the additions to IPTables *
+
+service iptables save
+
+*FROM TERRENCE'S NOTES*
+
+As per our call, if you want to lock down your server to only a select
+number of IPs, then adding iptables rules on your server is probably the
+quickest way to sort this. Though we don't support iptables rules (there
+can be a lot that can go wrong, and people can lock themselves out of
+their own server), here are a few tips to get you sorted;
+
+[[http://www.cyberciti.biz/tips/linux-iptables-examples.html][**
+http://www.cyberciti.biz/tips/linux-iptables-examples.html**]]
+
+The above guide would help you massively, but make sure you have a good
+read through it first before diving in. Here is an example to allow
+access to a specific port for a specific IP
+
+iptables -I INPUT -p tcp --dport theportnumber -s ip.ip.ip.ip -j ACCEPT
+
+You would need to add all the IPs you need FIRST (including ours >
+80.244.179.100). Once happy with this, you would block everyone else.
+
+iptables -A INPUT -p tcp --dport theportnumber -j DROP
+
+'I' inserts at the top of the 'iptables -vnL' list, while 'A' appends.
+This is useful to remember, as any 'Appended' rules will only take
+effect AFTER rules before it (ie. top of the list gets first say on
+what's happening). Following this formula, you should be able to
+restrict server access on specific ports.

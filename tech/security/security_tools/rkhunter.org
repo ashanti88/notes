@@ -1,0 +1,37 @@
+> rkhunter --check
+
+check the system for rootkits
+
+> rkhunter --update
+
+check for a later version of data files
+
+> rkhunter --versioncheck
+
+checks the installed version against the current
+
+> rkhunter --propupd
+
+sets current values as known-good values
+
+> rkhunter -c --enable all --disable none
+
+this will run one section of tests at a time for you to check then
+continue. A more thourgh examination of the warnings can be done by
+viewing the log files in /var/log/rkhunter.log
+
+> rkhunter -c --enable all --disable none --rwo
+
+this will only output the warnings
+
+*Edit /etc/rkhunter.conf*
+
+whitelist known script files
+
+SCRIPTWHITELIST="/usr/sbin/app\_to\_wlist"
+
+*Check the Configuration*
+
+> rkhunter -C
+
+check configuration

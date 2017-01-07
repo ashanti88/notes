@@ -1,0 +1,10 @@
+
+
+** dnstracer
+
+This tool determines where a given DNS server  gets its information from for a given hostname, and follows the chain of DNS servers back to the authoritative answer.
+
+Use
+> dnstracer -r 3 -v <domain.com>
+retry 3 times in verbose mode
+

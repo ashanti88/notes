@@ -1,0 +1,343 @@
+Prior Put through auto installer to centos 7 Add downtime in thruk,
+disable monitoring and also comment out cron so it doesnt spam the queue
+
+PHP 5.6 Add repository for IUS wget
+https://centos7.iuscommunity.org/ius-release.rpm yum install
+yum-plugin-replace yum replace php --replace-with php56u
+
+MariaDB 10.0 Add in MariaDB10.repo to upgrade to MariaDB10 if required
+vi /etc/yum.repos.d/MariaDB10.repo # MariaDB 10.0 CentOS repository list
+-- created 2014-10-13 13:04 UTC #
+http://mariadb.org/mariadb/repositories/ [mariadb] name = MariaDB
+baseurl = http://yum.mariadb.org/10.0/centos7-amd64
+gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB gpgcheck=1
+
+systemctl stop mariadb systemctl start mariadb yum remove mariadb-server
+mariadb mariadb-libs yum clean all yum install MariaDB-server
+MariaDB-client systemctl start mysql systemctl enable mysql
+mysql\_upgrade mysql
+
+Sort out partitions umount /ukfast/ rm -rf /ukfast/ vi /etc/fstab
+#remove the ukfast line lvremove /dev/VolGroup00/ukfast vgs #check that
+the VGs on both servers have exact same space free lvextend -L 40G
+/dev/VolGroup00/root resize2fs /dev/VolGroup00/root vgs #check that the
+VGs on both servers have exact same space free lvcreate -n web -l
++50%FREE VolGroup00 lvcreate -n mysql -l +100%FREE VolGroup00 lvs #check
+that all LVs are identical on each server
+
+Set hostnames vi /etc/hostname #node01 ABC-WEBDB-01 vi /etc/hostname
+#node02 ABC-WEBDB-02
+
+Passwordless SSH ssh-keygen -t rsa -b 4096 -C $(hostname) cat
+~/.ssh/id\_rsa.pub | ssh root@othernodeshostname -p 2020 "mkdir -p
+~/.ssh && cat >> ~/.ssh/authorized\_keys"
+
+My resolv.conf got wiped after this, think because of NetworkManager so:
+systemctl stop NetworkManager systemctl disable NetworkManager yum
+remove NetworkManager vi /etc/resolv.conf nameserver 81.201.138.244
+nameserver 80.244.179.244 nameserver 94.229.163.244 options rotate
+options timeout:1
+
+Unison
+
+CentOS 7 doesn't have unison so a dirty workaround is to install the
+CentOS 6 version:
+
+Install from CentOS6 repo yum install
+https://dl.fedoraproject.org/pub/epel/6/x86\_64/unison227-2.27.57-13.el6.x86\_64.rpm
+unison n
+
+Create unison configuration vi ./.unison/default.prf root = / root =
+ssh://othernodehostname//
+
+path = var/spool/cron/ path = etc/passwd path = etc/shadow path =
+etc/group path = etc/my.cnf path = root/.my.cnf path = etc/motd path =
+etc/httpd/conf.d/ path = etc/httpd/conf/httpd.conf path = etc/php.ini
+path = etc/php.d/
+
+path = etc/drbd.conf path = etc/cluster/cluster.conf
+
+ignore = Name access.log/ ignore = Name error.log/ ignore = Name
+access\_log/ ignore = Name error\_log/ ignore = Name error\_log ignore =
+Name access\_log ignore = Name aquota.user ignore = Name aquota.group
+
+Create unison script vi /usr/bin/file\_sync.sh #!/bin/bash
+
+* improved file sync, cleans up properly after itself. Written by
+Matthew Ife
+  :PROPERTIES:
+  :CUSTOM_ID: improved-file-sync-cleans-up-properly-after-itself.-written-by-matthew-ife
+  :END:
+
+* support@ukfast.co.uk
+  :PROPERTIES:
+  :CUSTOM_ID: supportukfast.co.uk
+  :END:
+
+SISTER=ABC-WEBDB-01
+
+[ -f /var/run/file\_sync.pid ] && exit 1;
+
+trap "{ rm /var/run/file\_sync.pid; exit; }" EXIT;
+
+trap "{ echo 'Bailing out!' 1>&2 ssh -T -p2020 root@$SISTER <<<'killall
+unison; exit' &>/dev/null }" KILL ABRT INT TERM HUP SEGV
+
+touch /var/run/file\_sync.pid /usr/bin/unison -sshargs "-p 2020" -batch
+-terse -silent -owner -group -numericids -prefer /
+
+Remove -prefer on node02
+
+Add to crontab so that it runs every minute crontab -e * * * * *
+/usr/bin/file\_sync.sh
+
+Add permissions to the script and then test it's working chmod a+x
+/usr/bin/file\_sync.sh touch /etc/php.d/test on 01 rm /etc/php.d/test on
+02
+
+MOTD
+
+vi /etc/motd #use http://www.bagill.com/ascii-sig.php CentOS7 Cluster
+Apache/NGINX - MySQL/MariaDB/Percona !! init.d and service start up
+scripts are not used on this server !! PCS should be used for service
+management
+
+IPMItool
+
+Install OpenIPMI yum -y install OpenIPMI OpenIPMI-tools systemctl start
+ipmi systemctl enable ipmi
+
+wget -qO - http://linux.dell.com/repo/hardware/latest/bootstrap.cgi |
+bash yum install -y srvadmin-all
+/opt/dell/srvadmin/sbin/srvadmin-services.sh start
+/opt/dell/srvadmin/sbin/srvadmin-services.sh enable
+
+Configure IPMI ipmitool user set password 6 <ENTER PASSWORD>
+
+ipmitool user set name 6 abcipmi ipmitool user enable 6 ipmitool lan set
+1 ipsrc static ipmitool lan set 1 ipaddr <internal vip of node> ipmitool
+lan set 1 netmask 255.255.255.128 ipmitool lan set 1 defgw ipaddr
+<gateway>
+
+Configure SSH tunnel from first putty session using source port, 1311
+and destination, localhost:1311 In IE, browse to https://localhost:1311
+and log in with the root credentials of the server Expand Main System
+Chassis and go to Remote Access Click on Users (at the top) Click on the
+User ID of the user you have just set up Tick Enable User Set Maximum
+LAN User Privilege granted to Administrator Set Maximum Serial Port User
+Privilege granted to Administrator Tick Enable Serial Over LAN Set User
+Group to Administrator Click Apply Log out, remove the SSH tunnel and
+then do the same process for the other server
+
+ipmitool -H <other nodes vip> -U username -P password -I lanplus chassis
+power status
+
+Should output 'Chassis Power is on'
+
+DRBD
+
+Install DRBD rpm --import http://elrepo.org/RPM-GPG-KEY-elrepo.org rpm
+-Uvh http://elrepo.org/elrepo-release-6-6.el6.elrepo.noarch.rpm yum -y
+install kmod-drbd84 drbd84-utils
+
+Configure NIC vi /etc/sysconfig/network-scripts/ifcfg-<crossover/10GB
+NIC> Add in 0.1 to node 01 and 0.2 to node 02: ONBOOT=yes
+IPADDR=10.0.0.1 NETMASK=255.255.255.128 BOOTPROTO=static
+
+Add DRBD configuration. Change hostnames to reflect real hostnames.
+Below config is if it's using 10GB NIC, use ethtool to find out if it
+is. vi /etc/drbd.conf ﻿global { usage-count no; }
+
+resource web { net { after-sb-0pri discard-zero-changes; after-sb-1pri
+discard-secondary; after-sb-2pri call-pri-lost-after-sb; protocol C;
+allow-two-primaries no; sndbuf-size 0; unplug-watermark 64000;
+max-buffers 64000; max-epoch-size 20000; } startup { wfc-timeout 60; #
+Wait for connection timeout degr-wfc-timeout 60;# Wait for connection
+timeout, if this node was a degraded cluster } disk { on-io-error
+detach; resync-rate 1500M; al-extents 6433; } # or panic, ...
+
+syncer { al-extents 6433; c-plan-ahead 100; c-max-rate 1500M; c-min-rate
+0; c-fill-target 0; rate 1500M; }
+
+on ABC-WEBDB-01 { address 10.0.0.1:7788; device /dev/drbd0; disk
+/dev/VolGroup00/web; meta-disk internal; } on ABC-WEBDB-02 { address
+10.0.0.2:7788; device /dev/drbd0; disk /dev/VolGroup00/web; meta-disk
+internal; } }
+
+resource mysql { net { after-sb-0pri discard-zero-changes; after-sb-1pri
+discard-secondary; after-sb-2pri call-pri-lost-after-sb; protocol C;
+allow-two-primaries no; sndbuf-size 0; unplug-watermark 64000;
+max-buffers 64000; max-epoch-size 20000; } startup { wfc-timeout 60; #
+Wait for connection timeout degr-wfc-timeout 60;# Wait for connection
+timeout, if this node was a degraded cluster } disk { on-io-error
+detach; resync-rate 1500M; al-extents 6433; } # or panic, ...
+
+syncer { al-extents 6433; c-plan-ahead 100; c-max-rate 1500M; c-min-rate
+0; c-fill-target 0; rate 1500M; }
+
+on ABC-WEBDB-01 { address 10.0.0.1:7789; device /dev/drbd1; disk
+/dev/VolGroup00/mysql; meta-disk internal; } on ABC-WEBDB-02 { address
+10.0.0.2:7789; device /dev/drbd1; disk /dev/VolGroup00/mysql; meta-disk
+internal; } } ﻿ modprobe drbd lsmod | grep drbd drbdadm create-md web
+drbdadm create-md mysql service drbd start chkconfig drbd on
+
+On node 01 only drbdadm -- --overwrite-data-of-peer primary all
+
+Monitor the progress of this using the below command. This is finished
+when both resources show UpToDate/UpToDate. cat /proc/drbd
+
+Pacemaker
+
+Install pacemaker yum install pcs yum install fence-agents-all
+
+Generate a password for hacluster passwd hacluster
+
+Start Pacemaker services and create cluster from node 01 systemctl start
+pcsd.service systemctl enable pcsd.service pcs cluster auth ABC-WEBDB-01
+-u hacluster -p<PASSWORD> pcs cluster auth ABC-WEBDB-02 -u hacluster
+-p<PASSWORD> pcs cluster setup --name ABC-CLU-GRP ABC-WEBDB-01
+ABC-WEBDB-02 pcs cluster start --all pcs cluster enable --all pcs
+property set no-quorum-policy=ignore pcs status
+
+Fencing pcs stonith create ABC-WEBDB-01-FENCE fence\_idrac ipaddr=<node1
+IP> passwd=<node1 drac password> lanplus=1 login=<node1 drac username>
+action=reboot power\_wait=10 delay=5 pcmk\_host\_check=static-list
+pcmk\_host\_list=ABC-WEBDB-01 pcs stonith create ABC-WEBDB-02-FENCE
+fence\_idrac ipaddr=<node2 IP> passwd=<node1 drac password> lanplus=1
+login=<node1 drac username> action=reboot power\_wait=10 delay=5
+pcmk\_host\_check=static-list pcmk\_host\_list=ABC-WEBDB-02 pcs
+constraint location ABC-WEBDB-01-FENCE prefers ABC-WEBDB-02=INFINITY pcs
+constraint location ABC-WEBDB-02-FENCE prefers ABC-WEBDB-01=INFINITY
+
+Apache Resource pcs resource create r\_web\_drbd ocf:linbit:drbd
+drbd\_resource=web op monitor interval=60s pcs resource master
+ms\_web\_drbd r\_web\_drbd master-max=1 master-node-max=1 clone-max=2
+clone-node-max=1 notify=true pcs resource create r\_web\_fs Filesystem
+device="/dev/drbd0" directory="/var/www/vhosts" fstype="ext3" --group
+g\_web pcs constraint colocation add g\_web ms\_web\_drbd INFINITY
+with-rsc-role=Master pcs constraint order promote ms\_web\_drbd then
+start g\_web pcs resource create r\_web ocf:heartbeat:apache
+configfile="/etc/httpd/conf/httpd.conf" op monitor interval="30s"
+timeout="10s" op start timeout="120s" op stop timeout="120s" --group
+g\_web pcs resource create r\_web\_ip ocf:heartbeat:IPaddr2 ip="<web
+vip>" cidr\_netmask="24" nic="<2nd nic>" op monitor interval="10s"
+timeout="20s" --group g\_web pcs constraint order r\_web\_fs then r\_web
+pcs constraint order r\_web\_ip then r\_web pcs status
+
+MySQL Resource pcs resource create r\_mysql\_drbd ocf:linbit:drbd
+drbd\_resource=mysql op monitor interval=60s pcs resource master
+ms\_mysql\_drbd r\_mysql\_drbd master-max=1 master-node-max=1
+clone-max=2 clone-node-max=1 notify=true pcs resource create
+r\_mysql\_fs Filesystem device="/dev/drbd1" directory="/var/lib/mysql"
+fstype="ext3" --group g\_mysql pcs constraint colocation add g\_mysql
+ms\_mysql\_drbd INFINITY with-rsc-role=Master pcs constraint order
+promote ms\_mysql\_drbd then start g\_mysql pcs resource create r\_mysql
+ocf:heartbeat:mysql config="/etc/my.cnf" datadir="/var/lib/mysql"
+pid="/var/run/mariadb/mariadb.pid" socket="/var/lib/mysql/mysql.sock"
+log="/var/log/mariadb/mariadb.log" op monitor interval="30s"
+timeout="10s" op start timeout="120s" op stop timeout="120s" --group
+g\_mysql pcs resource create r\_mysql\_ip ocf:heartbeat:IPaddr2
+ip="<mysql vip>" cidr\_netmask="24" nic="<2nd nic>" op monitor
+interval="10s" timeout="20s" --group g\_mysql pcs resource create
+r\_mysql\_intip ocf:heartbeat:IPaddr2 ip="10.0.0.3" cidr\_netmask="25"
+nic="<10GB nic>" op monitor interval="10s" timeout="20s" --group
+g\_mysql pcs constraint order r\_mysql\_fs then r\_mysql pcs constraint
+order r\_mysql\_ip then r\_mysql pcs constraint order r\_mysql\_intip
+then r\_mysql pcs status
+
+Access to the GUI for Pacemaker iptables -t nat -A PREROUTING -i em1 -s
+80.244.179.100 -d 172.25.110.161 -p tcp --dport 443 -j REDIRECT
+--to-port 2224 service iptables save systemctl enable iptables
+
+Test fencing works ifdown
+
+echo 1 > /proc/sys/kernel/sysrq echo b > /proc/sysrq-trigger
+
+Monitoring for DRBD and PCS
+
+vim /usr/local/bin/crm\_mon.sh #!/bin/bash
+Check\_Cmd1=$(/usr/sbin/crm\_mon -1 | /bin/grep -i
+'failed|disabled|stopped|offline')
+
+if [[ $Check\_Cmd1 != "" ]]; then echo -e "Cluster needs checking
+\n\n Reported Status:\n\n $Check\_Cmd1 \n\nReported Hostname:
+$(hostname) \n" | mail -s "$(hostname) Red Hat Cluster Error"
+alerts-cluster@ukfast.co.uk fi
+
+vim /usr/local/bin/drbd\_mon.sh #!/bin/bash
+####################################################### ##A simple
+script to check RedHat Clustering is working ##Created: Sean Redmond
+19\_09\_2012 ##Modified: Andy Holt 11\_09\_2014
+#######################################################
+
+** Define Constants
+   :PROPERTIES:
+   :CUSTOM_ID: define-constants
+   :END:
+
+Check\_String=''; #The string to check for
+Check\_Cmd1==/usr/sbin/clustat | /bin/grep -i 'failed\|disabled\|stopped\|offline'=;
+#The check command; Hostname==/bin/hostname=
+Notify\_Cluster\_Email='alerts-cluster@ukfast.co.uk'
+Email\_Subject='IDXXXXX Red Hat Cluster Error' #Email Subject
+
+* Lets do the real checks
+  :PROPERTIES:
+  :CUSTOM_ID: lets-do-the-real-checks
+  :END:
+
+if [[ "$Check_Cmd1" == "$Check\_String" ]]; then sleep 1 else echo -e
+"Cluster needs checking \n\nReported Status:\n\n $Check\_Cmd1
+\n\nReported Hostname: $Hostname \n" | mail -s "$Email\_Subject"
+$Notify\_Cluster\_Email fi
+
+* Cover case where rgmanager is not running on one or more nodes:
+  :PROPERTIES:
+  :CUSTOM_ID: cover-case-where-rgmanager-is-not-running-on-one-or-more-nodes
+  :END:
+
+Check\_Cmd2=$(/usr/sbin/clustat | /bin/grep -c 'rgmanager') if [[ "$Check\_Cmd2"
+-lt 2 ]]; then echo -e "Cluster needs checking \n\nIs rgmanager down?
+\n\nReported Hostname: $Hostname \n" | mail -s "$Email\_Subject"
+$Notify\_Cluster\_Email fi
+
+chmod u+x /usr/local/bin/crm\_mon.sh chmod u+x
+/usr/local/bin/drbd\_mon.sh
+
+crontab -e * * * * * /usr/local/bin/crm\_mon.sh * * * * *
+/usr/local/bin/drbd\_mon.sh
+
+Check for CPU scaling for CPUFREQ in
+/sys/devices/system/cpu/cpu*/cpufreq/scaling\_governor; do [ -f $CPUFREQ
+] || continue; cat $CPUFREQ; done
+
+If it doesn't return performance then create the below script vi
+/etc/init.d/ondemand #! /bin/bash # # ondemand sets cpu govermor # #
+chkconfig: 2345 10 90 # # description: Set the CPU Frequency Scaling
+governor to "performance" # ### BEGIN INIT INFO # Provides: $ondemand
+### END INIT INFO
+
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
+
+case "$1" in start) for CPUFREQ in
+/sys/devices/system/cpu/cpu//cpufreq/scaling\_governor do [ -f $CPUFREQ
+] || continue echo -n performance > $CPUFREQ done ;;
+restart|reload|force-reload) echo "Error: argument '$1' not supported"
+>&2 exit 3 ;; stop) ;; /) echo "Usage: $0 start|stop" >&2 exit 3 ;; esac
+
+chmod +x /etc/init.d/ondemand /etc/init.d/ondemand start chkconfig
+/etc/init.d/ondemand on
+
+MySQL
+
+Login to Mysql and add in the users for each node mysql create user
+'root'@'primary internal ip of node 1' identified by 'mysql root
+password'; create user 'root'@'primary internal ip of node 2' identified
+by 'mysql root password'; grant all privileges on /./ to 'root'@'primary
+internal ip of node 1'; grant all privileges on /./ to 'root'@'primary
+internal ip of node 2'; flush privileges;
+
+Edit .my.cnf vi my.cnf user=root password=<mysql password> host=mysqlvip
+
+You should be able to login to MySQL from either node regardless of
+which node is hosting the service

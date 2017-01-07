@@ -1,0 +1,57 @@
+*Basic usage*
+
+> od <options> <file>
+
+Display contents of file in octal format
+
+> od -b <file>
+
+Display contents of file in character format
+
+> od -c <file>
+
+Display the byte offsets in different formats
+
+Ax - hexadecimal
+
+Ao - octal
+
+Ad - decimal
+
+> od -Ax -c <file>
+
+Display no offset information
+
+> od -An -c <file>
+
+Display output after skipping some bytes
+
+> od -j <bytes\_to\_jump> -c <file>
+
+Display limited bytes in output
+
+> od -N<bytes\_to\_show> -c <file>
+
+Display output as decimal integers
+
+> od -i <file>
+
+Display output as hexadecimal 2 byte units
+
+> od -x <file>
+
+Display the contents as two byte octal units
+
+> od -o <file>
+
+Customize the output width
+
+> od -w1 -c <file>
+
+Accept input from the cmd line
+
+> od -c -
+
+Display hidden characters
+
+> od 

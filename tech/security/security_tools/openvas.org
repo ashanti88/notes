@@ -1,0 +1,26 @@
+
+
+** Openvas
+
+*** Setup First Time
+1. > openvas-mkcert
+2. > openvas-mkcert-client -n om -i
+3. > openvas-nvt-sync
+4. > systemctl stop openvas-manager.service
+5. > systemctl stop openvas-scanner.service
+6. > openvassd
+7. > openvasmd -rebuild
+8. > openvas-scapdata-sync
+9. > openvas-certdata-sync
+
+*** Redis - unix socket
+port 0
+unixsocket /tmp/redis.sock
+unixsocketperm 700
+
+redis needs to be started with > redis /etc/redis/redis.conf
+
+*** Starting to scan
+1. > openvasmd -p 9390 -a 127.0.0.1
+2. > openvasmd -a 127.0.0.1 -p 9393
+3. > gsad --http-only --listen=127.0.0.1 -p 9392

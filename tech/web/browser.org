@@ -1,0 +1,36 @@
+
+
+
+* Articles
+** How Browsers Work: Behind the scenes of modern web browsers - Tali Garsiel and Paul Irish
+[[https://www.html5rocks.com/en/tutorials/internals/howbrowserswork/][URL]]
+
+*** Introduction
++ High Level Structure
+  - UI - address bar, back and forward buttons, bookmarking menu etc
+  - Browser Engine - controls how requests are rendered
+  - Rendering Engine - responsible for displaying requesting content
+  - Networking - 
+  - UI backend - used for drawing basic widgets like combo boxes
+  - JavaScript Interpreter - used to parse and execute js
+  - Data storage - persistent layer, for storing data locally, such as cookies 
+    
++ Rendering Engine
+  - Engines
+    - IE - Trident
+    - Firefox - Gekco
+    - Safari - WebKit
+    - Chrome/Opera - Blink, fork of WebKit
+
++ Basic Flow
+
+1. Parsing Html to construct the DOM tree
+2. Render tree construction
+3. Layout of the render tree
+4. Painting the render tree
+
+* Browsers
+** Chrome
+** Chromium
+** Opera
+** Firefox

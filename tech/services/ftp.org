@@ -1,0 +1,66 @@
+
+
+
+* ftp									:ftp:
+* Usage
+** Adding FTP user
+> useradd -d /path/to -s /sbin/nologin <new_ftp_user>
+** Adding SSH/SFTP user
+> useradd -d /home/www -s /bin/bash fgray
+
+** Change Password for user (also used when setting up user first time)
+> passwd <ftp_user>
+
+** Changing users start directory
+usermod -d /newdir/location whateverusername
+
+
+*New FileZilla bullshit default over TLS thing*
+
+* Monitoring							   :ftp:anal:
+** Checking for FTP Brute force in the logs*
+grep 'Jun  6' /var/log/secure | awk '{print $7}' | sort | uniq -c | sort
+-gr | head -10
+
+grep 'Failed' /var/log/secure | awk '{print $13}' | sort | uniq -c |
+sort -gr | head -10 | awk '{ printf("%5d\t%-15s\t", $1, $2);
+system("geoiplookup " $2 " | head -1 | cut -d \: -f2 ") }'
+
+grep 'Failed' /var/log/secure | awk '{print $11}' | sort | uniq -c |
+sort -gr | head -10 | awk '{ printf("%5d\t%-15s\t", $1, $2);
+system("geoiplookup " $2 " | head -1 | cut -d \: -f2 ") }'
+
+grep 'no such user found' /var/log/secure | awk '{print $13}' | sort |
+uniq -c | sort -gr | head -10
+
+grep 'no such user found' /var/log/secure | awk '{print $16}' | sort |
+uniq -c | sort -gr | head -10 | awk '{ printf("%5d\t%-15s\t", $1, $2);
+system("geoiplookup " $2 " | head -1 | cut -d \: -f2 ") }'
+
+grep 'Authentication failed for user' /var/log/messages* | awk '{print
+$6}' | cut -d '@' -f2 | cut -d ')' -f1 | sort | uniq -c | sort -gr |
+head -10 | awk '{ printf("%5d\t%-15s\t", $1, $2); system("geoiplookup "
+$2 " | head -1 | cut -d \: -f2 ") }'
+
+grep 'Failed password for' /var/log/secure | awk '{print $11}' | cut -d
+'@' -f2 | cut -d ')' -f1 | sort | uniq -c | sort -gr | head -10 | awk '{
+printf("%5d\t%-15s\t", $1, $2); system("geoiplookup " $2 " | head -1 |
+cut -d \: -f2 ") }'
+
+* Pure-ftpd
+URL: [[https://www.pureftpd.org/project/pure-ftpd][Home Page]]
+* vsftpd
+URL: [[https://security.appspot.com/vsftpd.html][Home Page]]
+* Cpanel							 :ftp:cpanel:
+** Config
+1) Go into /etc/pure-ftpd.conf and uncomment the following line, also restrict the port range:
+
+PassivePortRange 40000 40500
+30000 50000
+
+2) Restart the FTP service with the following
+/scripts/restartsrv\_ftpd
+
+3) Then open this port range on the firewall and bobs your uncle.
+
+* Plesk								  :ftp:plesk:

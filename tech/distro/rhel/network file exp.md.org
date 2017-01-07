@@ -1,0 +1,36 @@
+*https://access.redhat.com/documentation/en-US/Red\_Hat\_Enterprise\_Linux/6/html/Deployment\_Guide/ch-Network\_Interfaces.html
+*
+
+* *
+
+*/etc/sysconfig/network-scripts/Ifcfg-eth1*
+
+* *
+
+DEVICE=eth1 HWADDR=18:03:73:f8:9d:85 ONBOOT=yes IPV6INIT=yes
+IPV6\_AUTOCONF=yes
+
+*/etc/hosts*
+
+* Do not remove the following line, or various programs
+  :PROPERTIES:
+  :CUSTOM_ID: do-not-remove-the-following-line-or-various-programs
+  :END:
+
+* that require network functionality will fail.
+  :PROPERTIES:
+  :CUSTOM_ID: that-require-network-functionality-will-fail.
+  :END:
+
+127.0.0.1 localhost.localdomain localhost ::1 localhost6.localdomain6
+localhost6 127.0.0.1 localhost 81.201.132.44.srvlist.ukfast.net
+81.201.132.44 webdb1 81.201.132.25 webdb2
+
+*When updating the hostname of a server with...*
+
+hostname yournew.hostname.com
+
+be sure to also edit /etc/sysconfig/network so that this persists after
+a reboot.
+
+HOSTNAME=yournew.hostname.com

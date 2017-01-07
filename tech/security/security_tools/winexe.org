@@ -1,0 +1,5 @@
+
+
+** winexe
+
+this tool allows cmds to be remotely executed on windows NT/2000/XP/2003 systems from a *nix box.

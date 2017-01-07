@@ -1,0 +1,28 @@
+
+
+
+
+* Description							     :sec:av:
+
+
+* Usage
+
+> clamscan <file>
+
++ Scan a directory
+> clamscan -r <directory>
+
++ Print only the infected files
+> clamscan -r -i <directory>
+
++ Print the infected filenames to a file
+> clamscan -r <directory> | grep FOUND >> report.txt
+
++ Updating clamav
+> freshclam
+
+-  There is a gui for clamav called ClamTK
+
+*links:*
+
+[https://www.unixmen.com/installing-scanning-clamav-ubuntu-14-04-linux/]

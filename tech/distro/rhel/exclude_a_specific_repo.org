@@ -1,0 +1,23 @@
+*Get repo list*
+
+> yum repolist
+
+*Method One (Temp)*
+
+On the cmd line 
+
+> yum disablerepo=<repo\_name> update
+
+This will not upgrade the packages that belong to the given repo.
+
+*Method Two (Perm)*
+
+Edit the repo files in /etc/yum.repos.d
+
+set the enable parameter to 0.
+
+*Enable a repo for update*
+
+If the repo is disabled it can be enabled on the cmd line with
+
+> yum enablerepo=<repo\_name> update

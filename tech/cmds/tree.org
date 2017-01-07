@@ -1,0 +1,17 @@
+
+
+
+* Description							   :sys:anal:
+This command will list directory and subdirectories in a tree structure.
+
+* Usage
+
+> tree <option>
+
+*Options*
+
+a - list all files and directories
+
+d - list only the directories
+
+f - prints files with full path prefix

@@ -1,0 +1,18 @@
+
+
+ths tool allows for a whole site to be downloaded and reviewed offline.
+
+
+Usage
+> httrack <domain.com> -O <output_directory>
+
+examples
+> httrack --continue
+continues a mirror in the current directory
+
+> httrack --update
+updates a mirror in the current directory
+
+> httrack
+this will take you into an interactive session
+

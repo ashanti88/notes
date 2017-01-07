@@ -1,0 +1,11 @@
+*Using Tail*
+
+> tail <option> <file>
+
+print a number of lines
+
+> tail -n <N> <file>
+
+follow a file with tail
+
+> tail -f <file>

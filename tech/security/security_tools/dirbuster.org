@@ -1,0 +1,6 @@
+
+
+This tool will use a wordlist to determine the available subdomains of a url.
+
+> dirbuster
+This will produce a gui where the url and wordlist can be added.

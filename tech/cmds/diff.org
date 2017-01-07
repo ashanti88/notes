@@ -1,0 +1,24 @@
+
+
+
+* diff								       :file:
+
+* Description
+This tool is used to compare files line by line.
+
+* Usage
+> diff <options> file_one file_two
+
+** Options
+i - ignore case
+s - this will identify if files are identical, default is to not print anything if files are the same 
+b - ignore spaces
+
+** Output explained
+1d0 - first line of the old file should be deleted to sync files 
+2a2 - second line of the new file should be added after the second line of the old file
+4,5c4 - old files lines 4 and 5 should be replaced with new file line 4 
+< - this will indicate what is to be deleted
+> - this will indicate what is to be added
+
+

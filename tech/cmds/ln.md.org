@@ -1,0 +1,24 @@
+
+
+
+* ln
+* Description							   :sys:file:
+
+linux uses two types of links soft and hard.
+
+Soft being a reference to another file path.
+
+Hard being a reference to another file inode.
+
+* Usage
++ Creating a hard link
+
+> ln <file\_path\_orig> <file\_path\_link>
+
++ Creating a soft link
+
+> ln -s <file\_path\_orig> <file\_path\_links>
+
++ Links over different partitions
+
+Only symbolic links can be created across partitions

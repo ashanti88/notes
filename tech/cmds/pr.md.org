@@ -1,0 +1,5 @@
+convert file for printing
+
+*Basic syntax*
+
+> pr <options> <file>

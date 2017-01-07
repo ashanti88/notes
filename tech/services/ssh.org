@@ -1,0 +1,13 @@
+
+
+
+* sshd
+* Usage
+** Changing SSH port
+
+vi /etc/ssh/sshd\_config
+
+change port to 22 (or any other number) or add another line to add
+another port
+
+service sshd reload

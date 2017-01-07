@@ -1,0 +1,7 @@
+*Setting DNS server*
+
+* *
+
+nameserver x.x.x.x
+
+any number of dns servers can be added

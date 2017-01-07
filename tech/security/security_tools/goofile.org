@@ -1,0 +1,9 @@
+
+
+This will search a domain for a given file type.
+
+Usage
+> goofile -d <domain> -f <filetype>
+
+
+*not working on current kali

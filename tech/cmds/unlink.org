@@ -1,0 +1,10 @@
+
+
+
+* Description							     :sys:op:
+This cmd is used to decouple to files.
+
+It will create two seperate files, that will no longet share the same i-node.
+
+
+* Usage

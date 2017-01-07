@@ -1,0 +1,92 @@
+
+
+* awk
+
+* Descripton								:txt:
+Aho, Weinberger and Kernighan
+
+Awk is mostly used for pattern scanning and processing. It searches
+files to see if they contain lines that matches with the specified
+patterns and then perform associated actions.
+
+Key features:
+
+- Awk views a text file as records and fields
+
+- it has variables, conditionals and loops
+
+- arithmetic and string operators
+
+- it can generate formatted reports
+
+* Usage
+
+> awk '<pattern>' {<action>} file
+
++ Awk working methodology
+
+1) awk reads the input files one line at a time
+
+2) for each line, it matches with given pattern in the given order, if
+   matches perform the corresponding action.
+
+3) if no pattern matches, no action will be performed.
+
+4) in the above syntax either search pattern or action are optional, but
+   not both.
+
+5) if the search pattern is not given then awk performs the given action
+   on every line.
+
+6) if the action is not given, print all the lines that match with the
+   given pattern.
+
+7) empty braces without any action does nothing. 
+
+8) each statement in actions should be delimited with a semicolon.
+
++ Print every line
+
+> awk '{print;}' <file>
+
++ Print lines that match a pattern
+
+> awk '/<pattern>/' <file>
+
++ Print only specific fields
+
+> awk '{print $x $y;}' <file>
+
+this will only print field x and filed y. counting with awk starts with
+1 not 0.
+
++ Initialisation and final action
+
+These are specified with the keywords BEGIN and END
+
+syntax:
+
+BEGIN { Actions }
+
+{ ACTION } # Action for every line in a file
+
+END { Actons }
+
++ comments in awk
+  :PROPERTIES:
+  :CUSTOM_ID: comments-in-awk
+  :END:
+
+BEGIN - this action will be performed before awk starts to read the
+file.
+
+END - this action will be performed after awk has finished reading the
+file.
+
++ Print how many lines are in a file
+
+> awk 'BEGIN { count = 0; }
+
+{ print; } { count++; }
+
+END { print count; }'

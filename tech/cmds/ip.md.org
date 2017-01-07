@@ -1,0 +1,65 @@
+
+
+* ip									:net:
+* Description
+
+this tool is used for manipulating network interfaces and generating network information. It can be seen as a replacement for net-tools.
+
+* Usage
++ List all the interfaces
+> ip a
+
++ Only view ip4 information*
+> ip -4 a
+
++ Only view ip6 information*
+> ip -6 a
+
++ View an specific interface details*
+> ip a show <interface>
+
++ Only show the up interfaces*
+> ip link ls up
+
++ Modifying an interface
++ Assigning an ip address to interface
+> ip a add <ipaddress>/<netmask> dev <interface>
+
+or
+
+> ip a add <ipaddress>/<slash\_num> dev <interface>
+
++ Removing an ip address from an interface
+> ip a del <ip\_address>/<netmask> dev <interface>
+
++ Flush all ip addresses from all interfaces
+> ip -S -s a f to <ipaddress\_range>/<netmask>
+
++ Bringing interfaces up/down
+
+> ip link set <interface> down
+> ip link set <interface> up
+
++ Viewing Routing Information
+
++ Adding a default gateway
+> ip route add default 
+
++ Viewing Routes
+> ip route show
+
+** Arp Table
+
++ Viewing Arp  Table
+> ip neigh show
+
++ Deleting an entry
+> ip neigh delete <ip\addr> dev <intx>
+
+The deleted machine will now show as FAILED and need an arp request to
+be set to establish connection.
+
+** Routing Tables
+
++ Show rules
+> ip rule list

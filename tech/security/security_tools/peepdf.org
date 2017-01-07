@@ -1,0 +1,12 @@
+
+
+** Peepdf
+
+This tool analyzes files for their potential to be harmful.
+
+
+Use
+> peepdf <options> <file>
+
+Options
+-x - shows the document information in xml format

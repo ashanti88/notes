@@ -1,0 +1,24 @@
+
+
+
+* Description
+
+
+
+* Usage
+
+> wc file.txt
+
+This will produce the number of lines, number of words and number of bytes.
+
++ Print only the word count
+> wc -w file.txt
+
++ Display the length of the longest file
+> wc -L file.txt
+
++ Dispaly the number of new lines in the file
+> wc -l file.txt
+
++ Display the number of bytes in a file
+> wc -c file.txt

@@ -1,0 +1,92 @@
+
+* Lecture
+** An Introduction to SQLite - Richard Hipp
+[[https://www.youtube.com/watch?v%3Df428dSRkTs4&index%3D88&list%3DWL][URL]]
++ What is SQLite
+  - an embedded SQL database engine
+  - serverless
+  - small databases
+  - entire database is a single disk file
+  - small footprint - 230KB
+  - cross platform - big endian -- little endian
+
++ SQL Language Understood by SQLite
+  - Foreign keys not supported
+ 
++ What is it good for
+  - Application file format
+  - Chalkboard for sharing data amoung serveral processes
+  - Storage for complex data structures
+  - Replacement for Client/Server DB
+    disadvantage
+      - limited scalability
+      - doesn't work over NFS
+      - doesn't scale to terabytes or beyond
+    advantages
+      - works out of the box
+      - fast and lightweight
+      - runs off of a cd-rom
+	
++ Complex Data Structures
+  - usa an in-memory database
+  - Think of a database as a collection of structures
+    - each sql table is a structure or class defininition
+    - each row in a table is a specific structure or obj
+
++ Application File Format
+  - File/Open menu option opens an SQLite database connection rather than reading and parsing a custom file format
+  - No need to read the entire file into memory - only those parts that are actually needed.
+  - Atomic, seriallized writes privent file corruption following a crash or power loss.
+  - File format is self- describing
+    
++ Datatypes in SQL
+  - Every column of a table has "type"
+  - cell type doesn't have to match the column type
+
++ Attach
+  - the ability to talk to multiple db at the same time
+  - allows joins to be created between db
+    
++ Key Points
+  - powerful replacement for fopen(), ODBM or BerkeleyDB
+  - works well in place of enterprise db for smaller problems, during testing or demos.
+  - cross-platform single-file dbh
+    
+
+* Usage
++ Create a database
+  > sqlite3 example.db
+  - this will take you into the sqlite client and allow you to create the database.
+
++ To exit
+>.quit
+
++ Insert records from a file
+  - create a file in vi with insert commands on each line.
+  - then push the file into sqlite3
+  > sqlite3 example.db < insert\_file.sql
+
++ View records
+  - select database to be used.
+  > sqlite3 example.db
+  - normal sql select cmd 
+
++ Rename table name
+  - sqlite> alter table <name\_to\_change> rename to <new\_name>;
+
++ Add a column to an existing table
+  - sqlite> alter table <name\_of\_table>  add column <new\_field data\_type>;
+
++ Alter data in a record
+  - sqlite> update <table> set <field=id> where <specify\_field>;
+
++ View all tables in database
+  - sqlite> .tables
+
++ Describe table
+  - sqlite> .schema <table\_name>;
+
++ Create an index*
+  -sqlite> create unique index <index\_name> on <table>(<field>);
+  - this will ensure that no other record is added with the same table-field combination.
+

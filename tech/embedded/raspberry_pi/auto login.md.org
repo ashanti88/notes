@@ -1,0 +1,5 @@
+*Disabling automatic login*
+
+> rasp-config
+
+This provides an ncurses menu. In boot option to disable autologin.

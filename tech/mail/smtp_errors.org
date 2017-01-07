@@ -1,0 +1,197 @@
+** SMTP Error Codes
+   :PROPERTIES:
+   :CUSTOM_ID: smtp-error-codes
+   :END:
+
+Here is a list of the standard SMTP error codes you will find in most
+email bounces.
+
+*** 200 Codes
+    :PROPERTIES:
+    :CUSTOM_ID: codes
+    :END:
+
+-  211 -- System status / system help reply
+-  214 -- Help message
+-  220 -- Domain service ready
+-  221 -- Domain service closing transmission channel
+-  250 -- Requested mail action completed and OK
+-  251 -- Not Local User, forward email to forward path
+-  252 -- Cannot Verify user, will attempt delivery later
+-  253 -- Pending messages for node started
+
+*** 300 Codes
+    :PROPERTIES:
+    :CUSTOM_ID: codes-1
+    :END:
+
+-  354 -- Start mail input; end with .
+-  355 -- Octet-offset is the transaction offset
+
+*** 400 Codes
+    :PROPERTIES:
+    :CUSTOM_ID: codes-2
+    :END:
+
+-  421 -- Domain service not available, closing transmission channel
+-  432 -- Domain service not available, closing transmission channel
+-  450 -- Requested mail action not taken: mailbox unavailable. request
+   refused
+-  451 -- Requested action aborted: local error in processing Request is
+   unable to be processed, try again
+-  452 -- Requested action not taken: insufficient system storage
+-  453 -- No mail
+-  454 -- TLS not available due to temporary reason. Encryption required
+   for requested authentication mechanism
+-  458 -- Unable to queue messages for node
+-  459 -- Node not allowed: reason
+
+*** 500 Codes
+    :PROPERTIES:
+    :CUSTOM_ID: codes-3
+    :END:
+
+-  500 -- Syntax error, command unrecognized
+-  501 -- Syntax error in parameters or arguments
+-  502 -- Command not implemented
+-  503 -- Bad sequence of commands
+-  504 -- Command parameter not implemented
+-  510 -- Check the recipient address
+-  512 -- Domain can not be found. Unknown host.
+-  515 -- Destination mailbox address invalid
+-  517 -- Problem with senders mail attribute, check properties
+-  521 -- Domain does not accept mail
+-  522 -- Recipient has exceeded mailbox limit
+-  523 -- Server limit exceeded. Message too large
+-  530 -- Access Denied. Authentication required
+-  531 -- Mail system Full
+-  533 -- Remote server has insufficient disk space to hold email
+-  534 -- Authentication mechanism is too weak. Message too big
+-  535 -- Multiple servers using same IP. Required Authentication
+-  538 -- Encryption required for requested authentication mechanism
+-  540 -- Email address has no DNS Server
+-  541 -- No response from host
+-  542 -- Bad Connection
+-  543 -- Routing server failure. No available route
+-  546 -- Email looping
+-  547 -- Delivery time-out
+-  550 -- Requested action not taken: mailbox unavailable
+-  551 -- User not local; please try forward path
+-  552 -- Requested mail action aborted: exceeded storage allocation
+-  553 -- Requested action not taken: mailbox name not allowed
+-  554 -- Transaction failed
+
+** Extended SMTP (ESMTP) standards
+   :PROPERTIES:
+   :CUSTOM_ID: extended-smtp-esmtp-standards
+   :END:
+
+Extended SMTP error codes are used in 3 digit combinations. For example,
+4.2.1 is a Temporary Error where the receiving email is not accepting
+messages for now.
+
+The first number is the email message status.
+
+-  ** 2** Successfully sent the email;
+-  ** 4** Temporary problem when sending the email. The email server
+   typically will try to send it again till it reaches retry timeout.
+-  ** 5** Permanent or Fatal error. This can be caused by a non existent
+   email address, DNS problem, or your email was blocked by the
+   receiving server.
+
+The second 2 numbers pinpoint the exact information bout the error.
+
+Below is a list of the Extended SMTP error codes.
+
+** Note!* /X/ can be a *4* or a *5** depending on if it is a Temporary
+or Permanent error.
+
+*** x.1.x Codes
+    :PROPERTIES:
+    :CUSTOM_ID: x.1.x-codes
+    :END:
+
+-  X.1.0 -- Other address status
+-  X.1.1 -- Bad destination mailbox address
+-  X.1.2 -- Bad destination system address
+-  X.1.3 -- Bad destination mailbox address syntax
+-  X.1.4 -- Destination mailbox address ambiguous
+-  X.1.5 -- Destination mailbox address valid
+-  X.1.6 -- Mailbox has moved
+-  X.1.7 -- Bad sender's mailbox address syntax
+-  X.1.8 -- Bad sender's system address
+
+*** x.2.x Codes
+    :PROPERTIES:
+    :CUSTOM_ID: x.2.x-codes
+    :END:
+
+-  X.2.0 -- Other or undefined mailbox status
+-  X.2.1 -- Mailbox disabled, not accepting messages
+-  X.2.2 -- Mailbox full
+-  X.2.3 -- Message length exceeds administrative limit
+-  X.2.4 -- Mailing list expansion issue
+
+*** x.3.x Codes
+    :PROPERTIES:
+    :CUSTOM_ID: x.3.x-codes
+    :END:
+
+-  X.3.0 -- Other or undefined mail system status
+-  X.3.1 -- Mail system full
+-  X.3.2 -- System not accepting network messages
+-  X.3.3 -- System not capable of selected features
+-  X.3.4 -- Message too big for system
+-  X.3.5 -- System incorrectly configured
+
+*** x.4.x Codes
+    :PROPERTIES:
+    :CUSTOM_ID: x.4.x-codes
+    :END:
+
+-  X.4.0 -- Other or undefined network or routing status
+-  X.4.1 -- No answer from host
+-  X.4.2 -- Bad connection
+-  X.4.3 -- Routing server failure
+-  X.4.4 -- Unable to route
+-  X.4.5 -- Network congestion
+-  X.4.6 -- Routing loop detected
+-  X.4.7 -- Delivery time expired
+
+*** x.5.x Codes
+    :PROPERTIES:
+    :CUSTOM_ID: x.5.x-codes
+    :END:
+
+-  X.5.0 -- Other or undefined protocol status
+-  X.5.1 -- Invalid command
+-  X.5.2 -- Syntax error
+-  X.5.3 -- Too many recipients
+-  X.5.4 -- Invalid command arguments
+-  X.5.5 -- Wrong protocol version
+
+*** x.6.x Codes
+    :PROPERTIES:
+    :CUSTOM_ID: x.6.x-codes
+    :END:
+
+-  X.6.0 -- Other or undefined media error
+-  X.6.1 -- Media not supported
+-  X.6.2 -- Conversion required and prohibited
+-  X.6.3 -- Conversion required but not supported
+-  X.6.4 -- Conversion with loss performed
+-  X.6.5 -- Conversion failed
+
+*** x.7.x Codes
+    :PROPERTIES:
+    :CUSTOM_ID: x.7.x-codes
+    :END:
+
+-  X.7.0 -- Other or undefined security status
+-  X.7.1 -- Delivery not authorized, message refused
+-  X.7.2 -- Mailing list expansion prohibited
+-  X.7.3 -- Security conversion required but not possible
+-  X.7.4 -- Security features not supported
+-  X.7.5 -- Cryptographic failure
+-  X.7.6 -- Cryptographic algorithm not supported
+-  X.7.7 -- Message integrity failure

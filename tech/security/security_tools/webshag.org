@@ -1,0 +1,12 @@
+
+
+** webshag
+
+This is a web server audit tool.
+
+
+Use
+> webshag-cli -m <module> <attack_ip>
+
+Options
+-m - choose module |pscan|info|spider|uscan|fuzz|

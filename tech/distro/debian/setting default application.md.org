@@ -1,0 +1,9 @@
+*Setting the default text editor*
+
+> set EDITOR=<txt\_editor>
+
+> set VISUAL=<txt\_editor>
+
+Using update-alternative
+
+> update-alternative --config editor

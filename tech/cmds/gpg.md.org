@@ -1,0 +1,73 @@
+
+
+
+
+* Description							    :sec:enc:
+
+
+* Usage
++ Creating a key pair
+
+>gpg2 --gen-key
+
+This command will lead you through some questions
+
+i)Name
+
+ii)email
+
+iii)comment
+
+iv)passphrase
+
++ Importing keys from server
+
+>gpg --search-keys --keyserver keyserver.ubuntu.com 'Key-ID'
+
+or
+
+>gpg --search-keys --keyserver keyserver.ubuntu.com 'E-Mail ID'
+
+or
+
+>gpg --search-keys --keyserver keyserver.ubuntu.com 'Real Name'
+
++ Importing keys from a file
+
+>gpg --import myfriends\_pubkey.gpg
+
++ To list all keys*
+
+>gpg --list-keys
+
++ Encrypt a file to be sent using friends pub key*
+
+>gpg --encrypt --recipient 'Friends pub key id' file\_to\_encrypt.txt
+
+This will produce a file called file\_to\_encrypt.txt.gpg and will
+contain some binary data.
+
+if you don't won't any binary output use the --armor option. This will
+ create an ASCII file.
+
++ Encrypting a file with your own public key*
+
+If they have your public key, but you don't have theirs
+
+>gpg --encrypt --recipient 'Your id' file\_to\_encrypt.txt
+
+Best method if both parties have each others public keys
+
+>gpg -e -u 'Your id' -r 'Their id' file\_to\_encrypt.txt
+
++ Decrypting a file*
+
+>gpg --decrypt file\_to\_encrypt.txt.gpg > secret.txt
+
+The file secret.txt will now contain the actual text file.
+
++ Printing keys to files*
+
+>gpg --export -a 'Name id' > public.key
+
+>gpg --export-secret-key -a 'Name id' > private.key

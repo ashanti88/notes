@@ -1,0 +1,224 @@
+
+* Video Tuts
+
+** System
+*** TODO Cloud Computing
+*** TODO CloudFlare
+*** TODO Powershell
+*** TODO Practical Apache Web Server
+*** TODO PHP with MySQL
+*** TODO FreeBSD
+*** TODO Debian
+*** TODO Understand Enterprise Arch
+    
+** Security
+*** TODO USB Forensics
+*** TODO Session Hijacking
+*** TODO Hacking Wireless Networks
+*** TODO Enumeration
+*** TODO Buffer Overflow
+*** TODO Cloud Security
+*** TODO Denial of Service
+*** TODO OWASP Top 10
+*** TODO Footprinting
+*** TODO PT & EH with Kali
+*** TODO Pentesting Web Servers
+*** TODO Intro to PT using Sploit
+*** TODO Evading IDS, FW, Honeypot
+*** TODO Sniffing
+*** TODO Pentesting Web Applications
+*** TODO Malware threats
+*** TODO Cryptograph
+*** TODO Sploit Basics
+*** TODO Hack your API first
+*** TODO Security Administrator
+*** TODO Mobile Platforms
+*** TODO Network PT with python
+*** TODO Risk Identification
+*** TODO Bitcoin
+*** TODO System Hacking
+
+** Networking
+*** TODO Intro to Wireshark
+*** TODO Wireshark2.0
+*** TODO Scanning Networks
+*** TODO Nmap
+*** TODO HTTP - Fundimentals
+*** TODO CCNP FW
+
+** Storage
+
+*** TODO Information Storage
+
+** Code
+*** TODO Ruby on Rails
+*** TODO Git Essentials
+*** TODO C
+*** TODO Clean Code
+*** TODO Django
+*** TODO Linux System Programming
+
+** HW
+*** TODO Practical Electronics
+    
+* Books
+** System
+*** TODO Andrew Tenenbaum - OS
+*** TODO Brandan Gregg - Systems Performance
+** Security
+*** 
+** Database
+** Networking
+*** TCP/IP Illustrated Volume 1
+*** SDN - Software Defined Networking
+*** Computer Networks - Andrew Tenenbaum
+*** Ethernet - The Definitive Guide
+*** Network Analysis Using Wireshark Cookbook
+** Automation
+*** TODO Puppet Essentials:file://home/crito/Documents/SysAdmin/Mgmt/Puppet/PuppetEssentials.pdf
+*** TODO Ansible-Up_&_Running
+** Storage
+** Monitor
+*** TODO Zabbix Network Monitoring Essentials:file://home/crito/Documents/SysAdmin/Monitor/Zabbix_Network_Monitoring_Essentials.pdf
+*** TODO Mastering Zabbix:file://home/crito/Documents/SysAdmin/Monitor/Mastering_Zabbix.pdf
+** Cloud
+*** TODO OpenStack Essentials:file://home/crito/Documents/SysAdmin/Cloud/Openstack/OpenStack_Essentials.pdf
+*** TODO Learning OpenStack:file://home/crito/Documents/SysAdmin/Cloud/Openstack/Learning_OpenStack
+*** TODO Learning OpenStack Networking:file://home/crito/Documents/SysAdmin/Cloud/Openstack/Learning_OpenStack_Networking(Neutron).pdf
+** Code
+*** C
+**** TODO TCP/IP Sockets in C
+**** TODO The ANSI C Programming Language
+**** TODO The Art of UNIX Programming
+**** TODO Advanced Programming in the UNIX Environment
+**** TODO Unix Network Programming
+*** Ruby
+**** TODO Build Awesome Commandline Applications in Ruby
+**** TODO Everyday Scripting with Ruby
+*** Python
+*** Lisp
+*** Bash
+*** Linux_Kernel
+**** TODO Kernel Drivers
+** HW
+* Courses
+** Edx
+*** TODO Introduction to DevOps
+*** TODO Introduction to Data Storage and Management Technologies
+*** TODO Embedded Systems - Shape the World
+*** TODO Introduction to Apache Spark
+*** TODO Distributed Machine Learning with Apache Spark
+*** TODO Computation Structures 1: Digital Circuits
+*** TODO Introduction to MongoDB using the Mean Stack
+*** TODO Introduction to Cloud Infrastructure
+*** DONE Introduction to OpenStack
+*** TODO Introduction to Linux
+** Coursera
+*** TODO Ruby on Rails:An Introduction
+*** TODO Programming Languages Part A
+** Cybrary
+*** TODO CompTIA SECURITY+
+** Udacity
+*** TODO Advanced Operating Systems
+*** TODO Intro to Relational Database
+*** DONE How to Use Git and GitHub
+*** DONE Programming Foundations with Python
+*** TODO Data Wrangling with MongoDB
+*** TODO Software Development Process
+** Open Yale 
+* PD
+** Code
+*** TODO npm - node package management
+*** TODO yaml - http://yaml.org    
+*** TODO REST
+
+*** TODO glibc - need an overview
+*** TODO debug fs - kernel development
+** Storage
+*** TODO casandra 
+*** TODO redis 
+*** TODO ceph
+
+** Networking
+*** TODO CBT juniper video course
+   
+** Automation
+*** TODO Ansible
+   
+** Virtualisation
+*** TODO vm workstation 
+*** TODO kvm 
+
+
+*** Cloud
+**** TODO virtual switch 
+*** TODO OpenShift
+*** TODO Kubernetes
+*** TODO Termaform - hashicorp 
+*** TODO sahara
+*** TODO S3 
+
+** System
+*** TODO tomcat 
+*** TODO haproxy 
+*** TODO NIS server 
+   
+** Security
+   
+** Database
+*** Hadoop
+
+** VIM/Emacs
+*** TODO evil-matchit 
+*** TODO evil-exchange 
+*** TODO evil-numbers
+*** TODO minty org
+*** TODO mapjacks 
+*** TODO ox-beamer 
+*** TODO org-bullets-mode 
+*** TODO org-babel-load-file 
+*** TODO evil-nerd-commenter 
+*** TODO evil-indent-textobject
+** General
+
+*** TODO phiber optik 
+
+** Reads
+*** Code
+*** Storage
+*** Virtualisation
+*** Networking
+**** TODO Andrew Tanenbaum networking 
+**** TODO Richard Stevens Unix Network Programming I II
+**** TODO Richard Stevens TCP/IP Illustrated I II III 
+**** TODO Richard Stevens Advanced Programming in the Unix Environment
+**** TODO Jeff Doyle TCP/IP I/II
+
+** URL
+*** TODO ipspace.net 
+*** TODO tekhead 
+*** TODO acloud guru 
+*** TODO cloud academy 
+*** TODO reinvent - youtube 
+*** TODO vicktoria stodden - http://web.stanford.edu/~vcs/Talks.html
+*** TODO nanohub.org
+*** TODO runmycode.org
+
+** Write-Up
+*** TODO write up a piece of note taking apps and switchs evernote -> redbook -> evernote -> nixnote -> geeknote -> keepnote -> org mode
+*** Advanced initramfs - continue already done the basic initramfs
+** Course
+*** Edx
+
+*** Udacity
+
+*** Pluralsight
+*** TODO Hack yourself first
+
+*** CBT
+*** TODO CBT juniper video course
+** Under 30mins
+   
+*** TODO usb switchblade - lookup
+*** TODO salting of hashes
+    

@@ -1,0 +1,24 @@
+This is normally a right angle expansion card. Normally used in 1U and
+2U racks.
+
+Availabe for:
+
+PCI
+
+PCI-X
+
+AGP
+
+AGP Pro
+
+PCI Express
+
+ISA
+
+and other buses
+
+*Links:*
+
+https://en.wikipedia.org/wiki/Riser\_card
+
+[[http://www.orbitmicro.com/company/blog/87]]

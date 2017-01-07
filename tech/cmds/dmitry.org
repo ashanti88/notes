@@ -1,0 +1,32 @@
+DMitry (Deep Magic Information Gathering Tool) 
+
+*Basic Syntax*
+
+> dmitry <option> <domain.com>
+
+*Options (linux style)*
+
+i - Perform an internet number whois lookup on target
+
+w - Perform whois on target
+
+o - save output to said file
+
+n - retrieve Netcraft.com information on the target
+
+s - perform a search for possible subdomains
+
+e - perform a search for possible email addresses
+
+p - perform a port scan on target
+
+f - perform port scan and show any filtered ports
+
+b - read in the banner received from the scanned port 
+
+t [0-9] - ttl when scanning a tcp port ( this option requires the p flag
+to be passed)
+
+*Perform all scans*
+
+> dmitry -winsepfbo <output.txt> <domain.com>

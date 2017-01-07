@@ -1,0 +1,45 @@
+*Change from user Exec to Priv Exec mode*
+
+Router> enable
+
+*Change to user Exec from Priv Exec mode*
+
+Router> disable
+
+*Change to Global config mode from Priv mode*
+
+Router# configure terminal
+
+*Change from Global config to Priv mode*
+
+Router(config)# exit
+
+*Show all available cmds*
+
+Router>?
+
+*Show current configuration*
+
+Router# show running-config
+
+*Set the hostname*
+
+Router(config)# hostname <name>
+
+*Setting banners*
+
+Router(config)# banner motd <delimiter>
+
+Router(config)# banner login <delimiter>
+
+*Setting passwords*
+
+enable password
+
+Router(config)# enable password <password>
+
+secret password
+
+Router(config)# enable secret <password>
+
+line password (password for aux, console and vty(telnet)

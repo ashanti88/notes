@@ -1,0 +1,354 @@
+*The name's Phil, Phil Slowqueriesman, yes, I can enable that for you*
+
+[[http://toastergremlin.com/?p=276]]
+
+*If a lot of sleeping queries*
+
+I can also see a lot of queries in a sleep state. This means there are
+PHP scripts which have opened up connections to the database, ran some
+queries, but have then not closed these connections off. 
+
+*MyTop (epel)*
+
+/* */
+
+Basically atop for MySQL
+
+*/Check MySQL Memory Usage/*
+
+/* */
+
+[[http://tech.labelleassiette.fr/limit-mysql-ram-usage/]]
+
+/*Show privileges for all MySQL users*/
+
+/* */
+
+select * from information\_schema.user\_privileges;
+
+/* */
+
+*Adding MySQL users and granting privileges*
+
+create user 'username'@'IPaddress' identified by 'passwordhere';
+
+or
+
+create user 'username'@'localhost' identified by 'passwordhere';
+
+then
+
+GRANT ALL PRIVILEGES ON databasename.* TO username@localhost(or IP)
+IDENTIFIED BY 'put password here';
+
+*Add root access from an external IP (or the server IP when not using
+localhost)*
+
+* *
+
+SELECT PASSWORD (nonhashedpass);
+
+GRANT ALL PRIVILEGES ON /./ TO 'root'@'1.2.3.4' IDENTIFIED BY PASSWORD
+'rootpassword' WITH GRANT OPTION;
+
+The IP in the command is the IP they are connecting from or the IP of
+the server if not using localhost.
+
+*See if MyISAM or InnoDB*
+
+#+BEGIN_EXAMPLE
+    SHOW TABLE STATUS FROM `databasename`;
+
+
+    **How to figure out what innoDB_buffer_pool_size to set
+
+    **check the total InnoDB tables size using MySQLtuner and match this.
+#+END_EXAMPLE
+
+*#MySQL Config file*
+
+/etc/my.cnf
+
+*MySQLTuner.pl*
+
+Check Apache for how to get this, same as apachebuddy.pl
+
+*To see if MySQL is running in /var/ or /home*
+
+show variables like 'datadir';
+
+*Show all users and permissions for MySQL*
+
+for DML in "$(echo 'SELECT CONCAT("SHOW GRANTS FOR ",user,"@",host,";")
+FROM mysql.user;'|mysql|tail -n+2|sed -e "s/FOR /&'/" -e "s/@/'&'/" -e
+"s/;/';/")"; do echo ${DML} | mysql; done  
+
+*Show users:*
+
+select * from mysql.user;
+
+show this in a nicer way
+
+select host, user, password from mysql.user;
+
+*Log into MySQL on Plesk server*
+
+mysql -u admin -p=cat /etc/psa/.psa.shadow=* *
+
+* *
+
+*Do the same and show full process list*
+
+watch "mysql -uadmin -p=cat /etc/psa/.psa.shadow= -e 'show full
+processlist;'"
+
+* *
+
+*If someone cannot connect even with Grants set correctly*
+
+* *
+
+Make sure MySQL is listening on 0.0.0.0:3306 and NOT 127.0.0.1:3306
+
+use netstat -an
+
+check the results of this
+
+* *
+
+*MySQL Check*
+
+check table table\_name
+
+Check all tables
+
+mysqlcheck -Ar -uadmin -p=cat /etc/psa/.psa.shadow= *(PLESK)*
+
+mysqlcheck -Ar
+
+*FOR MyISAM*
+
+myisamchk -r /var/lib/mysql////.MYI
+
+*MySQL Dump*
+
+mysqldump -u user -p dbname > db.sql
+
+Dump EVERYTHING!!
+
+mysqldump -uroot -p --all-databases > sqlbackup\_20140619.sql
+
+*WITH PLESK >>*
+
+mysqldump -uadmin -p=cat /etc/psa/.psa.shadow= --all-databases >
+sqlbackup\_20140619.sql
+
+*Check size of databases before dump*
+
+SELECT table\_schema AS "Database name", SUM(data\_length +
+index\_length) / 1024 / 1024 AS "Size (MB)" FROM
+information\_schema.TABLES GROUP BY table\_schema
+
+** Re-importing dumps**
+
+* *
+
+*Normal*
+
+mysql -u root -p < sqlbackup\_20140619.sql
+
+*Plesk*
+
+mysql -uadmin -p=cat /etc/psa/.psa.shadow= < sqlbackup\_20140619.sql
+
+or if you want to get some sort of progress esq thing (needs pv
+installing first)
+
+pv sqlbackup\_20140619.sql | mysql
+
+* *
+
+*Re-import a dump after the dump has been split up*
+
+*(this example needs pv installing first, you can run with out, just get
+rid of the 'pv | ' part)*
+
+\_(this one also had '/dump' on the end of each individual file, so it
+needed stripping)/
+
+**for i in *; do echo "${i}"; cat ${i} | pv | mysql  $(basename
+$(basename ${i} .sql) \_dump) ; done**
+
+*DB Restore when not using InnoDB*
+
+move the restore file into /var/lib/mysql, move the current database to
+.bak and then rename the restore file to the original database name
+
+*(FOR CLUSTERS)*
+
+*How to restore a database from a restore off the backup (when copying
+the entire mysql folder off the server)*
+
+1)runuser mysql -c
+=/usr/sbin/mysqld --socket=/tmp/mysqlextra.sock --datadir=PATH TO RESTORE MYSQL FOLDER --skip-networking \--pid-file=/tmp/mysqlextra.pid --innodb_buffer_pool_size=512M \--max_allowed_packet=2G --innodb_force_recovery=6 \--wait_timeout=86400 --innodb_purge_thread=0 \--log-warnings=2=
+
+2)mysqldump --socket=/tmp/mysqlextra.sock -uroot -p DATABASENAME  >
+DATABASE\_BACKUP.sql
+
+3)mysql ORIGINALDATABASENAME OR NEWDATABASEWITHNEWNAME < DATABASE
+BACKUP.sql
+
+>>>>>>>>>>>IF THIS DOESN'T WORK CHECK OUT MYSQL\_MULTI IN THE
+KB!!!!!<<<<<<<<
+
+*(Non Clusters from Terence)*
+
+*How to restore a database from a restore off the backup (when copying
+the entire mysql folder off the server)*
+
+/usr/sbin/mysqld --socket=/tmp/mysql2.sock
+--datadir=/path/to/restored/files --skip-networking
+--pid-file=/tmp/mysql2.pid
+
+/usr/sbin/mysqld --socket=/tmp/mysqlextra.sock --datadir=PATH TO RESTORE
+MYSQL FOLDER --skip-networking --pid-file=/tmp/mysqlextra.pid
+--innodb\_buffer\_pool\_size=512M --max\_allowed\_packet=2G
+--innodb\_force\_recovery=4 --wait\_timeout=86400 --log-warnings=2
+--user=root
+
+*For CPanel (or if /usr/sbin/mysqld doesn't work)*
+
+/usr/libexec/mysqld --basedir=/usr --datadir=/var/restore/var/lib/mysql
+--user=mysql --pid-file=/var/run/mysqld/mysqld2.pid
+--skip-external-locking --log-error=/var/log/mysqld2.log
+--socket=/var/lib/mysql/mysql2.sock --skip-networking
+--user=root --innodb\_force\_recovery=2
+
+may need to specify the following if it asks for root user:
+
+--user=root
+
+/(or with the added options --innodb\_force\_recovery=5
+--skip-networking --innodb\_purge\_thread=0   etc)/
+
+ 
+
+/then open up another ssh session to connect to this new socket./
+
+ 
+
+mysql -S /tmp/mysql.sock    <<< to test the connection.
+
+BE SURE TO CHECK */root/.my.cnf* as it could be set to override the
+socket selection
+
+If Plesk, use;
+
+mysql -S /tmp/mysql.sock -uadmin -p=cat /etc/psa/.psa.shadow=
+
+ 
+
+/Then run a mysqldump./
+
+ 
+
+mysqldump -S /tmp/mysql.sock -uadmin -p=cat /etc/psa/.psa.shadow=
+database > database.sql  
+
+ 
+
+/Finally, remember to kill any PIDs that have your second instance of
+mysql (search by the datadir)/
+
+mysqladmin -S /tmp/mysql.sock shutdown
+
+OR
+
+ps axfu | grep mysql
+
+Then a terrible -9, and be careful not to corrupt the database!
+
+*MySQL backup script*
+
+* !/bin/sh
+  :PROPERTIES:
+  :CUSTOM_ID: binsh
+  :END:
+
+* mysqlbackup.sh
+  :PROPERTIES:
+  :CUSTOM_ID: mysqlbackup.sh
+  :END:
+
+* MySQL backups - /home/mysql\_backup
+  :PROPERTIES:
+  :CUSTOM_ID: mysql-backups---homemysql_backup
+  :END:
+
+* Set your database credentials and backup destination
+  :PROPERTIES:
+  :CUSTOM_ID: set-your-database-credentials-and-backup-destination
+  :END:
+
+todaysdate==/bin/date +%Y.%m.%d.%a= bk\_dst='/home/mysql\_backup'
+
+* Gets output of databases, runs a mysqldump, compresses it, saves it to
+/var/backup/mysql with the date
+  :PROPERTIES:
+  :CUSTOM_ID: gets-output-of-databases-runs-a-mysqldump-compresses-it-saves-it-to-varbackupmysql-with-the-date
+  :END:
+
+for i in $(echo 'SHOW DATABASES;' | mysql | grep -v '^Database$') do
+mysqldump -Rx $i | nice gzip > $bk_dst/$i-$todaysdate.sql.gz done
+
+* Finds files matching .sql.gz in /var/backup/mysql older than 7 days
+and deletes them
+  :PROPERTIES:
+  :CUSTOM_ID: finds-files-matching-.sql.gz-in-varbackupmysql-older-than-7-days-and-deletes-them
+  :END:
+
+find ${bk\_dst} -type f -name "*.sql.gz" -mtime +7 -delete
+
+*For Plesk (mysql changes to cat psa.shadow what not)*
+
+* *
+
+* !/bin/sh
+  :PROPERTIES:
+  :CUSTOM_ID: binsh-1
+  :END:
+
+* mysqlbackup.sh
+  :PROPERTIES:
+  :CUSTOM_ID: mysqlbackup.sh-1
+  :END:
+
+* MySQL backups - /home/mysql\_backup
+  :PROPERTIES:
+  :CUSTOM_ID: mysql-backups---homemysql_backup-1
+  :END:
+
+* Set your database credentials and backup destination
+  :PROPERTIES:
+  :CUSTOM_ID: set-your-database-credentials-and-backup-destination-1
+  :END:
+
+todaysdate==/bin/date +%Y.%m.%d.%a= bk\_dst='/home/mysql\_backup'
+
+* Gets output of databases, runs a mysqldump, compresses it, saves it to
+/var/backup/mysql with the date
+  :PROPERTIES:
+  :CUSTOM_ID: gets-output-of-databases-runs-a-mysqldump-compresses-it-saves-it-to-varbackupmysql-with-the-date-1
+  :END:
+
+for i in
+$(echo 'SHOW DATABASES;' | mysql -uadmin -p`cat /etc/psa/.psa.shadow` | grep -v '^Database$')
+do mysqldump -Rx $i | nice gzip > $bk_dst/$i-$todaysdate.sql.gz done
+
+* Finds files matching .sql.gz in /var/backup/mysql older than 7 days
+and deletes them
+  :PROPERTIES:
+  :CUSTOM_ID: finds-files-matching-.sql.gz-in-varbackupmysql-older-than-7-days-and-deletes-them-1
+  :END:
+
+find ${bk\_dst} -type f -name "*.sql.gz" -mtime +7 -delete

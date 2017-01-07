@@ -1,0 +1,29 @@
+
+
+
+* Description							   :sys:anal:
+
+Provides information about connected usb devices.
+
+* Usage
+
+> lsusb
+
++ More Verbose
+
+> lsusb -v
+
++ Format
+
+Bus 004 Device 002: ID 8087:0024 Intel Corp. Integrated Rate Matching
+Hub
+
+Bus 004 - This is the bus number
+
+Device 002 - This is the device attached to the bus
+
+ID 8087 - This is the manufacture id
+
+Intel Corp - Company name
+
+Integrated Rate Matching Hub - Device name

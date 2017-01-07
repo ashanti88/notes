@@ -1,0 +1,7 @@
+this tool will use specified search engine to search for the stated
+company\_name|domain .
+
+*Basic Syntax*
+
+> theharvester -d <company\_name|domain> -l <number\_of\_searches> -f
+<file\_name>

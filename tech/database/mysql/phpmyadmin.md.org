@@ -1,0 +1,53 @@
+When no Plesk or Cpanel if facing a .htaccess file with the following:
+
+AuthName "Restricted Area" AuthType Basic AuthUserFile
+/var/www/html/phpMyAdmin-SBAL/.htpasswd AuthGroupFile /dev/null require
+valid-user
+
+Check the .htpasswd file in the same directory, if it contains a
+password, then this is fine. When catting this, it will show the
+encrypted version of the password so you need to get the password off
+the customer.
+
+*Cluster Setup*
+
+Make sure you use /etc/phpMyAdmin/config.inc.php instead of the one in
+/usr/share/phpmyadmin
+
+Set the host to the internal IP of the MySQL VIP
+
+*Example phpMyAdmin virtual host for nginx* *(make sure you also change
+fastcgi\_pass):*
+
+server {
+
+listen internalMySQLVIP:80 default;  <<CHANGE THIS to the MySQL VIP
+internal access\_log off; server\_name externalMySQLVIP; <<CHANGE THIS
+to the MySQL VIP external server\_name\_in\_redirect off; root
+/usr/share/; #root to the phpmyadmin files
+
+* access to sqladmin
+  :PROPERTIES:
+  :CUSTOM_ID: access-to-sqladmin
+  :END:
+
+location / { alias /usr/share/; index index.php index.html index.htm; }
+
+* php-fpm configuration
+  :PROPERTIES:
+  :CUSTOM_ID: php-fpm-configuration
+  :END:
+
+location ~ .php$ { # root /var/www/html; try\_files $uri =404;
+fastcgi\_pass slumberstreambackend;  <<< CHANGE THIS TO THE CORRECT
+php-fpm conf fastcgi\_index index.php; fastcgi\_param SCRIPT\_FILENAME
+$document_root$fastcgi\_script\_name; include fastcgi\_params;
+fastcgi\_buffer\_size 128k; fastcgi\_buffers 256 4k;
+fastcgi\_busy\_buffers\_size 256k; fastcgi\_temp\_file\_write\_size
+256k; }
+
+}
+
+*For any #2002 - Can't connect to local MySQL server through socket
+errors*
+[[https://serverfault.com/questions/592617/phpmyadmin-wont-connect-to-remote-mysql-instance]]

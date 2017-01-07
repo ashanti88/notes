@@ -1,0 +1,21 @@
+
+
+Tool for smtp enumeration, internal spoofing and relay.
+
+Usage
+> ismtp <options>
+
+Options
+
+f <file> - list of smtp servers for testing (cannot use with -h)
+h <file> - target ip and port (IP:port) (cannot use with -f)
+
+Spoofing
+
+i <isa email> - the isa email address
+s <sndr email> - the sender's email address
+r <rcpt email> - the recipent's email address
+
+
+Test list of ips enumerating with wordlist
+> ismtp -f <listofips.txt> -e /path/to/wordlist.txt

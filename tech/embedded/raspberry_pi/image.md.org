@@ -1,0 +1,11 @@
+adding an iso to sdcard
+
+> dd bs=4M if=<image.iso> of=/dev/diskx
+
+switch to bs 1M if this fails
+
+with kail being .img.xz
+
+> xzcat
+/home/crito/Downloads/kali-linux-light-2016.1-armhf/kali-linux-light-2016.1-armhf.img.xz|
+dd of=/dev/mmcblk0 bs=512k

@@ -1,0 +1,36 @@
+
+
+
+
+* Description							     :sys:op:
+
+* Usage
+
+> useradd <login>
+
+This creates a normal user issues a uid, gid, but no home directory is
+created ( but is set in the /etc/passwd ). Shell is set from the default
+settings. No password is set and the user is unable to login until one
+is set. Once a password is set the user can now login, but will enter at
+/home (this is set in useradd default), until the home directory is
+created.
+
++ Configure a user with custom settings
+
+> useradd -s <shell> -m -d <home dir> -g <group> UserName
+
+s - shell
+
+m - create users home directory if it doesn't already exist
+
+d - home directory of the user 
+
+g - group name
+
+G - group names
+
+UserName - Login id
+
+Adding new user to group?
+
+useradd -G admins,ftp,www,developers jerry

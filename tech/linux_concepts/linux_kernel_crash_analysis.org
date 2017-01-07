@@ -1,0 +1,7 @@
+*Commands*
+
+kdump
+
+*links:*
+
+[[http://www.thegeekstuff.com/2014/05/kdump/]]

@@ -1,0 +1,6 @@
+
+
+
+* Patterns
+** Select lines with an ip address, the dot may need changing to - depending on seperator
+grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' file.txt

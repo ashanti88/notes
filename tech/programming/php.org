@@ -1,0 +1,17 @@
+
+
+* php5
+** Administration
++ What modules are installed
+> php -m
+*** Cmds
+**** php5enmod
++ Description
+  - this cmd is enables installed php modules
+  - it is in the same vein as a2enmod for apache
+**** php5dismod
++ Description
+  - this cmd disables a php module
+  
+     
+* php7

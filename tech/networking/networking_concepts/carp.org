@@ -1,0 +1,10 @@
+*Common Address Redundancy Protocol*
+
+The Common Address Redundancy Protocol or CARP is a computer networking
+protocol which allows multiple hosts on the same local area network to
+share a set of IP addresses. Its primary purpose is to provide failover
+redundancy, especially when used with firewalls and routers. In some
+configurations CARP can also provide load balancing functionality. CARP
+provides functionality similar to both VRRP and Cisco Systems'
+proprietary protocol, HSRP. The protocol is implemented on several BSD
+based operating systems, and has been ported to Linux.

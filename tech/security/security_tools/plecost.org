@@ -1,0 +1,14 @@
+
+
+** plecost
+
+This tool is used for wordpress site finger printing. It retrieves the version of installed plugins
+
+
+Use
+> plecost -n 100 -s 10 -M 15 -i /usr/share/plecost/wp_plugin_list.txt 192.168.0.202/wordpress
+
+-n <num> - use 100 plugins
+-s <sec> - sleep n sec between probes
+-M <sec> - sleep max sec between probles
+-i <file> - input plugin list

@@ -1,0 +1,11 @@
+Layer 2 network analysis and attack tool
+
+*Basic syntax*
+
+> yersinia <option>
+
+G - gtk
+
+I - interactive
+
+D - start the listening deamon

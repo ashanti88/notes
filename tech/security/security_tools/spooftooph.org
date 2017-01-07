@@ -1,0 +1,24 @@
+
+
+** Spooftooph
+   
+This tool is used to automate spoofing or cloning bluetooth device info.
+
+
+Use
+> spooftooph -i <int> -a <addr>
+
+-a <addr> - Specify address
+-b <num>  - Number of profiles to display per page
+-B - Display banner for smaller screens
+-c <class> - Specify new Class
+-h - help
+-i <dev> - Interface
+-m - Specify multiple interfaces during selection
+-n <name> - Specify new name
+-r <file> - Read in CSV file
+-R - Assign random NAME, CLASS, and ADDR
+-s - Scan for devices in local area
+-t <time> - Time interval to clone device in range
+-u - USB delay
+-w - Write to CSV logfile

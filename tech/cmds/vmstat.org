@@ -1,0 +1,136 @@
+
+
+
+* Description							:sys:anal:op:
+
+* Usage
+
++ Fields
+
+vmstat output contains the following fields
+
+Procs - r: Total number of processes waiting to run
+
+Procs - b: Total number of busy processes
+
+Memory - swpd: Used virtual memory
+
+Memory - free: Free virtual memory
+
+Memory - buff: Memory used as buffers
+
+Memory - cache: Memory used as cache
+
+Swap - si: Memory swapped from disk (for every second)
+
+Swap - so: Memory swapped to disk (for every second)
+
+IO - bi: Blocks in (for every second)
+
+IO - bo: Blocks out (for every second)
+
+System - in: interupts per second
+
+System - cs: context switches
+
+CPU - us, sy, id, wa, st - user time, system time, idle, wait time,
+stolen time from a virtual machine.
+
+** Examples
+
+Display active and inactive memory*
+
+> vmstat -a
+
+** Display number of forks since last boot
+
+> vmstat -f
+
+this command displays the count of all fork, vfork and clone system
+calls since the last boot.
+
+** Execute every x seconds
+
+> vmstat x
+
+to exit CTRL-C
+
+> vmstat x y
+
+this will execute vmstat x seconds y times
+
+** Display the slabinfo
+
+> vmstat -m
+
+* Lectures
+** vmstat - Tutorial with Brendan Gregg (solaris centric)
+url : https://www.youtube.com/watch?v=f5JsJnDTPyc&index=23&list=WL
+
++ vmstat - doesn't really work correctly with zfs
++ used for overall health of a system
++ don't need to be root
+
+> vmstat <interval> <count>
+
++ first output is the average of the system since boot
++ remaining lines then adheare to the interval and cunt
+
+*** CPU usage 
++ id - idle - time cpu don't working
++ sy - system - time in kernel
++ us - user - time in userland code
+These three coulms should add up to 100%
+  - these measure cpu utilisation
+  - these are very accurate as they use cpu microstates (solaris)
++ kthr r (ready) - number of threads in the ready to use statea 
+  -measure of cpu sturation.
+This is a very corse measure of cpu usage and should be used as an indicator for further investigation
+
++ A lot can happen within a one second window. The kthr r could indicate a lot of processors waiting to access the cpu, and there could be a high idle time. This could just be a burst of processors all starting at the same time.
+  
+*** Memory usage
++ Swap - kb of virt mem that are avialable
++ Free - dram free - main mem
++ sr (scan rate) - number of pages scanned - way the system recovers mem (older method) - Indicator of mem pressure, happens less now (sys desparate if using)
+
+**** System method of mem allocation
+      
+      Memory Required
+            |
+       Cached Mem
+            |---------------------------------------------
+       Page Scanner             Preasure being felt (Memory Saturation)
+            | -------------------------------------------
+         Swapper
+	    |                   PAIN (Problems start to occur)
+        Hard Swapping
+	
++ +4k x86 or 8k sparc
+*** Fields
+
+**** Kthr
++ r - number of threads ready
++ b - number of threads blocked on io 
++ w - number of threads that have been swapped out by the swapper
+
+**** Page
++ re - number of reclaims - page still in cache
++ mf - minor fault - normally from demand of mem where virt memory is issued and unable to be used by the program. This is the normal behaviour of the OS and is expected. A really large number would indicate that processors are burning through memory.
++ pi - page in - files read in
++ po - page out - files written out
++ free - number of pages freed in the interval
++ d - deficit - abnormal to see - comes from page scanner - process is mallocing and using memory very fast, and the OS is worried about mem allocation.
++ sr - scan rate
+
+**** Disk (not very useful)
+iostat is a better tool for viewing what the disks are doing
++ sx - x is the disk number, and only show up to 4 disks s0 - s3
+
+**** Faults
++ in - interupts
++ sy - system calls - io heavy will cause a lot of sys calls
++ cs - context switches
+  
+
++ 22 standard colums

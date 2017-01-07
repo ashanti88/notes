@@ -1,0 +1,10 @@
+
+
+
+* powertop
+* Description 							   :sys:anal:
+This tool allows various power saving modes in userspace, kernel and hardware.
+It's possible to view processors and see which is using the cpu and asking for large amounts of power.
+
+* Usage
+> powertop

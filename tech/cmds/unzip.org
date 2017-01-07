@@ -1,0 +1,24 @@
+
+
+
+* Description							       :comp:
+
+* Basic usage
+
+> unzip <file.zip> -d <destinatin\_dir>
+
++ List zip file
+
+> unzip -l <file.zip>
+
+l - list
+
++ Extract files to specific directory
+
+> unzip <filename.zip> -d <dir\_to\_use/>
+
+d - dir
+
++ Extract specific file from archive
+
+> unzip <filename.zip> <filename>

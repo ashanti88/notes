@@ -1,0 +1,42 @@
+The follwing needs to be added to allow for an easy way to use tor for
+ssh
+
+torsocks can also be used
+
+> torsocks ssh <options> <ip>  
+
+*Simple one off connection*
+
+ssh -o ProxyCommand='nc -x localhost:9050 %h %p' <domain.com>
+
+*All connections*
+
+add below to .ssh/config
+
+Host *
+
+CheckHostIP no
+
+Compression yes
+
+Protocol 2
+
+ProxyCommand connect -4 -S localhost:9050 $(tor-resolve %h
+localhost:9050) %p
+
+*Specific domain*
+
+add below to .ssh/config
+
+Host <mydomain>
+
+HostName <mydomain.com>
+
+CheckHostIP no
+
+Compression yes
+
+Protocol 2
+
+ProxyCommand connect -4 -S localhost:9050 $(tor-resolve %h
+localhost:9050) %p

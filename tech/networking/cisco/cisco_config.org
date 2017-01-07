@@ -1,0 +1,42 @@
+
+
+* Cisco Configuration Modes
+** User Exec Mode
+Basic monitoring commands
+Router>
+
+** Privilege Exec Mode
+Provides access to all other router cmds
+Router#
+
+** Global Config Mode
+Cmds that affect the entire system
+Router(config)#
+
+** Specific Config Modes
+Cmds that affect interfaces, subinterfaces, routing processes or lines only.
+Router(config-subif)#
+
+* Setup Recipes
+** Setting up SSH
+1. Set your hostname
+Router(config)# hostaname <hostname>
+
+2. Set the domain name
+Router(config)# ip domain-name <domain\_name>
+
+3. Set the username to allow ssh client access
+Router(config)# username <name> password <password>
+
+4. Generate the encryption keys for securing the session*
+Router(config)# crypto key generate rsa
+
+5. Enable ssh version 2
+Router(config)# ip ssh version 2
+
+6. Connect to the vty lines of the switch*
+Router(config)# line vty 0 15
+
+7. Configure your access protocols
+Router(config-line)# transport input ssh
+- never use transport input all

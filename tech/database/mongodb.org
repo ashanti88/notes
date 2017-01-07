@@ -1,0 +1,118 @@
+
+
+
+* Tutorial
+** Mongodb Tutorial for Beginners - Microsoft Virtual Academy
+
+*** What is MongoDB
++ NoSQL Database
+  - No tabular constraints on your data schema
++ Document Oriented
+  - Database is organised into collections and documents, not tables and rows
++ Designed with scalability in Mind
+  - Scales well horizontally
+  - Horizontal scalability - spread load over more machines
+    
++ Document Orientated Data Stores
+  - all data in one place, no need for joins
+  - bson, binary son - visually the same as json
+  - documents can be nested
+    
++ When not to use Mongodb
+  - many to many relations become difficult with mongobd
+    
+*** Running Mongodb
++ Tools that come with mongodb
+  - mongo - cli
+  - mongod - deamon
+  - mongodump - dumps the db to json or cvs
+  - mongoexport
+  - mongoimport 
+  - mongorestore 
+  - mongostat
+  - mongotop - analysis tool
+    
++ Setting up a database
+> mongoimport --db <name_db> --collection <name_col> < <data_import.json>
+
+*** Queries
++ Basics
+  - most quesries start with db.<name_col>.find() and .findOne()
+  - db.bank_data.find( { "first_name" : "JAMES" } )
+  - db.<name_col>.find( object )
+  - select which number document
+    - db.bank_data.find()[x] - where x is the number of the doc
+      
+  - mongo is a js interactive shell
+    - queries can be assigned to a var and used later
+    - js can be used in the shell
+
++ Switch database in the shell
+  - use <db_name>
+
++ Logical operators
+  - when using find "and" is implied
+  - db.collection.find( { first_name : "james", last_name : "smith"" } )
+
+*** L^
++ binary data shouldn't be put into database, just a pointer to data
++ Mongodb allowes for ssl
+** Learning Mongodb - Andrew Burgess
+*** Tools
+mongo  - client - javascript console
+mongod - server
+mongoexport - export to json
+mongoimport - import json file
+mongodump - exports a bson
+mongorestore - import bson file
+bsondump - convert a bson to json
+mongostat - real-time analysis tool
+
+*** Terms
+Collection - similar to a table, but doesn't have a scheme. Code is used to enforce the scheme, not the db.
+Document - Record or Row in a sql database.
+Field - similar to a column, key: value
+
+*** Create
+- no need to create a database, > use <new_db>
+- database and collections are only created when documents are added.k
+     
+*** Objectids
+- _id is the unique id in mongodb
+- _id immutable and unique
+- we can add the _id as a key: value, but usually better to let mongodb manage this value
+- the auto created _id contains the date and time the document was created.
+  - getTimestamp() will take the _id and return the date time stamp
+*** Relations
+- no joins or foreign keys in mongodb
+
+*** Queries 1
+- dropping - db.user.drop() - this will delete the collection user
+- insert - db.user.insert(
+- find 
+  - db.user.find(); - this will return all docs in user
+  - db.user.find().foreach(printjson); - this is a more user friendly view
+  - db.user.find({ email: 'fred@gmail.com' }); - find only doc with key: value
+  - db.user.find({ favourites: 100 }, { title: 1, url: true});
+    - this will return a doc with only _id, title and url
+  - db.user.find({ favourites: 100 }, { tags: 0 });
+    - this will exclude tags from the doc output
+    - the two methods cannot be used togeather, exception is exclusion of the _id
+  - db.user.find({ 'name.first': 'John' }); - this will search in a sub document
+  -
+- findOne
+  - db.user.findOne({ email: 'fred@gmail.com' }) - find returns first instance       
+  - db. 
++ using json file to insert database
+  - > mongo 127.0.0.1/new_db new_db.js
+*** Queries 2
+*** Queries 3
+*** Queries 5
+*** Updates 1
+*** Updates 2
+*** Deleting
+*** Indexes
+*** PHP
+*** node
+*** nosql-vs-sql
+ 

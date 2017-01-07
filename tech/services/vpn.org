@@ -1,0 +1,29 @@
+*Virtual Private Network*
+
+* *
+
+*Ports:*
+
+1723 tcp - for PPTP
+
+500 udp - L2TP/IPSEC for internet key exchange traffic
+
+4500 udp - IPSEC control path
+
+1701 udp - L2TP traffic
+
+443 tcp - SSTP to/from vpn server
+
+* *
+
+* *
+
+*Packages:*
+
+openvpn
+
+* *
+
+* *
+
+*Installation and Configuration:*

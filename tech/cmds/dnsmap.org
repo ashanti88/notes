@@ -1,0 +1,20 @@
+This tool will find all domains, subdomains and all associated ip
+addresses to said domains.
+
+*Brute force domain dns*
+
+> dnsmap <domain.com>
+
+*Save results to a file*
+
+txt
+
+> dnsmap <domain.com> -r <file.txt>
+
+csv
+
+> dnsmap <domain.com> -c <file.csv>
+
+*Using own pre-defined wordlist*
+
+> dnsmap <domain.com> -w <file.txt>

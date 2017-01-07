@@ -1,0 +1,9 @@
+ls -Z - SELinux context
+
+user - unconfined\_u
+
+role - object\_r
+
+type - user\_home\_t
+
+level - s0

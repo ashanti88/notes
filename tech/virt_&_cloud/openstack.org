@@ -1,0 +1,210 @@
+
+* PluralSight - OpenStack Course
+  
+** Origins
+
+Origins of OpenStack
+NASA and Rackspace worked together to create OpenStack in 2010.
+
+Launced as a fully open cloud platform.
+
+** OpenStack Foundation
+   
++ Focus on prodiving an opensource solution to cloud.
++ Comprised of 3 areas - Tech Commitree
+                       - Borad of Directors
+			 User Committee
+
+*** OpenStack Developer Ecosystem
+    
++ Comprised of thousands of devs
++ individual devs, comapany devs, doc contributes
+
+*** OpenStack Releases
+   
++ OpenStack releass are named alaphbetically after storms.
+
+*** Release cycle
+
+Plan -> Develop -> Test -> Release 
+           |                 |
+	   |-----------------|
+
++ There are several releases a year
+  
+*** OpenStack Projects
+
+OpenStack tends to split its self into 
+- Dashboard
+- Compute
+- Networking 
+- Storage
+
++ Core projects are considered fully supported.
++ Incubation projects are new features.
+
+** OpenStack Delopyment
+
+*** Pre-Requisite
+    
+Service Dependencies
++ Requires a host OS
++ Requires a db service (normally MySQL)
++ Requires a message queuing service (rabbit MQ)
++ Requires L2/L3 networking
+
+
+OpenStack uses type 2 hypervisor model
+
+           os                    os          os
+            |                     |           |
+	HyperVisor            HyperVisor  HyperVisor
+            |                     |           | 
+            |                     |           |
+	Hardware                  |-----------|
+                                        |
+         Type 1                         OS
+					|
+				    Hardware
+				    
+	                             Type 2
+				 
+**** Hardware Deployment	
+    
++ Physical hardwate deployed for OpenStack components
++ Services can be co-located for smaller deployments
++ Huge capacity for scaling out.
+
+
+
+** OpenStack Core Services
+   
+*** Core Services
+    
+These components are required to drive the OpenStack cloud.
+
++ Minimal requirement
+  - Identity services
+  - Compute services
+  - Image services
+  - Networking services
+    
+**** Identity | Keystone
+
+This performs the following tasks
++ Authentication
++ Authorization
++ Inclues:
+  - Users
+  - Services - keystone regualtes services access/permissions
+
++ Uses tokens to authenticate and authenticate and maintain session state information.
+
+***** Identity Workflow
+ 
+      creds
+user --------> Keystone
+  \   <--------
+   \   token
+    \------------> Compute (Token sent with request)
+                       \
+		        \-----> Performs authorized action
+			
+
+***** Tenants
+      
++ These are logically seperated containers within you OpenStack cloud.
++ Multi-tenancy allows for secure isolation using Keystone.
++ Tenants can use global objuects.
++ Tenants can create custom objects within their own tenant environment.
+**** Image | Glance
+     
++ Used to store and manage guest images
++ Images can be managed globally and per tenant
++ Users can be authorized to upload custom images
++ Stores images in Swift, Cinder or in the native FS
++ Can be stored remotely (eg AWS 53)
+**** Compute | Nova
+
+A hypervisor is required for nova
+kvm, xen, vSphere, Hyper-V  etc
+
++ Compute platform to run our ruest machine
++ Boots instances from our Glance images
++ Currently requires seperate Nova instances per hypervisor
++ Nova is the management platform for the hypervisor
+
+***** Regions, Aggregates and Availability Zones
+
++ Regions
+  - logical pools of OpenStack services
++ Aggregates
+  - groups of OpenStack Nova endpoints based on Characteristics
+    + SSD backed
+    + 10 GbE NICs
+    + 12 core processors
++ Avaailability Zones
+  - groups of OpenStack Nova endpoints based on location
+    + Toronto, London, Berlin etc
+
+**** iNetworking | Nova/Neutron
+
+***** Nova Networking
++ It provides:
+  - L2/L3
+  - DHCP
+    
++ Different types of IP networks are supported
+  - Flat networking - Dedicated subnet with IP information injected to instances at boot.
+  - Flat DHCP - Allocates IP addresses to instances from a dedicated subnet using dnsmasq.
+  - VLAN Manager - Tenant is allocated a VLAN and IP range.
+
++ Floating IP addresses for public facing networks
+
+****** Network types
+       
++ Single Flat - All tenants connected to one subnet.
++ Multiple Flat - Multiple shared subnets. 
++ Flat and Private - Tenants share a common subnet but can also have an subnet which only there machines can access.
++ Single provider router - Provider router gives each tenant its own subnet.
++ Per-Tenant Routers - Provides security by dision of resources. No tenant is on the same router as another tenant. No errors with duplication of ip addresses.
+
+
+***** Neutron Networking
+
+The first SDN stack for OpenStack.
+Renamed from Quantum to Neutron due to copyright.
+
+****** Nova limitations
+
++ Limited by layer 2 boundaries
++ Scalability limitations
+  - Vlan limitations (4094 dur to 802.1q standard)
++ Interoperability limitations
+
+
+****** How Neutron works
++Full SDN platform
+
++ Neutron is deployed as its own node within the different areas of the OpenStack framework
++ Compute node has a neutron plugin within it.
++ Network node has a neutron stack containing:
+  - neutron-plugin-agent
+  - neutron-l3-agent
+  - neutron-dhcp-agent
++ Controller node has a neutron server.
+
++ Stretched VLAN and overlay networking supported.
++ Lifts limitations from Nova networking model
+
+******* 3rd Party Venfors
+
++ Modular L2 plugin framwork for maximum flexibility and interoperability. Venfors can write software that fits the product by easyily following the api.
++ Muliple topologies:
+  - Local
+  - Flat
+  - VLAN
+  - GRE
+  - VXLAN
+
++ Able to tap into the physical networking builds less dependencies on intermediary drivers.

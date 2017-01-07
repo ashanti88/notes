@@ -1,0 +1,83 @@
+
+
+** Jekyll walk through with scotch.io
+url: https://scotch.io/tutorials/getting-started-with-jekyll-plus-a-free-bootstrap-3-starter-theme
+
+*** Overview
++ static framework that can use md, textile, liquid or plain html/css.
++ using a CDN (cloudflare, cloudfront) it can help mitigate some dos issues.
++ no need to worry about db
+
+*** Jekyll
++ is a cmd-line executable built with ruby that has a few cmds.
+
+**** Preparation
+1. > apt-get install rbenv ruby-build
+2. > rbenv install 2.2.2
+3. > rbenv global 2.2.2
+4. confirm version with > ruby -v
+5. rbenv has to be added to the $PATH in .zshrc
+  - export PATH="$HOME/.rbenv/bin:$PATH"
+  - or add to existing $PATH
+6. > gem install bundler
+7. > gem install jekyll
+
+**** Jekyll cmds
++ > jekyll serve 
+  - this is done inside the site directory, and runs a dev server. This shouldn't be used in production.
+  - this will watch for any changes and run the "build" cmd when needed.
+  - this can ge stoped with C-c
++ > jekyll build
+  - it is this cmd that creates the site
+  - by default the site will be build in _site
++ > jekyll build --destination <destination>
+  - this will specify build destination
++ > jekyll build --watch
+  - this will cause rebuild on change
++ > jekyll new <location>
+  - this will create a new Jekyll site scaffold with the default theme
+    
+**** Directory Overview
++ _config.yml 
+  - it's this file that contains variables that jekyll uses
++ _layouts/
+  - Templates are the html that wrap posts and other content like pages
++ _includes/
+  - this is where reusable bits of code for your templates
++ _posts/
+  - this is where the post files are kept can be kept in many different formats
++ _drafts/
+  - this is where drafts for posts is stored. This is not created by default
++ _plugins/
+  - where plugins are located. This is not created by default
++ about.md
+  - this is created by default and placed in the root directory
++ index.html
+  - this is your site homepage
++ _site/
+  - this is the generated static site. Everytime you build, this directory is rebuilt. DON'T TOUCH THIS
++ _data/
+  - This is where reusable code, variables or more is kept. Data can be in yaml, json or a csv
+
+**** Configuration
++ sites configuration is done within _config.yml
++ in this file you will find variables such as email, twitter-username, github_username.
+  - these variables can be called in templates with {{ site.variable_name }}
+    
+**** Templating
++ this is broken down into two parts
+  - front matter
+    - yaml located at the top of your files for specifying page or template specific variables.
+  - liquid templates
+    - these use liquid templating language by shopify
+    - tutorial - https://github.com/Shopify/liquid/wiki/Liquid-for-Designers
+
+**** Posts
++ these are kept in the _posts/ directory
++ the files should be to the format YYYY-MM-DD-filename.md
+
+
+**** Data
++ these files are in _data/
++ these can be thought of as collections of variables
++ they can be called with {{ site.data.filename.variable }}

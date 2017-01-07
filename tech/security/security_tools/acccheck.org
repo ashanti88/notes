@@ -1,0 +1,11 @@
+
+
+** accchecker
+   
+Password dictionary attack tool that targets windows authentication via the SMB protocol.
+
+
+Use
+> accchecker -T <smb_ip.txt> -v
+-T list of ip addresses to check
+-v verbose

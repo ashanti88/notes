@@ -1,0 +1,9 @@
+When creating wordlists we can use Custom Wordlist Generator (CeWL)
+
+This tool is useful for scraping sites, blogs, LinkedIn and any other
+social media that could be useful.
+
+Links:
+https://crackstation.net/buy-crackstation-wordlist-password-cracking-dictionary.html
+https://wiki.skullsecurity.org/Passwords
+http://www.drchaos.com/public\_files/chaos-dictionary.lst.txt

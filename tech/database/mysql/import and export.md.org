@@ -1,0 +1,10 @@
+*Import*
+
+first create the database on the machine. Otherwise the database will
+take on the name of the sql file.
+
+> mysql -u root -p <database\_name> < <database\_file.sql>
+
+*Export*
+
+> mysql -u root -p <database\_name> > <database\_file.sql>i

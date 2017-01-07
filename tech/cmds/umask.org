@@ -1,0 +1,26 @@
+
+
+
+* Description							:sys:op:file:
+This command will set the initial permissions that are set to file, and
+what permissions are allowed to be set to a file.
+
+* Usage
++ Display the current mask
+> umask
+022
+
++ This is octal output
++ Octal codes
+0 - any permissions may be set
+1 - setting of execute permission is prohibited
+2 -  setting of write permission is prohibited
+3 - setting of write and execute permission is prohibited
+4 - setting of read permission is prohibited
+5 - setting of read and execute permission is prohibited
+6 - setting of read and write permission is prohibited
+7 - all permissions are prohibited from being set
+
+View the umask with symbolic notation
+> umask -S
+u=rwx,g=rx,o=rx

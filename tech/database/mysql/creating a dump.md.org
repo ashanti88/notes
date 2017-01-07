@@ -1,0 +1,46 @@
+*Commands:*
+
+[[evernote:///view/47830806/s238/d83f8c1a-edef-4bad-aab3-28deec7c35a8/d83f8c1a-edef-4bad-aab3-28deec7c35a8/][mysqldump]]
+
+*Backup database*
+
+> mysqldump -u <user> -p <database> > <backup.sql>
+
+*Restore an backup*
+
+Create the database in mysql first
+
+mysql> CREATE DATABASE <database\_name>;
+
+mysql> exit
+
+> mysql -u <user> -p <database\_name> < <backup.sql>
+
+*How to backup a table to a text file*
+
+mysql> SELECT * INTO OUTFILE 'table\_backup\_file' FROM
+'name\_of\_table';
+
+*Automysqlbackup*
+
+This application allows you to automate your backups can be found in the
+debian/ubuntu repo.
+
+> apt-get install automysqlbackup
+
+run with
+
+> automyqlbackup
+
+the main configuration file is
+
+/etc/default/automysqlbackup
+
+Default place for backups is /var/lib/automysqlbackup
+
+*Techniques that are no longer recomended*
+
+myqlhotcopy shouldn't be used anymore due to limitations. One of these
+is it only works for data stored in 'MyISAM' and 'Archive' storage
+engines. It also has to be run on the local machine, so no backing up
+from a remote box.

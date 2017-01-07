@@ -1,0 +1,12 @@
+
+
+
+* Description							:sys:anal:op:
+
+Command line utility that returns information about a registerd domain.
+It does this using the whois protocol to query databases that store
+registered domain information.
+
+* Usage
+
+> whois <options> <domain.com>

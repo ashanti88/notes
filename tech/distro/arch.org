@@ -1,0 +1,18 @@
+
+
+* Lectures
+* Articles
+
+* Package Management
+** PKGBUILD
++ A PKGBUILD is a shell script containing the build information required by Arch Linux packages.
+
+** AUR packages
+*** Usage
+S - install or update package
+Sy - sync pacman database
+R - remove package
+G - get the PKGBUILD for a package
+--stats - show how much space packages are using
+
+

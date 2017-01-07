@@ -1,0 +1,19 @@
+*Terminal Pager*
+
+[[evernote:///view/47830806/s238/2fe1526a-b08b-4682-be09-44d5914b0637/2fe1526a-b08b-4682-be09-44d5914b0637/][Less]]
+
+*Text Editors *
+
+[[evernote:///view/47830806/s238/4b582f96-fbcd-41cf-a509-6e4602ef36fa/4b582f96-fbcd-41cf-a509-6e4602ef36fa/][Vim]]
+
+[[evernote:///view/47830806/s238/839c5874-f7ea-441a-aab1-2e497362d87a/495/][Emacs]]
+
+*Compressed Files*
+
+[[evernote:///view/47830806/s238/4078f86a-7c42-447f-9ef7-4b8da3e83c2e/4078f86a-7c42-447f-9ef7-4b8da3e83c2e/][bzcat]]
+
+[[evernote:///view/47830806/s238/678a185d-9f1f-446d-822d-bb1d9a4564e8/678a185d-9f1f-446d-822d-bb1d9a4564e8/][bzless]]
+
+[[evernote:///view/47830806/s238/827b321e-7da3-4f99-8191-478ff696da4e/827b321e-7da3-4f99-8191-478ff696da4e/][zcat]]
+
+[[evernote:///view/47830806/s238/1bfeb26d-2728-49ed-b4de-804dae6f4bd9/1bfeb26d-2728-49ed-b4de-804dae6f4bd9/][lzcat]]

@@ -1,0 +1,11 @@
+*Commands*
+
+hostname
+
+hostnamectl
+
+*Files*
+
+/etc/hostname
+
+/etc/hosts

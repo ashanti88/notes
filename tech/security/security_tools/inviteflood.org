@@ -1,0 +1,9 @@
+
+
+** inviteflood
+
+This tool works with sip/sdp INVITE message flooding over UDP/IP. 
+
+
+Use
+> inviteflood <int> <user_id> <target_domain> <target_ip> <num_pls>

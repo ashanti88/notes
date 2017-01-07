@@ -1,0 +1,12 @@
+Starting the GUI
+
+#+BEGIN_QUOTE
+  ettercap -G
+#+END_QUOTE
+
+Ettercap has two modes i) Unified sniffing - sniff all packets that pass
+over the interface (This method will not work if arp poisoning
+mitigation is enabled. ii) Bridge sniffing - using two interfaces and
+forwarding traffic between them.
+
+Ettercap can also be used from the cmd line.

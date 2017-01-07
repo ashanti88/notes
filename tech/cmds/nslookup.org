@@ -1,0 +1,80 @@
+
+
+
+* Description
+
+* Usage
+
+> nslookup <ipaddress>
+
+or
+
+> nslookup <domain.com>
+
++ Query with another name server
+
+> nslookup <ipaddress> <dns\_ip>
+
+This will use another name sever to query rather than the one specified
+in /etc/resolve.conf
+
++ Query record type
+
+> nslookup -querytype=mx <domain.com>
+
+or
+
+> nslookup -querytype=ns <domain.com>
+
+or
+
+> nslookup -querytype=txt <domain.com>
+
+or
+
+> nslookup -querytype=ptr <domain.com>
+
+or
+
+> nslookup -type=soa <domain.com>
+
++ Interactive mode
+
+nslookup has an interactive mode which is started by typing nslookup.
+
+options
+
+> set type=<type>
+
+> server <ipaddress>
+
+> set debug - provides a more verbose output
+
++ View all available records
+
+> nslookup -type=any  <domain.com>
+
++ Reverse DNS lookup
+
+> nslookup <ipaddress>
+
++ Using specific name server
+
+> nslookup <domain.com> <name\_server>
+
++ Change the port number to connect with
+
+DNS use port number 53 by default, but if this has been changed the
+-port flag can be used to specify the different port.
+
+> nslookup -port <number> <domain.com>
+
++ Change the timeout interval for waiting for a reply
+
+> nslookup -timeout=<seconds> <domain.com>
+
++ Enabling debug mode
+
+> nslookup -debug <domain.com>
+
+The debug mode will provide the packet information during the search.

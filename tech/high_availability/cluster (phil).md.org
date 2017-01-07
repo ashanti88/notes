@@ -1,0 +1,61 @@
+Show the cluster details - clustat
+
+Move the MySQL service - clusvcadm -r mysql
+
+Stop the service - clusvcadm -d 'service name'
+
+Start the service - clusvcadm -e 'service name'
+
+Unison is what we use for replicating data/directories across the
+cluster
+
+--------------
+
+*IF you are trying to restart a cluster node and it refuses to restart
+(ONLY USE IF ABSOLUTELY NECESSARY)*
+
+* *
+
+*Run the following:*
+
+* *
+
+echo 1 > /proc/sys/kernel/sysrq
+
+*Then*
+
+* *
+
+echo b > /proc/sysrq-trigger
+
+--------------
+
+*How to restore a database from a restore off the backup (when copying
+the entire mysql folder off the server)*
+
+1)runuser mysql -c
+=/usr/sbin/mysqld --socket=/tmp/mysql.sock --datadir=PATH TO RESTORE MYSQL FOLDER --skip-networking --pid-file=/tmp/mysql.pid \--innodb_buffer_pool_size=512M --max_allowed_packet=2G \--innodb_force_recovery=6 --wait_timeout=86400 \--innodb_purge_thread=0 --log-warnings=2=
+
+ 
+
+2)mysqldump --socket=/tmp/mysql.sock -uroot
+-p DATABASENAME  > DATABASE\_BACKUP.sql
+
+ 
+
+3)mysql ORIGINALDATABASENAME OR NEWDATABASEWITHNEWNAME < DATABASE
+BACKUP.sql
+
+--------------
+
+/* */
+
+/*RHEL 7 CLUSTERS (pcs NOT crm)*/
+
+/* */
+
+crm\_resource -P - This will recheck the status of the cluster when a
+failure message is shown when using 'pcs status'. If this failure
+message goes away you're all good, if not then go cry
+
+[[http://linux.die.net/man/8/crm_resource]]

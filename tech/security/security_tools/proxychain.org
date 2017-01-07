@@ -1,0 +1,11 @@
+
+
+allows the use of proxies to tunnel cmds through
+
+edit the /etc/proxychain.conf
+
+set to tor by default, comment out if you don't want to go through tor.
+
+add new proxies at the bottom of the file.
+<protocol> <ip_addr> <port>
+socks5 213.34.45.111 1080

@@ -1,0 +1,4 @@
+
+
+* Description
+In computer networking, the multicast Domain Name System (mDNS) resolves host names to IP addresses within small networks that do not include a local name server. It is a zero-configuration service, using essentially the same programming interfaces, packet formats and operating semantics as the unicast Domain Name System (DNS).

@@ -1,0 +1,17 @@
+*Simple Network Management Protocol*
+
+* *
+
+*Ports*
+
+Port 161  udp - sending and receiving requests
+
+Port 162 udp - receiving traps
+
+*Community Strings*
+
+default
+
+read-only - 'public'
+
+read-write - 'private'

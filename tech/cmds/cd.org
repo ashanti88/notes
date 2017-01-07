@@ -1,0 +1,20 @@
+
+
+
+
+* Description								:sys:
+
+* Usage
+
+> cd <options> <path>
+
+move to users home directory
+> cd
+or
+> cd ~
+
+move to previous directory
+> cd -
+
+move back one directory
+> cd ..

@@ -1,0 +1,16 @@
+
+
+* Description							     :sys:op:
+This tool limits the cpu usage of a process.
+
+
+* Usage
+
++ the process apache2 to 30%. 
+> cpulimit -e apache2 -l 30
+e - name of executable program
+l - percentage of cpu to use 1-100, more with a multi-core processor
+
+> cpulimit -p <pid> -l <percentage>
+p - process id
+

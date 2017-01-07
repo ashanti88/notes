@@ -1,0 +1,171 @@
+
+
+* Phases
+** Recon
+** Enumeration
+** Exploitation
+** Maintaining Access 
+** Covering Tracks
+* Tutorials
+** PluralSight - System Hacking - Dale Meredith
+
+*** Intro
+
+What to do before attack
++ recon & footprinting
+    - ip range
+    - Namespace
+    - Public Data
++ Scanning
+    - ID targets
+    - ID services
+    - ID O/S
++ Enumeration
+    - User lists
+    - Security flaws
+    - Resources
+
+What are our goals
++ Gain Access
++ Maintaining Access
++ Covering Tracks
+
+
+**** Gaining Access
+Complexity - MS you must use at least 3 of Upper case, Lower case, Numbers and Special characters
+Password recovery time simulator - free
+
+***** Architecture
+****** Windows
+Local machines: SAM Database - C:\windows\system32\config\sam
+Stored as hashes - mounted as HKLM/SAM
+Older machines may have C:\windows\repair with backups of passwords
+
+Active Directory: ntds.dit - C:\windows\ntds
+stores all passwords for domain controller     
+
+****** Linux
+/etc/shadow
+
+****** OS X
+/var/db/dslocal/nods/default/users
+
+ophcrack to crack the hash - ophcrack has a live cd
+
+
+****** Techniques Used
++ Dictionary Attack - Text files of words - Languages - Subjects
++ Brute-Force Attacks - Takes longer - beyond 14+ starts getting difficult
++ Syllable Attacks - Dictionary and brute-force attack
++ Hybrid Attacks - Dictionary using variation on numbers & special chars
++ Rule-Base Attacks - Using discovered rules to specify shape of password
++ Guessing - Using information gleaned to make educated guesses - social media etc
+  
+****** Types of Attacks
+| Passive Online | Sniffing, MIM, Sidejacking(firesheep)             |
+| Active Onle    | Hash injection, trojan/keylogger                  |
+| Offline        | Rainbow, Distributed network, pre-computed hashes |
+| Non-electronic | Dumpster diving, social engineering               |
+
+Hashes 
+LM Hash - des
++ LM Hash/NTLM stores passwords up to 14 chars
++ All characters are converted to UPPER case
++ Padded with blank characters to fill out all 14 chars.
++ Then split into 7 chars stings
++ Each 7 char string is then encrypted and combined back 
+
+NTLM 1 - md4 NTLM 2 - md5
+Bwayne:1005:85D8D0AEB8D112F8F9954FC9DF57E012:ED7B273FDE21FFE559AC8D1B9D3729BC:::
+Administrator:500: xxxxxxxxxxxxxxxxxxxxxxx:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx:::
+Guest:501:NOPASSWORD**********************:NOPASSWORD*********************:::
+
+Notes
++ 500 cid in MS is always admin
++ Any hash that ends with: AAD3B435B51404EE - last 7 chars blank
++ Any password with 15+ chars: the LM hash value is "dummied" with AAD3B435B51404EEAAD3B435B51404EE
+
+****** NTLM Authentication
++ NTLM is used whtn 
+  - There is no Kerberos trust between two different forests
+  - Authentication is attempted by IP and not by DNS
+  - If oe or both systems are not in the same domain
+  - If your FW is blocking Kerberos ports
+  
+******* How it's used
++ Challenge response algorithm
++ Passwords are not transmitted
++ V1 came with NT - V2 cam with NT SP4
+
+******* The Process
+
+user enters pass -----> windows generates a hash
+        |
+        |
+        ---------------------------------------------> Domain Controller
+	                      Request                            |
+          <-------------------------------------------------------	
+                             hash sent by DC
+       ---------------------------------------------------------->
+                      hast and challenge sent back
+		      
+****** Kerberos Authentication - used on modern MS
++ Ticket based
++ Avoids transmitting passwords
++ Time based
+
+1. user requests TGT 
+2. DC issues TGT
+3. TGT is presented to machines in the network to access services
+PDC needs to be synced otherwise kerberose doesn't work
+
+****** Salting 
++ Append or prepending random strings
++ done before hashing
++ prevents duplicate hashes
++ unique to each password
+  
+****** Rainbow tables
++ Precomputed hash tables
++ Huge files
+
++ website for checking hashes tobtu.com 
++ lm hash checking hashes rainbowrables.it64.com
++ dictionaries can be found at outpost9.com
+
+**** Maintaining Access
+     
++ Look around
+  - config errors
+  - design errors
+  - layouts
+  - programming flaws
+
+***** Four Methods for Escalation
+1. Pwn the admin/root acct
+2. Take advantage of vuln
+3. Fire up the sploit - alt to sploit - canvas, core-impact
+4. Have a user do it for you!
+
+***** Types of Escalation
++ Vertical - user gains admin level access
++ Horizontal - move to a user 
+  
+***** Counter Measures
++ encryption - encrypted hdd 
++ Least priv - don't over allocate a user
++ sw upto date
++ Limit interactive logon
++ Service accts are limited
++ Limit code that can run with privs
+
+***** Slow down attacker
++ Priv separation approach
++ test os and app code before running
++ Multi-factor
++ Stress test code, apps befor deploying
+
+**** Cover Tracks
+* Lectures
+
+     

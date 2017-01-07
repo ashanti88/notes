@@ -1,0 +1,1 @@
+[ http://www.thegeekstuff.com/2016/06/nginx-reverse-proxy-to-apache/](http://www.thegeekstuff.com/2016/06/nginx-reverse-proxy-to-apache/ "http://www.thegeekstuff.com/2016/06/nginx-reverse-proxy-to-apache/" )

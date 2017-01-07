@@ -1,0 +1,19 @@
+*Check when it was last checked*
+
+> tune2fs -l /dev/sda1 | grep -i check
+
+*Create forcefsck file*
+
+> cd /
+
+> touch forcefsck
+
+> shutdown -r now
+
+*After reboot*
+
+the forcefsck file has been removed.
+
+> tune2fs -l /dev/sda1 | grep -i check
+
+this should show that the last check was just run

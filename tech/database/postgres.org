@@ -1,0 +1,17 @@
+
+* Lecture
+** Just Use Postgres - Rhys Elsmore
+[[https://www.youtube.com/watch?v%3DUgcC_bY4rPg][URL]]
+
+- more services provide more attack surface.
+- code level db locking - redis 
+- social graphs are available
+- windows/partition function - look at connections between rows.
+- CTE (Common Table Expressions)
+  - temp table for just one query
+- NOTIFY/LISTEN - can be used to inform a user that certain table/db has been updated.
+- Foreign Data Wrappers - connect to other db and access data.
+- JSON in Postgres
+  - able to remove MongoDB
+- Avoid Race Conditions
+  - Access - row locking

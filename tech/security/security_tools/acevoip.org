@@ -1,0 +1,5 @@
+
+
+** ace-voip
+
+Automated Corporate Enumerator is a simple yet powerful voip corporate directory enumeration tool that mimics the behaviour of an ip phone. It is used to download the name and extension entries that a given phone can display on its screen.

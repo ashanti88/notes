@@ -1,0 +1,10 @@
+Password sniffer that can detect several protocols - telnet, ftp, smtp,
+pop, imap, http, cvs, citrix, smb, oracle and many others.
+
+Unlike wireshark dsniff only provides the passwords.
+
+Usage: > dsniff -i @@html:<interface>@@
+
+options i - interface p - provide a pcap file rather than using an
+internet stream r - read sniffed session from a saved file w - write to
+file m - enable automatic protocol detection

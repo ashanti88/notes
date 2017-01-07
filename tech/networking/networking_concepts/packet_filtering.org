@@ -1,0 +1,56 @@
+
+
+* iptables
+** Usage
+*** Display IPTables
+> iptables -vnL
+
+*** Use SAM's site to generate iptables code (iptabl.es)
+curl iptabl.es/accept/79.77.20.95/8443
+
+*** How to ADD/DELETE additional IP's to IPTables
+
+iptables -I INPUT -p tcp -s 79.77.20.95 --dport 8443 -j ACCEPT
+
+iptables -I INPUT -s 37.220.91.13 -j DROP
+
+-I adds the line to the top of the table
+
+-A appends it to the end
+
+-D deletes the line instead of adding it
+
+-s is the source IP
+
+-j means that it jumps to the command specified afterwards i.e.
+ACCEPT/REJECT/DROP
+
+-p is the port type i.e. tcp
+
+INPUT/OUTPUT mean incoming or outgoing
+
+You can delete them based on what they're doing:
+
+#+BEGIN_EXAMPLE
+    iptables -D INPUT -s 127.0.0.1 -p tcp --dport 111 -j ACCEPT
+#+END_EXAMPLE
+
+--------------
+
+Or you can delete them based on their number and chain name:
+
+#+BEGIN_EXAMPLE
+    iptables -D INPUT 4
+#+END_EXAMPLE
+
+--------------
+
+*** Save the additions to IPTables
++ sysv
+service iptables save
++ systemd
+
+
+** Links
+[[http://www.cyberciti.biz/tips/linux-iptables-examples.html][iptables examples]] 
+

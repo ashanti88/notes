@@ -1,0 +1,21 @@
+Register /msg NickServ REGISTER @@html:<password>@@ @@html:<email>@@
+
+*Search channels*
+
+/list - list all server channels
+
+/list -re <regex>
+
+*Search with ALIS channel bot*
+
+channel search
+
+/msg alis list /word/
+
+channel topic search
+
+/msg alis list -topic /word/
+
+list options
+
+/msg alis help list

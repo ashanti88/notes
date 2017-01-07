@@ -1,0 +1,11 @@
+
+
+** Parsero
+
+This tool reads the robot.txt file and looks at the disallow enteries
+
+
+Use
+> parsero -U <domain.com> -sb
+
+-sb - using indexed disallows

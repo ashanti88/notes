@@ -1,0 +1,23 @@
+*Virtual Network Connection*
+
+* *
+
+*Ports:*
+
+5900 - first x server. Then increase by one for each new connection.
+
+*Packages:*
+
+tightvnc
+
+tigervnc
+
+realvncviewer
+
+vncviewer
+
+*Installation and Configuration:*
+
+*Links:*
+
+[[https://www.digitalocean.com/community/tutorials/how-to-set-up-vnc-server-on-debian-8]]

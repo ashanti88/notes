@@ -1,0 +1,185 @@
+*1xx Informational*
+
+* *
+
+100 - Continue
+
+This class of status code indicates a provisional response, consisting
+only of the Status-Line and optional headers, and is terminated by an
+empty line. There are no required headers for this class of status code.
+Since HTTP/1.0 did not define any 1xx status codes, servers MUST NOT
+send a 1xx response to an HTTP/1.0 client except under experimental
+conditions.
+
+A client MUST be prepared to accept one or more 1xx status responses
+prior to a regular response, even if the client does not expect a 100
+(Continue) status message. Unexpected 1xx status responses MAY be
+ignored by a user agent.
+
+Proxies MUST forward 1xx responses, unless the connection between the
+proxy and its client has been closed, or unless the proxy itself
+requested the generation of the 1xx response. (For example, if a
+
+proxy adds a "Expect: 100-continue" field when it forwards a request,
+then it need not forward the corresponding 100 (Continue) response(s).)
+
+100 - Contine
+
+101 - Switching Protocols
+
+The requester has asked the server to switch protocols and the server
+has agreed.
+
+102 - Processing
+
+*2xx Success*
+
+This class of status codes indicates the action requested by the client
+was recieved, understood, acceptedand processed successfully.
+
+200 - OK
+
+Standard response for a successful HTTP request. 
+
+201 - Created
+
+The request has been fulfilled, resulting in the creation of a new
+resource.
+
+202 - Accepted
+
+The request has been accepted for processing, but the processing has not
+been completed.
+
+203 - Non-Authoritative Information
+
+The server is a transforming proxy that recieved a 200 OK from its
+origin, but is returing a modified version of the origin's responses.
+
+204 - No Content
+
+The server successfully processed the request and is returning no
+content.
+
+205 - Reset Content
+
+The server successfully processed the request, but is not returning any
+content. Unlike a 204 this response requires that the requester reset
+the document view.
+
+206 - Partial Content
+
+The server is delivering only part of the resource due to a range header
+sent by the client. The range header is used by HTTP clients to enable
+resuming of interrupted downloads, or split a download into multiple
+simulaneous steams.
+
+207 - Multi-Status
+
+208 - Already Reported
+
+226 - IM Used
+
+*3xx Redirection*
+
+301 - Moved Permanently
+
+302 - Found
+
+303 - See Other
+
+304 - Not Modified
+
+305 - Use Proxy
+
+306 - Switch Proxy
+
+307 - Temporary Redirect
+
+308 - Permanent Redirect
+
+*4xx Client Error*
+
+400 - Bad Request
+
+401 - Unauthorized
+
+402 - Payment Required
+
+403 - Forbidden
+
+404 - Not Found
+
+405 - Method Not Allowed
+
+406 - Not Acceptable
+
+407 - Proxy Authentication Required
+
+408 - Requested Timeout
+
+409 - Conflict
+
+410 - Gone
+
+411 - Length Required
+
+412 - Precondition Failed
+
+413 - Payload Too Large
+
+414 - URI Too Long
+
+415 - Unsupported Media Type
+
+416 - Range Not Satisfiable
+
+417 - Expectation Failed
+
+418 - I'm a teapot
+
+421 - Misdirected Request
+
+422 - Unprocessable Entity
+
+423 - Locked
+
+424 - Failed Dependency
+
+426 - Upgrade Required
+
+428 - Precondition Required
+
+429 - Too Many Requests
+
+431 - Request Header Fields Too Large
+
+451 - Unavailable For Legal Reasons
+
+*5xx Server Error*
+
+500 - Internal Server Error
+
+501 - Not Implemented
+
+502 - Bad Gateway
+
+503 - Service Unavailable
+
+504 - Gateway Timeout
+
+505 - HTTP Version Not Supported
+
+506 - Variant Also Negotiates
+
+507 - Insufficient Storage
+
+508 - Loop Detected
+
+510 - Not Extended
+
+511 - Network Authentication Required
+
+*Unofficial Codes*
+
+to be finished

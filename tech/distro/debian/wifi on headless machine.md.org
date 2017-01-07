@@ -1,0 +1,20 @@
+1. Find the wireless interface > iwconfig
+
+2. Find the ESSID to connect to > iwlist @@html:<int>@@ s | grep ESSID
+
+3. Create the config file in /etc example
+   ctrl\_interface=DIR=/var/run/wpa\_supplicant GROUP=netdev
+   update\_config=1 country=GB
+
+network={ ssid="********" psk="********" key\_mgmt=WPA-PSK }
+
+4. Edit /etc/network/interfaces
+
+allow-hotplug wlan0 iface wlan0 inet dhcp wpa-conf
+/etc/wpa\_supplicant/wpa\_supplicant.conf
+
+5. Bring the interface up and down > sudo ifdown @@html:<int>@@ or >
+   sudo ip link set @@html:<int>@@ down > sudo ifup @@html:<int>@@ or >
+   sudo ip link set @@html:<int>@@ up
+
+-  if dhcp fails check the ssid and psk spelling

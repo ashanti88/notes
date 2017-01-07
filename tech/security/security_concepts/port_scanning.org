@@ -1,0 +1,84 @@
+port 0 is used as a wildcard to indicate any available port.
+
+this port can be used by a trojan to allow stealthy access to a system.
+
+nmap allows for the scanning of port 0 when explicitly set.
+
+> nmap -p0-x <address>
+
+Ephemeral port ranges
+
+Many Linux machines - 32768 - 61000
+
+Man BSD use 1024-5000
+
+windows 2003 - 1025 - 3976
+
+windows 2008 - 10000 - 10999
+
+this range can be found in linux with 
+
+> cat /proc/sys/net/ipv4/ip\_local\_port\_range
+
+IANA uses a different system to seperate out ports
+
+well-known ports -1-1023
+
+registered ports - 1024 - 49151
+
+dynamic ports - 49152 - 65535
+
+By default nmap will scan the 1000 most popular ports of each protocol
+it is asked to scan.
+
+Nmap and port status
+
+there are 6 states
+
+open - actively acceptind tcp/udp packets on this port.
+
+closed - is accessible ( it receives and responds to nmap probe packets,
+but there's no application running on the port.
+
+filtered - nmap can't determine if the port is open, because packet
+filtering prevents the probe from reaching the port. The filtering may
+be from a dedicated device, router rules or host-based firewall. 
+
+unfiltered - the port is accessible, but nmap is unable to determine
+whether it is open or closed. Only the ACK scan uses this status, other
+scan types will clear this state up.
+
+open|filtered - unable to determine if open or filtered.
+
+closed|filtered - unable to determine if closed or filtered.
+
+Timing-related options
+
+timings are assumed to be in milliseconds unless otherwise stated by
+appending s (seconds), m (minute) or h (hours) to the value.
+
+Port scan performance options
+
+-T0 through -T5
+
+slowest through to fastest
+
+--min-rtt-timeout, --max-tt-timeout, --initial-rtt-timeout
+
+The minimum, maximum and initial amount of time that nmap will wait for
+a port scan probe response.
+
+--host-timeout
+
+Asks nmap to give up on hosts that take more than the given amount of
+time to scan.
+
+--min-rate, --max-rate
+
+Sets the upper and lower limits for number of probe packets nmap sends
+per second.
+
+--max-retries
+
+Specifies the maximum number of port scan probe retransmission to a
+single port.

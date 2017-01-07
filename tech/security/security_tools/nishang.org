@@ -1,0 +1,17 @@
+
+
+** nishang
+
+Scripts and payloads for working with powershell
+
+
+*** Scripts
++ Antak-WebShell
++ Backdoors
++ Escalation
++ Execution
++ Gather
++ Pivot
++ powerpreter
++ scan
++ utility

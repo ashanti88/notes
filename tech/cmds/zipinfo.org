@@ -1,0 +1,19 @@
+this cmd can list detailed information about an archive
+
+*Basic usage*
+
+> zipinfo <option> <filename.zip>
+
+*Options*
+
+1 - list filenames only
+
+2 - list filenames only but include headers
+
+s - list zipfile info in short Unix "ls -l" format
+
+m - similar to above
+
+l - list in long form
+
+v - list in verbose

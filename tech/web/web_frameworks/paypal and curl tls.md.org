@@ -1,0 +1,29 @@
+Thank you for contacting Red Hat Support. My name is Juan Manuel and I
+will be in charge of this support case.
+
+This is a known issue that is being triggered due to recent changes
+companies like Paypal made to their web servers. It is currently being
+tracked in the following bugzillas:
+
+Bug 1289205 - use the default min/max TLS version provided by NSS
+[[https://email.ukfast.com/owa/redir.aspx?C=bf80625343fa48629b56d0e9df2fb2dc&URL=https%3a%2f%2fbugzilla.redhat.com%2fshow_bug.cgi%3fid%3d1289205][https://bugzilla.redhat.com/show\_bug.cgi?id=1289205]]
+
+Bug 1272504 - Enable TLS 1.2 as the default in nss
+[[https://email.ukfast.com/owa/redir.aspx?C=bf80625343fa48629b56d0e9df2fb2dc&URL=https%3a%2f%2fbugzilla.redhat.com%2fshow_bug.cgi%3fid%3d1272504][https://bugzilla.redhat.com/show\_bug.cgi?id=1272504]]
+
+These issues are currently in QA, and will be released soon.
+Unfortunately we cannot provide a definitive date, although we are in
+the process of generating a hotfix to have it sooner.
+
+For convenience, we have attached two files to the case, which contain
+the latest builds for these packages, should you need a fix for this
+immediately. Please do bear in mind that, since these are in QA and have
+not yet been officially released, these packages are provided without
+any kind of support. For supported versions of the packages with the
+relevant fixes, unfortunately you will need to wait until a hotfix is
+available or until they are officially released via an errata.
+
+Please let us know if you need anything else.
+
+Regards Juan Manuel Santos Senior Technical Support Engineer Red Hat
+Global Support Services"

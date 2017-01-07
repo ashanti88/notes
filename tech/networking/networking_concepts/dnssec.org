@@ -1,0 +1,3 @@
+*notes:*
+
+[[https://blog.cloudflare.com/dnssec-an-introduction/]]

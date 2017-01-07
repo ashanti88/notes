@@ -1,0 +1,98 @@
+*Auto-Installer*
+
+Linux
+
+No need to touch the installation of linux.*
+
+Windows
+
+Only need to manually install windows updates.*
+
+*This only applies if you have access to the server manager screen.
+Otherwise all details have to be filled in and 
+
+placed on the auto-installer vlan and switch reconfigured. Then the vlan
+has to be set to the correct vlan that it will 
+
+be on after installation and saved.
+
+Installer
+
+Complete all tabs left to right.
+
+Pre-Install
+
+Load - Only if LB
+
+Firewall - Decide if the machine is behind a dedicated FW or a shared
+FW.
+
+Backup - Set when the backup is to take place.
+
+                Set Backup type (Bacula, Commvault, DPM)
+
+                Set Backup id ( If one is not recommended to to server
+screen and search the rack location and find the corresponding Backup
+server).
+
+                Set Backup Quota.
+
+                Set Backup Site ( normally onsite ).
+
+Order - Set Engineer.
+
+             Set PG ( if not already set ).
+
+             Set "Don't auto send server details" to yes.
+
+             Set Maintenance ( normally set to yes ).
+
+             Set Pro Protection if client has purchased Anti virus.
+
+             After installation the Installed area needs to be
+completed.
+
+Location - This is set by DC.
+
+Network - Set Hostname and Netbios if it hasn't been set by DC.
+
+                  Set Allocation. This will have been assigned in the
+order form.
+
+                  Check the Swtich Type on all ports. Switch 1 (
+Primary), Switch 2 ( Backup ), Switch 3 ( Secondary ), Switch X (
+Secondary ).
+
+                  On a fresh build ensure that no monitoring has been
+set.
+
+Software - From the Software Installed Tab (third down) selected the
+required OS.
+
+                  Check the order form if a panel has been specified, if
+so selected with the correct license.
+
+                  Check the order form for any extra software that is
+required. *
+
+Hardware - In reboots tab (fourth down) check if machines is able to use
+DRAC. (96 no, 1 yes).
+
+Main         - Check that there are no previous passwords set in the
+passwords tab (Fourth down) .
+
+Post-Insatallation
+
+Order - Set installation date.
+
+Give all tabs a once over to ensure that they have been filled in
+correctly.
+
+Run Final server checks.
+
+Check monitoring has been applied as per the order ( if none specified
+then just enable ping ).
+
+Makesure Status, Role and Active are set.
+
+Set Complete.

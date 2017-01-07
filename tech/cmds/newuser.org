@@ -1,0 +1,15 @@
+
+
+
+* Description							     :sys:op:
+
+
+* Usage
+
+> newusers FILENAME
+
+This command takes a file to the form
+
+loginname:password:uid:gid:comment:home\_dir:shell
+
+This allows a large number of users to be added

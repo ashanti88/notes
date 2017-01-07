@@ -1,0 +1,50 @@
+this tool sutomates sqlinjections
+
+*Basic Syntax*
+
+> sqlmap <option> <url>
+
+*Initial Scan*
+
+> sqlmap -u <url>
+
+This scan will attemp to find sql inject vulnerabilities, using preset
+injection payloads. It will also attempt to find the OS, DBMS and web
+server.
+
+*Find Databases*
+
+> sqlmap -u <url> --dbs
+
+Now we know from the above scan that we have a vulnerable url, we need
+to find the databases. This cmd will find the database names.
+
+*Find Tables*
+
+> sqlmap -u <url> --tables -D <database\_name>
+
+This will output the tables of the requested database.
+
+*Find Columns*
+
+> sqlmap -u <url> --columns -D <database\_name> -T <table\_name>
+
+This will output the columns of the specified table.
+
+*Get data from a table*
+
+> sqlmap -u <url> --dump -D <database\_name> -T <table\_name>
+
+This will produce output very similar to mysqldump.
+
+*More details*
+
+Tell sqlmap where to inject with *
+
+> sqlmap -u http://www.domain.com/class\_name/method/40*/80
+
+Sometimes sqlmap fails to connect this can be counted with
+--random-agent. This will attempt to connect with a chrome or mozilla
+signature.
+
+> sqlmap -u <url> --random-agent

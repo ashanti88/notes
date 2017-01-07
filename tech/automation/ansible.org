@@ -1,0 +1,88 @@
+
+
+
+** Lecture
+*** Learn you some Ansible for great good! - OpenStack Summit May 2015
+url:[[url][https://www.youtube.com/watch?v=qEuk65few9I]]
+
+**** Unified dev, test and deployment environments 
++ can reproduce issues
++ buys caught earlier
++ dev environment templated - all the same
++ speed of work getting started
+
++ simple way to create identical development environments
+
+**** Configuration Management Tools
+
+Arcane magic --------> Manual Instructions ----------> Scripts ------> CM Tools
+
++ with the scripts and CM tools we are now able to automate the management.
+
+**** CM Tools
++ its about describing to the tool the environment that is required.
+
+variety - Puppet - 2005
+        - Chef   - 2009        Seen as more feature rich
+--------------------------------------------------------------
+        - Salt   - 2011        Simpler Solutions
+        - Ansible- 2012
+	  
+
+**** Ansible
++ Orchestration engine for CM and deployment
++ Written in python
++ Uses YAML
++ Playbooks - descriptions of desired states
++ Config specs or explicit cmds
+
+***** Key Points
++ No central configuration server
++ No key mgmt
++ No agent to install on target machine
++ Explicit order
+  
+***** Requirements
++ SSH access (with key or password)
++ Need Python installed on target machine
+
+***** Modules
++ Hundreds of them. They know stuff....
+  - Command
+  - shell script
+  - install pkg
+  - Network Services
+  - Database Services
+Many more.....
+
+***** How does it work
+
+           Playbook      Python Mod   ssh              ssh     Run Mod
+  Laptop ------------->  "Apache2" --------> Run Mod -------> (then del) 
+     |                                                            |
+     |                                                            |
+     -------------------------------------------------------------
+                           Return Results
+			   
++ once Ansible has finished all the module code is deleted.
+
+***** Inventory and groups
++ Define hosts, organised into groups 
+  - by function
+  - by location
+  - by hosting provider
+
++ Naming of groups is arbitory
+
+***** Adhoc commands
++ Single commands applied to groups
+> ansible -i hosts europe -a "uname -a"
+> ansible -i hosta frontend -a "/sbin/reboot" -f 3
+-i - host file
+-a - command
+
++ actions are either carried out against single units or groups.
+
+***** Playbooks
++ Tell Ansible what to do
++ These are written in YAML

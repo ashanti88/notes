@@ -1,0 +1,122 @@
+#+OPTIONS:   H:5 title:nil num:nil toc:nil \n:t @:t ::nil |:t ^:nil -:t f:nil *:t <:t
+#+LATEX_HEADER: 
+#+LATEX_HEADER: \pagenumbering{}
+#+LATEX_HEADER: \usepackage{titling}\setlength{\droptitle}{-10em}
+#+LATEX_HEADER: \setlength{\droptitle}{-10em}
+#+LaTeX_HEADER: \usepackage[T1]{fontenc} 
+#+LaTeX_HEADER: \usepackage[adobe-utopia]{mathdesign}
+#+LaTeX_HEADER: \usepackage[scaled]{berasans} 
+#+LaTeX_HEADER: \usepackage[scaled]{beramono}
+#+LaTeX_CLASS_OPTIONS: [12pt,a4paper]
+#+LATEX_HEADER: \renewcommand\maketitle{\begin{center}\vspace*{-3cm}\textbf{\Large Alick Mitchell\\\normalsize tel: 07821 486241 email: mitchell.alick@gmail.com\end{center}}}
+
+#+BEGIN_LaTeX
+\raggedright\textfb{\Large Personal Summary}\\
+I am a dedicated and forward thinking individual, who enjoys developing my skill set to produce a more efficient working environment. I'm constantly look to solidifying my foundational knowledge whilst developing new skills. I enjoy working in close teams but have the ability and initiative to work alone.\\
+\hspace*{.5cm}
+#+END_LaTeX
+
+#+BEGIN_LaTeX
+\raggedright\textfb{\Large Technical}\\
+\textbf{System Administration}\\
+\hspace*{.5cm} - Debian, Ubuntu, REHL, FreeBSD\\
+\textbf{Programming Languages}\\
+\hspace*{.5cm}- C, Perl, Python, Bash, Scheme\\
+\textbf{Web Services}\\
+\hspace*{.5cm}- Apache, Nginx, HAProxy\\ 
+\textbf{Web Frameworks}\\
+\hspace*{.5cm}- Django, Flask, Jekyll, Wordpress\\
+\textbf{Database}\\
+\hspace*{.5cm}- MySQL, PostgreSQL, SQLite3, MongoDB\\
+\textbf{Mail}\\
+\hspace*{.5cm}- Postfix, Dovecot, exim, qmail\\
+\textbf{Networking}\\
+\hspace*{.5cm}- Implementation of the following DNS/BIND, DHCP, VPN, SSH, FTP,\\ 
+\hspace*{.7cm}CUPS, NFS, Samba, VOIP, SSL/TLS\\
+\textbf{Cloud Technologies \& Virtualization}\\
+\hspace*{.5cm}- OpenStack, OpenShift, Kubernetes, KVM, Docker, Vagrant\\
+\textbf{Storage}\\
+\hspace*{.5cm}- DRBD, Ceph, Gluster, Swift\\
+\textbf{Monitoring \& Automation}\\
+\hspace*{.5cm}- Zabbix, Nagios, Ansible\\
+\textbf{Misc Technologies}\\
+\hspace*{.5cm}- Git, Wireshark, Cisco IOS, Emacs, Asterisk\\
+\hspace*{.5cm}
+#+END_LaTeX
+
+#+BEGIN_LaTeX
+\raggedright\textfb{\Large Employment}\\
+% Title
+\textbf{Systems Administrator}
+\hspace*{1.8cm}\textbf{Blue Levers}
+\hspace*{1.8cm}\textbf{06-2015 - 10-2016}\\
+% Duties
+\hspace*{.5cm} - Installation and maintenance of Centos High Availability servers.\\
+\hspace*{.5cm} - Implementation of DRBD for block level syncrinization between nodes.\\
+\hspace*{.5cm} - Installation and setup of development servers. Ensure the correct \\
+\hspace*{.7cm} versions of needed software were installed for different software stacks.\\ 
+\hspace*{.5cm} - Installation of ssl certificates on various Operating Systems.\\
+\hspace*{.5cm} - Maintenance of RHEL, Centos and Ubuntu servers.\\
+\\
+#+END_LaTeX
+
+#+BEGIN_LaTeX
+% Title
+\textbf{Database Administrator}
+\hspace*{1.2cm}\textbf{Primary Engineer}
+\hspace*{1.2cm}\textbf{05-2015 - 05-2015}\\
+% Duties
+\hspace*{.5cm} - Migration from Microsoft Access/Excel to MySQL. To provide a more 
+\hspace*{.7cm} consolidated and efficient environment.\\
+\hspace*{.5cm} - Database tuning and optimization.\\
+\hspace*{.5cm} - Duty of maintaining on-site infrastructure, switches, servers, and 
+\hspace*{.7cm} access-points.\\
+\hspace*{.5cm} - Administration of hosted CentOS servers with Cpanel.\\
+\hspace*{.5cm} - Administration of company moodle, wordpress and Joomla sites.\\
+\hspace*{.5cm} - Aiding in the development of Raspberry pi training course.\\
+#+END_LaTeX
+#+BEGIN_LaTeX
+% Title
+\textbf{System Administrator}
+\hspace*{2cm}\textbf{Elder Care}
+\hspace*{2cm}\textbf{04-2013 - 03-2014}\\
+% Duties
+\hspace*{.5cm} - Answering of staff queries via telephone and determining the correct\\
+\hspace*{.7cm} solution to ensure that they are able to continue work un-inhibitated.\\
+\hspace*{.5cm} - The use of set company policies and standards in dealing with data and\\
+\hspace*{.7cm} service management.\\
+\hspace*{.5cm} - Maintaining customer database records for future reference and\\ 
+\hspace*{.7cm}report creation.\\
+\hspace*{.5cm} - Working with third parties to produce cost efficient solutions.\\
+#+END_LaTeX
+#+BEGIN_LaTeX
+% Title
+\textbf{System Administrator}
+\hspace*{1.7cm}\textbf{Lynch Trucks}
+\hspace*{1.7cm}\textbf{01-2012 - 03-2013}\\
+% Duties
+\hspace*{.5cm} - Maintenance of company website and email server.\\
+\hspace*{.5cm} - Installion and update of company sytems.\\
+\hspace*{.5cm} - Dealing with staff requests regarding IT problems.\\
+\hspace*{.5cm} - Creation and maintenance of company distributed database.\\
+\hspace*{.5cm}
+#+END_LaTeX
+
+#+BEGIN_LaTeX
+\raggedright\textfb{\Large Education}\\
+\textbf{Burnley College}\\
+\hspace*{.5cm} - A level Chemistry(c)\\ 
+\hspace*{.5cm} - A level Biology(c)\\
+\hspace*{.5cm} - A level Mathematics(c)\\
+\textbf{Barden High School}\\
+\hspace*{.5cm} - GCSE English(c) \hspace*{3.2cm} - GCSE Design Technology(b)\\
+\hspace*{.5cm} - GCSE Mathematics(b) \hspace*{2.1cm} - GCSE English Litrature(c)\\
+\hspace*{.5cm} - GCSE Double Award Science(b/b) \hspace*{0cm} - GCSE French(c)\\
+\hspace*{.5cm} - GCSE History(b) \hspace*{3.1cm} - GCSE Physical Education(c)\\
+\hspace*{.5cm}
+#+END_LaTeX
+
+#+BEGIN_LaTeX
+\raggedright\textfb{\Large Additional Information}\\
+I am an enthusiastic FOSS advocate with a particular passion for anything *nix. I’ve been working with Linux/Unix for the last 9 years and enjoy nothing more than consolidating current skills and developing new ones. A large part of my free time is spent in self study with my home lab, testing out new technologies and solutions. I'm currently spending most of my time on kernel development.
+#+END_LaTeX

@@ -1,0 +1,42 @@
+
+
+
+
+* Description							:compression:
+allow the contents of gzip files to be viewed without extraction.
+
+* Usage
+
+> zcat <file.gz>
+
+read without extracting
+
+or
+
+> zcat <file.gz> | more
+
+output to pager
+
+or
+
+> zcat <file.txt.gz> > <file.txt>
+
+keep original file and output to extracted file
+
++ Viewing a file that may or may not be compressed
+
+> zcat -f <unknown\_file>
+
+f - force, this allows uncompressed files to also be viewed.
+
++ View in pager
+
+> zcat <file.gz> | less
+
+> zcat <file.gz> | more
+
+or
+
+> zless <file.gz>
+
+> zmore <file.gz>

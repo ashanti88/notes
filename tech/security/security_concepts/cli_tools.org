@@ -1,0 +1,12 @@
+
+* Commands
+- [[file://home/crito/tech/org/tech/cmds/ping.org][ping]]
+- [[file://home/crito/org/tech/cmds/traceroute.org][traceroute]]
+- [[file://home/crito/org/tech/cmds/nslookup.org][nslookup]]
+- [[file://home/crito/org/tech/cmds/nmap.org][nmap]] 
+- [[file://home/crito/org/tech/cmds/dig.org][dig]]
+- [[file://home/crito/org/tech/cmds/netcat.org][netcat]]
+- [[file://home/crito/org/tech/cmds/telnet.org][telnet]]
+- [[file://home/crito/org/tech/cmds/dsniff.org][dnsiff]]
+- [[file://home/crito/org/tech/cmds/tshark.org][tshark]]
+- [[file://home/crito/org/tech/cmds/tcpdump.org][tcpdump]]

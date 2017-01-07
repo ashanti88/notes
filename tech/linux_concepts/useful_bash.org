@@ -1,0 +1,5 @@
+View how many attemps to login
+
+zegrep 'LOGIN FAILED' /var/log/maillog.processed.1.gz  | awk '{print
+$9}' | cut -d '[' -f2 | cut -d ':' -f4 | cut -d ']' -f1 | sort | uniq -c
+| sort -gr

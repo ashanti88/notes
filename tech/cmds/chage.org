@@ -1,0 +1,17 @@
+
+
+* chage
+
+* Description
+* Usage
+> chage <options> <user>
+
+** Options
+m <days> - min number of days before changing password
+M <days> - max number of days for a password remains valid
+E        - sets a date that a user account will expire
+W <days> - 
+
++ Running without options
+> chage <user>
+this will prompt you for all the chage information

@@ -1,0 +1,14 @@
+
+
+** HTTPtunnel
+
+can tunnel through restrictive HTTP proxies over pure HTTP "GET" and "POST" requests.
+
+
+*** Components
+
+1. Client
+   
+2. Server
+   i. hosted server
+   ii. standalone server

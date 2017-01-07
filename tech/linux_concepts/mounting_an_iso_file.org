@@ -1,0 +1,12 @@
+Create mount point
+
+> mkdir -p <mount\_point>
+
+p - parent, no error if existing
+
+Mount the iso
+
+> mount -o loop <iso\_file> <mount\_point>
+
+The iso is now accessible. The loop device is a pseudo-device used for
+mounting cd-iso and floppy-disk images.

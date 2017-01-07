@@ -1,0 +1,19 @@
+
+
+
+
+
+* Description							   :sys:anal:
+
+
+* Setup
+These two files have to be changed for sar to be used
+
+/etc/default/sysstat # Should sadc collect system activity informations?
+Valid values # are "true" and "false". Please do not put other values,
+they # will be overwritten by debconf! ENABLED="true"
+
+/etc/cron.d/sysstat Change 5-55/10 * * * * root command -v debian-sa1 >
+/dev/null && debian-sa1 1 1 To //2 / * * * root command -v debian-sa1 >
+/dev/null && debian-sa1 1 1
+* Usage

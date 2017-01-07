@@ -1,0 +1,7 @@
+
+
+This tool is used to change the current virtual terminal. This has a similar effect to Ctrl-Alt-Fn (F1-F12).
+
+** Example of Use
+logged into machine via console, but want to take a screen shot of the GUI environment.
+> chvt 7; sleep 2; import -display :0.0 -window root screenshot-output.png; chvt 1; 

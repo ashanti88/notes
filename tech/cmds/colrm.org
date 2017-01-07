@@ -1,0 +1,21 @@
+
+
+* Description								:txt:
+Removes columns from a file
+
+* Usage
+
+> colrm [<start\_col> [<endcol>]]
+
+- Columns are numbered from 1 upwards
+
++ remove from a single position to end of the line
+> colrm x < test.txt
+
++ remover a segent from a file ( between x and y )
+> colrm x y < test.txt
+
++ Original file will not be altered
+
++ output saved to file
+> cat test.txt | colrm x y > test2.txt

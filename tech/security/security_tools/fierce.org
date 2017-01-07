@@ -1,0 +1,13 @@
+
+
+** Fierce
+
+Thsi tool uses serval techniques to produce information on the target.
+
+Usage
+> fierce -dns <domain.com> <options>
+
+1. DNS servers are found
+2. Zone transfer is attempted
+3. If zone transfer fails brute-force
+4. Subnets are determined

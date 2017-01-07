@@ -1,0 +1,28 @@
+*nginx configtest*
+
+nginx -t
+
+*check rewrites in nginx.conf*
+
+grep -i rewrite /etc/nginx/conf.d/tinygreenpc.com.conf | wc -l
+
+*Too Many Open Files Error And Solution*
+
+[[http://www.cyberciti.biz/faq/linux-unix-nginx-too-many-open-files/]]
+
+*Check to see what sites are running on 443*
+
+grep 443 /etc/nginx/conf.d/*
+
+/*User Level Authentication in nginx*/
+
+[[http://www.howtoforge.com/basic-http-authentication-with-nginx][]][[http://www.howtoforge.com/basic-http-authentication-with-nginx]]
+
+>>>>NEEDS SORTING<<<<
+
+To set the real IP showing in the nginx access logs when behind a webcel
+add the following to /etc/nginx/nginx.conf
+
+ set\_real\_ip\_from 81.201.130.10;
+
+    real\_ip\_header X-Forwarded-For;

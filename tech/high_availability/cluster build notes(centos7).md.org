@@ -1,0 +1,42 @@
+constraint for mysql
+
+Ordering Constraints: promote ms\_mysql\_drbd then start g\_mysql
+(kind:Mandatory) start r\_mysql\_fs then start r\_mysql\_ip
+(kind:Mandatory) start r\_mysql then start r\_mysql\_intip
+(kind:Mandatory)
+
+STATUS
+
+[root@MEE-WEBDB-03 ~]# pcs status Cluster name: MEE-CLU-01 Last updated:
+Thu Apr 21 14:25:10 2016 Last change: Thu Apr 21 14:23:59 2016 by root
+via crm\_resource on MEE-WEBDB-04 Stack: corosync Current DC:
+MEE-WEBDB-04 (version 1.1.13-10.el7\_2.2-44eb2dd) - partition with
+quorum 2 nodes and 18 resources configured
+
+Online: [ MEE-WEBDB-03 MEE-WEBDB-04 ]
+
+Full list of resources:
+
+MEE-WEBDB-03-FENCE (stonith:fence\_idrac): Started MEE-WEBDB-04
+MEE-WEBDB-04-FENCE (stonith:fence\_idrac): Started MEE-WEBDB-03
+Master/Slave Set: ms\_http\_drbd [r\_http\_drbd] Masters: [ MEE-WEBDB-03
+MEE-WEBDB-04 ] Master/Slave Set: ms\_mysql\_drbd [r\_mysql\_drbd]
+Masters: [ MEE-WEBDB-03 ] Slaves: [ MEE-WEBDB-04 ] Resource Group:
+g\_mysql r\_mysql\_fs (ocf::heartbeat:Filesystem): Started MEE-WEBDB-03
+r\_mysql (ocf::heartbeat:mysql): Started MEE-WEBDB-03 r\_mysql\_ip
+(ocf::heartbeat:IPaddr2): Started MEE-WEBDB-03 r\_mysql\_intip
+(ocf::heartbeat:IPaddr2): Started MEE-WEBDB-03 Clone Set: dlm-clone
+[dlm] Started: [ MEE-WEBDB-03 MEE-WEBDB-04 ] Clone Set:
+r\_http\_fs-clone [r\_http\_fs] Started: [ MEE-WEBDB-03 MEE-WEBDB-04 ]
+Clone Set: r\_http-clone [r\_http] Started: [ MEE-WEBDB-03 ] Stopped: [
+MEE-WEBDB-04 ] r\_http\_ip1 (ocf::heartbeat:IPaddr2): Started
+MEE-WEBDB-03 r\_http\_ip2 (ocf::heartbeat:IPaddr2): Started MEE-WEBDB-04
+
+Failed Actions: * r\_http\_start\_0 on MEE-WEBDB-04 'unknown error' (1):
+call=361, status=Timed Out, exitreason='none', last-rc-change='Thu Apr
+21 14:19:13 2016', queued=0ms, exec=120001ms
+
+PCSD Status: MEE-WEBDB-03: Online MEE-WEBDB-04: Online
+
+Daemon Status: corosync: active/enabled pacemaker: active/enabled pcsd:
+active/enabled

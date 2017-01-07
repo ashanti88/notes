@@ -1,0 +1,25 @@
+*** Initially
+    :PROPERTIES:
+    :CUSTOM_ID: initially
+    :END:
+
+<sudo apt-get install mutt
+
+*will need an mta running aswell. Exim with deb
+
+Create .mutt/cache/bodies/ .mutt/cache/headers/ .mutt/certificates
+
+*tutorial said to put muttrc in the .mutt folder, but it didn't load,
+but loaded when in ~/
+
+muttrc
+
+set ssl\_starttls=yes set ssl\_force\_tls=yes set imap\_user =
+'my\_email@gmail.com' set imap\_pass = 'Gmail pass' set from=
+'mitchell.alick@gmail.com' set realname= 'Alick' set folder =
+'imaps://imap.gmail.com:993' set spoolfile = '+INBOX' set postponed=
+'+[Google Mail]/Drafts' set trash= '+[Google Mail/Trash' set
+header\_cache = "~/.mutt/cache/headers" set message\_cachedir =
+"~/.mutt/cache/bodies" set certificate\_file = "~/.mutt/certificates"
+set smtp\_url = 'smtps://my\_email@gmail.com:587/' set smtp\_pass =
+'Gmail pass' set move = no set imap\_keepalive = 900

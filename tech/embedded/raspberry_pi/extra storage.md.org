@@ -1,0 +1,4 @@
+*USB*
+
+unlike most boxes a pi won't mount the usb drive it has to be mounted
+manually. Obs for perm add to fstab.

@@ -1,0 +1,41 @@
+pvcreate /dev/sdX
+
+pvs
+
+vgdisplay
+
+vgextend VolGroup00 /dev/sdb #VolGroup00 = VG Name
+
+lvs
+
+vgs
+
+lvextend -l+100%FREE /dev/mapper/vg.02-home #extend volume
+
+resize2fs /dev/mapper/vg.02-home #extend filesystem if ext3 or ext4.
+type mount to tell
+
+xfs\_growfs /dev/mapper/vg.02-home #for backup servers and servers with
+XFS filesystem
+
+then check /etc/fstab for any entries, if so remove them or change them
+
+*Move space from /home to /root or '/'*
+
+umount /dev/mapper/VolGroup00-home
+
+lvremove /dev/mapper/VolGroup00-home
+
+lvextend -l+100%FREE /dev/mapper/VolGroup00-root
+
+then
+
+For ext3/4
+
+resize2fs /dev/mapper/VolGroup00-root
+
+For XFS
+
+xfs\_growfs /dev/mapper/VolGroup00-root
+
+then check /etc/fstab for any entries, if so remove them or change them
