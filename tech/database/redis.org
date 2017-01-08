@@ -1,34 +1,69 @@
-/*Flush Redis Cache*/
 
+
+
+* redis								   :db:nosql:
+URL:[[https://redis.io/][Home Page]] 
+* Description
+Redis is what is known as a key-value store, often referred to as NoSQL.
+* Usage
+** Operations
+set - give a key a value
+setnx - set a key:value pair only if not already set
+get - get a key's value
+del - delete a key:value pair
+incr - increase value by one - it also ensures correct increment when two clients access the same value(by 2 not 1).
+expr - expire sets when to kill a key
+ttl 
+  - this will tell you how long a key has to live
+  - -1 means that the key will never expire
+  - -2 means that the key doesn't exist
+    
+*** List
+An key can be used as a list as long as it hasn't already be set as another data type
+rpush - adds the value to the right of the current list
+lpush - adds the value to the left of the current list
+llen - number of values in list 
+lrange - this will print the selected range 0 first value, -1 last value
+lpop - pop value from the left
+rpop - pop value from the right
+
+*** Set
+Similar to a list but has no ordering, and each element can only be used once
+sadd - adds the element to the set
+srem - removes the element from the set
+sismember - tests if the element is in the set
+smembers - returns a list of members of a set
+sunion - combines 2 or more sets and returns the members
+
+*** Sorted Set
+These are similar to sets but each value has a score
+> zadd key score value 
+add value to sorted set
+> zrange key 0 -1
+print requested range, count uses score for order
+
+*** Hash
+map between string field and string value
+> hset <key:value> <hash_key:hash_value>
+set a hash key value pair to an object
+> hgetall <key:value>
+this will get all mappings for requested key
+> hmset <key:value> <hash_key:hash_value> <hash_key:hash_value> <hash_key:hash_value> ...
+this allows the setting of multiple mappings
+> hget <key:value> hash_key
+this will retrieve the value of the hash_key
+hincrby - incresase hash value by x
+hdel - delete a hash value
+
+** Flush Redis Cache
 Log into the redis CLI using the following:
-
-redis-cli -p 6380
+> redis-cli -p 6380
 
 Then run flushall to flush all db's in redis:
+> 127.0.0.1:6380> flushall
 
-127.0.0.1:6380> flushall
+** Installing Extra Instances
+URL: [[https://gist.github.com/jarvys/11393385][github multiple instances]]
 
-/* */
-
-*/Installing Extra Instances/*
-
-*/ /*
-
-[[https://gist.github.com/jarvys/11393385]]
-
-pidfile /var/run/redis/redis2.pid port 6380 logfile
-/var/log/redis/redis2.log dir /var/lib/redis2/ vm-swap-file
-/tmp/redis2.swap
-
-pidfile /var/run/redis/redis3.pid port 6381 logfile
-/var/log/redis/redis3.log dir /var/lib/redis3/ vm-swap-file
-/tmp/redis3.swap
-
-cp: cannot stat
-=/var/solrinstall/solr-5.0.0/server/solr/solr.xml': No such file or directory cp: cannot stat=/var/solrinstall/solr-5.0.0/bin/solr.in.sh':
-No such file or directory cp: cannot stat
-`/var/solrinstall/solr-5.0.0/server/resources/log4j.properties': No such
-file or directory
-
-sed: can't read /var/lib/solr/log4j.properties: No such file or
-directory
+* Links
+[[https://redis.io/documentation][Redis Documentation]]

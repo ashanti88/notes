@@ -1,7 +1,7 @@
-#+TAGS: db mysql
+#+TAGS: db sql
 
-
-* Usage:
+* mysql 							     :db:sql:
+* Usage
 ** Backup database
  mysqldump -u <user> -p <database> > <backup.sql>
 
@@ -39,7 +39,7 @@ ake on the name of the sql file.
 
  mysql -u root -p <database\_name> < <database\_file.sql>
 
-** Export*
+** Export
 
  mysql -u root -p <database\_name> > <database\_file.sql>i
 y default the data directory can be found in /var/lib/mysql .
@@ -140,30 +140,103 @@ The query will output - 
 2) data\_length\_mb displays the total unused space in the particular
    table.
 
+** Set root password
++ For a fresh install use
+> mysqladmin -u root password <new_password>
++ Change passowrd
+> mysqladmin -u root -p<old_pass> password <new_password>
+
++ Recover root password 
+URL: [[http://dev.mysql.com/doc/refman/5.7/en/resetting-permissions.html][MySQL - Root Password Recovery]]
+safe method
+1. locate the .pid file
+  - possible locations /var/lib/mysql/, /var/run/mysqld/ and /usr/local/mysql/data/
+2. stop the mysqld process    
+  > kill `cat /mysql_data_dir/host.pid`
+3. create a txt file containing the password assignment statement on a single line 
+  - MySQL 5.7.6 and later
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'MyNewPass';
+  - MySQL 5.7.5 and earlier
+SET PASSWORD FOR 'root'@'localhost' = PASSWORD('MyNewPass');
+save this file as mysql-init
+4. start mysql using the --init-file flag
+  > mysqld_safe --init-file=/home/me/mysql-init &
+5. delete the mysql-init file
+6. restart mysqld and login with the new password
+less safe method
+1. stop the MySQL server
+2. restart the server with the --skip-grant-tables. This allows anyone to connect without a password and all privileges.
+3. connect to the mysqld
+  > mysql
+4. flush the privileges 
+  > FLUSH PRIVILEGES;
+5. set the new root password
+  - MySQL 5.7.6 and later
+> ALTER USER 'root'@'localhost' IDENTIFIED BY 'MyNewPass';
+  - MySQL 5.7.5 and earlier
+> mysql> SET PASSWORD FOR 'root'@'localhost' = PASSWORD('MyNewPass');
+6. restart the mysqld and login with the new password
+If the ALTER USER doesn't work try
+UPDATE mysql.user SET authentication_string = PASSWORD('MyNewPass') WHERE User = 'root' AND Host = 'localhost'; FLUSH PRIVILEGES;
+This modifies the user table directly.
+
+** Move data directory
+By default the data directory can be found in /var/lib/mysql
+This maybe moved due to size constraints.
+*** Overview of the procedure
+1. Move the MySQL database files from /var/lib/mysql to the new partition.
+2. Modify the .cnf file to reflect the new position.
+3. Update any SELinux settings.
+
+*** Take a backup of the current MySQL data
+Stop the mysql service
+> systemctl stop mysqld.service
+Copy files to backup location
+> cp -r /var/lib/mysql <backup\_partition>
+or
+sql dump single database
+> sqldump -u root -p[password] <database> > dumpfilename.sql
+
+all databases
+> sqldump -u root -p[password] --all-databases > /tmp/all-databases.sql
+
++ Move MySQL data directory to new partition*
+> mkdir -p <new\_data\_directory>
+> cd <new\_data\_directory>
+> mv <mysql\_datadir> <new\_data\_directory>
+> chown -R mysql:mysql <new\_data\_directory>
+
++ Modify my.cnf and start MySQL
+> vi /etc/my.cnf
+datadir=<new\_data\_directory>
+socket=<new\_data\_directory/mysql.sock>
+tmp=<new\_data\_directory>
+
+> systemctl restart mysql.start
+
++ SELinux context type for MySQL
+Check the selinux context before moving moving data directory.
+> ls -Z
+
 * Commands 
 - [[file://home/crito/org/tech/cmds/mysqladmin.org][mysqladmin]]
 - [[file://home/crito/org/tech/cmds/mysqldump.org][mysqldump]]
 - [[file://home/crito/org/tech/cmds/mytop.org][mytop]]
 - [[file://home/crito/org/tech/cmds/mysqlaccess.org][mysqlaccess]]
-
+- [[file://home/crito/org/tech/cmds/mysqltuner.org][mysqltuner]]
 
 * Optimization
-
-single table
-
+** Single Table
 mysql> use <database>;
-
 mysql> optimize table <table\_name>/
 
-multiple tables
-
+** Multiple Tables
 mysql> use <database>;
-
 mysql> optimize table <table\_one>, <table\_two>, <table\_three>;
 
 Optimie table works for InnoDB engine, MyISAM engine and ARCHIVE tables.
 
-2 Defrag using mysqlcheck cmd
+** Defrag using mysqlcheck cmd
 
 > mysqlcheck -o <database> <table> -u root -p<password>
 
@@ -178,8 +251,7 @@ Defrag all tables on all databases
 
 > mysqlcheck -o --all-databases -u root -p<password>
 
-*After optimization*
-
+** After Optimization
 run the query that we an initially run. This time the data\_free\_mb
 should show zeros in the column.
 When no Plesk or Cpanel if facing a .htaccess file with the following:
@@ -193,73 +265,27 @@ password, then this is fine. When catting this, it will show the
 encrypted version of the password so you need to get the password off
 the customer.
 
-*Cluster Setup*
+* Repair
+** MyISAM 
+** InnoDB
+URL: [[https://www.percona.com/blog/2008/07/04/recovering-innodb-table-corruption/][Recovering Innodb Table Corruption - Percona]]
+* Engines
+URL: [[https://en.wikipedia.org/wiki/Comparison_of_MySQL_database_engines][Wiki - Engine Comparison]]
+** MyISAM
+** InnoDB
+** InfiniDB
+** NDB
 
-Make sure you use /etc/phpMyAdmin/config.inc.php instead of the one in
-/usr/share/phpmyadmin
+** Spider
+** ScaleDB
+* Forks
+** Mariadb
+** Percona
 
-Set the host to the internal IP of the MySQL VIP
-
-*Example phpMyAdmin virtual host for nginx* *(make sure you also change
-fastcgi\_pass):*
-
-server {
-
-listen internalMySQLVIP:80 default;  <<CHANGE THIS to the MySQL VIP
-internal access\_log off; server\_name externalMySQLVIP; <<CHANGE THIS
-to the MySQL VIP external server\_name\_in\_redirect off; root
-/usr/share/; #root to the phpmyadmin files
-
-** php-fpm configuration
-  :PROPERTIES:
-  :CUSTOM_ID: php-fpm-configuration
-  :END:
-
-location ~ .php$ { # root /var/www/html; try\_files $uri =404;
-fastcgi\_pass slumberstreambackend;  <<< CHANGE THIS TO THE CORRECT
-php-fpm conf fastcgi\_index index.php; fastcgi\_param SCRIPT\_FILENAME
-$document_root$fastcgi\_script\_name; include fastcgi\_params;
-fastcgi\_buffer\_size 128k; fastcgi\_buffers 256 4k;
-fastcgi\_busy\_buffers\_size 256k; fastcgi\_temp\_file\_write\_size
-256k; }
-
-}
-
-*For any #2002 - Can't connect to local MySQL server through socket
-errors*
-[[https://serverfault.com/questions/592617/phpmyadmin-wont-connect-to-remote-mysql-instance]]
-*Stop mysql*
-
-> systemctl stop mysql.service
-
-or
-
-> /etc/init.d/mysql stop
-
-or
-
-> service mysql stop
-
-*Access MySQL Safe Mode*
-
-Enter safe mode
-
-> sudo mysqld\_safe --skip-grant-tables &
-
-login to mysql and the mysql database
-
-> mysql -u root mysql
-
-*Set new password*
-
-mysql> update user set password=PASSWORD("new\_password") where
-user='root';
-
-mysql> flush privileges;
-
-
+* GUI
+** phpmyadmin
 * Lectures
-** To Shard or Not to Shard? - Peter Zaitsev		     :db:mysql:shard:
+** To Shard or Not to Shard? - Peter Zaitsev 		     :db:mysql:shard:
 URL: [[https://www.youtube.com/watch?v%3D2MyyH-bH8Bw&list%3DWL&index%3D75][To Shard or Not to Shard?]]
 + Before you decide how to shard you'd best understand whether or not you really need to shard!
 
@@ -407,6 +433,134 @@ Example:
 
 ** Scaling MySQL and MariaDB - Max Mether
 URL: [[https://www.youtube.com/watch?v%3D44tRhxGYXTY&list%3DWL&index%3D74][Scaling MySQL and MariaDB]]
++ What is Scalability?
+"Scalability is the ability of a system, network, or process to handle a growing amount of woork in a capable manner or its ability to be enlarged to accomodate that growth."
+
++ Horizontal vs Vertial
+- horizontal - spread over more machines
+- vertical - increasing resources to a single machine
+
++ When do you need to scale?
+- The resources of one machine is not enough!
+- Large Datasets
+  - I/O and CPU load is the bottleneck
+  - Long execution times for queries
+  - Effects creating indexes, statistics, maintenance of tables
+- When per instance partitioning does not help
+
++ Scaling options for MySQL
+- Replication (Read Scaling)
+- Galera Clustering (Mainly read scaling)
+- Sharding(read and write scaling)
+  - at the application/connector layer
+  - at the proxy layer
+  - at the database layer
+    
++ Replication Architecture
+
+Application Writes
+        |                Slave 1
+        |             /
+        |            /
+MySQL Master Server / --- Slave 2
+
++ Replication Phases
+- Asynchronous: 3 Phases
+1. Commit and write to binlog on Master
+2. Ship changes to relay log on slave
+3. Apply changes on slave
+
+sync binlog option makes sure that transactions are recorded in the binlog. Should allows be enabled if you value your data. Ensures tha all transactions can be recovered if failure occurs.
+
++ Replication for Scaling?
+- Can only be used for read Scaling
+  - Slaves not necessarily synced
+- Proxy needed for load-balancing
+
+-Useful for application with heavy read ratio
+  - with a 95% R/W ratio adding 4 slaves to 1 master => 24% load on each server (79% r/w)
+  - with a 50% R/W ratio adding 4 slaves => 60% load on each server (16.7% R/W)
+- Good for lots of reads, but no effect when it comes to writes.   
+
++ Galera Cluster
+- Clustered nodes cooperate to remain in sync
+- With multiple master nodes, reads and updates both scale
+- Synchronous replication with optimistic locking delivers high availability with little overhead
+- Fast failover because all nodes remain in sync
+  
++ Galera Cluster for Scaling?
+- Can be used for read Scaling
+
+- can also be used for write scaling to some extent
+  - write to any node, automatice synchronisation
+  - cluster level commits => local redundancy not needed
+    - InnoDB disk options can be relaxed
+
+- Load Balancer needed
+
++ Load Balancing
+- Needed for transparency
+- Example proxies:
+  - HAProxy
+  - glb
+  - JDBC client
+  - MySQL Fabric
+  - MariaDB MaxScale
+
++ Sharding
+- Sharding is database partitioning across multiple instances
+- Sharding can be key-based, schema-based etc
+- Implementation of sharding using
+  - application logic
+  - Coonectors: Connector J, MySQL Fabric
+  - Proxies: MySQL Proxy, MySQL Fabric, MariaDB MaxScale
+  - Storage engine: Spider, NDB(MySQL Cluster), ScaleDB
+
++ Disadvantages with Sharding
+- Increased complexity of SQL
+- Management complexity
+- Multiple points of failure
+- Failover more complex
+- Backups more complex
+- Operational complexity added
+  
++ Spider Storage Engine
+- Developed by Spiral Arms
+- Storage engine "partitions" tables across multiple db server instances
+- Based on partitions with integrated sharding
+- Virtual view on tables distributed across instances
+- Supports XA transactions
+- Transactional storage engine
+- Provides scale-out in combination with HA
+- A lot of manual work requried to setup
+
++ Spider Internals
+- When a Spider table is created it creates a link to the remote table
+- The linked table can have any engine
+- The linked table can use partitioning
+- The remote server is not spider aware
+- You can have multiple Spider nodes for the same underlying tables
+
++ Spider and Performance
+- Reading
+  - Simple queries generally faster
+  - Queries spanning all shards can be slower if confitions not pushed down
+  - Joins and complex queries can be a lot slower
+    - Performance optimizations available through spider functions and options
+
+- Writing
+  - INSERTS Generally faster as each node is independent
+  - UPDATES depend on reads to get to rows so depends
+    
++ Summary
+- Rplication
+  - Read Scaling - only useful for high read ratio
+- Galera Cluster
+  - Read Scaling and increased write performance
+- Sharding
+  - Both read and write scaling
+  - More complex to manage
+  - Performance impact on complex queries
 
 * Tutorials
 * Books

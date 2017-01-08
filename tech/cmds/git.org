@@ -33,3 +33,26 @@ delete a certain branch
 update repo to most current
 > git merge <branch>
 merge branch into your active branch
+
+** Github
+> git -T git@github.com
+this will return a message that github doesn't allow shell access, but allows you to know that you can connect to github
+
+*** Error
+19:13:43 ajax:~/org$ git push origin master
+Permission denied (publickey).
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+
+The above error was throw as ssh didn't know about the github ssh-key
+
++ Solution(do in bash, didn't work in zsh)
+> ssh-agent /bin/bash
+> ssh-add github-key
+> ssh-add -l - this will show the added key in the list
+
+* Lecture
+* Tutorial
+* Books
