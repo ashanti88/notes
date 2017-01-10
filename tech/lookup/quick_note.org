@@ -33,13 +33,13 @@
 
 
 * MySQL
-sharding technologies
+** sharding technologies
   - mysql router
   - mysql fabric
     
-mysql replication
+** mysql replication
   - amazon arura
     
-What is architectural runway???
-
-mdme instead of sata or sas
+** What is architectural runway???
+** mdme instead of sata or sas
+** What are random lookups

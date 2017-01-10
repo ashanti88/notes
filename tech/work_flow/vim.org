@@ -1,3 +1,8 @@
+#+TAGS: code txt
+
+* vim
+* Description
+* Usage
 auto commands are normally added to vimrc
 
 syntax for adding auto commands autocmd event pattern command
@@ -37,10 +42,7 @@ How to know which event to use :help autocmd-events provides information
 and a list of the types of events
 
 Resoucing vimrc :source ~/.vimrc
-*Navigation*
-
-* *
-
+** Navigation
 h - left
 
 j - down
@@ -98,97 +100,40 @@ Turning highlight search off (Perm)
 
 :set nohlsearch
 
-* Objects
-  :PROPERTIES:
-  :CUSTOM_ID: objects
-  :END:
-
-** Text Objects
-   :PROPERTIES:
-   :CUSTOM_ID: text-objects
-   :END:
-
-word WORD paragraph sententce tag
-
+** Objects
 *** word object
-    :PROPERTIES:
-    :CUSTOM_ID: word-object
-    :END:
-
-select word - viw - visual inside word select word with ws - vaw (only
-at the end ws) - visual around word
-
-delete word - diw delete word with ws - daw (dw performs the same
-function)
+Select word - viw - visual inside word select word with ws - vaw (only at the end ws) - visual around word
+delete word - diw delete word with ws - daw (dw performs the same function)
 
 *** WORD object
-    :PROPERTIES:
-    :CUSTOM_ID: word-object-1
-    :END:
-
 Everything that is delimited by whitespace this.is.all.one.word
-
 select word - viW select word with ws - vaw
 
 *** paragraph object
-    :PROPERTIES:
-    :CUSTOM_ID: paragraph-object
-    :END:
-
 select paragrapgh - vip select paragrapgh and new line - vap
 
 *** sentence object
-    :PROPERTIES:
-    :CUSTOM_ID: sentence-object
-    :END:
-
-chage line to all capital - gUis delete the line - das
+Change line to all capital - gUis delete the line - das
 
 *** tag object
-    :PROPERTIES:
-    :CUSTOM_ID: tag-object
-    :END:
+Select inside of tag - vit select inside plus the tags - vat
+Select inside of ( - vi( select around ( - va( works for { [ " b = ( B = }
 
-select inside of tag - vit select inside plus the tags - vat
-
-select inside of ( - vi( select around ( - va( works for { [ " b = ( B =
-{
-
-Change a characters case
-
-change from current case - ~ or g~<any\_movement\_key>
-
-uppercase - gU<any\_movement\_key>
-
-lowercase - gu<any\_movement\_key>
-
+** Change a characters case
+Change from current case - ~ or g~<any\_movement\_key>
+Uppercase - gU<any\_movement\_key>
+Lowercase - gu<any\_movement\_key>
 Change a words case
+Change current case - g~iw
+Change till end of line - g~$
+Change current line - g~~
+Uppercase - gUU
+Lowercase - guu
 
-change current case - g~iw
+** Moving
+To move down a visual line not a proper line use - gj gk g\^ g$ g0
 
-Change till end of line
-
-g~$
-
-Change current line
-
-g~~
-
-uppercase - gUU
-
-lowercase - guu
-*** Moving
-    :PROPERTIES:
-    :CUSTOM_ID: moving
-    :END:
-
-to move down a visual line not a proper line use - gj gk g\^ g$ g0
-
-*** Actions
-    :PROPERTIES:
-    :CUSTOM_ID: actions
-    :END:
-
+** Actions
 If a file is mentioned in the text it can be opened with - gf the file
 has to be on the same path
 
@@ -200,19 +145,7 @@ o in visual block will move you to the opposite corner O in visual block
 will move to the opposite side
 
 % - this will move you to the corresponding brace, bracket
-*** Navigation
-    :PROPERTIES:
-    :CUSTOM_ID: navigation
-    :END:
-
-Insert mode deletions can be done with ctrl-h - backspace ctrl-w -
-backword ctrl-u - backline
-
-*** Special Characters
-    :PROPERTIES:
-    :CUSTOM_ID: special-characters
-    :END:
-
+** Special Characters
 Special characters can be inserted with ctrl-v esc - this will give the
 vim representation of esc ctrl-v enter - this will give the vim
 representation of enter
@@ -221,20 +154,12 @@ unicode can also be added with ctrl-v ctrl-v u<code>
 
 to move into normal mode for one action ctrl-o<action>
 
-*** Expresion Register
-    :PROPERTIES:
-    :CUSTOM_ID: expresion-register
-    :END:
-
+** Expresion Register
 ctrl-r= this allows for valid vim script to be executed and the result
 will be placed where called
 Viewing all mappings use :map
 
-*** Creating Mappings
-    :PROPERTIES:
-    :CUSTOM_ID: creating-mappings
-    :END:
-
+** Creating Mappings
 :nmap will create a mapping for normal mode :nmap x dd - this will make
 x act like dd
 
@@ -245,11 +170,7 @@ To avoid this behaviour use the :noremap, :nnoremap, :inoremap,
 
 :unmap - this command removes any set mappings
 
-*** Buffer Specific Mappings
-    :PROPERTIES:
-    :CUSTOM_ID: buffer-specific-mappings
-    :END:
-
+** Buffer Specific Mappings
 This ensures that mappings remain the same as you move through buffers.
 Handy when working with file specific mappings, and have different file
 types open. eg auto Filetype html nnoremap <buffer> <leader>c
@@ -257,67 +178,39 @@ I<!--<esc>A--><esc> the buffer key word will ensure that leader-c will
 always produce the comment in html files and not be over written if
 another file type has leader-c set to another cmd.
 
-*** Operator Mapping
-    :PROPERTIES:
-    :CUSTOM_ID: operator-mapping
-    :END:
-
+** Operator Mapping
 onoremap p i( - where we would usually use i( to select inside brackets
 we now use p
 
-*** Registers
-    :PROPERTIES:
-    :CUSTOM_ID: registers
-    :END:
-
+** Registers
 Current values of the registers can be found using :reg By default when
 no register is specified the "" register is used
 
 **** Using a Register
-     :PROPERTIES:
-     :CUSTOM_ID: using-a-register
-     :END:
-
 adding to a specific register - "add - this will put deleted line into
 register a using specific register - "ap - paste contents of register a
 
 registers are pushed down as sections of text are deleted or yanked
 
 **** Macros
-     :PROPERTIES:
-     :CUSTOM_ID: macros
-     :END:
-
 Macros are also stored in registers. The letter seleted is just that
 register.
 For almost all settings we use the set cmd 
 
-*** Boolean Settings
-    :PROPERTIES:
-    :CUSTOM_ID: boolean-settings
-    :END:
-
+** Boolean Settings
 :set number - true - on :set nonumber - false - off 
 
 :set number! - toogle to opposite settign to current
 
 find the value of a boolean with :set <setting>?
 
-*** Value Settings
-    :PROPERTIES:
-    :CUSTOM_ID: value-settings
-    :END:
-
+** Value Settings
 :set background=dark :set bg=dark In vimrc use the long value setting
 for clarity
 
 finding values of none boolean values :set <setting> but set no value
 
-*** Recomended Settings
-    :PROPERTIES:
-    :CUSTOM_ID: recomended-settings
-    :END:
-
+** Recomended Settings
 :set relativenumber is handy for working out offsets :set wrap can be
 switched on or off :set linebreak this means that wrap won't cut words
 in half :set showbreak=delimiter this show where wrapping is occuring
@@ -332,11 +225,7 @@ noremap <right> <nop> noremap <up> <nop> noremap <down> <nop>
 :saveas new\_name this means that you are now editing the new file not
 the original
 
-*** Few More Settings
-    :PROPERTIES:
-    :CUSTOM_ID: few-more-settings
-    :END:
-
+** Few More Settings
 :set scrolloff=<value> this provides a buffer between the top and bootom
 of the screen when scrolling up and down :set showmode will switch the
 message on and off as to what mode you are in :set wildmenu ths provides

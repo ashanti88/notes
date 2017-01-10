@@ -1,17 +1,23 @@
-*Delete existing rules*
 
+
+
+* iptables						     :sys:net:sec:fw:
+* Description
+* Usage
+** List current rules
+> iptables -L
+this may take a while as it will attempt to resolve all the ip addresses
+> iptables -nL
+this will disable name resolve
+
+** Flush currnt rule set
 > iptables -F
-
 or
-
 > iptables --flush
 
-*Set default chain policies*
-
-> 
-
-*Links:*
-
-[[http://www.thegeekstuff.com/category/iptables/]]
-
-[[https://wiki.debian.org/iptables]]
+* Lecture
+* Tutorial
+* Books
+* Links
+[[http://www.thegeekstuff.com/category/iptables/][GeekStuff - iptables]]
+[[https://wiki.debian.org/iptables][Debian - iptable]]

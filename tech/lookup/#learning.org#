@@ -1,12 +1,9 @@
 
 * Video Tuts
-
 ** System
 *** TODO Cloud Computing
 *** TODO CloudFlare
 *** TODO Powershell
-*** TODO Practical Apache Web Server
-*** TODO PHP with MySQL
 *** TODO FreeBSD
 *** TODO Debian
 *** TODO Understand Enterprise Arch
@@ -46,10 +43,16 @@
 *** TODO HTTP - Fundimentals
 *** TODO CCNP FW
 
+** Automation and Monitoring
 ** Storage
 
 *** TODO Information Storage
 
+** Database
+*** TODO PHP with MySQL
+** Web
+*** TODO Practical Apache Web Server
+** Virt and Cloud
 ** Code
 *** TODO Ruby on Rails
 *** TODO Git Essentials
@@ -63,27 +66,28 @@
 ** HW
 *** TODO Practical Electronics
     
+
 * Books
 ** System
 *** TODO Andrew Tenenbaum - OS
 *** TODO Brandan Gregg - Systems Performance
 ** Security
 *** 
-** Database
 ** Networking
 *** TCP/IP Illustrated Volume 1
 *** SDN - Software Defined Networking
 *** Computer Networks - Andrew Tenenbaum
 *** Ethernet - The Definitive Guide
 *** Network Analysis Using Wireshark Cookbook
-** Automation
+** Automation and Monitoring
 *** TODO Puppet Essentials:file://home/crito/Documents/SysAdmin/Mgmt/Puppet/PuppetEssentials.pdf
 *** TODO Ansible-Up_&_Running
-** Storage
-** Monitor
 *** TODO Zabbix Network Monitoring Essentials:file://home/crito/Documents/SysAdmin/Monitor/Zabbix_Network_Monitoring_Essentials.pdf
 *** TODO Mastering Zabbix:file://home/crito/Documents/SysAdmin/Monitor/Mastering_Zabbix.pdf
-** Cloud
+** Storage
+** Database
+** Web
+** Virt and Cloud
 *** TODO OpenStack Essentials:file://home/crito/Documents/SysAdmin/Cloud/Openstack/OpenStack_Essentials.pdf
 *** TODO Learning OpenStack:file://home/crito/Documents/SysAdmin/Cloud/Openstack/Learning_OpenStack
 *** TODO Learning OpenStack Networking:file://home/crito/Documents/SysAdmin/Cloud/Openstack/Learning_OpenStack_Networking(Neutron).pdf
@@ -103,6 +107,7 @@
 *** Linux_Kernel
 **** TODO Kernel Drivers
 ** HW
+
 * Courses
 ** Edx
 *** TODO Introduction to DevOps

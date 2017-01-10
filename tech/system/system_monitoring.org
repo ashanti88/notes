@@ -1,0 +1,13 @@
+
+
+
+* System Monitoring						   :sys:anal:
+* Cmds
+[[file://home/crito/org/tech/cmds/top.org][top]]
+[[file://home/crito/org/tech/cmds/ps.org][ps]]
+[[file://home/crito/org/tech/cmds/perf.org][perf]]
+[[file://home/crito/org/tech/cmds/systemtap.org][systemtap]]
+[[file://home/crito/org/tech/cmds/slabtop.org][slabtop]]
+[[file://home/crito/org/tech/cmds/mpstat.org][mpstat]]
+[[file://home/crito/org/tech/cmds/dstat.org][dstat]]
+

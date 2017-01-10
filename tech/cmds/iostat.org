@@ -1,0 +1,32 @@
+#+TAGS: sys anal sysstat
+
+
+* iostat
+* Description
+Report Central Processing Unit (CPU) statistics and input/output statistics for devices and partitions.
+
+* Usage
+
+> iostat <options> <device> <interval> <num_capture>
+
++ Options
+c - Display cpu statistics
+d - Display i/o statistics
+n - Display network statistics
+t - Display timestamp information
+x - Display extended information
++ Display statistics for a device
+> iostat -p <device>
+
+- adding -m to any of these will produce the output in mb/s
+
+* Output
+%user - The percentage of CPU utilization that occurred while executing at the user level (this is the application usage).
+%nice - The percentage of CPU utilization that occurred while executing at the user level with nice priority.
+%system - The percentage of CPU utilization that occurred while executing at the system level (kernel).
+%iowait - The percentage of time that the CPU or CPUs were idle during which the system had an outstanding disk I/O request.
+%steal - The percentage of time spent in involuntary wait by the virtual CPU or CPUs while the hypervisor was servicing another virtual processor.
+%idle - The percentage of time that the CPU or CPUs were idle and the systems did not have an outstanding disk I/O request.
+
+* Articles
+** [[http://www.admin-magazine.com/HPC/Articles/Monitoring-Storage-with-iostat][Monitoring Storage Devices with iostat - Admin Magazine - Jeff Layton]]

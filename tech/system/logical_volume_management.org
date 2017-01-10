@@ -1,0 +1,18 @@
+
+
+
+* lvm
+* Cmds
+[[file://home/crito/org/cmds/lvs.org][lvs]]
+[[file://home/crito/org/tech/cmds/lvdisplay.org][lvdisplay]]
+[[file://home/crito/org/tech/cmds/lvscan.org][lvscan]]
+[[file://home/crito/org/tech/cmds/lvmdiskscan.org][lvmdiskscan]]
+[[file://home/crito/org/tech/cmds/lvextend.org][lvextend]]
+[[file://home/crito/org/tech/cmds/lvreduce.org][lvreduce]]
+[[file://home/crito/org/tech/cmds/lvresize.org][lvresize]]
+[[file://home/crito/org/tech/cmds/lvcreate.org][lvcreate]]
+[[file://home/crito/org/tech/cmds/lvremove.org][lvremove]]
+[[file://home/crito/org/tech/cmds/lvrename.org][lvrename]]
+
+* Links
+[[https://wiki.ubuntu.com/Lvm][LVM - Ubuntu]]

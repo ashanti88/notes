@@ -1,0 +1,47 @@
+#+TAGS: sys mon
+
+
+* watchdog
+* Description
+The Linux kernel can reset the system if serious problems are detected. This can be implemented via special watchdog hardware, or via a slightly less reliable software-only watchdog inside the kernel. Either way, there needs to be a daemon that tells the kernel the system is working fine. If the daemon stops doing that, the system is reset.
+
+* Usage
+The default configuration file is normally found in /etc/watchdog.conf
+** Tests
+The watchdog daemon does several tests to check the system status:
+
+• Is the process table full?
+• Is there enough free memory?
+• Are some files accessible?
+• Have some files changed within a given interval?
+• Is the average work load too high?
+• Has a file table overflow occurred?
+• Is a process still running? The process is specified by a pid file.
+• Do some IP addresses answer to ping?
+• Do network interfaces receive traffic?
+• Is the temperature too high? (Temperature data not always available.)
+• Execute a user defined command to do arbitrary tests.
+• Execute one or more test/repair commands found in /etc/watchdog.d. These commands are called with the argument test or repair.
+
+If any of these checks fail watchdog will cause a shutdown. Should any of these tests except the user defined binary last longer than one minute the machine will be rebooted, too.
+
+** The Rebbot
+1. Kill all processes with SIGTERM.
+
+2. After a short pause kill all remaining processes with SIGKILL.
+
+3. Record a shutdown entry in wtmp.
+
+4. Save the random seed from /dev/urandom. If the device is non-existant or there is no filename for saving this step is skipped.
+
+5. Turn off accounting.
+
+6. Turn off quota and swap.
+
+7. Unmount all partitions except the root partition.
+
+8. Remount the root partition read-only.
+
+9. Shut down all network interfaces.
+
+10. Finally reboot.

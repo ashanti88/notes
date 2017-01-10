@@ -1,7 +1,14 @@
 
 
 
+* dns								:net:web:pro:
+* Description
+* Cmds
+- [[file://home/crito/org/tech/cmds/nslookup.org][nslookup]]
+- [[file://home/crito/org/tech/cmds/dig.org][dig]]
+- [[file://home/crito/org/tech/cmds/drill.org][drill]]
 
+* Usage
 * Lecture
 ** DNSSEC - Solving a Decades-Old Vulnerability - Southern California Linux Expon - Carlos Meza
 https://www.youtube.com/watch?v=99NLF2cfLvo&index=88&list=WL
@@ -120,3 +127,18 @@ https://www.youtube.com/watch?v=99NLF2cfLvo&index=88&list=WL
 + Tools
   - OpenDNSSEC
   - DNSSEC-Tools
+* Tutorial
+* Books
+* Links
+*Authoritative Vs Non-authoritative Answer*
+
+If the answer for the query comes from a name server that contains the
+complete zone file information for the domain the answer is said to be
+authoritative.
+
+If the server doesn't contain the complete zone file information for the
+domain the answer is said to be non-authoritative. The name server
+contains a cached file which has the results of all queries performed in
+the past for which it has gotten authoritative response. When a DNS
+query is given, it searches the cache file and returns the available
+information.

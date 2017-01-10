@@ -1,9 +1,19 @@
+#+TAGS: db nosql
 
-
-
+* MongoDB
+* Cmds
+- [[file://home/crito/org/tech/cmds/mongo.org][mongo]]
+- [[file://home/crito/org/tech/cmds/mongodump.org][mongodump]] 
+- [[file://home/crito/org/tech/cmds/mongoexport.org][mongoexport]]
+- [[file://home/crito/org/tech/cmds/mongoimport.org][mongoimport]] 
+- [[file://home/crito/org/tech/cmds/mongorestore.org][mongorestore]] 
+- [[file://home/crito/org/tech/cmds/mongostat.org][mongostat]]
+- [[file://home/crito/org/tech/cmds/mongotop.org][mongotop]] 
+  
+* Description
+* Lecture
 * Tutorial
 ** Mongodb Tutorial for Beginners - Microsoft Virtual Academy
-
 *** What is MongoDB
 + NoSQL Database
   - No tabular constraints on your data schema
@@ -115,4 +125,5 @@ Field - similar to a column, key: value
 *** PHP
 *** node
 *** nosql-vs-sql
+* Books
  

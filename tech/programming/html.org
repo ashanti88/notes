@@ -1,0 +1,177 @@
+#+TAGS: code html web
+
+
+* html
+* Tutorials
+** Introduction to HTML for Designers - Pluralsight
+*** Understanding website folder structure
+- create a file to hold the site
+- inside
+  - images folder
+  - style folder - css files
+  - add an index.html
+*** Adding some content
+- index.html - standard naming convention for home page
+**** index.html - at the end of lesson3
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Red Abbey Resort</title>
+    </head>
+    <body>
+    
+    </body>
+
+</html>
+*** Creating captions for images
+when adding an image use the <figure> block as this will also align the image with text.
+
+**** index.html - at the end of lesson4
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Red Abbey Resort</title>
+    </head>
+    <body>
+        <h1>Red Abbey Resort</h1>
+        <p>Information on Red Abbey...bullshit</p>
+        <figure>
+        <img src="images/main-house.jpg" alts="Welcome players">
+            <figcaption>The Players Pad</figcation>
+        </figure>
+    
+    </body>
+
+</html>
+
+*** Creating unordered lists
+Using the <ul> we can add a unordered list. 
+Inside the <ul> block add items with <li> list item.
+**** index.html at the end of lesson5  
+     
+*** creating a different type of list
+to create a ordered/numbered list use the <ol> tag.
+**** index.html at the end of lesson6
+<!DOCTYPE html>
+<html>
+        <head>
+                <meta charset="UTF-8">
+                <title>Red Abbey Resort</title>
+        </head>
+        <body>
+                <h1>Red Abbey Resort</h1>
+                <p>Information on Red Abbey...bullshit</p>
+                <figure>
+                <img src="images/main-house.jpg" alts="Welcome players">
+                        <figcaption>The Players Pad</figcation>
+                </figure>
+                <h2>Services and Stuff</h2>
+                <ul>
+                        <li>bitches</li>
+                        <li>chronic</li>
+                        <li>pimps</li>
+                </ul>
+                <h2>Booking a Room</h2>
+                <ol>
+                        <li>Call Frank</li>
+                        <li>Give Frank your card dets</li>
+                        <li>Look for an email from the Prince of Nigeria</li>
+                        <li>Room booked</li>
+                </ol>
+        </body>
+
+</html>
+
+*** Organising Information with a table
+<table> block starts a table.
+<tr> - table row
+<th> - table heading/column
+<td> - table data
+**** index.html the code below was add
+                <h2>Rooms and Prices</h2>
+                <table>
+                        <caption>Our Pimp Palace</caption>
+                        <tr>
+                                <th>Room Type</th>
+                                <th>Bitch Capacity</th>
+                                <th>Dollar</th>
+                        </tr>
+                        <tr>
+                                <td>Attic Room</td>
+                                <td>20</td>
+                                <td>&pound;999</td>
+                        </tr>
+                        <tr>
+                                <td>Player's Hot Tub</td>
+                                <td>10</td>
+                                <td>&pound;10000</td>
+                        </tr>
+                        <tr>
+                                <td>Bitches Play Pen</td>
+                                <td>40</td>
+                                <td>&pound;10000</td>
+                        </tr>
+*** Creating a form
+<form> - this block is used to create the form
+<label> - this provides the box and Question
+<input> - this specifies the data type expected and has no closing tag
+**** index.html at the end of lesson7
+        <h2>Submit Room Request</h2>
+                <form>
+                        <p><label>First Name <input type="text"></label></p>
+                        <p><label>Last Name <input type="text"></label></p>
+                        <p><label>Phone Number <input type="text"></label></p>
+                </form>
+        </body>
+*** Form input fields	
+type checkbox allows multiple choice, radio only allows one choice.
+<fieldset> - this puta a border around the qualities in the block
+<legend> - Places name of fieldset group over laid on the created border
+**** index.html
+            <fieldset>
+                <legend>Perferred Room Type</legend>
+            <label><input type="radio" name="room-type">Attic Room</label>
+            <label><input type="radio" name="room-type">Standard Room</label>
+            <label><input type="radio" name="room-type">Pimp Palace</label>
+            </fieldset>
+
+*** Creating input fields for dates and adding buttons
+<textarea></textarea> - this adds a comment box
+<input type="date"> - this will produce a small calendar to pop up and select a date from.
+<button type="submit"> - this creates a submit button
+**** index.html
+           <p><label>Check In: <input type="date"></label></p>
+            <p><label>Check Out: <input type="date"></label></p>
+            <p><label>Comment or Special Requests:</label></p>
+            <textarea></textarea>
+            <p><button type="submit">Submit Request</button></p>
+
+*** Introduction to phrase elements
+<em> italics
+<strong> bold
+<small> this make text small print
+**** index.html
+<p><small><strong>Reservations need to be made <em>30 days<em> in advance</strong></small></p>
+
+*** Adding Special Characters and Symbols
+&ldqou; left double quote "
+&rdpuo; right double quote "
+&copy; this is the copyright sign
+**** index.html
+
+<p>All content on this site is &copy; Bad Ass Productions</p>
+
+*** HTML as an outline
+The headings shouldn't be chosen arbitarily, but should provide structure to the page.
+*** Making our web page into a web site
+<a href="url.html> - this is an anchor and will move you to another url
+*** Using HTML references
+https://w3fools.com - ok
+https://w3.org - ok 
+http://whatwg.org - good
+http://deveoper.mozilla.org - excellent
+
+http://caniuse.com - tells you what browser version supports what html functions
+

@@ -1,10 +1,8 @@
+#+TAGS: sys anal sysstat
 
 
-
-
-
-* Description							   :sys:anal:
-
+* Description
+The sar command writes to standard output the contents of selected cumulative activity counters in the operating system. The accounting system, based on the values in the count and interval parameters, writes information the specified number of times spaced at the specified intervals in seconds. 
 
 * Setup
 These two files have to be changed for sar to be used

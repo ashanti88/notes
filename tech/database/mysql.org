@@ -1,6 +1,6 @@
 #+TAGS: db sql
 
-* mysql 							     :db:sql:
+* mysql
 * Usage
 ** Backup database
  mysqldump -u <user> -p <database> > <backup.sql>
@@ -285,7 +285,7 @@ URL: [[https://en.wikipedia.org/wiki/Comparison_of_MySQL_database_engines][Wiki 
 * GUI
 ** phpmyadmin
 * Lectures
-** To Shard or Not to Shard? - Peter Zaitsev 		     :db:mysql:shard:
+** To Shard or Not to Shard? - Peter Zaitsev			      :shard:
 URL: [[https://www.youtube.com/watch?v%3D2MyyH-bH8Bw&list%3DWL&index%3D75][To Shard or Not to Shard?]]
 + Before you decide how to shard you'd best understand whether or not you really need to shard!
 
@@ -431,7 +431,7 @@ Example:
   - Multiple technologies for Sharding
   - There is no standard solution used across the board
 
-** Scaling MySQL and MariaDB - Max Mether
+** Scaling MySQL and MariaDB - Max Mether			 :arch:shard:
 URL: [[https://www.youtube.com/watch?v%3D44tRhxGYXTY&list%3DWL&index%3D74][Scaling MySQL and MariaDB]]
 + What is Scalability?
 "Scalability is the ability of a system, network, or process to handle a growing amount of woork in a capable manner or its ability to be enlarged to accomodate that growth."
@@ -561,6 +561,36 @@ sync binlog option makes sure that transactions are recorded in the binlog. Shou
   - Both read and write scaling
   - More complex to manage
   - Performance impact on complex queries
+
+** Efficient Indexes in MySQL - Ovais Tariq & Aleksandr kuzminsky     :index:
++ How Data is Organised
+InnoDB - B+ Tree structure
+  - leaf node contains data
+  - Doubly linked list of leaf nodes
+  - Keys stored in sorted order
+  - All leaf nodes at the same height
+
+- B+ Tree was selected for InnoDB back in 1994, and is good for spinning discs
+    
++ Few Advantages
+  - Reduced I/O
+  - Reduced Rebalancing
+  - Extremely efficient range scans
+  - Implicit sorting
+    
++ Index Height
+  - h is the height of the tree
+  - n is the number of rows in a table
+  - p is the branching factor of the tree
+  - p = page size in bytes/key length in bytes
+
+      h = ( log n / log p )
+    
++ Indexes
+  - can be used to speed up quereries by removing random look ups
+  - only one index can be used at once
+    
++ DISTINCT !!!! need to read up on this function
 
 * Tutorials
 * Books

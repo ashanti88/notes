@@ -1,7 +1,0 @@
-Glossary*
-
-SELinux - Security Enhanced Linux
-
-MAC - Mandatory Access Control
-
- 
