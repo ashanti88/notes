@@ -1,7 +1,0 @@
-$myisamchk is used for MyISAM databases.
-
-$mysqlcheck -uroot -p $databases is used for innodb.
-
-[[http://www.laurencegellert.com/2011/07/mysql-maintenance-tasks-for-innodb-with-mysql-5-1/]]
-
-[[http://www.techrepublic.com/article/checking-and-repairing-mysql-tables/]]

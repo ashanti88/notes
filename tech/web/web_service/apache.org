@@ -1,0 +1,241 @@
+#+TAGS: web
+
+
+* apache
+* Usage
+* Lecture
+* Tutorials
+** Practical Apache Web Server Administration - Lynda.com - Jon Peck
+*** Apache Introduction
+- Developed since 1995
+- Apache is Modular
+- Apache Versions
+  - 1.3 - 1998 to 2010
+  - 2.0 - 2000 to 2013
+  - 2.2 - 2005 to present
+  - 2.4 - 2009 to present
+
+*** Checking if apache is installed
+**** Installation methods
+- Pkg Mgmt tool
+  - rpm
+  - dpkg
+- Manual Installation
+- Precompiled into binaries
+  - Netware
+  - Windows
+- Bundled with a Package
+  - XAMPP - apachefriends.org
+  - WampServer - wampserver.com
+  - MAMP - mamp.info
+  + These bundles should only be used for local development, Never use for public 
+
+**** Investigation
+- Determin if a package manager was used to install apache
+  - rpm
+  > rpm -qa | grep httpd
+  - dpkg
+  > dpkg -l | grep apache
+
+*** Apache Sturcture
++ Interacting with Apache
+  - apachetcl - this cmd is used to control the apache application
+  
++ Apache Actions
+  - status - show what apache is doing - may need to be enabled manually
+  - start - starts the daemon
+  - stop - abrupt stop
+  - graceful-stop - will complete any request in progress
+  - restart - abrupt stop and restart
+  - graceful - completes any requests in progress and restarts
+  
+*** Configuring Apache
++ Configuration Overview
+  - stored in plain text files
+  - typically named httpd.conf
+  - Location set at compile time
+  - Changes only recognized on restart of service
+  
++ Configuration Location
+  - Fedora and CentOS - /etc/httpd/conf/httpd.conf
+    - one monolithic file
+  - Debian and Ubuntu - /etc/apache2/apache2.conf
+    - related, smaller configuration files
+    - One per site
+    - One per group of configuration
+    
++ Finding where configuration file is
+  - start with default loctions depending on distro
+  - apachectl -V - this will show config and variables when complied
+    - HTTPD_ROOT variable tells you the directory of the apache config file
+  - Search entire file system with cmd like "find"
+  
++ Configuration Directives
+  - One per line
+  - Instruction telling Apache what to do
+  - Usually followed by an argument
+    E.g. ServerName - sets hostname, port for redirects
+         ServerName www.example.com
+  - Best practive: treat all as case-sensitive
+  
+*** .htaccess files
++ Directory-Level Configuration
+  - .htaccess files
+    - Plain text
+    - Similar to Apache configuration
+    - Intended to provide security for directories
+      - Evolved to extending configurations
+    - Main configuration can restrict overrides
+      - useful for shared hosts
+
++ .htaccess Advantages
+  - Read every request - immediate changes no need to restart service
+  - Flexibility for underprivileged users
+
++ .htaccess Disadvantages
+  - Increase security risks
+  - Slower than just server config
+    - Read every page load
+    - Searched for each time 
+    
+Not recommended - Security performance
+
+*** Anatomy of a virtual host
++ Virtual Hosting
+  - Serve content for multiple domains from same server
+  - Commonly used by shared web hosts
+  - Cost-effective
+
++ Name-Base Virtual Hosting
+  - Routes requests based on domain name
+  - Easiest to implement 
+    - SSL challenges
+    
++ IP-Based Virtual Hosting
+  - Seperate IP per site
+  - Solves SSL challenges
+  - More expensive
+  - Greater technical overhead
+  
++ Virtual Host Example Config
+- ip based virtual host
+<VirtualHost 10.0.2.15:80>
+	     ServerAdmin username@example.com - where error messages are to be sent
+	     ServerName alice.example.com - usually fqdn
+
+	     <Directory /srv/web/>
+	       Order allow.deny 
+	       Allow from allow - who can access the site
+	       Require all granted - 2.4 permissions system
+	     </Directory>
+
+	     DocumentRoot /srv/web - dir that apache will serve files
+</VirtualHost>
+
+- testing configuration > apachectl -t
+                        > apachectl -t -D DUMP_VHOSTS
+			
+*** What are Modules
++ Apache httpd is Modular
+  - System of plugins that add functionality
+  - Static modules included upon compilation
+    - Loaded every time Apache is started
+  - Shared modules added without compilation
+    - Dynamically loaded, turned on or off.
+
++ Modules have Directives
+  - configure additional functionality
+  - If config has module directives and module is missing the server won't start
+  - Wrap module configuration in IfModule helps to stop this
+    <IfModule mod_ssl>
+    
++ Modules cmds
+> apachectl -t -D DUMP_MODULES - ths list all modules
+> a2enmod <mod> - this enables an apache module
+> a2dismod <mod> - this disables an apache module
+
++ Debian Module Configuration
+- /etc/apache2/mods-available and /etc/apache2/mods-enabled
+
+*** Trouble Shooting with Log Files
++ Apache Log File Uses
+  - Findin problem with a site
+  - Analyzing traffic patterns
+  - Detecting malicious activity
+  
++ Acpache Logging Mechanisms
+  - Log files can be:
+    - Single file
+    - File that are rotated
+    - Piped to anotehr program
+  - Format can configured
+  
++ Apache Log Files
+  - Error Log
+    - Diagnostic information
+    - Records any errors found
+  - Access Log
+    - Records all requests
+
++ PHP/Other Language Error Logs
+  - Generated by language
+    - Not by apache
+  - Can be in same directory
+    - different format
+    - can't be combined
+    
++ Technically can control PHP logging from apache
+  - Best practive: configure PHP with PHP
+  
+*** Enabling and Reading Apache Log Files
++ Configuring Apache Logging
+  - ErrorLog - defines anem, location
+    - File: error_log or error.log
+  - LogLevel - controls verbosity
+    - default is warm
+    - info more verbose
+    - emergency - least detailed
+    - trace - most detailed, use when developing
+    
+- /etc/apache2/envvars - this file holds apache variables to be set to export
+
+- By default all sites will be logged togeather in access.log and error.log
+- Setting site to log individually
+> sudoedit /etc/apache2/sites-available/site_to_set_logging.conf
+<VirtualHost 10.0.2.15:80>
+	     ServerAdmin username@example.com
+	     ServerName alice.example.com
+
+	     <Directory /srv/web/>
+	       Order allow.deny 
+	       Allow from allow
+	       Require all granted
+	     </Directory>
+
+	     DocumentRoot /srv/web
+	     
+	     ErrorLog ${APACHE_LOG_DIR}/alice-error.log	- set error log      
+	     LogLevel info - verbosity level
+	     CustomLog ${APACHE_LOG_DIR}/alice-access.log combined - set access log
+</VirtualHost>
+
+*** Tools For Analysing Apache Log Files 
++ AWStats
+  - Real-time access log analyzer
+  - available on most linux distros
+  - web interface with graphs and summaries
+  - Can be a security risk if available publicly
+    - ensure access is restricted
+    
++ GoAccess
+  - Real-time access log analyzer
+  - Terminal application
+  - Easier to secure
+  - Lightweight and fast
+  - Many features
+  
++ Log Aggregators
+  - graylog2.org
+  - lagstash.net
+
+* Books

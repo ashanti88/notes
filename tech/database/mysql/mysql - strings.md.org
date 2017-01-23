@@ -1,5 +1,0 @@
-Check the size of a databases
-
-SELECT table\_schema AS "Database name", SUM(data\_length +
-index\_length) / 1024 / 1024 AS "Size (MB)" FROM
-information\_schema.TABLES GROUP BY table\_schema;

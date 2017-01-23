@@ -1,0 +1,14 @@
+#+TAGS: sys root op
+
+
+* sudoedit
+* Description
+A way to set which files can be edited without specifying with editor can be used.
+It allows files that require root priv to be altered as the user not as root.
+This is done by copying the original file to /tmp and once this file has been modified it is copdied back to the original.
+
+* Usage
+> sudoedit <file>
+* Lecture
+* Tutorial
+* Books

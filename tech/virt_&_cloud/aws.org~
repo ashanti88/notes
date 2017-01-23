@@ -1,0 +1,100 @@
+#+TAGS: cloud aws
+
+
+* aws
+* Usage
+* Lecture
+* Tutorials
+** AWS Foundations - CBT Nuggets
+*** How to build a cloud presence
+1. Going to the cloud: Traditional Method
+Build your own cloud placing your equipment in a data center.
+2. Going to the Cloud: AWS Method
+Use AWS services to create your infrastructure.
+
+**** Traditional Method
++ Setting up
+  - Select a Data Center
+  - Purchase Rack Space
+  - Purchase Internet Connectivity
+  - Install Equipment
+    - Switches
+    - Firewalls
+    - Servers
+    - Storage - SAN or NAS
+  - Configure Services
+  - Expand to More Data Centers - Locality is important when it comes to serequipmentvices such as VOIP
++ Pros & Cons:
+  - Massive up-front cost, BIG "Steps"
+  - IT Staff: focus on the data center 
+  - In-House knowledge limits
+  - recreate the wheel
+  - It's yours
+  - "Monster Server" Capabilities
+
+**** AWS Method
++ Setting up
+  - Pick your region
+  - Pick your availability zone - these are physical data centers
+    - for redundancy you should look at rolling out in to more than one zone
+  - Provision your server
+  - Configure services
+  - Expand to other availability zones
+  - Expand to other regions
++ Pros & Cons:
+  - Pay As You Go; Pricing Models
+  - Elastic Computing; Grow as needed
+  - Economy of scale
+  - Immediate security accreditation
+  - Multiple data centers easily
+  - Collaborative innovation
+  - horizontal scaling
+
+**** Vertical Vs Horizontal Scaling
+***** Vertical Scaling 
+  - Increasing HW
+  - Increasing Capacity
+  - Easy to do
+
+***** Horizontal Scaling (scale out):
+  - Increasing instances
+  - Shared capacity
+  - Typically requires planning
+
+*** Getting Started with AWS
+**** What you need to get started
+- A Purpose
+- Logon Information/Email Address
+- A Credit Card/Phone number
+***** An Understanding of the services
+  - Cloudwatch 
+    - Monitors all of the services
+    - Can start to get expensive
+  - EC2 - Elastic Compute Cloud
+    - allows os templates to be created with specific functions db, web etc
+    - public available timeplates
+  - S3 - Simple Storage Service 
+    - written to at least two places
+    - Where your image is held whilst not being run
+  - EBS - Elastic Block Store
+    - faster than S3
+    - optional to running image on the ephemeral memeory of the server
+      - means that when the machine is shutdown it's data isn't lost
+  - Route 53
+    - create name records for your domains
+    - manages dns
+  - VPC - Virtual Private Cloud
+    - site to site cloud
+  - Auto Sacling
+    - amazon automated server management tool
+    - will spin up servers when certain limits are reached 
+    - shutdown instances when website hits a lull
+  - CloudFormation
+  - IAM - Identity and Access Management
+    - create credentials to access system
+  - ELB - Elastic Load Balancing
+  - SimpleDB/DynamoDB
+    - simpleDB now discontinued
+    - Dynamo is really fast
+***** AWS Management Console
+* Links

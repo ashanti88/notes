@@ -1,0 +1,1372 @@
+; -*- mode: Org;-*-
+#+TAGS: code txt
+
+* emacs								   :code:txt:
+* Description
+* Configuration
+** Setting display configuration on GUI
+1. > M-x customize-face
+2. specify default
+3. a menu will pop up and allow for the changing of settings3. a menu will pop up and allow for the changing of settings3. a menu will pop up and allow for the changing of settings
+4. save this file and restart emacs, some may take effect straight away, but usually best to restart emacs or the daemon.
+
+* Usage
+** Modes
+*** org mode
+**** Cheat Sheet
+***** Visibility Cycling
+*rotate current subtree between states             TAB
+*rotate entire buffer between states               S-TAB
+*restore property-dependent startup visibility     C-u C-u TAB
+*show the whole file, including drawers            C-u C-u C-u TAB
+*reveal context around point                       C-c C-r
+*
+***** Motion
+*next/previous heading                             C-c C-n/p
+*next/previous heading, same level                 C-c C-f/b
+*backward to higher level heading                  C-c C-u
+*jump to another place in document                 C-c C-j
+*previous/next plain list item                     S-UP/DOWN\notetwo
+*
+*
+***** Structure Editing
+*insert new heading/item at current level          M-RET
+*insert new heading after subtree                  C-RET
+*insert new TODO entry/checkbox item               M-S-RET
+*insert TODO entry/ckbx after subtree              C-S-RET
+*turn (head)line into item, cycle item type        C-c -
+*turn item/line into headline                      C-c *
+*promote/demote heading                            M-LEFT/RIGHT
+*promote/demote current subtree                    M-S-LEFT/RIGHT
+*move subtree/list item up/down                    M-S-UP/DOWN
+*sort subtree/region/plain-list                    C-c ^
+*clone a subtree                                   C-c C-x c
+*copy visible text                                 C-c C-x v
+*kill/copy subtree                                 C-c C-x C-w/M-w
+*yank subtree                                      C-c C-x C-y or C-y
+*narrow buffer to subtree / widen                  C-x n s/w
+*
+*
+***** Capture - Refile - Archiving
+*capture a new item (C-u C-u = goto last)          C-c c \noteone
+*refile subtree (C-u C-u = goto last)              C-c C-w
+*archive subtree using the default command         C-c C-x C-a
+*move subtree to archive file                      C-c C-x C-s
+*toggle ARCHIVE tag / to ARCHIVE sibling           C-c C-x a/A
+*force cycling of an ARCHIVEd tree                 C-TAB
+*
+***** Filtering and Sparse Trees
+*construct a sparse tree by various criteria       C-c /
+*view TODO's in sparse tree                        C-c / t/T
+*global TODO list in agenda mode                   C-c a t \noteone
+*time sorted view of current org file              C-c a L
+*
+***** Tables
+*
+*--------------------------------------------------------------------------------
+*Creating a table
+*--------------------------------------------------------------------------------
+*
+*just start typing, e.g.                           |Name|Phone|Age RET |- TAB
+*convert region to table                           C-c |
+*... separator at least 3 spaces                   C-3 C-c |
+*
+*--------------------------------------------------------------------------------
+*Commands available inside tables
+*--------------------------------------------------------------------------------
+*
+*The following commands work when the cursor is inside a table.
+*Outside of tables, the same keys may have other functionality.
+*
+*--------------------------------------------------------------------------------
+*Re-aligning and field motion
+*--------------------------------------------------------------------------------
+*
+*re-align the table without moving the cursor      C-c C-c
+*re-align the table, move to next field            TAB
+*move to previous field                            S-TAB
+*re-align the table, move to next row              RET
+*move to beginning/end of field                    M-a/e
+*
+*--------------------------------------------------------------------------------
+*Row and column editing
+*--------------------------------------------------------------------------------
+*
+*move the current column left                      M-LEFT/RIGHT
+*kill the current column                           M-S-LEFT
+*insert new column to left of cursor position      M-S-RIGHT
+*
+*move the current row up/down                      M-UP/DOWN
+*kill the current row or horizontal line           M-S-UP
+*insert new row above the current row              M-S-DOWN
+*insert hline below (C-u : above) current row      C-c -
+*insert hline and move to line below it            C-c RET
+*sort lines in region                              C-c ^
+*
+*--------------------------------------------------------------------------------
+*Regions
+*--------------------------------------------------------------------------------
+*
+*cut/copy/paste rectangular region                 C-c C-x C-w/M-w/C-y
+*fill paragraph across selected cells              C-c C-q
+*
+*--------------------------------------------------------------------------------
+*Miscellaneous
+*--------------------------------------------------------------------------------
+*
+*to limit column width to N characters, use        ...| <N> |...
+*edit the current field in a separate window       C-c `
+*make current field fully visible                  C-u TAB
+*export as tab-separated file                      M-x org-table-export
+*import tab-separated file                         M-x org-table-import
+*sum numbers in current column/rectangle           C-c +
+*
+*--------------------------------------------------------------------------------
+*Tables created with the table.el package
+*--------------------------------------------------------------------------------
+*
+*insert a new table.el table                       C-c ~
+*recognize existing table.el table                 C-c C-c
+*convert table (Org-mode <-> table.el)             C-c ~
+*
+*--------------------------------------------------------------------------------
+*Spreadsheet
+*--------------------------------------------------------------------------------
+*
+*Formulas typed in field are executed by TAB,
+*RET and C-c C-c.  = introduces a column
+*formula, := a field formula.
+*
+*Example: Add Col1 and Col2                        |=$1+$2      |
+*... with printf format specification              |=$1+$2;%.2f|
+*... with constants from constants.el              |=$1/$c/$cm |
+*sum from 2nd to 3rd hline                         |:=vsum(@II..@III)|
+*apply current column formula                      | = |
+*
+*set and eval column formula                       C-c =
+*set and eval field formula                        C-u C-c =
+*re-apply all stored equations to current line     C-c *
+*re-apply all stored equations to entire table     C-u C-c *
+*iterate table to stability                        C-u C-u C-c *
+*rotate calculation mark through # * ! ^ _ $       C-#
+*show line, column, formula reference              C-c ?
+*toggle grid / debugger                            C-c }/{
+*
+*--------------------------------------------------------------------------------
+*Formula Editor
+*--------------------------------------------------------------------------------
+*
+*edit formulas in separate buffer                  C-c '
+*exit and install new formulas                     C-c C-c
+*exit, install, and apply new formulas             C-u C-c C-c
+*abort                                             C-c C-q
+*toggle reference style                            C-c C-r
+*pretty-print Lisp formula                         TAB
+*complete Lisp symbol                              M-TAB
+*shift reference point                             S-cursor
+*shift test line for column references             M-up/down
+*scroll the window showing the table               M-S-up/down
+*toggle table coordinate grid                      C-c }
+*
+***** Links
+*
+*globally store link to the current location       C-c l \noteone
+*insert a link (TAB completes stored links)        C-c C-l
+*insert file link with file name completion        C-u C-c C-l
+*edit (also hidden part of) link at point          C-c C-l
+*
+*open file links in emacs                          C-c C-o
+*...force open in emacs/other window               C-u C-c C-o
+*open link at point                                mouse-1/2
+*...force open in emacs/other window               mouse-3
+*record a position in mark ring                    C-c %
+*jump back to last followed link(s)                C-c &
+*find next link                                    C-c C-x C-n
+*find previous link                                C-c C-x C-p
+*edit code snippet of file at point                C-c '
+*toggle inline display of linked images            C-c C-x C-v
+*
+***** Working with Code (Babel)
+*
+*execute code block at point                       C-c C-c
+*open results of code block at point               C-c C-o
+*check code block at point for errors              C-c C-v c
+*insert a header argument with completion          C-c C-v j
+*view expanded body of code block at point         C-c C-v v
+*view information about code block at point        C-c C-v I
+*go to named code block                            C-c C-v g
+*go to named result                                C-c C-v r
+*go to the head of the current code block          C-c C-v u
+*go to the next code block                         C-c C-v n
+*go to the previous code block                     C-c C-v p
+*demarcate a code block                            C-c C-v d
+*execute the next key sequence in the code edit bu C-c C-v x
+*execute all code blocks in current buffer         C-c C-v b
+*execute all code blocks in current subtree        C-c C-v s
+*tangle code blocks in current file                C-c C-v t
+*tangle code blocks in supplied file               C-c C-v f
+*ingest all code blocks in supplied file into the  C-c C-v i
+*switch to the session of the current code block   C-c C-v z
+*load the current code block into a session        C-c C-v l
+*view sha1 hash of the current code block          C-c C-v a
+*
+***** Completion
+*
+*In-buffer completion completes TODO keywords at headline start, TeX
+*macros after `\', option keywords after `#-', TAGS
+*after  `:', and dictionary words elsewhere.
+*
+*complete word at point                            M-TAB
+*
+***** TODO Items and Checkboxes
+*rotate the state of the current item              C-c C-t
+*select next/previous state                        S-LEFT/RIGHT
+*select next/previous set                          C-S-LEFT/RIGHT
+*toggle ORDERED property                           C-c C-x o
+*view TODO items in a sparse tree                  C-c C-v
+*view 3rd TODO keyword's sparse tree               C-3 C-c C-v
+*
+*set the priority of the current item              C-c , [ABC]
+*remove priority cookie from current item          C-c , SPC
+*raise/lower priority of current item              S-UP/DOWN\notetwo
+*
+*insert new checkbox item in plain list            M-S-RET
+*toggle checkbox(es) in region/entry/at point      C-c C-x C-b
+*toggle checkbox at point                          C-c C-c
+*update checkbox statistics (C-u : whole file)     C-c #
+*
+***** Tags
+*set tags for current heading                      C-c C-q
+*realign tags in all headings                      C-u C-c C-q
+*create sparse tree with matching tags             C-c \\
+*globally (agenda) match tags at cursor            C-c C-o
+*
+***** Properties and Column View
+*set property/effort                               C-c C-x p/e
+*special commands in property lines                C-c C-c
+*next/previous allowed value                       S-left/right
+*turn on column view                               C-c C-x C-c
+*capture columns view in dynamic block             C-c C-x i
+*
+*quit column view                                  q
+*show full value                                   v
+*edit value                                        e
+*next/previous allowed value                       n/p or S-left/right
+*edit allowed values list                          a
+*make column wider/narrower                        > / <
+*move column left/right                            M-left/right
+*add new column                                    M-S-right
+*Delete current column                             M-S-left
+*
+*
+***** Timestamps
+*prompt for date and insert timestamp              C-c .
+*like C-c . but insert date and time format        C-u C-c .
+*like C-c . but make stamp inactive                C-c !
+*insert DEADLINE timestamp                         C-c C-d
+*insert SCHEDULED timestamp                        C-c C-s
+*create sparse tree with all deadlines due         C-c / d
+*the time between 2 dates in a time range          C-c C-y
+*change timestamp at cursor Â±1 day                S-RIGHT/LEFT\notetwo
+*change year/month/day at cursor by Â±1            S-UP/DOWN\notetwo
+*access the calendar for the current date          C-c >
+*insert timestamp matching date in calendar        C-c <
+*access agenda for current date                    C-c C-o
+*select date while prompted                        mouse-1/RET
+*toggle custom format display for dates/times      C-c C-x C-t
+*
+*
+*--------------------------------------------------------------------------------
+*Clocking time
+*--------------------------------------------------------------------------------
+*
+*start clock on current item                       C-c C-x C-i
+*stop/cancel clock on current item                 C-c C-x C-o/x
+*display total subtree times                       C-c C-x C-d
+*remove displayed times                            C-c C-c
+*insert/update table with clock report             C-c C-x C-r
+*
+***** Agenda Views
+*add/move current file to front of agenda          C-c [
+*remove current file from your agenda              C-c ]
+*cycle through agenda file list                    C-'
+*set/remove restriction lock                       C-c C-x </>
+*
+*compile agenda for the current week               C-c a a \noteone
+*compile global TODO list                          C-c a t \noteone
+*compile TODO list for specific keyword            C-c a T \noteone
+*match tags, TODO kwds, properties                 C-c a m \noteone
+*match only in TODO entries                        C-c a M \noteone
+*find stuck projects                               C-c a # \noteone
+*show timeline of current org file                 C-c a L \noteone
+*configure custom commands                         C-c a C \noteone
+*agenda for date at cursor                         C-c C-o
+*
+*--------------------------------------------------------------------------------
+*Commands available in an agenda buffer
+*--------------------------------------------------------------------------------
+*
+*--------------------------------------------------------------------------------
+*View Org file
+*--------------------------------------------------------------------------------
+*
+*show original location of item                    SPC/mouse-3
+*show and recenter window                          L
+*goto original location in other window            TAB/mouse-2
+*goto original location, delete other windows      RET
+*show subtree in indirect buffer, ded.\ frame      C-c C-x b
+*toggle follow-mode                                F
+*
+*--------------------------------------------------------------------------------
+*Change display
+*--------------------------------------------------------------------------------
+*
+*delete other windows                              o
+*view mode dispatcher                              v
+*switch to day/week/month/year/def view            d w vm vy vSP
+*toggle diary entries / time grid / habits         D / G / K
+*toggle entry text / clock report                  E / R
+*toggle display of logbook entries                 l / v l/L/c
+*toggle inclusion of archived trees/files          v a/A
+*refresh agenda buffer with any changes            r / g
+*filter with respect to a tag                      /
+*save all org-mode buffers                         s
+*display next/previous day,week,...                f / b
+*goto today / some date (prompt)                   . / j
+*
+*--------------------------------------------------------------------------------
+*Remote editing
+*--------------------------------------------------------------------------------
+*
+*digit argument                                    0-9
+*change state of current TODO item                 t
+*kill item and source                              C-k
+*archive default                                   $ / a
+*refile the subtree                                C-c C-w
+*set/show tags of current headline                 : / T
+*set effort property (prefix=nth)                  e
+*set / compute priority of current item            , / P
+*raise/lower priority of current item              S-UP/DOWN\notetwo
+*run an attachment command                         C-c C-a
+*schedule/set deadline for this item               C-c C-s/d
+*change timestamp one day earlier/later            S-LEFT/RIGHT\notetwo
+*change timestamp to today                         >
+*insert new entry into diary                       i
+*start/stop/cancel the clock on current item       I / O / X
+*jump to running clock entry                       J
+*mark / unmark / execute bulk action               m / u / B
+*
+*--------------------------------------------------------------------------------
+*Misc
+*--------------------------------------------------------------------------------
+*
+*follow one or offer all links in current entry    C-c C-o
+*
+*--------------------------------------------------------------------------------
+*Calendar commands
+*--------------------------------------------------------------------------------
+*
+*find agenda cursor date in calendar               c
+*compute agenda for calendar cursor date           c
+*show phases of the moon                           M
+*show sunrise/sunset times                         S
+*show holidays                                     H
+*convert date to other calendars                   C
+*
+*--------------------------------------------------------------------------------
+*Quit and Exit
+*--------------------------------------------------------------------------------
+*
+*quit agenda, remove agenda buffer                 q
+*exit agenda, remove all agenda buffers            x
+*
+***** LaTeX and cdlatex-mode
+*
+*preview LaTeX fragment                            C-c C-x C-l
+*expand abbreviation (cdlatex-mode)                TAB
+*insert/modify math symbol (cdlatex-mode)          ` / '
+*insert citation using RefTeX                      C-c C-x [
+*
+***** Exporting and Publishing
+*
+*Exporting creates files with extensions .txt and .html
+*in the current directory.  Publishing puts the resulting file into
+*some other place.
+*
+*export/publish dispatcher                         C-c C-e
+*
+*export visible part only                          C-c C-e v
+*insert template of export options                 C-c C-e t
+*toggle fixed width for entry or region            C-c :
+*toggle pretty display of scripts, entities        C-c C-x {\tt\char`\}
+*
+*--------------------------------------------------------------------------------
+*Comments: Text not being exported
+*--------------------------------------------------------------------------------
+*
+*Lines starting with # and subtrees starting with COMMENT are
+*never exported.
+*
+*toggle COMMENT keyword on entry                   C-c ;
+*
+***** Dynamic Blocks
+*
+*update dynamic block at point                     C-c C-x C-u
+*update all dynamic blocks                         C-u C-c C-x C-u
+*
+***** Notes
+*[1] This is only a suggestion for a binding of this command.  Choose
+*your own key as shown under ACTIVATION.
+*
+*[2] Keybinding affected by org-support-shift-select and also
+**** org-replace-disputed-keys.
+***** Outlining and Writing
+Asterisks are used to denote headings these can 
+be nested using increments of astrisks. Lines that 
+don't start with the * are considered the body of 
+the text.
+
+**** Under lying headings
+Underlying objects can be wrapped up into the 
+heading for clarity. This is done by moving the cursor
+to the end of the headings line and pressing TAB.
+
+**** thrid level
+***** fourth level
+****** fifth level
+**** Visability cycling
+***** Gloabl and local cycling
++Cycling through the headings is accomplised with sucsecive TAB commands. A level which is above can open any below. You don't have to be on the ajacent heading to cycle just above.
+
+| Commands | Function                |
+|----------+-------------------------|
+| C-c C-n  | Next heading            |
+| C-c C-p  | Prev heading            |
+| C-c C-f  | Next heading same level |
+| C-c C-b  | Prev heading same level |
+|          |                         |
+***** Setting initial visibility   
++Using C-u Cu will switch back to the start up viaibility.
++ Setting per file visibility
+- #+STARTUP - overview
+- #+STARTUP - content
+**** Lists
+***** Unordered
+unordered lists can be added using +,-
+- apple
+- banana
+- grapes
+***** Ordered
+ordered lists can be added using 1.
+1. apple
+2. banna
+3. cherry
+
+***** Check-box
+- [ ] is it true
+- [ ] is it false
+to toggle the state of the checkbox C-c C-c
+to toggle through itemize bullets C-c -
+Turn an item in to a heading C-c * this will turn a 
+checkbox into a TODO list
+
+**** Drawers
+This is outside the drawer
+:DRAWER_NAME:
+This is inside the drawer
+:END:
+After the drawer
+
+A drawer can also be added interactivly with 
+C-c C-x d - This will add the :Drawer: and :END:
+
+**** \TODO List
+**** Hyperlinks
+Simple url
+http://linuxjournal.com
+or
+[[http://linuxjournal.com]::[Linux Journal]]
+
+Link to image
+https://plus.google.com/photos/100234956980391947791/album/6170753083564209409/6170753084798814642?authkey=CNuXwuz8yuqGYg&sqid=116491848144040455924&ssid=b159388e-0b2d-4384-91bd-86ac4c803abc
+
+Link to a file
+file://.vimrc
+
+**** Tables
+  
+| Column 1 | Column 2 | Column 3 |
+|          |          |          |
+
+ALT moves between cells
+
+**** Tags 							       :BLUE:
+  
+You can assign a tag to a header.
+They are to the form :TAG_ONE:
+
+Tags can also be added to a heading by C-c C-c on it.
+
+Search tags with C-c \
+
+***** TAG EXP 							       :BLUE:
+***** TAG EXP 						    :TAG_ONE:TAG_TWO:
+
+**** Exporting & Publishing
+***** Exporting as ASCII
+M-x org-export-as-ascii - creates a file with same name but .txt
+***** Exporting as HTML
+M-x org-export-as-html - creates a file with the same name but .html
+  
+**** Creating Timestamps
+For org mode to recognize timestamps they have to be of a cetain format.
+*
+***** Org Timestamp
+*<2016-10-19 Wed> - this is created with C-c .
+*
+***** Org Timestamp Inactive
+*[2016-11-01 Tue] - this is created with C-c ! 
+*Same as above but will not cause an agenda entry
+
+**** Deadlines and Scheduling
+**** Publishing
++ This allows for the conversion of .org files to .html or .pdf.
+
+***** Configuration
++ Publish requires a significant amount of configuration.
+
+****** The variable org-publish-project-alist
++ It is this variable that initiates each project.
++ Each element of the list is one project.
+
+("project_name" :property value :property value ...)
+or
+("project_name" :components ("project_name" "project_name" ...))
+
++ A project defines a set of files that will be published, along with the publishing config.
+
+****** Sources and Destinations for Files
++ Most properties are optional, but where and from needs to be specified.
+
+| Property              | Description  |
+|-----------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| :base-directory       | Directory containing source files                                                                                                                                                         |
+| :publishing-directory | Directory where output files will be published. You can directly publish to a web server using a file name syntax appropriate for Emacs tramp pkg, or just publish to a locali directory. |
+| :preparation-function | Function or list of functions to be called before starting the publishing process.                                                                                                        |
+| :completion-function  | Function or list of functions called after finishing the publishing process, for example to change permissions of the resulting files.                                                    |
+
+****** Selecting Files
++ By default all files with the .org extension in the base directory will be apart of the project. This can be modified with the following properties.
+ 
+*| Property        | Description                                                                                                       |
+*|-----------------+-------------------------------------------------------------------------------------------------------------------|
+*| :base-extension | Extension of source files. Set to any if you wish to get all file types                                           |
+*| :exclude        | Regular expression to match file names that should not be published, even though selected with the base-extension |
+*| :include        | List of files to be included regardless of :base-extension and :exclude                                           |
+*| :recursive      | non-nil means to chech the base recursively for files to publish.                                                 |
+*
+*
+****** Publishing Actions
+*+ default action is to publish files as html.
+*+ publishing is done by calling the org-html-publish-to-html
+*+ for other formats the function is org-latex-publish-to-pdf , ascii, Texinfo etc.
+
+**** Babel
+***** Lecture
+****** Emacs Lisp Development Tips with John Wiegley
+par edit mode
+
+use paredit
+- many key bindings to learn
+ctrl meta-x - will evaluate
+ctrl-h f - this will produce a list of functions that are available in the environment
+this will evaluate the elisp code ctrl-x ctrl-e
+command-log-mode - this will show show on the screen keystrokes
+C-u C-M-x this will run the interactive debuger - ? will give you all options
+eldoc-mode - this provides prompting for function variables
+- set this for when elisp-mode is called
+info- here is where all the manuals are
+marks - mx will mark current point with x
+- to get to x use 'x go to the ^ of the line, or `x go to exact point
+C-h-f - this will give you info on function that you are currently over
+More information of a function can be found in the emacs manual.
+check-parens - self-explanitory
+slurping and barfing
+paredit has a companion lib redshank
+ert - unit testing framework 
+undercover.el - sacha chua has a blog on it
+checkdoc - minor mode - for working with project documentation 
+
+** Packages
+*** projectile - provides an easy way to navigate a project
+*** epc - middleware that connects pythonland to emacsland
+*** jedi 
+*** auto-complete 
+*** ido-vertical
+*** YASnippet
+ 
+*** Helm
+** What an IDE in emacs should do
+Easily find files and switch between projects
+Easily navigate through function definitions
+Contextual documentation
+Inline help for complex function calls
+ 
+*** Emacs as a Python IDE - thoughtbot
+rl: https://www.youtube.com/watch?v=6BlTGPsjGJk
+
+** Make the above work
+Need an interface for completion and showing alternatives
+- auto-complete
+Need an interpreter that knows the language
+- Here, a server that wraps a Python parsing lib
+You need glue
+- epc, jedi.el
+   
+** Installation with pkg-mgmt
+Fist install projectile auto-complete epc jedi
+add this to .emacs
+require 'package)
+package-initialize)
+add-to-list
+ 'package-archives
+ '("melpa" . "http://melpa.milkbox.net/packages/"))
+
+require 'Projectile)
+projectile-global-mode)
+
+require 'auto-complete-config)
+ac-config-default)
+set ac-show-menu-immediately-on-auto-complete t)
+
+*** Jedi & EPC
+Jedi is a python lib for contextual parsing of files 
+Simple emacs/python rpc lib
+jedi.el 
+- small python server wrapping some jedi features
+- elisp front end to the server
+
+*** Jedi deps
+Jedi setting up
++ pip & virtualenv need to be installed
++ A one time M-x jedi:install-server
++ dep installed in sandbox env
++ This won't work with other package managers eg conda
+Manually
++ Necessay if you can't use virtualenv/pip
++ Install epc and jedi python modules globally
++ Need to ensure they are available to Jedi server
++ May need to point Jedi to a particular installed python 
+  
+ add this to .emacs
+require 'jedi)
+; Hook up to autocomplete
+add-to-list 'ac-sources 'ac-source-jedi-direct)
+; Enable for python-mode
+add-hook 'python-mode-hook 'jedi:setup)
+
+** Jedi Server Options
+ Finding your project (--sys-path)
+ - sys-path is where python looks for modules
+ Finding your installed modules (--virtual-env)
+ - normally set to nil
+
+ add this to .emacs
+defvar jedi-config-with-virtualenv nil
+ "Set to non-nil to point to a particular virtualenv")
+
+; Variables to help find the project root
+defvar jedi-config:vcs-root-sentinel ".git")
+defvar jedi-config:python-module-sentinel "__init__.py")
+
+; Function to find project root given a buffer
+defvun get-project-root (buf repo-type init-file)
+ (vc-find-root (expand-file-name (buffer-file_name buf)) repo-type))
+ 
+defvar jedi-config:find-root-function 'get-project-root)
+
+; And call this on initialization
+defun current-buffer-project-root ()
+ (funcall jedi-config:find-root-function
+   (current-buffer)
+   jedi-config:vcs-root-sentinel
+   jedi-config:python-module-sentinel))
+
+** Set the server args
+ A list (ARG1 VALUE1 ARG2 VALUE2 ...)
+ Store in buffer local variable jedi:server-args
+
+defun jedi-config:serup-server-args()
+ ;; little helper macro
+ (defmacro add-args (arg-list arg-name arg-value)
+   '(setq ,arg-list (append ,arg-list (list ,arg-name ,arg-value)))))
+
+ (let ((project-root (current-buffer-project-root)))
+
+   ;; Variable for this buffer only
+   (make-local-variable 'jedi:service-args)
+
+   ;; And set our variables
+   (when project-root
+     (add-args jedi:server-args "--sys-path" project-root))
+   (when jedi-config:with-virtualenv
+     (add-args jedi:server-args "--virtual-env"
+       jedi-config:with-virtualenv))))
+
+** Other languages
+Ruby - robe
+C/C++ - irony-mode
+gocode - golang
+
+** Help
+C-h ? - overview of help
+C-h P - search Package
+C-h
+* Lecture
+** Have Emacs Teach You Chinese or English or Math or whatever - thoughtbot Josh Moller-Mara
+URL: [[https://www.youtube.com/watch?v%253DuraPXeLfWcM][Emacs Teach you chinese or English...]]
+How?
+  - Using the spaced repetition package org-drill
+    - Don't want to waste time studying cards you already know
+  - Automatically creating flashcards using org-capture templates
+    - Don't waste time making new cards
+     
+How it works?
+You get a flashcard 
+You think about what the answer to the answer to the flashcard is
+You flip over the flashcard
+Depending on how well you answered it, you categorize it from 0 to 5
+0. Totally forgot
+1. Took a while to remember
+2. You remembered after seeing itf
+3. It took a while, but you remember
+4. You remembered after a little tought
+5. You remembered the item easily
+
+Org-drill
+important to add it to org-modules
+Add a "drill" tag in org-mode to whatever you want drilled.
+Use clozes or subheadings to determine what's on the back of the card.
+org-drill cmds
+- org-drill - drills the current buffer
+- org-drill-tree - drills the current org-mode heading
+- org-drill-directory - Drills all files in the current directory
+Clozes are the fill in the blank type card. By default using [    ]
+
+Org-Capture
+Jonathan Magen has a good talk    
+org capture templates allow for quick ways to add information
+
+Anatomy of an org-capture template
+'(keys description type target template)
+you tell it the key to bind to
+you tell where you want your capture info stored
+you prompt for "fill-in-the-blank" strings with %^{prompt}
+Importantly, org-capture templates can contain a % (sexp)
+- org-mode wants you to hack it
+
+** Emacs Chat: Karl Voit
+rl: https://www.youtube.com/watch?v=SaKPr4J0K2I&list=WL&index=72
+
+ tag trees apose to using file hierarchy
+ - use date/time stamps
+ - descriptive file names
+ - tags
+
+ dates to names - a python program on his github to add date stamp to filename.
+ file tag - a program that will add tags to files.
+ Org-Agenda - keeps track of actions that occur
+ Memacs is what is used to create the above - Memacs uses archive mode so information dosn't clog up the agenda.
+ - ties to emails
+ - ties to twitter
+ lazyblog - to help blog from with in emacs
+ config file using org mode
+ - the headers are commented out so the config is still read
+ my-map allows you to set your own keybindings
+ yasnippet - templates for org mode
+ 
+* Articles
+** Emacs Mini Manual
+rl: http://tuhdo.github.io/emacs-tutor.html
+
+*** Part 1
+
+*** Built-in-help system
+ C-h m - runs describe-mode - see all the key bindings & documentation of current major and minor modes.
+ C-h w - where-is - to get which keystrokes invoke a given cmd.
+ C-h c - describe-key-bridfly - find out what cmd is bound to a key.
+ C-h k - describe-key - to find out what cmd is bound to key.
+ C-h e - view-echo-area-messages - see logging of echo area.
+ C-h i - M-x info - brings up all the info manuals.
+
+*** Man Pages
+ M-x man - get a nam page
+
+*** Finding Files
+ M-x find-file - C-x C-f - open a file
+ M-x ffap - find file at point
+
+*** Ido mode - Interactively Do Things
+ With this mode enabled searching becomes a narrowing of options until you find the file.
+ Simpler alternative to Helm.
+
+*** Saving files
+ C-x C-s - save current buffer to file
+ C-x C-w - save as
+
+*** Emacs Modes
+ Major mode - provides specialized facilities for working on particular file type. They are mutually exclusive, only one major mode per buffer.
+ Minor mode - these provide functionality but are not types specific and there can be any number of these.
+
+*** Buffer MGMT
+ adding the following to my .emacs
+ - (global-set-key (kbd "C-x C-b") 'ibuffer)
+ - this invokes interactive buffer, which allows for better search functionality
+ /m - this will pull up all major modes. Selecting the mode will only show buffers that are using the mode.
+ // - this removes filtering
+ /g - this can be called once filtering is set to name a group of files.
+ o - this opens and puts the point on the opened buffer
+ C-o - this opens the buffer but keeps the point in the ibuffer
+ C-x o - this will move between windows
+ C-x 1 - One main window
+ C-x 2 - Two equal windows, horizontal
+ C-x 3 - Two equal windows, vertical
+
+ Key | Bindings                       |
+ /m  | Add a filter by a major mode   |
+ /n  | Add a filter by a buffer name  |
+ /c  | Add a filter by buffer content |
+ /f  | Add a filter by filename       |
+ />  | Add a filter by buffer size    |
+ /<  | Add a filter by buffer size    |
+ //  | Remove filters                 |
+
+*** Bookmarks
++ C-x rm - this provides for a name to be give to a point in a file to come back to.
+ C-x rb <name>- this will take you back to the specified bookmark
+ C-x rl - list all bookmarks
+
+ Key | Bindings                               |
+ RET | Open bm                                |
+ 1   | Open bm and close other buffers        |
+ n   | Go to the next entry                   |
+ p   | Go to previous entry                   |
+ s   | Save the current bookmark list to file |
+ o   | Open bookmark in other window          |
+ r   | Re-name bm                             |
+ d   | Flag bm for deletion                   |
+ x   | Delete flaged bm                       |
+ u   | Unmark flaged bm                       |
+
+*** Kill Ring
+ The kill ring is where cut text is kept
+ It is a list of previously killed content.
+ 
+*** Marks
+ C-SPC C-SPC <mark> - this will produce a marker in the buffer
+ C-u C-SPC - this will move you back to set mark
+
+*** Undo/redo
+ C-x u - this brings up an undo tracker that allows for moving through the changes made to the current file.
+ C-/ - this is a quick undo
+ 
+*** Search
+ C-s - this is froward search.
+ C-r - this is reverse search. 
+
+**** Occur
+ This cmd marks all lines tht contain the string or regexp, and display the search results in a seperate buffer named *Occur*
+ M-s o - this prompts for the search term and then displays the buffer 
+
+**** Multi-Occur
+ Allows for searching multiple buffers
+ M-x multi-occur
+  
+**** Query replace
+ M-% - prompts for the term to replace
+     
+**** Grep
+ M-x rgrep - allows for searching using external grep.
+ files that contain the search term are then shown in a buffer
+ 
+*** Dired - Directory Editor
+ C-x d - select dir and start dired in that dir
+ C-x 4 d - select dir and start dired in another window 
+
+ ! - can perform shell cmd on file
+ d - mark for deletion
+ x - execute deletion
+ i - open sub directory
+
+*** Registers
+ C-x r j <reg> - go to register
+
+*** Swithcing between windows settings
+ Registers help in moving between different windows layouts
+ C-x r w <reg> - save the current window setting
+ C-x r f <reg> - save the frame state and all windows
+
+*** Macros
+ This records your actions in Emacs and play back later.
+ C-x ( - this will start recording
+ C-x ) - this will stop recording
+ C-x e - playback
+
+*** Version Control 
+ Emacs supports CVS, subversion, bzr, git, hg and others.
+ All are managed through a uniform interface.
+ Emacs will automatically recognise if a file is using version control.
+ C-x vv - This will commit the file if any changes have been made.
+ C-x v - This will show what changes you have made to the current file.
+
+ though emacs has VC, the Magit package is recommended as it is git specific.
+
+*** Shell
+ There are 3 types of shell cmd
+ 1. shell - this is the oldest. It call a subshell, it doesn't support ncurses based applications.
+ 2. term - this is a terminal emulator written in Emacs lisp.
+ 3. eshell - this is emacs own shell. As it's its own shell the syntax is different. Interupt is C-c C-c
+
+** Using org to Blog with Jekyll 
+URL: http://orgmode.org/worg/org-tutorials/org-jekyll.html
+
+** Tutorials
+*** Master Emacs in one year
+#+OPTIONS: toc:nil
+  :PROPERTIES:
+  :ID:       o2b:24796fba-6de7-4712-b83e-b86969c31335
+  :POST_DATE: [2012-01-31 Tue 15:08]
+  :POSTID:   268
+  :ARCHIVE_TIME: 2012-12-26 Wed 19:21
+  :ARCHIVE_FILE: ~/projs/mastering-emacs-in-one-year-guide/guide-zh.org
+  :ARCHIVE_CATEGORY: emacs
+  :END:
+Author: Chen Bin (redguardtoo)
+
+Version: 20150424
+
+Updated: <2015-04-24 Fri>
+
+Created: [2012-01-31 Tue 15:08]
+
+Copyright: This work is licensed under the [[http://creativecommons.org/licenses/by-nc-nd/3.0/][Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License]].
+
+**** Introduction
+I was a Microsoft fan because I was born in China. There was no Unix culture when I was young. My professor knew as much as I knew about Unix. Zero knowledge. Nothing. I believed Microsoft Windows was the only platform worth developing software on. I believed Visual Studio was the best IDE in the world. I was so loyal to Microsoft that I used Visual Studio to edit the code running on Linux server during my first job.
+
+Besides, computers scared me to death. I'm ashamed to admit now that when I graduated from university I didn't know clipboard. If I need input duplicated texts, I typed them character by character. I chose an IT career simply for money. There was no other career path for talented young people in China then.
+
+So,
+- This guide is about using Emacs as a professional's tool. I will not show off Emacs as a geek's toy because I am far from geek stereotype. I will focus on philosophy and methodology only. No technical details involved.
+- If a computer dummy can [[https://github.com/redguardtoo][be good at Emacs in one year]], you can do better.
+
+Here is the structure of the article:
+- Why Emacs matters? You can skip this part if you are familiar with Linux/Unix
+- The key point of guide is take full advantage of Master's work. Don't re-invent the wheel
+- The steps to master Emacs
+- How to improve after grasping basics by learning from community and books
+- What matters is people
+- FAQ and Summary
+**** Why Emacs (OPTIONAL)
+I intend to keep this section short because my focus is HOW instead of WHY.
+***** Emacs master is good at other editors naturally
+Master has already known the best, so she/he has higher expectation.
+
+For example, the master expects:
+- a good editor should have a package manager bundled. She/He is surprised that [[https://sublime.wbond.net/installation][package manager is NOT bundled in some editor]].
+- Broken package could be [[http://www.gnu.org/software/emacs/manual/html_node/elisp/Advising-Functions.html][fixed]] without touching the package's original code.
+- When remote repository is down, she/he can [[https://github.com/redguardtoo/myelpa][create a repository]] in the memory stick [[https://github.com/redguardtoo/elpa-mirror][in one minute]].
+
+In summary, she/he knows more than Emacs' competitors can implement.
+***** Community is strong
+Emacs uses [[http://www.gnu.org/software/emacs/manual/html_node/eintr/index.html][Lisp]]. Its [[http://en.wikipedia.org/wiki/Lisp_%28programming_language%29][compact and "unusual" syntax]] scares off the weak minds.
+***** It's powerful
+IDE is optimized for one framework. [[http://www.youtube.com/watch?v=EQAd41VAXWo][Emacs can do everything in great way]].
+***** It lives forever
+Emacs is maintained by a [[http://www.gnu.org/][non-profit organization]]. Competitors die while Emacs stays [[http://en.wikipedia.org/wiki/Emacs#History][during 40 years]].
+***** No overhead
+The installer is a [[http://ftp.gnu.org/gnu/emacs/windows/][50M bytes zip file]]. The program is portable.
+***** What matters is attitude
+If I could only give one piece of advice, it would be *being open minded*. 
+
+Newbies may be surprised by following facts:
+- I don't know 80% "newbie-must-know" key bindings because [[http://www.emacswiki.org/emacs/Smex][I don't need to]]
+- [[https://github.com/purcell/emacs.d/issues?q=author%3Aredguardtoo+][I don't start from my own simple setup at the beginning]]
+- I actually [[https://github.com/punchagan/org2blog/issues/153][don't fully understand Lisp "if" statement]] after I've already developed [[https://github.com/redguardtoo][useful Emacs plugins]] and written [[https://news.ycombinator.com/item?id=6909463][hardcore Emacs articles]].
+- I use my spare time in one year to master Emacs
+
+**** Step by Step Guide
+Some conventions: 
+- "C" means "Ctrl" and "M" means "Alt"
+- "M-x my-command" means press "Alt" and "x" together, enter "my-command"
+***** Quick start for greenhorns of Linux/Unix (OPTIONAL) 
+Here are the steps:
+- Install Emacs 24
+- Don't install any plugins
+- Learn basic knowledge about [[http://en.wikipedia.org/wiki/Environment_variable][environment variable]] and [[http://en.wikipedia.org/wiki/Redirection_%28computing%29][pipe]]
+- Read the official tutorial
+- Use [[http://www.emacswiki.org/emacs/OrgMode][org-mode]]
+- The only hotkey you need learn in org-mode is TAB key
+
+Use Emacs in this way for several days in order to understand:
+- Why people love Emacs
+- How Emacs interact with other programs
+***** Read the official tutorial
+Steps to read tutorial
+- Start Emacs with minimum setup. I suggest running command "emacs -nw -Q" in shell
+- "M-x help-with-tutorial"
+
+This tutorial takes half an hour. Not too much time for a life time skill.
+
+Please do not skip it.
+
+At minimum, you need learn help commands:
+- "M-x describe-variable", hotkey "C-h v", display documentation of variable
+- "M-x describe-function", hotkey "C-h f", display documentation of function
+- "M-x describe-key", hotkey "C-h k", display documentation of function invoke by key
+***** Start from practical problem
+Most newbies need a notes taking tool. So [[http://orgmode.org/][Org-mode]] is the answer.
+
+If you don't start by solving real world problem you will lose interest soon. Many people started the journey by learning Lisp. They gave up in the midway.
+***** Set the priorities
+Focus on your most critical issue only. Ignore other issues temporarily. Sometimes compromise is a better strategy.
+
+For example, I always use Emacs in terminal because at the beginning my most urgent problem is to edit the file on the remote server.
+
+After a happy year with Emacs, I'm curious why other people keep complaining that their Emacs issues, especially on OSX (font not rendered properly, window not maxmized, cannot increase font size, etc). It turns out they are using GUI version while I'm using terminal version. My terminal application already take over and solve these issues perfectly.
+***** On the shoulders of giants
+This is *the most important section*!
+
+I learned the lesson the hard way. At the beginning, I regarded Emacs as a toy. I digged around the internet for cool code I can copy.
+
+That's totally a waste of time if my goal is to become an Emacs master!
+
+I should have used [[https://github.com/purcell/emacs.d][Steve Purcell's]] setup at the beginning!
+
+Please don't repeat my mistake. Just follow Steven Purcell!
+
+Let me be blunt. You are a newbie, you'd better study top geek's code. Don't try to be "creative" at this stage. You won't *create anything* when re-inventing the wheel.
+
+For example, some readers tell me that Emacs has too many hotkeys. They can't memorize all of them. This is typical in newbies who assume that top geeks can remember more key bindings.
+
+Wrong!
+
+If you have studied any master's setup, you will find that she uses [[http://www.emacswiki.org/emacs/Smex][Smex]], as it is more efficient than pressing hotkeys.
+
+Since Steve Purcell loves new technologies and update his setup frequently, it may be a little harder to follow him for beginners.
+
+That's actually great. I'm lucky to stick to his setup because pulling from his git branch gets me updated with the latest cool things in community.
+
+When I say "on the shoulders of giants", I'm stressing that you need set your standard higher. I'm NOT saying the master's setup is "newbie friendly". If it happens to be "friendly", it's just the *coincidence*.
+
+This section is discussing *the best way to be good, not the easiest way*.
+
+There is a difference between best and easiest. For example, a setup using Vim key bindings is NOT easy but definitely best.
+
+If you are still not convinced, consider my reasons:
+- Those giants are more intelligent than me. They are harder working than me. How can I reach their level as quickly as possible?
+- The obvious way is to join them.
+- If you can report a bug about the master's setup, at least in that moment, you have proven you are better at a certain issue than the master.
+- You will get guidance from the master when he/she analyzes your bug report.
+
+***** Report bugs
+That's only way to become the padawan of the master.
+
+For example, I learned [[phttp://www.gnu.org/software/emacs/manual/html_node/elisp/Advising-Functions.html][some advanced Lisp skill]] by [[https://github.com/capitaomorte/yasnippet/issues/256][reporting a bug]]. The bonus is that bug report is actually a case study. Knowledge from such a case study is hard to forget.
+
+***** Better yourself everyday
+I was inspired by [[https://sites.google.com/site/steveyegge2/tour-de-babel][Steve Yegges' article]]. Here is the text quoted:
+#+BEGIN_EXAMPLE
+Go look over Paul Nordstrom's shoulder while he works sometime, if you don't believe me. It's a real eye-opener for someone who's used Visual Blub .NET-like IDEs their whole career.
+#+END_EXAMPLE
+
+After reading the text, I decided to be as good as Paul Nordstrom. It's mission impossible considering [[http://www.linkedin.com/in/paulnpcom][who Paul Nordstrom is]]. The reason to set a goal I can never reach is to make me not to stop. Whatever minor task I take, I always ask myself how Paul Nordstrom will handle it. Is my operation efficient enough that Steve Yegge will be surprised?
+
+For example, switch focus between sub-windows in Emacs is not efficient by default. I need press "Ctrl-x O" several times to jump to a sub-window. After some investigation, I found [[https://github.com/dimitri/switch-window][switch-window]]. Press "Ctrl-x O" plus number key to finish the operation. I kept searching and found [[https://github.com/nschum/window-numbering.el][window-numbering]]. ALT key plus number key is enough. That's 60% productivity improvement. Alt key is still a little bit far away from my fingers. Another improvement is to use [[https://gitorious.org/evil/pages/Home][Evil-mode]] and [[https://github.com/cofi/evil-leader][evil-leader]], I need only [[https://github.com/redguardtoo/emacs.d/blob/master/init-evil.el][press comma key and number key to switch window]].
+***** Join the community
+I suggest focusing on Emacs only in order to take full advantage of communities.
+
+For example, although Quora.com has lots of interesting stuff, *do not* read/subscribe/follow them unless it's related to Emacs.
+****** Google+
+[[https://plus.google.com/communities/114815898697665598016][Emacs community on Google+]] is the best. The average quality of discussion on Google+ is better.
+
+BTW, the Emacs geek [[https://plus.google.com/113859563190964307534][Xah Lee]] hosts a Q/A session at Google Plus every Tuesday. His web site is [[http://xahlee.org/]].
+****** Reddit
+[[http://www.reddit.com/r/emacs/][Reddit]] is as good as Google+. The advantage of Reddit is that it's usually NOT blocked by the corporate firewall.
+****** Github
+It's a social network for developers.
+
+You can search [[https://github.com/languages/Emacs%20Lisp]] for latest Emacs Lisp code.
+
+If you agrees with my "follow master" strategy, you may like following tip.
+
+I *avoid the pain of maintaining* by watching other masters' emacs.d repositories. I get notified by the bugs and *fix* automatically. All I need to do is clicking "Watch" button on the right top of Github page.
+****** Blogs
+[[http://planet.emacsen.org/][Planet Emacsen]] is the best collection of Emacs related blogs.
+****** Quora.com
+Follow the question on specific topic instead general one. For example, "What's the best Emacs addon" is more useful than "How to learn Emacs".
+
+Everybody can say something about a general question. But to answer a specific question, you need *first-hand experience*.
+
+Even if you are only interestd in general questions, starting from more practical question is still better. Find the people who provides the best and the shortest answer and follow her.
+****** Twitter
+I use keyword "emacs :en" to search latest news. The reason to search English only twitter is that there are lots of Japanese post and I don't know Japanese.
+****** StackOverflow
+Insert "emacs-related-keywords site:stackoverflow.com" in Google search engine.
+
+The quality on stackoverflow discussion is good but there are not many new questions there.
+
+[[http://emacs.stackexchange.com]] is a Q&A site dedicated to Emacs.
+****** Youtube
+Some videos are great.
+
+For example, [[http://www.youtube.com/watch?feature=player_embedded&v=oJTwQvgfgMM][Emacs Org-mode - a system for note-taking and project planning]] is the best tutorial on org-mode. Carsten proved that org-mode is simple. The only thing to remember is pressing "TAB" key to expand a text node. That's the killer feature of org-mode. Other stuff are bonus.
+
+Youtube lists the best matched results at the top. So you will always see the same things. I suggest sorting the results by upload date.
+**** Readings
+***** EmacsWiki
+[[http://www.emacswiki.org/emacs/][EmacsWiki]] has all the tips you need for tweaking the Emacs. It's actively maintained by the community.
+
+People complains that it's not properly organized so it's hard to find the valuable information.
+
+Actually, *most documents* on EmacsWiki is still far better than any other resources. Please be patient and read *the full content* at specific page.
+***** Emacs Lisp book
+I recommend [[http://www.amazon.com/Writing-GNU-Emacs-Extensions-Glickstein/dp/1565922611][Writing GNU Emacs Extensions]] by Bob Glickstein. I like his writing style and the way he organizes chapters.
+
+Xah Lee's [[http://ergoemacs.org/emacs/buy_xah_emacs_tutorial.html][Emacs Lisp tutorial]] is practical and easy to read.
+
+Steve Yegge's [[http://steve-yegge.blogspot.com.au/2008/01/emergency-elisp.html][Emergency Elisp]] is short but it includes the necessary information for writing Emacs Lisp.
+
+Don't study the Lisp at the beginning until you are confident about your Emacs mastery.
+**** Knowledge management 
+***** Place your setup at Github, *publicly*
+I uploaded my setup onto [[https://github.com/redguardtoo/emacs.d]].
+
+Github is the most efficient way of knowledge management because you will never lose the setup.
+
+Github is also a wonderful tool for sharing. I benefit a lot by sharing. People who use my setup are actually helping me perfect my setup. I am the first guy who benefits from a better setup.
+
+For example, people reported that I mixed my personal stuff (email address, full path of my hobby project) into my setup which they need remove. They expected it usable out of the box.
+
+So I re-organized it and placed private stuff into a independent file named "privacy.el". That file is outside of my Emacs configuration. Then it occurred to me that in corporate environment it was not safe to store plain privacy.el on a shared computer without encryption. After some research, I found Emacs already provided [[http://www.emacswiki.org/emacs/EasyPG][a perfect solution]] since version 23.
+
+In order to get the most benefit of sharing, you need make sure your setup is *qualified to share publicly*. Never mix your personal things into it.
+***** Dropbox
+I use [[https://www.dropbox.com][Dropbox]] to back up documents. Since dropbox will synchronize the documents into the mobile devices, I can study Emacs when commuting.
+**** My favorite Emacs addons
+They are not must-have addons. There are many other alternatives which are as good as the listed.
+
+New users have two problems on plugins:
+1. use plugins out of maintenance
+2. use not-the-best plugins
+
+So I list the actively-maintained-and-high-quality plugins to help newbies start:
+| Name                | Description                             | Alternatives     |
+|---------------------+-----------------------------------------+------------------|
+| [[http://www.emacswiki.org/emacs/Evil][Evil]]                | convert Emacs into vim                  | none             |
+| [[http://orgmode.org][Org]]                 | [[http://en.wikipedia.org/wiki/Getting_Things_Done][Get Things Done (GTD)]]                   | none             |
+| [[https://github.com/company-mode/company-mode][company-mode]]        | code completion                         | auto-complete    |
+| [[https://github.com/magnars/expand-region.el][expand-region]]       | selection region efficiently            | none             |
+| [[https://github.com/nonsequitur/smex][smex]]                | Input command efficiently               | none             |
+| [[https://github.com/capitaomorte/yasnippet][yasnippet]]           | text template                           | none             |
+| [[http://www.emacswiki.org/emacs/FlyMake][flymake]]             | syntax check.                           | flycheck         |
+| [[https://github.com/emacs-helm/helm][helm]]                | a framework to choose candidates        | ido              |
+| [[http://www.emacswiki.org/emacs/InteractivelyDoThings][ido]]                 | similar to helm                         | helm             |
+| [[https://github.com/mooz/js2-mode][js2-mode]]            | everything for javascript               | js-mode          |
+| [[http://www.emacswiki.org/emacs/emacs-w3m][w3m]]                 | web browser                             | Eww              |
+| [[https://github.com/skeeto/emacs-web-server][simple-httpd]]        | web server                              | [[https://github.com/nicferrier/elnode][elnode]]           |
+| [[https://github.com/Fuco1/smartparens][smartparens]]         | auto insert matched parens              | autopair         |
+| [[https://github.com/nschum/window-numbering.el][window-numbering.el]] | jump focus between sub-windows          | switch-window.el |
+| [[https://github.com/fxbois/web-mode][web-mode]]            | everything for edit HTML templates      | nxml-mode        |
+| [[https://github.com/magit/magit][magit]]               | Everything about git                    | None             |
+| [[https://github.com/syohex/emacs-git-gutter][git-gutter.el]]       | Mark the VCS (git, subversion ...) diff | None             |
+
+If some plugin is not included in above list and you are not sure about its quality, please go to [[http://melpa.org][MELPA's website]] to check its number of downloads.
+**** Emacs is a way of life
+Emacs people are basically people who are hacking Lisp code for fun. They get the job done in a creative way. For example, [[http://sachachua.com/blog/][Sacha Chua]] mentioned that [[http://sachachua.com/blog/2012/07/transcript-emacs-chat-john-wiegley/][she let Emacs read the manual when cooking]].
+
+So *what benefit* can I get after knowing the Emacs way?
+
+After mastering Emacs, I could not endure the default key bindings of Firefox. So I installed an addon [[https://github.com/mooz/keysnail/wiki][Keysnail]] to convert Firefox into Emacs. That doubled my speed in browser navigation. As a web developer, I am doing the browser navigation thing everyday.
+
+Then I realized that Keysnail was awesome because [[https://github.com/mooz][its developer mooz]] was awesome. I followed him and used whatever he used. His [[https://github.com/mooz/percol][percol]] made all my operations (git, [[http://blog.binchen.org/posts/how-to-do-the-file-navigation-efficiently.html][file navigation]], database management ...) under shell ten times faster.
+
+Things that used to be important become trivial now. For example, I don't care which text editor has better file explorer. Why should I use any file explorer if I am *ten times faster* in shell?
+
+We are living in the world of science and engineering. I improve myself *more quickly* by sharing to the best, by learning from the best. Knowledge is not black magic. Hiding knowledge will *make it stale*.
+
+**** Take action
+All roads lead to Rome. It doesn't matter which road you choose. What matters is walking on the road right now. 
+
+But please make sure you *actually* understand the key points of this article at first.
+
+For example, do you realize that previous sections imply following actions:
+- Find all the developers of the Emacs plugins I listed
+- Follow them on Quora/Twitter/Github/Reddit/Google+
+- Read all their old posts on Quora/Reddit/Google+
+**** FAQ
+***** I'm Emacs dummy. How to start?
+Go to [[https://github.com/redguardtoo/emacs.d]] and check the section "Install stable version in easiest way" in [[https://github.com/redguardtoo/emacs.d/blob/master/README.org][README]].
+
+Then follow the steps at [[https://github.com/redguardtoo/emacs.d/blob/master/BETA.org]].
+***** Any documentation on Steve Purcell's setup?
+Nope. Read its README and code comment. The header of the code file usually has some guide and the developer's email.
+***** Is Master's setup too heavy weight?
+No. It is lightweight actually. Masters know how to optimize their Elisp code.
+
+For example, they use a technique called [[http://www.gnu.org/software/emacs/manual/html_node/elisp/Autoload.html][Autoload]]. It will load a module when and only when module is actually used. I'm 100% sure all the setup I mentioned has applied this technique.
+
+***** Any other setup you can recommend *except* Purcell's?
+I did [[https://github.com/search?l=Emacs+Lisp&o=desc&q=emacs&ref=searchresults&s=stars&type=Repositories][search at github]], here is the list of top ones:
+- [[https://github.com/bbatsov/prelude][Bozhidar Batsov's emacs.d]]
+- [[https://github.com/syl20bnr/spacemacs][Sylvain Benner's spacemacs]] (Spacemacs focus on [[http://www.emacswiki.org/emacs/Evil][Evil]], so it might not be good for non-vim users)
+- [[https://github.com/eschulte/emacs24-starter-kit/][Eric Schulte's Emacs Starter Kit]].
+***** Which version I should use?
+v24.3.1 is the latest stable version, it has been released for more than one year without any big issue. It can be installed easily on any platform.
+
+I've watched too many people failed because they started from un-stable version!
+
+Though v24.4 is released, it has some compatibility issues with third party plugins. I suggest you wait at least half a year before switching to the new version.
+***** As a Vi person, why should I turn to Emacs?
+[[http://www.emacswiki.org/emacs/Evil][Evil]], the best of the best! 
+
+***** Why some Vim users cannot accept Evil?
+It's because their customized key bindings conflict with Emacs/Evil default key bindings.
+
+The solution is to use [[http://stackoverflow.com/questions/1764263/what-is-the-leader-in-a-vimrc][Leader Key]] in both Emacs and Vim.
+
+Please note in Emacs you need install a [[https://github.com/cofi/evil-leader][third party plugin]] for this solution.
+
+The other solution is to stay inside the comfort zone of vim.
+
+That's totally fine if you are OK with the life without Org-mode and Lisp. ;)
+
+Or maybe you can read the section "What matters is attitude"?
+
+I am die-hard Vi user with 14 year experience. After realizing the potential of Evil and Leader key, I *re-assign all my vim key bindings* according to Emacs configuration.
+
+Another more brilliant example is [[https://github.com/syl20bnr/spacemacs][a guy who earning tons of Github stars]].
+***** I don't like default key bindings
+[[http://ergoemacs.org/][ergoemacs]] if you prefer Microsoft's key bindings.
+***** Too many key bindings to memorise
+Use [[http://www.emacswiki.org/Smex][Smex]]. It's a myth that a Emacs guru must remember many key bindings.
+***** I am not comfortable with other people's setup. Can I modify it?
+Try to understand the master's setup at first. Don't make judgment too early. It's easy to make judgment. But understanding needs wisdom and hard work.
+
+For example, some people reported that there was some weird character at column 80 when editing a file. That's actually a feature to remind the user not to create any line with width more than 80 columns. [[http://www.emacswiki.org/emacs/EightyColumnRule][Here is the reason]].
+
+***** I've cloned the master's setup but the package is not upgraded.
+Remove the file .emacs in your HOME directory. The ~/.emacs.d/init.el has same functionality.
+***** I have some specific question about Emacs
+Please,
+- read official tutorial
+- google
+
+For example, google "emacswiki init.el" to understand what's the init.el.
+***** I got some error message when starting Emacs with master's setup
+That message could be ignored. It's just the *warning* message when Emacs can't find some OPTIONAL command line tool.
+
+If you need install that missing tool, search the list in [[https://github.com/redguardtoo/emacs.d][my readme]].
+
+If you are sure it's actually an *error* message, 
+- Run "emacs -nw --debug-init" in terminal
+- Send the output to the author of the setup
+- Please use bug tracker if possible
+
+***** My own setup is more controllable
+That's what I thought at the beginning. After several months I realized that I could never be as good as a master like Steve Purcell if keeping this way.
+
+While I spend serveral weeks to overcome some minor issues in Emacs setup, Purcell has already installed/developed dozens of cool plugins.
+
+If I cannot win, the only strategy is to join him, that's why I clone his setup and start to report bug for him. Here is [[https://github.com/purcell/emacs.d/issues/6][first issue I reported]]. Besides, reporting bugs also gives me the opportunity to talk with the master.
+
+So don't run away from the master's huge setup. Regard it as a challenge to improve yourself.
+***** Why I cannot add my own plugins into master's setup
+Though the quality of Emacs plugins are generally good, they may have compatibility issues. It's usually because plugins are developed by different people. For example, both [[https://github.com/auto-complete][auto-complete]] and [[https://github.com/capitaomorte/yasnippet][yasnippet]] will use TAB key to expand code. So there is confict if I use both plugins.
+
+That's another reason to stick to the master's setup at the beginning.
+***** How to use Emacs on windows
+Install Cygwin!
+
+When you have enough knowledge about environment variables and pipe. You can check [[http://stackoverflow.com/questions/3286723/emacs-cygwin-setup-under-windows/13245173#13245173][My answer at stackoverflow]] to use native windows version.
+
+At minimum, you need set the environment variables HOME and PATH if you prefer non-cygwin way.
+
+***** What about code-navigation and code-completion?
+Thanks to [[http://clang.llvm.org/][Clang]] && [[http://www.gnu.org/software/global/][GNU Global]], C++ is perfect now. Support for other languages are also good enough except Java and C#.
+
+I suggesting you using IDE when dealing with Java and C# in big projects.
+***** What about web browsing?
+I strongly recommend Firefox plus [[https://github.com/mooz/keysnail/][Keysnail]].
+
+This is the perfect solution for Emacs fans. Trust me, I've already investigated *every* solution.
+
+***** Email?
+I use [[http://www.gnus.org/][Gnus]]. But there are many alternatives. If you have to fetch email from Microsoft Exchange Servers, you need [[http://davmail.sourceforge.net/][Davmail]].
+
+I also use [[http://getpopfile.org/][Popfile]] to sort emails. Davmail+Popfile is the best solution!
+
+***** Why Emacs cannot download packages?
+If you are living in North Korea, Iran or China, you need below command line to start Emacs:
+#+BEGIN_SRC elisp
+http_proxy=your-proxy-server-ip:port emacs -nw
+#+END_SRC
+
+How to configure proxy server is not covered here.
+***** As a greenhorn of Emacs, should I learn Emacs Lisp at first?
+NO.
+
+Most people lose the interest in Lisp because there its strange syntax and there not many Lisp jobs.
+
+That's why I stress that you need avoid tweaking Emacs at the beginning. Please copy the master's setup at first.
+
+Unless you have seen how Lisp gets your job done, you will not have the *enough stimulus* to finish the its course.
+
+Me, for example, never feel pressued to learning Lisp. Actually, my initial plan is being great *without* touching Lisp.
+
+As a *proof*, please visit [[https://github.com/redguardtoo/][my github account]]. Check all the issues I reported at the beginning. As you can see, I know little about Emacs Lisp for a very long time.
+
+***** After knowing the basics, what to do next?
+Find your practical problem which only Emacs can do best. Trust me, Emacs is much more powerful than your wildest imagination.
+
+Here is my example:
+- When I use Wordpress blog, I use [[https://github.com/punchagan/org2blog][org2blog]] to post articles. It's ten times faster than any other client.
+- I installed cmake-mode to do the cross-platform development with [[http://www.cmake.org/Wiki/CMake/Editors/Emacs][cmake]].
+- window-numbering.el is useful when jumping focus between sub-windows.
+- When I work for some huge projects, I use [[https://github.com/redguardtoo/evil-nerd-commenter][evil-nerd-commenter]] to comment code lines because I need deal with too many programming languages. 
+
+***** Do I need learn keyboard macros?
+No. Emacs Lisp is enough. 
+
+But, studying the Lisp code created by macro does help to understand some interesting problems. So I suggest you learn keyboard macro *after* mastering Lisp.
+***** What do you think "Emacs can do everything"?
+I suggest being practical. Sometimes other tools are simply better in real world.
+
+For example, a developer had difficulties to sort a big dictionary file with *pure* Emacs Lisp. It's too slow.
+
+After consulting with me, he found that the [[https://github.com/tumashu/chinese-pyim/commit/90519d3f][GNU Sort is much better]] in this case.
+
+So be practical. [[http://en.wikipedia.org/wiki/Richard_Stallman][Richard Stallman]] created a whole GNU ecosystem for you. Emacs is only one component. Why not take full advantage of the system?
+**** Contact me
+Here is my [[https://twitter.com/#!/chen_bin][twitter]] and [[https://plus.google.com/110954683162859211810][google+]].
+
+My blog is at [[http://blog.binchen.org]].
+
+Please don't ask basic questions, since I've already shown you how to find the answer.
+**** Summary
+- Start from real world problem
+- Follow the master
+- Report bugs to the master you follow
+- Read and practice while following master
+
+This article is published at [[https://github.com/redguardtoo/mastering-emacs-in-one-year-guide]].
+
+Please use github's bug tracker instead of emailing me directly. Github notification mail is always in my first priority folder.
+
+Emacs is actually a platform. Cool people keep appearing. I will update this article from time to time in the future.
+* Books
+* Links
+
+    
+
+    

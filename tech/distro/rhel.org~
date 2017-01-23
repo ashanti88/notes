@@ -1,0 +1,60 @@
+#+TAGS: rhel
+
+* Usage
+** Exclude Specfic Repository
+Get repo list
+> yum repolist
+
+*** Method One - Temporary
+On the cmd line
+> yum disablerepo=<repo\_name> update
+This will not upgrade the packages that belong to the given repo.
+
+*** Method Two - Permanent
+Edit the repo files in /etc/yum.repos.d
+set the enable parameter to 0.
+
+** Enable a repo for update*
+If the repo is disabled it can be enabled on the cmd line with
+> yum enablerepo=<repo\_name> update
+
+** Configuring Network
+*** Settings for ifcfg-x
++ /etc/sysconfig/network-scripts/ifcfg-ethx
+**** static config
+DEVICE=eth0
+BOOTPROTO=none
+ONBOOT=yes
+NETMASK=255.255.255.0
+IPADDR=10.0.0.1
+USERCTL=no
+
+**** dhcp config
+DEVICE=eth0
+BOOTPROTO=dhcp
+ONBOOT=yes
+
+*https://access.redhat.com/documentation/en-US/Red\_Hat\_Enterprise\_Linux/6/html/Deployment\_Guide/ch-Network\_Interfaces.html
+*
+
+*** Hosts File
++ /etc/hosts
+This file asks as a flat db dns file, it is looked at before dns is queried
+
+** Setting Hostname 
++ Temporary
+hostname yournew.hostname.com
+
++ Permanent
+Edit /etc/sysconfig/network so that this persists after a reboot.
+HOSTNAME=yournew.hostname.com
+
+** SELinux
+- [[file://home/crito/org/tech/security/selinux.org][selinux]]
+
+* centos
+* fedora
+* Lecture
+* Tutorial
+* Books
+* Links

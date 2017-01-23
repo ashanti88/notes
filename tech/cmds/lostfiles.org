@@ -1,0 +1,6 @@
+#+TAGS: sys op pacman
+
+
+* lostfiles
+* Usage
+> lostfiles {strict|relaxed}  

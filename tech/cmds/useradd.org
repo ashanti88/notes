@@ -1,8 +1,8 @@
+#+TAGS: sys op
 
 
-
-
-* Description							     :sys:op:
+* useradd							     :sys:op:
+* Description
 
 * Usage
 
@@ -20,13 +20,9 @@ created.
 > useradd -s <shell> -m -d <home dir> -g <group> UserName
 
 s - shell
-
 m - create users home directory if it doesn't already exist
-
 d - home directory of the user 
-
 g - group name
-
 G - group names
 
 UserName - Login id

@@ -1,38 +1,20 @@
+#+TAGS: mail
 
 
-
+* mutt
 * Description							:mail:client:
 
-
 * Usage
-*** Basic Syntax
-    :PROPERTIES:
-    :CUSTOM_ID: basic-syntax
-    :END:
+** Basic Syntax
 
->mutt options recipient
+> mutt options recipient
 
-**** Reading mail
-     :PROPERTIES:
-     :CUSTOM_ID: reading-mail
-     :END:
-
->mutt
-
-**** Sending mail
-     :PROPERTIES:
-     :CUSTOM_ID: sending-mail
-     :END:
-
+** Sending mail
 >mutt -s <Subject> <recipient\_email>
 
 a - attach a file c - Cc b - Bcc
 
-*** Contacts
-    :PROPERTIES:
-    :CUSTOM_ID: contacts
-    :END:
-
+** Contacts
 mutt uses is own syntax for contacts and keeps them in ~/.mutt/aliases
 
 **** Syntax
@@ -50,10 +32,35 @@ alias <nickname> <long\_name> <email@example.com>
 set alias\_file= ~/.mutt/aliases set sort\_alias= alias set
 reverse\_alias=yes source $alias\_file
 
-*** Viewing Attachments
-    :PROPERTIES:
-    :CUSTOM_ID: viewing-attachments
-    :END:
+** Viewing Attachments
+We need to create a ~/.mailcap file. This file specifies which application should be used to open which kinks of attachments.
 
-We need to create a ~/.mailcap file. This file specifies which
-application should be used to open which kinks of attachments.
+** Setting up Gmail
++ will need an mta running aswell. Exim with deb
+
+Create .mutt/cache/bodies/ .mutt/cache/headers/ .mutt/certificates
+
+*tutorial said to put muttrc in the .mutt folder, but it didn't load,
+but loaded when in ~/
+
+.muttrc
+
+set ssl\_starttls=yes 
+set ssl\_force\_tls=yes 
+set imap\_user ='my\_email@gmail.com' 
+set imap\_pass = 'Gmail pass' 
+set from='mitchell.alick@gmail.com' 
+set realname= 'Alick' 
+set folder ='imaps://imap.gmail.com:993' 
+set spoolfile = '+INBOX' 
+set postponed='+[Google Mail]/Drafts' 
+set trash= '+[Google Mail/Trash' 
+set header\_cache = "~/.mutt/cache/headers" 
+set message\_cachedir ="~/.mutt/cache/bodies" 
+set certificate\_file ="~/.mutt/certificates"
+set smtp\_url = 'smtps://my\_email@gmail.com:587/' 
+set smtp\_pass ='Gmail pass' 
+set move = no set imap\_keepalive = 900
+* Lecture
+* Tutorial
+* Links

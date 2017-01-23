@@ -1,4 +1,4 @@
-
+#+TAGS: web cache
 
 
 * Varnish							  :web:cache:

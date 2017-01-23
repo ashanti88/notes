@@ -1,6 +1,6 @@
 #+TAGS: db nosql
 
-* MongoDB
+* MongoDB							      :nosql:
 * Cmds
 - [[file://home/crito/org/tech/cmds/mongo.org][mongo]]
 - [[file://home/crito/org/tech/cmds/mongodump.org][mongodump]] 

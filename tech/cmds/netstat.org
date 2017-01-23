@@ -1,105 +1,90 @@
-
+#+TAGS: net anal
 
 
 * Description							   :net:anal:
-
-
+** State
+- LISTENING
+  - waiting for a remote connection
+- CLOSE_WAIT
+  - remote connection has terminated
+- TIME_WAIT
+  - local endpoint has terminated
+- ESTABLISHED
+  - host and client are connected
 * Usage
+> netstat <options>
 
-+ List all ports (both listening and non-listening)
++ Options
+n - no host look up
 
+** List all ports (both listening and non-listening)
 > netstat -a | more
-
 a - all ports
 
-+ List all tcp ports
-
+** List all tcp ports
 > netstat -at
-
 t - tcp
 
-+ List all udp ports
-
+** List all udp ports
 > netstat -au
-
 u - udp
 
-+ List sockets which are in listening state
-
+** List sockets which are in listening state
 > netstat -l
-
 l - listen
 
 > netstat -lt
-
 t - tcp
 
 > netstat -lu
-
 u -udp
 
 > netstat -lx
-
 x - unix
 
-+ Show statistics for each protocol
-
+** Show statistics for each protocol
 > netstat -s
-
 s - statistics
 
 for tcp
-
 > netstat -st
 
 for udp
-
 > netstat -su
 
-+ Display PID and program names in netstat output using netstat -p
-
+** Display PID and program names in netstat output using netstat -p
+this will display the pid's for tcp ports
 > netstat -pt
 
-this will display the pid's for tcp ports
-
-+ Don't resolve host, port and user name in netstat output
-
-> netstat -an 
+** Don't resolve host, port and user name in netstat output
+> netstat -an
 
 to specify which one not ot resolve
-
 > netstat -a --numeric-ports
 
 > netstat -a --numeric-hosts
 
 > netstat -a --numeric-users
 
-+ Print netstat information continuously
-
+** Print netstat information continuously
 > netstat -c
 
-+ Find the none supportive address families in your system
-
+** Find the none supportive address families in your system
 > netstat --verbose
 
-+ Display the kernel routing information
-
+** Display the kernel routing information
 > netstat -r
 
-+ Find out on which port a program is running 
-
+** Find out on which port a program is running 
 > netstat  -an | grep <program>
-
 or
 
 > netstat -an | grep ':<port>'
 
-+ Use this to find which process is running on a specific port
-
-+Show a list of network interfaces
-
-> netstat -i 
-
+** Show a list of network interfaces
+> netstat -i
+or
 > netstat -ie
-
 e - extended information
+
+* Links

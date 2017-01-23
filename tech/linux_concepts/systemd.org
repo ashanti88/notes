@@ -1,0 +1,8 @@
+#+TAGS: sys init
+
+
+* systemd							   :sys:init:
+* Usage
+* Lecture
+* Links
+- [[https://www.digitalocean.com/community/tutorials/understanding-systemd-units-and-unit-files][Understanding Systemd Units and Unit Files - DigitalOcean]]

@@ -1,12 +1,16 @@
 
-* note 							      :findout:linux:
+* Work
+** Local Companies - Lanway, Daisy Group, Mintel
+* note
 - rowhammer for rooting
 - zone transfer
 - gpg chain of trust
 - redhat 32 and 64 lib interchangable?
 
+* System
+- sudoedit - what is this cmd
 
-* emacs						      :findout:emacs:
+* emacs
 ** org mode
 - agenda file
 - calc
@@ -15,8 +19,7 @@
 - remember mode - capture
 - on focus
   
-
-* kernel 						     :findout:kernel:
+* kernel
 - git am
 - asm leal - what is this cmd
 - i2c
@@ -24,14 +27,6 @@
   
 * Mongodb
  
-* Russian Cyber
-- Fancy Bear
-- Russian cyber weapon called Snake or "Ouroboros" - Ukrainian Gov
-- Grizzly steppe - russian cyber op
-** APT 29
-- Hammertoss - malware found in 2015
-
-
 * MySQL
 ** sharding technologies
   - mysql router
@@ -43,3 +38,15 @@
 ** What is architectural runway???
 ** mdme instead of sata or sas
 ** What are random lookups
+
+* Apache
+* Learn
+** Jenkins - automation tool
+* Russian Cyber
+- Fancy Bear
+- Russian cyber weapon called Snake or "Ouroboros" - Ukrainian Gov
+- Grizzly steppe - russian cyber op
+** APT 29
+- Hammertoss - malware found in 2015
+
+

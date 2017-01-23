@@ -1,0 +1,193 @@
+#+TAGS: deb
+
+
+* debian
+* Usage
+** General System Configuration
+*** Setting the default text editor
+> set EDITOR=<txt\_editor>
+> set VISUAL=<txt\_editor>
+
+Using update-alternative
+> update-alternative --config editor
+
+*** Language & User
+*** Change Default Language
+> dpkg -reconfigure locales
+or
++ edit /etc/locale.gen - uncomment the correct language
+> locale-gen
+url:https://wiki.archlinux.org/index.php/locale
+
+*** Change Keyboard Layout
+> dpkg -reconfigure console-setup
+or in older debian
+> dpkg -reconfigure console-data
+or on X11
+> setxkbmap gb
+
+** Configuring Networking 
+*** /etc/resolv.conf
+resolv.conf This is the file used for setting the DNS to use Format in the file: 
+nameserver x.x.x.x 
+- any number of dns servers can be added 
+*** Configuration Tools
+**** [[file://home/crito/org/tech/cmds/wpa_cli.org][wpa_cli]]
+**** [[file://home/crito/org/tech/cmds/netctl.org][netctl]]
+
+*** Creating a bridge
+**** iproute2
+Create <ip link add name <bridge\_name> type bridge <ip link set
+<bridge\_name> up
+
+To add an interface into the bridge it must be up <ip link set
+<interface> up <ip link set <interface> master <bridge\_name>
+
+To show existing bridges and associated interfaces use <bridge link
+
+To remove an interface from the bridge <ip link set <interface> nomaster
+
+To delete a bridge <ip link delete <bridge\_name> type bridge
+
+**** bridge-utils
+Create <brctl addbr <bridge\_name>
+
+To add an interface into the bridge <brctl addif <bridge\_name>
+<interface>
+
+Adding an interface to a bridge will cause that interface to loose its
+ip address.
+
+To show existing bridges and associated interfaces use <brctl show
+
+Set the bridge device up <ip link set up dev <bridge\_name>
+
+Deleting a bridge requires that the bridge is down <ip link set dev
+<bridge\_name> down <brctl delbr <bridge\_name>
+
+** Desktop User Configuration
+
+* Based Distros
+** Ubuntu
+** Kali
+*** Adding Kali tools to Debian
+Kalis tools can be added to a debian machine with katoolin
+1. > git [[https://github.com/LionSec/katoolin.git]]
+2. >cp katoolin/katoolin /usr/bin/katoolin
+3.> chmod +x /usr/bin/katoolin
+
+You now have an application called katoolin
+> katoolin
+
+This will provide numerical options to choose from
+To exit ctrl c
+
+* Lectures
+** Anatomy of a Debian Package - Google Tech Talk
+url: [[https://www.youtube.com/watch?v%3DlFzPrzY2KFM&index%3D28&list%3DWL][Anatomy of a Debian Package]]
+*** Structure of binary packages
++ Every .deb package is actually just an "ar"
++ data.tar.gz - files for the filesystem
++ control.tar.gz - maintainer scripts and extra meta data
+  - Package name
+  - Source package - can contain many packages - eg php core, modules etc
+  - Version 
+    - upstream version xxx-
+    - verion of the debian package -x
+  - Architecture
+  - Metadata for software relationships to other software
+    - Depends
+    - Recommends
+    - Suggests
+    - Replaces
+    - Conflicts
+    - Enhances
+  - Maintainer Scripts - executed on installation and removal - usually bash or perl. The std scripts are:
+    - preinst - run prior to extraction
+    - postinst - run after extraction
+    - prerm - run prior to removal
+    - postrm - run after removal
+
+
++ debian-binary - package version: currently 2.0
+  
+> ar t xxx.deb
+- this will break the deb into its constituent parts.
+
+**** Installation Sequence
+1. dpkg -i
+2. Debconf - this is where config questions are asked
+3. prinst install
+4. Package unpack
+5. Package files are installed, but config is still to be done
+6. postinst install
+7. Package is fully installed and ready to use
+   
+**** Removal Sequence
+1. dpkg -r
+2. preem remove
+3. Program files are removed
+4. postrm remove
+5. Residual config infomation is all that remains
+6. postrm purge
+7. Nothing left
+  
+**** dpkg
++ dpkg --info xxx.deb - Examine package metadata
++ dpkg --contents xxx.deb - File listing
++ dpkg --unpack xxx.deb - Extract the package locally
++ dpkg --install xxx.deb - Extract and run config scripts
+
+*** Structure of source packages
+A source package is an architecture independent archive of everything neded to build a binary package:
+
++ xxx.dsc - Overall control file containing a description and fields for build parameters.
++ xxx.orig.tar.gz - Original source code as provided by upsteam.
++ xxx.diff.gz - All changes applied for Debian.
+
+These three create the binary package when compiled.
+
+> tar zxf xxx.tar.gz
+This will extract the source files 
+
+**** Build suites
++ debhelper
++ dh-make
+  - used to bootstrap an architecture to build around
+  - contains heler files for building the package.
+  - very well documented
+    
+**** Build-Time Helpers
+Using one of the following packages will help with a sanity check.
++ dpkg-buildpackage
+  - cleans source
+  - builds the binary packages
+  - builds description and changes files
+  - signs the package
++ debuild
+  - wraps dpkg-buildpackage and adds extra bits like automatic lintian/linda checks.
++ pbuilder
+  - builds in a clean chroot env
++ cvs-buildpackage
+  - pulls a release from cvs and builds it   
++ dpatch
++ dbs
++ cdbs
+
++ lintian | linda sanity check the build.
+  - makesure that no cruft is left behind.
+  - creates cpy right file if one isn't provided.
+
+ITP - Intention To Package - informs other maintainers that you are working on the project.
+
+*** The future: Wig & Pen format
++ Multiple upstream tarball supported.
++ The "Bebian Diff" may be replaced by a "Debian Tar"
++ Bzip2 compression supported as alternative to gzip.
+
+*** RPM to DEB
++ Alien but not advised, ok for quick fix
+
+* Articles
+* Books
+* Links

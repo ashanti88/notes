@@ -1,0 +1,39 @@
+#+TAGS: web 
+
+* nginx
+* Description
+* Usage
+** Nginx configtest
+> nginx -t
+
+** Check rewrites in nginx.conf
+> grep -i rewrite /etc/nginx/conf.d/tinygreenpc.com.conf | wc -l
+
+** Too Many Open Files Error And Solution
+[[http://www.cyberciti.biz/faq/linux-unix-nginx-too-many-open-files/]]
+
+** Check to see what sites are running on 443
+> grep 443 /etc/nginx/conf.d/*
+or
+> httpd -S 2>&1|grep "port 443 name"|grep -v =hostname=| awk {'print
+$4'}httpd -S 2>&1|grep "port 443 name"|grep -v =hostname=| awk {'print
+$4'}
+
+** If a site randomy returns 403's and then 200 when curling**=
+
+Add Options +Indexes to the .htaccess file and you will get 200 on curls
+
+[[https://stackoverflow.com/questions/10365520/error-directory-index-forbidden-by-options-directive][Stackoverflow - error directory index forbidden]]
+
+** Cpanel
+*** Restart Apache Service with CPanel
+> /scripts/restartsrv\_apache
+
+** Plesk
+* Lecture
+* Tutorial
+* Books
+
+* Links
+[[http://www.linuxspy.info/1886/enable-httpd-fullstatus-to-monitor-apache-status/][Enable httpd fullstatus to monitor apache - linuxspy]]
+

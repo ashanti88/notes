@@ -1,1 +1,1 @@
-cmds/firewalld.org
+/home/crito/org/tech/cmds/firewalld.org

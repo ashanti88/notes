@@ -1,0 +1,135 @@
+#+TAGS: web 
+
+* nginx
+* Description
+Nginx is a web server that is extremely good at serving large amounts of static content.
+It is considered less efficient at delivering dynamic content.
+* Configuration  
+** Files
+files found in - /etc/nginx
+the main configuration file is /etc/nginx/nginx.conf
+
+*** Syntax
++ Comments
+In nginx config files the #-hash is used to comment a line
++ terminating lines
+nginx terminates lines/statements with the ;-semicolon
+
+*** nginx.conf
+**** First Section
+user www-data;  - defines the system user that runs the nginx server
+worker_processes 4; - this specifies how many threads, instances of nginx to run
+pid /run/nginx.pid; - this specifies where the master pid is to be stored
+
+events {
+        worker_connections 768;
+        # multi_accept on;
+        # accept_multex off;
+}
+
+**** Second Section
+http {
+
+
+        include /etc/nginx/mime.types; - this includes what is inside mime.type into the http block
+        default_type application/octet-stream;
+	
+	##
+        ## Logging Settings - this sets the location for log files
+        ##
+
+        access_log /var/log/nginx/access.log;
+        error_log /var/log/nginx/error.log;
+
+        ##
+        ## Gzip Settings
+        ##
+
+        gzip on; - this tells nginx to use on the fly gzip compression to reduce bandwidth usage
+        gzip_disable "msie6";
+	
+**** Virtual Host Configs
+        ##
+        # Virtual Host Configs - this sets the location of the virtual host config files
+        ##
+
+        include /etc/nginx/conf.d/*.conf;
+        include /etc/nginx/sites-enabled/*;
+}
+
+*** sites-enabled/*
+The above /etc/nginx/sites-enabled/ directory usually contain symbolic links to files in /etc/nginx/available-sites/*
+
+**** /etc/nginx/sites-available/default
+server {
+        listen 80 default_server; - default indicates to direct traffic to this instance if no other virtual host matches
+        listen [::]:80 default_server ipv6only=on; - same as above but IPv6
+
+        root /usr/share/nginx/html;
+        index index.html index.htm;
+
+        # Make site accessible from http://localhost/
+        server_name example.com .example.com; - this should be set to the domain and enables multiple domains to use the same ip. 
+
+        location / {
+                # First attempt to serve request as file, then
+                # as directory, then fall back to displaying a 404.
+                try_files $uri $uri/ /index.html;
+                # Uncomment to enable naxsi on this location
+                # include /etc/nginx/naxsi.rules
+        }
+}
+- server_name example.com .example.com example.*;
+  - .example.com  - match all sub-domains
+  - *.example.com - match all sub-domains
+  - example.*     - match all top level domains
+  - ""            - no hostname, will process all requests without hostname or with ip addr
+
+**** Log Files 
++ Disable logs files
+access_log off;
+
+**** Location 
+This section of the server block tells nginx how to deal with requests to resources within the server.
+location ~ IndexPage\.php${}
+The ~ indicates that nginx will perform a regular expression match. These matches are case sensitive.
+location ~* IndexPage\.php${}
+This will now match without case sensitivity.
+location ~* \.(pl|cgi|perl|prl){}
+This will now match to any perl file .pl .cgi .perl .prl){}
+* Usage
+** Nginx configtest
+> nginx -t
+
+** Check rewrites in nginx.conf
+> grep -i rewrite /etc/nginx/conf.d/tinygreenpc.com.conf | wc -l
+
+** Too Many Open Files Error And Solution
+[[http://www.cyberciti.biz/faq/linux-unix-nginx-too-many-open-files/]]
+
+** Check to see what sites are running on 443
+> grep 443 /etc/nginx/conf.d/*
+or
+> httpd -S 2>&1|grep "port 443 name"|grep -v =hostname=| awk {'print
+$4'}httpd -S 2>&1|grep "port 443 name"|grep -v =hostname=| awk {'print
+$4'}
+
+** If a site randomy returns 403's and then 200 when curling**=
+
+Add Options +Indexes to the .htaccess file and you will get 200 on curls
+
+[[https://stackoverflow.com/questions/10365520/error-directory-index-forbidden-by-options-directive][Stackoverflow - error directory index forbidden]]
+
+** Cpanel
+*** Restart Apache Service with CPanel
+> /scripts/restartsrv\_apache
+
+** Plesk
+* Lecture
+* Tutorial
+* Books
+
+* Links
+[[http://www.linuxspy.info/1886/enable-httpd-fullstatus-to-monitor-apache-status/][Enable httpd fullstatus to monitor apache - linuxspy]]
+
+- [[https://www.linode.com/docs/websites/nginx/how-to-configure-nginx][How To Configure Nginx - Linode]]

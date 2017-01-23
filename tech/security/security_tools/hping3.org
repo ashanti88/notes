@@ -1,1 +1,1 @@
-cmds/hping3.org
+/home/crito/org/tech/cmds/hping3.org

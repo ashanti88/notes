@@ -1,0 +1,51 @@
+#+TAGS: code
+
+
+* angular2
+* Tutorials  
+** Angular 2 Getting Started - PluralSight
+*** Anatomy of an Angular 2 Application
+
+Application - Component + Component + ...
+            - Services
+	      
+Component = template + class + metadata
+
++ Sample Application Architecture
+
+index.html
+App Component 
+  - Welcome Component
+  - Product List Component
+                               = Star Component
+    - Product Detail Component
+      
+*** First Things
+- Language
+  - JavaScript Language Specification
+  - ECMScript(ES) - standard js
+  - ES 3 - supports older browsers
+  - ES 5 - current modern browsers
+    - runs in the browser
+    - no compile required
+  - ES 6 - not all browsers currently support this browser
+    - Must be transpiled to ES 5 by browser be for they use it
+  - TypeScript
+    - Superset of JS
+    - Strong typing
+    - Great IDE tooling
+  - Dart
+    - None JS
+
+- What is TypeScript?
+  - Open Source
+  - Superset of JS
+  - Transpiles to plain JS
+  - Strongly typed
+    - TypeScript type definition files (*.d.ts)
+  - Class-based object-orientation
+    
+      
+* Links
+[[http://www.typescriptlang.org/Playground][TypeScript Playground]]
+

@@ -1,0 +1,10 @@
+#+TAGS: code haskell
+
+
+* haskell
+* Lectures
+* Tutorials
+* Haskell from Scratch - jekor
+** [[https://www.youtube.com/watch?v%3DzZ_nI9E9g0I][1 - Redoing Make]]
+
+* Books

@@ -1,1 +1,1 @@
-cmds/iptables.org
+/home/crito/org/tech/cmds/iptables.org

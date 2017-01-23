@@ -1,0 +1,10 @@
++TAGS: sec_d recon
+
+
+* google hacking						:sec_d:recon:
+* Description
+* Books
+** [[file://home/crito/Documents/Security/Pen-Testing/Google_Hacking_for_Penetration_Testers_Vol2.pdf][Google Hacking for Penetration Testers]]
+*** Google Search Basics
+
+* Links

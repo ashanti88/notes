@@ -1,18 +1,69 @@
+#+TAGS: linux arch
 
+
+* arch								 :linux:arch:
+* Usage
+** System Maintenance
+*** Check for errors
++ Failed systemd services
+> systemctl --failed
+This will produce a list of services that are currently in a failed state
+
++ Logfiles
+- A quick examination of your log files in /var/log to see if there appear to be any errors or anomalies.
+- Doing this regularly will also develop the "normal" overview of the system, so that errors are more easily spotted.
+- Also check the systemd journal for any high priority errors
+> journalctl -p 3 -xb
+
+*** Backup
+- Makesure a list of all install pkgs is kept incase of full system rebuild
+> pacman -Qqen > pkglist.txt
+
+To install pkgs from the list use:
+> pacman -S - < pkglist.txt
+- Makesure all AUR pkgs have been removed from the list with:
+> pacman -S $(comm -12 <(pacman -Slq | sort) <(sort pkglist.txt))
+
+- Backup the LUKS header, if destoryed not able to access data on disk. As much of a dilemma as forgetting the passphrase or damaging the key-file used to unlock the partition.
+> cryptsetup luksHeaderBackup /dev/<device> --header-backup-file /mnt/<backup>/<file>.img
+
+*** Upgrading the system 
+- Avoid partial upgrades 
+> pacman -Sy
+always use
+> pacman -Syu
+
+- Always read [[https://www.archlinux.org/news/][Arch News]] just in case certain pkgs are casuing issues or have been dropped
+- Deal with any .pacnew or .pacsave files created
+
+- Clean up pkgs
+  - check for oprhanded pkgs with [[file://home/crito/org/tech/cmds/lostfiles.org][lostfiles]]
+
+*** Clean the filesystem
++ Disk Usage
+  - ncdu - nice overview of where disk is being spent
+  
++ Package Caching
+  - remove unwanted .pkg files from /var/cache/pacman/pkg/
+
++ Old Configuration
+  - remove old config files as they remove cofusion in the future and possible corruption.
+  - directories to check:
+    - ~/.config - where apps store their configuration
+    - ~/.cache - cache of some programs may grow in size
+    - ~/.local/share - old files may be lying there
+
++ Removal of duplicate files
+  - [[https://tuxdiary.com/2015/04/13/rmlint/][rmlint]] can be run in the home dir to remove any cruft
+
++ Remove Broken Links
+The system can be checked for broken links with:
+> find -xtype l -print
+
+** Package Management
+[[file:~/org/tech/linux_concept/pkg_mgmt.org][Package Management]]
 
 * Lectures
 * Articles
-
-* Package Management
-** PKGBUILD
-+ A PKGBUILD is a shell script containing the build information required by Arch Linux packages.
-
-** AUR packages
-*** Usage
-S - install or update package
-Sy - sync pacman database
-R - remove package
-G - get the PKGBUILD for a package
---stats - show how much space packages are using
-
+* Links
 

@@ -1,0 +1,23 @@
+
+
+* paas
+* Lecture
+* Books
+** [[file://home/crito/Documents/SysAdmin/Cloud/Understanding_PaaS.pdf][Understanding PaaS - O'Reilly]]
+*** PaaS
+- This is a more fluid concept
+- It is aimed more at developers
+  - to provide with an environment where they don't have to worry about the maintenance or installation of system. This is done by the PaaS provider.
+    
+- Cloudbursting
+  - this is where you have your own cloud infrastructure, but us a provider when your service spikes in usage.
+
+- PaaS Providers
+  - usually specify the language and stacks that they specialise in.
+  - Check how they deal with dependencies
+    - do they allow you to download they your self
+    - do they only allow specific libraries
+      
+- Continous Integration (CI)
+  - this is a build system that watches over changes in a repo.
+  - any changes are build and tested as soon as added

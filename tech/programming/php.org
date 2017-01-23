@@ -56,4 +56,63 @@ URL: http://phppot.com/php/php-unlink-vs-unset/
 URL: http://phppot.com/php/comparison-between-include-and-require-statements-in-php/
 * Books
 ** [[file://home/crito/Documents/php/O'Reilly%20-%20Programming%20PHP.pdf][O'Reilly - Programming PHP]]
+*** Lexical Structure
+    
++ Starting a php file
+<?php - this has to be at the top of the file before any php code
+?> - this is the corresponding bracket to close the php file not necessary in a php only file
+
++ Comments
+\# - shell style comments
+// - C++ style comments 
+/* - C style comments
+All styles work with php
+
++ Varibales
+- all start with the $
+- case insensitive, must begin with either an underscore or and ASCII lower or capital letter
+
+- Functions - not case sensitive  
+- Classes - not case sensitive
+  
++ Arrays
+- counting starts at 0
+
+exp:
+
+$person[0] = "Jimmy";
+$person[1] = "Fred";
+
+associated array
+$person["Builder"] = "Bob";
+
+array construct()
+$person('Bob', 'Fred', 'Phil');
+$person('builder' => 'Bob',
+        'baker'   => 'Fred',
+        'plumber' => 'Phil')
+
+  
++ Looping arrays
+foreach($person as $name){
+    $echo "Hello, $name\n";
+}
+
+
++ Sort arrays
+sort($person); - will sort alphabetically left to right
+
++ Resources
+These are things like database connections
+
++ NULL
+Similar to perls undef or pythons None
+
++ Variable References
+to make $black a reference to $white
+
+$black =& $white;
+
+$black is now storing the value of $white
+- if $white changes so does the value of $black
 

@@ -1,0 +1,13 @@
+#+TAGS: sys anal file
+
+
+* lsof							      :sys:anal:file:
+* Usage
+
+> lsof <options> <file/port>
+
+** What application is using a specific port
+> lsof -i :xx
+or specifiy protocol
+> lsof -i tcp:xx
+> lsof -i udp:xx

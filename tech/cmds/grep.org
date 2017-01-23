@@ -1,10 +1,11 @@
+#+TAGS: sys op txt
 
 
-
-
-* Description								:txt:
-
-
-
-
+* grep
+* Description
 * Usage
+
+> grep <options> <pattern> <file>
+
+** Search entire direcotry for pattern
+> grep -Ri <pattern> .

@@ -1,0 +1,21 @@
++ video Overviews
+
+* Linux
+** How to use the Linux cmd line
+** Choosing a Linux distro
+  
+* Database
+** Basic MySQL
+** Basic PostgreSQL
+
+* Web
+** How to configure Apache
+** How to configure Nginx
+   
+* Virt & Cloud
+** Setting up Docker
+** Setting up Vagrant
+
+* Text Editors
+** Using Vim
+** Using Emacs

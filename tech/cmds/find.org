@@ -1,0 +1,15 @@
+#+TAGS: sys op file
+
+
+* find
+* Description
+Used for finding files by file name. 
+* Usage
+
+> find <start_point> <options> <pattern>
+
+** delete found files
+> find . -name "pattern" -exec rm -rf {} \;
+* Lecture
+* Tutorial
+* Link

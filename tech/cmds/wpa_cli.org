@@ -1,4 +1,4 @@
-
+#+TAGS: net conf wifi
 
 
 * wpa_cli						       :sys:net:conf:

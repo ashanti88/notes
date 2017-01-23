@@ -1,0 +1,65 @@
+
+
+* mean stack
+  
+* Lecture
+** Getting started with MEAN - Breznjak Nikola
++ what is MEAN stack?
+- Ingredients for a decent Web App on the LAMP stack
+  - HTML and CSS is a must
+  - JavaScript (jQuery) is expected
+  - PHP
+  - SQL
+    
+- how MEAN stack cheanges this
+  - javascript is the only language required
+    
++ MongoDB
+- common cmds
+  - show dbs
+  - use db
+  - show collections
+  - db.todos.inert({title: "MEAN"})
+  - db.todos.find()
+- [[http://try.mongodb.org/][Tutorial at Mongodb]]
+
++ Express
+- Web application framework for Node.js
+- npm init - makes a package json file
+- package.json
+- npm install express --save
+
++ AngularJS
+- Frontend JavaScript framework
+  - single-page applications
+  - MVC architecture
+  - built and maintained by Google
+- Few of the features are:
+  - two-way data binding
+  - extended HTML w/ attributes
+  - improved code structure
+  - easier testing through dependency injection
+    
+- Installation
+  - https:/angularjs.org
+  - better method is to use Bower
+    - npm install bower -g
+    - bower install angular
+  - Bower uses git 
+
++ NodeJS
+- Invented by Ryan Dahl in 2009
+- built on Chrome's JavaScript runtime called V8
+
+- Node.js CLI - use this to work with node.js
+- NPM - Node package manager - 100k+
+  
++ Simple Web Server
+var http = require('http');
+htttp.createServer(function (req, res) {
+
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.end( 'Hello World\n');
+}).listen(1337, '127.0.0.1');
+
+console.log('Server running at http://127.0.0.1:1337/');
