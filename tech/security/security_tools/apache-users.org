@@ -1,5 +1,7 @@
+#+TAGS: sec_o
 
 
-** apache-user
-
+* apache-users
+* Description
 This tool is used for enumeration of usernames on a system.
+* Usage

@@ -1,15 +1,16 @@
+#+TAGS:
 
 
-Ok, You've Been Pwned - Now What?
-video by Jim Wojno
-https://www.youtube.com/watch?v=kjTdHujo_x8
-
-** What the hell is an APT?
+* defensive skills
+* Description
+* Lecture
+** [[https://www.youtube.com/watch?v%3DkjTdHujo_x8][Ok, You've Been Pwned, Now What? - Jim Wojno]]
+*** What the hell is an APT?
 + Advanced Persistent Threat (APT)
 + human targeting a machine
 + Targeted attack is a "Who" not a "What"
 
-** APT vs Garbage Malware
+*** APT vs Garbage Malware
 + Garbage / Ransomware / Fakealert is Loud
 + APT is silent
 + Makesure there is a plan in place to react to a discovered or possible APT
@@ -18,20 +19,20 @@ https://www.youtube.com/watch?v=kjTdHujo_x8
   - If volitile artifacts will be lost.
   - APTs specialize in hiding
     
-** Anatomy of a Targeted Attack
+*** Anatomy of a Targeted Attack
 1. Initial Compromise
 2. Establish Foothold
 3. Escalate Priv
 4. Internal Recom ----> 5. Move Laterally -----> 6. Maintain Presence
 5. Complete Mission
 
-** Tools
+*** Tools
 + Redline - mandiant free tool - triage/diagnosis
 + Process Explorer - MS free tool - triage/diagnosis
 + PE Studio - MS free tool - triage/diagnosis
 all three can be put on a usb
 
-** How to prepare an investigation
+*** How to prepare an investigation
 + Don't tip off the adversary - reacting poorly can be as bad as not reacting
 + Investigate before reimaging - lost information in ram
 + Reboot/Power down will cause the lose of
@@ -42,3 +43,11 @@ all three can be put on a usb
     - arp/routing tables
   - strange data
 + Once lost this data can't be recovered!!
+
+
+* Tutorial
+* Books
+* Links
+
+
+

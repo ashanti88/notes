@@ -1,11 +1,16 @@
+#+TAGS: sys file
 
 
-
-* head
-* Description							     :sys:rw:
+* head								   :sys:file:
+* Description
 Output the first part of a file.
 * Usage
 > head <option> <file>
 
-+ Print a number of lines
+** Print a number of lines
 > head -n <N> <file>
+
+* Lecture
+* Tutorial
+* Books
+* Links

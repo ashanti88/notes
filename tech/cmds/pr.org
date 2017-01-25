@@ -1,5 +1,12 @@
+#+TAGS: file op
+
+
+* pr								    :file:op:
+* Description
 convert file for printing
-
-*Basic syntax*
-
+* Usage
 > pr <options> <file>
+* Lecture
+* Tutorial
+* Books
+* Links

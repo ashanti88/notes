@@ -1,6 +1,11 @@
+#+TAGS: net anal
 
 
-
-* netwatch							   :net:anal:
+* netwatch 							   :net:anal:
+Home Page: [[http://www.slctech.org/~mackay/NETWATCH/netwatch.html][netwatch]]
 * Description
 * Usage
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -1,20 +1,24 @@
-This tool will find all domains, subdomains and all associated ip
-addresses to said domains.
+#+TAGS: sec_o db
 
-*Brute force domain dns*
 
+* dnsmap							   :sec_o:db:
+* Description
+This tool will find all domains, subdomains and all associated ip addresses to said domains.
+* Usage
+** Brute force domain dns
 > dnsmap <domain.com>
 
-*Save results to a file*
-
+** Save results to a file
 txt
-
 > dnsmap <domain.com> -r <file.txt>
 
 csv
-
 > dnsmap <domain.com> -c <file.csv>
 
-*Using own pre-defined wordlist*
-
+** Using own pre-defined wordlist
 > dnsmap <domain.com> -w <file.txt>
+
+* Lecture
+* Tutorial
+* Books
+* Links

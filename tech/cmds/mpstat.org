@@ -1,16 +1,23 @@
 #+TAGS: sys anal cpu sysstat
 
 
-* mpstat						       :sys:anal:cpu:
+* mpstat						:sys:anal:cpu:systat:
 * Description
-tool to analyse multi-core cpu, and view usage profile of system cpu
+Tool to analyse multi-core cpu, and view usage profile of system cpu
+
 * Usage
+
 > mpstat <interval> <increment>
 first output is since boot, then the interval is followed.
-+ Fields
-  - CPU
-  - xcal - cpu cross calls, high rate worth investigating(10000>) 
-  - smtx - multex lock, high rate can indicate a performance issue(1000>) over all cpu.
-  - usr - userland
-  - sys - kernel
-  - idle - cpu not working
+
+** Fields
+CPU
+xcal - cpu cross calls, high rate worth investigating(10000>) 
+smtx - multex lock, high rate can indicate a performance issue(1000>) over all cpu.
+usr  - userland
+sys  - kernel
+idle - cpu not working
+* Lecture
+* Tutorial
+* Books
+* Links

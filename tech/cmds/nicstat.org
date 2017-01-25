@@ -1,9 +1,11 @@
+#+TAGS: net anal
 
 
-
-
-* Description							   :net:anal:
-
-
-
+* nicstat							   :net:anal:
+* Description
 * Usage
+* Lecture
+* Tutorial
+* Books
+* Links
+[[https://blogs.oracle.com/timc/entry/nicstat_the_solaris_and_linux][The Networking Monitoring Tool You Did Not Know You Needed - Tim Cook]]

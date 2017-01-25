@@ -1,1 +1,13 @@
-Linux finger printing
+#+TAGS:
+
+
+* p0f
+Home Page: [[http://lcamtuf.coredump.cx/p0f3/][p0f]]
+* Description
+This tool utilizes an array of sophisticated, purely passive traffic fingerprinting mechanisms to identify the players behind any incidental TCP/IP communications (often as little as a single normal SYN) without interfering in any way.
+
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

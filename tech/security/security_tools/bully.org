@@ -1,6 +1,12 @@
+#+TAGS:
+
+
+* bully
+* Description
 This is a tool for cracking wpa passwords
 
-**** Syntax
-     :PROPERTIES:
-     :CUSTOM_ID: syntax
-     :END:
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

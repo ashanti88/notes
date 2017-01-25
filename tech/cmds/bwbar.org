@@ -1,6 +1,13 @@
+#+TAGS: net anal
 
 
-
-* bwbar								   :net:anal:
+* bwbar 							   :net:anal:
+Github: [[https://github.com/osuosl/bwbar][github.com/bwbar]]
 * Description
 * Usage
+* Lecture
+* Tutorial
+* Books
+* Links
+
+

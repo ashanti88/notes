@@ -1,10 +1,10 @@
+#+TAGS: c pkg
 
 
-
-
-
-* Description							   :c:pakmgt:
-
-
-
+* make								      :c:pkg:
+* Description
 * Usage
+* Lecture
+* Tutorial
+* Books
+* Links

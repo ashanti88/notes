@@ -1,20 +1,27 @@
+#+TAGS: sys op
 
 
-
-
-* Description								:sys:
-
+* cd
+* Description
 * Usage
 
 > cd <options> <path>
 
-move to users home directory
+** move to users home directory
 > cd
 or
 > cd ~
 
-move to previous directory
+** move to previous directory
 > cd -
 
-move back one directory
+** move back one directory
 > cd ..
+
+* Lecture
+* Tutorial
+* Books
+* Links
+
+
+

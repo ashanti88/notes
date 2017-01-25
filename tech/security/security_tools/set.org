@@ -1,1 +1,12 @@
+#+TAGS: sec_o se
 
+
+* set								   :sec_o:se:
+Github: [[https://github.com/trustedsec/social-engineer-toolkit][social-engineer-toolkit]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+[[file://home/crito/Documents/Security/set_manual.pdf][SET User Manual]]
+* Links

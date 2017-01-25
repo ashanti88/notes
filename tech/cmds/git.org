@@ -1,7 +1,8 @@
 #+TAGS: code vcs
 
 
-* git
+* git								   :code:vcs:
+* Description
 * Usage
 ** Clone
 > git clone <url_of_repo>
@@ -70,3 +71,5 @@ The above error was throw as ssh didn't know about the github ssh-key
 ** [[file://home/crito/Documents/Tools/Git/Learn_Git_in_a_Month_of_Lunches.pdf][Learn Git in a Month of Lunches]]
 ** [[file://home/crito/Documents/Tools/Git/Mastering_Git.pdf][Mastering Git]]
 ** [[file://home/crito/Documents/Tools/Git/Pragmatic_Version_Control_Using_Git.pdf][Pragmatic Version Control Using Git]]
+* Links
+

@@ -1,0 +1,11 @@
+#+TAGS: sec_d
+
+
+* sockschain
+Home Page: [[http://www.sockschain.com/socks/][sockschain]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

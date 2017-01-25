@@ -1,6 +1,10 @@
+#+TAGS:
 
 
-
-* Description 								:sys:
-This command will display the status of the current jobs in teh session.
-
+* jobs
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

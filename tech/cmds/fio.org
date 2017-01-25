@@ -1,20 +1,22 @@
+#+TAGS: sys anal io
 
-* fio								:sys:anal:io:
-url:http://freecode.com/projects/fio/
+
+* fio 								:sys:anal:io:
+Home Page: [[http://freecode.com/projects/fio/][freecode.com/fio]]
 
 * Description
-+ Fio is a powerful benchmarking tool. It has support for 19 different type of I/O engines. It can work on block devices and files.
-+ Platforms:
-  - Linux, FreeBSD, NetBSD, OpenBSD, OS X, OpenSolaris, AIX, HP-UX, Android and Windows.
+Fio is a powerful benchmarking tool. It has support for 19 different type of I/O engines. It can work on block devices and files.
+  - Platforms:
+    - Linux, FreeBSD, NetBSD, OpenBSD, OS X, OpenSolaris, AIX, HP-UX, Android and Windows.
     
-+ hdparam isn't the best tool to benchmark disk once a filesystem has been set on a partition.
-+ fio allows for very precise defined io patterns.
+  - hdparam isn't the best tool to benchmark disk once a filesystem has been set on a partition.
+  - fio allows for very precise defined io patterns.
 
 * Usage 
 
-+ First a directory has to be created that fio can use.
+1. First a directory has to be created that fio can use.
   - fio will create files and use this directory for testing.
-+ In this directory now create a configuration file
+  - In this directory now create a configuration file
 [global]
 ioengine=posixaio
 rw=readwrite
@@ -22,17 +24,13 @@ size=1g
 directory=${HOME}/fio
 thread=1
 
-+ Now we run the created file 
-
+2. Now we run the created file 
 > fio <name.fio> --output=<output.txt>
-
 or
-
 > fio <name.fio> --output-format=json --output=<name.json>
 
 ** Reading Output
-   
-+ Higher output for bandwidth and lower values for latency constitute better results.
+- Higher output for bandwidth and lower values for latency constitute better results.
 
 ** Tests
 
@@ -54,8 +52,10 @@ invalidate - this causes the kernel buffer and page cache to be invalivated.
 runtime - specifiy time for how long the test should run.
 thinktime - inserts delay between IO requests, useful for simulating real world applications, where data would also be being read from disk.
 
-
+* Lecture
+* Tutorial
+* Books
 * Links
-[[https://www.linux.com/learn/inspecting-disk-io-performance-fio][Nice Overview]]
+[[https://www.linux.com/learn/inspecting-disk-io-performance-fio][Inspecting disk IO performance with fio]]
 
 

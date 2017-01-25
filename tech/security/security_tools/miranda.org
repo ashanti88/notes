@@ -1,12 +1,16 @@
+#+TAGS: sec_o wifi
 
 
+* miranda							 :sec_o:wifi:
+Home Page: [[https://code.google.com/archive/p/mirandaupnptool/][miranda]]
+* Description
 This is a UPnP administration tool.
 
 Work can be saved to a file and continued at a later date.
 
 Miranda can find UPnP hosts both passively and actively. All hosts devices types, services, actions and variables can be enumerated.
 
-Usage
+* Usage
 > miranda
 this will take you into a shell
 
@@ -22,8 +26,7 @@ host - list - list of hosts
 pcap - this enables passive listening of UPnP
 
 seti - show - displays the current program settings
-
-
-
-Link:
-https://www.ethicalhacker.net/columns/heffner/plug-n-play-network-hacking  
+* Lecture
+* Tutorial
+* Links
+[[https://www.ethicalhacker.net/columns/heffner/plug-n-play-network-hacking][plug-n-play network hacking - ethicalhacker]]  

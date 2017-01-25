@@ -1,4 +1,13 @@
+#+TAGS: db sql admin
 
 
+* mysqlaccess 						       :db:sql:admin:
+Home Page: [[https://mariadb.com/kb/en/mariadb/mysqlaccess/][mysqlaccess - mariadb]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links
 
-* mysqlaccess 						     :db:mysql:admin:
+

@@ -1,19 +1,10 @@
+#+TAGS:
 
 
-+ This tool is used to audit Unix-based systems:
-  - AIX
-  - FreeBSD
-  - HP-UX
-  - Linux
-  - masOS
-  - NetBSD
-  - OpenBSD
-  - Solaris
-
-url:https://cisofy.com/lynis/
-
+* lynis
+Home Page: [[https://cisofy.com/lynis/][lynis]]
+* Description
 * Usage
-
 > lynis <options>
 
 --auditor - assign an auditor to the report
@@ -21,3 +12,6 @@ url:https://cisofy.com/lynis/
 --quick - don't wait for user input, except errors
 --version
 --pentest - perform a pen test scan(non-priv)
+* Lecture
+* Tutorial
+* Links

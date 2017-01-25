@@ -1,9 +1,8 @@
+#+TAGS: sys op
 
 
-* Description							     :sys:op:
-This tool limits the cpu usage of a process.
-
-
+* cpulimit							     :sys:op:
+* Description
 * Usage
 
 + the process apache2 to 30%. 
@@ -13,4 +12,10 @@ l - percentage of cpu to use 1-100, more with a multi-core processor
 
 > cpulimit -p <pid> -l <percentage>
 p - process id
+
+* Lecture
+* Tutorial
+* Books
+* Links
+
 

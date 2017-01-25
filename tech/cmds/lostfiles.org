@@ -2,5 +2,11 @@
 
 
 * lostfiles
+* Description
 * Usage
 > lostfiles {strict|relaxed}  
+
+* Lecture
+* Tutorial
+* Books
+* Links

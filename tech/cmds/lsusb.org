@@ -1,20 +1,16 @@
+#+TAGS: sys hw anal
 
 
-* lsusb
-* Description							:sys:hw:anal:
-
-Provides information about connected usb devices.
-
+* lsusb								:sys:hw:anal:
+* Description
 * Usage
 
-> lsusb
+> lsusb <options>
 
-+ More Verbose
+** Options
+v - verbose
 
-> lsusb -v
-
-+ Format
-
+** Format
 Bus 004 Device 002: ID 8087:0024 Intel Corp. Integrated Rate Matching
 Hub
 
@@ -27,3 +23,8 @@ ID 8087 - This is the manufacture id
 Intel Corp - Company name
 
 Integrated Rate Matching Hub - Device name
+
+* Lecture
+* Tutorial
+* Books
+* Links

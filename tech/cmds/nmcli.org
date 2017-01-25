@@ -1,7 +1,16 @@
+#+TAGS: net op admin
 
 
-nmcli - Network Manager Command Line Interface
-url: https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Networking_Guide/sec-Network_Config_Using_nmcli.html
-
-
+* nmcli							       :net:op:admin:
+Home Page: [[https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Networking_Guide/sec-Network_Config_Using_nmcli.html][nmcli]]
+* Description
++ Network Manager Command Line Interface
 This tool allows for changes to the network via the cmd line.
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links
+
+
+

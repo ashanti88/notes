@@ -1,8 +1,13 @@
+#+TAGS:
 
 
-** DotDotPwn
-
+* dotdotpwn
+Github: [[https://github.com/wireghoul/dotdotpwn][dotdotpwn]]
+* Description
 Fuzzer to detect traversal directory vulns.
-
 Useful for HTTP/FTP/TFTP severs, CMS, ERP, Blogs etc
+
+* Usage
+* Links
+
 

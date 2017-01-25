@@ -1,8 +1,11 @@
 #+TAGS: sys op
 
 
-* ncdu								     :sys:op:
+* ncdu 								     :sys:op:
+Home Page: [[https://dev.yorhel.nl/ncdu][ncdu]]
 * Description
-[[https://dev.yorhel.nl/ncdu][Home Page: ncdu]]
-
 * Usage
+* Lecture
+* Tutorial
+* Books
+* Links

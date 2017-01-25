@@ -1,3 +1,12 @@
-*Basic usage*
+#+TAGS: file txt comp
 
-> bzcat <file.bz2>
+
+* bzcat							      :file:txt:comp:
+* Description
+* Usage
+> bzcat <file.bz2>  
+
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -4,9 +4,12 @@
 * grpck								     :sys:op:
 * Description
 This tool checks the integrity of the group file 
-* Link
-** [[http://www.ibm.com/support/knowledgecenter/ssw_aix_71/com.ibm.aix.cmds2/grpck.htm][grpck - IBM Knowledge Center]]
 * Usage
 > grpck
 
 This will check /etc/group and inform you of errors, and if you would like it to remedy them
+* Lecture
+* Tutorial
+* Books
+* Link
+** [[http://www.ibm.com/support/knowledgecenter/ssw_aix_71/com.ibm.aix.cmds2/grpck.htm][grpck - IBM Knowledge Center]]

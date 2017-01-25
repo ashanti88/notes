@@ -1,8 +1,8 @@
+#+TAGS: sys fs
 
 
 * fsck
 * Description							     :sys:fs:
-
 * Usage
 
 File System Consistency checK
@@ -29,6 +29,7 @@ This will show surrent process of all running instances of fsck
 *** fsck.vfat
 *** fsck.reiserfs
 
-* Lectures
-
-* Articles
+* Lecture
+* Tutorial
+* Books
+* Links

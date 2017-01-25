@@ -1,14 +1,20 @@
+#+TAGS:
 
 
-
-* Description							     :sys:op:
-
-
-
+* chsh
+* Description
 * Usage
 
 > chsh -s <FQDN\_Shell> <user>
 
 s - shell
 
-available shells can be found in /etc/shells
+- available shells can be found in /etc/shells
+
+* Lecture
+* Tutorial
+* Books
+* Links
+
+
+

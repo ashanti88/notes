@@ -1,7 +1,7 @@
 #+TAGS: sys anal sysstat
 
 
-* iostat
+* iostat						   :sys:anal:sysstat:
 * Description
 Report Central Processing Unit (CPU) statistics and input/output statistics for devices and partitions.
 
@@ -28,5 +28,8 @@ x - Display extended information
 %steal - The percentage of time spent in involuntary wait by the virtual CPU or CPUs while the hypervisor was servicing another virtual processor.
 %idle - The percentage of time that the CPU or CPUs were idle and the systems did not have an outstanding disk I/O request.
 
-* Articles
+* Lecture
+* Tutorial
+* Books
+* Links
 ** [[http://www.admin-magazine.com/HPC/Articles/Monitoring-Storage-with-iostat][Monitoring Storage Devices with iostat - Admin Magazine - Jeff Layton]]

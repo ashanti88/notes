@@ -1,8 +1,14 @@
+#+TAGS: sys op
 
 
-
-* Description							     :sys:op:
-
+* hostname							     :sys:op:
+* Description
 * Usage
-
 > hostname <new\_hostname>
+
+* Lecture
+* Tutorial
+* Books
+* Links
+
+

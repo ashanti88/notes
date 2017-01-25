@@ -1,9 +1,10 @@
+#+TAGS: file op
 
 
-
-
-* Description							:sys:op:file:
-This tool provides attribute information on files of the ext file system.
-
-
+* lsattr							    :file:op:
+* Description
 * Usage
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -6,3 +6,7 @@
 Portable bandwidth monitor and rate estimator.
 
 * Usage
+* Lecture
+* Tutorial
+* Books
+* Links

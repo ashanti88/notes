@@ -1,9 +1,15 @@
+#+TAGS:
 
 
+* goofile
+* Description
 This will search a domain for a given file type.
-
-Usage
+* Usage
 > goofile -d <domain> -f <filetype>
 
+* Lecture
+* Tutorial
+* Links
 
-*not working on current kali
+
+

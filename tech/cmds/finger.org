@@ -1,3 +1,11 @@
-*links:*
+#+TAGS: sys anal
 
-[[http://www.rajivshah.com/Case_Studies/Finger/Finger.htm]]
+
+* finger							   :sys:anal:
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links
+[[http://www.rajivshah.com/Case_Studies/Finger/Finger.htm][History of the Finger Protocol]]

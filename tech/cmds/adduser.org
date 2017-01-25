@@ -1,20 +1,18 @@
+#+TAGS: sys op
 
 
-
+* adduser
 * Description							     :sys:op:
-
+adduser is frontend for useradd that uses the /etc/adduser.conf file to make user creation easier.
 
 * Usage
+> adduser <new_user>
 
-> adduser <login>
+This creates a normal user issues a uid, gid, home directory, will set the shell specified by adduser.conf and then asks for name and telephone details.
 
-This creates a normal user issues a uid, gid, home directory, will set
-the shell specified by adduser.conf and then asks for name and telephone
-details.
+* Lecture
+* Tutorial
+* Books
+* Links
 
-1. adduser is frontend for useradd that uses the /etc/adduser.conf file
-to make user creation easier.
 
-2. useradd is a low level utility for adding a user.
-
-3. newuser reads from a file to add or modify current users.

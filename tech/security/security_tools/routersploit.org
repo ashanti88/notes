@@ -1,1 +1,9 @@
-This framework is dedicated to embedded devices
+#+TAGS: sec_o embed
+
+
+* routersploit							:sec_o:embed:
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Links

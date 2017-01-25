@@ -1,7 +1,7 @@
+#+TAGS:
 
 
 * chage
-
 * Description
 * Usage
 > chage <options> <user>
@@ -15,3 +15,8 @@ W <days> -
 + Running without options
 > chage <user>
 this will prompt you for all the chage information
+* Lecture
+* Tutorial
+* Books
+* Links
+

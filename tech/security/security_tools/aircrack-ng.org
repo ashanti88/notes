@@ -1,5 +1,12 @@
-*Airmon-ng*
+#+TAGS: sec_o
 
+
+* aircrack
+Home Page: [[https://www.aircrack-ng.org/][aircrack-ng.org]]
+* Description
+* Usage
+
+** Airmon-ng
 > airmon-ng stop <interface> <channel>
 
 will show available interfaces. the channel is optional.
@@ -8,13 +15,13 @@ will show available interfaces. the channel is optional.
 
 should bring up a mon interface
 
-*Airodump-ng*
-
+** Airodump-ng
 > airodump-ng <channel optional> <bssid optional> -w <filename>
 <interface>
 
-*Aircrack-ng*
-
+** Aircrack-ng
 > aircrack-ng -w <password.lst> -b <bssid> psk*.cap
 
 John the ripper can be used to feed a list into aircrack.
+* Links
+

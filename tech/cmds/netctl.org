@@ -1,7 +1,7 @@
 #+TAGS: net op conf
 
 
-* netctl							     :net:op:
+* netctl							:net:op:conf:
 * Description
 This is a cmd line tool that allows for network interfaces to be configured using profiles.
 These profiles are found in /etc/netctl/
@@ -14,5 +14,8 @@ This will bring the interface up that is configured by the profile
 > netctl enable <profile>
 This will produce a systemd service file that will start on boot.
 
+* Lecture
+* Tutorial
+* Books
 * Links
 [[https://wiki.archlinux.org/index.php/netctl][Arch Wiki on netctl]]

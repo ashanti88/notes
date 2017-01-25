@@ -1,23 +1,20 @@
+#+TAGS: sys op
 
 
-
-* Description							   :sys:anal:
-locate is faster than find as it relies on a database of the files on the filesystem.
-
-the database is usually updated with a cron script but can be updated manually with
-
-> updatedb
-
+* locate							     :sys:op:
+* Description
 * Usage
 
 > locate <query>
 
-options
-
-b - basename - find only the files that have the query itself, instead
-of directories that contain th query leading to it
-
+** Options
+b - basename - find only the files that have the query itself, instead of directories that contain th query leading to it
 e - exist
+S - statstics - see statistics about the information that locate has cataloged
 
-S - statstics - see statistics about the information that locate has
-cataloged
+* Lecture
+* Tutorial
+* Books
+* Links
+
+

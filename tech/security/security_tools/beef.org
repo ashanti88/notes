@@ -1,1 +1,11 @@
+#+TAGS:
+
+
+* beef
+* Description
 Browser Exploitation Framework
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

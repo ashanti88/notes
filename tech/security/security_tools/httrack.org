@@ -1,12 +1,14 @@
+#+TAGS: sec_o recon
 
 
-ths tool allows for a whole site to be downloaded and reviewed offline.
+* httrack							:sec_o:recon:
+* Description
+Ths tool allows for a whole site to be downloaded and reviewed offline.
 
-
-Usage
+* Usage
 > httrack <domain.com> -O <output_directory>
 
-examples
+** examples
 > httrack --continue
 continues a mirror in the current directory
 
@@ -16,3 +18,6 @@ updates a mirror in the current directory
 > httrack
 this will take you into an interactive session
 
+* Lecture
+* Tutorial
+* Links

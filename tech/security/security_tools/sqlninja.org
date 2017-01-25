@@ -1,0 +1,11 @@
+#+TAGS: sec_o enum db
+
+
+* sqlninja						      :sec_o:enum:db:
+Home Page: [[http://sqlninja.sourceforge.net/][SQLNinja]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

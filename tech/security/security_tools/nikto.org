@@ -1,0 +1,11 @@
+#+TAGS:
+
+
+* nikto
+Home Page: [[https://cirt.net/Nikto2][nikto]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

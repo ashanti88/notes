@@ -1,12 +1,11 @@
-
+#+TAGS: file
 
 
 * diff								       :file:
-
 * Description
 This tool is used to compare files line by line.
 
-* Usage
+* U:sage
 > diff <options> file_one file_two
 
 ** Options
@@ -20,5 +19,10 @@ b - ignore spaces
 4,5c4 - old files lines 4 and 5 should be replaced with new file line 4 
 < - this will indicate what is to be deleted
 > - this will indicate what is to be added
+
+* Lecture
+* Tutorial
+* Books
+* Links
 
 

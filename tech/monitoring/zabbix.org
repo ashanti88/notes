@@ -1,0 +1,12 @@
+#+TAGS:
+
+
+* zabix
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+[[file://home/crito/Documents/SysAdmin/Monitor/Zabbix-1.8_Network_Monitoring.pdf][Zabbix 1.8 Network Monitoring - Packt]]
+[[file://home/crito/Documents/SysAdmin/Monitor/Zabbix_Network_Monitoring_Essentials.pdf][Zabbix Network Monitoring Essentials - Packt]]
+* Links

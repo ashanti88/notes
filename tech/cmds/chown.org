@@ -1,18 +1,21 @@
+#+TAGS: sys op file
 
 
-
-
-* Description							:sys:op:file:
-
-
+* chown
+* Description
 * Usage
 
-+ Change the owner of a file*
+** Change the owner of a file*
 > chown <user> <file>
 
-+ Change the owner and group of file*
+** Change the owner and group of file*
 > chown <user>:<group> <file>
 
-+ Change the owner of directory and subfiles*
+** Change the owner of directory and subfiles*
 > chown <user> -R </directory>
 R - recursive
+
+* Lecture
+* Tutorial
+* Books
+* Links

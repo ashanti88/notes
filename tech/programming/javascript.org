@@ -1,0 +1,19 @@
+#+TAGS: code js angular nodejs
+
+
+* javascript							    :code:js:
+** Lecture
+** Tutorial
+** Books
+*** [[file://home/crito/Documents/Web_Dev/js/Mastering_JavaScript-Explore_and_Master_Modern_JavaScript.pdf][Mastering JavaScript - Packt]]
+** Links
+* angular2						       :code:angular:
+** Lecture
+** Tutorial
+** Books
+** Links
+* nodejs							:code:nodejs:
+** Lecture
+** Tutorial
+** Books
+** Links

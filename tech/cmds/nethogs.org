@@ -1,6 +1,10 @@
+#+TAGS: net anal
 
 
-
-* nethogs
-* Description							   :net:anal:
+* nethogs							   :net:anal:
+* Description
 * Usage
+* Lecture
+* Tutorial
+* Books
+* Links

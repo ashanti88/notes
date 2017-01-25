@@ -1,8 +1,8 @@
+#+TAGS:
 
 
-* awk
-
-* Descripton								:txt:
+* awk								   :file:txt:
+* Descripton
 Aho, Weinberger and Kernighan
 
 Awk is mostly used for pattern scanning and processing. It searches
@@ -45,16 +45,13 @@ Key features:
 
 8) each statement in actions should be delimited with a semicolon.
 
-+ Print every line
-
+** Print every line
 > awk '{print;}' <file>
 
-+ Print lines that match a pattern
-
+** Print lines that match a pattern
 > awk '/<pattern>/' <file>
 
-+ Print only specific fields
-
+** Print only specific fields
 > awk '{print $x $y;}' <file>
 
 this will only print field x and filed y. counting with awk starts with
@@ -73,9 +70,6 @@ BEGIN { Actions }
 END { Actons }
 
 + comments in awk
-  :PROPERTIES:
-  :CUSTOM_ID: comments-in-awk
-  :END:
 
 BEGIN - this action will be performed before awk starts to read the
 file.
@@ -83,10 +77,14 @@ file.
 END - this action will be performed after awk has finished reading the
 file.
 
-+ Print how many lines are in a file
+** Print how many lines are in a file
 
 > awk 'BEGIN { count = 0; }
 
 { print; } { count++; }
 
 END { print count; }'
+* Lecture
+* Tutorial
+* Books
+* Links

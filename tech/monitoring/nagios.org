@@ -1,0 +1,13 @@
+#+TAGS: 
+
+
+* nagios
+Home Page: [[https://www.nagios.org/][nagios]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+[[file://home/crito/Documents/SysAdmin/Monitor/Nagios.pdf][Nagios - Starch Press]]
+[[file://home/crito/Documents/SysAdmin/Monitor/Nagios_Core_Administration_Cookbook.pdf][Nagios Core Administration Cookbook - Packt]]
+* Links

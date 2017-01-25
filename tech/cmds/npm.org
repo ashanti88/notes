@@ -1,15 +1,19 @@
+#+TAGS: js pkg
 
 
-
-
-* Description							  :js:pkgmgt:
-
-this is the javascript package management tool.
-
+* npm								     :js:pkg:
+* Description
 * Usage
-** Examples
-+ install latest version of npm
+** install latest version of npm
 > npm install npm@latest -g
 
-+ Installing packages locally
+** Installing packages locally
 > npm intall <package_name>
+
+* Lecture
+* Tutorial
+* Books
+* Links
+
+
+

@@ -1,8 +1,10 @@
+#+TAGS: db sql admin
 
 
-
-
-* Description							      :DB:op:
-
-
+* mysqladmin						       :db:sql:admin:
+* Description
 * Usage
+* Lecture
+* Tutorial
+* Books
+* Links

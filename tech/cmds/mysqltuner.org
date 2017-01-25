@@ -1,5 +1,13 @@
+#+TAGS: db sql op
 
 
+* mysqltuner							  :db:sql:op:
+Home Page: [[http://mysqltuner.com/][mysqltunner.com]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links
 
-* mysqltuner
-URL: [[http://mysqltuner.com/][Home Page]]
+

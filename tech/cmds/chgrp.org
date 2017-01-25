@@ -1,19 +1,26 @@
+#+TAGS: sys op file 
 
 
-
-
-* Description							     :sys:op:
-
-
+* chgrp
+* Description
 * Usage
 
 > chgrp <options> <groupname> <file>
 
-+ Change a files group
+** Change a files group
 > chgrp <group> <file>
 
-+ Recursively change directory and underlying files
+** Recursively change directory and underlying files
 > chgrp -R <group> </directory/>
 
-+ Change a file's group forcible*
+** Change a file's group forcible
 > chgrp -f <group> <file>
+
+* Lecture
+* Tutorial
+* Books
+* Links
+
+
+
+

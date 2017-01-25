@@ -1,12 +1,20 @@
+#+TAGS: sys file comp
 
 
-* 7z								   :sys:file:
+* 7z							      :sys:file:comp:
 * Description
 A file compressor with a high compression ratio
 
 * Usage
-+ Uncompress file
+** Uncompress file
 > 7za e <file.7z>
 
-+ Uncompress file and retain file structure
+** Uncompress file and retain file structure
 > 7za x <file.7z>
+
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links
+

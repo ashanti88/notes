@@ -1,5 +1,11 @@
+#+TAGS: net anal mon
 
 
-
-* MRTG								   :net:anal:
+* MRTG							       :net:anal:mon:
+Home Page: [[http://oss.oetiker.ch/mrtg/][MRTG]]
 * Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

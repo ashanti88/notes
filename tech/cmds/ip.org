@@ -1,51 +1,51 @@
+#+TAGS: net op anal
 
 
-* ip									:net:
+* ip								:net:op:anal:
 * Description
-
-this tool is used for manipulating network interfaces and generating network information. It can be seen as a replacement for net-tools.
+This tool is used for manipulating network interfaces and generating network information. It can be seen as a replacement for net-tools.
 
 * Usage
-+ List all the interfaces
+** List all the interfaces
 > ip a
 
-+ Only view ip4 information*
+** Only view ip4 information*
 > ip -4 a
 
-+ Only view ip6 information*
+** Only view ip6 information*
 > ip -6 a
 
-+ View an specific interface details*
+** View an specific interface details*
 > ip a show <interface>
 
-+ Only show the up interfaces*
+** Only show the up interfaces*
 > ip link ls up
 
-+ Modifying an interface
-+ Assigning an ip address to interface
+** Modifying an interface
+** Assigning an ip address to interface
 > ip a add <ipaddress>/<netmask> dev <interface>
 
 or
 
 > ip a add <ipaddress>/<slash\_num> dev <interface>
 
-+ Removing an ip address from an interface
+** Removing an ip address from an interface
 > ip a del <ip\_address>/<netmask> dev <interface>
 
-+ Flush all ip addresses from all interfaces
+** Flush all ip addresses from all interfaces
 > ip -S -s a f to <ipaddress\_range>/<netmask>
 
-+ Bringing interfaces up/down
+** Bringing interfaces up/down
 
 > ip link set <interface> down
 > ip link set <interface> up
 
-+ Viewing Routing Information
+** Viewing Routing Information
 
-+ Adding a default gateway
+** Adding a default gateway
 > ip route add default 
 
-+ Viewing Routes
+** Viewing Routes
 > ip route show
 
 ** Arp Table
@@ -63,3 +63,8 @@ be set to establish connection.
 
 + Show rules
 > ip rule list
+* Lecture
+* Tutorial
+* Books
+* Links
+

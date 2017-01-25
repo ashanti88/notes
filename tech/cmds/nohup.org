@@ -1,0 +1,12 @@
+#+TAGS: sys op
+
+
+* nohup								     :sys:op:
+* Description
+* Usage
+> nohup <command> <arguments>
+
+* Lecture
+* Tutorial
+* Books
+* Links

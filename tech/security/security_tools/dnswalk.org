@@ -1,13 +1,14 @@
+#+TAGS: sec_o
 
 
-** dnswalk
-
+* dnswalk
+* Description
 This tool performs a zone transfer of specified domain.
 
-Usage
+* Usage
 > dnswalk <options> <domain.com>
 
-Options
+** Options
 -r Recursively descend sub domains of the specified domain
 -a Turn on warnings of duplicate A records
 -d Print debugging and 'status' information to stderr
@@ -16,3 +17,4 @@ Options
 -i Suppress check for invalid characters in a domain name.
 -l Perform "lame delegation" checking. For every NS record, check to see the listed host is indeed returning auth answers for this domain.
  
+* Links

@@ -1,5 +1,14 @@
-Thsi command will convert tabs to spaces.
+#+TAGS: file txt
 
-*Basic Syntax*
 
+* expand							   :file:txt:
+* Description
+This command will convert tabs to spaces.
+
+* Usage
 > expand <option> <file>
+
+* Lecture
+* Tutorial
+* Books
+* Links

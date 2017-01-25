@@ -1,14 +1,20 @@
+#+TAGS:
 
 
-** ncrack
-
+* ncrack
+* Description
 ncrack is a high-speed network authentication cracking tool. 
-
-
-Use
+* Usage
 > ncrack -v -iL <list_ip> --user <name> -P <pass_list> -p <proto> CL=x
 
+** Options
 -v - verbose
 -iL - list of ips
 -P - password list
 -p - protocol
+
+* Lecture
+* Tutorial
+* Books
+* Links
+

@@ -1,7 +1,15 @@
-this tool will use specified search engine to search for the stated
-company\_name|domain .
+#+TAGS: sec_o
 
-*Basic Syntax*
 
+* theHarvester
+Github: [[https://github.com/laramies/theHarvester][theHarvester]]
+* Description
+This tool will use specified search engine to search for the stated company\_name|domain.
+
+* Usage
 > theharvester -d <company\_name|domain> -l <number\_of\_searches> -f
 <file\_name>
+
+** Options
+* Links
+

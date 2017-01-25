@@ -1,13 +1,15 @@
+#+TAGS: sec_d
 
 
-** DNSmap
-
-Used for brute-forcing of domains.
-
+* dnsmap
+Github: [[https://github.com/makefu/dnsmap][dnsmap]]
+* Description
+Used for brute-forcing of domain database.
 It can use an internal wordlist or an external dictionary file.
 
-Usage:
+* Usage
 > dnsmap <target_ip>
 or
 > dnsmap <target_ip> <wordlist.txt>
 
+* Links

@@ -1,7 +1,8 @@
+#+TAGS: net op
+
 
 * Arp
-
-* Description							:net:op:anal:
+* Description
 This command is used to dump the kernel arp cache (/proc/net/arp).
 
 * Usage
@@ -12,3 +13,7 @@ a - all entries, dump all of the cache
 s - set a new entry
 d - delete an entry
 i - specify a sepecific interface
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -1,7 +1,7 @@
-#+TAGS: sys op txt
+#+TAGS: file txt
 
 
-* grep
+* grep								   :file:txt:
 * Description
 * Usage
 
@@ -9,3 +9,8 @@
 
 ** Search entire direcotry for pattern
 > grep -Ri <pattern> .
+
+* Lecture
+* Tutorial
+* Books
+* Links

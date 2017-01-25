@@ -1,13 +1,20 @@
+#+TAGS:
 
 
-** creddump
-
+* creddump
+* Description
 Will extract various credentials and secrets from windows registry hives. 
-+ LM and NT hashes 
-+ Cached domain passwords
-+ LSA secrets
+  - LM and NT hashes 
+  - Cached domain passwords
+  - LSA secrets
 
 Tools included
-+ cachedump
-+ lsadump
-+ pwdump
+  - cachedump
+  - lsadump
+  - pwdump
+
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

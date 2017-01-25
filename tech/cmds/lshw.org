@@ -1,12 +1,21 @@
+#+TAGS: sys hw anal
 
 
+* lshw								:sys:hw:anal:
+* Description
+* Usage
+* Usage
+** Using a class
+> lshw -class <class>
 
+** Generate a compact hardware report
+> lshw -short
 
-* Description							:sys:hw:anal:
-this command will put detailed information about the hardware of the
-system.
+** Produce other format reports
+> lshw -html > <hwreport.html>
+> lshw -xml > <hwreport.xml>
 
-* The structure of the output
+** The structure of the output
 
 system information
 
@@ -32,55 +41,27 @@ total size, partition,
 
     network
 
-* lshw classes
-
+** lshw classes
 address
-
 bridge
-
 bus
-
 communication
-
 disk
-
 display
-
 generic
-
 input
-
 memory
-
 multimedia
-
 network
-
 power
-
 printer
-
 processor
-
 storage
-
 system
-
 tape
-
 volume
 
-* Usage
-+ Using a class
-
-> lshw -class <class>
-
-+ Generate a compact hardware report
-
-> lshw -short
-
-+ Produce other format reports
-
-> lshw -html > <hwreport.html>
-
-> lshw -xml > <hwreport.xml>
+* Lecture
+* Tutorial
+* Books
+* Links

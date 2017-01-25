@@ -1,12 +1,13 @@
+#+TAGS:
 
 
-** cryptcat
+* cryptcat
+Home Page: [[http://cryptcat.sourceforge.net/][cryptcat.sourceforge.net]]
+* Description
+Cryptcat is the standard netcat enhanced with twofish encryption with ports for WIndows NT, BSD and Linux. Twofish is courtesy of counterpane, and cryptix.
 
-this is encrypted ncat.
-
-
-Use
-
+* Usage
+** Simple Client-Server
 Server
 > cryptcat -l -p <port> -n > <file>
 
@@ -16,3 +17,4 @@ Server
 
 Client
 > cryptcat <ip_addr> <port> < <data_tx>
+* Links

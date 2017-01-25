@@ -1,8 +1,11 @@
+#+TAGS: kernel anal
 
 
-
-* lsmod
-* Description							:kernel:anal:
+* lsmod								:kernel:anal:
+* Description
 This command will list the currently installed kernel modules.
-
 * Usage
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -1,0 +1,12 @@
+#+TAGS: file op
+
+
+* lpr								    :file:op:
+* Description
+* Usage
+> lpr <options> <file>
+
+* Lecture
+* Tutorial
+* Books
+* Links

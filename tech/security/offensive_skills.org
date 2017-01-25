@@ -1,12 +1,16 @@
+#+TAGS: sec_o
 
 
+* offensive skills
+* Description
 * Phases
 ** Recon
 ** Enumeration
 ** Exploitation
 ** Maintaining Access 
 ** Covering Tracks
-* Tutorials
+* Lecture
+* Tutorial
 ** PluralSight - System Hacking - Dale Meredith
 
 *** Intro
@@ -166,6 +170,6 @@ PDC needs to be synced otherwise kerberose doesn't work
 + Stress test code, apps befor deploying
 
 **** Cover Tracks
-* Lectures
 
-     
+* Books
+* Links

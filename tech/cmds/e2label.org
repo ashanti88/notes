@@ -1,10 +1,16 @@
+#+TAGS: sys fs
 
 
 * e2label							     :sys:fs:
-
 * Description
 This tool is used to set text labels to drive partitions that can be used by fstab
 
 * Usage
-+ Make a label for a filesystem
+** Make a label for a filesystem
 > e2label <device> <label>
+
+* Lecture
+* Tutorial
+* Books
+* Links
+

@@ -2,6 +2,7 @@
 
 
 * lsof							      :sys:anal:file:
+* Description
 * Usage
 
 > lsof <options> <file/port>
@@ -11,3 +12,7 @@
 or specifiy protocol
 > lsof -i tcp:xx
 > lsof -i udp:xx
+* Lecture
+* Tutorial
+* Books
+* Links

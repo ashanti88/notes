@@ -1,6 +1,13 @@
+#+TAGS:
 
 
 * autoconf
-
 * Description
 autoconf is used to generate a per-project configure shellscript. These configure scripts can generate makefiles.
+* Usage
+* Lecture
+* Tutorial
+* Books
+[[file://home/crito/Documents/Tools/autoconf.pdf][Autoconf - David Mackenzie]]
+* Links
+

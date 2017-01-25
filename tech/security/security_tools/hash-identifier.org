@@ -1,4 +1,14 @@
+#+TAGS:
 
 
+* hash-identifier
+Home Page: [[https://code.google.com/archive/p/hash-identifier/][hash-identifier]]
+* Description
 The tool aids in the hash identification process.
-It test a hash against many different formats for compatibility.
+It tests a hash against many different formats for compatibility.
+
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -1,15 +1,18 @@
+#+TAGS: sys op user
 
 
-
-* Description							     :sys:op:
-
-
+* newuser							:sys:op:user:
+* Description
 * Usage
 
-> newusers FILENAME
+> newusers <FILENAME>
 
 This command takes a file to the form
 
 loginname:password:uid:gid:comment:home\_dir:shell
 
 This allows a large number of users to be added
+* Lecture
+* Tutorial
+* Books
+* Links

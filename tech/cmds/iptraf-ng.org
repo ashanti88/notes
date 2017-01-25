@@ -1,0 +1,12 @@
+#+TAGS: net anal mon
+
+
+* iptraf-ng						       :net:anal:mon:
+Wiki: [[http://wiki.ipfire.org/en/addons/iptraf-ng/start][wiki.ipfire.org]]
+* Description
+iptraf is a console based network statistic monitoring utility.
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

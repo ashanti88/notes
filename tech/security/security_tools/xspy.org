@@ -1,9 +1,11 @@
+#+TAGS:
 
 
-** xspy
-
-this is an x-windows keystroke sniffer
-
-
-Use
-> xspy
+* xspy
+* Description
+This is an x-windows keystroke sniffer
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

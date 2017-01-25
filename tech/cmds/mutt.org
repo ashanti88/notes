@@ -1,9 +1,8 @@
-#+TAGS: mail
+#+TAGS: mail wf
 
 
-* mutt
-* Description							:mail:client:
-
+* mutt								    :mail:wf:
+* Description
 * Usage
 ** Basic Syntax
 

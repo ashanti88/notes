@@ -1,19 +1,22 @@
+#+TAGS: sys fs op
 
 
-* Description							  :sys:fs:op:
-
+* mkfs								  :sys:fs:op:
+* Description
 * Usage
-
 > mkfs -t <fs> <device>
-
 t - filesystem type
 
-+ Force creation of filesystem on device
-
+** Force creation of filesystem on device
 > mke2fs -F <device>
 
 F - force flag
 
-+ Make a volume label for partition
-
+** Make a volume label for partition
 > mke2fs  -L <label> <partition>
+
+* Lecture
+* Tutorial
+* Books
+* Links
+

@@ -1,4 +1,11 @@
+#+TAGS: sys op
 
 
-* acct
-* Description							    :sys:ops:
+* acct								     :sys:op:
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links
+

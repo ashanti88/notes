@@ -1,6 +1,7 @@
+#+TAGS:
 
 
-
+* chattr
 * Description
 change attribute is a command that is used to set/unset certain attributes.
 
@@ -24,5 +25,10 @@ u - allows for undeletion
 
 + How to remove attributes
 > chattr -<options> <file>
+
+* Lecture
+* Tutorial
+* Books
+* Links
 
 

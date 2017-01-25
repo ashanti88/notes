@@ -1,0 +1,11 @@
+#+TAGS: sec_o joomla
+
+
+* joomscan						       :sec_o:joomla:
+Home Page: [[https://www.owasp.org/index.php/Category:OWASP_Joomla_Vulnerability_Scanner_Project][OWASP Joomla Vulnerability Scanner]]
+* Description
+A tool to detect Joomla CMS vulnerabilities and analyses them.
+* Usage
+* Lecture
+* Tutorial
+* Links

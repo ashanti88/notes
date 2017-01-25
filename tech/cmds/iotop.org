@@ -1,15 +1,14 @@
+#+TAGS: sys anal io
 
 
-* iotop
-
-* Description							:sys:io:anal:
+* iotop 							:sys:anal:io:
+* Description
 This tool is analogues of top for disks. It watches I/O usage information that is provided by the linux kernel, showing usage by processor on the system.
 
-
 * Usage
-
 > iotop <options>
 
+** Options
 -o - show only processors that are doing I/O
 -b - turn on non-interactive mode
 -n - set the number of iterations before quitting
@@ -17,10 +16,14 @@ This tool is analogues of top for disks. It watches I/O usage information that i
 -u - list of users to monitor
 -a - show accumulated I/O instead of bandwidth 
 
-
-+ Interactive Keyboard Shortcuts
-  
+** Interactive Keyboard Shortcuts
 -left or right - change the sorting
 -r - reverse the sorting order
 -o - only view processors that are creating I/O
 -p - only show processors, not threads
+
+* Lecture
+* Tutorial
+* Books
+* Links
+

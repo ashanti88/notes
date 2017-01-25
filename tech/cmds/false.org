@@ -1,9 +1,13 @@
-#+TAGS: sys
+#+TAGS: sys op
 
 
-* false
+* false								     :sys:op:
 * Description
 This cmd will exit with a status code indicating failure.
-
 It is used as a null shell, difference between false and nologin is that nologin informs the users why it failed.
+
+* Usage
+* Lecture
+* Tutorial
+* Books
 * Links

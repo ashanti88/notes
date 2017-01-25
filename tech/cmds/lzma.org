@@ -1,38 +1,37 @@
-*Extract file*
+#+TAGS: file comp
 
+
+* lzma								  :file:comp:
+* Description
+* Usage
+** Extract file
 > lzma -d <file.tar.lzma>
-
 or
-
 > unlzma <file.tar.lzma>
 
-Extracting a file.tar.lzma
-
+** Extracting a file.tar.lzma
 > unlzma file.tar.lzma
-
-> tar -xvf file.tar
-
 or
-
+> tar -xvf file.tar
+or
 > lzma -cd file.tar.lzma | tar xvf -
 
-*Compress file*
-
+** Compress file*
 > lzma -c <file.txt>
-
 or
-
 > lzma -c --stdout <file.txt> > <file.lzma>
 
-*Different levels of lzma compression*
-
+** Different levels of lzma compression*
 compression ranges from -1 to -9.
-
 -9 is the highest compression ratio and requires a certain amount of
 system resources.
-
 -1 is the lowest and runs much quicker.
 
 > lzma -1 -c --stdout <file.txt> > <output.lzma>
 
--  -fast is an alias for -1 and -best is an alias for -9
+-fast is an alias for -1 and -best is an alias for -9
+
+* Lecture
+* Tutorial
+* Books
+* Links

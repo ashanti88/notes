@@ -1,20 +1,12 @@
 #+TAGS: net anal
 
 
-* Description							   :net:anal:
-** State
-- LISTENING
-  - waiting for a remote connection
-- CLOSE_WAIT
-  - remote connection has terminated
-- TIME_WAIT
-  - local endpoint has terminated
-- ESTABLISHED
-  - host and client are connected
+* netstat
+* Description
 * Usage
 > netstat <options>
 
-+ Options
+** Options
 n - no host look up
 
 ** List all ports (both listening and non-listening)
@@ -87,4 +79,7 @@ or
 > netstat -ie
 e - extended information
 
+* Lecture
+* Tutorial
+* Books
 * Links

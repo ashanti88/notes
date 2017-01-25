@@ -1,20 +1,8 @@
+#+TAGS: sys hw anal
 
 
-* lspc
-* Description							   :sys:anal:
-
-This command provides information about the pci bus of a given system.
-
-* Installed
-
-Redhat
-
-> yum install pciutils
-
-Deb
-
-comes installed
-
+* lspci								:sys:hw:anal:
+* Description
 * Usage
 
 > lspci
@@ -81,3 +69,17 @@ d - device code
 > lspci -k
 
 k - kernel modules
+** Installed
+
+Redhat
+
+> yum install pciutils
+
+Deb
+
+comes installed
+
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -1,4 +1,13 @@
+#+TAGS: fs lvm op
 
+
+* lvremove							  :fs:lvm:op:
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links
 
 
 

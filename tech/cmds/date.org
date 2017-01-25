@@ -1,6 +1,12 @@
-This command allows the setting of the date or provides the time.
 
-*Show the date and time*
+#+TAGS: sys op
+
+
+* date								     :sys:op:
+* Description
+This command allows the setting of the date or provides the time.
+* Usage
+** Show the date and time
 
 > date
 
@@ -24,7 +30,7 @@ or
 
 this will provide the above format, thus the day the date fell on.
 
-*Read date patterns from a file using  --file option*
+** Read date patterns from a file using  --file option
 
 This is similar to the above but allows for multiple queries. The file
 has a date on each line.
@@ -37,7 +43,7 @@ has a date on each line.
 
 mon-sun, month, year
 
-*Seconds since the epoch*
+** Seconds since the epoch
 
 If --date=@x is used, it converts x number of seconds since the epoch
 (1970-01-01 UTC) to a date.
@@ -62,7 +68,7 @@ examples:
 
 > date --date='1 year ago'
 
-*Set date and time*
+** Set date and time
 
 > date -s "<day> <month> <date> <HH:MM:SS> <time\_zone> <YYYY>"
 
@@ -75,5 +81,7 @@ examples:
 *View the last modification time for a file*
 
 > date -r <file>
-
- 
+* Lecture
+* Tutorial
+* Books
+* Links

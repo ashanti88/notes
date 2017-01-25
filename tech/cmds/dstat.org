@@ -1,7 +1,7 @@
+#+TAGS: sys op anal
 
 
-* dstat								:sys:op:anal:
-  
+* dstat 							:sys:op:anal:
 * Description
 dstat is a versatile resource statistic tool. It combines the ability of iostat, vmstat, netstat and ifstat. It gathers this information in real-time.  
 
@@ -15,9 +15,14 @@ n - network stats
 g - page stats
 y - system stats
 
-** Examples
-+ Show process with highest cpu usage
+** Show process with highest cpu usage
 > dstat -tcnyldp --top-cpu
 
-+ Show information about cpu, disk (sda1) utilisation and system load
+** Show information about cpu, disk (sda1) utilisation and system load
 > dstat -cdl -D sda1
+
+* Lecture
+* Tutorial
+* Books
+* Links
+

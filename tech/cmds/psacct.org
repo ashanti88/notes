@@ -1,3 +1,11 @@
+#+TAGS:
 
 
-* [[/home/crito/org/tech/cmds/acct.org][psacct]]psacct - redhat version of the GNU Accounting Utilities
+* [[/home/crito/org/tech/cmds/acct.org][psacct]] - redhat version of the GNU Accounting Utilities
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links
+

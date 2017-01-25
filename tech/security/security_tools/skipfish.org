@@ -1,14 +1,22 @@
+#+TAGS: sec_o recon
 
 
-** Skipfish
-
+* skipfish							:sec_o:recon:
+Home Page: [[https://code.google.com/archive/p/skipfish/][skipfish]]
+* Description
 This is an active web application security recon tool.
-It creates an interactive sitemap of the targeted site.
-It does this by recursive crawl and dictionary based probes.
+  - It creates an interactive sitemap of the targeted site.
+  -It does this by recursive crawl and dictionary based probes.
 
-
+* Usage
 Use
 > skipfish -o <output_dir> <site_ip>
 
+* Lecture
+* Tutorial
+* Books
+* Links
 
-Options
+
+
+

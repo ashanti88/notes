@@ -1,0 +1,19 @@
+#+TAGS: sec_o wp
+
+
+* wpscan
+Home Page: [[https://wpscan.org/][wpscan.org]]
+* Description
+Scans for wp vulnerabilities
+
+* Usage
+> wpscan -u <domain.com> <options>
+
+** Options
+--enumerate vp - check for vuln plugins
+--enumerate vt - check for vuln themes
+--enumerate u - enumerate users
+
+** Guessing Password
+> wpscan -u <domain.com> --wordlist /path/to/list.txt
+* Links

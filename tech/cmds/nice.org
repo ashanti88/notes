@@ -1,10 +1,14 @@
+#+TAGS: sys op
 
 
-
-* nice
-* Description							     :sys:op:
-run a program with a modified scheduling priority.
+* nice								     :sys:op:
+* Description
 * Usage
 > nice <options> [cmd <options>]
 
 ** Options
+
+* Lecture
+* Tutorial
+* Books
+* Links

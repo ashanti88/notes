@@ -1,5 +1,10 @@
-#+TAGS: sys net
+#+TAGS: net anal sec_o
 
 
-* drill
+* drill							     :net:anal:sec_o:
 * Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -1,8 +1,12 @@
+#+TAGS: db sql admin
 
 
-
-* Description							   :DB:bakup:
-
+* mysqldump						       :db:sql:admin:
+* Description
 * Usage
-
 > mysqldump -u <user> -p <database\_to\_backup> > <database.bakup.sql>
+
+* Lecture
+* Tutorial
+* Books
+* Links

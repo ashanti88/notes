@@ -1,27 +1,37 @@
+#+TAGS: sec_d
+
+
+* enum4linux
+* Description
 This tools is used for enumeration of windows and samba/cif systems.
 
 It is written in perl and is a wrapper for samba tools - smbclient,
 rpclient, net and nmblookup.
 
+* Usage
 Usage > enum4linux @@html:<options>@@ @@html:<ip_addr>@@
 
-options v - verbose a - "Do everything option", but no dictionary based
-share name guessing.
+** Options 
+v - verbose
+a - "Do everything option", but no dictionary based share name guessing.
 
-Getting list of users > enum4linux -U @@html:<ip_addr>@@
+** Getting list of users 
+> enum4linux -U @@html:<ip_addr>@@
 
 U - provides a list of user names if server allows.
 
-#+BEGIN_QUOTE
-  enum4linux -u @@html:<name>@@ -p @@html:<password>@@ If you have a
-  name and password no matter security setting you can gain a list of
-  users. u - username of account p - password of account
-#+END_QUOTE
+If you have a name and password no matter security setting you can gain a list of users. 
+enum4linux -u <name> -p <password>
+u - username of account 
+p - password of account
 
-Listing windows shares > enum4linux -S @@html:<ip_addr>@@ If the server
-allows it, you can obtain a full list of shares. Again the u and p
-options can be used no matter the security. S - get share info
+** Listing windows shares 
+> enum4linux -S <ip_addr>
+If the server allows it, you can obtain a full list of shares. Again the u and poptions can be used no matter the security. S - get share info
 
-Get OS info > enum4linux -o @@html:<ip_addr>@@
+** Get OS info 
+> enum4linux -o <ip_addr>
 
-Get printer info > enum4linux -i @@html:<ip_addr>@@
+** Get printer info 
+> enum4linux -i <ip_addr>
+* Links
