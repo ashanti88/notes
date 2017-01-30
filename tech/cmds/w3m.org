@@ -1,62 +1,47 @@
+#+TAGS: net op
 
 
-
-
+* w3m								     :net:op:
 * Description
 
 This is a text based browser.
-
 
 * Usage
 
 > w3m <options> <url>
 
-+ Options
-
+** Options
 M - monochrome
 
-+ Navigation
-
+** Navigation
 Normal vim key binds apply
 
 SPC - move forward a page
-
 b - move back a page
-
 \^ - begining of line
-
 $ - end of line
-
 > - shift screen right
-
 < - shift screen left
-
 . - shift screen one column right
-
 , - shift screen one column left
-
 TAB - move to next hyperlink
-
 [ - move to first hyperlink
-
 ] - move to last hyperlink
-
 B - move backfards
-
 + Hyperlink Operations
-
 RET - follow hyperlink
-
 a - save link to file
-
 v - view page source
-
 / - forward search
-
 ? - backward search
-
 ! - execute shell cmd
-
 q - quit
-
 Q - quit without confirmation
+
+* Lecture
+* Tutorial
+* Books
+* Links
+
+
+

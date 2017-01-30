@@ -1,9 +1,10 @@
+#+TAGS: sys anal
 
 
-
-* Descriptio							   :sys:anal:
-
-
-
-
+* uptime
+* Description
 * Usage
+* Lecture
+* Tutorial
+* Books
+* Links

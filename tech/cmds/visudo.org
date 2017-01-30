@@ -1,18 +1,16 @@
+#+TAGS: sys op
 
 
-
-* Description							     :sys:op:
-
-! Never edit the file with a normal text editor! Always use visudo
-
-visudo ensures a misconfigured /etc/sudoers file by opening the editor
-but also validates after saving. This prevents any misconfiguration
-errors blocking proper sudo usage.
-
-* Debian configuration
-
+* visudo							     :sys:op:
+* Description
+* Usage
+** Debian configuration
 debian
 
-* RHEL configuration
-
+** RHEL configuration
 RHEL
+
+* Lecture
+* Tutorial
+* Books
+* Links

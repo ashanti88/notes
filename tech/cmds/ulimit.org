@@ -1,10 +1,16 @@
+#+TAGS: sys op
 
 
-
-
-
-* Description							     :sys:op:
-The tool specifies the number of processors that a user is authorized to have.
-
-
+* ulimit							     :sys:op:
+* Description
+This allows us to manage system wide resources and regulate users resource usage.
 * Usage
+> ulimit <options>
+
+** Setting Process Limit
+> ulimit -u 30
+
+* Lecture
+* Tutorial
+* Books
+* Links

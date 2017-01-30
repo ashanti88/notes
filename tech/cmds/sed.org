@@ -1,0 +1,34 @@
+#+TAGS: file op anal
+
+
+* sed
+* Description
+* Usage
+** Spacing
+*** Double Space file
+> sed G <file>
+*** Double Space file with blank lines
+> sed '/^$/d;G
+*** Triple space file
+> sed 'G;G'
+*** Undo Double spacing
+> sed 'n;d'
+*** Insert blank line above regex
+> sed '/regex/{x;p;x;}'
+*** Insert blank line after regex
+> sed '/regex/G'
+
+** Numbering 
+*** Number each line of a file(number above)
+> sed = <file_name>
+
+*** Number each line(same line)
+> sed = <file_name> | sed 'N;s/\n/\t/'
+
+** Count lines
+> sed -n '$='
+
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -713,6 +713,12 @@ defun jedi-config:serup-server-args()
      (add-args jedi:server-args "--virtual-env"
        jedi-config:with-virtualenv))))
 
+** Dired Buffer
+*** Navigation
+p - move up
+n - move down
+j - (dired-goto-file) - will prompt for a filename
+
 ** Other languages
 Ruby - robe
 C/C++ - irony-mode

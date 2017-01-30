@@ -26,5 +26,8 @@ This will produce a wpa_supplicant configuration as output
 > wpa_supplicant -B -i <int> -c <(wpa_passphrase <MYSSID> <passphrase>)
 This needs to be run in a root shell, not as sudo
 
+* Lecture
+* Tutorial
+* Books
 * Link
 [[https://wiki.archlinux.org/index.php/WPA_supplicant#Connecting_with_wpa_cli][Arch Wiki]]

@@ -1,20 +1,19 @@
-*cmds*
+#TAGS:
 
-ifconfig
 
-[[evernote:///view/47830806/s238/a6fe0238-2934-4656-8bf2-605c1d9afab3/a6fe0238-2934-4656-8bf2-605c1d9afab3/][ip]]
+* Routing
+* Cmds
+  - ip
+  - ifconfig
+  - route
+* Concept
+** Overview
+** Routing Policy Database
+- This allows for multiple routing tables, to cater for different users.
 
-route
+- For this the kernel needs to be complied with "IP: advanced router" and "IP: policy routing".
 
-*Routing Policy Database*
-
-This allows for multiple routing tables, to cater for different users.
-
-For this the kernel needs to be complied with "IP: advanced router" and
-"IP: policy routing".
-
-By default there are three routing tables. Route and ip cmd modify the
-main and local tables (by default).
+- By default there are three routing tables. Route and ip cmd modify the main and local tables (by default).
 
 The routeing rules are listed in order precedence.
 
@@ -22,31 +21,27 @@ The routeing rules are listed in order precedence.
 
 We see that all rules apply to all packets.
 
-To enable more sophisticated route we create rules which point to
-different tables which allow us to override system wide routing rules.
+To enable more sophisticated route we create rules which point to different tables which allow us to override system wide routing rules.
 
-[[evernote:///view/47830806/s238/870c21cb-2acf-400b-ad5f-cd0a04f4a85b/870c21cb-2acf-400b-ad5f-cd0a04f4a85b/][Tunnels]]
+** Tunnels
 
 There are types of tunnels in linux:
 
 1)IP in IP tunneling
-
 2) GRE tunneling
-
 3) Tunnels outside of the kernel e.g. PPTP
 
-IP in IP
-
-this uses the two modules ipip, tunnel4 and ip\_tunnel.
+** IP in IP
+This uses the two modules ipip, tunnel4 and ip\_tunnel.
 
 > modprobe ipip
-
 this installs all three
 
-GRE
-
-Developed by cisco and is more advanced than IPinIP.
-
-This will require the ip\_gre module.
-
-*IPSEC*
+** GRE
+  - Developed by cisco and is more advanced than IPinIP.
+  - This will require the ip\_gre module.
+** IPSEC
+* Lecture
+* Tutorial
+* Books
+* Links

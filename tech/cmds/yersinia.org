@@ -1,11 +1,18 @@
+#+TAGS: sec_o
+
+
+* yersinia							      :sec_o:
+* Description
 Layer 2 network analysis and attack tool
-
-*Basic syntax*
-
+* Usage
 > yersinia <option>
 
+** Options
 G - gtk
-
 I - interactive
-
 D - start the listening deamon
+
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -1,0 +1,54 @@
+#+TAGS: web
+
+
+* lighttp								:web:
+* Description
+* Usage
+* Articles
+** Lighttpd Configuration - redmine.lighttpd.net
+[[https://redmine.lighttpd.net/projects/1/wiki/TutorialConfiguration][URL]]
+*** Configuration
+**** Basic
+/etc/lighttpd/lighttpd.conf
+
+server.document-root = "/var/www/servers/www.example.org/pages/" 
+
+server.port = 3000
+
+mimetype.assign = (
+  ".html" => "text/html", 
+  ".txt" => "text/plain",
+  ".jpg" => "image/jpeg",
+  ".png" => "image/png" 
+)
+
++ root is set to with server.document-root variable
++ lighttpd will listen on tcp 3000 
++ mimetypes are set in the associate array mimetype.assign
+  
++ Test
+> lighttpd -t -f lighttpd.conf
+
++ Enable for testing
+> lighttpd -D -f lighttpd.conf
+
+**** live site
+Add these lines to lighttpd.conf    
+
++ set server user and group
+server.username = "www" 
+server.groupname = "www"
+
+- set www to the web server user and group
+
++ set excluded file types
+static-file.exclude-extensions = ( ".fcgi", ".php", ".rb", "~", ".inc" )                          
+
++ set index file
+index-file.names = ( "index.html" )
+
+* Books
+** [[file://home/crito/Documents/SysAdmin/Web/Nginx/Nginx.pdf][Nginx - From Beginner to Pro]]
+** [[file://home/crito/Documents/SysAdmin/Web/Nginx/Nginx-HTTP_Server.pdf][Nginx HTTP Server]]
+* Links
+[[https://wiki.archlinux.org/index.php/lighttpd][ArchWiki - Lighttpd]]

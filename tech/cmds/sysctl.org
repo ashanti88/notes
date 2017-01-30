@@ -1,0 +1,18 @@
+#+TAGS: kernel op
+
+
+* sysctl
+* Description
+* Usage
+> sysctl <options>
+
+** Options
+a - print to screen all variables
+
+** Set Specific Variable
+> sysctl <variable>=<new_value>
+
+* Lecture
+* Tutorial
+* Books
+* Links

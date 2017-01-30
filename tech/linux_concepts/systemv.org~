@@ -1,0 +1,34 @@
+#TAGS:
+
+
+* system-v
+* Cmds
+* Configuration
+/etc/init
+/etc/init.d
+/etc/rc.d
+
+* Overview
+** Runlevels
++ Red Hat
+0 - halt
+1 - Single User (Rescue)
+2 - multi-user (no-networking)
+3 - multi-user (networking)
+4 - Not used
+5 - multi-user (Gui)
+6 - restart
+
++ Debian
+0 - halt
+1 - Single User (Rescue)
+2 - multi-user 
+3 - Not used
+4 - multi-user
+5 - multi-user
+6 - restart
+
+* Lecture
+* Tutorial
+* Books
+* Links

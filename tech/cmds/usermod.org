@@ -1,9 +1,8 @@
+#+TAGS: sys op
 
 
-
-* Description							     :sys:op:
-
-
+* usermod							     :sys:op:
+* Description
 * Usage
 
 + Adding a user to the sudoers group
@@ -27,3 +26,7 @@ indefinite set to 1.
 unlock or U -this enables a locked account 
 
 expiredate - to set date for indefinite use "" and empty string.
+* Lecture
+* Tutorial
+* Books
+* Links

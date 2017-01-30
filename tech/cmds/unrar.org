@@ -6,8 +6,12 @@
 
 > unrar <option> <file.rar>
 
-+ Options
+- always direct where you want to extract the file otherwise it will extract all its contents into current directory.
+
+** Options
 e - extract
 x - extract and keep original directory structure
-
-- always direct where you want to extract the file otherwise it will extract all its contents into current directory.
+* Lecture
+* Tutorial
+* Books
+* Links

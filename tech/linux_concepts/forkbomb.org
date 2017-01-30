@@ -1,0 +1,16 @@
+#TAGS: code sec_o
+
+
+* forkbomb
+* Cmds
+* Concept
+** Overview
+** Bash Forkbomb
+> (){ :|:& };:
+- this bit of bash will cause the system to become unresponsive or crash.
+- this would not occur if [[file:~/org/tech/cmds/ulimit.org][user limits]] had not been set.
+
+* Lecture
+* Tutorial
+* Books
+* Links

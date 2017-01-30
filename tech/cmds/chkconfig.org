@@ -1,7 +1,7 @@
-#+TAGS: file op
+#+TAGS: sys init sysv
 
 
-* whereis							    :file:op:
+* chkconfig						      :sys:init:sysv:
 * Description
 * Usage
 * Lecture

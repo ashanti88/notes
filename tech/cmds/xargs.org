@@ -1,6 +1,9 @@
-xargs is useful when combined with other cmds.
+#+TAGS: sys op
 
-*Basic syntax*
+
+* xargs								     :sys:op:
+* Description
+* Usage
 
 > xargs
 
@@ -12,36 +15,30 @@ CTRL-D
 
 The entered text is echoed back after ctrl-d is pressed
 
-Specify delimiter
-
+** Specify delimiter
 > xargs -d\n
 
 the newline will now be taken into account unlike before.
 
-*Limit output*
-
+** Limit output
 > echo a b c d e f| xargs -n 3
 
 a b c
 
 d e f
 
-Prompt user before executing
-
+** Prompt user before executing
 > echo a b c d | xargs -p -n 2
 
 p - prompt user to confirm cmd
 
-*Combine Xargs with find*
-
+** Combine Xargs with find
 > find . -name "*.c" | xargs rm -rf
 
-Deleting files with whitespace in the name
-
+** Deleting files with whitespace in the name
 > find . -name "*.c" -print0 | xargs -0 rm -rf
 
-*Display system limits*
-
+** Display system limits
 > xargs --show-limits
 
 Your environment variables take up 3405 bytes
@@ -55,6 +52,10 @@ Maximum length of command we could actually use: 2088294
 
 Size of command buffer we are actually using: 131072
 
-*Combine with grep*
-
+** Combine with grep*
 > find . -name "*.c" | xargs grep <search>
+
+* Lecture
+* Tutorial
+* Books
+* Links

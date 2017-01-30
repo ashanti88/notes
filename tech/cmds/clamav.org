@@ -1,14 +1,23 @@
+#+TAGS: sec_d av
 
 
-
-
+* clamav							   :sec_d:av:
+* Description
 * Usage
-+ Update clamav
+** Update clamav
 > freshclam
 
-+ Scanning files
+** Scanning files
 > clamscan <options> <file/directory>
 --recursive -r
 --infected  -i       - print only the infected files
 --max-filesize=4000M - 4000M is the max size
 --max-scansize=4000M
+
+* Lecture
+* Tutorial
+* Books
+* Links
+
+
+

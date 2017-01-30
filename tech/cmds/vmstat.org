@@ -1,8 +1,8 @@
+#+TAGS: sys anal op
 
 
-
-* Description							:sys:anal:op:
-
+* vmstat							:sys:anal:op:
+* Description
 * Usage
 
 + Fields
@@ -134,3 +134,8 @@ iostat is a better tool for viewing what the disks are doing
   
 
 + 22 standard colums
+* Tutorial
+* Books
+* Links
+
+

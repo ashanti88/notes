@@ -1,0 +1,39 @@
+#+TAGS: code vcs
+
+
+* jenkins
+Home Page: [[https://jenkins.io/][jenkins.io]]
+
+* Description
+* Installation
+** SysV
+1. > sudo wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo
+2. > sudo rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
+3. > sudo yum install jenkins
+4. > sudo yum install java - Ensure that the Openjdk version is installed not the gij version
+5. log into UI localhost:8080 - password is placed in /var/log/jenkins/secrets/initialAdminPassword5. log into UI localhost:8080 - password is placed in /var/log/jenkins/secrets/initialAdminPassword5. log into UI localhost:8080 - password is placed in /var/log/jenkins/secrets/initialAdminPassword5. log into UI localhost:8080 - password is placed in /var/log/jenkins/secrets/initialAdminPassword5. log into UI localhost:8080 - password is placed in /var/log/jenkins/secrets/initialAdminPassword
+
+** Configuration
+init file          - /etc/init.d/jenkins
+configuration file - /etc/sysconfig/jenkins
+log file - /etc/var/log/jenkins/jenkins.log
+
+** System Requirements
+*** Minimum 
+- Java 7
+- 256MB free memory
+- 1GB+ free disk space
+*** Recommended for a small team
+- Java 8
+- 1GB+ free memory
+- 50GB+ free disk space
+
+* Usage
+* Lecture
+* Tutorial
+* Books
+  [[file:~/Documents/Tools/jenkins-the-definitive-guide.pdf][Jenkins - Definitive Guide]]
+* Links
+Wiki: [[https://wiki.jenkins-ci.org/display/JENKINS/Installing%2BJenkins%2Bon%2BUbuntu][Ubuntu Installation]]
+Wiki: [[https://wiki.jenkins-ci.org/display/JENKINS/Installing%2BJenkins%2Bon%2BRed%2BHat%2Bdistributions][Red Hat Distro Installation]]
+Jenkins: [[https://jenkins.io/doc/book/getting-started/][Getting Started with Jenkins]] - Jenkins website

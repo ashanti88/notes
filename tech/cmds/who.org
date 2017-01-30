@@ -1,10 +1,8 @@
+#+TAGS: sys anal
 
 
-* who
-
+* who								   :sys:anal:
 * Description
-
-
 * Usage
 > who <options>
 
@@ -14,3 +12,8 @@ b - display time of last system boot
 d - display any dead processors
 H - prints a line of column headings
 --login - prints the system login process
+* Lecture
+* Tutorial
+* Books
+* Links
+

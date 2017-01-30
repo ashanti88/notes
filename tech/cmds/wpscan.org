@@ -1,7 +1,7 @@
 #+TAGS: sec_o wp
 
 
-* wpscan
+* wpscan							   :sec_o:wp:
 Home Page: [[https://wpscan.org/][wpscan.org]]
 * Description
 Scans for wp vulnerabilities
@@ -16,4 +16,7 @@ Scans for wp vulnerabilities
 
 ** Guessing Password
 > wpscan -u <domain.com> --wordlist /path/to/list.txt
+* Lecture
+* Tutorial
+* Books
 * Links

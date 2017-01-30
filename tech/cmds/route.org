@@ -1,10 +1,27 @@
+#+TAGS: net anal op
 
 
-
-* Description							:net:op:anal:
-
-Shows the routing table information
-
+* route
+* Description
 * Usage
-
 > route <options>
+
+** Options
+** Adding Default Gateway
+> route add default gw <ip_addr>
+
+** List Kernel Routing Cache Information 
+> route -Cn
+
+** Reject Rounting to a Particular Host or Network
+Host
+> route add -host <ip_addr> reject
+Network
+> route add -net <ip_addr> netmask 255.255.255.0 reject
+
+* Lecture
+* Tutorial
+* Books
+* Links
+
+

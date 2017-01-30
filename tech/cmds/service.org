@@ -1,0 +1,19 @@
+#+TAGS: sys init sysv
+
+
+* service						      :sys:init:sysv:
+* Description
+* Usage
+** Start
+> service <service> start
+** Stop
+> service <service> stop
+** Restart
+> service <service> restart
+** Reload
+> service <service> reload
+
+* Lecture
+* Tutorial
+* Books
+* Links
