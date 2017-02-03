@@ -15,7 +15,7 @@
   
 * php7
 
-* Packagement Management
+* Pkg Mgt
 ** Pear
 ** Packagist
 URL: [[https://packagist.org/][Home Page]]

@@ -1,7 +1,10 @@
+#TAGS: auto code
 
 
-
-** Lecture
+* ansible
+* Cmds
+* Overview
+* Lecture
 *** Learn you some Ansible for great good! - OpenStack Summit May 2015
 url:[[url][https://www.youtube.com/watch?v=qEuk65few9I]]
 
@@ -86,3 +89,10 @@ Many more.....
 ***** Playbooks
 + Tell Ansible what to do
 + These are written in YAML
+* Tutorial
+* Books
+** [[file://home/crito/Documents/SysAdmin/Mgmt/Ansible/Ansible_Playbook_Essentials.pdf][Ansible Playbook Essentials - Packt]]
+     - [[https://github.com/schoolofdevops/ansible-playbook-essentials][Github - files for book]]
+* Links
+
+

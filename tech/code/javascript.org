@@ -1,19 +1,42 @@
-#+TAGS: code js angular nodejs
+#+TAGS: code js angular nodejs jquery bootstrap
 
 
-* javascript 							    :code:js:
+* javascript								 :js:
+** Pkg Mgmt 
+*** bower
+** Syntax Check
+*** ESLint
+*** JSHint
 ** Lecture
 ** Tutorial
 ** Books
 *** [[file://home/crito/Documents/Web_Dev/js/Mastering_JavaScript-Explore_and_Master_Modern_JavaScript.pdf][Mastering JavaScript - Packt]]
 ** Links
-* angular2						       :code:angular:
+* Libraries
+** jQuery 							     :jquery:
+*** Lecture
+*** Tutorial
+*** Books
+
+*** Links
+* Framework
+** angular2 							    :angular:
+*** Overview
+*** Lecture
+*** Tutorial
+*** Books
+*** Links
+** bootstrap 							  :bootstrap:
+** backbone
+* TypeScript
+* nodejs							     :nodejs:
 ** Lecture
 ** Tutorial
 ** Books
 ** Links
-* nodejs						:code:nodejs:
-** Lecture
-** Tutorial
-** Books
-** Links
+* json
+HomePage: [[http://www.json.org/][json.org]]
+** json Parser
+HomePage: [[https://stedolan.github.io/jq/][stedolan.github.io]]
+** json Lines
+HomePage: [[http://jsonlines.org/][jsonlines.org]]

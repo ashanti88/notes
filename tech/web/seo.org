@@ -1,11 +1,7 @@
 #TAGS:
 
 
-* tor
-** How To
-*** Set up a tor site
-
-* Cmds
+* seo
 * Lecture
 * Tutorial
 * Books

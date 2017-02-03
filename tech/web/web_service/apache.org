@@ -3,6 +3,7 @@
 
 * apache
 * Usage
+** .htaccess
 * Lecture
 * Tutorials
 ** Practical Apache Web Server Administration - Lynda.com - Jon Peck

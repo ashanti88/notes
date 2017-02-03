@@ -119,3 +119,13 @@ php-fpm is working, need to check which needs to be removed
     - State "TODO"       from ""           [2016-12-20 Tue 02:34]
       
 currently installed but disabled.
+
+** Dark Market
+** Dark Web lotto
+*** TODO front page
+    - State "TODO"       from ""           [2017-01-31 Tue 00:28]
+*** TODO mechanism to allocate number with payment
+    - State "TODO"       from ""           [2017-01-31 Tue 00:29]
+
+*** TODO automatically pick number and make pay out
+    - State "TODO"       from ""           [2017-01-31 Tue 00:30]

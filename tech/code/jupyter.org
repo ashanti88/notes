@@ -1,7 +1,7 @@
-#TAGS: auto code ruby
+#TAGS: code
 
 
-* chef							     :auto:code:ruby:
+* jupyter
 * Cmds
 * Overview
 * Lecture
