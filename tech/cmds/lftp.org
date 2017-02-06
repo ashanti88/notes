@@ -1,0 +1,11 @@
+#+TAGS: net file
+
+
+* lftp
+HomePage: [[http://lftp.tech/][lftp.tech]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

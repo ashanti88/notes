@@ -597,6 +597,10 @@ ert - unit testing framework
 undercover.el - sacha chua has a blog on it
 checkdoc - minor mode - for working with project documentation 
 
+*** magit
++ Commands
+M-x magit-status
+
 ** Packages
 *** projectile - provides an easy way to navigate a project
 *** epc - middleware that connects pythonland to emacsland

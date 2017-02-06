@@ -1,0 +1,19 @@
+#+TAGS: web mon anal
+
+
+* logstalgia
+HomePage: [[http://logstalgia.io/][logstalgia.io]]
+* Description
+* Usage
+** Watch remote access.log via ssh
+> ssh user@server.com tail -f /var/log/apache2/access.log | logstalgia --sync
+> ssh user@server.com tail -f /var/log/nginx/www.example.log | logstalgia --sync
+** Create a video of the output
+> ssh user@server.com tail -f /var/log/nginx/access.log | logstalgia -1280x720 --output-ppm-stream --sync output.ppm
+** Create an mp4 from a ppm file
+> ffmpeg -y -r 60 -f image2pipe -vcodec ppm -i output.ppm -vcodec libx264 -preset ultrafast -pix_fmt yuv420p -crf 1 -threads 0 -bf 0 nginx.server.log.mp4
+
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -8,3 +8,4 @@
 * Tutorial
 * Books
 * Links
+[[https://www.madboa.com/geek/dig/][Dig HowTo - Madboa.com]]

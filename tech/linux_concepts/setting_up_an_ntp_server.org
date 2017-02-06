@@ -1,0 +1,28 @@
+#+TAGS: sys ntp
+
+
+* Setting up an NTP server
+* Overview
++ Install
+> apt-get install ntp
+or
+> yum install ntp
+
+* Configuration
+/etc/ntp.conf
+Port: 123
+** Setting NTP Severs
+server 0.debian.pool.ntp.org iburst
+server 1.debian.pool.ntp.org iburst
+server 2.debian.pool.ntp.org iburst
+server 3.debian.pool.ntp.org iburst
+
+* Usage
+** Query the ntp servers 
+This will show status of current master ntp servers
+> ntpq -p
+
+* Lecture
+* Tutorial
+* Books
+* Links

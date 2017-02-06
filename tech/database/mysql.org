@@ -218,6 +218,61 @@ tmp=<new\_data\_directory>
 Check the selinux context before moving moving data directory.
 > ls -Z
 
+** Setting up MariaDB SSL and secure connection from clients
+Article: [[https://www.cyberciti.biz/faq/how-to-setup-mariadb-ssl-and-secure-connections-from-clients/][How to setup MariaDB SSL and secure connections from clients]]
+1. Make sure that secure_insallation has been run
+2. Create CA certificate
+  a. > cd /etc/mysql
+  b. > sudo mkdir ssl
+  c. > cd ssl
+  d. > openssl genrsa 2048 > ca-key.pem
+  e. > sudo openssl req -new -x509 -nodes - days 365000 -key ca-key.pem -out ca-cert.pem
+3. Create server certificate
+  a. > sudo openssl req -newkey rsa:2048 -days 365000 -nodes -keyout server-key.pem -out server-req.pem
+  b. > sudo openssl rsa -in server-key.pem -out server-key.pem
+  c. > sudo openssl x509 -req -in server-req.pem -days 365000 -CA ca-cert.pem -CAkey ca-key.pem -set_serial 01 -out server-cert.pem 
+4. Create client certificate
+  a. > sudo openssl req -newkey rsa:2048 -days 365000 -nodes -keyout client-key.pem -out client-req.pem
+  b. > sudo openssl rsa -in client-key.pem -out client-key.pem
+  c. > sudo openssl x509 -req -in client-req.pem -days 365000 -CA ca-cert-pem -CAkey ca-key.pem -set_serial 01 -out client-cert.pem
+5. Verify the Certificates
+  a. > openssl verify -CAfile ca-cert.pem server-cert.pem client-cert.pem
+6. Configure MariaDB server to use SSL
+  a. > sudo vi /etc/mysql/mariadb.conf.d/50-server.cnf
+  b. append the following in [mysqld]
+    ### MySQL Server ###
+    ## Securing the Database with ssl option and certificates ##
+    ## There is no control over the protocol level used. ##
+    ##  mariadb will use TLSv1.0 or better.  ##
+    ssl
+    ssl-ca=/etc/mysql/ssl/ca-cert.pem
+    ssl-cert=/etc/mysql/ssl/server-cert.pem
+    ssl-key=/etc/mysql/ssl/server-key.pem
+  c. > sudo systemctl restart mysql
+7. Configure MariaDB client to use SSL
+  a. > sudo vi /etc/mysql/mariadb.conf.d/50-mysql-clients.cnf
+  b. append the following to [mysql]
+    ## MySQL Client Configuration ##
+    ssl-ca=/etc/mysql/ssl/ca-cert.pem
+    ssl-cert=/etc/mysql/ssl/client-cert.pem
+    ssl-key=/etc/mysql/ssl/client-key.pem
+8. Verification
+  a. > mysql -u <user> -h <host> -p <data_db>
+  b. mysql> SHOW VARIABLES LIKE '%ssl%';
+     or
+     mysql> STATUS;
+   [[file://home/crito/Pictures/org/mysql_ssl_01.png][Sample Output]]
+  
+  c. > openssl s_client -connect <host_ip:3306> -tls1
+  d. > openssl s_client -connect <host_ip:3306> -tls1_1
+  e. > openssl s_client -connect <host_ip:3306> -tls1_2
+  [[file://home/crito/Pictures/org/mysql_ssl_ver2.png][Sample Output]]
+
+  f. use tcp to check that no clear text is sent
+     > sudo tcpdump -i eth0 -s 65535 port 3306 -w /tmp/mysql.pcap
+     > mysql -u <user> -h <host> -p <db_name>
+     > tcpdump -r /tmp/mysql.pcap | less
+
 * Commands 
 - [[file://home/crito/org/tech/cmds/mysqladmin.org][mysqladmin]]
 - [[file://home/crito/org/tech/cmds/mysqldump.org][mysqldump]]

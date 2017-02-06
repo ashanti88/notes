@@ -12,7 +12,19 @@ at different times.
 Atop monitors CPU, memory, disks and network on system level.
 
 * Usage
-+ Command line of the process (c)
+** Common uses
+- Launch with average-per-second total values
+> atop -1
+
+- Launch with active processors only
+> atop -a
+
+- Launch with command line per process
+> atop -c
+
+- Launch with disk info
+> atop -d
+** Command line of the process (c)
 
 PID - pid of process
 

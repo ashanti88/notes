@@ -2,7 +2,7 @@
 
 
 * Package Management Tools
-* dpkg								:sys:deb:pkg:
+** dpkg 							:sys:deb:pkg:
 Install
 
 > dpkg -i application.deb
@@ -26,7 +26,7 @@ this comes in handy when you need to install a 32bit application on a
 
 > apt-get update
 
-* apt								:sys:deb:pkg:
+** apt 								:sys:deb:pkg:
 Update available software database
 
 > apt-get update
@@ -117,7 +117,35 @@ Installing source files
 
 this will provide all available debian linux kernels
 
-* rpm							       :sys:rhel:pkg:
+*** rollback an apt-get upgrade
+Article: [[https://www.cyberciti.biz/howto/debian-linux/ubuntu-linux-rollback-an-apt-get-upgrade/][nixcraft]]
+1. search the apt history for the date of the upgrade to rollback from
+  > grep -A 2 'Start-Date: YYYY-MM-DD HH:MM:SS' /var/log/apt/history.log
+2. create list of programs that are to be removed
+  > grep -A 2 'Start-Date: YYYY-MM-DD HH:MM:SS' /var/log/apt/history.log | tail -1 >/tmp/packages.txt
+3. edit the /tmp/packages.txt and delete the Install: word
+  > sed -i 's/Install://' /tmp/packages.txt
+4. Final clean up
+  > tr ',' '\n' < /tmp/packages.txt | sed '/automatic)/d' | awk '{ print $1}' > /tmp/final.packages.txt
+  > wc -l /tmp/packages.txt - this will give the number packages that were installed
+5. run this script as root
+# Run as root
+# Store packages name in $p
+p="$(</tmp/final.packages.txt)"
+ 
+# Nuke it
+apt-get --purge remove $p
+ 
+#clears out the local repository of retrieved package files
+apt-get clean
+ 
+# Just in case ...
+apt-get autoremove
+ 
+# Verify disk space
+df -H
+
+** rpm 							       :sys:rhel:pkg:
 list of all installed 
 
 rpm -qa
@@ -126,7 +154,7 @@ show any changes since installation
 
 rpm -Vv
 
-* yum							       :sys:rhel:pkg:
+** yum 							       :sys:rhel:pkg:
 
 + Install application
 
@@ -151,7 +179,7 @@ or
 
 > yum provides *one to look up!!!!*
 
-* dnf							       :sys:rhel:pkg:
-* pacman						       :sys:arch:pkg:
-* yaourt						       :sys:arch:pkg:
-* zypper						       :sys:suse:pkg:
+** dnf 							       :sys:rhel:pkg:
+** pacman 						       :sys:arch:pkg:
+** yaourt 						       :sys:arch:pkg:
+** zypper 						       :sys:suse:pkg:
