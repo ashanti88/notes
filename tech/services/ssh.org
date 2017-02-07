@@ -1,7 +1,8 @@
+#+TAGS: ssh
 
 
-
-* sshd
+* sshd									:ssh:
+* Description
 * Usage
 ** Changing SSH port
 
@@ -11,3 +12,9 @@ change port to 22 (or any other number) or add another line to add
 another port
 
 service sshd reload
+* Lecture
+* Tutorial
+* Books
+* Links
+
+

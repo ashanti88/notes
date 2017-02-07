@@ -1,6 +1,33 @@
+#+TAGS: ssh
 
 
-
-
-* Description							     :access:
+* ssh
+* Description
 * Usage
+** ssh-agent
+To enable the ssh-agent
+> eval $(ssh-agent)
+To add keys to the agent
+> ssh-add <key>
+
+*** Setting up ssh-agent as a sysd service
+[Unit]
+Description=SSH key agent
+
+[Service]
+Type=forking
+Environment=SSH_AUTH_SOCK=%t/ssh-agent.socket
+ExecStart=/usr/bin/ssh-agent -a $SSH_AUTH_SOCK
+
+[Install]
+WantedBy=default.target
+
+- add this line to .zshrc
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+
+** ssh-keygen
+** ssh-copy-id
+* Lecture
+* Tutorial
+* Books
+* Links
