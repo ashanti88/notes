@@ -1,7 +1,7 @@
 #+TAGS: ssh
 
 
-* ssh
+* ssh									:ssh:
 * Description
 * Usage
 ** ssh-agent
