@@ -599,7 +599,15 @@ checkdoc - minor mode - for working with project documentation
 
 *** magit
 + Commands
-M-x magit-status
+M-x magit-status - uses this command with the dired directory that contains the .git file
+  s - this will stage the modified file
+  S - will stage all modified files
+  u - unstage file
+  U - unstage all files
+  c c - this will prompt for a commit message
+  C-c C-c - this will make the commit
+M-x magit-push-current-to-upstream
+  - if using a ssh key may have a problem with setting key
 
 ** Packages
 *** projectile - provides an easy way to navigate a project
