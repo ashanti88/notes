@@ -1,4 +1,4 @@
-#+TAGS: deb
+#+TAGS: deb ubuntu
 
 
 * debian
@@ -187,6 +187,46 @@ ITP - Intention To Package - informs other maintainers that you are working on t
 
 *** RPM to DEB
 + Alien but not advised, ok for quick fix
+
+** Ubuntu snaps: From Zero to Hero
+YouTube: [[https://www.youtube.com/watch?v%3DMM6m2Ju7-lE][From Zero to Hero]] - Didier Roche
+- snap uses squashfs, /snap/<snap_name>/<version>
+  - the snap can contain servicees
+- the snap has access to:
+  - the snap will have access to common root writable area(for services)
+  - common user writable area
+  - versioned root writable area(for services)
+  - versioned user writable area
+    [[file://home/crito/Picture/org/snappy_overview.png][Snappy Overview]]
+- it sees its onw /, /var/lib/snapd/hostfs(from host), /sys, /dev/<device>
+- snaps are confined and isolated
+  [[file://home/crito/Pictures/org/snappy_interact.png][How snaps interact]]
+
++ Benefits for application devs
+  - not reliant on OS to provide libraries
+  - devs control dependencies
+  - they are in control of update of the application
+  - they can provide different versions of snaps e.g. edge, beta, candidate, stable
+
++ Ubuntu Core
+  [[file://home/crito/Pictures/org/buntu_core.png][An ll-snaps system]]
+  
+- When snaps are installed they automatically start their service
+  
++ Create a snap
+1. git pull <application>
+2. move into application directory
+3. use snapcraft to initialise a snap
+#+BEGIN_SRC sh
+snapcraft init
+#+END_SRC
+4. This command produces a yaml file that allows details of the application to be added to
+  - name:
+    version:
+    summary:
+    description:
+    grade:
+    parts:
 
 * Articles
 * Books

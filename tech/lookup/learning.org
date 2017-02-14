@@ -109,13 +109,16 @@
 *** DONE Introduction to HTML for designers - Pluralsight
 *** DONE Introduction to CSS for designers - Pluralsight
     - State "DONE"       from ""           [2017-01-21 Sat 23:23]
-*** WORKING JavaScript BootCamp 2016
+*** DONE JavaScript BootCamp 2016
+    - State "DONE"       from "WORKING"    [2017-02-08 Wed 10:31]
     - State "WORKING"    from ""           [2017-01-21 Sat 23:49]
 *** TODO Scripting Bash - CBT Nuggets
 *** TODO Scripting Perl - CBT Nuggets
 *** TODO Scripting PHP - CBT Nuggets
 *** TODO Scripting Python - CBT Nuggets
 *** TODO On the Job Training Series Java - CBT Nuggets
+*** WORKING Bootstrap 3 Tutorial - Bootstrapbay
+    - State "WORKING"    from ""           [2017-02-08 Wed 10:32]
 ** Microsoft
 *** TODO Windows Server 2012 Administration - TrainSignal
     - State "TODO"       from ""           [2017-01-11 Wed 12:09]

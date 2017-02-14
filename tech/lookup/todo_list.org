@@ -1,14 +1,5 @@
 
 * Personal
-** Arse_in_gear
-*** DONE Set cv in orgmode
-    - State "DONE"       from "TODO"       [2016-12-20 Tue 02:30]
-   - State "TODO"       from ""           [2016-11-18 Fri 06:01]
-
-*** DONE Update cv 
-    - State "DONE"       from "TODO"       [2016-12-20 Tue 02:28]
-    - State "TODO"       from ""           [2016-11-18 Fri 06:03]
-      
 ** Write ups
 *** Article Jekyll
     
@@ -96,13 +87,12 @@
        
 * Work
 * domain
-** Site
+** Wordpress site - BlueLevers
 *** DONE Complete Site Build
     - State "DONE"       from "TODO"       [2016-12-20 Tue 02:30]
     - State "TODO"       from ""           [2016-11-20 Sun 02:18]
 
   
-
 
 *** DONE set up php-fpm correctly
     - State "DONE"       from "TODO"       [2017-01-07 Sat 11:39]
@@ -114,18 +104,18 @@ currently have two sysd scripts
   - php-7.0.13-fpm.service - active
     
 php-fpm is working, need to check which needs to be removed
-*** CANCELED set up SELinux
+** bootstrap site - BlueLevers
+*** WORKING Build index.html
+    - State "WORKING"    from "TODO"       [2017-02-08 Wed 10:28]
+    - State "TODO"       from ""           [2017-02-08 Wed 10:27]
+*** WORKING set up SELinux
+    - State "WORKING"    from "CANCELED"   [2017-02-08 Wed 10:27]
     - State "CANCELED"   from "TODO"       [2017-01-07 Sat 11:40]
     - State "TODO"       from ""           [2016-12-20 Tue 02:34]
       
 currently installed but disabled.
 
-** Dark Market
-** Dark Web lotto
-*** TODO front page
-    - State "TODO"       from ""           [2017-01-31 Tue 00:28]
-*** TODO mechanism to allocate number with payment
-    - State "TODO"       from ""           [2017-01-31 Tue 00:29]
-
-*** TODO automatically pick number and make pay out
-    - State "TODO"       from ""           [2017-01-31 Tue 00:30]
+*** TODO migrate site to AWS
+    - State "TODO"       from ""           [2017-02-08 Wed 10:29]
+*** TODO change dns to AWS
+    - State "TODO"       from ""           [2017-02-08 Wed 10:29]

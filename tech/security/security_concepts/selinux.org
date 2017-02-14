@@ -1,6 +1,9 @@
 #+TAGS: sec_d 
 
-* selinx
+
+* selinx							      :sec_d:
+* Description
+* sage
 selinux rules are checked after DAC rules, and selinux rules aren't used
 if the DAC rules deny access.
 
@@ -103,9 +106,7 @@ MCS - Muti-Category Security
 
 LSPP - Labeled Security Protection Profile
 
-
-* Lecture 							      :sec_d:
-
+* Lecture
 ** A Fresh Look at SELinux - Daniel Walsh
 [[https://www.youtube.com/watch?v%3DX1NAJbLqEv8&list%3DWL&index%3D86][URL]]
 
@@ -185,4 +186,5 @@ You might be compromised
 OpenShift - account
 
 * Tutorial
+* Books
 * Links

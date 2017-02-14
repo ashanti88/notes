@@ -1,0 +1,30 @@
+#+TAGS: net anal
+
+
+* ss								   :net:anal:
+* Description
+* Usage
+** Show listening tcp ports
+#+BEGIN_SRC sh
+ss -tl
+#+END_SRC
+
+** Show listening tcp ports and associated processors
+#+BEGIN_SRC sh
+ss -ptl
+#+END_SRC
+
+** Show listening and established connections
+#+BEGIN_SRC sh
+ss -ta
+#+END_SRC
+
+** Show socket usage summary
+#+BEGIN_SRC sh
+ss -s
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

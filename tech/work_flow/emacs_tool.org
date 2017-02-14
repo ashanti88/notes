@@ -12,7 +12,7 @@
 
 * Usage
 ** Modes
-*** org mode
+*** org-mode
 **** Cheat Sheet
 ***** Visibility Cycling
 *rotate current subtree between states             TAB
@@ -597,6 +597,20 @@ ert - unit testing framework
 undercover.el - sacha chua has a blog on it
 checkdoc - minor mode - for working with project documentation 
 
+**** Easy Template
+s	#+BEGIN_SRC ... #+END_SRC 
+e	#+BEGIN_EXAMPLE ... #+END_EXAMPLE 
+q	#+BEGIN_QUOTE ... #+END_QUOTE 
+v	#+BEGIN_VERSE ... #+END_VERSE 
+c	#+BEGIN_CENTER ... #+END_CENTER 
+l	#+BEGIN_EXPORT latex ... #+END_EXPORT 
+L	#+LATEX: 
+h	#+BEGIN_EXPORT html ... #+END_EXPORT 
+H	#+HTML: 
+a	#+BEGIN_EXPORT ascii ... #+END_EXPORT 
+A	#+ASCII: 
+i	#+INDEX: line 
+I	#+INCLUDE: line 
 *** magit
 + Commands
 M-x magit-status - uses this command with the dired directory that contains the .git file
@@ -611,6 +625,7 @@ M-x magit-push-current-to-upstream
 
 ** Packages
 *** projectile - provides an easy way to navigate a project
+HomePage: [[http://batsov.com/projectile/][batsoy.com/projectile]]
 *** epc - middleware that connects pythonland to emacsland
 *** jedi 
 *** auto-complete 
@@ -618,6 +633,21 @@ M-x magit-push-current-to-upstream
 *** YASnippet
  
 *** Helm
+*** vagrant-tramp
+This package allows files in vagrant boxes to be edited
+
++ Set-Up
+1. start vagrant box
+2. output the .ssh/config needed with
+   > vagrant ssh-config
+3. add this output to the .ssh/config. The name should be changed from default
+4. in emacs use C-x C-f /<name_in_ssh_config>:/file/to/edit/in/vagrant
+
+The above(3,4) can also be achieved with:
+#+BEGIN_SRC sh:
+vagrant ssh-config --host <host_name> >> $HOME/.ssh/config
+#+END_SRC
+
 ** What an IDE in emacs should do
 Easily find files and switch between projects
 Easily navigate through function definitions
@@ -735,6 +765,21 @@ j - (dired-goto-file) - will prompt for a filename
 Ruby - robe
 C/C++ - irony-mode
 gocode - golang
+
+** Shells
+Article: [[https://www.masteringemacs.org/article/running-shells-in-emacs-overview][Running shells in emacs - Mastering Emacs]]
+** Fonts
++ Packages
+  - fontawsome
+  - emojify
+  - all-the-fonts
+
+- Special characters can be added using
+  C-x 8 <char>
+- To get a list of all the special characters
+  C-x 8 C-h
+- Characters can be added using the unicode
+  C-x 8 <ret>
 
 ** Help
 C-h ? - overview of help
@@ -1383,8 +1428,8 @@ Please use github's bug tracker instead of emailing me directly. Github notifica
 
 Emacs is actually a platform. Cool people keep appearing. I will update this article from time to time in the future.
 * Books
+[[file://home/crito/Documents/Tools/Emacs/org.pdf][The Org Manual - GNU Manual]]
 * Links
-
     
 
     

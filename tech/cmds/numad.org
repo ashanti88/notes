@@ -1,10 +1,9 @@
-#+TAGS: net anal sec_o
+#+TAGS: sys tune
 
 
-* drill							     :net:anal:sec_o:
+* numad								   :sys:tune:
 * Description
 * Usage
-
 * Lecture
 * Tutorial
 * Books

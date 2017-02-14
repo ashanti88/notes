@@ -1,0 +1,22 @@
+#+TAGS: sys tune
+
+
+* tuned								   :sys:tune:
+* Description
+Adaptive system tuning daemon. Tuned uses profiles to set certain system settings gathered into a collection.
+* Usage
+** List Profiles
+#+BEGIN_SRC sh
+tuned-adm list
+#+END_SRC
+
+** Set Profile
+#+BEGIN_SRC sh
+tuned-adm profile $PROFILE
+#+END_SRC
+** Configuration
+profiles can be found in /etc/tune-profiles/
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -1,11 +1,11 @@
-#+TAGS: net anal sec_o
+#+TAGS: sys anal
 
 
-* drill							     :net:anal:sec_o:
+* flamegraph							   :sys:anal:
 * Description
 * Usage
-
 * Lecture
 * Tutorial
 * Books
 * Links
+

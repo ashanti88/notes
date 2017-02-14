@@ -1,7 +1,13 @@
+#+TAGS: web pro
 
 
-
-
+* HTTP
+* Cmds
+* Overview
+** REST
+** WSDL
+** SOAP
+* Lecture
 * Tutorial
 ** HTTP fundamentals - Pluralsight
 *** Resources
@@ -174,3 +180,8 @@ URL
 - razor syntax - regards asp programming
 - tcp slow start - persistent connections
 - Roy Thomas Fielding - Architectural Styles and the Design of Network-based Software Architecture
+* Books
+* Links
+
+
+

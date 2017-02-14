@@ -1,4 +1,9 @@
+#+TAGS: DB postgres
 
+
+* postresql
+* Description
+* Usage
 * Lecture
 ** Just Use Postgres - Rhys Elsmore
 [[https://www.youtube.com/watch?v%3DUgcC_bY4rPg][URL]]
@@ -15,3 +20,133 @@
   - able to remove MongoDB
 - Avoid Race Conditions
   - Access - row locking
+* Tutorial
+** [[https://www.postgresql.org/docs/9.4/static/tutorial.html][PostgreSQL Tutorial]]
+** LinuxCBT - PostgreSQL
+*** Features
++ What is PostgreSQL
+- Object Relational Database Management System (ORDMS)
+  - Objects can be related in a hierarchy: Parent -> Child
+
+- Transactional RDBMS
+Note: Transactional statements must execute: ALL or None
+  - SQL Statements have implicit: BEGIN; COMMIT; statements
+  - SQL Statements may also have explicit: BEGIN; COMMIT; statements
+
+- One process per connection - auto-spawns per new connection
+  - managed by master process: 'postmaster'
+    
+- Processes use only ONE CPU
+  - OS/Distro may spawn new connection on a different CPU/Core **May now have changed
+
+- Multiple helper processes, which appear as 'postgres' instances, run always
+  - stats collector
+  - background writer
+  - auto-vacuum - cleanup/space re-claimer 
+  - WALsender - Write Ahead Log 
+all run as daemons and will appear as 'postgres' on ps
+
+- MAX DB Size: Unlimited
+  - limited by OS and resources
+
+- MAX Table Size: 32TB - stored as multiple: 1GB files
+- MAX Row Size: 400GB
+- MAX Column Size: 1GB  
+- MAX Indexes on a table: Unlimited
+- MAX Identifier (DB Objects (table|column names, etc): 63 bytes limitation is extensible via the source code
+
+- Default Listener: TCP:5432
+  - May install install as none privileged user
+
+- Users are distinct from OS users - similar to MySQL
+  - Users are shared across DBs
+    
+- Inheritance 
+  - Tables lower in hierarchy may inherit columns from higher tables 
+  - Caveat: No unique constraints or foreign keys support
+
+- Case-Insensitive commands - sans double quotes  - i.e 'select * from Syslog;' any table know as syslog
+- Case-Sensitive commands - with double quotes - i.e 'select * from "Syslog";' table must be "Syslog" not or syslog or any other variation
+  
+- 3 Primary Config files: $POSTGRESROOT/data/*.conf
+  - 'pg_hba.conf' - controls host/user/DB connectivity (hba host base access)
+  - 'postgresql.conf' - general settings
+  - 'pg_ident.conf' - user mapping (more legacy)
+    
+- Integrated Log Rotation Management - postgresql.conf
+  - criteria: Age | Size
+
+*** Installation
+Debian:
+[[https://www.postgresql.org/download/linux/debian/][Debian Installatin Information]]
+#+BEGIN_SRC sh
+apt-get install postgresql-9.4
+#+END_SRC 
+postgres is available on all recent versions of debian
+1. Create the file /etc/apt/source.list.d/pgdg.list
+2. add this line to access the repo
+deb http://apt.postgresql.org/pub/repos/apt/ (jessie|wheezy|squeeze)-pgdg main
+3. Import the signing key
+#+BEGIN_SRC sh
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+#+END_SRC
+4. Update package database
+#+BEGIN_SRC sh
+apt-get update
+#+END_SRC
+
++ What is installed
+all the binaries are found in /usr/lib/postgresql/9.4/bin
+- psql - this is the terminal monitor - akin to mysql>
+- createdb|dropdb - creates and drops db respectively
+- createuser|dropuser - creates and drops users respectively
+- postgres - server daemon 
+  
+- Documentaion - /usr/share/postresql/9.4
+  - [[https://www.postgresql.org/docs/9.4/static/index.html][docs/9.4]]
+  
+- data - /var/lib/postgresql/9.4/main/
+  - older versions or source installations /opt/PostgreSQL/9.0/data
+    - config files wil also be found in here instead of /etc
+
+- conf files - /etc/postgresql/9.4/main
+  - postgres.conf
+  - pg_hba.conf
+  - pg_ident.conf
+    
+- log files - /var/log/postgresql/
+  - the Write Ahead Long is stored in /var/lib/postgresql/9.4/main/pg_xlog - this maintains changes to files at all times
+  - legacy version maybe /opt/PostgreSQL/data/pg_log
+    
+- postmaster.opts - /var/lib/postgresql/9.4/main/
+  - this file provides the options for how the daemon is started
+  - an example - /usr/lib/postgresql/9.4/bin/postgres "-D" "/var/lib/postgresql/9.4/main" "-c" "config_file=/etc/postgresql/9.4/main/postgresql.conf"
+    
+- systemd unit file - /lib/systemd/system/postgresql.service 
+  - there is also a symbolic link in /etc/systemd/system/multi-user.target.wants/
+**** systemd unit file
+# systemd service for managing all PostgreSQL clusters on the system. This
+# service is actually a systemd target, but we are using a service since
+# targets cannot be reloaded.
+
+[Unit]
+Description=PostgreSQL RDBMS
+
+[Service]
+Type=oneshot
+ExecStart=/bin/true
+ExecReload=/bin/true
+RemainAfterExit=on
+
+[Install]
+WantedBy=multi-user.target
+
+
+- Defult user when any of the binaries are run is the current user
+  
+- Environment variables can be stored in the /etc/postpresql/9.4/main/environment file
+  - legacy file is pg_env.sh
+
+* Books
+* Links
+

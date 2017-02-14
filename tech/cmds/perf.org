@@ -2,9 +2,35 @@
 
 
 * perf								   :sys:anal:
+Wiki: [[https://perf.wiki.kernel.org/index.php/Tutorial][perf.wiki]]
 * Description
 * Usage
+** Examples
+*** Performance analysis of the system
+#+BEGIN_SRC sh
+sudo perf top
+#+END_SRC
+
+*** Performance analysis of a program
+1. Crate perf.data file
+#+BEGIN_SRC sh
+sudo perf record <program>
+#+END_SRC
+
+2. read create file
+#+BEGIN_SRC sh
+sudo perf report
+#+END_SRC
+
+*** Is my application using the L1 cache
+#+BEGIN_SRC sh
+sudo perf stat -e -L1 -dcache-load-misses
+#+END_SRC
+* Nodejs & Java
+node  --perf-basic-prof
+java - lookup perf-map-agent on github
 * Lecture
 * Tutorial
 * Books
 * Links
+

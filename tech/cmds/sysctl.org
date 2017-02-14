@@ -3,11 +3,24 @@
 
 * sysctl
 * Description
+Sysctl is used to examine and change kernel parameters at runtime. Sysctl is implemented in procfs.
 * Usage
-> sysctl <options>
+#+BEGIN_SRC sh
+sysctl $OPTIONS
+#+END_SRC
 
 ** Options
 a - print to screen all variables
+
+** Load All Configuration Files Manually
+#+BEGIN_SRC sh
+sysctl --system
+#+END_SRC
+
+** Load a Single Parameter File
+#+BEGIN_SRC sh
+sysstl -p $FILE.CONF
+#+END_SRC
 
 ** Set Specific Variable
 > sysctl <variable>=<new_value>

@@ -1,9 +1,74 @@
-#+TAGS:
+#+TAGS: net anal
 
 
-* netcat
+* netcat							   :net:anal:
 * Description
 * Usage
+> netcat <options> host port
+
+> netcat <options> host p_start-p_finish
+
+** Send a udp packet instead of initiating with tcp connection
+#+BEGIN_SRC sh
+netcat -u $HOST $PORT
+#+END_SRC
+
+** Port Scanning 
+- with the domain
+#+BEGIN_SRC sh
+netcat -z -v domain.com 1-1000 2>&1 | grep "succeeded"
+#+END_SRC
+- without the domain
+#+BEGIN_SRC sh
+netcat -z -n -v 127.0.0.1 1-1000 2>&1 | grep "succeeded"
+#+END_SRC
+
+** Communicate through Netcat
+- On the server run
+#+BEGIN_SRC sh
+netcat -l 4444
+#+END_SRC
+
+#+BEGIN_SRC sh
+netcat $DOMAIN 4444
+#+END_SRC
+
+- messages will now be able to send messages between the server and client
+
+** Sending data 
+- On the machine that wants the file
+#+BEGIN_SRC sh
+netcat -l 4444 > recieved_file
+#+END_SRC
+
+- On the sending machine
+#+BEGIN_SRC sh
+netcat $DOMAIN 4444 < original_file
+#+END_SRC
+
+*** Sending a directory compressed
+- On the machine that wants the file
+#+BEGIN_SRC sh
+netcat -l 4444 | tar xvf -
+#+END_SRC
+- the dash indicates that the tar will operate on std input
+
+- On the sending machine from inside the directory that is to be copied over
+#+BEGIN_SRC sh
+tar -czf - * | netcat $DOMAIN 4444
+#+END_SRC
+
+** Simple Web Server
+- On sever run:
+#+BEGIN_SRC sh
+netcat -l 4444 < index.html
+#+END_SRC
+
+- To continually server page after first connection is closed
+#+BEGIN_SRC sh
+while true; do netcat -l 4444 < index.html; done
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Links

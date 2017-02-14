@@ -7,8 +7,10 @@
 ** ssh-agent
 To enable the ssh-agent
 > eval $(ssh-agent)
-To add keys to the agent
-> ssh-add <key>
+
+*** Many keys set
+Using ssh-agent with multiple keys can cause problems when login into many servers.
+Each key is considered an attempt, so if a limit is set then you can end up locked out.
 
 *** Setting up ssh-agent as a sysd service
 [Unit]
@@ -24,6 +26,16 @@ WantedBy=default.target
 
 - add this line to .zshrc
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+
+** ssh-add
+- Check what identities are currently set
+> ssh-add -l
+- add key/identity
+> ssh-add <key>
+- remove key/identity
+> ssh-add -d <key>
+- remove all keys/identities
+> ssh-add -D
 
 ** ssh-keygen
 ** ssh-copy-id

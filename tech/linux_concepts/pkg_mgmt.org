@@ -155,29 +155,45 @@ show any changes since installation
 rpm -Vv
 
 ** yum 							       :sys:rhel:pkg:
+*** Install application
+#+BEGIN_SRC sh
+yum install $APP
+#+END_SRC
 
-+ Install application
+*** Remove application
+#+BEGIN_SRC sh
+yum remove $APP
+#+END_SRC
 
-> yum install <application>
+*** Purge application
+#+BEGIN_SRC sh
+yum purge $APP
+#+END_SRC
 
-+ Remove application
-
-> yum remove <application>
-
-+ Purge application
-
-> yum purge <application>
-
-
-+ Check for system wide upgrades
-
-> yum update
-
+*** Check for system wide upgrades
+#+BEGIN_SRC sh
+yum update
+#+END_SRC
 or
+#+BEGIN_SRC sh
+yum upgrade
+#+END_SRC
 
-> yum upgrade
+*** Search for application
+#+BEGIN_SRC sh
+yum search $APP
+#+END_SRC
 
-> yum provides *one to look up!!!!*
+*** Group Packages
+**** Search Group Packages
+#+BEGIN_SRC sh
+yum grouplist
+#+END_SRC
+
+**** Install Package
+#+BEGIN_SRC sh
+yum groupinstall $GROUP 
+#+END_SRC
 
 ** dnf 							       :sys:rhel:pkg:
 ** pacman 						       :sys:arch:pkg:

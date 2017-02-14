@@ -2,6 +2,7 @@
 
 
 * ansible
+HomePage: [[https://www.ansible.com/][ansible.com]]
 * Cmds
 * Overview
 * Lecture
@@ -90,6 +91,7 @@ Many more.....
 + Tell Ansible what to do
 + These are written in YAML
 * Tutorial
+[[https://serversforhackers.com/an-ansible-tutorial][Ansible Tutorial - Servers for Hackers]]
 * Books
 ** [[file://home/crito/Documents/SysAdmin/Mgmt/Ansible/Ansible_Playbook_Essentials.pdf][Ansible Playbook Essentials - Packt]]
      - [[https://github.com/schoolofdevops/ansible-playbook-essentials][Github - files for book]]

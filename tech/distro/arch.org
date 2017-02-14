@@ -63,6 +63,10 @@ The system can be checked for broken links with:
 ** Package Management
 [[file:~/org/tech/linux_concept/pkg_mgmt.org][Package Management]]
 
+** Fonts							       :font:
+Wiki: [[https://wiki.archlinux.org/index.php/fonts#Emoji_and_symbols][Arch-Fonts]]
+*** Setting fonts for local user
+- files need to be added to .local/share/fonts
 * Lectures
 * Articles
 * Links

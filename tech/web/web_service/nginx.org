@@ -1,14 +1,11 @@
-#+TAGS: web 
+#+TAGS: web
 
 * nginx
 * Description
 Nginx is a web server that is extremely good at serving large amounts of static content.
 It is considered less efficient at delivering dynamic content.
 * Configuration  
-** Files
-files found in - /etc/nginx
-the main configuration file is /etc/nginx/nginx.conf
-
+** Administration
 *** Syntax
 + Comments
 In nginx config files the #-hash is used to comment a line
@@ -97,6 +94,97 @@ location ~* IndexPage\.php${}
 This will now match without case sensitivity.
 location ~* \.(pl|cgi|perl|prl){}
 This will now match to any perl file .pl .cgi .perl .prl){}
+** HowTos
+*** Cento/Fedora
+
++ Initial Set-Up
+CHECK WHAT STATE SELINUX IS IN
+1. Stop apache if installed
+#+BEGIN_SRC sh
+sudo systemctl stop httpd.service
+#+END_SRC
+2. Disable apache from starting at boot
+#+BEGIN_SRC sh
+sudo systemctl disable httpd.service
+#+END_SRC
+3. Install epel repository
+#+BEGIN_SRC sh
+sudo yum install epel-release
+#+END_SRC
+4. Install nginx
+#+BEGIN_SRC sh
+sudo yum -y install nginx
+#+END_SRC
+5. Start Nginx and enable at boot
+#+BEGIN_SRC sh
+sudo systemctl start nginx.service
+sudo systemctl enable nginx.service
+#+END_SRC
+
++ Create User for Webspace
+#+BEGIN_SRC sh
+sudo adduser nginxsite
+sudo passwd nginxsite
+#+END_SRC
+
++ Set DocumentRoot
+1. Create directory to hold site
+#+BEGIN_SRC sh
+sudo mkdir -p /var/www/nginxsite.com/public_html
+#+END_SRC
+2. Create test index.html use standard html template hello world
+#+BEGIN_SRC sh
+sudo touch /var/www/nginxsite.com/public_html/index.html
+#+END_SRC
+3. Change ownership of this directory to the created user
+#+BEGIN_SRC sh
+sudo chown -R nginxsite:nginxsite /var/www/nginxsite.com/public_html
+#+END_SRC
+4. Set file permissions
+#+BEGIN_SRC sh
+sudo chmod 755 /var/www/nginxsite.com/public_html
+#+END_SRC
+
++ Configure Nginx to recognise new VirtualHosts(Server Blocks)
+1. Make directories to hold site configs
+#+BEGIN_SRC 
+mkdir /etc/nginx/sites-available
+mkdir /etc/nginx/sites-enabled
+#+END_SRC
+2. Add the following to to /etc/nginx/nginx.conf
+#+BEGIN_SRC 
+include /etc/nginx/sites-enabled/*.conf;
+server_names_hash_bucket_size 64;
+#+END_SRC
+
++ Create the Server Block
+1. create the file /etc/nginx/sites-available/nginxsite.com.conf
+#+BEGIN_SRC 
+server {
+listen       80;
+server_name  nginxsite.com www.nginxsite.com;
+location / {
+root   /var/www/nginxsite.com/public_html;
+index  index.html index.htm;
+try_files $uri $uri/ =404;
+}    error_page   500 502 503 504  /50x.html;
+location = /50x.html {
+root   html;
+}
+}
+#+END_SRC
+2. create the symbolic link from sites-available to sites-enabled. Makesure that absoulte path is used for the link
+#+BEGIN_SRC sh 
+sudo ln -s /etc/nginx/sites-available/nginxsite.com.conf /etc/nginx/sites-enabled/nginxsite.com.conf
+#+END_SRC
+3. test the config and restart the service it syntax is correct
+#+BEGIN_SRC sh
+sudo nginx -t
+sudo systemctl restart nginx.service
+#+END_SRC
+
+*** Link
+[[https://www.godaddy.com/garage/tech/config/how-to-install-and-configure-nginx-on-centos-6/][Install and Configure NGINX on CentOS 6]]
 * Usage
 ** Nginx configtest
 > nginx -t
@@ -130,6 +218,5 @@ Add Options +Indexes to the .htaccess file and you will get 200 on curls
 * Books
 
 * Links
-[[http://www.linuxspy.info/1886/enable-httpd-fullstatus-to-monitor-apache-status/][Enable httpd fullstatus to monitor apache - linuxspy]]
-
 - [[https://www.linode.com/docs/websites/nginx/how-to-configure-nginx][How To Configure Nginx - Linode]]
+- [[https://www.digitalocean.com/community/tutorials/understanding-nginx-server-and-location-block-selection-algorithms][Understanding Ngin Server and Location Block Selection Algorithms]]

@@ -1,9 +1,17 @@
-#+TAGS: file op
+#+TAGS: net anal
 
 
-* ngrep								    :file:op:
+* ngrep 							   :net:anal:
 * Description
 * Usage
+> ngrep <options> <pattern>
+
+** Options
+** Scan packets that contain a certain pattern
+#+BEGIN_SRC sh
+ngrep -d any $PATTERN
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

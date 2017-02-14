@@ -3,88 +3,148 @@
 
 * netstat							   :net:anal:
 * Description
+Netstat shows all opened ports tcp, udp and unix.
 * Usage
 > netstat <options>
 
 ** Options
 n - no host look up
+a - all ports
+l - listen
+t - tcp
+u - udp
+x - unix
+s - statistics
+e - extended information
 
 ** Examples
+*** tuna
+#+BEGIN_SRC sh
+netstat -tunapl
+#+END_SRC
+
+*** Find out on which port a program is running 
+#+BEGIN_SRC 
+netstat -an | grep $PROGRAM
+#+END_SRC
+or
+#+BEGIN_SRC 
+netstat -an | grep ":$PORT"
+#+END_SRC
+
+*** Find out on which pprogram is using a certain port
+#+BEGIN_SRC sh
+netstat -i:$PORT
+#+END_SRC
 *** List all ports (both listening and non-listening)
-> netstat -a | more
-a - all ports
+#+BEGIN_SRC 
+netstat -a | more
+#+END_SRC
 
 *** List all tcp ports
-> netstat -at
-t - tcp
+#+BEGIN_SRC sh
+netstat -at
+#+END_SRC
 
 *** List all udp ports
-> netstat -au
-u - udp
+#+BEGIN_SRC sh
+netstat -au
+#+END_SRC
 
 *** List sockets which are in listening state
-> netstat -l
-l - listen
+- all
+#+BEGIN_SRC sh
+netstat -l
+#+END_SRC
 
-> netstat -lt
-t - tcp
+- tcp
+#+BEGIN_SRC sh
+netstat -lt
+#+END_SRC
 
-> netstat -lu
-u -udp
+- udp
+#+BEGIN_SRC sh
+netstat -lu
+#+END_SRC
 
+- unix
+#+BEGIN_SRC sh
 > netstat -lx
-x - unix
+#+END_SRC
 
 *** Show statistics for each protocol
-> netstat -s
-s - statistics
+- all statistics
+#+BEGIN_SRC sh
+netstat -s
+#+END_SRC
 
-for tcp
-> netstat -st
+- tcp statistics
+#+BEGIN_SRC sh
+netstat -st
+#+END_SRC
 
-for udp
-> netstat -su
+- udp statistics
+#+BEGIN_SRC sh
+netstat -su
+#+END_SRC
 
 *** Display PID and program names in netstat output using netstat -p
 this will display the pid's for tcp ports
-> netstat -pt
+#+BEGIN_SRC sh
+netstat -pt
+#+END_SRC
 
 *** Don't resolve host, port and user name in netstat output
-> netstat -an
+#+BEGIN_SRC sh
+netstat -an
+#+END_SRC
 
 to specify which one not ot resolve
-> netstat -a --numeric-ports
+#+BEGIN_SRC sh
+netstat -a --numeric-ports
+#+END_SRC 
 
+#+BEGIN_SRC sh
 > netstat -a --numeric-hosts
+#+END_SRC
 
-> netstat -a --numeric-users
+#+BEGIN_SRC sh
+netstat -a --numeric-users
+#+END_SRC
 
 *** Print netstat information continuously
-> netstat -c
+#+BEGIN_SRC sh
+netstat -c
+#+END_SRC
 
 *** Find the none supportive address families in your system
-> netstat --verbose
+#+BEGIN_SRC sh
+netstat --verbose
+#+END_SRC
 
 *** Display the kernel routing information
-> netstat -r
-
-*** Find out on which port a program is running 
-> netstat  -an | grep <program>
-or
-
-> netstat -an | grep ':<port>'
+#+BEGIN_SRC sh
+netstat -r
+#+END_SRC
 
 *** Show a list of network interfaces
-> netstat -i
-or
-> netstat -ie
-e - extended information
+#+BEGIN_SRC sh
+netstat -i
+#+END_SRC
+
+- with extended information
+#+BEGIN_SRC 
+netstat -ie
+#+END_SRC
 
 *** List routing tables
-> netstat -rn
+#+BEGIN_SRC sh
+netstat -rn
+#+END_SRC
 
 ** Alternatives
 - [[file:ss.org][ss - systemd]]
+- [[file://home/crito/org/tech/cmds/lsof.org][lsof]]
 * Lecture
 * Tutorial
 * Books

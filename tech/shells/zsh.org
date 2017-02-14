@@ -1,0 +1,112 @@
+#+TAGS: shell
+
+
+* zsh
+* Description
+* Configuration
+** .zshrc
+#+BEGIN_SRC sh
+# Lines configured by zsh-newuser-install
+HISTFILE=~/.zsh_history
+HISTSIZE=2000
+SAVEHIST=2000
+bindkey -v # keybinds set to vi
+bindkey '^R' history-incremental-search-backward
+
+# End of lines configured by zsh-newuser-install
+# The following lines were added by compinstall
+zstyle :compinstall filename '/home/crito/.zshrc'
+
+autoload -Uz compinit
+compinit
+
+# End of lines added by compinstall
+
+# Set prompt
+autoload -Uz vcs_info
+autoload -U promptinit
+promptinit
+
+setopt PROMPT_SUBST # This is to a clean prompt
+
+PS1=$'%F{def}%(?..%B%K{red}[%?]%K{def}%b )%(1j.%b%K{yel}%F{bla}%jJ%F{def}%K{def} .)%F{white}%B%*%b %F{m}%m:%F{white}%~%(!.#.$) %F{def}'
+
+# Enable color support of ls
+if [[ "$TERM" != "dumb" ]]; then
+		if [[ -x `which dircolors 2> /dev/null` ]]; then
+				eval `dircolors -b`
+				alias 'ls=ls --color=auto'
+		fi
+fi
+
+# ssh-agent sock
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket" 
+
+# Path to oh-my-zsh installation
+ZSH=/usr/share/oh-my-zsh/
+DISABLE_AUTO_UPDATE="true"
+
+# Short command aliases
+alias la='ls -A'
+alias ll='ls -l'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+#alias python='python3'
+#alias pip='pip3'
+#alias ipython='ipython3'
+alias git st='git status'
+alias w3m='w3m www.duckduckgo.com'
+alias emacs='emacs --no-window-system'
+alias suod='sudo'
+alias namp='nmap'
+alias curlip='curl icanhazip.com'
+alias em='emacs'
+
+# Options
+setopt HIST_VERIFY # ask before execution of previous cmd
+#setopt EXTENDED_HISTORY # adds a timestap and duration for each hist entry
+#setopt HIST_IGNORE_ALL_DUPS # ignores all duplicate entries
+#setopt HIST_REDUCE_BLANKS # removes all extra white space
+set INC_APPEND_HISTORY # adds to hostory as typed
+set SHARE_HISTORY # share history between zsh processes
+
+# Setting Variables
+
+export DEBMAIL="mitchell.alick@gmail.com"
+export DEBFULLNAME="Alick Mitchell"
+
+# PATH
+export PATH=/home/crito/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/crito/bin:/home/crito/.rvm/scripts/rvm:/home/crito/anaconda3/bin/:/home/crito/.local/bin/:
+export GOPATH=/home/crito/go:
+
+# Sets the Mail Environment Variable
+MAIL=/var/spool/mail/alick && export MAIL
+
+# Sets the default editor
+export EDITOR=vim
+export VISUAL="$EDITOR"
+
+# Oh-my-zsh plugins
+plugins=(git ssh-agent)
+
+# Setting ssh-agent
+zstyle :omz:plugins:ssh-agent agent-forwarding on
+zstyle :omz:plugins:ssh-agent identities id_rsa github AWS.pem
+
+
+# History ignore common commands
+export HISTIGNORE=":pwd:uptime:ls:la:clear:history:"
+
+if [[ -r ~/.local/lib/python2.7/site-packages/powerline/bindings/zsh/powerline.zsh ]]; then
+	source ~/.local/lib/python2.7/site-packages/powerline/bindings/zsh/powerline.zsh
+fi
+#+END_SRC
+
+* Usage
+** oh my zsh
+HomePage: [[https://github.com/robbyrussell/oh-my-zsh][github.com/oh-my-zsh]]
+* Lecture
+* Tutorial
+* Books
+* Links

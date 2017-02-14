@@ -1,10 +1,9 @@
-#+TAGS: net anal sec_o
+#+TAGS: twitter
 
 
-* drill							     :net:anal:sec_o:
+* oysttyer
 * Description
 * Usage
-
 * Lecture
 * Tutorial
 * Books

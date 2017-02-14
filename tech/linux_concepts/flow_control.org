@@ -1,0 +1,13 @@
+#+TAGS: net
+
+
+* Flow Control
+* Cmds
+** ethtool
+* Overview
+When an Ethernet device gets over loaded, flow control allows it to send PAUSE requests to the  devices sending it data to allow the over loaded condition to clear.
+* Lecture
+* Tutorial
+* Books
+* Links
+[[https://hasanmansur.com/2012/12/15/flow-control-pause-frames-2/][Flow Control - Pause Frames - Hasan Mansur]]

@@ -54,7 +54,8 @@ HOSTNAME=yournew.hostname.com
 ** SELinux
 - [[file://home/crito/org/tech/security/selinux.org][selinux]]
 
-* centos
+* CentOS
+** [[file://home/crito/org/tech/linux_concepts/centos7_networking_config.org][CentOS 7 Network Configuration]]
 * fedora
 * Repos
 ** EPEL (Extra Packages for Enterprise Linux)

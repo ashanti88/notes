@@ -6,6 +6,7 @@ Home Page: [[https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Li
 * Description
 + Network Manager Command Line Interface
 This tool allows for changes to the network via the cmd line.
+The Networkmanager command line interface, nmcli, can be used by both users and scripts for controlling NetworkManager.
 * Usage
 * Lecture
 * Tutorial

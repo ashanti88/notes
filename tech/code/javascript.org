@@ -27,6 +27,11 @@
 *** Books
 *** Links
 ** bootstrap 							  :bootstrap:
+*** grunt
+Grunt needs nodejs to be installed
+#+BEGIN_SRC
+npm install -g grunt
+#+END_SRC
 ** backbone
 * TypeScript
 * nodejs							     :nodejs:

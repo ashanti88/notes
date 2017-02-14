@@ -1,10 +1,10 @@
+#+TAGS: sys anal
 
 
-
-* Description							   :sys:anal:
-
-* Usage
-
+* strace
+* Description
+* Us:wage
+> strace <command>
 * Lecture
 ** Your System Calls and You - A Brief Exploration of Usint strace
 url: https://www.youtube.com/watch?v=nxQ-V9yrUNU
@@ -50,3 +50,7 @@ url: https://www.youtube.com/watch?v=nxQ-V9yrUNU
 *** Continued Learning
 + https://github.com/mralexjuarez/strace-code-examples - examples
 + use simple self built c files to run strace on to see what is going
+* Tutorial
+* Books
+[[file://home/crito/Documents/Tools/strace-zine-v2.pdf][Strace Zine V2 - Julia Evans]]
+* Links

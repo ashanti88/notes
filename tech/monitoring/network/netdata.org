@@ -1,0 +1,24 @@
+#+TAGS: mon net anal
+
+
+* netdata						       :mon:net:anal:
+HomePage: [[https://github.com/firehol/netdata/wiki][github.com/netdata]]
+* Description
+* Usage
+** Installation
+*** Dependencies
+#+BEGIN_SRC sh
+yum install zlib-devel gcc make git autoconf autogen automake pkgconfig libuuid.x86_64
+#+END_SRC
+
+*** Install netdata
+#+BEGIN_SRC sh
+git clone https://github.com/firehol/netdata.git --depth=1
+cd netdata
+./netdata-installer.sh
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

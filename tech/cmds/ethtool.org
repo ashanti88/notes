@@ -5,8 +5,10 @@
 * Description
 This tool is used to configure physical network adapters.
 
-* Usage
-> ethtool <options> <interface>
+* Us:wi:age
+#+BEGIN_SRC sh
+ethtool $OPTIONS $INT
+#+END_SRC
 
 ** Options
 i - provides info on the interface
@@ -25,6 +27,33 @@ This will cause the NIC LED to blink for N seconds, where N can be 0 to 15 secon
 > ethtool -t <interface> [offline|online]
 This will run a set of tests to check the interface
 
+** Setting Flow Control
+#+BEGIN_SRC sh
+ethtool -A eth0 rx on
+ethtool -A eth0 tx on
+#+END_SRC
+
+** Setting Rx and Tx Buffers
+Show current buffers and possible max buffers
+#+BEGIN_SRC sh
+ethtool -g eth0
+#+END_SRC
+Set max buffers
+#+BEGIN_SRC sh
+ethtool -G eth0 rx 4096 tx 4096
+#+END_SRC
+
+** Setting Adapter Transmit Queue Length
+Deafult is 1000, this is normally adiquate for 10Gbps or even 40Gbps networks. If transmission errors occur more frequent think about doubling this to 2000.
+Check interface for Tx errors
+#+BEGIN_SRC sh
+ip -s link
+#+END_SRC
+Set the txqueuelen 2000
+#+BEGIN_SRC sh
+ip link set dev eth0 txqueuelen 2000
+#+END_SRC
+For this to become persistant it needs to 
 * Lecture
 * Tutorial
 * Books
