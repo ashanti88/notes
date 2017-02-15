@@ -6,7 +6,9 @@
 * Usage
 ** ssh-agent
 To enable the ssh-agent
-> eval $(ssh-agent)
+#+BEGIN_SRC sh
+eval $(ssh-agent)
+#+END_SRC
 
 *** Many keys set
 Using ssh-agent with multiple keys can cause problems when login into many servers.
