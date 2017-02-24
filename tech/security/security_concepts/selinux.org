@@ -1,9 +1,12 @@
-#+TAGS: sec_d 
+#+TAGS: sec_d selinux
 
 
-* selinx							      :sec_d:
+* selinx						      :sec_d:selinux:
 * Description
-* sage
+* Configuration
+/etc/selinux/config
+* Usage
+ 
 selinux rules are checked after DAC rules, and selinux rules aren't used
 if the DAC rules deny access.
 
@@ -16,6 +19,15 @@ selinux is able to confine users. A number of selinux users exist in
 selinux policy. Linux users can be mapped to these uses to restrict
 their behaviour.
 
+** Basic Administration
+- Current status of SELinux
+#+BEGIN_SRC sh
+getenforce
+#+END_SRC
+or
+#+BEGIN_SRC sh
+sestatus
+#+END_SRC
 ** SELinux Modes
 Enforcing - SELinux policy is enforced. SELinux denies access based on
 SELinux policy rules.
@@ -147,7 +159,6 @@ The Kernel enforces the rules"
   - Launches the processes with same label
   - Tooling guarantees uniqueness
     
-
 *** File Labeling
 + SELinux File labels definitions stored in /etc/selinux/targeted/xontexts/file_xontext.*
 + File labels are uaually stored in the inode Xattrs 
@@ -187,4 +198,5 @@ OpenShift - account
 
 * Tutorial
 * Books
+** [[file://home/crito/Documents/Linux/Security/Fedora-25-SELinux.pdf][SELinux-Fedora 25]]
 * Links

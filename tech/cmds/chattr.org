@@ -1,9 +1,20 @@
-#+TAGS:
+#+TAGS: file op
 
 
-* chattr
+* chattr							    :file:op:
 * Description
 change attribute is a command that is used to set/unset certain attributes.
+
+* Usage
++ How to add attributes
+#+BEGIN_SRC sh
+> chattr +$OPTIONS $FILE
+#+END_SRC
+
++ How to remove attributes
+#+BEGIN_SRC sh
+> chattr -$OPTIONS $FILE
+#+END_SRC
 
 ** Attributes & Flags
 A - atime record is not updated
@@ -18,13 +29,6 @@ u - allows for undeletion
 + - adds the attribute
 - - removes the attribute
 = - keep attributes that the file has
-
-* Usage
-+ How to add attributes
-> chattr +<options> <file>
-
-+ How to remove attributes
-> chattr -<options> <file>
 
 * Lecture
 * Tutorial

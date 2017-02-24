@@ -1,7 +1,7 @@
-#+TAGS:
+#+TAGS: mon
 
 
-* zabix
+* zabix									:mon:
 * Description
 * Usage
 * Lecture

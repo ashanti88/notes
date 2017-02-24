@@ -1,9 +1,26 @@
-#+TAGS: net sec fw
+#+TAGS: net sec_d fw fwd
 
 
-* firewalld
+* firewalld						   :net:sec_d:fw:fwd:
+HomePage: [[http://www.firewalld.org/][firewalld.org]]
+* Cmds
+[[file://home/crito/org/tech/cmds/firewall-config.org][firewall-config]]
+[[file://home/crito/org/tech/cmds/firewall-cmd.org][firewall-cmd]]
 * Description
 * Usage
+The [[file://home/crito/org/tech/cmds/firewall-cmd.org][firewall-cmd]] is generally used for administration
+Gui front-end is called [[file://home/crito/org/tech/cmds/firewall-config.org][firewall-config]]
+
+** Zones
+Block
+DMZ
+Drop
+External
+Home
+Internal
+Public
+Trusted
+Work
 * Lecture
 * Tutorial
 * Books

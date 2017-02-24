@@ -4,47 +4,67 @@
 * dd								  :sys:op:io:
 * Description
 * Usage
-> dd if=<source> of=<destination> <options>
+#+BEGIN_SRC sh
+dd if=$SOURCE of=$DESTINATION $OPTION
+#+END_SRC
+
 if - input file
 of - output file
 
 ** Copying one harddrive to another
-> dd if=/dev/sda of=/dev/sdb bs=4096 conv=noerror,sync
+#+BEGIN_SRC sh
+dd if=/dev/sda of=/dev/sdb bs=4096 conv=noerror,sync
+#+END_SRC
 conv - conversion parameters
 noerror - the copy will continue even if it runs into errors
 sync - synchronized I/O
 
 ** Creating a disk image
-> dd if=/dev/sda of=/dev/sdadisk.img
+#+BEGIN_SRC sh
+dd if=/dev/sda of=/dev/sdadisk.img
+#+END_SRC
 
 ** Converting data formats
 *** Converting from ASCII to EBCDIC
-  > dd if=<file.ascii> of=<file.ebcdic> conv=ebcdic
+#+BEGIN_SRC sh
+dd if=file.ascii of=file.ebcdic conv=ebcdic
+#+END_SRC
 
-  - Convert from EBCDIC to ASCII
-  > dd if=<file.ebcdic> of=<file.ascii> conv=ascii
+*** Convert from EBCDIC to ASCII
+#+BEGIN_SRC sh
+dd if=file.ebcdic of=file.ascii conv=ascii
+#+END_SRC
 
 *** Converting case of a file
-  - Convert file to upper case
-  > dd if=<file.lower> of=<file.upper> conv=ucase
+Convert file to upper case
+#+BEGIN_SRC sh
+dd if=file.lower of=file.upper conv=ucase
+#+END_SRC
 
-  - Convert file to lower case
-  > dd if=<file.upper> of=<file.lower> conv=lcase
+Convert file to lower case
+#+BEGIN_SRC sh
+dd if=file.upper of=file.lower conv=lcase
+#+END_SRC
 
 *** Creating or modifying data file
-  - Create a fixed size file
-  > dd if=/dev/zero of=<file.size> bs=<size\_of\_file> count=1
+Create a fixed size file
+#+BEGIN_SRC sh
+dd if=/dev/zero of=file.size bs=size\_of\_file count=1
+#+END_SRC
 
 /block size is measured xmb = x / 1024 * 1024
 
 Modify the first part of a file with null data
-
-> dd if=/dev/zero of=<file> bs=<size\_to\_null> count=1 conv=notrunc
+#+BEGIN_SRC sh
+dd if=/dev/zero of=<file> bs=<size\_to\_null> count=1 conv=notrunc
+#+END_SRC
 
 notrunc - do not truncate the file
 
-** Copying an image for Raspberry Pi
-> dd if=raspberry\_pi.img of=/dev/mmblk0
+** Copying an image for Raspberry Pi				   :rasp:img:
+#+BEGIN_SRC sh
+dd if=raspberry\_pi.img of=/dev/mmblk0
+#+END_SRC
 
 * Lecture
 * Tutorial

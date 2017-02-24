@@ -1,7 +1,7 @@
-#+TAGS: sys op file
+#+TAGS: file op
 
 
-* chown
+* chown								    :file:op:
 * Description
 * Usage
 

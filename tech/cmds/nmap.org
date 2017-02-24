@@ -116,6 +116,7 @@ this is an aggressive scan that will scan every port, and enables aggressive tes
 * Lecture
 * Tutorial
 * Books
+[[file://home/crito/Documents/Security/Tools/Nmap_Essentials.pdf][Nmap Essentials]]
 * Links
 
 

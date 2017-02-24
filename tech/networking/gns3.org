@@ -1,0 +1,11 @@
+#+TAGS: net virt
+
+
+* gns3 								   :net:virt:
+HomePage: [[https://www.gns3.com/][gns3.com]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -2,6 +2,8 @@
 
 
 * iostat						   :sys:anal:sysstat:
+HomePage: [[http://sebastien.godard.pagesperso-orange.fr/][sebastien.godard.fr/sysstat]]
+Github: [[https://github.com/sysstat/sysstat][github.com/sysstat]]
 * Description
 Report Central Processing Unit (CPU) statistics and input/output statistics for devices and partitions.
 

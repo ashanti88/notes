@@ -1,7 +1,9 @@
 #+TAGS: sys anal cpu sysstat
 
 
-* mpstat						:sys:anal:cpu:systat:
+* mpstat					       :sys:anal:cpu:sysstat:
+HomePage: [[http://sebastien.godard.pagesperso-orange.fr/][sebastien.godard.fr/sysstat]]
+Github: [[https://github.com/sysstat/sysstat][github.com/sysstat]]
 * Description
 Tool to analyse multi-core cpu, and view usage profile of system cpu
 

@@ -1,7 +1,7 @@
-#+TAGS: net anal
+#+TAGS: net op
 
 
-* netcat							   :net:anal:
+* netcat							     :net:op:
 * Description
 * Usage
 > netcat <options> host port
@@ -71,4 +71,7 @@ while true; do netcat -l 4444 < index.html; done
 
 * Lecture
 * Tutorial
+* Books
+[[file://home/crito/Documents/Security/Tools/Netcat_Starter.pdf][Netcat Starter]]
+[[file://home/crito/Documents/Security/Tools/Netcat_Power_Tools.pdf][Netcat Power Tools]]
 * Links

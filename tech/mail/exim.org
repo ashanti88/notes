@@ -1,28 +1,45 @@
-print a count of the mail queue
+#+TAGS: mail
 
+
+* exim
+* Description
+* Usage
++ Print a count of the mail queue
+#+BEGIN_SRC sh
 exim -bpc
+#+END_SRC
 
-print a listing of the exim queue
-
++ Print a listing of the exim queue
+#+BEGIN_SRC sh
 exim -bp
+#+END_SRC
 
-print a summary of the messages in the queue
-
++ Print a summary of the messages in the queue
+#+BEGIN_SRC sh
 exim -bp | exiqsumm
+#+END_SRC
 
-print what exim is doing right now
-
++ Print what exim is doing right now
+#+BEGIN_SRC sh
 exiwhat
+#+END_SRC
 
-test how exim will route a given address
++ Test how exim will route a given address
+#+BEGIN_SRC sh
+exim -bt me@localdomain.com
+#+END_SRC
 
-exim -bt [[mailto:me@localdomain.com][me@localdomain.com]]
-
-Pretend SMTP transaction from the given IP address. This is show Exim's
-checks, ACLs, and filters as they are applied.
-
++ Pretend SMTP transaction from the given IP address. This is show Exim's checks, ACLs, and filters as they are applied.
+#+BEGIN_SRC sh
 exim -bh 192.168.11.22
+#+END_SRC
 
-display exim's configuration settings
-
++ Display exim's configuration settings
+#+BEGIN_SRC sh
 exim -bp
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

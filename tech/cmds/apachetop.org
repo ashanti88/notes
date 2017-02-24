@@ -1,9 +1,14 @@
 #+TAGS: web anal
 
 
-* apachetop
-* Description							   :web:anal:
+* apachetop							   :web:anal:
+* Description
 * Usage
+Point Apachetop at apache log
+#+BEGIN_SRC sh
+apachetop -f /var/log/apache/access.log
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

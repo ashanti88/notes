@@ -1,10 +1,12 @@
 #+TAGS: web
 
-* nginx
+* nginx									:web:
+HomePage: [[https://www.lighttpd.net/][lighttpd.net]]
+HomePage: [[https://www.nginx.com/resources/wiki/][nginx.com]]
 * Description
 Nginx is a web server that is extremely good at serving large amounts of static content.
 It is considered less efficient at delivering dynamic content.
-* Configuration  
+* Configuration
 ** Administration
 *** Syntax
 + Comments

@@ -1,1 +1,11 @@
+#+TAGS: mail
 
+
+* Sendmail
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+[[file://home/crito/Documents/SysAdmin/Mail/Sendmail_4e.pdf][Sendmail - O'Reilly]]
+* Links

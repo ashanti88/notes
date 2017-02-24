@@ -1,7 +1,7 @@
 #+TAGS: db nosql cache
 
 
-* redis
+* redis							     :db:nosql:cache:
 URL:[[https://redis.io/][Home Page]] 
 * Description
 Redis is what is known as a key-value store, often referred to as NoSQL.
@@ -65,5 +65,8 @@ Then run flushall to flush all db's in redis:
 ** Installing Extra Instances
 URL: [[https://gist.github.com/jarvys/11393385][github multiple instances]]
 
+* Lecture
+* Tutorial
+* Books
 * Links
 [[https://redis.io/documentation][Redis Documentation]]

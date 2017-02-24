@@ -1,0 +1,11 @@
+#+TAGS: auto code
+
+
+* salt								  :auto:code:
+HomePage: [[https://saltstack.com/][saltstack.com]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

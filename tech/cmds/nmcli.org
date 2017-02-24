@@ -8,6 +8,34 @@ Home Page: [[https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Li
 This tool allows for changes to the network via the cmd line.
 The Networkmanager command line interface, nmcli, can be used by both users and scripts for controlling NetworkManager.
 * Usage
+** View all interfaces
+#+BEGIN_SRC sh
+nmcli dev status
+#+END_SRC
+
+** Show all network connections
+#+BEGIN_SRC sh
+nmcli con show
+#+END_SRC
+   
+** View All Parameters for Connection
+#+BEGIN_SRC sh
+nmcli -p con show $NAME
+#+END_SRC
+
+** Modify the Current ip
+#+BEGIN_SRC sh
+nmcli con mod $NAME ipv4.addresses "192.168.0.6"
+#+END_SRC
+*** To Add an ip Address
+#+BEGIN_SRC sh
+nmcli con mod $NAME +ipv4.addresses "192.168.0.6"
+#+END_SRC
+
+** View All WiFi Connections
+#+BEGIN_SRC sh
+nmcli dev wifi list
+#+END_SRC
 * Lecture
 * Tutorial
 * Books

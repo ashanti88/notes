@@ -1,54 +1,125 @@
-useful commands
+#+TAGS: mail
 
-*Some useful postfix commands* postqueue -p = mailq    //*postqueue
--p* is the same as *mailq*
 
-service postfix reload    //reload config service postfix restart 
- //restart postfix server
+* postfix
+* Description
+* Usage
 
-postconf  mail\_version      //View the postfix version postconf -d   
- //Show default postfix values postconf -n     //Show non default
++ View Mail Queue
+#+BEGIN_SRC sh
+postqueue -p
+#+END_SRC
+or
+#+BEGIN_SRC sh
+mailq
+#+END_SRC
+
++ Reload Configuration
+#+BEGIN_SRC sh
+service postfix reload
+#+END_SRC
+
++ Restart Postfix Server
+#+BEGIN_SRC sh
+service postfix restart
+#+END_SRC
+
++ View the postfix version
+#+BEGIN_SRC sh
+postconf mail version
+#+END_SRC
+
++ Show default postfix values
+#+BEGIN_SRC sh
+postconf -d
+#+END_SRC
+
++ Show non default
+#+BEGIN_SRC sh
+postconf -n
+#+END_SRC
 postfix values
 
-mailq     //list mail queue and MAIL\_ID's, list mail queue postqueue -p
-//list mail queue and MAIL\_ID's, list mail queue postfix  flush   //
-flush mail queue postqueue -f    //process the queue now postcat -q
-MAIL\_ID     //read email from mail queue
 
-postsuper -d MAIL\_ID       //To remove MAIL\_ID mail from the queue
-postsuper -d ALL       //To remove all mail from the queue postsuper -d
-ALL deferred        //To remove all mails in the deferred queue
++ list mail queue and MAIL ID's
+#+BEGIN_SRC sh
+mailq
+#+END_SRC
 
-postqueue -p | awk '/ [1]/ {print $7}' | sort | uniq -c | sort -n       
-   //sort and count emails by "from address"
++ list mail queue
+#+BEGIN_SRC sh
+postqueue -p
+#+END_SRC
 
-postqueue -p | grep ' [2]'|grep user@adminlogs.info|cut -f1 -d' ' |tr -d
-\*|postsuper -d -          //removing all emails sent
-by: [[mailto:user@adminlogs.info][user@adminlogs.info]]
+postfix flush
 
-postqueue -p | awk
-'/ [3].*[[mailto:user@adminlogs.info][user@adminlogs.info]] / {print
-$1}' | cut -d '!' -f 1 | postsuper -d -      //remove all email sent
-from [[mailto:user@adminlogs.info][user@adminlogs.info]]
+flush mail queue
+#+BEGIN_SRC sh
+postqueue -f
+#+END_SRC
+
++ Read email from mail queue
+#+BEGIN_SRC sh
+postcat -q $MAIL_ID
+#+END_SRC
+
++ To remove MAIL\_ID mail from the queue
+#+BEGIN_SRC sh
+postsuper -d $MAIL_ID
+#+END_SRC
+
++ To remove all mail from the queue
+#+BEGIN_SRC sh
+postsuper -d ALL
+#+END_SRC
+
++ To remove all mails in the deferred queue
+#+BEGIN_SRC sh
+postsuper -d ALL deferred
+#+END_SRC
+
++ sort and count emails by "from address"
+postqueue -p | awk '{print $7}' | sort | uniq -c | sort -n
+
++ removing all emails sent by: [[mailto:user@adminlogs.info][user@adminlogs.info]]
+#+BEGIN_SRC sh
+postqueue -p | grep ' [2]'|grep user@adminlogs.info|cut -f1 -d' ' |tr -d |postsuper -d -
+#+END_SRC
+
++ Remove all email sent from [[mailto:user@adminlogs.info][user@adminlogs.info]]
+#+BEGIN_SRC sh
+postqueue -p | awk {print $1}' | cut -d '!' -f 1 | postsuper -d -
+#+END_SRC
 
 To delete all messages from the queue by a certain user: for i in
-=postqueue -p | grep [user@domain.com](mailto:user@domain.com) | awk '{print $1}' | grep -v host | grep -v \\*=;
-do postsuper -d $i; done
+#+BEGIN_SRC sh
+postqueue -p | grep[user@domain.com](mailto:user@domain.com) | awk '{print $1}' | grep -v host | grep -v do postsuper -d $i; done
+#+END_SRC
 
-postqueue -p | grep ' [4]'|grep @adminlogs.info|cut -f1 -d' ' |tr -d
-\*|postsuper -d -      //remove all email sent by domain adminlogs.info
++ Remove all email sent by domain adminlogs.info
+#+BEGIN_SRC sh
+postqueue -p | grep ' [4]'|grep @adminlogs.info|cut -f1 -d' ' |tr -d | postsuper -d -      //
+#+END_SRC
 
-postqueue -p | tail -n 1   //Mail queue stats short postqueue -p | grep
--c " [5]"    //number of emails in Mail queue
++ Mail queue stats short
+#+BEGIN_SRC sh
+postqueue -p | tail -n 1
+#+END_SRC
 
-tail -f /var/log/maillog    //watch logs live
++ Number of emails in Mail queue
+#+BEGIN_SRC sh
+postqueue -p | grep -c
+#+END_SRC
 
-[1] 0-9,A-F
++ Watch logs live
+#+BEGIN_SRC sh
+tail -f /var/log/maillog
+#+END_SRC
 
-[2] A-Z0-9
+* Lecture
+* Tutorial
+* Books
+[[file://home/crito/Documents/SysAdmin/Mail/Postfix-The_Definitive_Guide.pdf][Postfix - The Definitive Guide - O'Reilly]]
+* Links
 
-[3] 0-9,A-F
 
-[4] A-Z0-9
-
-[5] A-Z0-9

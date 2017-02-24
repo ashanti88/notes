@@ -1,3 +1,13 @@
+#+TAGS: fs op
+
+
+* filesystem management
+* Cmds
+* Overview
+* Lecture
+* Tutorial
+* Books
+* Links
 *Commands:*
 
 mkfs

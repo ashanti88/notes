@@ -1,1 +1,13 @@
+#+TAGS: ntp
 
+
+* ntp
+* Description
+* Usage
+* Servers
+ntpd
+chrony
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -1,7 +1,8 @@
 #+TAGS: web
 
 
-* apache
+* apache								:web:
+* Description
 * Usage
 ** .htaccess
 * Lecture
@@ -240,3 +241,4 @@ Not recommended - Security performance
   - lagstash.net
 
 * Books
+* Links  

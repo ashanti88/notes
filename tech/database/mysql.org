@@ -649,3 +649,9 @@ InnoDB - B+ Tree structure
 
 * Tutorials
 * Books
+[[file://home/crito/Documents/Database/MySQL/High_Performance_MySQL_2e.pdf][High Performance MySQL - O'Reilly]]
+[[file://home/crito/Documents/Database/MySQL/Learning_MySQL_and_MariaDB.pdf][Learning MySQL and MariaDB - O'Reilly]]
+[[file://home/crito/Documents/Database/MySQL/Mastering_MariaDB.pdf][Mastering MariaDB - Packt]]
+[[file://home/crito/Documents/Database/MySQL/MySQL_Cookbook_2e.pdf][MySQL Cookbook - O'Reilly]]
+[[file://home/crito/Documents/Database/MySQL/MySQL_for_Python.pdf][MySQL for Python]]
+

@@ -26,18 +26,30 @@ ExecStart=/usr/bin/ssh-agent -a $SSH_AUTH_SOCK
 [Install]
 WantedBy=default.target
 
+*** Adding to zshrc
 - add this line to .zshrc
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 
 ** ssh-add
-- Check what identities are currently set
-> ssh-add -l
-- add key/identity
-> ssh-add <key>
-- remove key/identity
-> ssh-add -d <key>
-- remove all keys/identities
-> ssh-add -D
+*** Check what identities are currently set
+#+BEGIN_SRC sh
+ssh-add -l
+#+END_SRC
+
+*** add key/identity
+#+BEGIN_SRC sh
+ssh-add $KEY
+#+END_SRC
+
+*** remove key/identity
+#+BEGIN_SRC sh
+ssh-add -d $KEY
+#+END_SRC
+
+*** remove all keys/identities
+#+BEGIN_SRC sh
+ssh-add -D
+#+END_SRC
 
 ** ssh-keygen
 ** ssh-copy-id

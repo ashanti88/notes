@@ -1,7 +1,7 @@
+#+TAGS:
 
 
-
-* lvm
+* logical Volume Management
 * Cmds
 [[file://home/crito/org/cmds/lvs.org][lvs]]
 [[file://home/crito/org/tech/cmds/lvdisplay.org][lvdisplay]]
@@ -14,5 +14,11 @@
 [[file://home/crito/org/tech/cmds/lvremove.org][lvremove]]
 [[file://home/crito/org/tech/cmds/lvrename.org][lvrename]]
 
+* Description
+* Usage
+** Extend Disk lvm
+* Lecture
+* Tutorial
+* Books
 * Links
 [[https://wiki.ubuntu.com/Lvm][LVM - Ubuntu]]

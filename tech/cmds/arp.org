@@ -17,3 +17,4 @@ i - specify a sepecific interface
 * Tutorial
 * Books
 * Links
+[[https://rudd-o.com/linux-and-free-software/tales-from-responsivenessland-why-linux-feels-slow-and-how-to-fix-that][Tales from responsivenessland - Swappiness]]

@@ -1,7 +1,7 @@
 #+TAGS: net file
 
 
-* lftp
+* ltp								   :net:file:
 HomePage: [[http://lftp.tech/][lftp.tech]]
 * Description
 * Usage

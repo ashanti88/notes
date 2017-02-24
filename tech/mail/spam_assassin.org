@@ -1,1 +1,11 @@
+#+TAGS: mail
 
+
+* spamassassin							       :mail:
+* Description
+* Usge
+** Pyzor
+* Lecture
+* Tutorial
+* Books
+* Links

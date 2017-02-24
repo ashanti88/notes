@@ -1,25 +1,40 @@
+#+TAGS: sys anal
 
 
+* top								   :sys:anal:
+* Cmds
+top 
+htop
+* Description
+* Usage
+** Interactive Commands
+shift + p - Show processors by cpu usage
+r - Renice a process
+shift + w - write current configuration to /home/$USER/.toprc
 
-
-* Description 							   :sys:anal:
-  
 ** Fields
-+ PID - this is the process id. 
-+ USR - who owns the process.
-+ PR  - Priority of the process, if 'rt' real time is set.
-+ NI  - Nice value of the process -20 highest to 19 lowest.
-+ VIRT - Total amount of virtual memory used by the task.
-+ RES - Non-swapped physical memory a task has used. Resident memory usage i.e. what is currently in physical memory.
-+ %CPU - Processors share of the elapsed CPU time sine last screen update.
-+ %MEM - A tasks currently used share of available physical memory
-+ TIME+ - Total CPU time used since being spawned. This is shown in hundredths
-+ S   - This represents the state of the process
+- PID - this is the process id. 
+- USR - who owns the process.
+- PR  - Priority of the process, if 'rt' real time is set.
+- NI  - Nice value of the process -20 highest to 19 lowest.
+- VIRT - Total amount of virtual memory used by the task.
+- RES - Non-swapped physical memory a task has used. Resident memory usage i.e. what is currently in physical memory.
+- %CPU - Processors share of the elapsed CPU time sine last screen update.
+- %MEM - A tasks currently used share of available physical memory
+- TIME+ - Total CPU time used since being spawned. This is shown in hundredths
+- S   - This represents the state of the process
       - R - Running or runnable (on queue)
       - S - Interruptible sleep (waiting for event to complete)
       - D - uninterruptible sleep (usually io)
       - Z - defunct ("zombie") process, terminated but not reaped by its parent
       - T - stopped by job control signal
       - t - stopped by debugger during the tracing
-+ COMMAND - executable that has spawned the process
-+ LOAD - Number of processeors waiting to use cpu each cycle. 1 5 15 minute intervals.
+- COMMAND - executable that has spawned the process
+- LOAD - Number of processeors waiting to use cpu each cycle. 1 5 15 minute intervals.
+* Lecture
+* Tutorial
+* Books
+* Links
+
+
+

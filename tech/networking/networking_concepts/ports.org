@@ -1,80 +1,143 @@
-21 - FTP
+* 21  - FTP
+Softw are
+[[fil e://home/crito/org/tech/cmds/ftp.org][FTP]]
+[[fil e://home/crito/org/tech/cmds/lftp.org][lftp]]
+* 22  - SSH
+Softw are
+[[fil e://home/crito/org/tech/cmds/ssh.org][SSH]]
+* 23  - TELNET
+Softw are
+[[fil e://home/crito/org/tech/cmds/telnet.org][Telnet]]
+* 25  - SMTP
+Software
+[[file://home/crito/org/tech/mail/exim.org][Exim]]
+[[file://home/crito/org/tech/mail/qmail.org][qmail]]
+[[file://home/crito/org/tech/mail/sendmail.org][Sendmail]]
+[[file://home/crito/org/tech/mail/postfix.org][Postfix]]
 
-22 - SSH
+* 53  - domain
+Protocol
+[[file://home/crio/org/tech/services/dns.org][DNS]]
+Software
+file://home/crito/Documents/
 
-23 - TELNET
+* 67u - DHCPS - server port
+* 68u - DHCPC - client port
+* 69u - TFTP
+* 80  - HTTP
+Software
+[[file://home/crito/org/tech/web/web_service/apache.org][Apache]]
+[[file://home/crito/org/tech/web/web_service/lighttpd.org][Lighttpd]]
+[[file://home/crito/org/tech/web/web_service/nginx.org][Nginx]]
 
-25 - SMTP
+* 110  - POP3
+Software
+[[file://home/crito/org/tech/mail/dovecot.org][Dovecot]]
 
-53 - domain
+* 111  - RPCBind
+* 113  - auth
+* 123u - NTP
+* 135  - MSRPC - MS Remote Procedure Call
+* 138  - NETBIOS-DGM - Another windows service
+* 139  - NetBIOS-SSN - NetBIOS Sesson Service for communication with MS windows services (older than 445).
+* 137u - NETBIOS-NS - one of many udp ports for windows services
+* 143  - IMAP
+Software
+[[file://home/crito/org/tech/mail/dovecot.org][Dovecot]]
+[[file://home/crito/org/tech/mail/cyrus.org][Cyrus]]
 
-67u - DHCPS - server port
+* 161u - SNMP
+* 256  - FW1-securemote - Checkpoint Firewall-1 devices often have this administration port open
+* 389t - LDAP
+Software
+[[file://home/crito/org/tech/cmds/openldap.org][OpenLDAP]]
 
-68u - DHCPC - client port
+* 443  - https
+Software
+[[file://home/crito/org/tech/web/web_service/apache.org][Apache]]
+[[file://home/crito/org/tech/web/web_service/lighttpd.org][Lighttpd]]
+[[file://home/crito/org/tech/web/web_service/nginx.org][Nginx]]
 
-69u - TFTP
+* 445  - MS-DS - For samba communication over IP with MS windows services
+* 465  - SMTP SSL/TLS
+Software
+[[file://home/crito/org/tech/mail/sendmail.org][Sendmail]]
+[[file://home/crito/org/tech/mail/postfix.org][Postfix]]
 
-80 - HTTP
+* 500  - ISAKMP - Internet Security Association and Key Management Protocol is used to set up IPsec VPNs.
+* 514  - Syslog - the standar unix log daemon.
+* 520u - RIP
+* 554  - rtsp - Real Time Stream Control Protocol - is used by media servers
+* 631u - IPP - Internet Printing Protocol
+* 636t - ldapssl - LDAP over SSL
+Software
+[[file://home/crito/org/tech/cmds/openldap.org][OpenLDAP]]
 
-110 - POP3
+* 783  - SpamAssassin
+Software
+[[file://home/crito/org/tech/mail/spam_assassin.org][Spam Assassin]]
 
-111 - RPCBind
+* 993  - IMAPS - IMAP over SSL
+Software
+[[file://home/crito/org/tech/mail/dovecot.org][Dovecot]]
+[[file://home/crito/org/tech/mail/cyrus.org][Cyrus]]
 
-113 - auth
+* 995  - POP3S - POP3 with SSL
+Software
+[[file://home/crito/org/tech/mail/dovecot.org][Dovecot]]
 
-123u - NTP
+* 1434  - MS-SQL-DS - MS SQL Server
+* 1723  - pptp - Point-to-Point Tunneling Protocol - often used to implement vpn solutions on windows
+* 1900u - UPNP - MS Service Discovery Protocol, Universal Plug-n-Play
+* 2079t - CalDAV and CardDAV 
+* 2080t - CalDAV and CardDAV 
+* 2082  - cPanel
+SoftwarE
+[[file://home/crito/org/tech/linux_concepts/cpanel.org][cPanel]]
 
-135 - MSRPC - MS Remote Procedure Call
+* 2083  - cPanel SSL
+Software
+[[file://home/crito/org/tech/linux_concepts/cpanel.org][cPanel]]
 
-138 - NETBIOS-DGM - Another windows service
+* 2086  - WHM
+Software
+[[file://home/crito/org/tech/linux_concepts/cpanel.org][cPanel]]
 
-139 - NetBIOS-SSN - NetBIOS Sesson Service for communication with MS
-windows services (older than 445).
+* 2087  - WHM SSL
+Software
+[[file://home/crito/org/tech/linux_concepts/cpanel.org][cPanel]]
 
-137u - NETBIOS-NS - one of many udp ports for windows services
+* 2089  - cPanel Licensing
+Software
+[[file://home/crito/org/tech/linux_concepts/cpanel.org][cPanel]]
 
-143 - IMAP
+* 3306  - MySQL
+Software
+[[file://home/crito/org/tech/database/mysql.org][MySQL]]
+[[file://home/crito/org/tech/database/mysql.org][MariaDB]]
 
-161u - SNMP
+* 3389  - ms-term-server - MS termial services allow users to access applications and data on a remote box.
+* 5224  - Plesk-license-update
+Software
+[[file://home/crito/org/tech/linux_concepts/plesk.org][Plesk]]
 
-256 - FW1-securemote - Checkpoint Firewall-1 devices often have this
-administration port open
+* 5432  - PostgreSQL
+Software
+[[file:~/org/tech/database/postgres.org][PostgeSQL]]
 
-443 - https
+* 5900  - VNC
+* 6379  - Redis
+* 8080  - HTTP-Proxy - commonly used for http proxies or alternative for normal http server.
+* 8443  - Plesk-https
+Software
+[[file://home/crito/org/tech/linux_concepts/plesk.org][Plesk]]
 
-445 - MS-DS - For samba communication over IP with MS windows services
+* 8880  - Plesk-http
+Software
+[[file://home/crito/org/tech/linux_concepts/plesk.org][Plesk]]
 
-500 - ISAKMP - Internet Security Association and Key Management Protocol
-is used to set up IPsec VPNs.
+* 16379  - Redis Cluster
+Software
+[[file://home/crito/org/tech/database/redis.org][Redis]]
 
-514 - Syslog - the standar unix log daemon.
 
-520u - RIP
-
-554 - rtsp - Real Time Stream Control Protocol - is used by media
-servers
-
-631u - IPP - Internet Printing Protocol
-
-636 - ldapssl - LDAP over SSL
-
-993 - IMAPS - IMAP over SSL
-
-995 - POP3S - POP3 with SSL
-
-1434 - MS-SQL-DS - MS SQL Server
-
-1723 - pptp - Point-to-Point Tunneling Protocol - often used to
-implement vpn solutions on windows
-
-1900u - UPNP - MS Service Discovery Protocol, Universal Plug-n-Play
-
-3306 - MySQL
-
-3389 - ms-term-server - MS termial services allow users to access
-applications and data on a remote box.
-
-5900 - VNC
-
-8080 - HTTP-Proxy - commonly used for http proxies or alternative for
-normal http server.

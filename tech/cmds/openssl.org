@@ -1,10 +1,12 @@
-#+TAGS: sys sec_d
+#+TAGS: sys sec_d ssl tls
 
 
-* openssl
+* openssl						  :sys:sec_d:ssl:tls:
 * Description
 * Usage
 * Lecture
 * Tutorial
 * Books
+[[file://home/crito/Documents/Security/Network_Security_with_OpenSSL.pdf][Network Security with OpenSSL]]
+[[file://home/crito/Documents/Networking/Implementing_SSL_TLS.pdf][Implementing SSL/TLS]]
 * Links

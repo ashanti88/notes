@@ -1,4 +1,4 @@
-#+TAGS: rhel
+#+TAGS: rhel centos fedora
 
 * Usage
 ** Exclude Specfic Repository
@@ -54,14 +54,19 @@ HOSTNAME=yournew.hostname.com
 ** SELinux
 - [[file://home/crito/org/tech/security/selinux.org][selinux]]
 
-* CentOS
+* CentOS/RHEL							:rhel:centos:
 ** [[file://home/crito/org/tech/linux_concepts/centos7_networking_config.org][CentOS 7 Network Configuration]]
-* fedora
-* Repos
+** Red Hat Identity Management(IdM) Solution
+* fedora							     :fedora:
+* Pkg Mgmt
+file://home/crito/org/tech/system/pkg_mgmt.org
 ** EPEL (Extra Packages for Enterprise Linux)
-*** Install
-> yum install epel-release
+#+BEGIN_SRC sh
+yum install epel-release
+#+END_SRC
 * Lecture
 * Tutorial
 * Books
+[[file://home/crito/Documents/Linux/Red_Hat/Red_Hat_RHCSA_RHCE_7_Cert_Guide.pdf][RHCSA/RHCE 7 Cert Guide]]
+[[file://home/crito/Documents/Linux/Red_Hat/Red_Hat_RHCSA_RHCE_6_Cert_Guide.pdf][RHCSA/RHCE 6 Cert Guide]]
 * Links

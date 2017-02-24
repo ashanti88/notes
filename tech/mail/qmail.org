@@ -1,1 +1,11 @@
+#+TAGS: mail
 
+
+* qmail
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Boks
+[[file://home/crito/Documents/SysAdmin/Mail/qmail_OReilly.pdf][qmail - O'Reilly]]
+* Links

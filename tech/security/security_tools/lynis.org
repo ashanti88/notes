@@ -5,13 +5,18 @@
 Home Page: [[https://cisofy.com/lynis/][lynis]]
 * Description
 * Usage
-> lynis <options>
+Basic audit
+#+BEGIN_SRC sh
+lynis audit system -Q
+#+END_SRC
 
+** Options
 --auditor - assign an auditor to the report
 --check-update - check for updates
 --quick - don't wait for user input, except errors
 --version
 --pentest - perform a pen test scan(non-priv)
+
 * Lecture
 * Tutorial
 * Links

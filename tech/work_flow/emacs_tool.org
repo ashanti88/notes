@@ -12,7 +12,7 @@
 
 * Usage
 ** Modes
-*** org-mode
+*** org-mode						    :emacs:org:notes:
 **** Cheat Sheet
 ***** Visibility Cycling
 *rotate current subtree between states             TAB
@@ -611,7 +611,7 @@ a	#+BEGIN_EXPORT ascii ... #+END_EXPORT
 A	#+ASCII: 
 i	#+INDEX: line 
 I	#+INCLUDE: line 
-*** magit
+*** magit							  :emacs:git:
 + Commands
 M-x magit-status - uses this command with the dired directory that contains the .git file
   s - this will stage the modified file
@@ -624,16 +624,16 @@ M-x magit-push-current-to-upstream
   - if using a ssh key may have a problem with setting key
 
 ** Packages
-*** projectile - provides an easy way to navigate a project
+*** projectile - provides an easy way to navigate a project :emacs:projectile:project:
 HomePage: [[http://batsov.com/projectile/][batsoy.com/projectile]]
 *** epc - middleware that connects pythonland to emacsland
 *** jedi 
-*** auto-complete 
+*** auto-complete						 :emacs:comp:
 *** ido-vertical
-*** YASnippet
+*** YASnippet							  :emacs:yas:
  
-*** Helm
-*** vagrant-tramp
+*** Helm						  :emacs:helm:search:
+*** vagrant-tramp						:emacs:tramp:
 This package allows files in vagrant boxes to be edited
 
 + Set-Up
@@ -768,6 +768,7 @@ gocode - golang
 
 ** Shells
 Article: [[https://www.masteringemacs.org/article/running-shells-in-emacs-overview][Running shells in emacs - Mastering Emacs]]
+*** eshell
 ** Fonts
 + Packages
   - fontawsome

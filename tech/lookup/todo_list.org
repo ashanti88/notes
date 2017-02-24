@@ -86,7 +86,7 @@
     - State "TODO"       from ""           [2016-11-20 Sun 03:57]
        
 * Work
-* domain
+* Domain
 ** Wordpress site - BlueLevers
 *** DONE Complete Site Build
     - State "DONE"       from "TODO"       [2016-12-20 Tue 02:30]
@@ -119,3 +119,4 @@ currently installed but disabled.
     - State "TODO"       from ""           [2017-02-08 Wed 10:29]
 *** TODO change dns to AWS
     - State "TODO"       from ""           [2017-02-08 Wed 10:29]
+* Notes

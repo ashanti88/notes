@@ -1,9 +1,9 @@
-#+TAGS: 
+#+TAGS: mon
 
 
-* nagios
+* nagios								:mon:
 Home Page: [[https://www.nagios.org/][nagios]]
-* Description
+* Desription
 * Usage
 * Lecture
 * Tutorial

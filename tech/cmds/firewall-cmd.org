@@ -6,9 +6,9 @@
 * Usage
 ** Status of Firewalld
 #+BEGIN_SRC sh
-firewall-cmd state
+firewall-cmd --state
 #+END_SRC
-   
+
 ** Get current default zone
 #+BEGIN_SRC sh
 firewall-cmd --get-default-zone
@@ -26,4 +26,6 @@ firewall-cmd --zone=home --list-all
 * Lecture
 * Tutorial
 * Books
+[[file:~/Documents/Linux/Red_Hat/Red_Hat_RHCSA_RHCE_7_Cert_Guide.pdf][Red Hat RHCSA & RHCE 7 Cert Guide - chapter 22]]
 * Links
+[[https://www.certdepot.net/rhel7-get-started-firewalld/][Getting Started with Firewalld]]

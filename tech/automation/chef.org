@@ -2,6 +2,7 @@
 
 
 * chef							     :auto:code:ruby:
+HomePage: [[https://www.chef.io/chef/][chef.io]]
 * Cmds
 * Overview
 * Lecture

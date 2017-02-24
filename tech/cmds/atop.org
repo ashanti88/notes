@@ -14,16 +14,49 @@ Atop monitors CPU, memory, disks and network on system level.
 * Usage
 ** Common uses
 - Launch with average-per-second total values
-> atop -1
+#+BEGIN_SRC sh
+atop -1
+#+END_SRC
 
 - Launch with active processors only
-> atop -a
+#+BEGIN_SRC sh
+atop -a
+#+END_SRC
 
 - Launch with command line per process
-> atop -c
+#+BEGIN_SRC sh
+atop -c
+#+END_SRC
 
 - Launch with disk info
-> atop -d
+#+BEGIN_SRC sh
+atop -d
+#+END_SRC
+
+- Launch with memory info
+#+BEGIN_SRC sh
+atop -m
+#+END_SRC
+
+- Launch with network info
+#+BEGIN_SRC sh
+atop -n
+#+END_SRC
+
+- Launch with scheduling info
+#+BEGIN_SRC sh
+atop -s
+#+END_SRC
+
+- Launch with various info
+#+BEGIN_SRC sh
+atop -v
+#+END_SRC
+
+- Launch with individual threads
+#+BEGIN_SRC sh
+atop -y
+#+END_SRC
 ** Command line of the process (c)
 
 PID - pid of process

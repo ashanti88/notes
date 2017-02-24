@@ -1,5 +1,10 @@
+#+TAGS:
 
 
-
-
-* Description							     :access:
+* telnet
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

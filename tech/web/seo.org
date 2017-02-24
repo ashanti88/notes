@@ -4,5 +4,104 @@
 * seo
 * Lecture
 * Tutorial
+** SEO Fundamentals - Pluralsight - Paul Wilson
+*** In-Depth Key Word Research 
++ Keywords
+- a word or descriptive phrase for what you are searching for
+
+- Base Keyword - single words used to describe object to be searched
+- Modifire Keyword - words added to the base word to qualify the search
+- Extender Keyword - verb to narrow the search
+
++ Keyword Difficulty
+- Keyword Curve
+  - The head - more competition
+  - The LongTail - significantly more number of these
+    - more longtail words can be used to direct traffic
+
++ Marketing Objectives
+  - traffic is an important metric, but not the only
+    
+1. Reach
+    - Demographic
+    - Influencers
+    - New Markets
+    - Media
+
+2. Establish
+    - Strategic partners
+    - Marketing channels
+    - Customer loyalty
+    - Thought leadership
+    - Branding & Awareness
+
+3. Increase
+    - Revenues
+    - Credibility
+    - Customer retention
+    - Visibility
+    - Market share
+      
+- Use the above to create Marketing strategy
+- Use the created objectives to develop keywords
+  
++ Discovering the right keywords
+
+- starter list(long list of possible words)
+  - now use ubersuggest to work throught your starter list and it will suggest more
+
+- Brake apart all the words into
+  - base
+  - modifier
+  - extender
+    
+- Mergewords allows base modifier and extender to be mearged together
+  
++ Google Traffic
+  - search in groups of 200 or less
+  - select country that you are looking to work in
+  - select relevant language
+Remove all keywords that had no traffic
+
++ Bing webmaster
+  - check keyword traffic
+  - can only use groups of 200 keywords
+
+- google only estimates traffic
+- bing shows acurate traffic
+
++ More Tools for Keywords
+file://home/crito/Pictures/org/keyword_tools.png
+
+*** In-Depth Key Word Research 2
++ Tools for finding keywords
+- Google
+  - search
+  - keywordtool
+- Bing
+  - search
+  - keywordtool
+- Mozbar
+- SharedCount
+- Juxseo
+
++ Step-by-Step Keyword Analysis
+Consolidate
+ - consolidate all keywords
+ - remove all duplicates
+Segment
+ - head - word is searched 1000+ a month
+ - longtail - word is searched <999 a month
+Consider
+ - selecting possible pillar keywords
+Extrapolate
+ - compare bing and google keyword values
+Compile
+ - remove keywords that fall below 1000 a month
+ - find competitors for each keyword
+   - mozbar plugin can help provide information on google search
+   - is the competitor a brand
+   - is the competitor on G+ - SharedCount can provide a lot of this kind of info
+   - is the competitor using on page SEO - Juxseo
 * Books
 * Links

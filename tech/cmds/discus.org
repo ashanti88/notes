@@ -1,9 +1,13 @@
-#+TAGS:
+#+TAGS: sys op disk
 
 
-* discus
+* discus							:sys:op:disk:
 * Description
+Prettier version of df
 * Usage
+#+BEGIN_SRC sh
+discus
+#+END_SRC
 * Lecture
 * Tutorial
 * Books

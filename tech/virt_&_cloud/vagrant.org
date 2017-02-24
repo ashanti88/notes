@@ -2,19 +2,36 @@
 
 
 * Vagrant							   :virt:dev:
+HomePage: [[https://www.vagrantup.com/][vagrantup.com]]
+Atlas: [[https://atlas.hashicorp.com/boxes/search][hashicorp.com/boxes]]
 * Usage
 ** Cmds
-- list boxes
-> vagrant list
-- remove box
-> vagrant box remove <NAME>
-- status of box
-> vagrant status
+*** Create a box
+#+BEGIN_SRC sh
+vagrant 
+#+END_SRC
+*** Basic Administration
++ list boxes
+#+BEGIN_SRC sh
+vagrant list
+#+END_SRC
+
++ remove box
+#+BEGIN_SRC sh
+vagrant box remove <NAME>
+#+END_SRC  
+
++ status of box
+#+BEGIN_SRC sh
+vagrant status
+#+END_SRC
 
 + Virtualbox Guest Additions
 To ensure there is no vb guest addmitions mismatch the vagrant plugin can be used.
 This is installed with:
-> vagrant plugin install vagrant-vbguest
+#+BEGIN_SRC sh
+vagrant plugin install vagrant-vbguest
+#+END_SRC
 
 + Guest OS States
 - running

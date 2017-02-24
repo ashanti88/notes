@@ -1,0 +1,12 @@
+#+TAGS: auto
+
+
+* puppet							       :auto:
+HomePage: [[https://puppet.com/][puppet.com]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+[[file://home/crito/Documents/SysAdmin/Mgmt/Puppet/Learning_Puppet_4.pdf][Learning Puppet 4 - O'Reilly]]
+* Links

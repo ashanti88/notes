@@ -1,4 +1,14 @@
-*Authoritative Vs Non-authoritative Answer*
+#+TAGS:
+
+
+* dns
+* Description
+* Usage
+* Servers
+** BIND
+** NSD
+** 
+* Authoritative Vs Non-authoritative Answer
 
 If the answer for the query comes from a name server that contains the
 complete zone file information for the domain the answer is said to be
@@ -10,3 +20,10 @@ contains a cached file which has the results of all queries performed in
 the past for which it has gotten authoritative response. When a DNS
 query is given, it searches the cache file and returns the available
 information.
+#+TAGS:
+
+* Lecture
+* Tutorial
+* Books
+file://home/crito/Documents/SysAdmin/DNS/DNS_and_Bind_on_IPv6.pdf
+* Links

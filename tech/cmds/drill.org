@@ -4,7 +4,6 @@
 * drill							     :net:anal:sec_o:
 * Description
 * Usage
-
 * Lecture
 * Tutorial
 * Books

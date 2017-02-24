@@ -1,6 +1,9 @@
 #+TAGS: sys anal sysstat
 
 
+* sar							   :sys:anal:sysstat:
+HomePage: [[http://sebastien.godard.pagesperso-orange.fr/][sebastien.godard.fr/sysstat]]
+Github: [[https://github.com/sysstat/sysstat][github.com/sysstat]]
 * Description
 The sar command writes to standard output the contents of selected cumulative activity counters in the operating system. The accounting system, based on the values in the count and interval parameters, writes information the specified number of times spaced at the specified intervals in seconds. 
 
@@ -15,3 +18,7 @@ they # will be overwritten by debconf! ENABLED="true"
 /dev/null && debian-sa1 1 1 To //2 / * * * root command -v debian-sa1 >
 /dev/null && debian-sa1 1 1
 * Usage
+* Lecture
+* Tutorial
+* Books
+* Links

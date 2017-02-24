@@ -1,10 +1,12 @@
-#+TAGS: file comp
+#+TAGS: comp file
 
 
-* bzless
+* bzless							  :comp:file:
 * Description
 * Usage
-> bzless <file.bz2>
+#+BEGIN_SRC sh
+bzless file.bz2
+#+END_SRC
 
 * Lecture
 * Tutorial

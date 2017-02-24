@@ -1,8 +1,110 @@
+#+TAGS: python py script
 
 
+* python
+* libs
+* tools
+** ipython/jupyter 
+*** automagic
++ Turning on/off automagic
+#+BEGIN_SRC sh
+%automagic
+#+END_SRC
+
+*** cells
+shift + enter - execute cell and create a new cell
+ctrl + enter - execute cell but no new cell
+
+** pyenv
+
+* Frameworks
+** Django
+** Flask
 * Lecture
+** Django
+*** [[https://www.youtube.com/watch?v%3D8uxQOzKi3_0&feature%3Dyoutu.be][So you want to be a full-stack developer? - Kate heddleston]]
+- Semi-Typical Web Application
+  - the stack
+    - OS
+    - Web Server
+    - DB
+    - Application Lang
+      
+- The Stack for django
+  - Web Server - Apache - mod_wsgi
+               - Nginx - Gunicorn
+  - Application Code - python
+  - DB - Postgres
+       - MySQL
+       - SQLServer
+       - Redis
+       - MongoDB
+  - Logging - Log files
+  - Version Control - Git
+  - SMTP mail - Postfix (other options PostmarkApp, Sendgrid, Amazon SES)
+  - Async Tasks - require Data Store python-rq/redis celery/rabbitMQ
+    - Async Frameworks - Twisted, Tornado 
+  - Exception handling - Emails self
 
+- Once DB has to be moved to its own server
+  - Cache on application server required
+    - Memcached
+    - Redis
+    - Varnish
 
-* Article
+- Monitoring
+  - New Relic - Performance Monitoring
+  - Nagios - Infrastructure Monitoring
+  - Pingdom - is site up
+    
+- Async Tasks require own server
+  
+- Large site requires more robust Exception handling
+  - Sentry - agragate exceptions
+    
+- Logging requires own server due to many servers (agragate all logs at one point)
+  - Loggly
+  - Splunk
+    
+- Load Balancer is required
+  - have the application now run on two servers, serving more traffic
+  
+- DB replication
+  - master to slave
 
-* Notes
++ Development
+Cannot dev on production server so require an environment that is near to production as possible
+Tools
+  - Venv & Venvwrapper
+  - Vagrant
+
++ Testing
+  - Jenkins
+  - CircleCI
+  - TravisCI
+
++ Staging (multiple devs)
+  - Deploy
+    - chef
+    - puppet
+    - ansible
+    - saltstack
+    - docker
+
++ Deploy
+On the simple appliction git push/pull restart service will be enough
+
++ Hosting
+  - AWS
+  - Rackspace
+  - Linode
+
+    
+*** [[https://www.youtube.com/watch?v%3DkOIrD9YMA18&list%3DPL8uoeex94UhE3FDvjacSlHFffoNEoPzzm&index%3D5][Efficient Django - David Arcos]]
+
+* Tutorial
+* Books
+** Django
+[[file://home/crito/Documents/Python/Django/Beginning_Django_CMS.pdf][Beginning Django CMS]]
+[[file://home/crito/Documents/Python/Django/Beginning_Django_E-Commerce.pdf][Beginning Django E-Commerce]]
+* Links

@@ -4,6 +4,44 @@
 * nethogs							   :net:anal:
 * Description
 * Usage
+** Installation
+- Debian
+#+BEGIN_SRC sh
+sudo apt-get install libncurses5-dev libpcap0.8-dev
+sudo apt-get install nethogs
+#+END_SRC
+
+- Fedora
+#+BEGIN_SRC sh
+sudo yum install ncurses ncurses-devel
+sudo yum install libpcap libcap-devel
+yum install nethogs
+#+END_SRC
+
+- Arch
+#+BEGIN_SRC sh
+yaourt -S nethogs
+#+END_SRC
+** Basic Use
+#+BEGIN_SRC sh
+sudo nethogs
+#+END_SRC
+
+- Specific Interface
+#+BEGIN_SRC sh
+sudo nethogs wlp2s0
+#+END_SRC
+
+- Set the delay
+#+BEGIN_SRC sh
+sudo nethogs -d 3 wlp2s0
+#+END_SRC
+
+- Set to promiscious mode
+#+BEGIN_SRC sh
+sudo nethogs -p wlp2s0
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

@@ -1,0 +1,197 @@
+#+TAGS: sec
+
+
+* owasp
+* Cmds
+* Pentest
+** Information Gathering
+*** Conduct Search Engine Discovery and Reconnaissance for Information Leakage
+Page: [[https://www.owasp.org/index.php/Conduct_search_engine_discovery/reconnaissance_for_information_leakage][Conduct Search Engine Discovery/Recon for Info Leakage]]_(OTG-INFO-001)  
+**** How to Test
+Use a search engine to search for:
+
+- Network diagrams and configurations
+- Archived posts and emails by administrators and other key staff
+- Log on procedures and username formats
+- Usernames and passwords
+- Error message content
+- Development, test, UAT and staging versions of the website
+
+**** Search Operators
+- Baidu
+- binsearch.info
+- Bing
+- Duck Duck Go
+- ixquick/Startpage
+- Google
+- Shodan
+- PunkSpider
+Use the advanced feature to search for only specified domain
+ixquick/Startpage and duckduckgo provide less information about the tester.
+
+[[file:~/Pictures/org/site_search.png][Example of Google Site Search]]
+
+*** Fingerprint Web Server
+Page: [[https://www.owasp.org/index.php/Fingerprint_Web_Server_(OTG-INFO-002)][Fingerprint Web Server]]_(OTG-INFO-002)
+
++ How to test
+1. [[https://www.netcraft.com][Netcraft]]
+2. [[file://home/crito/org/tech/security/security_tools/netcat.org][Netcat]]
+2. [[file:~/org/tech/cmds/httprint.org][Httprin]]t
+3. [[file:~/org/tech/cmds/nmap.org][Nmap]]
+*** Review Webserver Metafiles for Information Leakage   
+Page: [[https://www.owasp.org/index.php/Review_Webserver_Metafiles_for_Information_Leakage][Review Webserver Metafiles for Information Leakage]]_(OTG-INFO-003)
+1. Information leakage of the web application's directory or folder path(s).
+2. Create the list of directories that are to be avoided by Spiders, Robots, or Crawlers.
+
++ How to test
+1. robots.txt
+Example robots from [[file://home/crito/org/tech/web/google_robot.txt][google.co/robot.txt]]
+
+Allow indicates that the useragent can access that directory.
+Disallow indicates that the useragent can't access that directory.
+
+- Specific useragents can also be set for more granularity 
+- robots.txt shoudn't be considered a mechanism to enforce restrictions, as they can be ignored.
+- [[file://home/crito/org/tech/web/site_maintenance_tools.org][Google Webmaster Tools]] these are good for none nefarious work.
+  
+2. Meta Tag
+[[https://yoast.com/robots-meta-tags/][The Ultimate Guide to the Meta Robots Tag - Yoast]]
+
+*** Enumerate Applications on Webserver
+Page: [[https://www.owasp.org/index.php/Enumerate_Applications_on_Webserver][Enumerate Applications on Webserver]]_(OTG-INFO-004)
+
+- This should be an exhaustive search of the ip block/domain name list provided
+  - specifiy which application is available through which host and which port is used
+
++ 3 Factors Influencing Number of Applications
+1. Different base URL
+   - [[file://home/crito/org/tech/security/security_tools/zaproxy.org][ZAProxy]]
+     - run dictionary on base url
+   - [[file://home/crito/org/tech/security/security_tools/dirbuster.org][Dirbuster]]
+     - run dictionary on base url
+   - [[file://home/crito/org/tech/security/security_tools/burp_suite.org][Burp]]
+     - run dictionary on base url
+2. None Standard Ports
+   - [[file://home/crito/org/tech/cmds/nmap.org][Nmap]]
+     - find open ports
+     - determine what is running on port
+   - [[file://home/crito/org/tech/cmds/netcat.org][Netcat]]
+     - determine what is running on port
+3. Virtual Hosts
+   - [[file://home/crito/org/tech/cmds/drill.org][Drill]]
+     - Determine Name Servers of domain
+     - Request a zone transfer(unlikely)
+     - DNS Inverse Queries
+     - Web based DNS search http://searchdns.netcraft.com/?host
+
+*** Review Webpage Comments and Metadata for Information Leakage
+Page: [[https://www.owasp.org/index.php/Review_webpage_comments_and_metadata_for_information_leakage][Review Webpage Comments and Metadata for Information Leakage]]_(OTG-INFO-005)
+
+Very little automation of the is process a matter of pulling the source code and eyeballing it.
+
+*** Identify application entry points
+Page: [[https://www.owasp.org/index.php/Identify_application_entry_points][Identify Application Entry Points]]_(OTG-INFO-006)
+
+- Tester needs to ensure that they fully understand the mechanisms of the application
+- Ensure they know all verb interacts between tester and application (GET, POST etc)
+  - To collect all transactions use an intercepting proxy like ZAProxy 
+- As the tester works through the app any interesting parameters should be noted. 
+
++ Tools
+1. [[file://home/crito/org/tech/security/security_tools/zaproxy.org][ZAProxy]]
+2. [[file://home/crito/org/tech/security/security_tools/webscarab.org][WebScarab]]
+3. [[file://home/crito/org/tech/security/security_tools/burp_suite.org][Burp]]
+4. [[file://home/crito/org/tech/security/security_tools/context_app_tool.org][CAT]]
+
+*** Map execution paths through application
+Page: [[https://www.owasp.org/index.php/Map_execution_paths_through_application][Map Execution Paths Through Applications]]_(OTG-INFO-007)
+Before commencing security testing, understanding the structure of the application is paramount. Without a thorough understanding of the layout of the application, it is unlkely that it will be tested thoroughly.
+
++ Tools
+1. [[file://home/crito/org/tech/security/security_tools/zaproxy.org][ZAProxy]]
+*** Fingerprint Web Application Framework
+Page: [[https://www.owasp.org/index.php/Fingerprint_Web_Application_Framework][Fingerprint Web Application Framework]]_(OTG-INFO-008)
+
++ Locations to look at for clues
+  - HTTP headers
+    - X-Powered-By is the first place to look
+  - Cookies
+    - Framework specific cookies
+  - HTML source code
+    - mention of Framework specific folders or files. First check HEAD
+  - Specific files and folders
+    - once framework is discovered install and examine structure
+  - File extentions
+    - can indicate what framework it can be
+  - Error Message
+
++ Tools
+[[file://home/crito/org/tech/security/security_tools/zaproxy.org][WhatWeb]]
+[[file://home/crito/org/tech/security/security_tools/blindelephant.org][Blind Elephant]]
+[[file://home/crito/org/tech/security/security_tools/wappalyzer.org][Wappalyzer]]
+
+*** Fingerprint Web Application
+Page: [[https://www.owasp.org/index.php/Fingerprint_Web_Application][Fingerprint Web Application]]_(OTG-INFO-009)
+
++ How to test
+  - Cookies
+  - HTML Source Code
+  - Specific Files and Folders
+
++ Tools
+[[file://home/crito/org/tech/security/security_tools/zaproxy.org][WhatWeb]]
+[[file://home/crito/org/tech/security/security_tools/blindelephant.org][Blind Elephant]]
+[[file://home/crito/org/tech/security/security_tools/wappalyzer.org][Wappalyzer]]
+
+*** Map Application Architecture
+Page: [[https://www.owasp.org/index.php/Map_Application_Architecture][Map Application Architecture]]_(OTG-INFO-010)
+
+- If this is a white hat test, this is simple as you will normally have access or be provided with an overview of the application structure.
+- Difficulty comes when running a blind pen test
+  - start with the assumption that it is a simple single server application and build from there.
+  - look at what type of fw is in place?
+  - is there a reverse proxy in front of the server?
+    - is the proxy actting as IDS or WAF
+  - is there a load-balancer?
+  - is there an application server, 
+    - different headers will be noticed and cookies
+  - is there an auth server
+    - LDAP, RADIUS or relational db
+
+** Testing for Configuration and Deployment management
+*** Test Network/Infrastructure Configuration
+Page: [[https://www.owasp.org/index.php/Test_Network/Infrastructure_Configuration][Test Network/Infrastructure Configuration]]_(OTG-CONFIG-001)
+
+- Know Server Vulnerabilities
+- Map Server Administration Interfaces
+  - Determine how to access these interfaces
+  - default passwords 
+  - are there any external companies involved in administration
+
+*** Test Application Platform Configuration
+Page: [[https://www.owasp.org/index.php/Test_Application_Platform_Configuration][Test Application Platform Configuration]]_(OTG-CONFIG-002)
+Proper configuration of the single elements that make up an application architecture is important in order to prevent mistakes that might compromise the security of the whole architecture.
+
++ Tools
+[[file://home/crito/org/tech/security/security_tools/cis-cat.org][CIS-CAT]]
+[[file://home/crito/org/tech/security/security_tools/openvas.org][openVAS]]
+[[file://home/crito/org/tech/security/security_tools/nmap.org][Nmap]] - plugins
+
+Configuration
+- Only enable used modules
+- Create own custom pages for 4xx and 5xx
+- Run at the lowest required privilege
+- Ensure access and errors are being logged correctly
+- Ensure performance tunning has been done.
+
+Logging
+- 
+  
+*** Test File Extensions Handling for Sensitive Information
+Page: [[https://www.owasp.org/index.php/Test_File_Extensions_Handling_for_Sensitive_Information][Test File Extensions Handling for Sensitive Information]]_(OTG-CONFIG-003)
+
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -4,50 +4,76 @@
 * wget								:net:file:op:
 * Description
 * Usage
+** Download a single file
+#+BEGIN_SRC sh
+wget http://file.com
+#+END_SRC
 
-** Download a single file*
-> wget http://<address\_of\_file>
+** Download file and change file name
+#+BEGIN_SRC sh
+wget -o newfilename http://file.com
+#+END_SRC
 
-** Download file and change file name*
-> wget -o newfilename http://<address\_of\_file>
+** Download file at specific speed
+#+BEGIN_SRC sh
+wget --limit-rate=200k http://file.com
+#+END_SRC
 
-** Download file at specific speed*
-> wget --limit-rate=200k http://<address\_of\_file>
+** Complete an incomplete download
+#+BEGIN_SRC sh
+wget -c http://file.com
+#+END_SRC
 
-** Complete an incomplete download*
-> wget -c http://<address\_of\_file\_that\_has\_already\_been\_started>
+** Download file in the background
+#+BEGIN_SRC sh
+wget -b http://file.com
+#+END_SRC
 
-** Download file in the background*
-> wget -b http://<address\_of\_file>
+** Download multiple files
+#+BEGIN_SRC sh
+wget -i list_of_urls.txt
+#+END_SRC
 
-** Download multiple files*
-> wget -i list\_of\_urls.txt
+** Download a full website
+#+BEGIN_SRC sh
+wget --mirror -p --convert-links -P /home/crito/sites/algore.com https://www.algore.com
+#+END_SRC
 
-** Download a full website*
-> wget --mirror -p --convert-links -P ./Local-Dir WEBSITE-URL
+#+RESULTS:
 
 --mirror - turns on options suitable for mirroring
 -p - download all files that are necessary to properly display a given HTML page.
 --convert-links - after the download, convert the links in document for local viewing.
 -P - save all the files and directories to the specified directory.
 
+#+BEGIN_SRC sh
+wget --limit-rate=200k --no-clobber --convert-links --random-wait -r -p -E -e robots=off -U mozilla $URL
+#+END_SRC
+
 ** Reject certain file types*
 > wget --reject=gif WEBSITE-TO-BE-DOWNLOADED
 
 ** Quit when a file reaches certain size*
-> wget -Q5m -i FILE-WHICH-HAS-URLS
+#+BEGIN_SRC sh
+wget -Q5m -i url_list.txt
+#+END_SRC
 
 ** Download only a certain file type*
-> wget -r -A.pdf http://url-to-webpage-with-pdfs/
-
+#+BEGIN_SRC sh
+wget -r -A.pdf http://url-to-webpage-with-pdfs/
+#+END_SRC
 -r - turn on recursive retrieving
 -A - file type
 
 ** FTP download with wget*
-> wget ftp-url
+#+BEGIN_SRC sh
+wget $FTP_URL
+#+END_SRC
 
-with username and password
-> wget --ftp-user=USERNAME --ftp-password=PASSWORD DOWNLOAD-URL
+With username and password
+#+BEGIN_SRC sh
+wget --ftp-user=$USERNAME --ftp-password=$PASSWORD $URL
+#+END_SRC
 
 * Lecture
 * Tutorial

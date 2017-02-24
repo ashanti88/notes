@@ -1,10 +1,11 @@
-#+TAGS:
+#+TAGS: comp file
 
 
-* bzdiff
+* bzdiff							  :comp:file:
 * Description
 * Usage
 * Lecture
 * Tutorial
 * Books
 * Links
+[[http://www.thegeekstuff.com/2010/10/bzcommand-examples][thegeekstuff.com/bzcommand]]

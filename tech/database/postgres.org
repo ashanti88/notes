@@ -1,9 +1,10 @@
 #+TAGS: DB postgres
 
 
-* postresql
+* postresql							:DB:postgres:
 * Description
 * Usage
+** Basic Admin
 * Lecture
 ** Just Use Postgres - Rhys Elsmore
 [[https://www.youtube.com/watch?v%3DUgcC_bY4rPg][URL]]
@@ -148,5 +149,10 @@ WantedBy=multi-user.target
   - legacy file is pg_env.sh
 
 * Books
+[[file://home/crito/Documents/Database/Postgres/Learning_PostgreSQL.pdf][Learning PostgreSQL - O'Reilly]]
+[[file://home/crito/Documents/Database/Postgres/PostgreSQL_Up_and_Running_2e.pdf][PostgreSQL Up and Running 2e]]
+[[file://home/crito/Documents/Database/Postgres/PostgreSQL-Introduction_and_Concepts.pdf][PostgreSQL - Introduction and Concepts]]
+[[file://home/crito/Documents/Database/Postgres/PostgreSQL_Cookbook-Packt.pdf][PostgreSQL Cookbook - Packt]]
+
 * Links
 

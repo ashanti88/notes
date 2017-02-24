@@ -1,11 +1,16 @@
-#+TAGS:
+#+TAGS: usr shell
 
 
-* chsh
+* chsh 								  :usr:shell:
+* files
+/etc/shells
+/etc/passwd
 * Description
 * Usage
-
-> chsh -s <FQDN\_Shell> <user>
+- Change users shell
+#+BEGIN_SRC sh
+chsh -s /bin/bash crito
+#+END_SRC
 
 s - shell
 

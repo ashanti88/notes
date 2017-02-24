@@ -1,3 +1,64 @@
+#+TAGS: DB sqlite
+
+
+* sqlite3							  :DB:sqlite:
+* Description
+* Usage
++ Create a database
+#+BEGIN_SRC sh
+sqlite3 example.db
+#+END_SRC
+this will take you into the sqlite client and allow you to create the database.
+
++ To exit
+#+BEGIN_SRC sh
+.quit
+#+END_SRC
+
++ Insert records from a file
+#+BEGIN_SRC sh
+sqlite3 example.db < insert\_file.sql
+#+END_SRC
+- create a file in vi with insert commands on each line.
+- then push the file into sqlite3
+
++ View records
+#+BEGIN_SRC sh
+sqlite3 example.db
+#+END_SRC
+- select database to be used.
+- normal sql select cmd
+
++ Rename table name
+#+BEGIN_SRC sh
+alter table <name\to\change> rename to <new\name>;
+#+END_SRC
+
++ Add a column to an existing table
+#+BEGIN_SRC sh
+alter table <name\of\table> add column <new\field_data\type>;
+#+END_SRC
+
++ Alter data in a record
+#+BEGIN_SRC sh
+update <table> set <field=id> where <specify\_field>;
+#+END_SRC
+
++ View all tables in database
+#+BEGIN_SRC sh
+.tables
+#+END_SRC
+
++ Describe table
+#+BEGIN_SRC sh
+.schema <table\_name>;
+#+END_SRC
+
++ Create an index*
+#+BEGIN_SRC 
+create unique index <index\name> on <table>(<field>);
+#+END_SRC
+this will ensure that no other record is added with the same table-field combination.
 
 * Lecture
 ** An Introduction to SQLite - Richard Hipp
@@ -52,41 +113,7 @@
   - works well in place of enterprise db for smaller problems, during testing or demos.
   - cross-platform single-file dbh
     
-
-* Usage
-+ Create a database
-  > sqlite3 example.db
-  - this will take you into the sqlite client and allow you to create the database.
-
-+ To exit
->.quit
-
-+ Insert records from a file
-  - create a file in vi with insert commands on each line.
-  - then push the file into sqlite3
-  > sqlite3 example.db < insert\_file.sql
-
-+ View records
-  - select database to be used.
-  > sqlite3 example.db
-  - normal sql select cmd 
-
-+ Rename table name
-  - sqlite> alter table <name\_to\_change> rename to <new\_name>;
-
-+ Add a column to an existing table
-  - sqlite> alter table <name\_of\_table>  add column <new\_field data\_type>;
-
-+ Alter data in a record
-  - sqlite> update <table> set <field=id> where <specify\_field>;
-
-+ View all tables in database
-  - sqlite> .tables
-
-+ Describe table
-  - sqlite> .schema <table\_name>;
-
-+ Create an index*
-  -sqlite> create unique index <index\_name> on <table>(<field>);
-  - this will ensure that no other record is added with the same table-field combination.
+* Tutorial
+* Books
+* Links
 

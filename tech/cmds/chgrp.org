@@ -1,20 +1,27 @@
-#+TAGS: sys op file 
+#+TAGS: file op
 
 
-* chgrp
+* chgrp								    :file:op:
 * Description
 * Usage
-
-> chgrp <options> <groupname> <file>
+#+BEGIN_SRC sh
+chgrp $OPTIONS $GROUPNAME $FILE
+#+END_SRC
 
 ** Change a files group
-> chgrp <group> <file>
+#+BEGIN_SRC sh
+chgrp $GROUP $FILE
+#+END_SRC
 
 ** Recursively change directory and underlying files
-> chgrp -R <group> </directory/>
+#+BEGIN_SRC sh
+chgrp -R $GROUP $DIRECTORY
+#+END_SRC
 
 ** Change a file's group forcible
-> chgrp -f <group> <file>
+#+BEGIN_SRC sh
+chgrp -f $GROUP $FILE
+#+END_SRC
 
 * Lecture
 * Tutorial

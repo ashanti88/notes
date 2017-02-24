@@ -62,14 +62,14 @@ The above error was throw as ssh didn't know about the github ssh-key
 * Lecture
 * Tutorial
 * Books
-** [[file://home/crito/Documents/Tools/Git/Git_Essentials.pdf][Git Essentials]]
-** [[file://home/crito/Documents/Tools/Git/Git_for_Teams.pdf][Git for Teams]]
-** [[file://home/crito/Documents/Tools/Git/Git_Fundamentals.pdf][Git Fundamentals]]
-** [[file://home/crito/Documents/Tools/Git/Git_in_Practice.pdf][Git in Practice]]
-** [[file://home/crito/Documents/Tools/Git/GitLab_Cookbook.pdf][GitLab Cookbook]]
-** [[file://home/crito/Documents/Tools/Git/Introducing_GitHub.pdf][Introducing GitHub]]
-** [[file://home/crito/Documents/Tools/Git/Learn_Git_in_a_Month_of_Lunches.pdf][Learn Git in a Month of Lunches]]
-** [[file://home/crito/Documents/Tools/Git/Mastering_Git.pdf][Mastering Git]]
-** [[file://home/crito/Documents/Tools/Git/Pragmatic_Version_Control_Using_Git.pdf][Pragmatic Version Control Using Git]]
+ [[file://home/crito/Documents/Tools/Git/Git_Essentials.pdf][Git Essentials]]
+ [[file://home/crito/Documents/Tools/Git/Git_for_Teams.pdf][Git for Teams]]
+ [[file://home/crito/Documents/Tools/Git/Git_Fundamentals.pdf][Git Fundamentals]]
+ [[file://home/crito/Documents/Tools/Git/Git_in_Practice.pdf][Git in Practice]]
+ [[file://home/crito/Documents/Tools/Git/GitLab_Cookbook.pdf][GitLab Cookbook]]
+ [[file://home/crito/Documents/Tools/Git/Introducing_GitHub.pdf][Introducing GitHub]]
+ [[file://home/crito/Documents/Tools/Git/Learn_Git_in_a_Month_of_Lunches.pdf][Learn Git in a Month of Lunches]]
+ [[file://home/crito/Documents/Tools/Git/Mastering_Git.pdf][Mastering Git]]
+ [[file://home/crito/Documents/Tools/Git/Pragmatic_Version_Control_Using_Git.pdf][Pragmatic Version Control Using Git]]
 * Links
 

@@ -1,13 +1,23 @@
+#+TAGS: net anal
 
 
-* Usage								    :Network:
-+ Capture packet from a specific interface
+* tcpdump							   :net:anal:
+* Description
+* Usage
+- Capture packet from a specific interface
+#+BEGIN_SRC sh
+tcpdump -i wlp2s0
+#+END_SRC
 
-> tcpdump -i <int>
+- Capture a certain number of packets
+#+BEGIN_SRC sh
+tcpdump -c 10 -i wlp2s0
+#+END_SRC
 
-+ Capture a certain number of packets
-
-> tcpdump -c <number> -i <int>
-
+* Usage
+* Lecture
+* Tutorial
+* Books
 * Links
-[http://www.thegeekstuff.com/2010/08/tcpdump-command-examples/]
+[[http://www.thegeekstuff.com/2010/08/tcpdump-command-examples/][thegeekstuff.com/tcpdump-command-examples]]
+

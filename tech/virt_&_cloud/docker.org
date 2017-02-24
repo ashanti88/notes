@@ -1,9 +1,71 @@
 #+TAGS: virt cont
 
 
-* docker
+* docker							  :virt:cont:
+HomePage: [[https://www.docker.com/][docker.com]]
+CheatSheet: [[https://github.com/wsargent/docker-cheat-sheet][github.com/docker-cheat-sheet]]
 * Description
 * Usage
+** Basic Usage
+*** Create a Container
+#+BEGIN_SRC sh
+docker create $DOCKER_ID
+#+END_SRC
+The container will be created but not started
+
+** Start and Stop
+*** Start
+#+BEGIN_SRC sh
+docker start $DOCKER_ID
+#+END_SRC
+
+*** Stop
+#+BEGIN_SRC sh
+docker stop $DOCKER_ID
+#+END_SRC
+
+*** Restart
+#+BEGIN_SRC sh
+docker restart $DOCKER_ID
+#+END_SRC
+
+*** Pause
+#+BEGIN_SRC sh
+docker pause $DOCKER_ID
+#+END_SRC
+
+*** Unpause
+#+BEGIN_SRC sh
+docker unpause $DOCKER_ID
+#+END_SRC
+
+*** Kill
+Sends SIGKILL to a running container    
+#+BEGIN_SRC sh
+docker kill $DOCKER_ID
+#+END_SRC
+
+** Info
+*** List running containers
+#+BEGIN_SRC sh
+docker ps $DOCKER_ID
+#+END_SRC
+
+*** Gets logs from container
+#+BEGIN_SRC sh
+docker logs $DOCKER_ID
+#+END_SRC
+
+*** Looks at all the info on a container
+#+BEGIN_SRC sh
+docker ps $DOCKER_ID
+#+END_SRC
+
+*** Shows public facing port of container
+#+BEGIN_SRC sh
+docker port $DOCKER_ID
+#+END_SRC
+
 * Lecture
 * Tutorials
 * Books

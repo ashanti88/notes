@@ -1,0 +1,14 @@
+#+TAGS: shell
+
+
+* bash								      :shell:
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+[[file://home/crito/Documents/Linux/Shell/Bash/bash-Cookbook.pdf][bash Cookbook - O'Reilly]]
+[[file://home/crito/Documents/Linux/Shell/Bash/bash-Pocket_Reference.pdf][bash - Pocket Reference]]
+[[file://home/crito/Documents/Linux/Shell/Bash/Learning_the_bash_Shell.pdf][Learning the bash Shell]]
+[[file://home/crito/Documents/Linux/Shell/Bash/Pro_Bash_Programming_2e.pdf][Pro Bash Programming 2e]]
+* Links
