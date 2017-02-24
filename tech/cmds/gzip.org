@@ -1,0 +1,10 @@
+#+TAGS: comp
+
+
+* gzip								       :comp:
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

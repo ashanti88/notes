@@ -1,0 +1,12 @@
+#+TAGS: root sudo su
+
+
+* gksu							       :root:sudo:su:
+* Description
+Tool for providing sudo to graphical applications.
+
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

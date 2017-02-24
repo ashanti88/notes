@@ -1,0 +1,18 @@
+#+TAGS: mtp
+
+
+* libmtp
+HomePage: [[http://libmtp.sourceforge.net/][libmtp.sourceforge.net]]
+* cmds
+mtpfs
+jmtpfs
+go-mtpfs-git
+simple-mtpfs
+android-file-transfer
+
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

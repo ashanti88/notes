@@ -1,0 +1,14 @@
+#+TAGS: net wifi
+
+
+* iw								   :net:wifi:
+* Description
+* Usage
+** Scan for local networks
+#+BEGIN_SRC sh
+iw dev wlp2s0 scan | grep SSID
+#+END_SRC
+* Lecture
+* Tutorial
+* Books
+* Links

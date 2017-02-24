@@ -1,0 +1,12 @@
+#+TAGS: data
+
+
+* weka								       :data:
+* Description
+* Usage
+* Lecture
+* Tutorial
+[[https://weka.waikato.ac.nz/explorer][University of Waikato - Data Mining with Weka]]
+* Books
+[[file://home/crito/Documents/Data_Mining/Data-Mining.pdf][Data-Mining - MK]]
+* Links

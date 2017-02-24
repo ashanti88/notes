@@ -1,0 +1,12 @@
+#+TAGS: mail imap
+
+
+* cyrus								  :mail:imap:
+HomePage: [[https://www.cyrusimap.org/][cyrusimap.org]]
+* Description
+* Usage
+* Leture
+* Tutorial
+* Books
+* Liks
+[[https://www.linuxvoice.com/cyrus-build-your-own-email-server/][Build your own email server]]

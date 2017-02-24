@@ -1,0 +1,13 @@
+#+TAGS: sec_o
+
+
+* httprint
+HomePage: [[http://net-square.com/httprint.html][net-square.com/httprint]]
+* Description
+httprint is a web server fingerprinting tool. It relies on web server characteristics to accurately identify web servers.
+* Usage
+
+* Lecture
+* Tutorial
+* Books
+* Links

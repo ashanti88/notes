@@ -1,0 +1,11 @@
+#+TAGS: sec_o
+
+
+* wappalyzer
+HomePage: [[https://wappalyzer.com/installed?pk_campaign%3Dchrome&pk_kwd%3Dinstall][Wappalyzer]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

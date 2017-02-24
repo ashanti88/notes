@@ -1,0 +1,10 @@
+#+TAGS: sec_d fw fwd gui
+
+
+* firewall-config					   :sec_d:fw:fwd:gui:
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

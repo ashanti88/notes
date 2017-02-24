@@ -1,0 +1,12 @@
+#+TAGS: sysstat
+
+
+* tapestat							    :sysstat:
+HomePage: [[http://sebastien.godard.pagesperso-orange.fr/][sebastien.godard.fr/sysstat]]
+Github: [[https://github.com/sysstat/sysstat][github.com/sysstat]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

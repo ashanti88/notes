@@ -1,0 +1,59 @@
+#+TAGS: ssh
+
+
+* ssh									:ssh:
+* Description
+* Usage
+** ssh-agent
+To enable the ssh-agent
+#+BEGIN_SRC sh
+eval $(ssh-agent)
+#+END_SRC
+
+*** Many keys set
+Using ssh-agent with multiple keys can cause problems when login into many servers.
+Each key is considered an attempt, so if a limit is set then you can end up locked out.
+
+*** Setting up ssh-agent as a sysd service
+[Unit]
+Description=SSH key agent
+
+[Service]
+Type=forking
+Environment=SSH_AUTH_SOCK=%t/ssh-agent.socket
+ExecStart=/usr/bin/ssh-agent -a $SSH_AUTH_SOCK
+
+[Install]
+WantedBy=default.target
+
+*** Adding to zshrc
+- add this line to .zshrc
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+
+** ssh-add
+*** Check what identities are currently set
+#+BEGIN_SRC sh
+ssh-add -l
+#+END_SRC
+
+*** dd key/identity
+#+BEGIN_SRC sh
+ssh-add $KEY
+#+END_SRC
+
+*** remove key/identity
+#+BEGIN_SRC sh
+ssh-add -d $KEY
+#+END_SRC
+
+*** remove all keys/identities
+#+BEGIN_SRC sh
+ssh-add -D
+#+END_SRC
+
+** ssh-keygen
+** ssh-copy-id
+* Lecture
+* Tutorial
+* Books
+* Links

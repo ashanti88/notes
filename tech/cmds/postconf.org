@@ -1,0 +1,20 @@
+#+TAGS: mail postfix
+
+
+* postconf
+* Description
+* Usage
++ Provide all currently set Postfix variables
+#+BEGIN_SRC sh
+postconf
+#+END_SRC
+
++ Setting variable
+#+BEGIN_SRC sh
+postconf -e 'inet_protocols = ipv4'
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

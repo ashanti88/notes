@@ -1,0 +1,102 @@
+#+TAGS: 
+
+
+* site maintenance
+* Google Webmaster Tools
+* Cloudflare
+** Tutorial
+*** Getting Started with CloudFlare - Troy Hunt
+**** The CloudFlare Model
++ All site traffic passes through cloudflare before arriving at site.
+  - they filter out certain traffic
+  - They are gobal so the impact to site should be minimal.
+  - CloudFlare actually can increase speed with their practices.
+  - contend with facebook and google for monthly throughput.
+    - 5 trillion web requests per month.
+
++ CloudFlare Free Security Features
+  - Reputation based threat protection.
+    - what action to perform on request based on learning of your traffic.
+  - Comment spam protection.
+  - Block visitors by IP range
+  - Block visitors by country
+  - Basic DDoS protection
+  - Free SSL
+
++ CloudFlare Free Performance Features
+  - Globally load balanced content delivery network
+  - Automatic static content caching
+  - Always online
+  - Rocker Loader
+  - SPDY support
+  - Polish and mirage image optimization
+  - Mobile optimization
+
+**** Setting Up A New Site
++ add your domain
+  - CF will then go and grab your DNS
+  - DNS has to be controlled by CF
+  - select which DNS records you would like to keep
++ Choose Plan
+  - Free or Paid
++ Choose NameServers
+  - nameserver will need to be updated on domain registar.
+
++ Check that site is routing through CF
+  - in site page source there will now be a CF section inserted into each page.
+  - this can be disabled by turning off smart errors.
+
+**** Setting up SSL
+  - the initial setup with CF would only encrypt between visitor and CF, not CF and site.
+  - Implementation
+    - flexible ssl      - visitor --- encrypt --- CF --- clear --- site
+    - full ssl          - visitor --- encrypt --- CF --- encrypt --- site
+      - site ssl doesn't need to be validated
+    - Full ssl (strict) - visitor --- encrypt --- CF --- encrypt --- site
+      - site ssl has validate crt
+	
++ Implementing Full and Strict
+  - this is all done through the CF web interface.
+  - for strict a valid ssl crt is needed on the site.
+    
++ Force page ssl
+  - redirect all traffic to https
+  - page rules allows this to be inforced at CF
+  - /* new rule and https always on
+
++ HTTP Strict Transport Security (HSTS)
+  - Browser response header
+  - force the browser the make HTTPS requests
+  - Define an expiry in seconds
+  - include sub domains
+  - no more 301 just https from the outset
+  - Preload it
+  + In CF go to the crypto page
+    - only allows https, no http traffic at all
+    - all done on web interface
+
+**** Managing the FW in CF
+   - Threats
+     - Threat score is a key concept
+     - it's calculated based on sources such as project Honeypot
+     - It can be offset by answering a "challenge"
+   - Response
+     - Allow 
+     - Challenge - test if human
+     - Interstitial page - used to test if traffic is legit
+     - Block
+   - Setting Security Level
+     - this is done in the web interface
+     - challenge passage
+       - this is the amount of time before the visitor is re-challenged
+       - this provides the visitor with an alloted window of time
+   - Access Rules
+     - simple web interface allows blocks of ips to be blocked
+     - an entire country can't be blocked, but can be challenged
+     - a work around would be to set the country ip blocks explicitly
+   - Page Rules
+     - are good for automated attacks as they use the interstitial page, but don't stop manual attacks e.g. sql injections
+   - CF FW is very good at dropping crawlers.
+     
+* Books
+* Links

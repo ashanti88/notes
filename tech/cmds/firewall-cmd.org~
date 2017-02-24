@@ -1,0 +1,29 @@
+#+TAGS: sec_d fwd
+
+
+* firewall-cmd							  :sec_d:fwd:
+* Description
+* Usage
+** Status of Firewalld
+#+BEGIN_SRC sh
+firewall-cmd state
+#+END_SRC
+   
+** Get current default zone
+#+BEGIN_SRC sh
+firewall-cmd --get-default-zone
+#+END_SRC
+   
+** Get current active zone
+#+BEGIN_SRC sh
+firewall-cmd --get-active-zone
+#+END_SRC
+
+** Get the specific configuration associated with a zone
+#+BEGIN_SRC sh
+firewall-cmd --zone=home --list-all
+#+END_SRC
+* Lecture
+* Tutorial
+* Books
+* Links

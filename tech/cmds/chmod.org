@@ -1,0 +1,10 @@
+#+TAGS: file op
+
+
+* chmod
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

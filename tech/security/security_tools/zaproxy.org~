@@ -1,0 +1,19 @@
+#+TAGS: sec_o
+
+
+* zaproxy
+HomePage: [[https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project][Zed Attack Proxy Project - OWASP]]
+* Description
+An easy to use webapp pentest tool.
+* Usage
+** Intercepting Proxy
+** Active and Passive Scanners
+** Spider
+** Report Generation
+** Brute Force(using Dirbuster)
+** Fuzzing(using fuzzdb and JBroFuzz)
+* Lecture
+* Tutorial
+* Books
+[[file://home/crito/Documents/Security/Tools/ZAP_Getting_Started.pdf][ZAP - Getting Started Guide]]
+* Links

@@ -1,0 +1,88 @@
+#+TAGS: sys mem swap
+
+
+* Swap Memory						       :sys:mem:swap:
+* Cmds
+[[file://home/crito/org/tech/cmds/swapon.org][swapon]]
+[[file://home/crito/org/tech/cmds/swapoff.org][swapoff]]
+[[file://home/crito/org/tech/cmds/mkswap.org][mkswap]]
+* Files
+/proc/swap - shows what partitions are set for swap
+/proc/sys/vm/swappiness - swappiness value is kept here
+/etc/sysctl.d/99-sysctl.conf
+* Overview
+* Usage
+- Determine the amount of existing swap space
+#+BEGIN_SRC sh
+less /proc/swap
+#+END_SRC
+
+** Using more than one swap file
+- create two files, and specify the amount of memory 
+#+BEGIN_SRC sh
+cd /var/tmp
+dd if=/dev/zero of=swapfile1 bs=1024 count=1048576
+dd if=/dev/zero of=swapfile2 bs=1024 count=1048576
+#+END_SRC
+
+- Make the files into swap areas
+#+BEGIN_SRC sh
+/sbin/mkswap -c -v1 /var/tmp/swapfile1
+/sbin/mkswap -c -v1 /var/tmp/swapfile2
+#+END_SRC
+
+- Enable the swap files for swapping
+#+BEGIN_SRC sh
+/sbin/swapon /var/tmp/swapfile1
+/sbin/swapon /var/tmp/swapfile1
+#+END_SRC
+** Tuning Virtual Memory (Swappiness)				 :swappiness:
+The value ranges from 0 - 100
+
+| Value | Strategy                                                                                                                                      |
+|     0 | The kernel will swap only to avoid an out of memory condition, when free memory will be below vm.min_free_kbytes limit                        |
+|     1 | Kernel version 3.5 and over, as well as Red Hat kernel version 2.6.32-303 and over: Minimum amount of swapping without disabling it entirely. |
+|    10 | This value is sometimes recommended to improve performance when sufficient memory exists in a system.                                         |
+|    60 | The default value.                                                                                                                            |
+|   100 | The kernel will swap aggressively                                                                                                             |
+
+- Setting Swappiness
+#+BEGIN_SRC sh
+echo 10 > /proc/sys/vm/swappiness
+#+END_SRC
+or
+#+BEGIN_SRC sh
+sysctl -w vm.swappiness=10
+#+END_SRC
+
+- Viewing Swappiness
+#+BEGIN_SRC sh
+cat /proc/sys/vm/swappiness
+#+END_SRC
+or
+#+BEGIN_SRC sh
+sysctl vm.swappiness
+#+END_SRC
+
+- Permanently setting Swappiness
+/etc/sysctl.d/99-sysctl.conf
+-------------------------------
+vm.swappiness=10
+
+*** Server Recommendations
+MySQL - vm.swappiness=10    
+** Setting in Systemd					       :systemd:swap:
+Install systemd-swap this will produce the file /etc/systemd/swap.conf
+#+BEGIN_SRC sh
+yaourt -Ss systemd-swap
+#+END_SRC
+This then needs to be started and enabled
+#+BEGIN_SRC sh
+systemctl start systemd-swap.service
+systemctl enable systemd-swap.service
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

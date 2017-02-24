@@ -1,0 +1,11 @@
+#+TAGS: sec_d
+
+
+* kerberos
+HomePage: [[https://web.mit.edu/kerberos/][mit.edu/kerberos]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

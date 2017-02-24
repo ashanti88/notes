@@ -1,0 +1,13 @@
+#+TAGS: irc
+
+
+* irc server
+* Description
+* Daemons
+[[file://home/crito/org/tech/cmds/ircd-hybrid.org][IRCD-Hybrid]]
+
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links
