@@ -1,0 +1,11 @@
+#+TAGS: stor
+
+
+* swift 							       :stor:
+HomePage: [[https://www.swiftstack.com/product/openstack-swift][swiftstack.com]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

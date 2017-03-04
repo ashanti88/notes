@@ -1,0 +1,11 @@
+#+TAGS: backup
+
+
+* Amanda							     :backup:
+HomePage: [[http://www.amanda.org/][amanda.org]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

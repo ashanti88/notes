@@ -5,34 +5,55 @@
 * Description							   :sys:anal:
 * Usage
 ** Produce the current available space of physical memory and swap memory in KB.
-> free
-
-** Produce the output in Bytes.
-> free -b
-
-** Produce the output in Kilobytes.
-> free -k
-
-** Produce the output in Megabytes.
-> free -m
-
-** Produce the output in Gigabytes.
-> free -g
+#+BEGIN_SRC sh
+free
+#+END_SRC
 
 ** Produce a total at the end
-> free -t
+#+BEGIN_SRC sh
+free -t
+#+END_SRC
 
 ** Disable the "buffer adjusted" line
-> free -o
+#+BEGIN_SRC sh
+free -o
+#+END_SRC
 
 ** Update the free the specified time
-> free -s <time>
+#+BEGIN_SRC sh
+free -s 5
+#+END_SRC
 
 ** Show low and high memory size statistics
-> free -l
+#+BEGIN_SRC sh
+free -l
+#+END_SRC
 
 ** Show the version
-> free -V
+#+BEGIN_SRC sh
+free -V
+#+END_SRC
+
+** Output in Different Units
+*** Produce the output in Bytes.
+#+BEGIN_SRC sh
+free -b
+#+END_SRC
+
+*** Produce the output in Kilobytes.
+#+BEGIN_SRC sh
+free -k
+#+END_SRC
+
+*** Produce the output in Megabytes.
+#+BEGIN_SRC sh
+free -m
+#+END_SRC
+
+*** Produce the output in Gigabytes.
+#+BEGIN_SRC sh
+free -g
+#+END_SRC
 
 * Lecture
 * Tutorial

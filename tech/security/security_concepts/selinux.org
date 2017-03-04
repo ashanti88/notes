@@ -37,15 +37,22 @@ access, but denials are logged for actions that would have been denied
 if running in enforcing mode.
 
 to check what mode selinux is in use getenforce
-> getenforce
+#+BEGIN_SRC sh
+getenforce
+#+END_SRC
 
 change to permissive with:
-> setenforcing 0
-> getenforcing
+#+BEGIN_SRC sh
+setenforce 0
+getenforce
+#+END_SRC
 Permissive
 
-> setenforcing 1
-> getenforcing
+change to enforcing with:
+#+BEGIN_SRC sh
+setenforce 1
+getenforce
+#+END_SRC
 Enforcing
 
 ** SELinux Contexts

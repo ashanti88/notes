@@ -1,7 +1,1 @@
-*Tape Archive*
-
-* *
-
-*Cmd:*
-
-Tar
+/home/crito/org/tech/cmds/tar.org

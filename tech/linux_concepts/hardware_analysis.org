@@ -1,27 +1,29 @@
-*Viewing detailed information about hardware*
+#+TAGS: hw anal
 
-[[evernote:///view/47830806/s238/79669b59-8892-4c74-9a49-8a268fda8650/79669b59-8892-4c74-9a49-8a268fda8650/][lshw]]
 
-[[evernote:///view/47830806/s238/b2d0f343-4497-4294-9b07-3d6830ba583d/b2d0f343-4497-4294-9b07-3d6830ba583d/][dmidecode]]
+* Hardware Analysis						    :hw:anal:
+* Cmds
+** Viewing detailed information about hardware*
+[[file://home/crito/org/tech/cmds/lshw.org][lsw]]
+[[file://home/crito/org/tech/cmds/dmidecode.org][dmidecode]]
+[[file://home/crito/org/tech/cmds/discover.org][discover]]
 
-discover
-
-*Viewing information on CPU*
-
+** Viewing information on CPU
 [[evernote:///view/47830806/s238/d31fd940-7231-45ff-9c68-6ab7b16ee389/d31fd940-7231-45ff-9c68-6ab7b16ee389/][lscpu]]
-
 ncproc - number of processors
-
 /proc/cpuinfo - info on cpu
 
-*Viewing information on PCI bus*
+** Viewing information on PCI bus*
+[[file://home/crito/org/tech/cmds/lspci.org][lspci]]
 
-[[evernote:///view/47830806/s238/c376c82a-a529-46ac-bbb0-157b7e84d4bc/c376c82a-a529-46ac-bbb0-157b7e84d4bc/][lspci]]
+** Viewing information about USB bus*
+[[file://home/crito/org/tech/cmds/lsusb.org][lsusb]]
 
-*Viewing information about USB bus*
+** Viewing sensor information*
+[[file://home/crito/org/tech/cmds/sensors.org][sensors]]
 
-[[evernote:///view/47830806/s238/c9ee71df-b518-4794-92e6-eb48f36e5241/c9ee71df-b518-4794-92e6-eb48f36e5241/][lsusb]]
-
-*Viewing sensor information*
-
-[[evernote:///view/47830806/s238/5fa7904d-c101-4333-8e27-45526ac4244c/5fa7904d-c101-4333-8e27-45526ac4244c/][sensors]]
+* Overview
+* Lecture
+* Tutorial
+* Books
+* Links

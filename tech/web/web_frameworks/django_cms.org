@@ -1,0 +1,11 @@
+#+TAGS: py python cms django
+
+
+* Django CMS						      :py:python:cms:
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+[[file://home/crito/Documents/Python/Django/Beginning_Django_CMS.pdf][Beginning Django CMS]]
+* Links

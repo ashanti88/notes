@@ -2,9 +2,60 @@
 
 
 * apache								:web:
+HomePage: [[https://www.apache.org/][apache.org]]
 * Description
 * Usage
+** Basic Admin
+- status
+#+BEGIN_SRC sh
+apachectl status 
+#+END_SRC
+
+- start
+#+BEGIN_SRC sh
+apachectl start
+#+END_SRC
+
+- stop
+#+BEGIN_SRC sh
+apachectl stop
+#+END_SRC
+** Graceful Stop
+#+BEGIN_SRC sh
+apachectl graceful-stop
+#+END_SRC
+
+** Module Mgmt
+- list
+#+BEGIN_SRC sh
+apachectl -t -D DUMP_MODULES - ths list all modules
+#+END_SRC
+
+- enable module
+#+BEGIN_SRC sh
+a2enmod mod_wsgi
+#+END_SRC
+
+- disables module
+#+BEGIN_SRC sh
+a2dismod mod_wsgi
+#+END_SRC
+
 ** .htaccess
+* Modules
+Wiki: [[https://en.wikipedia.org/wiki/List_of_Apache_modules][List of Apache Modules]]
+** mod_wsgi
+- install for python2
+#+BEGIN_SRC sh
+yaourt -Sy community/mod_wsgi
+apt-get install python-pip apache2 libapache2-mod-wsgi
+#+END_SRC
+
+-install for python3
+#+BEGIN_SRC sh
+apt-get install python3-pip apache2 libapache2-mod-wsgi-py3
+#+END_SRC
+
 * Lecture
 * Tutorials
 ** Practical Apache Web Server Administration - Lynda.com - Jon Peck
@@ -33,15 +84,20 @@
   + These bundles should only be used for local development, Never use for public 
 
 **** Investigation
-- Determin if a package manager was used to install apache
-  - rpm
-  > rpm -qa | grep httpd
-  - dpkg
-  > dpkg -l | grep apache
+- Determine if a package manager was used to install apache
+- rpm
+#+BEGIN_SRC sh
+rpm -qa | grep httpd
+#+END_SRC
+
+- dpkg
+#+BEGIN_SRC sh
+dpkg -l | grep apache
+#+END_SRC
 
 *** Apache Sturcture
 + Interacting with Apache
-  - apachetcl - this cmd is used to control the apache application
+  - apachectl - this cmd is used to control the apache application
   
 + Apache Actions
   - status - show what apache is doing - may need to be enabled manually

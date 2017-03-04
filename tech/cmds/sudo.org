@@ -1,40 +1,47 @@
+#+TAGS: sys op sudo root
 
 
-
-
-* Descriptio							     :sys:op:
-
+* Description							:sys:op:root:
 * Usage
-
 > sudo <command>
 
-*Sudo as another user*
+** Sudo as another user
+#+BEGIN_SRC sh
+sudo -u frank ufw status
+#+END_SRC
 
-> sudo -u <run\_as\_user> <command>
+** Sudo as another group
+#+BEGIN_SRC sh
+sudo -g marketing less /documents/ads/one.txt
+#+END_SRC
 
-*Sudo as another group*
+** Clear authentication
+#+BEGIN_SRC sh
+sudo -k
+#+END_SRC
+authentication is held for a certain period of time this will clear this.
 
-> sudo -g <run\_as\_group> <command>
-
-*Clear authentication*
-
-> sudo -k
-
-authentication is held for a certain period of time this will clear
-this.
-
-*Prime sudo*
-
-> sudo -v
-
+** Prime sudo
+#+BEGIN_SRC sh
+sudo -v
+#+END_SRC
 This means that you won't be prompted later for the password.
 
-*List user privileges*
-
-> sudo -l
-
+** List user privileges
+#+BEGIN_SRC sh
+sudo -l
+#+END_SRC
 this will list all the rules in /etc/sudoers that apply to the user
 
-*Perform previous command with sudo*
-
-> sudo !!
+** Perform previous command with sudo
+#+BEGIN_SRC sh
+sudo !!
+#+END_SRC
+** Give user sudo privileges
+#+BEGIN_SRC sh
+usermod -a -G sudo frank
+#+END_SRC
+* Lecture
+* Tutorial
+* Books
+* Links

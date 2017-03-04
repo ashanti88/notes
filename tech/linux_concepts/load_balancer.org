@@ -1,0 +1,13 @@
+#+TAGS: web lb
+
+
+* Linux Load Balancers
+* Options
+[[file://home/crito/org/tech/web/web_service/nginx.org][nginx]]
+[[file://home/crito/org/tech/web/web_service/haproxy.org][haproxy]]
+[[file://home/crito/org/tech/web/web_service/linux_virtual_server.org][Linux Virtaul Server]]
+
+* Lecture
+* Tutorial
+* Books
+* Links

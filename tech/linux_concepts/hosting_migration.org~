@@ -1,0 +1,80 @@
+#+TAGS: web
+
+
+* Hosting Migration
+
+* Lecture
+* Tutorial
+** DigitalOcean: [[https://www.digitalocean.com/community/tutorials/how-to-migrate-linux-servers-part-1-system-preparation][How to Migrate a Linux Server]]
+*** Preparation
+DigitalOcean: [[https://www.digitalocean.com/community/tutorials/how-to-migrate-linux-servers-part-1-system-preparation][Preparation]]
+1. Make Backups of web and databases
+
+2. Note system information
+  - uname -a
+  - cat /etc/os-release - detailed linux distro information
+  - cat /etc/issue - linux distro
+
+3. Setup SSH access between old and new server
+#+BEGIN_SRC sh
+~/.ssh/id_rsa.pub | ssh new_server_ip "cat >> ~/.ssh/authorized_keys"
+#+END_SRC
+
+4. Get a list of installed software and list of services
+
+5. Secondary check for services with other tools
+#+BEGIN_SRC sh
+netstat  -nlp
+#+END_SRC
+
+#+BEGIN_SRC sh
+lsof -nPi
+#+END_SRC
+
+#+BEGIN_SRC sh
+ss -nlpaxtudw
+#+END_SRC
+*** Transfer Core Data
+DigitalOcean: [[https://www.digitalocean.com/community/tutorials/how-to-migrate-linux-servers-part-2-transfer-core-data][Transfer Core Data]]
+1. Install software dicovered in Preparation
+2. Create a mighration shell script
+**** sync.sh
+#+BEGIN_SRC sh
+#!/bin/sh
+
+#############
+# Prep Steps
+#############
+
+# Add additional repositories to /etc/apt/source.list
+#       deb http://example.repo.com/linux/deb stable main non-free
+
+# Install necessary software and versions
+#       apt-get update
+#       apt-get install apache2=2.2.22-1ubuntu1.4 mysql-server=5.5.35-0ubuntu0.12.04.2 libapache2-mod-auth-mysql=4.3.9-13ubuntu3 php5-mysql=5.3.10-1ubuntu3.9 php5=5.3.10-1ubuntu3.9 libapache2-mod-php5=5.3.10-1ubuntu3.9 php5-mcrypt=5.3.5-0ubuntu1
+
+#############
+# File Transfer
+#############
+
+
+# Rsync web root
+rsync -avz --progress 111.222.333.444:/var/www/site1 /var/www/
+
+# Rsync the apache configuration files
+rsync -avz --progress 111.222.333.444:/etc/apache2/* /etc/apache2/
+
+# Rsync php configuration
+rsync -avz --progress 111.222.333.444:/etc/php5/* /etc/php5/
+
+# Rsync mysql config files
+rsync -avz --progress 111.222.333.444:/etc/mysql/* /etc/mysql/
+
+# Rsync home directories
+. . .
+#+END_SRC
+
+*** Final Steps
+DigitalOcean: [[https://www.digitalocean.com/community/tutorials/how-to-migrate-linux-servers-part-3-final-steps][Final Steps]]
+* Books
+* Links

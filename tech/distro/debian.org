@@ -1,9 +1,9 @@
 #+TAGS: deb ubuntu
 
 
-* debian
+* debian								:deb:
 * Usage
-** General System Configuration
+** General System Configuration					   :deb:conf:
 *** Setting the default text editor
 > set EDITOR=<txt\_editor>
 > set VISUAL=<txt\_editor>
@@ -26,11 +26,15 @@ or in older debian
 or on X11
 > setxkbmap gb
 
-** Configuring Networking 
+** Configuring Networking					    :deb:net:
+[[https://wiki.debian.org/NetworkConfiguration#Setting_up_an_Ethernet_Interface][Network Configuration]]
+Files:
+*** /etc/interfaces
 *** /etc/resolv.conf
 resolv.conf This is the file used for setting the DNS to use Format in the file: 
 nameserver x.x.x.x 
 - any number of dns servers can be added 
+Concepts:
 *** Configuration Tools
 **** [[file://home/crito/org/tech/cmds/wpa_cli.org][wpa_cli]]
 **** [[file://home/crito/org/tech/cmds/netctl.org][netctl]]
@@ -65,11 +69,11 @@ Set the bridge device up <ip link set up dev <bridge\_name>
 Deleting a bridge requires that the bridge is down <ip link set dev
 <bridge\_name> down <brctl delbr <bridge\_name>
 
-** Desktop User Configuration
+** Desktop User Configuration					     :deb:de:
 
 * Based Distros
-** Ubuntu
-** Kali
+** Ubuntu							     :ubuntu:
+** Kali								       :kali:
 *** Adding Kali tools to Debian
 Kalis tools can be added to a debian machine with katoolin
 1. > git [[https://github.com/LionSec/katoolin.git]]

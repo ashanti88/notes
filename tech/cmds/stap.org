@@ -1,0 +1,14 @@
+#+TAGS: sys anal
+
+
+* stap								   :sys:anal:
+* Description
+This is a frontend to the SystemTap tool.
+* Usage
+* Lecture
+* Tutorial
+* Books
+[[file://home/crito/Documents/Linux/SystemTap_Beginners_Guide.pdf][SystemTap Beginners Guide]]
+[[file://home/crito/Documents/Linux/systemtap_tutorial.pdf][SystemTap Tutorial]]
+* Links
+[[http://dtrace.org/blogs/brendan/2011/10/15/using-systemtap/][Using SystemTap - Brendan Gregg]]

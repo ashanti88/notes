@@ -1,0 +1,11 @@
+#+TAGS: backup
+
+
+* Bacula							     :backup:
+HomePage: [[http://blog.bacula.org/][bacula.org]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

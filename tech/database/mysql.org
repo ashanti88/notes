@@ -1,86 +1,99 @@
 #+TAGS: db sql
 
 * mysql
-* Usage
+* Commands 
+ [[file://home/crito/org/tech/cmds/mysqladmin.org][mysqladmin]]
+ [[file://home/crito/org/tech/cmds/mysqldump.org][mysqldump]]
+ [[file://home/crito/org/tech/cmds/mytop.org][mytop]]
+ [[file://home/crito/org/tech/cmds/mysqlaccess.org][mysqlaccess]]
+ [[file://home/crito/org/tech/cmds/mysqltuner.org][mysqltuner]]
+ [[file://home/crito/org/tech/cmds/mysqlimport.org][mysqlimport]]
+
+* UsagE
 ** Backup database
- mysqldump -u <user> -p <database> > <backup.sql>
+#+BEGIN_SRC sh
+mysqldump -u root -p blue_levers_wp > blue_levers_wp.bakup.sql
+#+END_SRC
 
 ** Restore an backup
- mysql -u <user> -p <database\_name> < <backup.sql>
+#+BEGIN_SRC sh
+mysql -u root -p blue_levers_wp < blue_levers_wp.bakup.sql
+#+END_SRC
 
 ** How to backup a table to a text file
-ysql> SELECT * INTO OUTFILE 'table\_backup\_file' FROM
-name\_of\_table';
+mysql> SELECT * INTO OUTFILE 'table\_backup\_file' FROM name\_of\_table';
 
-** Automysqlbackup
-his application allows you to automate your backups can be found in the
-ebian/ubuntu repo.
+** Automysqlbackup						:mysql:bakup:
+This application allows you to automate your backups can be found in the debian/ubuntu repo.
+#+BEGIN_SRC sh
+apt-get install automysqlbackup
+#+END_SRC
 
- apt-get install automysqlbackup
-
-un with
- automyqlbackup
-
-he main configuration file is /etc/default/automysqlbackup
-
-efault place for backups is /var/lib/automysqlbackup
+- run with
+#+BEGIN_SRC sh
+automyqlbackup
+#+END_SRC
+- The main configuration file is /etc/default/automysqlbackup
+- default place for backups is /var/lib/automysqlbackup
 
 ** Techniques that are no longer recomended
-
-yqlhotcopy shouldn't be used anymore due to limitations. One of these
-s it only works for data stored in 'MyISAM' and 'Archive' storage
-ngines. It also has to be run on the local machine, so no backing up
-rom a remote box.
+myqlhotcopy 
+shouldn't be used anymore due to limitations. One of these is it only works for data stored in 'MyISAM' and 'Archive' storag eengines. It also has to be run on the local machine, so no backing up from a remote box.
 
 ** Import
-
-irst create the database on the machine. Otherwise the database will
-ake on the name of the sql file.
-
- mysql -u root -p <database\_name> < <database\_file.sql>
+first create the database on the machine. Otherwise the database will make on the name of the sql file.
+#+BEGIN_SRC sh
+mysql -u root -p blue_levers_wp < blue_levers_wp.bakup.sql
+#+END_SRC
 
 ** Export
+#+BEGIN_SRC sh
+mysql -u root -p blue_levers_wp > blue_levers_wp.bakup.sql
+#+END_SRC
+- Default the data directory can be found in /var/lib/mysql .
+- This maybe moved due to size constraints.
 
- mysql -u root -p <database\_name> > <database\_file.sql>i
-y default the data directory can be found in /var/lib/mysql .
+** Overview of backup procedure					:mysql:bakup:
+- Move the MySQL database files from /var/lib/mysql to the new partition.
+#+BEGIN_SRC sh
+mv /var/lib/mysql /mysql
+#+END_SRC
 
-his maybe moved due to size constraints.
+- Modify the .cnf file to reflect the new position.
+- Update any SELinux settings.
 
-** Overview of the procedure
+- Take a backup of the current MySQL data
+#+BEGIN_SRC sh
+msqldump -u root -p[password] --all-databases > /tmp/all-databases.sql
+#+END_SRC
 
-. Move the MySQL database files from /var/lib/mysql to the new
-artition.
+- Stop the mysql service
+#+BEGIN_SRC sh
+systemctl stop mysql.service
+#+END_SRC
 
-. Modify the .cnf file to reflect the new position.
+- Copy files to backup location
+#+BEGIN_SRC sh
+cp -r /var/lib/mysql /home/crito/mysql_bakup/
+#+END_SRC
 
-. Update any SELinux settings.
+- SQL dump single database
+#+BEGIN_SRC sh
+msqldump -u root -p[password] <database> > dumpfilename.sql
+#+END_SRC
 
-Take a backup of the current MySQL data*
-
-top the mysql service
-
- systemctl stop mysql.service
-
-opy files to backup location
-
- cp -r /var/lib/mysql <backup\_partition>
-
-r
-
-ql dump single database
-
- sqldump -u root -p[password] <database> > dumpfilename.sql
-
-ll databases
-
- sqldump -u root -p[password] --all-databases > /tmp/all-databases.sql
+- All databases
+#+BEGIN_SRC sh
+msqldump -u root -p[password] --all-databases > /tmp/all-databases.sql
+#+END_SRC
 
 ** Move MySQL data directory to new partition
-
-. > mkdir -p <new\_data\_directory>
-. > cd <new\_data\_directory>
-. > mv <mysql\_datadir> <new\_data\_directory>
-. > chown -R mysql:mysql <new\_data\_directory>
+#+BEGIN_SRC sh
+mkdir -p /new/mysql/location/
+cd /new/mysql/location
+mv <new\_data\_directory>
+chown -R mysql:mysql <new\_data\_directory>
+#+END_SRC
 
 ** Modify my.cnf and start MySQL
 
@@ -141,29 +154,56 @@ The query will output - 
    table.
 
 ** Set root password
-+ For a fresh install use
+*** Method I used for systemd
+1. edit the /etc/mysql/my.cnf add under [mysqld]
+skip-grant-tables
+2. Restart the mysql server
+#+BEGIN_SRC sh
+systemctl restart mysql.service
+#+END_SRC
+3. log into the mysql client 
+#+BEGIN_SRC sh
+mysql -u root
+#+END_SRC
+4. change the root password
+#+BEGIN_SRC sh
+update user set password=PASSWORD("new-password") where User='root';
+#+END_SRC
+5. edit the /etc/mysql/my.cnf remove
+skip-grant-tables
+6. Restart mysql service
+#+BEGIN_SRC sh
+systemctl restart mysql.service
+#+END_SRC
+
+*** For a fresh install use
 > mysqladmin -u root password <new_password>
 + Change passowrd
 > mysqladmin -u root -p<old_pass> password <new_password>
 
-+ Recover root password 
+*** Recover root password (safe method)
 URL: [[http://dev.mysql.com/doc/refman/5.7/en/resetting-permissions.html][MySQL - Root Password Recovery]]
-safe method
+
 1. locate the .pid file
   - possible locations /var/lib/mysql/, /var/run/mysqld/ and /usr/local/mysql/data/
+
 2. stop the mysqld process    
-  > kill `cat /mysql_data_dir/host.pid`
+#+BEGIN_SRC sh
+kill `cat /mysql_data_dir/host.pid`
+#+END_SRC
+
 3. create a txt file containing the password assignment statement on a single line 
   - MySQL 5.7.6 and later
 ALTER USER 'root'@'localhost' IDENTIFIED BY 'MyNewPass';
   - MySQL 5.7.5 and earlier
 SET PASSWORD FOR 'root'@'localhost' = PASSWORD('MyNewPass');
 save this file as mysql-init
+
 4. start mysql using the --init-file flag
   > mysqld_safe --init-file=/home/me/mysql-init &
 5. delete the mysql-init file
 6. restart mysqld and login with the new password
-less safe method
+*** Recover root password (less safe method)
 1. stop the MySQL server
 2. restart the server with the --skip-grant-tables. This allows anyone to connect without a password and all privileges.
 3. connect to the mysqld
@@ -273,17 +313,10 @@ Article: [[https://www.cyberciti.biz/faq/how-to-setup-mariadb-ssl-and-secure-con
      > mysql -u <user> -h <host> -p <db_name>
      > tcpdump -r /tmp/mysql.pcap | less
 
-* Commands 
-- [[file://home/crito/org/tech/cmds/mysqladmin.org][mysqladmin]]
-- [[file://home/crito/org/tech/cmds/mysqldump.org][mysqldump]]
-- [[file://home/crito/org/tech/cmds/mytop.org][mytop]]
-- [[file://home/crito/org/tech/cmds/mysqlaccess.org][mysqlaccess]]
-- [[file://home/crito/org/tech/cmds/mysqltuner.org][mysqltuner]]
-
 * Optimization
 ** Single Table
 mysql> use <database>;
-mysql> optimize table <table\_name>/
+mysql> optimize table blue_levers_wp;
 
 ** Multiple Tables
 mysql> use <database>;
@@ -292,19 +325,17 @@ mysql> optimize table <table\_one>, <table\_two>, <table\_three>;
 Optimie table works for InnoDB engine, MyISAM engine and ARCHIVE tables.
 
 ** Defrag using mysqlcheck cmd
-
-> mysqlcheck -o <database> <table> -u root -p<password>
-
-o - option is to indicate that mysqlcheck should perform "optimize
-table" operation
-
+#+BEGIN_SRC sh
+mysqlcheck -o blue_levers_wp wp_user -u root -p
+#+END_SRC
+o - option is to indicate that mysqlcheck should perform "optimize table" operation
 u - user
-
 p - password
 
-Defrag all tables on all databases
-
-> mysqlcheck -o --all-databases -u root -p<password>
+- Defrag all tables on all databases
+#+BEGIN_SRC sh
+mysqlcheck -o --all-databases -u root -p
+#+END_SRC
 
 ** After Optimization
 run the query that we an initially run. This time the data\_free\_mb
@@ -336,9 +367,10 @@ URL: [[https://en.wikipedia.org/wiki/Comparison_of_MySQL_database_engines][Wiki 
 * Forks
 ** Mariadb
 ** Percona
-
+HomePage: [[https://www.percona.com/][percona.com]]
 * GUI
 ** phpmyadmin
+HomePage: [[https://www.phpmyadmin.net/][phpmyadmin.net]]
 * Lectures
 ** To Shard or Not to Shard? - Peter Zaitsev			      :shard:
 URL: [[https://www.youtube.com/watch?v%3D2MyyH-bH8Bw&list%3DWL&index%3D75][To Shard or Not to Shard?]]

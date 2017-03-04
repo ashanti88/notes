@@ -1,0 +1,11 @@
+#+TAGS: web app
+
+
+* WildFly 							    :web:app:
+HomePage: [[http://wildfly.org/][wildfly.org]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

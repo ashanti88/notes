@@ -158,7 +158,44 @@ apt-get autoremove
 # Verify disk space
 df -H
 
-** Rhel							       :sys:rhel:pkg:
+** Rhel							       :sys:pkg:rhel:
+**** Repos 							  :rhel:repo:
+Adding a repo
+#+BEGIN_SRC sh
+wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+rpm -Uvh remi-release-6*.rpm
+#+END_SRC
+In this example we are downloading the remi repo
+
+***** Exclude Specfic Repository
+Get repo list
+#+BEGIN_SRC sh
+yum repolist
+#+END_SRC
+
+****** Method One - Temporary
+On the cmd line
+#+BEGIN_SRC sh
+yum update --disablerepo=isu 
+#+END_SRC
+This will not upgrade the packages that belong to the given repo.
+
+****** Method Two - Permanent
+Edit the repo files in /etc/yum.repos.d
+set the enable parameter to 0.
+
+***** EPEL (Extra Packages for Enterprise Linux)
+Centos
+#+BEGIN_SRC sh
+yum install epel-release
+#+END_SRC
+
+***** IUS (Inline with Upstream Stable)
+#+BEGIN_SRC sh
+wget https://centos7.iuscommunity.org/ius-release.rpm
+rpm -Uvh ius-release.rpm
+yum repolist
+#+END_SRC
 *** rpm								   :rhel:pkg:
 **** Basic Actions
 + List of all installed
@@ -170,13 +207,6 @@ rpm -qa
 #+BEGIN_SRC sh
 rpm -Vv
 #+END_SRC
-**** Repos							  :rhel:repo:
-Adding a repo
-#+BEGIN_SRC sh
-wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
-rpm -Uvh remi-release-6*.rpm
-#+END_SRC
-In this example we are downloading the remi repo
 *** yum								   :rhel:pkg:
 **** Basic Administration
 - Install application
@@ -208,12 +238,6 @@ yum upgrade
 yum search $APP
 #+END_SRC
 
-**** Repos							  :rhel:repo:
-***** EPEL (Extra Packages for Enterprise Linux)
-#+BEGIN_SRC sh
-yum install epel-release
-#+END_SRC
-
 **** Group Packages
 ***** Search Group Packages
 #+BEGIN_SRC sh
@@ -225,7 +249,59 @@ yum grouplist
 yum groupinstall $GROUP 
 #+END_SRC
 
-*** dnf							       :sys:rhel:pkg:
+**** yum-utils
+***** Installation
+#+BEGIN_SRC sh
+yum update && yum install yum-utils
+#+END_SRC
+***** Find Repo of Installed Pkg
+#+BEGIN_SRC sh
+find-repo-of-installed httpd
+#+END_SRC
+***** Remove Duplicate or Ophaned Package
+#+BEGIN_SRC sh
+package-cleanup --orphans
+package-cleanup --oldkernels
+#+END_SRC
+***** Find out Package dependency lists
+#+BEGIN_SRC sh
+repo-graph --repoid=updates | less
+#+END_SRC
+This will print out put all package dependencies format
+"libvirt-daemon-driver-nwfilter" -> {
+"libnl3"  -- dependent pkg
+"glibc"   -- dependent pkg
+"libvirt-daemon"
+} [color="0.578260869565 0.678260869565 1.0"];
+
+***** Check list of unresolved dependencies
+#+BEGIN_SRC sh
+repoclosure
+#+END_SRC
+
+***** Query Yum for information on package
+#+BEGIN_SRC sh
+repoquery --requires htop
+#+END_SRC
+
+***** Dump all installed RPM Pkgs into Zip file
+#+BEGIN_SRC sh
+yum-debug-dump
+#+END_SRC
+
+***** Restore the dump file
+#+BEGIN_SRC sh
+yum-debug-restore yum_debug_dump-localhost.localdomain-2017-02-24_20:59:05.txt.gz
+#+END_SRC
+
+***** Fix Unfinished or Aborted Yum Transactions
+#+BEGIN_SRC sh
+yum-complete-transaction --cleanup-only
+yum update
+#+END_SRC
+Incomplete transactions can be found in /var/lib/yum/transaction-all* and transaction-done*
+
+*** dnf 						       :sys:rhel:pkg:
 **** Basic Administration					   :rhel:dnf:
 - Install application
 #+BEGIN_SRC sh
@@ -246,8 +322,32 @@ dnf search $APP
 #+BEGIN_SRC sh
 dnf upgrade
 #+END_SRC
-** Suse							       :sys:suse:pkg:
+** Suse							       :sys:pkg:suse:
 *** zypper							   :suse:pkg:
-** Arch							       :sys:arch:pkg:
+** Arch							       :sys:pkg:arch:
 *** pacman							   :arch:pkg:
 *** yaourt							   :arch:pkg:
+- Search for pkg
+#+BEGIN_SRC sh
+yaourt -Ss python
+#+END_SRC
+
+- Install pkg
+#+BEGIN_SRC sh
+yaourt -S python3.5
+#+END_SRC
+
+- Remove pkg
+#+BEGIN_SRC sh
+yaourt -Sr python3.5
+#+END_SRC
+
+- Update repos
+#+BEGIN_SRC sh
+yaourt -Sy
+#+END_SRC
+
+- upgrade system
+#+BEGIN_SRC sh
+yaourt -Syu
+#+END_SRC

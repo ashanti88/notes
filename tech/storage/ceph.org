@@ -1,1 +1,10 @@
-/home/crito/org/tech/virt_&_cloud/ceph.org
+#+TAGS: fs storage
+
+
+* ceph								    :storage:
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

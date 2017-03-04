@@ -1,1 +1,11 @@
+#+TAGS: shell tcsh sh C
 
+
+* tcsh 							    :shell:tcsh:sh:C:
+HomePage: [[http://www.tcsh.org/Welcome][tcsh.org]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

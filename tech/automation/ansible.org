@@ -95,6 +95,9 @@ Many more.....
 * Books
 ** [[file://home/crito/Documents/SysAdmin/Mgmt/Ansible/Ansible_Playbook_Essentials.pdf][Ansible Playbook Essentials - Packt]]
      - [[https://github.com/schoolofdevops/ansible-playbook-essentials][Github - files for book]]
+
+[[file://home/crito/Documents/SysAdmin/Mgmt/Ansible/Ansible-Up_&_Running.pdf][Ansible-Up & Running]]
+[[file://home/crito/Documents/SysAdmin/Mgmt/Ansible/Ansible_for_DevOps.pdf][Ansible for DevOps]]
 * Links
 
 

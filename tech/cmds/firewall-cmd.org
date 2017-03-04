@@ -8,6 +8,7 @@
 #+BEGIN_SRC sh
 firewall-cmd --state
 #+END_SRC
+This will tell you if it is running or not
 
 ** Get current default zone
 #+BEGIN_SRC sh
@@ -19,10 +20,31 @@ firewall-cmd --get-default-zone
 firewall-cmd --get-active-zone
 #+END_SRC
 
+** Get current active services
+#+BEGIN_SRC sh
+firewall-cmd --zone=home --list-all
+#+END_SRC
+
 ** Get the specific configuration associated with a zone
 #+BEGIN_SRC sh
 firewall-cmd --zone=home --list-all
 #+END_SRC
+   
+** Change zone of an interface for current session
+#+BEGIN_SRC sh
+firewall-cmd --zone=home --change-interface=eth0
+#+END_SRC
+
+** Set zone for interface permanently
+- RHEL/Fedora/Centos
+/etc/sysconfig/network-scripts/ifcfg-XXX
+add the Parameter ZONE
+ZONE=home
+
+- Debian
+  
+- Arch
+
 * Lecture
 * Tutorial
 * Books

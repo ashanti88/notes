@@ -1,32 +1,51 @@
 #+TAGS: file op anal
 
 
-* sed
+* sed								    :file:op:
+HomePage: [[https://www.gnu.org/software/sed/manual/sed.html][gnu.org/sed]]
 * Description
 * Usage
 ** Spacing
 *** Double Space file
-> sed G <file>
+#+BEGIN_SRC sh
+sed G file.txt
+#+END_SRC
 *** Double Space file with blank lines
+#+BEGIN_SRC sh
 > sed '/^$/d;G
+#+END_SRC
 *** Triple space file
-> sed 'G;G'
+#+BEGIN_SRC sh
+sed 'G;G'
+#+END_SRC
 *** Undo Double spacing
-> sed 'n;d'
+#+BEGIN_SRC sh
+sed 'n;d'
+#+END_SRC
 *** Insert blank line above regex
-> sed '/regex/{x;p;x;}'
+#+BEGIN_SRC sh
+sed '/regex/{x;p;x;}'
+#+END_SRC
 *** Insert blank line after regex
-> sed '/regex/G'
+#+BEGIN_SRC sh
+sed '/regex/G'
+#+END_SRC
 
 ** Numbering 
 *** Number each line of a file(number above)
-> sed = <file_name>
+#+BEGIN_SRC sh
+sed = file.txt
+#+END_SRC
 
 *** Number each line(same line)
-> sed = <file_name> | sed 'N;s/\n/\t/'
+#+BEGIN_SRC sh
+sed = file.txt | sed 'N;s/\n/\t/'
+#+END_SRC
 
 ** Count lines
-> sed -n '$='
+#+BEGIN_SRC sh
+sed -n '$='
+#+END_SRC
 
 * Lecture
 * Tutorial

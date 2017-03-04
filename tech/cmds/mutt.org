@@ -35,12 +35,11 @@ reverse\_alias=yes source $alias\_file
 We need to create a ~/.mailcap file. This file specifies which application should be used to open which kinks of attachments.
 
 ** Setting up Gmail
-+ will need an mta running aswell. Exim with deb
+- will need an mta running aswell. Exim with deb
 
 Create .mutt/cache/bodies/ .mutt/cache/headers/ .mutt/certificates
 
-*tutorial said to put muttrc in the .mutt folder, but it didn't load,
-but loaded when in ~/
+*tutorial said to put muttrc in the .mutt folder, but it didn't load, but loaded when in ~/
 
 .muttrc
 

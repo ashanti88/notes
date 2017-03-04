@@ -1,0 +1,11 @@
+#+TAGS: auto deploy
+
+
+* fabric							:auto:deploy:
+HomePage: [[http://www.fabfile.org/][fabfile.org]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

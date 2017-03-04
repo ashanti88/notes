@@ -6,21 +6,31 @@ HomePage: [[http://www.firewalld.org/][firewalld.org]]
 * Cmds
 [[file://home/crito/org/tech/cmds/firewall-config.org][firewall-config]]
 [[file://home/crito/org/tech/cmds/firewall-cmd.org][firewall-cmd]]
+* Files
+/etc/firewalld/firewalld.conf
 * Description
 * Usage
 The [[file://home/crito/org/tech/cmds/firewall-cmd.org][firewall-cmd]] is generally used for administration
 Gui front-end is called [[file://home/crito/org/tech/cmds/firewall-config.org][firewall-config]]
-
 ** Zones
-Block
-DMZ
-Drop
-External
-Home
-Internal
-Public
-Trusted
-Work
+*** Block  
+Any incoming network connections are rejected with an icmp-host-prohibited message for IPv4 and icmp6-adm-prohibited for IPv6. Only network connections initiated within this system are possible.
+*** DMZ 
+For computers in your demilitarized zone that are publicly-accessible with limited access to your internal network. Only selected incoming connections are accepted.
+*** Drop
+Any incoming network packets are dropped, there is no reply. Only outgoing network connections are possible.
+*** External
+For use on external networks with masquerading enabled especially for routers. You do not trust the other computers on networks to not harm your computer. Only selected incoming connections are accepted.
+*** Home
+For use in home areas. You mostly trust the other computers on networks to not harm your computer. Only selected incoming connections are accepted.
+*** Internal
+For use on internal networks. You mostly trust the other computers on the networks to not harm your computer. Only selected incoming connections are accepted.
+*** Public
+For use in public areas. You do not trust the other computers on networks to not harm your computer. Only selected incoming connections are accepted.
+*** Trusted
+All network connections are accepted.
+*** Work
+For use in work areas. You mostly trust the other computers on networks to not harm your computer. Only selected incoming connections are accepted.
 * Lecture
 * Tutorial
 * Books

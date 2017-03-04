@@ -1,0 +1,17 @@
+#+TAGS: log sysd
+
+
+* journalctl							   :log:sysd:
+* Description
+* Files
+/etc/systemd/journald.conf
+/var/log/journal
+* Usage
+- restart the daemon
+#+BEGIN_SRC sh
+systemctl restart systemd-journald
+#+END_SRC
+* Lecture
+* Tutorial
+* Books
+* Links

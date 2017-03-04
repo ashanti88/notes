@@ -1,10 +1,79 @@
-#+TAGS: DB postgres
+#+TAGS: DB postgresql postgres
 
 
-* postresql							:DB:postgres:
+* postresql					     :DB:postgresql:postgres:
 * Description
 * Usage
 ** Basic Admin
+** Configuration for Centos7
+*** Installation
+1. Install the required pkgs
+#+BEGIN_SRC sh
+yum install postgresql-server postgresql-contrib
+#+END_SRC
+
+2. Create a new PostgreSQL database cluster
+#+BEGIN_SRC sh
+postgresql-setup initdb
+#+END_SRC
+#+RESULT
+Initializing database ... OK
+
+3. Edit the pg_hba.conf
+#+BEGIN_SRC sh
+host    all             all             127.0.0.1/32            md5
+host    all             all             ::1/128                 md5
+#+END_SRC
+By default postgres doesn't allow password authentication, the above changes this
+
+4. Start and enable the service
+#+BEGIN_SRC sh
+systemctl start postgresql.service
+systemctl enable postgresql.service
+#+END_SRC
+
+5. Log into the user postgres and then log into postgres
+#+BEGIN_SRC sh
+sudo -i -u postgres
+psql
+#+END_SRC
+
+6. Quit postgres
+#+BEGIN_SRC sh
+\q
+
+#+END_SRC
+*** Create a user
+1. To create the first role/user you will need to be postgres user
+#+BEGIN_SRC sh
+sudo -i -u postgres
+#+END_SRC
+
+2. Run the [[file://home/crito/org/tech/cmds/createuser.org][createuser]] cmd
+#+BEGIN_SRC sh
+createuser --interactive
+#+END_SRC
+
+*** Create a db
+1. With a user that has the privilege run the [[file://home/crito/org/tech/cmds/createdb.org][createdb]] 
+#+BEGIN_SRC sh
+createdb test_one
+#+END_SRC
+*** Create a table
+In this example we will create a small table playground from inside psql
+#+BEGIN_SRC sh
+CREATE TABLE playground (
+    equip_id serial PRIMARY KEY,
+    type varchar (50) NOT NULL,
+    color varchar (25) NOT NULL,
+    location varchar(25) check (location in ('north', 'south', 'west', 'east', 'northeast', 'southeast', 'southwest', 'northwest')),
+    install_date date
+);
+#+END_SRC
+*** Inset into table
+#+BEGIN_SRC sh
+INSERT INTO playground (type, color, location, install_date) VALUES ('slide', 'blue', 'south', '2014-04-28');
+#+END_SRC
 * Lecture
 ** Just Use Postgres - Rhys Elsmore
 [[https://www.youtube.com/watch?v%3DUgcC_bY4rPg][URL]]
@@ -148,6 +217,119 @@ WantedBy=multi-user.target
 - Environment variables can be stored in the /etc/postpresql/9.4/main/environment file
   - legacy file is pg_env.sh
 
+*** psql
+Features:
+1. Non-Interactive usage - i.e. 'mysql' terminal monitor
+2. Command history - up|down arrows
+3. Tab completion
+4. Commands terminate with semicolon and may wrap lines and have whitespace separators
+5. Defaults to supplying the currently-logged-in user
+6. Different versions of psql can work with different versions of postgresql   
+   
+- Commands
+--version - informs us of the psql version
+--help - help menu
+-l - list databases
+-U - provide name of user
+
+PostgreSQL installs three default dbs
+1. 'postgres' - contains user accounts DB, etc
+2. 'template0' - vanilla, original DB 
+3. 'template1' - copy of template0, and may be extended, and is used to generate new DBs
+
+psql - this will enter the postgres shell
+- if prompt contains a hash, it indicates a superuser
+- \h - returns a list of SQL cmds
+- \h [SQL Cmd] - this will return information on command
+- \? - returns psql specific help
+- \l - list db
+  - \l+ - provides more information
+- \du[+] - returns list of users in system db    
+- \! - switch to shell
+- \! [cmd] - execute a specfic cmd non-interactively
+- \i FILE - execute cmds from file
+  - it doesn't have to be sql, but can be psql cmds
+
+Multiple commands can be seperated with whitespace, terminate with semicolon
+
+- \c [DB] - switch database
+   - \c DB [REMOTE HOST] - connects to different DB and remote host
+- \d[S+] - reveals tables, views, sequences and various DB objects
+- \q - this quits psql
+  
+*** Access Controls
+Config files:
+pg_hba.conf
+pg_ident.conf
+postgresql.conf
+
+Users - Roles are both users and groups
+Central accounts DB shared by ALL DBs - accounts must be unique
+Default setup includes one user - postgres
+Privileges are managed with:
+  - GRANT
+  - REVOKE
+  - ALTER
+  - CREATE USER|ROLE
+  - DROP USER|ROLE
+  - createuser|dropuser - command wrappers to SQL statements
+DB object creators own those objects and can assign priv to them
+  - to change DB object ownership use: ALTER - sql key word
+Special user named: PUBLIC grants assigned priv to ALL sys users
+
+- Create Super User
+a.\du - enumerate current users|roles
+b. create a new superuser
+#+BEGIN_SRC sh
+createuser -e -s -U postgres new_su
+#+END_SRC
+- e - echo the SQL cmd created
+- s - created user will have superuser priv
+- U - which user to connect to DB as
+    
+- By default, users are only allowed to login locally if the system username matches the PostgreSQL username.
+
+c. set password
+  - psql>\password new_su - permits setting of user's password
+d. connect with new user
+#+BEGIN_SRC sh
+psql -U new_su -d postgres -h 127.0.0.1 -W
+#+END_SRC
+
+- Drop User
+#+BEGIN_SRC sh
+dropuser -e -U postgres new_su
+#+END_SRC
+
+- Create User with no priv
+#+BEGIN_SRC sh
+psql -e -U postgres new_user
+#+END_SRC
+
+- Create User interactively
+As of 9.1 > postgres now uses the --interactive flay, previously this was the default action
+#+BEGIN_SRC sh
+createuer --interactive new_user
+#+END_SRC
+
+When creating users always set password from inside postgres as not to store password in stdout.
+
+- checking what db a user is connected to
+#+BEGIN_SRC sh
+ps -ef | grep -i postgres
+#+END_SRC
+a process is creted for each user and the database connection, and the db is indicated.
+
+- Remote TCP-based connectivity
+pg_hba.conf specifies which connections can be created
+#+BEGIN_SRC sh
+psql -U postgres -h 51.20.21.111
+#+END_SRC
+will fail unless it has be set in pg_hba.conf, default remote connections not set
+
+for the above this line needs to be added
+host	ALL	51.20.21.111	md5
+the above will only allow conection from that ip, but a subnet can be set
 * Books
 [[file://home/crito/Documents/Database/Postgres/Learning_PostgreSQL.pdf][Learning PostgreSQL - O'Reilly]]
 [[file://home/crito/Documents/Database/Postgres/PostgreSQL_Up_and_Running_2e.pdf][PostgreSQL Up and Running 2e]]

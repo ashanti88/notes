@@ -1,0 +1,30 @@
+#+TAGS: sys op cron
+
+
+* crontab
+* Description
+* Usage
+- list the cron schedule
+#+BEGIN_SRC sh
+crontab -l
+#+END_SRC
+
+- edit the cron schedule
+#+BEGIN_SRC sh
+crontab -e
+#+END_SRC
+
+** Example
+0 1 * * 1-5 /bin/execute/this/script 
+  
+minute - 0 (zero minute of the hour)
+hour - 1 (1am)
+day of month * (no matter the date of the month)
+month - * (every month)
+weekday - 1-5 (monday through friday)
+
+* Lecture
+* Tutorial
+* Books
+* Links
+[[http://kvz.io/blog/2007/07/29/schedule-tasks-on-linux-using-crontab/][Schedule tasks on Linux using Crontab]]

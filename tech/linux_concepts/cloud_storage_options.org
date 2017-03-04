@@ -1,0 +1,121 @@
+#+TAGS: stor cloud
+
+
+* Cloud Storage Option						 :stor:cloud:
+* Options
+[[file://home/crito/org/tech/storage/ceph.org][Ceph]]
+[[file://home/crito/org/tech/storage/swift.org][Swift]]
+[[file://home/crito/org/tech/storage/glusterfs.org][GlusterFS]]
+
+* Lecture
+** Ceph vs Gluster vs Swift - Prashanth Pai, Thiago da Silva :ceph:gluster:swift:sds:
+[[https://www.youtube.com/watch?v%3DfcnrkqbKDp0][url]]
+** Similarities and Differences
++ All Software defined storage
++ No vendor lock in
++ Massively scalable
+  - CERN(ceph), Facebook(gluster), Rackspace(swift)
+
+ |        | Ceph | Gluster | Swift |
+  ----------------------------------
+ | Block  | yes  | yes     | no    |
+ | File   | yes  | yes     | no    |
+ | Object | yes  | yes     | yes   |
+
+** Architecture
+  - Ceph 
+    - RADOS - Reliable Autonomous Distributed Object Store
+      - On top of this lies 
+        - LIBRADOS - APP - lib to allow app to directly access RADOS
+        - RADOSGW - APP - bucket based REST gateway compatible with S3 and swift
+        - RBD - Host/vm - a reliable and fully distributed block device
+        - CEPH FS - client - a posix distributed file system
+    - OSDs (Object Storage Deamon)
+      - One per disk
+      - serves obj to clients
+      - peer replication
+    - Monitors
+      - Maintain cluster membership and state
+      - Consensus for decision making
+      - Small odd number - too many slows down voting
+    - Distribution and replication in Ceph - CRUSH algorithm
+      - Pools are logical groups
+      - Pools are made up of PGs
+      - PGs mapped to OSDs
+      - Rule based config
+      - Pseudo-random placement
+      - Repeatable and deterministic	
+	
+  - Gluster
+    - FUSE NFS SMB Object - all lie on top of Gluster FS
+      - a disk is refered to as a brick
+      - a node is made up of bricks
+      - a volume is the address of the node
+    - Distribution
+      - No central metadata server
+      - Hash space devided into N ranges mapped to N bricks
+      - Directories are created on all bricks
+      - Hash ranges assigned to directories
+      - Renames are special
+      - Rebalance moves data.
+    - Dist & Replic
+      - Replication is synchronous
+      - Provides high availability on failure.
+      - Self-healing(automatic file repair)
+      - Optionally enforce quorum.
+      - Follows a transaction model.
+   
+  - Swift
+    - Pure Object Store 
+    - Proxy - this is the single entry point
+      - Account server
+      - Container server 
+      - Object server 
+    - Dist & Replic
+      - "Ring files" = cluster map
+      - Recreated when cluster layout changes
+      - Hash ranges divided into paritions
+      - Devices are assigned to paritions
+      - Replica algorithm. As fas as possible
+	
+** Further Similarities & Differences
++ all use some kind of hashing algorithm.
++ all use xfs file system
+  
+|                    | Ceph              | Gluster                | Swift            |
+| Redundancy type    | Pool              | Volume                 | Container        |
+| Replica Placement  | Mgmt by CRUSH     | Manual effort by admin | Managed by Rings |
+| Rebalance migrates | Placements Groups | Individual Files       | Partitions       |
+    
+
++ Replica Placement for gluster is currently being worked on by Louis Pabon
+    
+** Replication
++ 3 replica policy   
++ Ceph - client --> one osd --> then osd sends to two more osd
++ Gluster - client --> will send data to 3 bricks
++ Swift - client --> data first goes to proxy --> proxy sends it on to 3 obj servers.
+
+** Where's my data?
++ ceph
+  - tools required to dig for data
++ gluster
+  - can be found like any normal file system
++ swift
+  - filenames are not human friendly
+    
+** Feature Parity
+
+|                   | Ceph           | Gluster           | Swift                 |
+| Quota             | Pool, bucket   | volume, Directory | Account and Container |
+|                   | and user quota | and inode Count   | quota                 |
+| Tiering           | yes            | yes               | no                    |
+| Geo-replication   | active-passive | active-passive    | active-active         |
+| Erasure Coding    | yes            | yes               | yes                   |
+| Bit-rot detection | yes            | yes               | yes                   |
+  
+* Article
+
+* Tutorial
+* Books
+* Links

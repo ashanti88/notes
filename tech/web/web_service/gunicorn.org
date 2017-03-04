@@ -1,0 +1,12 @@
+#+TAGS: python web wsgi
+
+
+* gunicorn
+HomePage: http://gunicorn.org/
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links
+[[https://www.digitalocean.com/community/tutorials/how-to-deploy-python-wsgi-apps-using-gunicorn-http-server-behind-nginx][How to deploy python WSHI Apps Using Gunicorn]]

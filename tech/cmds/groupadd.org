@@ -4,6 +4,12 @@
 * groupadd							     :sys:op:
 * Description
 * Usage
+create a group
+#+BEGIN_SRC sh
+groupadd -r dnsmasq
+#+END_SRC
+- Options
+r - system group - these groups will be issued a gid normally below 1000
 * Lecture
 * Tutorial
 * Books

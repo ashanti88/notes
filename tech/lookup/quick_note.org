@@ -8,6 +8,9 @@
 - zone transfer
 - gpg chain of trust
 - redhat 32 and 64 lib interchangable?
+- openid
+- XPATH
+- css select
 
 * System
 - sudoedit - what is this cmd
@@ -27,8 +30,6 @@
 - i2c
 - D state - ps - unkillable process
   
-* Mongodb
- 
 * MySQL
 ** sharding technologies
   - mysql router

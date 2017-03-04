@@ -2,22 +2,36 @@
 
 
 * atop 								   :sys:anal:
-Home Page: [[http://www.atoptool.nl/][atoptool]]
+HomePage: [[http://www.atoptool.nl/][atoptool.nl]]
 * Descripton
-
 Atop allows analysis of a system over different periods of time by
 taking snapshots.These snapshots allow us to view individual processors
 at different times.
 
 Atop monitors CPU, memory, disks and network on system level.
 
+* files
+/etc/atop/atop.daily
 * Usage
-** Common uses
+** Bacic Administration
 - Launch with average-per-second total values
 #+BEGIN_SRC sh
 atop -1
 #+END_SRC
 
+- View log file
+#+BEGIN_SRC sh
+atop -r /var/log/atop/atop_20170201
+#+END_SRC
+t - will show the next interval
+T - will show the previous interval
+r - rewind to beginning of the file
+
+- view log file at specific time
+#+BEGIN_SRC sh
+atop -r /var/log/atop/atop_20170201 13:11
+#+END_SRC
+** Launch with specific view
 - Launch with active processors only
 #+BEGIN_SRC sh
 atop -a

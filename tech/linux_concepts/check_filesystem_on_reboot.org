@@ -1,19 +1,28 @@
-*Check when it was last checked*
+#+TAGS: fs anal
 
+
+* Check Filesystem on Reboot
+* Description
+* Usage
+** Check when it was last checked
+#+BEGIN_SRC sh 
 > tune2fs -l /dev/sda1 | grep -i check
+#+END_SRC
 
-*Create forcefsck file*
+** Create forcefsck file
+#+BEGIN_SRC sh
+cd /
+touch forcefsck
+shutdown -r now
+#+END_SRC
 
-> cd /
-
-> touch forcefsck
-
-> shutdown -r now
-
-*After reboot*
-
-the forcefsck file has been removed.
-
-> tune2fs -l /dev/sda1 | grep -i check
-
+- After reboot the forcefsck file has been removed.
+#+BEGIN_SRC sh
+tune2fs -l /dev/sda1 | grep -i check
+#+END_SRC
 this should show that the last check was just run
+
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -1,13 +1,20 @@
-#+TAGS: sys fs
+#+TAGS: sys fs op
 
 
-* e2label							     :sys:fs:
+* e2label							  :sys:fs:op:
 * Description
 This tool is used to set text labels to drive partitions that can be used by fstab
 
 * Usage
 ** Make a label for a filesystem
-> e2label <device> <label>
+#+BEGIN_SRC sh
+e2label /dev/sdb2 usb_storage 
+#+END_SRC
+
+** View a filesystems label
+#+BEGIN_SRC sh
+e2label /dev/sdb1
+#+END_SRC
 
 * Lecture
 * Tutorial

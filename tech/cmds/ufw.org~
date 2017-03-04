@@ -1,0 +1,12 @@
+#+TAGS: sec_d fw
+
+
+* ufw								   :sec_d:fw:
+Wiki: [[https://wiki.ubuntu.com/UncomplicatedFirewall][wiki.ubuntu.com/ufw]]
+* Description
+UFW, or Uncomplicated Firewall, is an interface to iptables that is geared towards simplifying the process of configuring a firewall.
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

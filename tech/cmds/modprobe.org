@@ -5,12 +5,30 @@
 * Description
 * Usage
 ** Add a module
-> modprobe <module>
-
+#+BEGIN_SRC sh
+modprobe $MODULE
+#+END_SRC
 this will install any dependent modules
 
 ** Remove a module
-> modprobe -r <module>
+#+BEGIN_SRC sh
+modprobe -r $MODULE
+#+END_SRC
+this will remove the selected module
+
+** View all loaded modules
+#+BEGIN_SRC sh
+less /proc/modules
+#+END_SRC
+or
+#+BEGIN_SRC sh
+lsmod
+#+END_SRC 
+
+** Get information on a module
+#+BEGIN_SRC sh
+modinfo ehci_pci
+#+END_SRC
 
 * Lecture
 * Tutorial

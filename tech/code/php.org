@@ -21,22 +21,33 @@
 URL: [[https://packagist.org/][Home Page]]
 ** Composer
 URL: [[https://getcomposer.org/][Home Page]]
-Composer deals with dependency management in php.
-Dependencies are dealt with on a project level basis apose to system wide like apt or yum.
-Comparable to js npm and ruby's bundler.
+- Composer deals with dependency management in php.
+- Dependencies are dealt with on a project level basis apose to system wide like apt or yum.
+- Comparable to js npm and ruby's bundler.
 
 *** Installation
-+ Manual Download
+**** Manual Download
 1. Download the installer to the current directory
-> php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-2. Verify the installer SHA-384 which you can also cross-check [[https://composer.github.io/pubkeys.html][here.]]
-> php -r "if (hash_file('SHA384', 'composer-setup.php') === '55d6ead61b29c7bdee5cccfb50076874187bd9f21f65d8991d46ec5cc90518f447387fb9f76ebae1fbbacf329e583e30') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
-3. Run the installer
-> php composer-setup.php
-4. Remove the installer
-> php -r "unlink('composer-setup.php');"
+#+BEGIN_SRC sh
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+#+END_SRC
 
-+ Arch Linux
+2. Verify the installer SHA-384 which you can also cross-check [[https://composer.github.io/pubkeys.html][here.]]
+#+BEGIN_SRC sh
+php -r "if (hash_file('SHA384', 'composer-setup.php') === '55d6ead61b29c7bdee5cccfb50076874187bd9f21f65d8991d46ec5cc90518f447387fb9f76ebae1fbbacf329e583e30') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+#+END_SRC
+
+3. Run the installer
+#+BEGIN_SRC sh
+php composer-setup.php
+#+END_SRC
+
+4. Remove the installer
+#+BEGIN_SRC sh
+php -r "unlink('composer-setup.php');"
+#+END_SRC
+
+**** Arch Linux
 > yaourt -Sy composer
 
 + Installer Options
@@ -46,6 +57,30 @@ Comparable to js npm and ruby's bundler.
 + Usage
 > php composer.phar install
 Run this in the project root and it will install dependencies for a project.
+
+**** Debian Jessie
+1. Install dependencies
+#+BEGIN_SRC sh
+sudo apt-get update
+sudo apt-get install curl php5-cli git
+#+END_SRC
+
+2. Download and Install Composer
+#+BEGIN_SRC sh
+php -r "copy('https://getcomposer.org/installer', '/tmp/composer-setup.php');"
+php -r "if (hash_file('SHA384', '/tmp/composer-setup.php') === 'sha_384_string') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('/tmp/composer-setup.php'); } echo PHP_EOL;"
+sudo php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer
+#+END_SRC
+
+3. Confirm installation
+#+BEGIN_SRC sh
+composer --version
+#+END_SRC
+
+4. Remove Downloaded File
+#+BEGIN_SRC sh
+rm /tmp/composer-setup.php
+#+END_SRC
 
 * Lecture
 * Tutorial

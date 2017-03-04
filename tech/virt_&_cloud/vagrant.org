@@ -8,8 +8,9 @@ Atlas: [[https://atlas.hashicorp.com/boxes/search][hashicorp.com/boxes]]
 ** Cmds
 *** Create a box
 #+BEGIN_SRC sh
-vagrant 
+vagrant init centos/7
 #+END_SRC
+This example creates a centos 7 box with no repo specified atlas will be used
 *** Basic Administration
 + list boxes
 #+BEGIN_SRC sh
@@ -33,7 +34,28 @@ This is installed with:
 vagrant plugin install vagrant-vbguest
 #+END_SRC
 
-+ Guest OS States
+*** ssh-config
+For setting up ssh configuration for emacs us ssh-config
+#+BEGIN_SRC sh
+vagrant ssh-config 7cf053b
+#+END_SRC
+
+#+RESULTS:
+| Host                   | default                                                                           |
+| HostName               | 127.0.0.1                                                                         |
+| User                   | vagrant                                                                           |
+| Port                   | 2222                                                                              |
+| UserKnownHostsFile     | /dev/null                                                                         |
+| StrictHostKeyChecking  | no                                                                                |
+| PasswordAuthentication | no                                                                                |
+| IdentityFile           | /home/crito/vagrant_boxes/django/.vagrant/machines/default/virtualbox/private_key |
+| IdentitiesOnly         | yes                                                                               |
+| LogLevel               | FATAL                                                                             |
+This out put should be placed in the .ssh/config
+
+* Description
+
+** Guest OS States
 - running
 - poweroff
 - saved
@@ -53,7 +75,6 @@ This file is used to maintain that development is performed on the same platfrom
   - The suffix used is usually .box but that is not mandatory.
   - Once the box has been downloaded it is stored in $HOME/.vagrant.d/boxes. These boxes are then used as templates for projects.
 
-* Description
 * Usage
 * Lecture
 * Tutorial

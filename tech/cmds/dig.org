@@ -4,6 +4,11 @@
 * dig							     :net:anal:recon:
 * Description
 * Usage
+use specified dns server
+#+BEGIN_SRC sh
+dig google.com @ns.123-reg.co.uk
+#+END_SRC
+this will use the 123-reg server to search for google.com
 * Lecture
 * Tutorial
 * Books

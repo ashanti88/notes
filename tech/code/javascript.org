@@ -14,10 +14,93 @@
 ** Links
 * Libraries
 ** jQuery 							     :jquery:
+- Including jQuery in HTML code
+there are two options:
+1. use the google CDN
+2. download the library and host yourself
+
 *** Lecture
 *** Tutorial
-*** Books
+*** [[https://www.youtube.com/watch?v%3DhMxGhHNOkCU][jQuery Tutorial - LearnCode.academy]]
+for adding fucntion from the jQuery lib you need to enclose in:
+#+BEGIN_SRC sh
+$(document).ready(function() {
+	    
+});
+#+END_SRC
+- all jQuery code has to be inside this document ready function block
+- it ensures that the document has fully loaded before being exeuted
+- there is a short version
+#+BEGIN_SRC js
+$(function() {
 
+});
+#+END_SRC
+	
+**** Working with panels
+- to hide then show panel
+#+BEGIN_SRC js
+$(function(){
+	$("#panel1").hide(300).show();
+	$("#panel1").hide(300).show(1000).hide(300).show(1000);
+});
+#+END_SRC
+- to slide to and down with a delay
+#+BEGIN_SRC js
+$(function(){
+	$("#panel1").slideUp(1000).delay(1000).slideDown(1000);
+});
+#+END_SRC
+
+- to fade in and out of view
+#+BEGIN_SRC js
+$(function(){
+	$("#panel1").fadeOut(1000).delay(1000).fadeIn(1000);
+});
+#+END_SRC
+
+-to fade in and out
+#+BEGIN_SRC js
+$(function(){
+	$("#panel1").fadeToggle(1000).delay(1000).fadeToggle(1000);
+});
+#+END_SRC
+Toggle can be used with any element
+
+**** Implementing css with jQuery
+- change element colour and set bold
+#+BEGIN_SRC js
+$(function() {
+	$("#panel1").css({color:'red',fontWeight:'bold'})
+#+END_SRC
+	
+**** Change Html element
+#+BEGIN_SRC js
+$(function() {
+	$('#panel1').html('in between the quotes add the html tags you now want to show')
+});
+#+END_SRC
+This is not recommended
+
+**** Events
+- click a button and slide panel down
+#+BEGIN_SRC js
+$(function() {
+	$('#btn1').on('click', function() {
+		$('#panel1').slideToggle(200);
+});	
+#+END_SRC
+
+- have panel toggle when mouse is over 
+#+BEGIN_SRC js
+$(function() {
+	$('#btn1').on('mouseover', function() {
+		$('#panel1').fadeToggle(200);
+});	
+#+END_SRC
+
+*** Books
+**** [[file://home/crito/Documents/Web_Dev/js/jquery/jQuery_Cookbook.pdf][jQuery Cookbook - O'Reilly]]
 *** Links
 * Framework
 ** angular2 							    :angular:

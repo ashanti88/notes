@@ -1,0 +1,12 @@
+#+TAGS: sys op 
+
+
+* crond								     :sys:op:
+* cmds
+* Cmds
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

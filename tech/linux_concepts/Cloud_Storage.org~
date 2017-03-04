@@ -1,5 +1,11 @@
+#+TAGS: stor cloud
 
 
+* Cloud Storage Options
+* Options
+[[file://home/crito/org/tech/storage/ceph.org][Ceph]]
+[[file://home/crito/org/tech/storage/ceph.org][Ceph]]
+[[file://home/crito/org/tech/storage/ceph.org][Ceph]]
 
 * Lecture
 ** Ceph vs Gluster vs Swift - Prashanth Pai, Thiago da Silva :ceph:gluster:swift:sds:
@@ -108,8 +114,8 @@
 | Erasure Coding    | yes            | yes               | yes                   |
 | Bit-rot detection | yes            | yes               | yes                   |
   
-
-
 * Article
 
 * Tutorial
+* Books
+* Links

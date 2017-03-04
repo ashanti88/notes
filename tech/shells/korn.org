@@ -1,1 +1,11 @@
+#+TAGS: shell bash korn sh
 
+
+* KornShell						 :shell:korn:sh:bash:
+HomePage: [[http://www.kornshell.com/][kornshell.com]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -1,0 +1,30 @@
+#+TAGS: log
+
+
+* logrotate
+Arch: [[https://wiki.archlinux.org/index.php/logrotate][archlinux.org/logrotate]]
+* Description
+This service controls the logs specified in /etc/logrotate.d
+* Files
+/etc/logrotate.conf - this is the main logrotate config
+/etc/logrotate.d/ - this contains all the log configs
+/var/lib/logrotate.status - this the last time the log was rotated
+* Usage
+- Manually run logrotate on specific log config
+#+BEGIN_SRC sh
+logrotate -vdf /etc/logrotate.d/dnsmasq
+#+END_SRC
+v - verbose
+d - debug
+f - force
+
+- Manually run all logs
+#+BEGIN_SRC sh
+logrotate -vf /etc/logrotate.conf
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links
+[[https://support.rackspace.com/how-to/sample-logrotate-configuration-and-troubleshooting/][Logrotate configuration and troubleshooting - Rackspace]]

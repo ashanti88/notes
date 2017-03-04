@@ -1,0 +1,26 @@
+#+TAGS: bin cue
+
+
+* How to mount a bin/cue file
+* Cmds
+[[file://home/crito/org/tech/cmds/bchunk.org][bchunk]]
+* Usage
+- Install bchunk
+#+BEGIN_SRC sh
+yaourt -S bchunk
+#+END_SRC
+
+- Now we use the bin and cue file to create an iso
+#+BEGIN_SRC sh
+bchunk file.cue file.bin file.iso
+#+END_SRC
+
+- Mount the iso
+#+BEGIN_SRC sh
+mount -o loop -t iso9660 file.iso /mnt/image
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

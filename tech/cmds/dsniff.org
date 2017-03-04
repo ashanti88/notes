@@ -1,9 +1,16 @@
-#+TAGS:
+#+TAGS: net pen anal
 
 
 * dsniff
+HomePage: [[https://www.monkey.org/~dugsong/dsniff/][monkey.org/dsniff]]
 * Description
+Will automatically detect and minimally parse each protocol only saving the interested bits.
+Has the ability to pull passwords from cleartext protocols, ftp, telnet etc 
 * Usage
+- Specify the interface to listen on
+#+BEGIN_SRC sh
+dsniff -i wlp2s0
+#+END_SRC
 * Lecture
 * Tutorial
 * Books

@@ -1,1 +1,14 @@
+#+TAGS: shell ms
 
+
+* PowerShell 							   :shell:ms:
+Github: [[https://github.com/PowerShell/PowerShell][github.com/Powershell]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+[[file://home/crito/Documents/Microsoft/PowerShell/Getting_Started_with_PowerShell.pdf][Getting Started with PowerShell]]
+[[file://home/crito/Documents/Microsoft/PowerShell/PowerShell_Cookbook_3e.pdf][PowerShell Cookbook 3e]]
+[[file://home/crito/Documents/Microsoft/PowerShell/PowerShell_in_Depth_2e.pdf][PowerShell in Depth]]
+* Links

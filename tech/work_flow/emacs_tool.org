@@ -10,8 +10,148 @@
 3. a menu will pop up and allow for the changing of settings3. a menu will pop up and allow for the changing of settings3. a menu will pop up and allow for the changing of settings
 4. save this file and restart emacs, some may take effect straight away, but usually best to restart emacs or the daemon.
 
+** Setting Tab width						  :emacs:tab:
+M-x set-variable<ret> tab-eidth 4
 * Usage
-** Modes
+** What an IDE in emacs should do
+Easily find files and switch between projects
+Easily navigate through function definitions
+Contextual documentation
+Inline help for complex function calls
+ 
+*** Emacs as a Python IDE - thoughtbot
+rl: https://www.youtube.com/watch?v=6BlTGPsjGJk
+
+** Make the above work
+Need an interface for completion and showing alternatives
+- auto-complete
+Need an interpreter that knows the language
+- Here, a server that wraps a Python parsing lib
+You need glue
+- epc, jedi.el
+   
+** Installation with pkg-mgmt
+Fist install projectile auto-complete epc jedi
+add this to .emacs
+require 'package)
+package-initialize)
+add-to-list
+ 'package-archives
+ '("melpa" . "http://melpa.milkbox.net/packages/"))
+
+require 'Projectile)
+projectile-global-mode)
+
+require 'auto-complete-config)
+ac-config-default)
+set ac-show-menu-immediately-on-auto-complete t)
+
+*** Jedi & EPC
+Jedi is a python lib for contextual parsing of files 
+Simple emacs/python rpc lib
+jedi.el 
+- small python server wrapping some jedi features
+- elisp front end to the server
+
+*** Jedi deps
+Jedi setting up
++ pip & virtualenv need to be installed
++ A one time M-x jedi:install-server
++ dep installed in sandbox env
++ This won't work with other package managers eg conda
+Manually
++ Necessay if you can't use virtualenv/pip
++ Install epc and jedi python modules globally
++ Need to ensure they are available to Jedi server
++ May need to point Jedi to a particular installed python 
+  
+ add this to .emacs
+require 'jedi)
+; Hook up to autocomplete
+add-to-list 'ac-sources 'ac-source-jedi-direct)
+; Enable for python-mode
+add-hook 'python-mode-hook 'jedi:setup)
+
+** Jedi Server Options
+ Finding your project (--sys-path)
+ - sys-path is where python looks for modules
+ Finding your installed modules (--virtual-env)
+ - normally set to nil
+
+ add this to .emacs
+defvar jedi-config-with-virtualenv nil
+ "Set to non-nil to point to a particular virtualenv")
+
+; Variables to help find the project root
+defvar jedi-config:vcs-root-sentinel ".git")
+defvar jedi-config:python-module-sentinel "__init__.py")
+
+; Function to find project root given a buffer
+defvun get-project-root (buf repo-type init-file)
+ (vc-find-root (expand-file-name (buffer-file_name buf)) repo-type))
+ 
+defvar jedi-config:find-root-function 'get-project-root)
+
+; And call this on initialization
+defun current-buffer-project-root ()
+ (funcall jedi-config:find-root-function
+   (current-buffer)
+   jedi-config:vcs-root-sentinel
+   jedi-config:python-module-sentinel))
+
+** Set the server args
+ A list (ARG1 VALUE1 ARG2 VALUE2 ...)
+ Store in buffer local variable jedi:server-args
+
+defun jedi-config:serup-server-args()
+ ;; little helper macro
+ (defmacro add-args (arg-list arg-name arg-value)
+   '(setq ,arg-list (append ,arg-list (list ,arg-name ,arg-value)))))
+
+ (let ((project-root (current-buffer-project-root)))
+
+   ;; Variable for this buffer only
+   (make-local-variable 'jedi:service-args)
+
+   ;; And set our variables
+   (when project-root
+     (add-args jedi:server-args "--sys-path" project-root))
+   (when jedi-config:with-virtualenv
+     (add-args jedi:server-args "--virtual-env"
+       jedi-config:with-virtualenv))))
+
+** Dired Buffer
+*** Navigation
+p - move up
+n - move down
+j - (dired-goto-file) - will prompt for a filename
+
+** Other languages
+Ruby - robe
+C/C++ - irony-mode
+gocode - golang
+
+** Shells
+Article: [[https://www.masteringemacs.org/article/running-shells-in-emacs-overview][Running shells in emacs - Mastering Emacs]]
+*** eshell
+** Fonts
++ Packages
+  - fontawsome
+  - emojify
+  - all-the-fonts
+
+- Special characters can be added using
+  C-x 8 <char>
+- To get a list of all the special characters
+  C-x 8 C-h
+- Characters can be added using the unicode
+  C-x 8 <ret>
+
+** Help
+C-h ? - overview of help
+C-h P - search Package
+C-h
+* Modes
 *** org-mode						    :emacs:org:notes:
 **** Cheat Sheet
 ***** Visibility Cycling
@@ -623,7 +763,7 @@ M-x magit-status - uses this command with the dired directory that contains the 
 M-x magit-push-current-to-upstream
   - if using a ssh key may have a problem with setting key
 
-** Packages
+* Packages
 *** projectile - provides an easy way to navigate a project :emacs:projectile:project:
 HomePage: [[http://batsov.com/projectile/][batsoy.com/projectile]]
 *** epc - middleware that connects pythonland to emacsland
@@ -648,144 +788,6 @@ The above(3,4) can also be achieved with:
 vagrant ssh-config --host <host_name> >> $HOME/.ssh/config
 #+END_SRC
 
-** What an IDE in emacs should do
-Easily find files and switch between projects
-Easily navigate through function definitions
-Contextual documentation
-Inline help for complex function calls
- 
-*** Emacs as a Python IDE - thoughtbot
-rl: https://www.youtube.com/watch?v=6BlTGPsjGJk
-
-** Make the above work
-Need an interface for completion and showing alternatives
-- auto-complete
-Need an interpreter that knows the language
-- Here, a server that wraps a Python parsing lib
-You need glue
-- epc, jedi.el
-   
-** Installation with pkg-mgmt
-Fist install projectile auto-complete epc jedi
-add this to .emacs
-require 'package)
-package-initialize)
-add-to-list
- 'package-archives
- '("melpa" . "http://melpa.milkbox.net/packages/"))
-
-require 'Projectile)
-projectile-global-mode)
-
-require 'auto-complete-config)
-ac-config-default)
-set ac-show-menu-immediately-on-auto-complete t)
-
-*** Jedi & EPC
-Jedi is a python lib for contextual parsing of files 
-Simple emacs/python rpc lib
-jedi.el 
-- small python server wrapping some jedi features
-- elisp front end to the server
-
-*** Jedi deps
-Jedi setting up
-+ pip & virtualenv need to be installed
-+ A one time M-x jedi:install-server
-+ dep installed in sandbox env
-+ This won't work with other package managers eg conda
-Manually
-+ Necessay if you can't use virtualenv/pip
-+ Install epc and jedi python modules globally
-+ Need to ensure they are available to Jedi server
-+ May need to point Jedi to a particular installed python 
-  
- add this to .emacs
-require 'jedi)
-; Hook up to autocomplete
-add-to-list 'ac-sources 'ac-source-jedi-direct)
-; Enable for python-mode
-add-hook 'python-mode-hook 'jedi:setup)
-
-** Jedi Server Options
- Finding your project (--sys-path)
- - sys-path is where python looks for modules
- Finding your installed modules (--virtual-env)
- - normally set to nil
-
- add this to .emacs
-defvar jedi-config-with-virtualenv nil
- "Set to non-nil to point to a particular virtualenv")
-
-; Variables to help find the project root
-defvar jedi-config:vcs-root-sentinel ".git")
-defvar jedi-config:python-module-sentinel "__init__.py")
-
-; Function to find project root given a buffer
-defvun get-project-root (buf repo-type init-file)
- (vc-find-root (expand-file-name (buffer-file_name buf)) repo-type))
- 
-defvar jedi-config:find-root-function 'get-project-root)
-
-; And call this on initialization
-defun current-buffer-project-root ()
- (funcall jedi-config:find-root-function
-   (current-buffer)
-   jedi-config:vcs-root-sentinel
-   jedi-config:python-module-sentinel))
-
-** Set the server args
- A list (ARG1 VALUE1 ARG2 VALUE2 ...)
- Store in buffer local variable jedi:server-args
-
-defun jedi-config:serup-server-args()
- ;; little helper macro
- (defmacro add-args (arg-list arg-name arg-value)
-   '(setq ,arg-list (append ,arg-list (list ,arg-name ,arg-value)))))
-
- (let ((project-root (current-buffer-project-root)))
-
-   ;; Variable for this buffer only
-   (make-local-variable 'jedi:service-args)
-
-   ;; And set our variables
-   (when project-root
-     (add-args jedi:server-args "--sys-path" project-root))
-   (when jedi-config:with-virtualenv
-     (add-args jedi:server-args "--virtual-env"
-       jedi-config:with-virtualenv))))
-
-** Dired Buffer
-*** Navigation
-p - move up
-n - move down
-j - (dired-goto-file) - will prompt for a filename
-
-** Other languages
-Ruby - robe
-C/C++ - irony-mode
-gocode - golang
-
-** Shells
-Article: [[https://www.masteringemacs.org/article/running-shells-in-emacs-overview][Running shells in emacs - Mastering Emacs]]
-*** eshell
-** Fonts
-+ Packages
-  - fontawsome
-  - emojify
-  - all-the-fonts
-
-- Special characters can be added using
-  C-x 8 <char>
-- To get a list of all the special characters
-  C-x 8 C-h
-- Characters can be added using the unicode
-  C-x 8 <ret>
-
-** Help
-C-h ? - overview of help
-C-h P - search Package
-C-h
 * Lecture
 ** Have Emacs Teach You Chinese or English or Math or whatever - thoughtbot Josh Moller-Mara
 URL: [[https://www.youtube.com/watch?v%253DuraPXeLfWcM][Emacs Teach you chinese or English...]]

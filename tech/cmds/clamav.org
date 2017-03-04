@@ -1,4 +1,4 @@
-#+TAGS: sec_d av
+#+TAGS: sec_d av cisco
 
 
 * clamav							   :sec_d:av:

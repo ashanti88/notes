@@ -8,7 +8,9 @@
 > grep <options> <pattern> <file>
 
 ** Search entire direcotry for pattern
-> grep -Ri <pattern> .
+#+BEGIN_SRC sh
+grep -Ri  .
+#+END_SRC
 
 * Lecture
 * Tutorial

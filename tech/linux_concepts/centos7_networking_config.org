@@ -1,12 +1,14 @@
-#+TAGS: rhel sysd net
+#+TAGS: net rhel centos
 
 
-* Centos7 Networking Configuration
+* Centos7 Networking Configuration				 :centos:net:
 * Cmds
-** [[file://home/crito/org/tech/cmds/ethtool.org][ethtool]]
-** [[file://home/crito/org/tech/cmds/nmcli.org][nmcli]]
-** [[file://home/crito/org/tech/cmds/ip.org][ip]]
-* Files
+[[file://home/crito/org/tech/cmds/ethtool.org][ethtool]] -
+[[file://home/crito/org/tech/cmds/nmcli.org][nmcli]] - 
+[[file://home/crito/org/tech/cmds/ip.org][ip]] - systemd ifconfig
+[[file:~/org/tech/cmds/iw.org][iw]] - systemd iwconfig
+[[file://home/crito/org/tech/cmds/wifi-menu.org][wifi-menu]] - ncurses wifi configuration tool
+* Network Configuration
 ** Network Interface Config Files
 /etc/sysconfig/network-scripts/
 ** Example Interface Config
@@ -36,11 +38,27 @@ IPADDR=172.27.0.32
 NETMASK=255.255.255.0
 GATEWAY=172.27.0.1
 DNS1=172.27.0.5
+** Setting up /etc/hosts
+This file is read before a request is made to the dns server 
+add here any hostname => ip
+Foramt is [ip hostname]
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
 ** Setting Hostname and DNS
+*** Permanently change hostname and DNS
+- Add DNS and Hostname to interface config file
 HOSTNAME=server.alick.com
 DNS1=192.168.1.5
 DNS2=8.8.8.8
 SEARCH=alick.com
+
+- Add the DNS server to the resolv.conf file
+nameserver 8.8.8.8
+
+*** Temporary change hostname
+#+BEGIN_SRC sh
+hostname $HOSTNAME
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

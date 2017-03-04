@@ -5,9 +5,26 @@
 * Description
 This tool checks the integrity of the group file 
 * Usage
-> grpck
-
+#+BEGIN_SRC sh
+grpck
+#+END_SRC
 This will check /etc/group and inform you of errors, and if you would like it to remedy them
+
+- report errors but don't fix errors
+#+BEGIN_SRC sh
+grpck -n
+#+END_SRC
+
+- fix errors but don't report errors
+#+BEGIN_SRC sh
+grpck -p
+#+END_SRC
+
+- fix errors and report errors
+#+BEGIN_SRC sh
+grpck -y
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

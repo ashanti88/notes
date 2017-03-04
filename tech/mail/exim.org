@@ -1,45 +1,168 @@
-#+TAGS: mail
+#+TAGS: mail mta
 
 
-* exim
+* exim								   :mail:mta:
 * Description
 * Usage
-+ Print a count of the mail queue
+** Basic Administration
+- Print a count of the mail queue
 #+BEGIN_SRC sh
 exim -bpc
 #+END_SRC
 
-+ Print a listing of the exim queue
+- Print a listing of the exim queue
 #+BEGIN_SRC sh
 exim -bp
 #+END_SRC
 
-+ Print a summary of the messages in the queue
+- Print a summary of the messages in the queue
 #+BEGIN_SRC sh
 exim -bp | exiqsumm
 #+END_SRC
 
-+ Print what exim is doing right now
+- Print what exim is doing right now
 #+BEGIN_SRC sh
 exiwhat
 #+END_SRC
 
-+ Test how exim will route a given address
+- Test how exim will route a given address
 #+BEGIN_SRC sh
 exim -bt me@localdomain.com
 #+END_SRC
 
-+ Pretend SMTP transaction from the given IP address. This is show Exim's checks, ACLs, and filters as they are applied.
+- Pretend SMTP transaction from the given IP address. This is show Exim's checks, ACLs, and filters as they are applied.
 #+BEGIN_SRC sh
 exim -bh 192.168.11.22
 #+END_SRC
 
-+ Display exim's configuration settings
+- Display exim's configuration settings
 #+BEGIN_SRC sh
 exim -bp
 #+END_SRC
 
+** Exim and Dovecot on CentOS7
+URL: [[https://www.rosehosting.com/blog/setup-a-mailserver-with-exim-and-dovecot-on-a-centos-7-vps/][Setup a mailserver with Exim and Dovcot on CentOS7]]
+
+1. Update system
+#+BEGIN_SRC sh
+yum update
+#+END_SRC
+
+2. Install the epel repo
+#+BEGIN_SRC sh
+yum install epel-release
+#+END_SRC
+
+3. Generate SSL cert
+#+BEGIN_SRC sh
+mkdir -p /root/ssl/mail.bluelevers.co.uk
+cd /root/ssl/mail.bluelevers.co.uk
+openssl req -nodes -x509 -newkey rsa:2048 -keyout mail.bluelevers.co.uk.key -out mail.bluelevers.co.uk.crt -days 365
+#+END_SRC
+
+4. Copy the ssl crt and key to /etc/ssl
+#+BEGIN_SRC sh
+cp mail.bluelevers.co.uk.crt mail.bluelevers.co.uk.key /etc/ssl/
+#+END_SRC
+
+5. Install exim
+#+BEGIN_SRC sh
+yum install exim
+#+END_SRC
+
+6. Configure exim at /etc/exim/exim.conf
+as follows:
+#+BEGIN_SRC sh
+## cp /etc/exim/exim.conf{,.orig}
+## vim /etc/exim/exim.conf
+
+primary_hostname = mail.bluelevers.co.uk
+domainlist local_domains = @ : bluelevers.co.uk
+
+tls_advertise_hosts = *
+tls_certificate = /etc/ssl/mail.bluelevers.co.uk.crt
+tls_privatekey = /etc/ssl/mail.bluelevers.co.uk.key
+
+auth_advertise_hosts = *
+#+END_SRC
+
+then the transport section:
+#+BEGIN_SRC sh
+local_delivery:
+  driver = appendfile
+  directory = $home/Maildir
+  maildir_format
+  maildir_use_size_file
+  delivery_date_add
+  envelope_to_add
+  return_path_add
+#+END_SRC
+
+then the authentication section:
+#+BEGIN_SRC sh
+dovecot_login:
+  driver = dovecot
+  public_name = LOGIN
+  server_socket = /var/run/dovecot/auth-client
+  server_set_id = $auth1
+
+dovecot_plain:
+  driver = dovecot
+  public_name = PLAIN
+  server_socket = /var/run/dovecot/auth-client
+  server_set_id = $auth1
+#+END_SRC
+
+7. Start and Enable exim
+#+BEGIN_SRC sh
+systemctl start exim.service
+systemctl status exim.service
+systemctl enable exim.service
+#+END_SRC
+
+8. Install Dovecot
+#+BEGIN_SRC sh
+yum install dovecot
+#+END_SRC
+
+9. Configure SSL in Dovecot edit /etc/dovecot/conf.d/10-ssl.conf
+#+BEGIN_SRC sh
+ssl = yes
+ssl_cert = </etc/ssl/mail.bluelevers.co.uk.crt
+ssl_key = </etc/ssl/mail.bluelevers.co.uk.key
+#+END_SRC
+
+10. Allow plaintext authentication in /etc/dovecot/conf.d/10-auth.conf
+#+BEGIN_SRC sh
+disable_plaintext_auth = no
+auth_mechanisms = plain login
+#+END_SRC
+
+11. Configure mail location 
+#+BEGIN_SRC sh
+mail_location = maildir:~/Maildir
+#+END_SRC
+
+12. Configure Dovecot to allow Exim to use its authentication system
+#+BEGIN_SRC sh
+service auth {
+...
+    unix_listener auth-client {
+        mode = 0660
+        user = exim
+    }
+}
+#+END_SRC
+
+13. Start and Enable dovecot
+#+BEGIN_SRC sh
+systemctl start dovecot.service
+systemctl status dovecot.service
+systemctl enable dovecot.service
+#+END_SRC
+
 * Lecture
 * Tutorial
+[[https://www.janoszen.com/2010/03/22/the-big-exim-tutorial/][The Big Exim Tutorial]]
 * Books
 * Links

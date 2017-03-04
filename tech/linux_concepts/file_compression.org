@@ -1,7 +1,7 @@
-#+TAGS:
+#+TAGS: file comp
 
 
-* compression
+* File Compression						  :file:comp:
 * Cmds
 [[file://home/crito/org/tech/cmds/gzip.org][gzip]]
 [[file://home/crito/org/tech/cmds/bzip2.org][bzip2]]

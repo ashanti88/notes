@@ -69,4 +69,10 @@ docker port $DOCKER_ID
 * Lecture
 * Tutorials
 * Books
+[[file://home/crito/Documents/SysAdmin/Virtulization/Docker/Using_Docker.pdf][Using Docker]]
+[[file://home/crito/Documents/SysAdmin/Virtulization/Docker/Pro_Docker.pdf][Pro Docker]]
+[[file://home/crito/Documents/SysAdmin/Virtulization/Docker/Learning_Docker.pdf][Learning Docker]]
+[[file://home/crito/Documents/SysAdmin/Virtulization/Docker/Monitoring_Docker.pdf][Monitoring Docker]]
+[[file://home/crito/Documents/SysAdmin/Virtulization/Docker/Orchestrating_Docker.pdf][Orchestrating Docker]]
+[[file://home/crito/Documents/SysAdmin/Virtulization/Docker/Docker_Cookbook.pdf][Docker Cookbook]]
 * Links

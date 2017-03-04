@@ -1,9 +1,37 @@
-*Remote Synchronization*
+#+TAGS: bakup
 
-* *
 
-*Cmds:*
+* rsync								      :bakup:
+* Description
+* Usage
+- sync two directories
+#+BEGIN_SRC sh
+rsync -r dir1/ dir2
+#+END_SRC
+r - recursive
+the trailing / is required as it signifies the contents of that dir, otherwise you would get /dir2/dir1/contents
 
-rsync
+- copy a file from remote server to local machine
+#+BEGIN_SRC sh
+rsync -avzhe ssh crito@51.20.11.192:/var/log/apache2/access.log /tmp/
+#+END_SRC
+a - archive
+v - verbose
+z - compress data
+e - protocol
 
-Checking if url remains the same
+- show progress of transfer
+#+BEGIN_SRC sh
+rsync -avzhe ssh crito@51.20.11.192:/var/log/apache2/access.log /tmp/
+#+END_SRC
+
+- do a dry run
+#+BEGIN_SRC sh
+rsync --dry-run -vr dir1/ dir2
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links
+[[https://www.digitalocean.com/community/tutorials/how-to-use-rsync-to-sync-local-and-remote-directories-on-a-vps][How to use Rsync to Sync Local and Remote Directories]]

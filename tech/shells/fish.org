@@ -1,1 +1,11 @@
+#+TAGS: shell
 
+
+* Fish Shell							      :shell:
+HomePage: [[https://fishshell.com/][fishshell.com]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

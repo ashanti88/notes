@@ -1,7 +1,7 @@
-#+TAGS: web proxy cache
+#+TAGS: web proxy cache lb
 
 
-* haproxy
+* haproxy						 :web:proxy:cache:lb:
 * Description
 * Usage
 * Lectures

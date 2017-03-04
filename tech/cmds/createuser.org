@@ -1,0 +1,16 @@
+#+TAGS: db postgres op
+
+
+* createuser							:postgres:op:
+* Description
+Interactive shell script that calls the correct cmds to create a postgres user.
+* Usage
+- create new user
+#+BEGIN_SRC sh
+createuser --interactive
+#+END_SRC
+--interactive - prompts for questions
+* Lecture
+* Tutorial
+* Books
+* Links

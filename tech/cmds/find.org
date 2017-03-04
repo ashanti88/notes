@@ -8,8 +8,14 @@ Used for finding files by file name.
 
 > find <start_point> <options> <pattern>
 
-** delete found files
-> find . -name "pattern" -exec rm -rf {} \;
+** Delete found files
+#+BEGIN_SRC sh
+find . -name "pattern" -exec rm -rf {} \;
+#+END_SRC
+** Count files in directory recursively
+#+BEGIN_SRC sh
+find . -type f | wc -l
+#+END_SRC
 * Lecture
 * Tutorial
 * Books

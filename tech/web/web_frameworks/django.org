@@ -1,0 +1,284 @@
+#+TAGS: python py django mvc
+
+
+* Django							     :py:mvc:
+* Description
+* Overview
+** MTV - Model Template View
+Model    - this is where the data is (postgres, sqlite3 etc)
+Template - this is how the data is represented 
+View     - this is what data will be shown (queries to data and variables)
+
+** What is an app
+3 files are created with the app creation cmd
+#+BEGIN_SRC sh
+python manage.py startapp appname
+#+END_SRC
+1. models.py - to design models
+   - this file single lines of code are used to create databases
+2. urls.py   - to write your urls
+   - this file uses regexs to capture URL patterns for processing
+3. views.py  - to create your views
+   - this file is where the processing happens, coding what data will be shown. 
+
+* Usage
+** Simple setup
+- Install django
+#+BEGIN_SRC sh
+pip install django
+#+END_SRC
+
+- Create a Project
+#+BEGIN_SRC sh
+django-admin startproject mysite
+#+END_SRC
+
+- Create an App 
+#+BEGIN_SRC sh
+python manage.py startapp new_app
+#+END_SRC
+
+- Settings that might need to be changed
+settings.py
+TIME_ZONE = 'UTC' => TIME_ZONE = 'Europe/London'
+
+** Using Bootstrap
+URL: [[https://django-bootstrap3.readthedocs.io/en/latest/index.html][django-bootstrap3]]
+URL: [[https://tutorial.djangogirls.org/en/django_start_project/][djangogirls/bootstrap_project]]
+
+1.Create Project
+#+BEGIN_SRC sh
+django-admin startproject mysite
+#+END_SRC
+
+2. Configure settings.py
+#+BEGIN_SRC sh
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+ALLOWED_HOSTS = ['127.0.0.1', '.blulevers.co.uk']
+#+END_SRC
+
+3. Set up DB
+#+BEGIN_SRC sh
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+#+END_SRC
+
+4. Create DB
+#+BEGIN_SRC sh
+python manage.py migrate
+#+END_SRC
+
+5. Create the Application
+#+BEGIN_SRC sh
+python manage.py startapp blog
+#+END_SRC
+
+6. Application needs to be added to settings
+#+BEGIN_SRC sh
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'blog',
+]
+#+END_SRC
+
+7. Create blog post model 
+blog/models.py
+#+BEGIN_SRC sh
+from django.db import models
+from django.utils import timezone
+
+
+class Post(models.Model):
+    author = models.ForeignKey('auth.User')
+    title = models.CharField(max_length=200)
+    text = models.TextField()
+    created_date = models.DateTimeField(
+            default=timezone.now)
+    published_date = models.DateTimeField(
+            blank=True, null=True)
+
+    def publish(self):
+        self.published_date = timezone.now()
+        self.save()
+
+    def __str__(self):
+        return self.title
+#+END_SRC
+
+8. Add changes to the DB
+#+BEGIN_SRC sh
+python manage.py makemigrations blog
+#+END_SRC
+this creates a migration file for us, now migrate this
+#+BEGIN_SRC sh
+python manage.py migrate blog
+#+END_SRC
+
+9. Allow blog to be accessed by admin
+blog/admin.py
+#+BEGIN_SRC sh
+from django.contrib import admin
+from .models import Post
+
+admin.site.register(Post)
+#+END_SRC
+
+10. Create superuser to access admin
+#+BEGIN_SRC sh
+python manage.py createsuperuser
+#+END_SRC
+add user and password
+
+11. Posts can now be added through the admin portal
+http://localhost:8000/admin/
+
+12. Set up mysite/urls.py 
+mysite/urls.py
+#+BEGIN_SRC sh
+from django.conf.urls import include, url
+from django.contrib import admin
+
+urlpatterns = [
+    url(r'^admin/', admin.site.urls),
+    url(r'',include('blog.urls')),
+]
+#+END_SRC
+
+13. Set up blog/urls.py
+#+BEGIN_SRC sh
+from django.conf.urls import url
+from . import views
+
+urlpatterns = [
+    url(r'^$', views.post_list, name='post_list'),
+]
+#+END_SRC
+
+14. Configure View
+blog/views.py
+#+BEGIN_SRC sh
+from django.shortcuts import render
+
+# Create your views here.
+
+def post_list(request):
+    return render(request, 'blog/post_list.html', {})
+#+END_SRC
+
+15. Add dynamic content from model
+This will add posts by published date
+blog/views.py
+#+BEGIN_SRC sh
+from django.shortcuts import render
+from django.utils import timezone
+from .models import Post
+
+def post_list(request):
+    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+    return render(request, 'blog/post_list.html', {'posts': posts})
+#+END_SRC
+
+** Adding Static Files
+
+* Lecture
+** [[https://www.youtube.com/watch?v%3DzTNA0MtZwso][Pyhone Web Development: Understanding Django for Beginners]]
+
+** [[https://www.youtube.com/watch?v%3D8uxQOzKi3_0&feature%3Dyoutu.be][So you want to be a full-stack developer? - Kate heddleston]]
+- Semi-Typical Web Application
+  - the stack
+    - OS
+    - Web Server
+    - DB
+    - Application Lang
+      
+- The Stack for django
+  - Web Server - Apache - mod_wsgi
+               - Nginx - Gunicorn
+  - Application Code - python
+  - DB - Postgres
+       - MySQL
+       - SQLServer
+       - Redis
+       - MongoDB
+  - Logging - Log files
+  - Version Control - Git
+  - SMTP mail - Postfix (other options PostmarkApp, Sendgrid, Amazon SES)
+  - Async Tasks - require Data Store python-rq/redis celery/rabbitMQ
+    - Async Frameworks - Twisted, Tornado 
+  - Exception handling - Emails self
+
+- Once DB has to be moved to its own server
+  - Cache on application server required
+    - Memcached
+    - Redis
+    - Varnish
+
+- Monitoring
+  - New Relic - Performance Monitoring
+  - Nagios - Infrastructure Monitoring
+  - Pingdom - is site up
+    
+- Async Tasks require own server
+  
+- Large site requires more robust Exception handling
+  - Sentry - agragate exceptions
+    
+- Logging requires own server due to many servers (agragate all logs at one point)
+  - Loggly
+  - Splunk
+    
+- Load Balancer is required
+  - have the application now run on two servers, serving more traffic
+  
+- DB replication
+  - master to slave
+
++ Development
+Cannot dev on production server so require an environment that is near to production as possible
+Tools
+  - Venv & Venvwrapper
+  - Vagrant
+
++ Testing
+  - Jenkins
+  - CircleCI
+  - TravisCI
+
++ Staging (multiple devs)
+  - Deploy
+    - chef
+    - puppet
+    - ansible
+    - saltstack
+    - docker
+
++ Deploy
+On the simple appliction git push/pull restart service will be enough
+
++ Hosting
+  - AWS
+  - Rackspace
+  - Linode
+
+** [[https://www.youtube.com/watch?v%3DkOIrD9YMA18&list%3DPL8uoeex94UhE3FDvjacSlHFffoNEoPzzm&index%3D5][Efficient Django - David Arcos Still needs to be done]]
+
+[[file://home/crito/Documents/Python/Django/Beginning_Django_E-Commerce.pdf][Beginning Django E-Commerce]]
+* Tutorial
+** [[https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-debian-8][How to setup Django with Postgres, Nginx and Gunicor on Debian 8]]
+* Books
+[[file://home/crito/Documents/Python/Django/Beginning_Django_CMS.pdf][Beginning Django CMS]]
+[[file://home/crito/Documents/Python/Django/Beginning_Django_E-Commerce.pdf][Beginning Django E-Commerce]]
+[[file://home/crito/Documents/Python/Django/Lightweight_Django-O'Reilly.pdf][Leightweight Django]]
+[[file://home/crito/Documents/Python/Django/Practical_Django_Projects_2e-Apress.pdf][Practical Django Projects]]
+[[file://home/crito/Documents/Python/Django/Getting_Started_with_Django.pdf][Getting Started with Django]]
+* Links

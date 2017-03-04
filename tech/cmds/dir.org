@@ -3,7 +3,17 @@
 
 * dir								     :sys:op:
 * Description
+Normally considered the MS version of ls, but also works in linux
 * Usage
+- show all files
+#+BEGIN_SRC sh
+dir
+#+END_SRC
+
+- show all files including hidden files
+#+BEGIN_SRC sh
+dir -a
+#+END_SRC
 * Lecture
 * Tutorial
 * Books

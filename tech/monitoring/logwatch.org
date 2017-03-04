@@ -1,0 +1,11 @@
+#+TAGS: sys mon anal log
+
+
+* logwatch
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links
+[[https://www.digitalocean.com/community/tutorials/how-to-install-and-use-logwatch-log-analyzer-and-reporter-on-a-vps][How to Install and Use Logwatch - DigitalOcean]]

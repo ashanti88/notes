@@ -5,9 +5,11 @@
 HomePage: [[http://sebastien.godard.pagesperso-orange.fr/][sebastien.godard.fr/sysstat]]
 Github: [[https://github.com/sysstat/sysstat][github.com/sysstat]]
 * Description
+System Activity Reporter
 The sar command writes to standard output the contents of selected cumulative activity counters in the operating system. The accounting system, based on the values in the count and interval parameters, writes information the specified number of times spaced at the specified intervals in seconds. 
 
 * Setup
+** First Method (no service mgmt)
 These two files have to be changed for sar to be used
 
 /etc/default/sysstat # Should sadc collect system activity informations?
@@ -17,7 +19,53 @@ they # will be overwritten by debconf! ENABLED="true"
 /etc/cron.d/sysstat Change 5-55/10 * * * * root command -v debian-sa1 >
 /dev/null && debian-sa1 1 1 To //2 / * * * root command -v debian-sa1 >
 /dev/null && debian-sa1 1 1
+
+** Second Method (sysv)
+Start and enable the service
+#+BEGIN_SRC sh
+service sysstat start
+chkconfig sysstat on
+#+END_SRC
+
+** Third Method (sysd)
+Start the and Enable the service
+#+BEGIN_SRC sh
+systemctl start sysstat.service
+systemctl enable sysstat.service
+#+END_SRC
+
 * Usage
+To report on previously captured data – type :
+#+BEGIN_SRC sh
+sar -u -f filename > file
+#+END_SRC
+
+View disk i/o and transfer rate stats : 
+#+BEGIN_SRC sh
+sar -b 3 10
+#+END_SRC
+
+View memory and swap space stats : 
+#+BEGIN_SRC sh
+sar -r 3 10
+#+END_SRC
+
+View swapping stats : 
+#+BEGIN_SRC sh
+sar -W 3 10
+#+END_SRC
+
+View network stats : 
+#+BEGIN_SRC sh
+sar -n DEV 3 10
+#+END_SRC
+
+View CPU stats : 
+#+BEGIN_SRC sh
+sar -P ALL 3 10
+#+END_SRC
+
+The above numbers are interval and count (3 secs 10 times)
 * Lecture
 * Tutorial
 * Books

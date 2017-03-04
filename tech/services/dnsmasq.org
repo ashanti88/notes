@@ -1,3 +1,190 @@
-*Links:*
+#+TAGS: dns cache dhcp
 
-https://wiki.debian.org/HowTo/dnsmasq
+
+* dnsmasq							   :dns:dhcp:
+* Description
+provides services as a DNS cacher and a DHCP server. As a Domain Name Server (DNS) it can cache DNS queries to improve connection speeds to previously visited sites, and as a DHCP server dnsmasq can be used to provide internal IP addresses and routes to computers on a LAN.
+* Files
+/etc/dnsmasq.conf
+/etc/resolv.conf
+/etc/resolv.dnsmasq
+/etc/logrotate.d/dnsmasq
+
+* Configuration
+** DNS cache setup
+rhel
+1. Install dnsmasq
+#+BEGIN_SRC sh
+yum install dnsmasq
+#+END_SRC
+
+2. Create group and user
+#+BEGIN_SRC sh
+groupadd -r dnsmasq
+useradd -r -g dnsmasq dnsmasq
+#+END_SRC
+
+3. Make a copy of the original file
+#+BEGIN_SRC sh
+cp /etc/dnsmasq.conf /etc/dnsmasq.conf.orig
+#+END_SRC
+
+4. edit the dnsmasq.conf as below
+#+BEGIN_SRC sh
+listen-address=127.0.0.1
+port=53
+bind-interfaces
+user=dnsmasq
+group=dnsmasq
+pid-file=/var/run/dnsmasq.pid
+#+END_SRC
+
+5. configure logging
+Logging is sent to the Daemon syslog facility.
+It can be set to log to its own file by adding:
+#+BEGIN_SRC sh
+log-facility=/var/log/dnsmasq.log
+log-queries
+#+END_SRC
+ 
+6. logrotate file needs adding to /etc/logrotate.d/dnsmasq
+#+BEGIN_SRC sh
+/var/log/dnsmasq.log {
+    monthly
+    missingok
+    notifempty
+    delaycompress
+    sharedscripts
+    postrotate
+        [ ! -f /var/run/dnsmasq.pid ] || kill -USR2 `cat /var/run/dnsmasq.pid`
+    endscript
+    create 0640 dnsmasq dnsmasq
+}
+#+END_SRC
+
+7. Configure name resolution and caching
+prevent dnsmasq form forwarding plain names(without any dots), or addresses in the non-routed address space to the parent nameservers.
+#+BEGIN_SRC sh
+domain-needed
+bogus-priv
+#+END_SRC
+
+8. Don't consult the /etc/hosts file 
+#+BEGIN_SRC sh
+no-hosts
+#+END_SRC
+
+9. Set the number of concurrent DNS queries; default is 150
+#+BEGIN_SRC sh
+dns-forward-max=150
+#+END_SRC
+
+10. Set the size of the dns cache; default is 150 hostnames; 0 disables the cache size
+#+BEGIN_SRC sh
+cache-size=1000
+#+END_SRC
+
+11. Setting the neg-ttl parameter sets a default ttl value to negative replies from parent nameservers, in case these replies do not contain ttl information.
+#+BEGIN_SRC sh
+neg-ttl=3600
+#+END_SRC
+
+12. Configuring parent nameservers. 
+#+BEGIN_SRC sh
+resolv-file=/etc/resolv.dnsmasq
+no-poll
+#+END_SRC
+the no-poll stops the polling of the resolv.dnsmasq for changes
+
+resolv.dnsmasq
+opendns
+#+BEGIN_SRC sh
+nameserver 208.67.222.222
+nameserver 208.67.220.220
+#+END_SRC
+google
+#+BEGIN_SRC sh
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+#+END_SRC
+
+13 Start & enable dnsmasq
+#+BEGIN_SRC sh
+systemctl start dnsmasq.service
+systemctl enable dnsmasq.service
+#+END_SRC
+
+14. Switch name resolution to dnsmasq. Edit the /etc/resolv.conf only provide the locahost ip
+#+BEGIN_SRC sh
+nameserver 127.0.0.1
+#+END_SRC
+
+*** /etec/dnsmasq.conf
+#+BEGIN_SRC sh
+#
+# Configuration file for dnsmasq acting as a caching nameserver.
+#
+# Format is one option per line, legal options are the same
+# as the long options legal on the command line. See
+# "/usr/sbin/dnsmasq --help" or "man 8 dnsmasq" for details.
+#
+# Updated versions of this configuration file may be available at:
+#
+#   http://www.g-loaded.eu/2010/09/18/caching-nameserver-using-dnsmasq/
+#
+
+#
+# Basic server configuration
+#
+
+listen-address=127.0.0.1
+port=53
+bind-interfaces
+user=dnsmasq
+group=dnsmasq
+pid-file=/var/run/dnsmasq.pid
+
+#
+# Logging
+#
+
+#log-facility=/var/log/dnsmasq.log
+#log-queries
+
+#
+# Name resolution options
+#
+
+domain-needed
+bogus-priv
+no-hosts
+dns-forward-max=150
+cache-size=1000
+#no-negcache
+neg-ttl=3600
+resolv-file=/etc/resolv.dnsmasq
+no-poll
+#+END_SRC
+
+* Usage
+- Check the configuration of the dnsmasq,conf file
+#+BEGIN_SRC sh
+dnsmasq --test
+#+END_SRC
+
+- Start service
+#+BEGIN_SRC sh
+systemctl start dnsmasq.service
+#+END_SRC
+
+- Enable service on boot
+#+BEGIN_SRC sh
+systemctl enable dnsmasq.service
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links
+[[https://wiki.debian.org/HowTo/dnsmasq][Debian dnsmasq configuration]]
+[[https://wiki.archlinux.org/index.php/dnsmasq][Arch dnsmasq configuration]]
