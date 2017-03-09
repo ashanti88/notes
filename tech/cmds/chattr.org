@@ -6,17 +6,10 @@
 change attribute is a command that is used to set/unset certain attributes.
 
 * Usage
-+ How to add attributes
-#+BEGIN_SRC sh
-> chattr +$OPTIONS $FILE
-#+END_SRC
 
-+ How to remove attributes
-#+BEGIN_SRC sh
-> chattr -$OPTIONS $FILE
-#+END_SRC
+> chattr [options] [file]
 
-** Attributes & Flags
+- Attributes & Flags
 A - atime record is not updated
 S - updates synchronously on the disk.
 a - can only be opened in append mode
@@ -25,10 +18,20 @@ j - all of its information updated to the ext3 journal before being updated to t
 t - no tail-merging
 u - allows for undeletion
 
-** Operator
+- Operator
 + - adds the attribute
 - - removes the attribute
 = - keep attributes that the file has
+
+** How to add attributes
+#+BEGIN_SRC sh
+chattr +$OPTIONS $FILE
+#+END_SRC
+
+** How to remove attributes
+#+BEGIN_SRC sh
+chattr -$OPTIONS $FILE
+#+END_SRC
 
 * Lecture
 * Tutorial

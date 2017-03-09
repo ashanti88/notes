@@ -1,20 +1,46 @@
-#+TAGS:
+#+TAGS: sys op
 
 
-* chage
+* chage								     :sys:op:
 * Description
+Change Age
 * Usage
 > chage <options> <user>
 
-** Options
+- Options
 m <days> - min number of days before changing password
 M <days> - max number of days for a password remains valid
 E        - sets a date that a user account will expire
 W <days> - 
 
-+ Running without options
-> chage <user>
+** Running with Prompted Questions
+#+BEGIN_SRC sh
+chage test_user
+#+END_SRC
 this will prompt you for all the chage information
+
+** Disable password aging for user
+#+BEGIN_SRC sh
+chage -l -1 -m 0 -M 99999 -E -1 testuser
+#+END_SRC
+** Enable password expiry date of user
+#+BEGIN_SRC sh
+chage -M 20 testuser
+#+END_SRC
+this will force the user to change their password every 20 days
+** Set Account Expiry date 
+#+BEGIN_SRC sh
+chage -E "2018-05-28"
+#+END_SRC
+** Set Password Expiry Warning Message
+#+BEGIN_SRC sh
+chage -W 10 testuser
+#+END_SRC
+The default is set to 7 days. The user will receive a warning that the users password will expiry in set number of days.
+** Foce user to change password on next login
+#+BEGIN_SRC sh
+chage -d 0 testuser
+#+END_SRC
 * Lecture
 * Tutorial
 * Books

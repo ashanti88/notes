@@ -18,51 +18,71 @@ This command is used to analyse and assemble tcp/ip packets. hping3 is based on 
 * Usage
 
 ** Normal ping test
-> hping3 -1 <domain.com>
+#+BEGIN_SRC sh
+hping3 -1 domain.com
+#+END_SRC
 1 - protocol type (1 = icmp)
 
-+ Traceroute example
-> hping3 --traceroute -V -1 <domain.com>
+- Traceroute example
+#+BEGIN_SRC sh
+hping3 --traceroute -V -1 domain.com
+#+END_SRC
 V - verbose
 
 ** Checking port
-> hping3 -V -S -p <port\_number> -s <port\_number> <domain.com> 
+#+BEGIN_SRC sh
+hping3 -V -S -p <port\_number> -s <port\_number> domain.com
+#+END_SRC
+p - destionation port
+s - source port
+V - verbose
+S - set the syn flag
+
 
 ** Traceroute to a specific port
-> hping3 --traceroute -V -S -p <port\_number> -s <port\_number>
-<domain.com>
-
+#+BEGIN_SRC sh
+hping3 --traceroute -V -S -p 80 -s 80 domain.com
+#+END_SRC
 S - tcp flag (syn)
 p - source port
 s - destination port
-+ Setting type of icmp
 
-> hping3 -c 1 -V -1 -C 17 <domain.com>
+- Setting type of icmp
+#+BEGIN_SRC sh
+hping3 -c 1 -V -1 -C 17 domain.com
+#+END_SRC
 c - count
 C - icmptype
-
 This is set for an icmp address mask request (type 17)
 
 ** Fin Port Scan
-> hping3 -c 1 -V -p 80 -s 5050 -F <domain.com>
+#+BEGIN_SRC sh
+hping3 -c 1 -V -p 80 -s 5050 -F domain.com
+#+END_SRC
 
 ** Ack Port Scan
-> hping3 -c 1 -V -p 80 -S 5050 -A <domain.com>
+#+BEGIN_SRC sh
+hping3 -c 1 -V -p 80 -S 5050 -A domain.com
+#+END_SRC
 
 ** Smurf Attack
-> hping3 -1 --flood -a <dest\_ip> <broadcast\_add>
+#+BEGIN_SRC sh
+hping3 -1 --flood -a <dest\_ip> <broadcast\_add>
+#+END_SRC
 
 ** Dos Land Attack
-> hping3 -1 -V -c 10000000 -d 120 -S -w 64 -p 445 -s 445 --flood
---rand-source <dest\_ip>
-
+#+BEGIN_SRC sh
+hping3 -1 -V -c 10000000 -d 120 -S -w 64 -p 445 -s 445 --flood --rand-source 51.20.54.122
+#+END_SRC
 flood - send packets as fast as possible
 rand-source - randomise the source ip
 d - data size
 w - window size
 
 ** Setting interface to use for Dos Rand Attack
-> hping3 -S -p 80 -s 5050 --flood --interface <ethx> --rand-source <dest\_ip>
+#+BEGIN_SRC sh
+hping3 -S -p 80 -s 5050 --flood --interface <ethx> --rand-source 51.20.54.122
+#+END_SRC
 
 * Lecture
 * Tutorial

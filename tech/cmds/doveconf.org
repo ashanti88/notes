@@ -1,0 +1,14 @@
+#+TAGS: mail dovecot
+
+
+* doveconf						       :mail:dovecot:
+* Description
+* Usage
+- print out all configuration
+#+BEGIN_SRC sh
+doveconf -a
+#+END_SRC
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -5,14 +5,22 @@
 * Description
 * Usage
 
-** Change the owner of a file*
-> chown <user> <file>
+> chown user:group file.txt
 
-** Change the owner and group of file*
-> chown <user>:<group> <file>
+** Change the owner of a file
+#+BEGIN_SRC sh
+chown crito file.txt
+#+END_SRC
 
-** Change the owner of directory and subfiles*
-> chown <user> -R </directory>
+** Change the owner and group of file
+#+BEGIN_SRC sh
+chown crito:crito file.txt
+#+END_SRC
+
+** Change the owner of directory and subfiles
+#+BEGIN_SRC sh
+chown crito -R /directory
+#+END_SRC
 R - recursive
 
 * Lecture

@@ -1,22 +1,31 @@
 #+TAGS: sys op
 
 
-* cd
+* cd								     :sys:op:
 * Description
+Change Directory
 * Usage
 
 > cd <options> <path>
 
 ** move to users home directory
-> cd
+#+BEGIN_SRC sh
+cd
+#+END_SRC
 or
-> cd ~
+#+BEGIN_SRC sh
+cd ~
+#+END_SRC
 
 ** move to previous directory
-> cd -
+#+BEGIN_SRC sh
+cd -
+#+END_SRC
 
 ** move back one directory
-> cd ..
+#+BEGIN_SRC sh
+cd ..
+#+END_SRC
 
 * Lecture
 * Tutorial

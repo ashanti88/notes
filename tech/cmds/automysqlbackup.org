@@ -1,0 +1,27 @@
+#+TAGS: db mysql bakup
+
+
+* AutoMysqlBackup					     :db:mysql:bakup:
+* Description
+This script takes the hassle out of configuring bakups for MySQL. The only dependence is mysqldump which comes with the MySQL client.
+
+* Config Files
+/etc/default/automysqlbackup - deb/ubuntu
+* Usage
+This application allows you to automate your backups can be found in the debian/ubuntu repo.
+#+BEGIN_SRC sh
+apt-get install automysqlbackup
+#+END_SRC
+
+- run with
+#+BEGIN_SRC sh
+automyqlbackup
+#+END_SRC
+- The main configuration file is /etc/default/automysqlbackup
+- default place for backups is /var/lib/automysqlbackup
+
+* Lecture
+* Tutorial
+* Books
+* Links
+[[https://www.linux.com/learn/how-do-painless-mysql-server-backups-automysqlbackup][How to do Painless MySQL Backups]]

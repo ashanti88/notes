@@ -6,17 +6,25 @@
 This tool will find all domains, subdomains and all associated ip addresses to said domains.
 * Usage
 ** Brute force domain dns
-> dnsmap <domain.com>
+#+BEGIN_SRC sh
+dnsmap domain.com
+#+END_SRC
 
 ** Save results to a file
 txt
-> dnsmap <domain.com> -r <file.txt>
+#+BEGIN_SRC sh
+dnsmap domain.com -r file.txt
+#+END_SRC
 
 csv
-> dnsmap <domain.com> -c <file.csv>
+#+BEGIN_SRC sh
+dnsmap domain.com -c file.csv
+#+END_SRC
 
 ** Using own pre-defined wordlist
-> dnsmap <domain.com> -w <file.txt>
+#+BEGIN_SRC sh
+dnsmap domain.com -w file.txt
+#+END_SRC
 
 * Lecture
 * Tutorial

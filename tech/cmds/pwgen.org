@@ -1,0 +1,11 @@
+#+TAGS: sec_d
+
+
+* pwgen								      :sec_d:
+Github: [[https://github.com/jbernard/pwgen][github.com/pwgen]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -1,9 +1,25 @@
 #+TAGS: file op
 
 
-* chmod
+* chmod								    :file:op:
 * Description
 * Usage
+
+> chmod XXX file.txt
+
+- Options
+u - user
+g - group
+r - read
+w - write
+x - execute
+
+** Make a file executable
+#+BEGIN_SRC sh
+chmod +x file.py
+#+END_SRC
+   
+
 * Lecture
 * Tutorial
 * Books

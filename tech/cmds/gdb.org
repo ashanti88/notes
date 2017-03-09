@@ -1,8 +1,10 @@
+#+TAGS: code debug c cpp asm
 
 
-
-* Description							    :c:debug:
-
-
-
-* Usage
+* gdb						       :code:debug:c:cpp:asm:
+* Cmds
+* Overview
+* Lecture
+* Tutorial
+* Books
+* Links

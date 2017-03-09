@@ -1,59 +1,124 @@
-#+TAGS: db sql
+#+TAGS: db sql mysql
 
 * mysql
-* Commands 
- [[file://home/crito/org/tech/cmds/mysqladmin.org][mysqladmin]]
- [[file://home/crito/org/tech/cmds/mysqldump.org][mysqldump]]
- [[file://home/crito/org/tech/cmds/mytop.org][mytop]]
- [[file://home/crito/org/tech/cmds/mysqlaccess.org][mysqlaccess]]
- [[file://home/crito/org/tech/cmds/mysqltuner.org][mysqltuner]]
- [[file://home/crito/org/tech/cmds/mysqlimport.org][mysqlimport]]
+HomePage: [[https://www.mysql.com/][mysql.com]]
+* Commands
+ [[file://home/crito/org/tech/cmds/mysqladmin.org][Mysqladmin]]
+ [[file://home/crito/org/tech/cmds/mysqldump.org][Mysqldump]]
+ [[file://home/crito/org/tech/cmds/mytop.org][Mytop]]
+ [[file://home/crito/org/tech/cmds/mysqlaccess.org][Mysqlaccess]]
+ [[file://home/crito/org/tech/cmds/mysqltuner.org][Mysqltuner]]
+ [[file://home/crito/org/tech/cmds/mysqlimport.org][Mysqlimport]]
+ [[file://home/crito/org/tech/cmds/automysqlbackup.org][Automysqlbackup]]
 
-* UsagE
-** Backup database
+* Config Files
+/etc/my.cnf
+* Usage
+** Basic Admin
+*** Check Number of MySQL Open DB Connections
+- use of SHOW 
 #+BEGIN_SRC sh
-mysqldump -u root -p blue_levers_wp > blue_levers_wp.bakup.sql
+SHOW STATUS LIKE 'Conn%';
 #+END_SRC
 
-** Restore an backup
+- use of MySQLadmin
 #+BEGIN_SRC sh
-mysql -u root -p blue_levers_wp < blue_levers_wp.bakup.sql
+mysqladmin status -u root -p
 #+END_SRC
 
-** How to backup a table to a text file
-mysql> SELECT * INTO OUTFILE 'table\_backup\_file' FROM name\_of\_table';
-
-** Automysqlbackup						:mysql:bakup:
-This application allows you to automate your backups can be found in the debian/ubuntu repo.
+- use the show processlist sql command
 #+BEGIN_SRC sh
-apt-get install automysqlbackup
+SHOW PROCESSLIST;
+#+END_SRC
+This will procduce a table with each line indicating a connection
+
+*** Set root password
+**** Method I used for systemd
+1. edit the /etc/mysql/my.cnf add under [mysqld]
+skip-grant-tables
+2. Restart the mysql server
+#+BEGIN_SRC sh
+systemctl restart mysql.service
+#+END_SRC
+3. log into the mysql client 
+#+BEGIN_SRC sh
+mysql -u root
+#+END_SRC
+4. change the root password
+#+BEGIN_SRC sh
+update user set password=PASSWORD("new-password") where User='root';
+#+END_SRC
+5. edit the /etc/mysql/my.cnf remove
+skip-grant-tables
+6. Restart mysql service
+#+BEGIN_SRC sh
+systemctl restart mysql.service
 #+END_SRC
 
-- run with
+**** For a fresh install use
+> mysqladmin -u root password <new_password>
++ Change passowrd
+> mysqladmin -u root -p<old_pass> password <new_password>
+
+**** Recover root password (safe method)
+URL: [[http://dev.mysql.com/doc/refman/5.7/en/resetting-permissions.html][MySQL - Root Password Recovery]]
+
+1. locate the .pid file
+  - possible locations /var/lib/mysql/, /var/run/mysqld/ and /usr/local/mysql/data/
+
+2. stop the mysqld process    
 #+BEGIN_SRC sh
-automyqlbackup
+kill `cat /mysql_data_dir/host.pid`
 #+END_SRC
-- The main configuration file is /etc/default/automysqlbackup
-- default place for backups is /var/lib/automysqlbackup
 
-** Techniques that are no longer recomended
-myqlhotcopy 
-shouldn't be used anymore due to limitations. One of these is it only works for data stored in 'MyISAM' and 'Archive' storag eengines. It also has to be run on the local machine, so no backing up from a remote box.
+3. create a txt file containing the password assignment statement on a single line 
+  - MySQL 5.7.6 and later
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'MyNewPass';
+  - MySQL 5.7.5 and earlier
+SET PASSWORD FOR 'root'@'localhost' = PASSWORD('MyNewPass');
+save this file as mysql-init
 
-** Import
-first create the database on the machine. Otherwise the database will make on the name of the sql file.
+4. start mysql using the --init-file flag
+  > mysqld_safe --init-file=/home/me/mysql-init &
+5. delete the mysql-init file
+6. restart mysqld and login with the new password
+**** Recover root password (less safe method)
+1. stop the MySQL server
+2. restart the server with the --skip-grant-tables. This allows anyone to connect without a password and all privileges.
+3. connect to the mysqld
+  > mysql
+4. flush the privileges 
+  > FLUSH PRIVILEGES;
+5. set the new root password
+  - MySQL 5.7.6 and later
+> ALTER USER 'root'@'localhost' IDENTIFIED BY 'MyNewPass';
+  - MySQL 5.7.5 and earlier
+> mysql> SET PASSWORD FOR 'root'@'localhost' = PASSWORD('MyNewPass');
+6. restart the mysqld and login with the new password
+If the ALTER USER doesn't work try
+UPDATE mysql.user SET authentication_string = PASSWORD('MyNewPass') WHERE User = 'root' AND Host = 'localhost'; FLUSH PRIVILEGES;
+This modifies the user table directly.
+
+** Users
+*** List All Users
 #+BEGIN_SRC sh
-mysql -u root -p blue_levers_wp < blue_levers_wp.bakup.sql
+SELECT User, Host FROM mysql.user;
 #+END_SRC
-
-** Export
+*** List User Privileges
 #+BEGIN_SRC sh
-mysql -u root -p blue_levers_wp > blue_levers_wp.bakup.sql
+SHOW GRANTS FOR 'fred'@'localhost';
 #+END_SRC
-- Default the data directory can be found in /var/lib/mysql .
-- This maybe moved due to size constraints.
+*** Revoke All Privileges
+#+BEGIN_SRC sh
+REVOKE ALL PRIVILEGES, GRANT OPTION FROM 'fred'@'localhost';
+#+END_SRC
 
-** Overview of backup procedure					:mysql:bakup:
+*** Delete a User
+#+BEGIN_SRC sh
+DROP USER 'fred'@'localhost';
+#+END_SRC
+** Backup & Restore
+*** Overview of backup procedure 				:mysql:bakup:
 - Move the MySQL database files from /var/lib/mysql to the new partition.
 #+BEGIN_SRC sh
 mv /var/lib/mysql /mysql
@@ -87,178 +152,34 @@ msqldump -u root -p[password] <database> > dumpfilename.sql
 msqldump -u root -p[password] --all-databases > /tmp/all-databases.sql
 #+END_SRC
 
-** Move MySQL data directory to new partition
+*** Backup database
 #+BEGIN_SRC sh
-mkdir -p /new/mysql/location/
-cd /new/mysql/location
-mv <new\_data\_directory>
-chown -R mysql:mysql <new\_data\_directory>
+mysqldump -u root -p blue_levers_wp > blue_levers_wp.bakup.sql
 #+END_SRC
 
-** Modify my.cnf and start MySQL
-
- vi /etc/my.cnf
-
-atadir=<new\_data\_directory>
-ocket=<new\_data\_directory/mysql.sock>
-mp=<new\_data\_directory>
-
- systemctl restart mysql.start
-
-** SELinux context type for MySQL
-
-heck the selinux context before moving moving data directory.
-
- ls -Z
-myisamchk is used for MyISAM databases.
-
-mysqlcheck -uroot -p $databases is used for innodb.
-
-[http://www.laurencegellert.com/2011/07/mysql-maintenance-tasks-for-innodb-with-mysql-5-1/]]
-
-[http://www.techrepublic.com/article/checking-and-repairing-mysql-tables/]]
-heck the size of a databases
-
-ELECT table\_schema AS "Database name", SUM(data\_length +
-ndex\_length) / 1024 / 1024 AS "Size (MB)" FROM
-nformation\_schema.TABLES GROUP BY table\_schema;
-
- database that uses a lot of transactions may cause fragmentation. This
-eans a lot of unused space. Recommended that the tables are defraged on
-n ongoing basis.
-
-** Identify Tables for Optimisation
-
-Use the following query to determine how much unused space is available
-in every table.
-
-sql> use <database>;
-
-sql> select <table\_name>,
-
-round(data\_length/1024/1024) as data\_length\_mb,
-
-round(data\_free/1024/1024) as data\_free\_mb
-
-     from information\_scheme tables
-
-     where round(data\_free/1024/1024) > 500
-
-     order by data\_free\_mb;
-
-The query will output - 
-
-1) a list of tables that has a minimum of 500MB of unused space.
-
-2) data\_length\_mb displays the total unused space in the particular
-   table.
-
-** Set root password
-*** Method I used for systemd
-1. edit the /etc/mysql/my.cnf add under [mysqld]
-skip-grant-tables
-2. Restart the mysql server
+*** Restore an backup
 #+BEGIN_SRC sh
-systemctl restart mysql.service
-#+END_SRC
-3. log into the mysql client 
-#+BEGIN_SRC sh
-mysql -u root
-#+END_SRC
-4. change the root password
-#+BEGIN_SRC sh
-update user set password=PASSWORD("new-password") where User='root';
-#+END_SRC
-5. edit the /etc/mysql/my.cnf remove
-skip-grant-tables
-6. Restart mysql service
-#+BEGIN_SRC sh
-systemctl restart mysql.service
+mysql -u root -p blue_levers_wp < blue_levers_wp.bakup.sql
 #+END_SRC
 
-*** For a fresh install use
-> mysqladmin -u root password <new_password>
-+ Change passowrd
-> mysqladmin -u root -p<old_pass> password <new_password>
+*** How to backup a table to a text file
+mysql> SELECT * INTO OUTFILE 'table\_backup\_file' FROM name\_of\_table';
 
-*** Recover root password (safe method)
-URL: [[http://dev.mysql.com/doc/refman/5.7/en/resetting-permissions.html][MySQL - Root Password Recovery]]
-
-1. locate the .pid file
-  - possible locations /var/lib/mysql/, /var/run/mysqld/ and /usr/local/mysql/data/
-
-2. stop the mysqld process    
+*** Import
+first create the database on the machine. Otherwise the database will make on the name of the sql file.
 #+BEGIN_SRC sh
-kill `cat /mysql_data_dir/host.pid`
+mysql -u root -p blue_levers_wp < blue_levers_wp.bakup.sql
 #+END_SRC
 
-3. create a txt file containing the password assignment statement on a single line 
-  - MySQL 5.7.6 and later
-ALTER USER 'root'@'localhost' IDENTIFIED BY 'MyNewPass';
-  - MySQL 5.7.5 and earlier
-SET PASSWORD FOR 'root'@'localhost' = PASSWORD('MyNewPass');
-save this file as mysql-init
+*** Export
+#+BEGIN_SRC sh
+mysql -u root -p blue_levers_wp > blue_levers_wp.bakup.sql
+#+END_SRC
+- Default the data directory can be found in /var/lib/mysql .
+- This maybe moved due to size constraints.
 
-4. start mysql using the --init-file flag
-  > mysqld_safe --init-file=/home/me/mysql-init &
-5. delete the mysql-init file
-6. restart mysqld and login with the new password
-*** Recover root password (less safe method)
-1. stop the MySQL server
-2. restart the server with the --skip-grant-tables. This allows anyone to connect without a password and all privileges.
-3. connect to the mysqld
-  > mysql
-4. flush the privileges 
-  > FLUSH PRIVILEGES;
-5. set the new root password
-  - MySQL 5.7.6 and later
-> ALTER USER 'root'@'localhost' IDENTIFIED BY 'MyNewPass';
-  - MySQL 5.7.5 and earlier
-> mysql> SET PASSWORD FOR 'root'@'localhost' = PASSWORD('MyNewPass');
-6. restart the mysqld and login with the new password
-If the ALTER USER doesn't work try
-UPDATE mysql.user SET authentication_string = PASSWORD('MyNewPass') WHERE User = 'root' AND Host = 'localhost'; FLUSH PRIVILEGES;
-This modifies the user table directly.
-
-** Move data directory
-By default the data directory can be found in /var/lib/mysql
-This maybe moved due to size constraints.
-*** Overview of the procedure
-1. Move the MySQL database files from /var/lib/mysql to the new partition.
-2. Modify the .cnf file to reflect the new position.
-3. Update any SELinux settings.
-
-*** Take a backup of the current MySQL data
-Stop the mysql service
-> systemctl stop mysqld.service
-Copy files to backup location
-> cp -r /var/lib/mysql <backup\_partition>
-or
-sql dump single database
-> sqldump -u root -p[password] <database> > dumpfilename.sql
-
-all databases
-> sqldump -u root -p[password] --all-databases > /tmp/all-databases.sql
-
-+ Move MySQL data directory to new partition*
-> mkdir -p <new\_data\_directory>
-> cd <new\_data\_directory>
-> mv <mysql\_datadir> <new\_data\_directory>
-> chown -R mysql:mysql <new\_data\_directory>
-
-+ Modify my.cnf and start MySQL
-> vi /etc/my.cnf
-datadir=<new\_data\_directory>
-socket=<new\_data\_directory/mysql.sock>
-tmp=<new\_data\_directory>
-
-> systemctl restart mysql.start
-
-+ SELinux context type for MySQL
-Check the selinux context before moving moving data directory.
-> ls -Z
-
-** Setting up MariaDB SSL and secure connection from clients
+** Security
+*** Setting up MariaDB SSL and secure connection from clients
 Article: [[https://www.cyberciti.biz/faq/how-to-setup-mariadb-ssl-and-secure-connections-from-clients/][How to setup MariaDB SSL and secure connections from clients]]
 1. Make sure that secure_insallation has been run
 2. Create CA certificate
@@ -313,6 +234,115 @@ Article: [[https://www.cyberciti.biz/faq/how-to-setup-mariadb-ssl-and-secure-con
      > mysql -u <user> -h <host> -p <db_name>
      > tcpdump -r /tmp/mysql.pcap | less
 
+*** SELinux context type for MySQL
+
+Check the selinux context before moving moving data directory.
+
+ ls -Z
+myisamchk is used for MyISAM databases.
+
+mysqlcheck -uroot -p $databases is used for innodb.
+
+[http://www.laurencegellert.com/2011/07/mysql-maintenance-tasks-for-innodb-with-mysql-5-1/]]
+
+[http://www.techrepublic.com/article/checking-and-repairing-mysql-tables/]]
+heck the size of a databases
+
+ELECT table\_schema AS "Database name", SUM(data\_length +
+ndex\_length) / 1024 / 1024 AS "Size (MB)" FROM
+nformation\_schema.TABLES GROUP BY table\_schema;
+
+ database that uses a lot of transactions may cause fragmentation. This
+eans a lot of unused space. Recommended that the tables are defraged on
+n ongoing basis.
+
+** Optimisation
+*** Identify Tables for Optimisation
+
+Use the following query to determine how much unused space is available
+in every table.
+
+sql> use <database>;
+
+sql> select <table\_name>,
+
+round(data\_length/1024/1024) as data\_length\_mb,
+
+round(data\_free/1024/1024) as data\_free\_mb
+
+     from information\_scheme tables
+
+     where round(data\_free/1024/1024) > 500
+
+     order by data\_free\_mb;
+
+The query will output - 
+
+1) a list of tables that has a minimum of 500MB of unused space.
+
+2) data\_length\_mb displays the total unused space in the particular
+   table.
+
+** Modify my.cnf and start MySQL
+
+ vi /etc/my.cnf
+
+atadir=<new\_data\_directory>
+ocket=<new\_data\_directory/mysql.sock>
+mp=<new\_data\_directory>
+
+ systemctl restart mysql.start
+
+** Move MySQL data directory to new partition
+#+BEGIN_SRC sh
+mkdir -p /new/mysql/location/
+cd /new/mysql/location
+mv <new\_data\_directory>
+chown -R mysql:mysql <new\_data\_directory>
+#+END_SRC
+
+** Move data directory
+By default the data directory can be found in /var/lib/mysql
+This maybe moved due to size constraints.
+*** Overview of the procedure
+1. Move the MySQL database files from /var/lib/mysql to the new partition.
+2. Modify the .cnf file to reflect the new position.
+3. Update any SELinux settings.
+
+*** Take a backup of the current MySQL data
+Stop the mysql service
+> systemctl stop mysqld.service
+Copy files to backup location
+> cp -r /var/lib/mysql <backup\_partition>
+or
+sql dump single database
+> sqldump -u root -p[password] <database> > dumpfilename.sql
+
+all databases
+> sqldump -u root -p[password] --all-databases > /tmp/all-databases.sql
+
++ Move MySQL data directory to new partition*
+> mkdir -p <new\_data\_directory>
+> cd <new\_data\_directory>
+> mv <mysql\_datadir> <new\_data\_directory>
+> chown -R mysql:mysql <new\_data\_directory>
+
++ Modify my.cnf and start MySQL
+> vi /etc/my.cnf
+datadir=<new\_data\_directory>
+socket=<new\_data\_directory/mysql.sock>
+tmp=<new\_data\_directory>
+
+> systemctl restart mysql.start
+
++ SELinux context type for MySQL
+Check the selinux context before moving moving data directory.
+> ls -Z
+
+** Techniques that are no longer recomended
+myqlhotcopy 
+Shouldn't be used anymore due to limitations. One of these is it only works for data stored in 'MyISAM' and 'Archive' storag eengines. It also has to be run on the local machine, so no backing up from a remote box.
+
 * Optimization
 ** Single Table
 mysql> use <database>;
@@ -366,6 +396,7 @@ URL: [[https://en.wikipedia.org/wiki/Comparison_of_MySQL_database_engines][Wiki 
 ** ScaleDB
 * Forks
 ** Mariadb
+HomePage: [[https://mariadb.org/][mariadb.org]]
 ** Percona
 HomePage: [[https://www.percona.com/][percona.com]]
 * GUI

@@ -1,12 +1,37 @@
-#+TAGS: net op
+#+TAGS: net l2 anal op
 
 
-* Arp
+* Arp							     :net:l2:anal:op:
 * Description
 This command is used to dump the kernel arp cache (/proc/net/arp).
 
 * Usage
-> arp <options>
+- this is provide the arp cache
+#+BEGIN_SRC sh
+arp 
+#+END_SRC
+Address
+HW Type
+HW Address
+Flags
+Mask
+IFace
+
+- don't resolve hostnames
+#+BEGIN_SRC sh
+arp -n
+#+END_SRC
+
+- alternate BSD style output
+#+BEGIN_SRC sh
+arp -a
+#+END_SRC
+
+- delete record from cache
+#+BEGIN_SRC sh
+arp -d 50:6a:03:45:39:67
+#+END_SRC
+this will remove the record with the HW Address 50:6a:03:45:39:67
 
 ** Options
 a - all entries, dump all of the cache

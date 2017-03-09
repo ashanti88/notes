@@ -1,9 +1,13 @@
-#+TAGS: mail
+#+TAGS: mail mda pop3 imap
 
 
-* dovecot
+* Dovecot						 :mail:mda:pop3:imap:
 * Description
 * Usage
+- dump configuration
+#+BEGIN_SRC sh
+doveconf -n
+#+END_SRC
 * Lecture
 * Tutorial
 * Books

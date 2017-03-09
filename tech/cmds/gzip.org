@@ -4,6 +4,26 @@
 * gzip								       :comp:
 * Description
 * Usage
+- Compress file
+#+BEGIN_SRC sh
+gzip file.odt
+#+END_SRC
+
+- Decompress file
+#+BEGIN_SRC sh
+gzip -d file.odt.gz
+#+END_SRC
+
+- Decompress and keep the compressed file
+#+BEGIN_SRC sh
+gzip -k file.odt.gz
+#+END_SRC
+
+- Compress every file in folder
+#+BEGIN_SRC sh
+gzip -r directory
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

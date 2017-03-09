@@ -1,10 +1,13 @@
 #+TAGS: postfix dovecot mail centos
 
 
-* CentOS 7 Mail Server
+* CentOS 7 Mail Server						:centos:mail:
 * Cmds
 ** openssl
 ** firewall-cmd
+* Software
+[[file://home/crito/org/tech/mail/postfix.org][Postfix]]
+[[file://home/crito/org/tech/mail/dovecot.org][Dovecot]]
 * Install & Config
 ** Initial Setup
 *** 1. Set hostname for server

@@ -1,0 +1,16 @@
+#+TAGS: file ssh
+
+
+* scp								   :file:ssh:
+* Description
+* Usage
+- copy file from local machine to remote machine
+#+BEGIN_SRC sh
+scp -r file/on/local/machine user@remote_machine:/where/to/place/file
+#+END_SRC
+r - recursively copy the whole directory
+
+* Lecture
+* Tutorial
+* Books
+* Links

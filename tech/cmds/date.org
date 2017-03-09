@@ -12,34 +12,29 @@ This command allows the setting of the date or provides the time.
 
 <day> <date> <month> <HH:MM:SS> <time\_zone> <YYYY>
 
-*Find the day of a certain date*
-
-> date --date="DD/MM/YYYY"
-
+* Find the day of a certain date
+#+BEGIN_SRC sh
+date --date="03/08/2019"
+#+END_SRC
 or
-
-> date --date="<date> <month> <year>"
-
-> date --date="2 Feb 2014"
-
+#+BEGIN_SRC sh
+date --date="2 Feb 2018"
+#+END_SRC
 or
+#+BEGIN_SRC sh
+date --date="Feb 2 2014"
+#+END_SRC
 
-> date --date="<month> <date> <year>"
-
-> date --date="Feb 2 2014"
-
-this will provide the above format, thus the day the date fell on.
-
-** Read date patterns from a file using  --file option
-
+** Read date patterns from a file using --file option
 This is similar to the above but allows for multiple queries. The file
 has a date on each line.
 
 > date --file=<file>
 
-*Using relative date*
-
-> date --date="next <string>"
+* Using relative date
+#+BEGIN_SRC sh
+date --date="next <string>"
+#+END_SRC
 
 mon-sun, month, year
 

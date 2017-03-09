@@ -1,0 +1,14 @@
+#+TAGS: rpi rasp sys anal op
+
+
+* vcgencmd
+* Description
+* Usage
+- find temp
+#+BEGIN_SRC sh
+vcgencmd measure_tem
+#+END_SRC
+* Lecture
+* Tutorial
+* Books
+* Links

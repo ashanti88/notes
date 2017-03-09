@@ -1,23 +1,28 @@
-#+TAGS: file
+#+TAGS: file op
 
 
-* colrm
+* colrm								    :file:op:
 * Description
 * Usage
-> colrm [<start\_col> [<endcol>]]
+> colrm [<start_col> [<end_col>]]
 
 - Columns are numbered from 1 upwards
 
 ** remove from a single position to end of the line
-> colrm x < test.txt
+#+BEGIN_SRC sh
+colrm 5 < test.txt
+#+END_SRC
 
-** remover a segent from a file ( between x and y )
-> colrm x y < test.txt
-
-+ Original file will not be altered
+** remove a segent from a file ( between x and y )
+#+BEGIN_SRC sh
+colrm 5 20 < test.txt
+#+END_SRC
+- Original file will not be altered
 
 ** output saved to file
-> cat test.txt | colrm x y > test2.txt
+#+BEGIN_SRC sh
+cat test.txt | colrm 5 20 > test2.txt
+#+END_SRC
 
 * Lecture
 * Tutorial

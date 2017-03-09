@@ -5,12 +5,16 @@
 * Description
 * Usage
 
-+ the process apache2 to 30%. 
-> cpulimit -e apache2 -l 30
+- the process apache2 to 30%. 
+#+BEGIN_SRC sh
+cpulimit -e apache2 -l 30
+#+END_SRC
 e - name of executable program
 l - percentage of cpu to use 1-100, more with a multi-core processor
 
-> cpulimit -p <pid> -l <percentage>
+#+BEGIN_SRC sh
+cpulimit -p 5433 -l 20
+#+END_SRC
 p - process id
 
 * Lecture

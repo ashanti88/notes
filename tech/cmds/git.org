@@ -5,35 +5,57 @@
 * Description
 * Usage
 ** Clone
-> git clone <url_of_repo>
+#+BEGIN_SRC sh
+git clone https://github.com:AlickMitchell/notes.git
+#+END_SRC
 
 ** Create a new repo
-> git init 
+#+BEGIN_SRC sh
+git init 
+#+END_SRC
 do this inside the directory to create a repo
 
 ** Commits
 1. add files to repo for commit
-> git <file_name> | > git *
+#+BEGIN_SRC sh
+git <file_name> | > git *
+#+END_SRC
 2. now make the commit
-> git commit -m "message to be added"
+#+BEGIN_SRC sh
+git commit -m "message to be added"
+#+END_SRC
 
 ** Push commits
-> git push origin <remote_repo>
+#+BEGIN_SRC sh
+git push origin master
+#+END_SRC
 
 ** Branchs
-> git checkout -b <new_branch>
-create a new branch
-> git checkout master
-switch to master branch
-> git branch -d <branch>
-delete a certain branch
-> git push orgin <branch>
+- create a new branch
+#+BEGIN_SRC sh
+git checkout -b new_branch
+#+END_SRC
+
+- switch to master branch
+#+BEGIN_SRC sh
+git checkout master
+#+END_SRC
+
+- delete a certain branch
+#+BEGIN_SRC sh
+git branch -d <branch>
+#+END_SRC
 
 ** Update & Merge
+- update repo to most current
+#+BEGIN_SRC sh
 > git pull
-update repo to most current
-> git merge <branch>
-merge branch into your active branch
+#+END_SRC
+
+- merge branch into your active branch
+#+BEGIN_SRC sh
+git merge branch
+#+END_SRC
 
 ** Removing files after being added to .gitignore
 1. add the file to the .gitignore

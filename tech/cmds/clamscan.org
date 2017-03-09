@@ -7,18 +7,24 @@
 > clamscan <file>
 
 ** Scan a directory
-> clamscan -r <directory>
+#+BEGIN_SRC sh
+clamscan -r /home/crito/directory
+#+END_SRC
 
 ** Print only the infected files
-> clamscan -r -i <directory>
+#+BEGIN_SRC sh
+clamscan -r -i /home/crito/directory
+#+END_SRC
 
 ** Print the infected filenames to a file
-> clamscan -r <directory> | grep FOUND >> report.txt
+#+BEGIN_SRC sh
+clamscan -r /home/crito/directory | grep FOUND >> report.txt
+#+END_SRC
 
 ** Updating clamav
-> freshclam
-
--  There is a gui for clamav called ClamTK
+#+BEGIN_SRC sh
+freshclam
+#+END_SRC
 
 * Lecture
 * Tutorial

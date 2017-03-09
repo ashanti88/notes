@@ -1,14 +1,17 @@
-#+TAGS: sys file
+#+TAGS: sys file op
 
 
-* head								   :sys:file:
+* head								:sys:file:op:
 * Description
 Output the first part of a file.
 * Usage
+
 > head <option> <file>
 
 ** Print a number of lines
-> head -n <N> <file>
+#+BEGIN_SRC sh
+head -n 15 file.txt
+#+END_SRC
 
 * Lecture
 * Tutorial

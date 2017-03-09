@@ -1,13 +1,14 @@
 #+TAGS:
 
 
-* dns
+* DNS
 * Description
 * Usage
 * Servers
-** BIND
-** NSD
-** 
+[[file://home/crito/org/tech/dns/bind.org][BIND]]
+[[file://home/crito/org/tech/dns/nsd.org][NSD]]
+file://home/crito/org/tech/dns/maradns.org
+
 * Authoritative Vs Non-authoritative Answer
 
 If the answer for the query comes from a name server that contains the

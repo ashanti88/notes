@@ -4,7 +4,10 @@
 * bzcat							      :file:txt:comp:
 * Description
 * Usage
-> bzcat <file.bz2>  
+- read file without decompression
+#+BEGIN_SRC sh
+bzcat file.bz2  
+#+END_SRC
 
 * Lecture
 * Tutorial

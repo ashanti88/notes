@@ -273,6 +273,49 @@ On the simple appliction git push/pull restart service will be enough
 ** [[https://www.youtube.com/watch?v%3DkOIrD9YMA18&list%3DPL8uoeex94UhE3FDvjacSlHFffoNEoPzzm&index%3D5][Efficient Django - David Arcos Still needs to be done]]
 
 [[file://home/crito/Documents/Python/Django/Beginning_Django_E-Commerce.pdf][Beginning Django E-Commerce]]
+** [[https://www.youtube.com/watch?v%3D3cSsbe-tA0E][Django REST Framework - Tom Christie]]
+- Serialization
+the mapping between primative -> object   
+2.x
+#+BEGIN_SRC sh
+serializer = ExampleSerializer(data=request.DATA, files=request.FILES)
+# Perform some validation on the serializer
+# Instantiate a model instance.
+# Perform some validation on the model instance.
+
+serializer.is_valid()
+
+# The object instance is now available for inspection and manipulation.
+
+serializer.object
+
+# Save the model instance to the databases
+
+serializer.save()
+#+END_SRC
+
+3.x
+#+BEGIN_SRC sh
+serializer = ExampleSerializer(data=request.DATA)
+
+# Perform some validation on the serializer
+
+serializer.is_valid()
+
+# The raw validated data is now available for inspection.
+
+serializer.validated_data
+
+# Instantiate and save a model instance to the database.
+
+serializer.save()
+#+END_SRC
+Same validation is performed, but it is performed on the serializer now.
+
+- Model Encapsulation
+Always use model methods and manager methos for state changing operations
+
+       
 * Tutorial
 ** [[https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-debian-8][How to setup Django with Postgres, Nginx and Gunicor on Debian 8]]
 * Books

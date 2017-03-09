@@ -4,7 +4,15 @@
 * hostname							     :sys:op:
 * Description
 * Usage
-> hostname <new\_hostname>
+- print the hostname
+#+BEGIN_SRC sh
+hostname
+#+END_SRC
+
+- set the machines hostname
+#+BEGIN_SRC sh
+hostname mail.bluelevers
+#+END_SRC
 
 * Lecture
 * Tutorial

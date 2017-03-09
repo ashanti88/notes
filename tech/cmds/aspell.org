@@ -1,14 +1,16 @@
-#+TAGS: sys file op
+#+TAGS: sys file op dict
 
 
-* aspell
+* aspell						   :sys:file:op:dict:
 * Description
 This is a cmd line spell check application.
   - for en_GB makesure that aspell-en is also installed.
 
 * Usage
 ** check set file
-> aspell check <file>
+#+BEGIN_SRC sh
+aspell check file.txt
+#+END_SRC
 
 * Lecture
 * Tutorial

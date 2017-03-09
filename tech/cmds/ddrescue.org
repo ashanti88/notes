@@ -4,6 +4,19 @@
 * ddrecue							  :sys:op:io:
 * Description
 * Usage
+- Basic Rescue
+The first command copies as much as possible, without retries. The second command goes over the damaged filesystem again, and makes three retries to copy everything.
+#+BEGIN_SRC sh
+ddrescue -f --no-split /dev/sdb1 /dev/sdc1 logfile
+ddrescue -f -r3 /dev/sdb1 /dev/sdc1 logfile
+#+END_SRC
+To copy an entire drive use just the drive name, for example /dev/sdb and don't specify a partition.
+
+- Restoring the Recovered Image
+#+BEGIN_SRC sh
+dd if=/dev/sdd1 of=/dev/sdc1
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

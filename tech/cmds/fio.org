@@ -33,15 +33,14 @@ or
 - Higher output for bandwidth and lower values for latency constitute better results.
 
 ** Tests
-
-+ Random read of 128mb
+- Random read of 128mb
 [random-read]
 rw=randread
 size=128m
 directory=/tmp/fio-testing/data
 
 
-+ Random read AIO
+- Random read AIO
 [random-read-aio]
 ioengine=libaio
 iodepth=8

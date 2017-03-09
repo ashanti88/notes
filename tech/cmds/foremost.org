@@ -1,0 +1,10 @@
+#+TAGS: file recover
+
+
+* foremost						       :file:recover:
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links
