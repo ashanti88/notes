@@ -65,6 +65,16 @@ ssh-add -D
 
 *** ssh-keygen
 *** ssh-copy-id
+** Check an ssh keys password
+#+BEGIN_SRC sh
+eval $(ssh-agent)
+ssh-add .ssh/id_rsa
+#+END_SRC
+If this key has a passphrase you will be challenged. 
+To unload the key
+#+BEGIN_SRC sh
+ssh-add -d .ssh/id_rsa
+#+END_SRC
 * Lecture
 * Tutorial
 * Books

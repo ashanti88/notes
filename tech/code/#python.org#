@@ -104,6 +104,7 @@ session.delete(spinach)
 session.commit()
 #+END_SRC
 
+** BaseHTTPServer
 * tools
 ** ipython/jupyter 
 *** automagic

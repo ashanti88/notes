@@ -24,6 +24,11 @@ firewall-cmd --get-active-zone
 #+BEGIN_SRC sh
 firewall-cmd --zone=home --list-all
 #+END_SRC
+** Opening a port
+#+BEGIN_SRC sh
+firewall-cmd --permanent --add-port=7070/tcp
+firewall-cmd --reload
+#+END_SRC
 
 ** Get the specific configuration associated with a zone
 #+BEGIN_SRC sh

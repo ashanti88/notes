@@ -1,14 +1,24 @@
+#+TAGS: ssl tls sec
+
+
+* SSL/TLS
+* Cmds
+[[file://home/crito/org/tech/cmds/openssl.org][openssl]]
+
+* Overview
+* Installation Process
+** Nginx (this needs updating)
 Add the 443 vhost into the nginx config for the site, backup the current config before applying this one*
 
-* Example config for nginx
+*** Example config for nginx
 
 server { listen 78.137.127.215:443; server\_name
-andrewsofficefurniture.com *.andrewsofficefurniture.com; root
-/var/www/vhosts/andrewsofficefurniture.com/htdocs;
+example.com *.example.com; root
+/var/www/vhosts/example.com/htdocs;
 
 ssl on; ssl\_certificate
-/etc/pki/tls/certs/andrewsofficefurniture.com.crt; ssl\_certificate\_key
-/etc/pki/tls/certs/andrewsofficefurniture.com.key; ssl\_protocols SSLv3
+/etc/pki/tls/certs/example.com.crt; ssl\_certificate\_key
+/etc/pki/tls/certs/example.com.key; ssl\_protocols SSLv3
 TLSv1 TLSv1.1 TLSv1.2; ssl\_ciphers HIGH:!aNULL:!MD5;
 keepalive\_requests 100000;
 
@@ -32,20 +42,20 @@ location ~ .php/ { rewrite \^(.*.php)/ $1 last; }
 location ~ .php$ { if (!-e $request\_filename) { rewrite / /index.php
 last; }
 
-expires off; fastcgi\_pass andrewsofficefurniturecombackend;
+expires off; fastcgi\_pass examplecombackend;
 fastcgi\_param HTTPS $fastcgi\_https; fastcgi\_param SCRIPT\_FILENAME
 $document_root$fastcgi\_script\_name; # fastcgi\_param MAGE\_RUN\_CODE
 default; # fastcgi\_param MAGE\_RUN\_TYPE store; include
 fastcgi\_params; } }
 
 *Create a .crt and .key file in /etc/pki.tls/certs for the site domain
-name e.g. andrewsofficefurniture.com.crt etc*
+name e.g. example.com.crt etc*
 
-* Set the permissions as follows:
+*** Set the permissions as follows:
 
-chmod 644 /etc/pki/tls/certs/andrewsofficefurniture.com.crt
+chmod 644 /etc/pki/tls/certs/example.com.crt
 
-chmod 600 /etc/pki/tls/certs/andrewsofficefurniture.com.key
+chmod 600 /etc/pki/tls/certs/example.com.key
 
 For the CRT file
 
@@ -58,8 +68,13 @@ For the .key file
 
 Copy the key from the SSL certificate screen
 
-* After this, run a configtest, if it comes back OK, then restart nginx
+- After this, run a configtest, if it comes back OK, then restart nginx
 
 */Installing SSL's for the mail service on a Plesk Server/*
 
 [[http://kb.odin.com/uk/1062]]
+** Apache
+* Lecture
+* Tutorial
+* Books
+* Links

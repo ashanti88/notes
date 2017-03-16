@@ -1,9 +1,92 @@
 #+TAGS: cloud aws
 
 
-* aws
+* Amazon Web Services
+* Description
 * Usage
 * Lecture
+** [[https://www.youtube.com/watch?v%3DeKyS9rvbj40][Introduction to Database Services - Brian Rice]]
++ If you host your DB on-site
+  - App optimization
+  - Scaling
+  - HA
+  - DB bakups
+  - DB patches
+  - OS patches
+  - OS installation
+  - Server maintenance
+  - Rack and stack
+  - Power, HVAC, networking
+
++ Host DB in Amazon EC2
+You:                     AWS:
+  - App optimization       - OS installation
+  - Scaling                - Server maintenance
+  - HA                     - Rack and stack
+  - DB bakups              - Power, HVAC, networking
+  - DB patches
+  - OS patches
+    
++ Host DB with managed DB service
+You:                        AWS:
+  - App optimization           - Scaling
+                               - HA
+                               - DB bakups
+                               - DB patches
+                               - OS patches
+                               - OS installation
+                               - Server maintenance
+                               - Rack and stack
+                               - Power, HVAC, networking
+				 
++ Managed Services
+  - DynamoDB - NoSQL
+  - RDS - SQL database engines
+  - ElastiCache - In-memory cache
+  - Redshift - Data warehouse
+- These services provide alternatives to ssh to access the DB    
+
++ DynamoDB
+  - Simple and fast to deploy
+  - Simple and fast to scale
+    - To millions of IOPS
+  - Data is automatically replicated
+  - Fast, predicatable performance
+- No cost to get started; pay only for what you consume
+  
++ Amazon RDS
+  - Amazon Aurora, MySQL, PostgreSQL, Oracle, SQL Server
+- No cost to get started; pay only for what you consume
+- Choose a DB instance type with the right amount of CPU and memory
+- Automated bakups
+  - restore your db to a point in time
+  - enabled by default
+  - choose a retention period, up to 35 days
+- Manual snapshots
+  - persist until you delete them
+  - stored in Amazon S3
+  - Build a new DB instance from a snapshot when needed
+- choose Multi-AZ
+  - Availability Zone is a physically distinct independent infrastructure
+  - Failover occurs automatically in response to the most important failure scenarios
+  - failover usually under 90secs
+
++ ElastiCache
+  - High performance, resizable in-memory caching
+  - memcached and Redis engines
+  - ElastiCache is wrapper around either of the above engine that is chosen
+    
++ Redshift
+  - Petabyte-scale columnar DB
+  - Fast response time
+    - ~ 10x that of typical relational stores
+- Pricing $1,000 per TB per year
+  - Uses PostgrsSQL JDBC/ODBC
+  - is built to reduce I/O
+    - data compression
+    - zone maps
+    - direct-attached storage
+
 * Tutorials
 ** AWS Foundations - CBT Nuggets
 *** How to build a cloud presence
@@ -222,4 +305,5 @@ An instance can be launched using the AWS Management Console.
 3. Select N.Virgina Region. This is where all billing is done.
 4. In Billing click Create Alarm
 5. This will popup a form asking for email and $ limit to notify at (so as not to go over free tier set it to $0.1) this will not disable the instance just notify you that you are going to go over the free tier. 4. In Billing click Create Alarm
+* Books
 * Links

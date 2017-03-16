@@ -2,11 +2,54 @@
 
 
 * openssl						  :sys:sec_d:ssl:tls:
+HomePage: [[https://www.openssl.org/][openssl.org]]
 * Description
 * Usage
+** What version am I running
+- Standard information
+#+BEGIN_SRC sh
+openssl version
+#+END_SRC
+- More Verbose Output
+#+BEGIN_SRC sh
+openssl version -a
+#+END_SRC
+** Get a list of available ciphers
+#+BEGIN_SRC sh
+openssl ciphers -v
+#+END_SRC
+- list only high encryption ciphers
+#+BEGIN_SRC sh
+openssl ciphers -v 'HIGH'
+#+END_SRC
+** Generate a self-signed certificate
+#+BEGIN_SRC sh
+openssl req -x509 -nodes -days 365 sha256 -newkey rsa:2048 -keyout mycert.pem -out mycert.pem
+#+END_SRC
+This will promote for 'State', 'City' etc.
+- Answer prompted questions from the cmd line
+#+BEGIN_SRC sh
+openssl req -x509 -nodes -days 365 -sha256 -subj '/C=US/ST=Oregon/L=Portland/CN=www.madboa.com' -newkey rsa:2048 -keyout mycert.pem -out mycert.pem
+#+END_SRC
+
+** What Certificate Authorities does openssl recognize
+#+BEGIN_SRC sh
+openssl version -d
+#+END_SRC
+This will indicate the directory that contains the CA pem files
+ubuntu/debian - /usr/lib/ssl
+arch - /etc/ssl
+** Create MD5 or SHA1 digest for a file
+#+BEGIN_SRC sh
+openssl dgst -md5 file.txt
+openssl dgst -sha1 file.txt
+openssl dgst -sha256 file.txt
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books
 [[file://home/crito/Documents/Security/Network_Security_with_OpenSSL.pdf][Network Security with OpenSSL]]
 [[file://home/crito/Documents/Networking/Implementing_SSL_TLS.pdf][Implementing SSL/TLS]]
 * Links
+[[https://www.madboa.com/geek/openssl/][OpenSSL Command-Line HowTo - Madboa]]

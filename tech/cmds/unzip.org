@@ -13,8 +13,9 @@
 l - list
 
 ** Extract files to specific directory
-> unzip <filename.zip> -d <dir\_to\_use/>
-
+#+BEGIN_SRC sh
+unzip filename.zip -d /home/crito/where/to/unzip
+#+END_SRC
 d - dir
 
 ** Extract specific file from archive

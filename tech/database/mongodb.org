@@ -1,6 +1,6 @@
 #+TAGS: db nosql
 
-* MongoDB							      :nosql:
+* MongoDB							   :db:nosql:
 * Cmds
 - [[file://home/crito/org/tech/cmds/mongo.org][mongo]]
 - [[file://home/crito/org/tech/cmds/mongodump.org][mongodump]] 
@@ -126,4 +126,8 @@ Field - similar to a column, key: value
 *** node
 *** nosql-vs-sql
 * Books
+[[file://home/crito/Documents/Database/Mongo/MongoDB_Basics.pdf][MongoDB Basics - Apress]]
+[[file://home/crito/Documents/Database/Mongo/MongoDB_and_Python.pdf][MongoDB and Python - O'Reilly]]
+[[file://home/crito/Documents/Database/Mongo/MongoDB-The_Definitive_Guide_2e.pdf][MongoDB - The Definitive Guide - O'Reilly]]
+
  

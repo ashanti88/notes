@@ -42,6 +42,8 @@ a2dismod mod_wsgi
 #+END_SRC
 
 ** .htaccess
+** chroot Apache Web Server					     :chroot:
+[[https://www.cyberciti.biz/tips/chroot-apache-under-rhel-fedora-centos-linux.html][Chroot Apache Centos - NixCraft]]
 * Modules
 Wiki: [[https://en.wikipedia.org/wiki/List_of_Apache_modules][List of Apache Modules]]
 ** mod_wsgi

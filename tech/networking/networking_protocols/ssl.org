@@ -1,0 +1,107 @@
+#+TAGS: ssl tls sec
+
+
+* SSL/TLS
+* Cmds
+[[file://home/crito/org/tech/cmds/openssl.org][openssl]]
+
+* Overview
+* Installation Process
+** Nginx (this needs updating)
+Add the 443 vhost into the nginx config for the site, backup the current config before applying this one*
+
+*** Example config for nginx
+
+server { listen 78.137.127.215:443; server\_name
+example.com *.example.com; root
+/var/www/vhosts/example.com/htdocs;
+
+ssl on; ssl\_certificate
+/etc/pki/tls/certs/example.com.crt; ssl\_certificate\_key
+/etc/pki/tls/certs/example.com.key; ssl\_protocols SSLv3
+TLSv1 TLSv1.1 TLSv1.2; ssl\_ciphers HIGH:!aNULL:!MD5;
+keepalive\_requests 100000;
+
+location / { index index.html index.php; try\_files $uri $uri/ @handler;
+expires 30d; }
+
+location /app/ { deny all; } location /includes/ { deny all; } location
+/lib/ { deny all; } location /media/downloadable/ { deny all; } location
+/pkginfo/ { deny all; } location /report/config.xml { deny all; }
+location /var/ { deny all; } # location /LICENSE.html { deny all; } #
+location /LICENSE.txt { deny all; } # location /LICENSE\_AFL.txt { deny
+all; } # location /mage { deny all; } # location /index.php.sample {
+deny all; }
+
+location /. { return 404; }
+
+location @handler { rewrite / /index.php; }
+
+location ~ .php/ { rewrite \^(.*.php)/ $1 last; }
+
+location ~ .php$ { if (!-e $request\_filename) { rewrite / /index.php
+last; }
+
+expires off; fastcgi\_pass examplecombackend;
+fastcgi\_param HTTPS $fastcgi\_https; fastcgi\_param SCRIPT\_FILENAME
+$document_root$fastcgi\_script\_name; # fastcgi\_param MAGE\_RUN\_CODE
+default; # fastcgi\_param MAGE\_RUN\_TYPE store; include
+fastcgi\_params; } }
+
+*Create a .crt and .key file in /etc/pki.tls/certs for the site domain
+name e.g. example.com.crt etc*
+
+*** Set the permissions as follows:
+
+chmod 644 /etc/pki/tls/certs/example.com.crt
+
+chmod 600 /etc/pki/tls/certs/example.com.key
+
+For the CRT file
+
+Copy the CRT from the SSL certificate screen following by the CA from
+the following page:
+
+[[http://kb.ukfast.net/Comodo_CA_Certs]]
+
+For the .key file
+
+Copy the key from the SSL certificate screen
+
+- After this, run a configtest, if it comes back OK, then restart nginx
+
+*/Installing SSL's for the mail service on a Plesk Server/*
+
+[[http://kb.odin.com/uk/1062]]
+** Apache
+* PEM Files
+The standard format for OpenSSL and many other SSL tools. This format is designed to be safe for inclusion in ascii or even rich-text documents, such as emails. This means that you can simple copy and paste the content of a pem file to another document and back.
+
+- Below is an example of a PEM file
+#+BEGIN_SRC sh
+-----BEGIN ENCRYPTED PRIVATE KEY-----
+MIIFDjBABgkqhkiG9w0BBQ0wMzAbBgkqhkiG9w0BBQwwDg
+MBQGCCqGSIb3DQMHBAgD1kGN4ZslJgSCBMi1xk9jhlPxPc
+9g73NQbtqZwI+9X5OhpSg/2ALxlCCjbqvzgSu8gfFZ4yo+
+A .... MANY LINES LIKE THAT ....
+X0R+meOaudPTBxoSgCCM51poFgaqt4l6VlTN4FRpj+c/Wc
+blK948UAda/bWVmZjXfY4Tztah0CuqlAldOQBzu8TwE7WD
+H0ga/iLNvWYexG7FHLRiq5hTj0g9mUPEbeTXuPtOkTEb/0
+GEs=
+-----END ENCRYPTED PRIVATE KEY-----
+-----BEGIN CERTIFICATE-----
+MIIDXTCCAkWgAwIBAgIJAJC1HiIAZAiIMA0GCSqGSIb3Df
+BAYTAkFVMRMwEQYDVQQIDApTb21lLVN0YXRlMSEwHwYDVx
+aWRnaXRzIFB0eSBMdGQwHhcNMTExMjMxMDg1OTQ0WhcNMT
+A .... MANY LINES LIKE THAT ....
+JjyzfN746vaInA1KxYEeI1Rx5KXY8zIdj6a7hhphpj2E04
+C3Fayua4DRHyZOLmlvQ6tIChY0ClXXuefbmVSDeUHwc8Yu
+B7xxt8BVc69rLeHV15A0qyx77CLSj3tCx2IUXVqRs5mlSb
+vA==
+-----END CERTIFICATE-----
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

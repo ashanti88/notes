@@ -2,11 +2,65 @@
 
 
 * find								:sys:op:file:
+GNU: [[https://www.gnu.org/software/findutils/manual/html_mono/find.html#index-g_t_002dmaxdepth-44][gnu.org/find]]
 * Description
 Used for finding files by file name. 
 * Usage
 
-> find <start_point> <options> <pattern>
+> find <start_point> <options> <filename>
+
+** Find file by name
+We can use either
+  - name - casesensitive
+  - iname - case insensitive
+Regular expression symbols can be used    
+- find all files in current and sub directories that end in .conf
+#+BEGIN_SRC sh
+find . -name "*.conf"
+#+END_SRC
+** Find file by type
+Types that can be searched for
+  - f - regular file
+  - d - directory
+  - l - symbolic link
+  - c - character device
+  - b - block device
+
+- find all directories and sub-directories
+#+BEGIN_SRC sh
+find . -type d 
+#+END_SRC
+
+- search by file can also be used to search for the .conf files like above
+#+BEGIN_SRC 
+find . -type f -name "*.conf"
+#+END_SRC
+
+** Finding files by size
+We can use the size flag with size descriptions
+  - c - bytes
+  - k - kilobytes
+  - M - Megabytes
+  - G - Gigabytes
+  - b - 512-byte-block
+    
+- find all files above 100MB
+#+BEGIN_SRC sh
+find . -size +100M
+#+END_SRC
+
+** Find files at certain depth
+To descend into sub-directories use the maxdepth flag
+#+BEGIN_SRC 
+find . -maxdepth 1 -type f -name "history"
+#+END_SRC
+1 will search in the set directory
+2 will move down one directory etc...
+** Find by user
+#+BEGIN_SRC sh
+find . -maxdepth -user crito -name "*.py"
+#+END_SRC
+This will find all crito's python files in current directory
 
 ** Delete found files
 #+BEGIN_SRC sh

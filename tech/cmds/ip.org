@@ -7,62 +7,86 @@ This tool is used for manipulating network interfaces and generating network inf
 
 * Usage
 ** List all the interfaces
-> ip a
+#+BEGIN_SRC sh
+ip a
+#+END_SRC
 
 ** Only view ip4 information*
-> ip -4 a
+#+BEGIN_SRC sh
+ip -4 a
+#+END_SRC
 
 ** Only view ip6 information*
-> ip -6 a
+#+BEGIN_SRC sh
+ip -6 a
+#+END_SRC
 
 ** View an specific interface details*
-> ip a show <interface>
+#+BEGIN_SRC sh
+ip a show wlp2s0 
+#+END_SRC
 
 ** Only show the up interfaces*
-> ip link ls up
+#+BEGIN_SRC sh
+ip link ls up
+#+END_SRC
 
 ** Modifying an interface
 ** Assigning an ip address to interface
-> ip a add <ipaddress>/<netmask> dev <interface>
-
+#+BEGIN_SRC sh
+ip a add 192.168.0.6/24 dev wlp2s0
+#+END_SRC
 or
-
-> ip a add <ipaddress>/<slash\_num> dev <interface>
+#+BEGIN_SRC sh
+ip a add 192.168.0.6/24 dev wlp2s0
+#+END_SRC
 
 ** Removing an ip address from an interface
-> ip a del <ip\_address>/<netmask> dev <interface>
+#+BEGIN_SRC sh
+ip a del 192.168.0.6/24 dev wlp2s0
+#+END_SRC
 
 ** Flush all ip addresses from all interfaces
-> ip -S -s a f to <ipaddress\_range>/<netmask>
+#+BEGIN_SRC sh
+ip -S -s a f to <ipaddress\_range>/<netmask>
+#+END_SRC
 
 ** Bringing interfaces up/down
-
-> ip link set <interface> down
-> ip link set <interface> up
+#+BEGIN_SRC sh
+ip link set wlp2s0 down
+ip link set wlp2s0 up
+#+END_SRC
 
 ** Viewing Routing Information
 
 ** Adding a default gateway
-> ip route add default 
+#+BEGIN_SRC sh
+ip route add default
+#+END_SRC
 
 ** Viewing Routes
-> ip route show
+#+BEGIN_SRC sh
+ip route show
+#+END_SRC
 
 ** Arp Table
+- Viewing Arp  Table
+#+BEGIN_SRC sh
+ip neigh show
+#+END_SRC
 
-+ Viewing Arp  Table
-> ip neigh show
-
-+ Deleting an entry
-> ip neigh delete <ip\addr> dev <intx>
-
+- Deleting an entry
+#+BEGIN_SRC sh
+ip neigh delete 192.168.0.4 dev wlp2s0
+#+END_SRC
 The deleted machine will now show as FAILED and need an arp request to
 be set to establish connection.
 
 ** Routing Tables
-
-+ Show rules
-> ip rule list
+- Show rules
+#+BEGIN_SRC sh
+ip rule list
+#+END_SRC
 * Lecture
 * Tutorial
 * Books

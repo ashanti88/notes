@@ -1,0 +1,11 @@
+#+TAGS: db sql mysql perona
+
+
+* pt-mext
+HomePage: [[https://www.percona.com/doc/percona-toolkit/2.1/pt-mext.html][percona.com/pt-mext]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

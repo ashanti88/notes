@@ -1,6 +1,6 @@
 #+TAGS: db sql mysql
 
-* mysql
+* MySQL   LL						       :db:sql:mysql:
 HomePage: [[https://www.mysql.com/][mysql.com]]
 * Commands
  [[file://home/crito/org/tech/cmds/mysqladmin.org][Mysqladmin]]
@@ -343,6 +343,42 @@ Check the selinux context before moving moving data directory.
 myqlhotcopy 
 Shouldn't be used anymore due to limitations. One of these is it only works for data stored in 'MyISAM' and 'Archive' storag eengines. It also has to be run on the local machine, so no backing up from a remote box.
 
+** Checking Status
+COM_* Command Counters
+Start with these:
+  - com_begin
+  - com_commit
+  - com_delete
+  - com_insert
+  - com_select
+  - com_update
+The above variables will give an idea of current workload
+
+Temporary Tables
+- Number of tmp tables on disk vs memory:
+  - created_tmp_disk_tables
+  - created_tmp_tables
+- Small tmp_table_size or max_heap_table_size is often not the reason for tmp tables on disk
+  - instead it's variable size text/blob columns in queries
+    
+Handler_* Counters
+- Most interesting ones:
+  - handler_read_first
+  - handler_read_key
+  - handler_read_next
+  - handler_read_prev
+  - handler_read_rnd_next
+
+Innodb_* Counters
+- interesting ones:
+  - innodb_buffer_pool_pages_flushed - number of pages flushed from buffer pool
+  - innodb_buffer_Pool_reads - number of Disk IO calls to read into the buffer pool
+  - innodb_data_fsyncs - number of fsync() calls executed
+  - innodb_data_pending_* - gauges showing a number of pending fsync, read or write calls
+  - innodb_data_reads/writes - number of random read/write disk IO operations for data files specifically
+  - innodb_history_list_length - guage showing a number of transactions that haven't been cleaned up
+  - innodb_ubuf_merges - number of insert buffer merge operations. High numbers here could explain intense IO spikes 
+
 * Optimization
 ** Single Table
 mysql> use <database>;
@@ -394,6 +430,9 @@ URL: [[https://en.wikipedia.org/wiki/Comparison_of_MySQL_database_engines][Wiki 
 
 ** Spider
 ** ScaleDB
+** Aurora
+- Storage grows up to 64TB
+- Up to 15 Aurora Replicas with instant crash recovery
 * Forks
 ** Mariadb
 HomePage: [[https://mariadb.org/][mariadb.org]]
@@ -709,6 +748,625 @@ InnoDB - B+ Tree structure
   - only one index can be used at once
     
 + DISTINCT !!!! need to read up on this function
+
+** [[https://www.youtube.com/watch?v%3D0CqMv0ucqFA][MySQL Performance Tuning: Part 1 Configuration]]
+*** Distros
+- MySQL
+ - base of all over versions  
+ - MySQL 5.1 doesn't have innodb plugin enabled by default, very poor InnoDB performance
+ - MySQL 5.5 
+    - still missing lots of performance improvements
+    - stability issues
+ - MySQL 5.6
+    - not many reasons to use alternative
+    - still not perfectly stable with hibh end hardware in a write-intensive environment
+ - MySQL 5.7
+    - Rock Solid
+    - New features:
+      - mutli-source replication
+      - JSON support
+      - proper multi-threaded replication
+      - online buffer pool resize
+      - spatial data types for InnoDB
+      - sys schema
+- Persona
+ - Always up to date with upstream
+ - Always able to switch to same version of MySQL  
+ - Using MySQL 5.1 ---> switch to Percona 5.1 provides much more
+ - Using MySQL 5.5 ---> switch to Percona 5.5 
+   - adaptive hash index is a bottle-neck
+   - you want faster checksums
+   - you have write-intensive workload
+   - you need PAM authentication, audit log, thread pool
+ - Using MySQL 5.6 ---> switch to Percona 5.6
+   - you have very write-intensive workload and high end hardware
+ - Enhanced slow query log is a benefit of Percona
+- Mariadb
+  - MariaDB 5.5 ---> MySQL 5.5 + XtraDB + MariaDB 5.3
+    - query optimizer improvements
+    - mutli-master relication
+    - group commit fix
+  - MariaDB 10
+    - a real fork of MySQL5.6
+    - will not be backwards compatible with 5.6>
+    - Features:
+      - Parallel replication
+      - Multi-source replication
+      - Cassandra, Spider, TokuDB storage engines
+- WebscaleSQL     
+  - Collaboration by a few heavy-duty MySQL users:
+    - Alibaba, Facebook, Google, Linkedin & Twitter
+  - MySQL 5.6 at its core
+    - good stuff being back-ported from MySQL 5.7
+  - Not meant to be general purpost MySQL Server
+  - Features:
+    - Ability to specify millisecond timeouts
+    - Super read-only mode
+    - Ability to disable deadlock detection
+    - Prefix index query optimisation
+    - Performance Schema not compiled in
+    - InnoDB flushing performance fixes
+
+*** The Essentials
+MySQL defaults are poor, 5.7 has improved but still needs to be optimized for production.
+
+- MySQL configuration file is my.cnf
+  - default location /etc/my.cnf - rhel
+  - default location /etc/mysql/my.cnf - deb
+  - on Windows - best use data directory (create the file)
+    
+- Common Mistakes
+  - Using trial and error approach
+    - change something see if it feels better
+  - asking google for performance advice
+    - answers often lack context
+    - settings are hardware dependant
+  - Obsessing about fine-tuning the my.cnf
+    - 10-15 variables is often all you need to change
+    - fine-tuning won't give you significant wins
+  - Changing many things at once
+    - makes it very hard to figure out what caused what
+  - Not keeping my.cnf in sync with the changes you make
+    - changing setting online is convenient, but...
+    - don't forget to update my.cnf, otherwise on reboot all changes are lost
+  - Redundant entries in my.cnf
+    - MySQL won't mind them
+    - if same value is set twice the last one will be used
+  - Multiplying buffer sizes
+    - don't do it
+    - some buffers are local, some server-wide
+    - few variables need to be increased after hw upgrades
+  - using the wrong my.cnf section
+    - [mysql], [client], [mysqld_safe] - all are incorrect choices      
+    - [mysqld] - put all of the server config here
+
++ Global Vs Local Scope
+- In many cases, you only want to change local session buffers and leave global configuration as is
+- For a query that needs to sort a lot of data, before you run it:
+#+BEGIN_SRC sh
+set sort_buffer_size = 64 * 1024 * 1024;
+#+END_SRC   
+This will only change the value for this session
+
+*** 17 Key MySQL Settings
+**** my.cnf example
+### This my.cnf file is based on the following speedemy.com blog post:
+### http://www.speedemy.com/17-key-mysql-config-file-settings-mysql-5-7-proof
+
+[client]
+
+###
+### client section - used for "mysql", "mysqladmin" and similar command line
+### clients.
+###
+
+#port = 3306
+#socket = /tmp/mysql.sock
+### Just in case your current configuration is not using default values.
+
+[mysqld]
+
+###
+### mysqld section - used by MySQL Server (also applies to Percona Server,
+### MariaDB etc.)
+###
+
+#port = 3306
+#socket = /tmp/mysql.sock
+#user = mysql
+### Just in case your current configuration is not using default values.
+
+datadir = /var/lib/mysql
+### This must point to the main MySQL data directory.
+
+
+###
+### General Server Options:
+###
+
+max_allowed_packet = 32M
+### Default packet limit is almost always too small.
+
+max_connections = 2000
+### Max connections as well (sleeping threads are okay to have)
+
+#table_open_cache = 2000
+### Table open cache - defaults only good in MySQL 5.7 and 5.6
+### On 5.1 or 5.5 set the above.
+
+#table_open_cache_instances = 16
+### Table open cache instances - be sure to set this on MySQL 5.6.
+### http://www.speedemy.com/17-key-mysql-config-file-settings-mysql-5-7-proof#table_open_cache_instances
+
+open_files_limit = 10000
+### Increase the number of file descriptors, we're not in stone age now.
+
+tmp_table_size = 64M
+max_heap_table_size = 64M
+### Incease limits for implicit and explicit temporary tables.
+
+tmpdir = /tmp
+### Don't use tmpfs for tmpdir, or AIO will be disabled. And make sure
+### There's enough room for temporary tables and files (usually 2-5GB)
+
+#thread_cache_size = 100
+### Thread cache - this is now autosized in MySQL 5.6 and 5.7
+### But on MySQL 5.1 and 5.5 do set the above
+
+default_storage_engine = InnoDB
+### Default storage engine in most cases should be InnoDB. If in doubt:
+### http://www.speedemy.com/17-key-mysql-config-file-settings-mysql-5-7-proof#default_storage_engine
+
+skip_name_resolve
+### Disabling DNS resolution - DNS based logins will stop working:
+### http://www.speedemy.com/17-key-mysql-config-file-settings-mysql-5-7-proof#skip_name_resolve
+
+query_cache_type=0
+query_cache_size=0
+### Explicitly disabling the query cache. If you have a light workload, you
+### may reconsider:
+### http://www.speedemy.com/17-key-mysql-config-file-settings-mysql-5-7-proof#query_cache_type
+
+#back_log = 512
+### Consider increasing this if you have a high number of new connections
+### (> 1000/sec) and you are running on MySQL 5.6 or older
+### https://www.percona.com/blog/2011/04/19/mysql-connection-timeouts/
+
+#thread_concurrency = 0
+### Do not tune this. This does nothing. And I have included it here only
+### because I've seen too many people obsess over it.
+
+#join_buffer_size = 256k
+#sort_buffer_size = 256k
+#read_buffer_size = 128k
+#read_rnd_buffer_size = 256k
+### Leave these at their defaults, do not change server-wide settings for them
+### Instead, use session variable when you really need it like that:
+### mysql> SET session read_buffer_size = 2 * 1024 * 1024;
+### mysql> RUN YOUR QUERY;
+
+
+###
+### Binary logging section
+###
+
+log_bin
+server_id = 1
+### Enabling binlog as well as unique server_id for
+### point in time recovery and, potentially, replication.
+
+max_binlog_size = 100M
+### Don't have large binary logs, with file systems like ext3 this could
+### cause stalls.
+
+#master_info_repository = TABLE
+#relay_log_info_repository = TABLE
+### If you're on MySQL 5.6 or MySQL 5.7, store the binlog position
+### to TABLE rather than FILE (that way position is in sync with db)
+
+expire_logs_days = 7
+### Control the amount of binary logs server is allowed to keep (in days)
+
+sync_binlog = 0
+### Disabling sync-binlog for better performance, but do consider the
+### durability issues:
+### http://www.speedemy.com/17-key-mysql-config-file-settings-mysql-5-7-proof#sync_binlog
+
+binlog_format = MIXED
+### For the binary log format, I recommend MIXED, but it's up to you.
+
+###
+### MyISAM Specific Options:
+###
+
+### Assuming MyISAM is not going to be used, therefore defaults used for MyISAM
+### Still if you do plan to use it, this is probably the only variable you
+### want to tune:
+#key_buffer_size = 128M
+
+
+###
+### InnoDB Specific Options:
+###
+
+#innodb_buffer_pool_size = 96G
+### Set the innodb buffer pool size to 75-80% of total memory (dedicated):
+### http://www.speedemy.com/17-key-mysql-config-file-settings-mysql-5-7-proof#innodb_buffer_pool_size
+### The example above would be used on a dedicated 128GB MySQL server.
+
+#innodb_log_file_size = 2047M
+### Allow 1-2h worth of writes to be buffered in transaction logs:
+### http://www.speedemy.com/17-key-mysql-config-file-settings-mysql-5-7-proof#innodb_log_file_size
+### Helper command:
+### mysql> pager grep seq
+### mysql> show engine innodb status\G select sleep(60); show engine innodb status\G
+
+innodb_log_buffer_size = 16M
+### Don't sweat about about this, just set it to 16M.
+
+innodb_flush_log_at_trx_commit = 0
+### This, OTOH is really important. See:
+### http://www.speedemy.com/17-key-mysql-config-file-settings-mysql-5-7-proof#innodb_flush_log_at_trx_commit
+
+innodb_flush_method = O_DIRECT
+### On Linux, just leave it set to O_DIRECT.
+### http://www.speedemy.com/17-key-mysql-config-file-settings-mysql-5-7-proof#innodb_flush_method
+
+#innodb_buffer_pool_instances = 4
+### Set this depending on MySQL version. Available since 5.6
+### In 5.6, set to 4
+### In 5.7, set to 8
+### http://www.speedemy.com/17-key-mysql-config-file-settings-mysql-5-7-proof#innodb_buffer_pool_instances
+
+innodb_thread_concurrency = 8
+### Yes, this is not an error. Use 0 only for benchmarks and if you're nowhere
+### near saturating your server.
+### http://www.speedemy.com/17-key-mysql-config-file-settings-mysql-5-7-proof#innodb_thread_concurrency
+
+#innodb_io_capacity = 1000
+#innodb_io_capacity_max = 3000
+### Base these on your server radom write IO capabilities
+### http://www.speedemy.com/17-key-mysql-config-file-settings-mysql-5-7-proof#innodb_io_capacity
+
+innodb_stats_on_metadata = 0
+### On 5.6 and 5.7 this is already turned off by default.
+### http://www.speedemy.com/17-key-mysql-config-file-settings-mysql-5-7-proof#innodb_stats_on_metadata
+
+#innodb_buffer_pool_dump_at_shutdown = 1 # MySQL 5.6+
+#innodb_buffer_pool_load_at_startup  = 1 # MySQL 5.6+
+#innodb_buffer_pool_dump_pct = 75        # MySQL 5.7 only
+### Enable these for faster warm-up
+### http://www.speedemy.com/17-key-mysql-config-file-settings-mysql-5-7-proof#innodb_buffer_pool_dump_at_shutdown
+
+#innodb_adaptive_hash_index_parts = 16      # MySQL 5.7 only
+#innodb_adaptive_hash_index_partitions = 16 # Percona Server only
+### AHI is a common bottle-neck, however few versions of MySQL
+### support AHI partitions:
+### http://www.speedemy.com/17-key-mysql-config-file-settings-mysql-5-7-proof#innodb_adaptive_hash_index_parts
+
+#innodb_checksum_algorithm = crc32     # MySQL 5.6 or newer
+### Hardware acceleratorion for checksums
+### http://www.speedemy.com/17-key-mysql-config-file-settings-mysql-5-7-proof#innodb_checksum_algorithm
+
+innodb_read_io_threads = 16
+innodb_write_io_threads = 16
+### This isn't super important to fine tune, but it's good to aling
+### it to number of availble read / write spindles
+### http://www.speedemy.com/17-key-mysql-config-file-settings-mysql-5-7-proof#innodb_read_io_threads
+
+innodb_file_per_table
+### There's a number of reasons to use file per table, but beware that
+### it doesn't convert tables automatically, and ibdata1 will never shrink anyways
+
+#innodb_open_files = 3000
+### Set this on MySQL 5.1 and 5.5. On 5.6 and beyond it's autotuned
+### specifies max number of .ibd files that MySQL can keep open at one time
+
+#innodb_flush_neighbors = 0
+### Set to 0 if you're using SSD. For magnetic drives, keep it at 1
+### http://dev.mysql.com/doc/refman/5.7/en/innodb-parameters.html#sysvar_innodb_flush_neighbors
+
+#innodb_flushing_avg_loops = 100
+### Use this if you don't like how flushing activity behaves
+### (e.g. if you get stalls)
+### http://dev.mysql.com/doc/refman/5.7/en/innodb-parameters.html#sysvar_innodb_flushing_avg_loops
+
+#innodb_page_cleaners = 8 # MySQL 5.7 only
+### On a write-heavy environment, use this to gain even more control
+### over the flushing activity. This is not yet tested too wildly.
+### http://dev.mysql.com/doc/refman/5.7/en/innodb-parameters.html#sysvar_innodb_page_cleaners
+
+#innodb_old_blocks_time = 1000
+### Use this only on 5.1 and 5.5 since 5.6 and 5.7 already have 1000 as a default
+### This basically protects your buffer pool from occasional scans
+### Although the way it works is quite complex, definitely not for my.cnf
+
+#innodb_max_dirty_pages_pct
+### If you're in a write-heavy environment, but want to limit how much of it
+### you use for dirty pages, this is the variable to configure. Defaults are
+### version specific, but range in 75-90 %
+
+
+###
+### Slow query log (mostly Percona XtraDB Specific)
+###
+
+long_query_time = 1.0
+### Log queries that take > 1s to execute
+
+slow_query_log = 1
+### Enable the slow query logging
+
+### Only to be used on Percona Server:
+
+#log_slow_slave_statements = ON
+#log_slow_verbosity = full
+#slow_query_log_timestamp_always = ON
+#slow_query_log_timestamp_precision = microsecond
+#slow_query_log_use_global_control = all
+### See here for more information:
+### https://www.percona.com/doc/percona-server/5.6/diagnostics/slow_extended.html
+
++ Storage Engine
+- MyISAM was used by default
+  - Problems with MyISAM:
+    - was not designed to be highly scalable
+    - nor resilient
+    - not scalable when it comes to read-write workloads
+    - table level locks only
+      
+- InnoDB
+  - Fully ACID transactional storage engine, designed to handle highly concurrent workload and scale well.
+  - Problems with concurrency prior to 5.3
+  - As of MySQL 5.5.5 it is now the default storage engine
+    
+- Converting to InnoDB
+  - not enough to change default-storage-engine
+  - tables need to be converted.
+  - Also don't expect that simply converting largest tables is all you have to do.
+    - if at least one join is MyISAM the entire query is using table level locks.
+    - So makesure to convert all.
+  - To use InnoDB even when MyISAM is specified, in Percona you can set this in my.cnf:
+    enforce_storage_engine = InnoDB    
+  
+*** Most important variable for InnoDB - innodb_buffer_pool_size
+  - InnoDB Buffer Pool is:
+    - a cache for read data (these are stored in pages of 16kb)
+    - also cache for indexes, modified data
+    - place for some internal structures
+- on a dedicated server, set to 80% of total memory
+  - leave foom for other internal structures outside the buffer pool
+  - query execution
+  - os cache (bin lob, relay logs, innodb transaction logs)
+  - os memory structures
+  - enven on server with 256-512GB of RAM
+  - avoid swapping at all costs
+    - swapping is not the same as reading data from disk
+    - it's much worse, and will stall all queries
+
+- On a shared server:
+  - check total size of db, maybe it all fits in, say 50% of RAM
+  - avoid swapping at all costs (use vmstat 1 to check)
+#+BEGIN_SRC sh
+mysqladmin ext -ri1 | grep Innodb_buffer_pool_reads
+#+END_SRC  
+
+- Changing the innodb_buffer_pool_size
+On MySQL 5.7 it can be done online
+#+BEGIN_SRC sh
+set global innodb_buffer_pool_size = size_in_bytes;
+#+END_SRC
+change the my.cnf, but no restart is required
+
+*** innodb_log_file_size
+- size for redo logs (transaction logs)
+- up until MySQL 5.6.8 it was 5MB - far too small
+  - current default 48MB - still too small
+
+- What is InnoDB redo log?
+  - allows you to move backwards
+  - redo happens after a db crash
+    
+- Undo
+  - when a record is changed(but before COMMIT)
+  - changes are not written to data files right away
+  - first they are written to a transaction log
+  - data is modified in memory
+  - original unmodifiged copy is moved to rollback segment
+  - Rollback occurs:
+    - Undo needs to happen to restore data to previous state
+    - InnoDB removes the copy from the rollback segment, removes the dirty page
+    - marks in transaction log that change was rolled back
+      
+- Redo
+  - after COMMIT, changes are ready to be written to data files
+  - they aren't actually written, this would be inefficient
+  - instead changes are written to the redo log (and modified pages are only stored in memory)
+  - Crash occurs:
+    - redo needs to happen
+    - after restart, InnoDB finds the last checkpoint position and re-applies the same changes as before restart
+    
+- Redo log size
+  - Size matters:
+    - Small log files make writes slower and crash recovery faster
+    - Large log files make writes faster and crash recovery slower
+      
+- Sizing redo logs    
+  - Rule of Thumb:
+    - Check that total size of your redo logs fits in 1-2hr worth of writes during your busy period
+    
+- Changing the redo log size
+  - MySQL 5.7 - change my.cnf and restart the server
+  - MySQL <5.7, changing my.cnf isn't enough
+    - change innodb_log_file_size in my.cnf
+    - stop MySQL server
+    - ensure MySQL had a clean shutdown
+    - remove all old log files - rm -f /var/lib/mysql/ib_logfiles*
+    - start MySQL server - it should take a bit longer to start because it is going to be creating new transaction log files
+  - MySQL < 5.6.2 supports 4GB total only
+
+*** innodb_flush_log_at_trx_commit
+- innodb_flush_log_at_trx_commit=1 by default:
+  - Flush and Sync after every transaction commit
+  - insert/update/delete is a transaction if autocommit=1
+    
+- SYNC is often expensive - it's synchronisation to disks
+  - exception is if you have non-volatile cache
+  - BBU protected write-back cache
+  - or Super-capacitor with a flash memory chip
+    
+- alternative values for innodb_flush_log_at_trx_commit:
+  - 0 means Flush to disk, but don't Sync(no actual IO is performed on commit)
+  - 2 means Don't Flush and don't Sync(again no actual IO is performed on commit)
+    
+- when run with 0 or 2, SYNC is performed once per second:
+  - means you may loose u to 1s worth of committed data
+    
+- Financial operations require it to be set to 1
+  
+- Many sites use 0 or 2
+  - MyISAM would loose up to 30s worth of data in case of a crash
+    
+- So then 0 or 2?
+  - small difference, because neither causes SYNC to disk
+  - 0 is good in that no data is lost if MySQL crashes(but the machince stays ON)
+    
+*** sync_binlog
+sync_binlog=1 makes binary logs durable
+
+- if you have no slaves & no backups - use sync_binlog=0 (default)
+- if you do have replication and/or backups, but you don't mind loosing few events in case of server power loss in order to gain better performace, use sync_binlog=0
+- if consistency is really important and you also use innodb_flush_log_at_trx_commit=1 anyway, do use sync_binlog=1 
+  - and use MySQL 5.6>, Percona Server 5.6> or MaraiaDB 5.5 > as these versions have a binlog group commit fix
+
+*** inndb_flush_method
+set innodb_flush_method=O_DIRECT
+  - only supported by Linux
+  - Overcomes OS cache for reads and for writes
+- if not used, double buffering occurs
+   
+*** innodb_buffer_pool_instances
+- reduces global buffer pool mutex contention
+- splits buffer pool into multiple buffer pools
+- On MySQL 5.5 be more conservative
+ - innodb_buffer_pool_instances=4 should be good enough
+- On MySQL 5.6 > 
+ - innodb_buffer_pool_instances=8 or even 16
+   
+*** innodb_thread_concurrency
+- innodb_thread_concurrency=0 is default
+- with high workloads setting a cap may work much better
+- innodb_thread_concurrency controls how many threads can be executing at the same time
+  - if 0 all requests will be served immediately
+    - that all good if you have 32 CPU cores and 4 requests
+    - not so good if you have 32 CPU intensive requests and 4 CPU cores
+    - can become a mess when all are executing at the same time and new erquests keep coming in
+- setting the variable online
+#+BEGIN_SRC sh
+set global innodb_thread_concurrency=8;
+#+END_SRC
+
+*** innodb_concurrency_tickets
+- determines the number of tickets given
+- increase for long queries to run longer before letting others in
+  - MySQL 5.5 500 by default
+  - MySQL 5.6 5000 by default
+    
+*** innodb_thread_sleep_delay
+- sets amount of sleep time before joining the innodb queue (in microseconds)
+  
+*** Monitoring the Queue
+#+BEGIN_SRC sh
+show engine innodb status\G
+#+END_SRC
+
+*** skip_name_resolve
+- add skip_name_resolve to avoid DNS resolution on connect
+- no impact when all is working fine
+- when DNS server fails, takes a long time to figure things out
+- slow connections to the server don't help to solve this faster
+- Exception:
+  - using local hosts file based names
+    
+*** innodb_io_capacity and innodb_io_capacity_max
+- innodb_io_capacity cntrols how many write IO requests per second (IOPS) will MySQL do when flushing the dirty data
+- innodb_io_capacity_max controls how many write IOPS will MySQL do flushing the dirty data when it's under stress
+- io activity related to background writes only
+- under stress means MySQL is behind with flushing activity and needs to shift gears or things may go bad
+- set innodb_io_capacity to 50-75% of write capacity
+- set innodb_io_capacity_max to 100%
+- write capacity = number of random write iops server can handle
+- default of 200 and 400 may cause stress
+  
+*** innodb_stats_on_metadata
+- off by default MySQL 5.6>
+- Safe to switch off on MySQL 5.5 and 5.1
+  - innodb_stats_on_metadata = 0
+  - can be changed online too
+- Makes "show table status" and some queries against information_schema faster.    
+- InnoDB stats are still going to be updated, don't worry
+
+*** innodb_buffer_pool_dump_at_shutdown and innodb_buffer_pool_load_at_startup
+- makes warm-up much faster
+  - works even with SSDs
+  - by loading contents of buffer pool on server startup
+- Only page numbers are stored in a file
+- Asynchronous activity, no performance impact
+- innodb_bufer_pool_dump_pct in MySQL 5.7 control how much of the buffer pool to dump
+  - 25 by default, 75 -100 is recommended
+- Supported in MySQL since 5.6, in Percona Server since 5.1
+
+*** innodb_adaptive_hash_index_parts
+- adaptive hash index is on by default
+- dynamic hash index maintained by InnoDB to improve certain query patterns. Usually very helpful
+  - except when requests for mutex start backfiring
+- Starting MySQL 5.7 mutex can be split
+  - by default split into 8 partitions
+  - innodb_adaptive_hash_index-parts=8
+- MySQL 5.6 and earlier
+  - Switch to an appropriate Percona Server or MariaDB version and use innodb_adaptive_hash_index_partitions
+
+*** query_cache_type
+- before it becomes a bottle-neck, query cache is great:
+  - small databases with few updates
+  - low concurrency workload
+  - read-only DB
+- even if it's helpful, don't set query_cache_size > 256M
+  - wait time on invalidation increases significantly
+  - innocent queries get blocked
+- with high concurrency workload, often a bottle-neck
+- Suggest using query cache tuner
+- Mutex is still locked even if query_cache_size=0
+- Use the following configuration:
+  - query_cache_size=0
+  - query_cache_type=OFF
+- Requires a restart to disable mutex
+- Works with 5.5 or newer
+  - 5.1 switch to Percona Server 5.1
+    
+*** innodb_checksum_algorithm
+- old checksum algorithm is expensive
+- crc32 can use native CPU instructions
+- user innodb_checksum_algorithm=crc32 with MySQL 5.6
+  - used by default in MySQL 5.7
+- Safe to change, no need to reload data,     
+  
+*** table_open_cache_instances
+- MySQL 5.6.6
+- Avoid server lock-up when opening many tables or when opening a table is slow
+- Starting with MySQL 5.7.8 table_open_cache_instances=16 this is a good setting
+  - needs setting manually in 5.6
+    
+*** innodb_read_io_threads and innodb_write_io_threads
+- MySQL supports asynchronous IO on Linux since MySQL 5.5 
+- These threads are used for background activities only
+- Set it to match number of bearing read/write disks
+  - innodb_read_io_threads=8 and innodb_write_io_threads=4 on RAID10 with 8 disks
+  - on SSDs set at 32/16
+
+*** Conclusion
+- config file is only part of the deal
+- more often than not, queries are the problem
 
 * Tutorials
 * Books
