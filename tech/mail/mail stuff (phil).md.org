@@ -26,15 +26,15 @@ google exim cheatsheet, that is all
 
 *=Search for where mail is being sent from when its a script sending=*
 
-=zegrep 'cwd=/home/pal'=ls -tr /var/log/exim\_mainlog*=| less=
+zegrep 'cwd=/home/pal' ls -tr /var/log/exim\_mainlog* | less
 
-==
 
-=To restore CPanel email see 'backups'=
 
-==
+To restore CPanel email see 'backups'=
 
-=**Find all accounts using POP3 **=
+
+
+* Find all accounts using POP3 **=
 
 =**_Can be tailored for other protocols. Also this is for servers with Exim+Courier, it needs changing a little for Exim+Dovecot_**=
 

@@ -1,7 +1,7 @@
 #+TAGS: db sql mysql perona
 
 
-* pt-mext					       :db:sql:mysql:percona:
+* pt-mext
 HomePage: [[https://www.percona.com/doc/percona-toolkit/2.1/pt-mext.html][percona.com/pt-mext]]
 * Description
 * Usage

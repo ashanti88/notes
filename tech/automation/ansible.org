@@ -6,10 +6,10 @@ HomePage: [[https://www.ansible.com/][ansible.com]]
 * Cmds
 * Overview
 * Lecture
-*** Learn you some Ansible for great good! - OpenStack Summit May 2015
+** Learn you some Ansible for great good! - OpenStack Summit May 2015
 url:[[url][https://www.youtube.com/watch?v=qEuk65few9I]]
 
-**** Unified dev, test and deployment environments 
+*** Unified dev, test and deployment environments 
 + can reproduce issues
 + buys caught earlier
 + dev environment templated - all the same
@@ -17,13 +17,13 @@ url:[[url][https://www.youtube.com/watch?v=qEuk65few9I]]
 
 + simple way to create identical development environments
 
-**** Configuration Management Tools
+*** Configuration Management Tools
 
 Arcane magic --------> Manual Instructions ----------> Scripts ------> CM Tools
 
 + with the scripts and CM tools we are now able to automate the management.
 
-**** CM Tools
+*** CM Tools
 + its about describing to the tool the environment that is required.
 
 variety - Puppet - 2005
@@ -33,24 +33,24 @@ variety - Puppet - 2005
         - Ansible- 2012
 	  
 
-**** Ansible
+*** Ansible
 + Orchestration engine for CM and deployment
 + Written in python
 + Uses YAML
 + Playbooks - descriptions of desired states
 + Config specs or explicit cmds
 
-***** Key Points
+**** Key Points
 + No central configuration server
 + No key mgmt
 + No agent to install on target machine
 + Explicit order
   
-***** Requirements
+**** Requirements
 + SSH access (with key or password)
 + Need Python installed on target machine
 
-***** Modules
+**** Modules
 + Hundreds of them. They know stuff....
   - Command
   - shell script
@@ -59,7 +59,7 @@ variety - Puppet - 2005
   - Database Services
 Many more.....
 
-***** How does it work
+**** How does it work
 
            Playbook      Python Mod   ssh              ssh     Run Mod
   Laptop ------------->  "Apache2" --------> Run Mod -------> (then del) 
@@ -70,7 +70,7 @@ Many more.....
 			   
 + once Ansible has finished all the module code is deleted.
 
-***** Inventory and groups
+**** Inventory and groups
 + Define hosts, organised into groups 
   - by function
   - by location
@@ -78,7 +78,7 @@ Many more.....
 
 + Naming of groups is arbitory
 
-***** Adhoc commands
+**** Adhoc commands
 + Single commands applied to groups
 > ansible -i hosts europe -a "uname -a"
 > ansible -i hosta frontend -a "/sbin/reboot" -f 3
@@ -87,9 +87,480 @@ Many more.....
 
 + actions are either carried out against single units or groups.
 
-***** Playbooks
+**** Playbooks
 + Tell Ansible what to do
 + These are written in YAML
+** [[https://www.youtube.com/watch?v%3DkHQUzNiKLoU][Introduction to Ansible - Michelle Perz]]
+*** What is Ansible
+It is a simple automation language that can purfectly describe an IT application infrastructure in Ansible Playbooks.
+
+- cross platform
+  - linux, windows, Unix
+- Human readable - Yaml
+- Version Controlled
+  - playbooks are plain-text
+    
++ Batteries included
+Ansible comes bundled with hundreds of modules
+
++ Ansible - Complete Automation - All can be done with Ansible
+  - App deployment
+    - Fabric
+    - Capistrano
+    - Nolio
+  - Multi-Tier Orchestration
+    - BMC
+    - Mcollective
+    - Chef Metal
+  - Configuration Management
+    - Chef
+    - Puppet
+    - CFEngine
+  - Provisioning
+    - Clobber
+    - AWS
+    - JuJu
+
+*** Installing Ansible      
+#+BEGIN_SRC sh
+pip install ansible
+yum install ansible
+apt-get install ansible
+#+END_SRC
+    
+- Playbooks are written in YAML
+  - the playbook is executed sequentially
+  - invoking ansible modules
+  - Modules are "tools in the toolkit"
+    - can be written in any language that can be executed in the shell of target machine
+
+*** Key components
++ Inventory
+  - these will be the collections of machines
+  - example
+    - [web]
+       webserver1.example.com
+       webserver2.example.com
+
+      [db]
+      dbserver1.example.com
+      
+*** Modules
+Modules are bits of code transferred to the target system and executed to satisfy the task 
+- apt/yum	- service
+- copy 		- synchronize
+- file 		- template
+- get_url 	- uri
+- git 		- user
+- ping 		- wait_for
+- debug 	- assert
+
+- All modules are indexed at http://docs.ansible.com
+  
++ Run Cmds
+If ansible doesn't have a module that suits your needs there are the "run cmds"
+- command
+  - takes the cmd and executes it.
+- shell
+  - executes through a shell like /bin/bash
+- script
+  - runs a local script on a remote node after transferring it
+- raw
+  - executes a cmd without going through the Ansible module subsystem
+
+*** Ad-Hoc Cmds
+Check all my inventory hosts are ready to be managed by Ansible
+#+BEGIN_SRC sh
+ansible all -m ping
+#+END_SRC
+    
+Run the uptime command on all hosts in the web group
+#+BEGIN_SRC sh
+ansible web -m command -a "uptime"
+#+END_SRC
+    
+Displays information on hosts
+#+BEGIN_SRC sh
+ansible localhost -m setup
+#+END_SRC
+
+*** Static Inventory Example
+#+BEGIN_SRC sh
+[control]
+control ansible_host=10.42.0.2
+
+[web]
+node-1 ansible_host=10.42.0.6
+node-2 ansible_host=10.42.0.7
+node-3 ansible_host=10.42.0.8
+
+[haproxy]
+haproxy ansible_host=10.42.0.100
+
+[all:vara]
+ansible_user=vagrant
+ansible_ssh_private_key_file=~/.vagrant.d/insecure_private_key
+#+END_SRC
+
+*** Variable Precedence
+1.  extra vars
+2.  task vars
+3.  block vars
+4.  role and include vars
+5.  play vars_files
+6.  play vars_prompt
+7.  play vars
+8.  set_facts
+9.  registered vars
+10. host facts
+11. playbook host_vars
+12. playbook group_vars
+13. inventory host_vars
+14. inventory group_vars
+15. inventory vars
+16. role defaults
+    
+*** Tasks
+file - a directory should exist
+yum - a package should be installed
+service - a service should be running
+template - render a configuration file from a template
+get_url - fetch an archive file from a url
+git - clone a source code repo
+
+- Example tasks in a playbook
+#+BEGIN_SRC sh
+tasks:
+  - name: add cache dir
+    file:
+      path: /opt/cache
+      state: directory
+
+  - name: install nginx
+    yum:
+      name: nginx
+      state: latest
+
+  - name: restart nginx
+    service:
+      name: nginx
+      state: restarted
+#+END_SRC
+
+- Handler tasks
+these are run at the end of a play
+#+BEGIN_SRC sh
+tasks:
+  - name: add cache dir
+    file:
+      path: /opt/cache
+      state: directory
+
+  - name: install nginx
+    yum:
+      name: nginx
+      state: latest
+    notify: restart nginx
+
+handlers:
+  - name: restart nginx
+    service:
+      name: nginx
+      state: restarted
+#+END_SRC
+
+*** Plays and Playbooks
+Plays are ordered sets of tasks to execute against host selections from your inventory. 
+A playbook is a file containing one or more plays.
+
+*** Roles
+Roles are a packages of closely related Ansible content that can be shared more easily than plays alone.
+- Improves readability
+- Eases sharing
+- Enables Ansible content to exist independently of playbooks
+- Provides functional conveniences such as file path ersolution and default values
+
+- Example
+site.yml
+roles/
+    common/
+        files/
+	template/
+	tasks/
+	handlers/
+	vars/
+	defaults/
+	meta/
+    webservers/
+        files/
+	template/
+	tasks/
+	handlers/
+	vars/
+	defaults/
+	meta/
+#+BEGIN_SRC sh
+- hosts: web
+  roles:
+    - common
+    - webservers
+#+END_SRC
+
+*** Using Ansible
+- ping hosts
+#+BEGIN_SRC sh
+ansible -i hosts -m ping
+#+END_SRC
+
+- check the setup of the host machines
+#+BEGIN_SRC sh
+ansible -i hosts -m setup
+#+END_SRC
+
+- inatall apache on host machines
+#+BEGIN_SRC sh
+ansible -i hosts -m yum -a "name=httpd state=present" -b
+#+END_SRC
+If apache is already installed it will not attempt to reinstall
+
+- remove apache on host machines
+#+BEGIN_SRC sh
+ansible -i hosts -m yum -a "name=httpd state=absent" -b
+#+END_SRC
+
+**** Example Playbook
+site.yml
+#+BEGIN_SRC sh
+- name: install and start apache
+  hosts: webservers
+  become: yes
+
+  tasks:
+  - name: install apache
+    yum: name=httpd state=present
+
+  - name: start and enable apache
+    service: name=httpd state=started enabled=yes
+#+END_SRC
+
+- run a playbook
+#+BEGIN_SRC sh
+ansible-playbook -i hosts site.yml
+#+END_SRC
+
+**** Setting up Roles
+#+BEGIN_SRC sh
+mkdir roles
+cd roles
+ansible-galaxy init apache
+ansible-galaxy init common
+ansible-galaxy init db
+ansible-galaxy init php
+#+END_SRC
+ansible-galaxy init cmd will create a directory with the following directories and files:
+- READM.md
+- /defaults
+- /files
+- /handlers
+- /meta
+- /tasks
+- /templates
+- /tests
+- /vars
+
+***** Apache role
+/tasks/main.yml
+#+BEGIN_SRC sh
+- name: install apache
+  yum: name=httpd state=present
+
+- name: insert firewalld rule for httpd
+  firewalld: port={{httpd_port}}/tcp permanent=true state=enabled immediate=yes
+
+- name: start and enable apache
+  service: name=httpd state=started enabled=yes
+
+- name: configuration SELinux to allow httpd to connect to remote database
+  seboolean: name=httpd_can_network_connect_db state=true persistent=yes
+#+END_SRC
+
+***** Common role
+/tasks/main.yml
+#+BEGIN_SRC sh
+
+#+END_SRC
+
+/tasks/selinux.yml
+#+BEGIN_SRC sh
+- name: install python bindings for selinux
+  yum: name{{item}} state=present
+  with_itmes:
+  - libselinux-python
+  - libsemanage-pyton
+
+- name: test to see if selinux is running 
+  command: getenforce
+  changed_when: false
+#+END_SRC
+
+/tasks/ntp.yml
+#+BEGIN_SRC sh
+- name: install ntp
+  yum: name=ntp state=present
+
+- name: configure ntp file
+  template: src=ntp.conf.j2 dest=/etc/ntp.conf
+  notify: restart ntp
+
+- name: start the ntp service
+  service: name:ntpd state=started enabled=yes
+#+END_SRC
+
+/templates/ntp.conf.j2
+#+BEGIN_SRC sh
+driftfile /var/lib/ntp/drift
+
+restrict 127.0.0.1
+restrict -6 ::1
+
+server {{ ntpserver }}
+
+includefile /etc/ntp/crypto/pw
+
+keys /etc/ntp/keys
+#+END_SRC
+
+/handlers/main.yml
+#+BEGIN_SRC sh
+- name: restart ntp
+  service: name=ntpd state=restarted
+#+END_SRC
+
+/tasks/main.yml
+#+BEGIN_SRC sh
+- include: selinux.yml
+- include: ntp.yml
+
+- name: start firewalld
+  service: name=firewalld state=started enabled=yes
+#+END_SRC
+
+***** DB role
+/tasks/main.yml
+#+BEGIN_SRC sh
+- name: install mariadb package
+  yum: name={{item}} state=present
+  with_items:
+  - mariadb-server
+  - MySQL-python
+
+- name: configure SELinux to start mariadb on any port
+  seboolean: name=mysql_connect_any state=true persistent=yes
+
+- name: create mariadb config file
+  template: src=my.cnf.j2 dest=/etc/my.cnf
+  notify: restart mariadb
+
+- name: create mariadb log file
+  file: path=/var/log/mysql.log stte=touch owner=mysql group=mysql mode=0775
+
+- name: create mariadb PID directory
+  file: path=/var/run/mysqld state=directory owner=mysql group=mysql mode=0775
+
+- name: start mariadb service
+  service: name=mariadb state=started enabled=yes
+
+- name: insert firewalld rule
+  firewalld: port={{mysql_port}}/tcp permanent=true state=enabled immediate=yes
+
+- name: create application database
+  mysql_db: name={{dbname}} state=present
+
+- name: create application database user
+  mysql_user: name={{dbuser}} password={{upassword}} priv=*.*:ALL host='%' state=present
+#+END_SRC
+
+/tmeplates/my.cnf.j2
+#+BEGIN_SRC sh
+[mysqld]
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+user=mysql
+symbolic-links=0
+port={{ mysql_port }}
+
+[mysqld_safe]
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid
+#+END_SRC
+
+/handlers/main.yml
+#+BEGIN_SRC sh
+- name: restart mariadb
+  service: name=mariadb state=restarted
+#+END_SRC
+
+***** PHP role
+/tasks/main.yml
+#+BEGIN_SRC sh
+- name: insatll php and git
+  yum: name={{item}} state=persent
+  with_items:
+  - php
+  - php-mysql
+  - git
+
+- name: copy the code from repo
+  git: repo={{repository}} dest=/var/www/html/
+
+- name: create the index.php file
+  template: src=index.php.j2 dest=/var/www/html/index.php
+#+END_SRC
+
+/templates/index.php.j2
+#+BEGIN_SRC sh
+<html>
+  <head>
+    <title>Ansible Application</title>
+  </head>
+  <body>
+    <h1>Hello World</h1>
+  <?php
+    Print "Hello, World! I am a webserver configued using Ansible";
+  ?>
+  </body>
+</html>
+#+END_SRC
+
+**** site.yml
+#+BEGIN_SRC sh
+- name: apply common configuration to all hosts
+  hosts: all
+  become: yes
+
+  roles:
+  - common
+
+- name: configure and deploy the db server
+  hosts: dbservers
+  become: yes
+
+  roles:
+  - db
+
+- name: configure and deploy the web server
+  hosts: webservers
+  become: yes
+
+  roles:
+  - apache
+  - php
+#+END_SRC
+
+**** Run the playbook
+#+BEGIN_SRC sh
+ansible-playbook -i hosts site.yml
+#+END_SRC
 * Tutorial
 [[https://serversforhackers.com/an-ansible-tutorial][Ansible Tutorial - Servers for Hackers]]
 * Books
@@ -99,5 +570,5 @@ Many more.....
 [[file://home/crito/Documents/SysAdmin/Mgmt/Ansible/Ansible-Up_&_Running.pdf][Ansible-Up & Running]]
 [[file://home/crito/Documents/SysAdmin/Mgmt/Ansible/Ansible_for_DevOps.pdf][Ansible for DevOps]]
 * Links
-
-
+[[https://galaxy.ansible.com/][Ansible Galaxy - A git for sharing roles]]
+[[https://www.ansible.com/get-started][Ansible - Get Started]]

@@ -20,7 +20,7 @@ ufw default allow outgoing
 ufw uses the /etc/services directory to determine port nubmers
 - allow ssh
 #+BEGIN_SRC sh
-ufw allow allow ssh
+ufw allow ssh
 #+END_SRC
 it knows that ssh is port 22 as it is set in /etc/services
 

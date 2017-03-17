@@ -87,6 +87,117 @@ You:                        AWS:
     - zone maps
     - direct-attached storage
 
+** [[https://www.youtube.com/watch?v%3DezpMM1dzN68][Using Domain Verification with Amazon Simple Email Service]]
+Back in 2012 Free Tier
+  - 2000 messages for free each day when you call SES from your EC2 instance or through AWS Elastic Beanstalk
+    
+SES - Getting Started
+The Amazon SES Sandbox
+ - verifying Senders(email accounts that are going to send mail)
+ - in the sandbox 
+   - 200 messages per 24 hours
+ - in production
+   - quota - starts at 10000 per day
+   - still can only send from verified emails
+** [[https://www.youtube.com/watch?v%3DVC0k-noNwOU][Amazon S3 Masterclass - Ian Massingham]]
+- Secure
+- Durable
+- Highly-scalable object storage
+- Store and retrieve
+
++ Use Cases
+  - Backup & Archiving
+  - Content Stroage & Distribution
+  - Big Data Analytics
+  - Static Website Hosting
+  - Cloud-native Application Data
+  - Disaster Recovery
+    
+*** Fundimental Concepts
+  - Buckets
+    - Containers for objects stored in S3
+    - Consist of data & metadata
+    - Combination of a bucket, key & version Id uniquely identify each object.
+  - Regions
+    - The geographical region where Amazon S3 will create your bucket
+    - Will never leave that region, unless you move them
+  - Web Store not a file system
+  - APIs - http://aws.amazon.com/documentation/s3
+  - SDKs - http://aws.amazon.com/tools/
+  - Acces via AWS CLI - similar to bash cmds - ls, cp, mv, rm etc
+
++ Difference between fs and web store
+  - write once, read many times (S3 reading more than writing)
+  - Eventually consistent
+
++ Namespaces
+  - Object key
+    - Max 1024 bytes UTF-8
+    - Unique within a bucket
+    - Including 'path' prefixes
+example - assets/js/jquery/plugins/jtables.js
+
++ Throughput Optimisation
+  - S3 automatically partitions based upon key prefix
+    
++ Access Controls
+  - IAM Policies
+    - fine grained control
+    - Administer as part of role based access
+    - Apply policies to S3 at role, user and group level
+  - Bucket Policies - allow anonymous persons access to a bucket, a class etc
+    - Fine grained
+    - Apply policies at the bucket level in S3
+    - Incorporate user restrictions without using IAM
+  - ACLs
+    - Coarse grained
+    - Apply access control rules at the bucket and or object level in S3
+*** Getting Started
+- Class of storage
+  - Standard - 99% durability and 99% availability
+  - Reduced Redundancy Storage - reduced cost, but at lower levels of redundancy
+  - Glacier - archiving data, where data access is infrequent and retrieval time of several hours is acceptable.
+            - very low-cost
+class can be specified on the aws cli 
+#+BEGIN_SRC sh
+aws s3 cp aws_uki.txt s3://aws-ianm-s3-masterclass/ --storage-class REDUCED_REDUNDANCY
+#+END_SRC
+class can also be changed in the AWS console(web interface)
+
+- Encryption
+  - Securing Data in Transit
+    - SSL over HTTPS
+    - Alternatively use a client encryption lib such as the Amazon S3 encryption client to encrypt your data before uploading to Amazon S3
+      - this is done with a one time encryption key
+  - Server Side Encryption (SSE) - 3 options
+    - SSE-S3 key management - Amazon mgmt of keys
+    - SSE-C - Customer-Provided Keys - Amazon disgards the key
+    - AWS KMS (SSE-KMS) - this is a stand alone service
+      - S3 with encrypt your data at rest using keys that you manage in the AWS key mgmt service (KMS)
+      - KMS provides audit trail to see who used your key to access which object
+	
+- Audit logs
+  - access logs can be created per bucket
+    
+- Multi-Factor Auth Delete
+
+- Time-Limted Access to Objects
+  - time limited urls to allow access to an object for a set time
+    
+- Versioning & Cross Region Replication
+  - Bucket level
+    - automatically preserves all copies of objects
+  - Persistent
+Versioning will increase costs, due to storing multiple copies of objects
+
+- Lifecycle Rules
+  - moving S3 buckets to glacier after a certain period of time
+    - example would be transaction data after 30 days
+  - deleting objects after a certain period of time
+    - example would be logs after 30 days
+
+- Website Hosting
+  - you can host your entire static website on Amazon S3
 * Tutorials
 ** AWS Foundations - CBT Nuggets
 *** How to build a cloud presence

@@ -1,0 +1,38 @@
+#+TAGS:
+
+
+* minicom
+* Description
+* Usage
+** Connect using minicom
+- this will connect without interactive menu
+- cisco
+#+BEGIN_SRC sh
+minicom -b 9600 -o -D /dev/ttyAMA0
+#+END_SRC
+
+- raspberry pi
+#+BEGIN_SRC sh
+minicom -b 115200-o -D /dev/ttyAMA0
+#+END_SRC
+
+** Interactive Menu
+- Setup minicom
+#+BEGIN_SRC sh
+minicom -s -c on
+#+END_SRC
+- c - colour
+
+- Settings
+Serial Device - /dev/ttyS0 (or could be /dev/usbS0)
+Bps/Par/Bits - 9600 8N1
+Hardware Flow Control - yes
+Software Flow Control - no
+
+- once the above is set click save as..
+
+* Lecture
+* Tutorial
+* Books
+* Links
+[[http://elinux.org/RPi_Serial_Connection][RPi Serial connection]]
