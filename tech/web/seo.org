@@ -3,6 +3,167 @@
 
 * seo
 * Lecture
+** [[https://www.youtube.com/watch?v%3DtAf3VcZ-Amk][How to deliver outstanding results with technical SEO]]
+*** Why Technical SEO
+  - low competition
+  - faster results
+  - scalability across international boundries
+
+- Discovering website
+  
+- TLD vs Performance
+  - .net is the worst as it is tied to no country
+  - each country differs
+  
+- DNS vs Performance
+  - check dns provider retrieval time
+    
+- Time to First Byte
+this is built up from:
+  Network latency + Backend Processing
+  
+*** Backend
+- Nginx vs Apache
+  - These two host the majority of the web
+    
+Apache 
+  - Classic and stable tech
+  - not too efficient
+  - won't handle high traffic
+    
+Nginx
+  - Can be installed on top of apache
+  - handles large amount of traffic
+    
+- Leavering Caching
+  - Browser caching
+    - Browser stores reusable files:
+      - Logo
+      - CSS
+      - JS
+      - Multimedia
+      - Fonts
+    - This will allow for faster page render, lower server load, less requests needed to load the page
+  - Server caching
+    - Stores commonly requested files
+    - minimizes web server load, speeds up page load, makes it much easier on a DB
+    - Caching static menus in memcache can save 100ms 
+      
+- Example Server Architecture
+1. - web
+   - app
+   - db
+
+2. - cache
+   - web
+   - app
+   - db
+
+3. - web
+   - cache
+   - app
+   - db
+
+4. - web
+   - app
+   - cache
+   - db
+
+5. - web
+   - app
+     - cache 
+   - db
+
+- Enable Server Cache for Crawlers
+  
+- Enable gzip on the web server
+  - online tools can check if it is working correctly
+    
+- Cache Control Headers
+  - if-modified-since
+    - super fast time to first byte (when cached)
+    - saves bandwidth to both google crawlers and your server
+    - only sends what is required(304 not modified)
+Googlebot will only crawl if the page has been modified since last if this is enabled
+    - Etag can also do this 
+redbot.org
+
+- configure Cache Control Headers for:
+  - Images
+  - CSS
+  - JS
+  - Mediafiles
+  - Fonts 
+    
+Cache Control Headers
+ - save bandwidth
+ - faster crawling
+ - better server performance
+ - higher crawler budget
+ - need to be configured properly to work with cdn
+   
+Content Delivery Network
+- CDNs vs SEO
+  - Often problematic with SEO
+    - Increased TTFB
+    - Filtered Server Logs
+    - Dynamic IPs
+      
+How to check if you ip is static - http://viewdns.info/iphistory/
+
+Pushting TTFB to the limits
+ - Scripts should load as Async or AFTER the window.onLoad() event fires
+ - Window.onLoad() event stops Google's "time spent downloading a page" timer
+ - Defer as many scripts to load after the window.onLoad() event fires, as this event is what stops Google's page speed timer
+
+Performance Test Tools
+- GTmetrix.com
+- WebPageTest.org
+- bytecheck.com
+  
+Sourcecode Vs SEO
+ - CSS code bugs and manipulation
+   
+- Reducing the number of requests
+  - create a custom font that contains all your images (fb, twitter, user etc)
+    - https://icomoon.io will do this for you
+  - Combine JS and CSS
+    - can be used for both apache and nginx
+      
+Javascript and SEO
+To check that googlebot is crawling and indexing page correctly use
+site:example.com/page
+
+check the cached version, if this returns the correct page OK
+otherwise it will not return the content. This is due to googlebot not being able to render the javascript provided
+
+Solutions?
+ - Full Prerendering - prerender.io
+ - Parial Prerendering
+ - Isomorphic Javascript
+   
+Content
+  - cutting excess fat:
+    - indexable serach
+    - user profiles
+    - eCommerce filters
+    - parameters
+      
+Technical issues
+  - www vs non-www
+  - https vs http
+  - //
+  - trailing slash at the end of urls
+  - indexable subdomains/wildcards
+  - staging sites
+  - canonical issues (no canonicals, canonicals to wrong url, relative canonicals)
+
+Static Vs Database Driven
+ - static relative small
+ - DB is endless
+ - DB has risk of index bloat
+ - DB allow scalability
+
 * Tutorial
 ** SEO Fundamentals - Pluralsight - Paul Wilson
 *** In-Depth Key Word Research 
@@ -103,5 +264,54 @@ Compile
    - is the competitor a brand
    - is the competitor on G+ - SharedCount can provide a lot of this kind of info
    - is the competitor using on page SEO - Juxseo
+*** Establish a domain Strategy
+- Things to Consider When Buying a Domain 
+  - keyword in domain vs Brand domains
+  - Brand is more important to Google
+  - Generic Top Level Domains
+    - Bing prefers .com 
+    - Google has moved away from domain extensions
+  - Avoid domain names that are > than 15 chars
+  - Avoid lots of hyphens in domain name
+    
+- Does an Old Domain Help?
+  - Content and Authority count more
+  - But age does still count, as google can use the domain inception date to date pages
+  - Age aids in establishing a brand   
+    
+- How to Find an Old Domain
+  - Sedo
+  - Go Daddy
+  - afternic
+  - DomainTools
+  - DomCop
+  - Flippa
+  - Namecheap
+    
+- Pros & Cons of a New Domain
+Pros
+  - Cheap
+  - Clean
+  - Brandable
+Cons
+  - No Strength
+  - No Trust
+  - Not Indexed
+
+- Tools for Brainstorming Domain Names
+  - Panabee
+  - blungr
+  - Psychic Whois
+
+- Webmaster Tools
+  - google.com/webmasters/tools
+  - bing.com/toolbox/webmaster
+  - GTmetrix - site speedk
+    
+bots
+  - slurp - yahoo
+  - googlebot
+  - bingbot
+
 * Books
 * Links

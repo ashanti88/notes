@@ -4,6 +4,10 @@
 * mount								  :sys:fs:op:
 * Description
 * Usage
+- mount dvd/cdrom
+#+BEGIN_SRC sh
+mount -t iso9660 -o ro /dev/cdrom /home/crito/mtp/cdrom/
+#+END_SRC
 * Lecture
 * Tutorial
 * Books

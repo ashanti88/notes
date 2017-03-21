@@ -1,0 +1,10 @@
+#+TAGS: file latex
+
+
+* chktex							 :file:latex:
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

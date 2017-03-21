@@ -1,0 +1,17 @@
+#+TAGS: sec password
+
+
+* kpcli
+HomePage: [[http://kpcli.sourceforge.net/][kpcli.sourceforge.net]]
+* Description
+Cmd line interface for keepassX
+* Usage
+- kpcli is an interactive tool
+
+> kpcli key_chain.kdbx
+
+* Lecture
+* Tutorial
+* Books
+* Links
+[[https://www.digitalocean.com/community/tutorials/how-to-use-kpcli-to-manage-keepass2-password-files-on-an-ubuntu-14-04-server][How to use kpcli to manage KeePass2 password files]]

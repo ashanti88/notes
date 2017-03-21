@@ -1,9 +1,9 @@
 #+TAGS: sys op user
 
 
-* newuser							:sys:op:user:
+* newusers 							:sys:op:user:
 * Description
-* Usage
+* Uage
 
 > newusers <FILENAME>
 

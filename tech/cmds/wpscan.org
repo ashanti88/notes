@@ -3,6 +3,7 @@
 
 * wpscan							   :sec_o:wp:
 Home Page: [[https://wpscan.org/][wpscan.org]]
+HomePage: [[https://wpscan.org/][wpscan.org]]
 * Description
 Scans for wp vulnerabilities
 
@@ -16,6 +17,31 @@ Scans for wp vulnerabilities
 
 ** Guessing Password
 > wpscan -u <domain.com> --wordlist /path/to/list.txt
+** Non-intrusive checks
+#+BEGIN_SRC sh
+wpscan --url example.com
+#+END_SRC
+   
+** Do wordlist password brute force 
+- enumerated users using 50 threads
+#+BEGIN_SRC sh
+wpscan --url example.com --wordlist darkc0de.lst --threads 50
+#+END_SRC
+
+** Enumerate installed plugins
+#+BEGIN_SRC sh
+wpscan --url example.com --enumerate p
+#+END_SRC
+
+** Run all enumeration tools
+#+BEGIN_SRC sh
+wpscan --url example.com --enumerate
+#+END_SRC
+   
+** Update DB
+#+BEGIN_SRC sh
+wpscan --update
+#+END_SRC
 * Lecture
 * Tutorial
 * Books

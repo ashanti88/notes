@@ -1,9 +1,12 @@
 #TAGS: auto code
 
 
-* ansible
+* Ansible							  :auto:code:
 HomePage: [[https://www.ansible.com/][ansible.com]]
 * Cmds
+[[file://home/crito/org/tech/cmds/ansible.org][ansible]]
+[[file://home/crito/org/tech/cmds/ansible-playbook.org][ansible-playbook]]
+
 * Overview
 * Lecture
 ** Learn you some Ansible for great good! - OpenStack Summit May 2015
@@ -569,6 +572,10 @@ ansible-playbook -i hosts site.yml
 
 [[file://home/crito/Documents/SysAdmin/Mgmt/Ansible/Ansible-Up_&_Running.pdf][Ansible-Up & Running]]
 [[file://home/crito/Documents/SysAdmin/Mgmt/Ansible/Ansible_for_DevOps.pdf][Ansible for DevOps]]
+
+** [[file://home/crito/Documents/SysAdmin/Mgmt/Ansible/Ansible_Up_and_Running.pdf][Ansible Up & Running]]
+** [[file://home/crito/Documents/SysAdmin/Mgmt/Ansible/Ansible_for_DevOps.pdf][Ansible for DevOps]]
+
 * Links
 [[https://galaxy.ansible.com/][Ansible Galaxy - A git for sharing roles]]
 [[https://www.ansible.com/get-started][Ansible - Get Started]]

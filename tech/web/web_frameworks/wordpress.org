@@ -63,6 +63,54 @@ test
 5. rename all plugins
 test
 
+* Articles
+** [[https://hackertarget.com/attacking-wordpress/][Attacking Wordpress]]
+- first establish the WP version
+  - in the html head there should be <meta name="generator" content="WordPress 3.5.2" />
+  - if this has been disable then try www.site.com/readme.html
+
+- Directory Indexing
+  - try the below subdirectories for directory indexing
+    /wp-content/
+    /wp-content/plugins/
+    /wp-content/themes/
+    /uploads/
+    /images
+    
+- Enumerating the Plugins
+  - using the html source we can determine plugins from the javascript links.
+  - more aggresive search for plugins with tools 
+    
+- User Enumeration
+  - example.com/?author=1
+  - http://www.worldcollectorsnet.com/?author=24 this gave us the articles written by ARTICLES BY: DOMINIQUEELDER
+  - Just work through the authors increasing until all authors enumeration
+
+- Attack the User
+  - Brute Force the users password
+    - tools for poping 
+      - wpscan
+      - Nmap NSE Script
+	- http-wordpress-brute
+      - Burp Suite
+	
+- Attack the Application
+  - Metasploit
+  - [[https://www.exploit-db.com/][exploit-db.com]]
+    
+- Attack the Server
+  - SSH 
+  - MySQL
+  - Webmin Server Management
+  - cPanel or WHCMS Web Hosting Control Panels
+    - [[https://blog.whmcs.com/?t%3D79427][WHMCS Security Advisory]]
+  - phpMyAdmin
+   
+  Tools:
+    - [[file://home/crito/org/tech/security/security_tools/openvas.org][OpenVAS Vulnerability Scanner]]
+    - [[file://home/crito/org/tech/cmds/nmap.org][Nmap]]
+    - [[file://home/crito/org/tech/security/security_tools/nikto.org][Nikto Web Server Scanner]]
+
 * Tutorials
 ** WordPress Essential Training - Lynda
 + Installing and Running WP
@@ -149,3 +197,4 @@ within the theme folder you may find other files:
   - the tag template is used when visitors request posts by tag.
 
 + Main Stylesheet - style.css
+

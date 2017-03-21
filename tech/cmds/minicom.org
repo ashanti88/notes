@@ -6,8 +6,14 @@
 * Usage
 ** Connect using minicom
 - this will connect without interactive menu
+- cisco
 #+BEGIN_SRC sh
 minicom -b 9600 -o -D /dev/ttyAMA0
+#+END_SRC
+
+- raspberry pi
+#+BEGIN_SRC sh
+minicom -b 115200-o -D /dev/ttyAMA0
 #+END_SRC
 
 ** Interactive Menu
@@ -29,3 +35,4 @@ Software Flow Control - no
 * Tutorial
 * Books
 * Links
+[[http://elinux.org/RPi_Serial_Connection][RPi Serial connection]]

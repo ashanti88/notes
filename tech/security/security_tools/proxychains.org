@@ -1,0 +1,22 @@
+#+TAGS: sec
+
+
+* proxychains								:sec:
+* Description
+Allows the use of proxies to tunnel cmds through
+* Files
+/etc/proxychain.conf
+* Usage
+set to tor by default, comment out if you don't want to go through tor.
+
+- add new proxies at the bottom of the file.
+<protocol> <ip_addr> <port>
+socks5 213.34.45.111 1080
+
+* Lecture
+* Tutorial
+* Books
+* Links
+[[https://codingsec.net/2016/05/use-proxychains-evade-detection-kali-linux/][How to use Proxychains to evade detection in Kali Linux]]
+
+

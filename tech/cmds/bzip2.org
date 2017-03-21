@@ -7,20 +7,15 @@ HomePage: [[http://www.bzip.org/][bzip.org]]
 bzip2 provides a better compression rate than gzip, the price for this
 is time.
 * Usage
-- Compress a file
+- Compress a file turning it to a .bz2 file.
 #+BEGIN_SRC sh
 bzip2 file
 #+END_SRC
-this will compress the file turning it to a .bz2 file.
 
 - Decompress a file
 #+BEGIN_SRC sh
-bzip2 file.bz2
+bzip2 -d file.bz2
 #+END_SRC
-filename.bz2  to filename
-filename.bz   to filename
-filename.tbz2 to filename.tar
-filename.tbz  to filename.tar
 
 - Recover data from corrupt file
 #+BEGIN_SRC sh

@@ -6,6 +6,11 @@ HomePage: [[https://www.postgresql.org/][postgresql.org]]
 * Description
 * Usage
 ** Basic Admin
+*** Changing a users password
+#+BEGIN_SRC sh
+\password frank
+#+END_SRC
+
 ** Configuration for Centos7
 *** Installation
 1. Install the required pkgs
@@ -410,6 +415,36 @@ Types:
    b. 'inet'    - 7 or 19-bytes - IPv4 or IPv6 hosts and networks
    c. 'macaddr' - 48-bits -i.e. 00:11:11:5b:70:53
 
+*** Create
+- Limited to 63 characters for the definition of objects
+- Identifiers (DB objects) MUST begin with alpha characters
+- Used to create: DBs, Schemes, Tables, Indexes, Functions, etc.
+
+- PostgeSQL Hierarchy:
+  - DB
+    - Schema (Optional) - default schema is named 'public' 
+  - Objects (Tables, Functions, Triggers, etc)
+  
+All DBs have: 'public' and 'pg_catalog' schemas
+All users|roles have 'CREATE' & 'USAGE' access to the 'public' schema for ALL DBs
+Create distinct schemas if security beyond 'public' is necessary
+
+- DB Creation 
+  a. create a user named: 'frank' with 'CREATEROLE CREATEDB' rights
+    - 'createuser -e -U postgres frank (this will create a blank user with no password or privs)
+    - 'createuser --interactive' walks through the creation of a user
+  b. create a DB named 'fish' 
+    - 'CREATE DATABASE fish;'
+  c. create a table named: 'fish_type'
+    - 'CREATE TABLE fish_type (date date);'
+  d. create a user named fred with usage rights, but no privs
+    - 'createuser --interactive'
+    - psql> CREATE ROLE fred nosuperuser login inherit;
+  e. create a schema named: 'fish_shop'
+    - 'CREATE SCHEMA fish_shops;
+  f. create a table named 'fish_type' within the schema 'fish.fish_shops'
+    - 'CREATE TABLE fish_shops.fish_type (date date);'
+    - '\d fish_shops.fish_type' - confirms the description of the ta
 * Books
 [[file://home/crito/Documents/Database/Postgres/Learning_PostgreSQL.pdf][Learning PostgreSQL - O'Reilly]]
 [[file://home/crito/Documents/Database/Postgres/PostgreSQL_Up_and_Running_2e.pdf][PostgreSQL Up and Running 2e]]

@@ -1,0 +1,29 @@
+#+TAGS: auto
+
+
+* ansible							       :auto:
+* Description
+* Usage
+- ping testserver that is specified in hosts file
+#+BEGIN_SRC sh
+ansible testserver -i hosts -m ping
+#+END_SRC
+
+- check uptime of testserver
+#+BEGIN_SRC sh
+ansible testserver -i hosts -m command -a uptime
+#+END_SRC
+
+- view the /etc/passwd file
+#+BEGIN_SRC sh
+ansible testserver -i hosts -m command -a "cat /etc/passwd"
+#+END_SRC
+
+- use sudo to install nginx
+#+BEGIN_SRC sh
+ansible testserver -i hosts -m apt -a name=nginx
+#+END_SRC
+* Lecture
+* Tutorial
+* Books
+* Links
