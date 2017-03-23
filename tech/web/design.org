@@ -398,5 +398,9 @@ http://deveoper.mozilla.org - excellent
 http://caniuse.com - tells you what browser version supports what html functions
 
 * Books
+[[file://home/crito/Documents/Web_Dev/HTML_and_CSS-Design_and_Build_Websites.pdf][HTML and CSS - Design and Build Websites]]
+[[file://home/crito/Documents/Web_Dev/Head_First_HTML_and_CSS_2e.pdf][Head First HTML and CSS]]
+[[file://home/crito/Documents/Web_Dev/Web_Design_in_a_Nutshell_3ed.pdf][Web Design in a Nutshell]]
+
 * Links
 [[https://colorlib.com/wp/html5-frameworks/][Top 22 Best Free HTML5 Frameworks 2017]]

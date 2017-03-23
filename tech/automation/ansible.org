@@ -7,6 +7,20 @@ HomePage: [[https://www.ansible.com/][ansible.com]]
 [[file://home/crito/org/tech/cmds/ansible.org][ansible]]
 [[file://home/crito/org/tech/cmds/ansible-playbook.org][ansible-playbook]]
 
+* Files
+- ansible.cnf
+#+BEGIN_SRC sh
+[defaults]
+hostfile = hosts
+remote_user = ubuntu
+private_key_file = /home/crito/vagrant_boxes/ansible/.vagrant/machines/default/virtualbox/private_key
+host_key_checking = False
+#+END_SRC
+
+- hosts
+#+BEGIN_SRC sh
+vm-ubuntu ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222 ansible_ssh_user=ubuntu ansible_ssh_private_key_file=/home/crito/vagrant_boxes/ansible/.vagrant/machines/default/virtualbox/private_key
+#+END_SRC
 * Overview
 * Lecture
 ** Learn you some Ansible for great good! - OpenStack Summit May 2015
@@ -124,7 +138,7 @@ Ansible comes bundled with hundreds of modules
     - AWS
     - JuJu
 
-*** Installing Ansible      
+*** Installing Ansible 
 #+BEGIN_SRC sh
 pip install ansible
 yum install ansible

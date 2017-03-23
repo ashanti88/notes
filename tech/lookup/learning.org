@@ -245,6 +245,11 @@
 *** TODO Hadoop
     - State "TODO"       from ""           [2017-01-13 Fri 23:55]
 
+*** TODO MongoDB
+    - State "TODO"       from ""           [2017-03-22 Wed 07:52]
+*** WORKING Postgresql CBT Linux
+    - State "WORKING"    from "TODO"       [2017-03-22 Wed 07:54]
+    - State "TODO"       from ""           [2017-03-22 Wed 07:53]
 ** Storage
 *** TODO casandra 
 *** TODO redis 
@@ -252,6 +257,8 @@
 *** TODO ceph
 
 ** Security
+*** TODO SELinux
+    - State "TODO"       from ""           [2017-03-22 Wed 07:52]
 ** Networking
 *** TODO CBT juniper video course
    
@@ -310,4 +317,36 @@
 ** Under 30mins
 *** TODO usb switchblade - lookup
 *** TODO salting of hashes
-    
+* Skills CV 
+- Automation
+ - Ansible
+- Database
+ - Postgresql
+ - MySQL
+ - MongoDB
+- Web
+ - Apache
+ - Nginx
+ - HAProxy
+- Mail
+ - Postfix
+ - Dovecot
+ - Exim
+- Monitoring
+ - Zabbix
+ - Naggios
+- Security
+ - SELinux
+- Virtualization
+ - KVM
+ - Docker
+ - Vagrant
+ - OpenStack
+ - OpenShift
+ - Kubernetes
+- Code
+ - Git
+ - Python
+   - Django
+   - Flask
+ - Scheme

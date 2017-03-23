@@ -82,50 +82,39 @@
      - State "IDEA"       from ""           [2016-11-20 Sun 02:14]
 
 ** System
-*** TODO sort layout on start up
-    - State "TODO"       from ""           [2016-11-20 Sun 03:57]
-       
+** Skills CV       
+- Automation
+ - Ansible
+- Database
+ - Postgresql
+ - MySQL
+ - MongoDB
+- Web
+ - Apache
+ - Nginx
+ - HAProxy
+- Mail
+ - Postfix
+ - Dovecot
+ - Exim
+- Monitoring
+ - Zabbix
+ - Naggios
+- Security
+ - SELinux
+- Virtualization
+ - KVM
+ - Docker
+ - Vagrant
+ - OpenStack
+ - OpenShift
+ - Kubernetes
+- Code
+ - Git
+ - Python
+   - Django
+   - Flask
+ - Scheme
 * Work
-** TODO bootstrap landing page
-   - State "TODO"       from ""           [2017-02-27 Mon 17:48]
-** TODO AWS deploy bootstrap page
-   - State "TODO"       from ""           [2017-02-27 Mon 17:48]
-** TODO Email set up with Amazon SES
-   - State "TODO"       from ""           [2017-02-27 Mon 17:49]
-** TODO Configure Fiverr Page and first Gig
-   - State "TODO"       from ""           [2017-02-27 Mon 17:49]
-
 * Domain
-** Wordpress site - BlueLevers
-*** DONE Complete Site Build
-    - State "DONE"       from "TODO"       [2016-12-20 Tue 02:30]
-    - State "TODO"       from ""           [2016-11-20 Sun 02:18]
-
-  
-
-*** DONE set up php-fpm correctly
-    - State "DONE"       from "TODO"       [2017-01-07 Sat 11:39]
-  
-k    - State "TODO"       from ""           [2016-12-20 Tue 02:31]
-      
-currently have two sysd scripts
-  - php7.0-fpm.service - failed state
-  - php-7.0.13-fpm.service - active
-    
-php-fpm is working, need to check which needs to be removed
-** bootstrap site - BlueLevers
-*** WORKING Build index.html
-    - State "WORKING"    from "TODO"       [2017-02-08 Wed 10:28]
-    - State "TODO"       from ""           [2017-02-08 Wed 10:27]
-*** WORKING set up SELinux
-    - State "WORKING"    from "CANCELED"   [2017-02-08 Wed 10:27]
-    - State "CANCELED"   from "TODO"       [2017-01-07 Sat 11:40]
-    - State "TODO"       from ""           [2016-12-20 Tue 02:34]
-      
-currently installed but disabled.
-
-*** TODO migrate site to AWS
-    - State "TODO"       from ""           [2017-02-08 Wed 10:29]
-*** TODO change dns to AWS
-    - State "TODO"       from ""           [2017-02-08 Wed 10:29]
 * Notes

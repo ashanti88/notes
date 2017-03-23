@@ -13,15 +13,6 @@
 ** Setting Tab width						  :emacs:tab:
 M-x set-variable<ret> tab-eidth 4
 * Usage
-** What an IDE in emacs should do
-Easily find files and switch between projects
-Easily navigate through function definitions
-Contextual documentation
-Inline help for complex function calls
- 
-*** Emacs as a Python IDE - thoughtbot
-rl: https://www.youtube.com/watch?v=6BlTGPsjGJk
-
 ** Make the above work
 Need an interface for completion and showing alternatives
 - auto-complete
@@ -993,7 +984,7 @@ rl: http://tuhdo.github.io/emacs-tutor.html
  2. term - this is a terminal emulator written in Emacs lisp.
  3. eshell - this is emacs own shell. As it's its own shell the syntax is different. Interupt is C-c C-c
 
-** Using org to Blog with Jekyll 
+** Using org to Blog with Jekyll
 URL: http://orgmode.org/worg/org-tutorials/org-jekyll.html
 
 ** Tutorials

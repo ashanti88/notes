@@ -1,0 +1,20 @@
+#+TAGS: log sysd
+
+
+* journalctl							   :log:sysd:
+* Description
+* Files
+/etc/systemd/journald.conf
+/var/log/journal
+* Usage
+- restart the daemon
+#+BEGIN_SRC sh
+systemctl restart systemd-journald
+#+END_SRC
+
+
+* Lecture
+* Tutorial
+* Books
+* Links
+[[https://www.digitalocean.com/community/tutorials/how-to-use-journalctl-to-view-and-manipulate-systemd-logs][How to use journalctl to view and manipulate systemd logs - DigitalOcean]]

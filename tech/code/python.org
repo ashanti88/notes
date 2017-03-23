@@ -133,7 +133,8 @@ uWSGI
 Waitress WSGI Server
 Apache - mod_wsgi
 * Concepts
-** How to Install Python 3 and Set Up a Local Programming Environment on Centos7 :py:centos:
+** Virtual Environments
+*** How to Install Python 3 and Set Up a Local Programming Environment on Centos7 :py:centos:
 DigitalOcean: [[https://www.digitalocean.com/community/tutorials/how-to-install-python-3-and-set-up-a-local-programming-environment-on-centos-7][Install Python3 and Set Up a Local Programming Environment on CentOS7]]
 1. update yum
 #+BEGIN_SRC sh
@@ -172,7 +173,20 @@ yum install python35u-pip
 #+BEGIN_SRC sh
 yum install python35u-devel
 #+END_SRC
-** Setting up a Virtual Environment				    :py:virt:
+*** Setting up a Virtual Environment in Ubuntu		     :py:virt:ubuntu:
+- this is required for creating virtual environments
+#+BEGIN_SRC sh 
+sudo apt-get install python3.5-venv
+#+END_SRC
+- to create a virtual environment
+#+BEGIN_SRC sh
+python3 -m venv env_test
+cd env_test
+source bin/activeate
+deactivate
+#+END_SRC
+
+*** Setting up a Virtual Environment				    :py:virt:
 1. move to environments directory
 #+BEGIN_SRC sh
 cd environments
@@ -208,20 +222,19 @@ pip - will now use the environment pip
 deactivate
 #+END_SRC
 
-** Vagrant issue with python server host connection		 :py:vagrant:
+*** Vagrant issue with python server host connection		 :py:vagrant:
 When using python development servers you may need to specify the 0.0.0.0:port
 I found when using django python server I had to sepcifiy the 0.0.0.0 ip addr to access it from the host
 #+BEGIN_SRC sh
 python manage.py runserver 0.0.0.0:8000
 #+END_SRC
-** Difference between pyenv, pyvenv and virtualenv		     :py:env:
+*** Difference between pyenv, pyvenv and virtualenv		     :py:env:
 url: [[http://masnun.com/2016/04/10/python-pyenv-pyvenv-virtualenv-whats-the-difference.html][pyenv, pyvenv and virtualenv]] 
 pyenv – A Python version manager. Installs different versions and flavors of Python interpreters.
 
 pyvenv – A tool to create isolated virtual environments from a Python interpreter. Ships with Python from 3.4.
 
 virtualenv – Creates virtual environments, and is available in PyPi.
-* PyPi
 * Lecture
 ** [[https://www.youtube.com/watch?v%3DDKmNiwmyl6k][Beyond Scraping]] - Anthon van der Neut
 + What are web pages?

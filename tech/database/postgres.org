@@ -6,6 +6,11 @@ HomePage: [[https://www.postgresql.org/][postgresql.org]]
 * Description
 * Usage
 ** Basic Admin
+*** Changing a users password
+#+BEGIN_SRC sh
+\password frank
+#+END_SRC
+
 ** Configuration for Centos7
 *** Installation
 1. Install the required pkgs
@@ -410,6 +415,79 @@ Types:
    b. 'inet'    - 7 or 19-bytes - IPv4 or IPv6 hosts and networks
    c. 'macaddr' - 48-bits -i.e. 00:11:11:5b:70:53
 
+*** Create
+- Limited to 63 characters for the definition of objects
+- Identifiers (DB objects) MUST begin with alpha characters
+- Used to create: DBs, Schemes, Tables, Indexes, Functions, etc.
+
+- PostgeSQL Hierarchy:
+  - DB
+    - Schema (Optional) - default schema is named 'public' 
+  - Objects (Tables, Functions, Triggers, etc)
+  
+All DBs have: 'public' and 'pg_catalog' schemas
+All users|roles have 'CREATE' & 'USAGE' access to the 'public' schema for ALL DBs
+Create distinct schemas if security beyond 'public' is necessary
+
+- DB Creation 
+  a. create a user named: 'frank' with 'CREATEROLE CREATEDB' rights
+    - 'createuser -e -U postgres frank (this will create a blank user with no password or privs)
+    - 'createuser --interactive' walks through the creation of a user
+  b. create a DB named 'fish' 
+    - 'CREATE DATABASE fish;'
+  c. create a table named: 'fish_type'
+    - 'CREATE TABLE fish_type (date date);'
+  d. create a user named fred with usage rights, but no privs
+    - 'createuser --interactive'
+    - psql> CREATE ROLE fred nosuperuser login inherit;
+  e. create a schema named: 'fish_shop'
+    - 'CREATE SCHEMA fish_shops;
+  f. create a table named 'fish_type' within the schema 'fish.fish_shops'
+    - 'CREATE TABLE fish_shops.fish_type (date date);'
+    - '\d fish_shops.fish_type' - confirms the description of the table
+  g. create a database using a template
+    - 'CREATE DATABASE test TEMPLATE fish;' fish will be used as a template to create test.
+    - No active sessions must be ongoing in order for template process to work
+*** Drop
+- Removes objects: DBs, Schemas, Tables, Functions, Triggers, etc. from ORDBMS
+- Available from the shell and within the SQL interpreter (psql)
+
+Tasks
+  - Drop DB database_name
+    - Objects that are currently in-use will NOT be dropped by default
+    - 'DROP DATABASE fish2;'
+    - Dropping DBs will remove ALL sub-objects, including, but not limiting to:
+      - Schemas
+      - Tables
+      - Triggers
+      - Functions, etc.
+  - Drop Tables
+    - 'DROP TABELE table_name;' - removes table if current user is owner or SUPERUSER
+  - Drop schema 
+  - 'DROP SCHEMA schema_name;' - will fail if there are any dependent tables
+  - 'DROP SCHEMA schema_name CASCADE;' - will force its removal
+
+*** Alter
+- Changes objects DB, Schema, Tables, Index etc - Name|Structure|Owner
+
+Tasks:
+  - Change DB Name
+    - 'ALTER DATABASE fish RENAME TO fish;'
+    - ALTER should be used sans connections to target objects
+  - Change DB Owner
+    - 'ALTER DATABASE fish OWNER TO fred;' 
+      - This will change the DB ownership, but not owership of objects i.e. tables.
+        - Though you don't own the objects the table can still be dropped.
+  - Change Table Name
+    - ALTER TABLE table_name RENAME TO new_name;
+  - Alter Table Structure
+    - ALTER TABLE table_name ALTER COLUMN column_name SET DATA TYPE timestamp;
+    - ALTER TABLE table_name ADD new_col text;
+    - ALTER TABLE table_name DROP IF EXISTS col_name; - removes col named
+  - Alter existing role
+    - 'ALTER ROLE fred SUPERUSER;' - only a superuser can create a superuser
+    - 'ALTER ROLE fred RENAME TO fredo;' - this will unset the user MD5 password, and will update ownership of objects
+    
 * Books
 [[file://home/crito/Documents/Database/Postgres/Learning_PostgreSQL.pdf][Learning PostgreSQL - O'Reilly]]
 [[file://home/crito/Documents/Database/Postgres/PostgreSQL_Up_and_Running_2e.pdf][PostgreSQL Up and Running 2e]]
