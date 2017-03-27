@@ -1,0 +1,15 @@
+#+TAGS: sec_o
+
+
+* fcrackzip							      :sec_o:
+* Description
+Zip file password cracking tool
+* Usage
+- simple crack using a wordlist
+#+BEGIN_SRC sh
+fcrackzip -D -p /usr/share/wordlists/rockyou.txt -u whistler.zip
+#+END_SRC
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -1,10 +1,63 @@
-#+TAGS:
+#+TAGS sec
 
 
 * cewl
 Home Page: [[https://digi.ninja/projects/cewl.php][cewl]]
 * Description
+This is the Custom Wordlist Genereator, based on target urls. It does this by spidering the urls and creating a wordlist
 * Usage
+#+BEGIN_SRC sh
+cewl giftshop.co.uk
+#+END_SRC
+Without options a list of words is sent to stdout
+
+- create a wordlist
+#+BEGIN_SRC sh
+cewl giftshop.co.uk -w giftshop_cewl.txt
+#+END_SRC
+
+- count the word instance
+#+BEGIN_SRC sh
+cewl -c giftshop
+#+END_SRC
+This will send a list to stdout in decresing occurance
+
+- depth
+#+BEGIN_SRC sh
+cewl -d 4 anglingtimes.co.uk
+#+END_SRC
+By default cewl will drive 2 layers deep
+
+- offsite
+#+BEGIN_SRC sh
+cewl -o anglingtimes.co.uk
+#+END_SRC
+This will allow cewl to follow links to other sites
+
+- minimum word length
+#+BEGIN_SRC sh
+cewl -m 5 anglingtimes.co.uk
+#+END_SRC
+By default the len is 3
+
+- using a proxy
+#+BEGIN_SRC sh
+cewl --proxy_host:54.128.43.10 --proxy_port:8080 anglingtimes.co.uk
+#+END_SRC
+
+- specifying user agent
+#+BEGIN_SRC sh
+cewl -ua "Mozilla/5.0 (platform; rv:geckoversion) Gecko/geckotrail Firefox/firefoxversion" angling.co.uk
+#+END_SRC
+[[http://user-agents.org/][user-agents.org]] this site provides the user agent strings
+
+- extract emails
+#+BEGIN_SRC sh
+cewl -e --email_file angling.co.uk_emails.txt angling.co.uk
+#+END_SRC
+This will output any of the found emails to angling.co.uk_emails.txt
+This list of words will be sent to stdout
+
 * Lecture
 * Tutorial
 * Books

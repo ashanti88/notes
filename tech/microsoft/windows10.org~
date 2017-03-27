@@ -5,3 +5,14 @@ netstat -ano
 to view a count of all connections on specific port
 
 netstat -ano | find ":XX" /c
+
+#+TAGS:
+
+
+* Windows 10
+* Cmds
+* Overview
+* Lecture
+* Tutorial
+* Books
+* Links

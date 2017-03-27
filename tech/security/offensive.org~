@@ -1,5 +1,16 @@
+#+TAGS: sec_o
 
 
+* offensive skills
+* Description
+* Phases
+** Recon
+** Enumeration
+** Exploitation
+** Maintaining Access 
+** Covering Tracks
+* Lecture
+* Tutorial
 ** PluralSight - System Hacking - Dale Meredith
 
 *** Intro
@@ -160,4 +171,17 @@ PDC needs to be synced otherwise kerberose doesn't work
 
 **** Cover Tracks
 
-     
+** [[https://www.youtube.com/watch?v%3D0fbBwGAuINw][How to Exploit Metasploitable 2 with NMap, Nexpose, Nessus and Metasploit]]
+- getting a html report from nmap report
+#+BEGIN_SRC sh
+nmap -O -sV -sC -oX nmap-scan.xml 192.168.56.101
+cp /usr/share/nmap/nmap.xsl .
+#+END_SRC
+We need the nmap.xsl as it is the stylesheet for the xml file
+
+- Vulnerability Scanners
+  - OpenVAS
+  - Nessus
+  - Nexpose
+* Books
+* Links

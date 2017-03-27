@@ -4,6 +4,11 @@
 * drill							     :net:anal:sec_o:
 * Description
 * Usage
+- reverse lookup
+#+BEGIN_SRC sh
+drill -x 75.126.43.253
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

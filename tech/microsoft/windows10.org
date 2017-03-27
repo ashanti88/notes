@@ -1,0 +1,10 @@
+#+TAGS: ms
+
+
+* Windows 10								 :ms:
+* Cmds
+* Overview
+* Lecture
+* Tutorial
+* Books
+* Links

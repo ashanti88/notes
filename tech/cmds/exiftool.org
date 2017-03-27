@@ -1,0 +1,15 @@
+#+TAGS: sec file
+
+
+* exiftool							   :sec:file:
+* Description
+This is the command line tool for meta data manipulation and editing.
+* Usage
+
+> exiftool image.jpg
+
+
+* Lecture
+* Tutorial
+* Books
+* Links

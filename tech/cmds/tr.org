@@ -1,10 +1,15 @@
+#+TAGS: file txt
 
 
-
-
-* Description								:txt:
-
-
-
-
+* tr								   :file:txt:
+* Description
 * Usage
+** split columns on a line 
+- splitting columns that are using ; as delimiter
+#+BEGIN_SRC sh
+tr ';' '\n' < file.txt
+#+END_SRC
+* Lecture
+* Tutorial
+* Books
+* Links

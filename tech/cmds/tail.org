@@ -1,11 +1,22 @@
-*Using Tail*
+#+TAGS: file txt
 
+
+* tail
+* Description
+* Usage
 > tail <option> <file>
 
-print a number of lines
+- print a number of lines
+#+BEGIN_SRC sh
+tail -n 5 file.txt
+#+END_SRC
 
-> tail -n <N> <file>
+- follow a file with tail
+#+BEGIN_SRC sh
+tail -f file.log
+#+END_SRC
 
-follow a file with tail
-
-> tail -f <file>
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -20,6 +20,10 @@ This will produce the number of lines, number of words and number of bytes.
 ** Display the number of bytes in a file
 > wc -c file.txt
 
+** Number of files in directory
+#+BEGIN_SRC sh
+ls -1 | wc -l
+#+END_SRC
 * Lecture
 * Tutorial
 * Books

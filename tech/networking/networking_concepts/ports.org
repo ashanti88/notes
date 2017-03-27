@@ -86,6 +86,7 @@ Software
 Software
 [[file://home/crito/org/tech/mail/dovecot.org][Dovecot]]
 
+* 1433t - MS-SQL - default port for MSSQL
 * 1434  - MS-SQL-DS - MS SQL Server
 * 1723  - pptp - Point-to-Point Tunneling Protocol - often used to implement vpn solutions on windows
 * 1900u - UPNP - MS Service Discovery Protocol, Universal Plug-n-Play

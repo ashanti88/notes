@@ -84,6 +84,14 @@ file.
 { print; } { count++; }
 
 END { print count; }'
+** Setting the delimiter
+#+BEGIN_SRC sh
+awk -F":" { print $1; } access.log
+#+END_SRC
+** Print first line instance and keep order
+#+BEGIN_SRC sh
+awk '!seen[$0]++' file.txt
+#+END_SRC
 * Lecture
 * Tutorial
 * Books

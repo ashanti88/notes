@@ -1,0 +1,15 @@
+#+TAGS: sec_o
+
+
+* msfconsole
+* Description
+* Usage
+** Setting an exploit and payload
+#+BEGIN_SRC sh
+set exploit
+
+#+END_SRC
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -1,0 +1,14 @@
+#+TAGS:
+
+
+* bc
+* Description
+* Usage
+** combine all the numbers in a file with number on each line
+#+BEGIN_SRC sh
+paste -sd+ sum_me.txt | bc
+#+END_SRC
+* Lecture
+* Tutorial
+* Books
+* Links

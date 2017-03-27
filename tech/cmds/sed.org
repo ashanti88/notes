@@ -47,6 +47,11 @@ sed = file.txt | sed 'N;s/\n/\t/'
 sed -n '$='
 #+END_SRC
 
+** Print specific lines of text
+- print 20 - 25 from file.txt
+#+BEGIN_SRC sh
+sed -n 20,25p file.txt
+#+END_SRC
 * Lecture
 * Tutorial
 * Books

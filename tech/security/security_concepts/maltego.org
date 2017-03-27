@@ -1,0 +1,16 @@
+#+TAGS: sec
+
+
+* Maltego								:sec:
+* Description
+* Usage
+* Lecture
+* Tutorial
+[[https://www.youtube.com/watch?v%3DsP-Pl_SRQVo&list%3DPLC9DB3E7C258CD215][Maltego training video for absolute beginners]]
+[[https://www.youtube.com/watch?v%3D3zlbUck_BLk&index%3D2&list%3DPLC9DB3E7C258CD215][Official Maltego Tutorial {1} - Google's websites]]
+[[https://www.youtube.com/watch?v%3DibtwjPJ5PGs&index%3D3&list%3DPLC9DB3E7C258CD215][Official Maltego Tutorial {2} - Mapping Sony]]
+[[https://www.youtube.com/watch?v%3DxaPoLQwHYI4&list%3DPLC9DB3E7C258CD215&index%3D4][Official Maltego Tutorial {3} - Importing CSVs]]
+[[https://www.youtube.com/watch?v%3DFceN0T_a_uM&index%3D5&list%3DPLC9DB3E7C258CD215][Official Maltego Tutorial {4} - Social Networks]]
+[[https://www.youtube.com/watch?v%3D42KhnNQS8AU&list%3DPLC9DB3E7C258CD215&index%3D6][Official Maltego Tutorial {5} - Writing your own transforms]]
+* Books
+* Links

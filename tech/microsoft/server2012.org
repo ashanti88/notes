@@ -1,0 +1,46 @@
+#+TAGS: ms
+
+
+* MS Server 2012							 :ms:
+* Description
+* Usage
+* Lecture
+* Tutorial
+** CBT Nuggets 70-410 Installing And Configuring Windows Server 2012
+*** Introduction
+*** Install And Configure Servers
+- Planning Installation and Roles
+  - Prepare Hardware (Map Toolkit - this is a tool to let you know if your machine can be upgraded)
+    - min reqs
+      - CPU  - 1.4GHz/64-bit
+      - RAM  - 512MB
+      - Disk - 32GB
+    - a good time for upgrades
+    - drivers -> mass storage -> unsigned
+  - Pre-learn ps cmdlets you might need
+  - Watch for removed/deprecated
+  - Backup and have contingency
+  - Roll out in stages
+
+- Installation Levels
+  - Full Gui
+  - Core (Default)
+    - minimal attack surface
+    - small footprint
+    - highly reliable (90% updates where to do with the gui)
+    - easily managed
+      - powershell, srv mgr, rsat, winrs/winrm
+    - features on demand
+      - reduce footprint by removing payload of unused itmes
+    - minimal server interface
+      
+- Windows Server Migrations
+  - Migrate from W2K3 sp2/r2 w2k8 full,r2
+                  win-12 full/core
+  - Physical-To-Virtual + Virtual-TO-Physical
+  - Only transfer to the same ui language
+  - Admin on both machines
+  - Migrate roles, features, system settings, shares, data...
+  
+* Books
+* Links

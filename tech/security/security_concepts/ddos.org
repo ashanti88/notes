@@ -1,0 +1,18 @@
+#+TAGS: sec
+
+
+* DDoS
+* Cmds
+* Overview
+* Types of DDoS
+- Javascript
+- NTP reflection 
+- DNS reflection
+* DDOS Ransom Groups
+- Armada Collective
+- Lizard Squad
+- DD4BC
+* Lecture
+* Tutorial
+* Books
+* Links

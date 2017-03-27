@@ -82,39 +82,19 @@
      - State "IDEA"       from ""           [2016-11-20 Sun 02:14]
 
 ** System
-** Skills CV       
-- Automation
- - Ansible
-- Database
- - Postgresql
- - MySQL
- - MongoDB
-- Web
- - Apache
- - Nginx
- - HAProxy
-- Mail
- - Postfix
- - Dovecot
- - Exim
-- Monitoring
- - Zabbix
- - Naggios
-- Security
- - SELinux
-- Virtualization
- - KVM
- - Docker
- - Vagrant
- - OpenStack
- - OpenShift
- - Kubernetes
-- Code
- - Git
- - Python
-   - Django
-   - Flask
- - Scheme
 * Work
 * Domain
 * Notes
+** TODO journalctl
+  - State "TODO"       from ""           [2017-03-24 Fri 14:09]
+** TODO dropbox cli 
+  - State "TODO"       from ""           [2017-03-24 Fri 14:10]
+** TODO debian ssh prng vuln
+   - State "TODO"       from ""           [2017-03-24 Fri 14:58]
+** TODO transparent proxy
+http://www.tldp.org/HOWTO/TransparentProxy.html
+   - State "TODO"       from ""           [2017-03-24 Fri 15:18]
+** TODO dns reflection
+   - State "TODO"       from ""           [2017-03-24 Fri 19:24]
+** TODO ntp reflection
+   - State "TODO"       from ""           [2017-03-24 Fri 20:04]

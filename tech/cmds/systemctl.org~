@@ -1,0 +1,20 @@
+#+TAGS: sysd op
+
+
+* systemctl							       :sysd:
+* Description
+* Usage
+** remove a service
+#+BEGIN_SRC sh
+systemctl stop firewalld.service
+systemctl disable firewalld.service
+rm /etc/systemd/system/firewalld.service
+systemctl daemon-reload
+systemctl reset-failed
+#+END_SRC
+- There may also be symlinks that need to be removed rm /etc/systemd/system/firewalld.service
+
+* Lecture
+* Tutorial
+* Books
+* Links

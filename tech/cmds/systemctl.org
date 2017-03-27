@@ -1,0 +1,91 @@
+#+TAGS: sysd op
+
+
+* systemctl							       :sysd:
+* Description
+* Usage
+** Stop, Start and Restart a Service
+- stop
+#+BEGIN_SRC sh
+systemctl stop sshd.service
+#+END_SRC
+- start
+#+BEGIN_SRC sh
+systemctl start sshd.service
+#+END_SRC
+- restart
+#+BEGIN_SRC sh
+systemctl restart sshd.service
+#+END_SRC
+** Current State of a Service
+- status
+#+BEGIN_SRC sh
+systemctl status sshd.service
+#+END_SRC
+- is-active  
+#+BEGIN_SRC sh
+systemctl is-active sshd.service
+#+END_SRC
+** Enable a Service
+#+BEGIN_SRC sh
+systemctl enable sshd.service
+#+END_SRC
+** Disable a Service
+#+BEGIN_SRC sh
+systemctl disable sshd.service
+#+END_SRC
+- too ensure that the service isn't started by another service use the mask option
+** Masking a Service
+#+BEGIN_SRC sh
+systemctl mask sshd.service
+#+END_SRC
+** List All Services
+#+BEGIN_SRC sh
+systemctl list-unit-files --types=service
+#+END_SRC
+This will show you all the services and their current state
+** List All Enabled services
+- system wide
+#+BEGIN_SRC sh
+systemctl list-unit-files --type=service | grep enabled
+#+END_SRC
+
+- user
+#+BEGIN_SRC sh
+systemctl --user list-unit-files --type=service | grep enabled
+#+END_SRC
+** List Dependencies for a Service
+#+BEGIN_SRC sh
+systemctl list-dependencies sshd.services
+#+END_SRC
+
+** Remove a Service
+#+BEGIN_SRC sh
+systemctl stop firewalld.service
+systemctl disable firewalld.service
+rm /etc/systemd/system/firewalld.service
+systemctl daemon-reload
+systemctl reset-failed
+#+END_SRC
+- There may also be symlinks that need to be removed rm /etc/systemd/system/firewalld.service
+
+** Reboot, Suspend and Shutdown
+- reboot
+#+BEGIN_SRC sh
+systemctl reboot
+#+END_SRC
+   
+- suspend
+#+BEGIN_SRC sh
+systemctl suspend
+#+END_SRC
+
+- shutdown
+#+BEGIN_SRC sh
+systemctl poweroff
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

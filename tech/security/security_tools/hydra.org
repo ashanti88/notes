@@ -1,0 +1,15 @@
+#+TAGS: sec_o pass crk
+
+
+* hydra							     :sec_o:pass:crk:
+* Description
+* Usage
+- cracking ssh
+#+BEGIN_SRC sh
+hydra -L warner.txt -P pass-word-list.txt 192.168.56.101 ssh
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

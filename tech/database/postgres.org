@@ -378,7 +378,7 @@ Types:
   a. 'smallint' - 16-bits (2-bytes) - whole numbers 0 - 65535 signed -32768 - 32767
   b. 'int'      - 32-bits (4-bytes) - whole numbers 0 - 4billion  signed -2billion - 2billion
   c. 'bigint'   - 64-bits (8-bytes) - whole numbers that required to be unique
-  d. 'numeric[precision,scale] - catches all numberic (lazy option)
+  d. 'numeric[precision,scale] - catches all numeric (lazy option)
     - precision - sig figs
     - scale - number of values to the right of the deciaml point
     - none specified - 1000 digits of precision
@@ -488,6 +488,46 @@ Tasks:
     - 'ALTER ROLE fred SUPERUSER;' - only a superuser can create a superuser
     - 'ALTER ROLE fred RENAME TO fredo;' - this will unset the user MD5 password, and will update ownership of objects
     
+*** Constraints Usage
+- Enforce storage requirements: pre table | column
+- Multiple constraints may be bound to a single column
+- Optionally constraints may be defined at the table level for one or more columns
+- Default column rule is to accept NULLs
+
+Data Types - basic constraint
+  - Restricts permitted column values
+    - i.e. 'date' - only values of type date are allowed
+
+Not-Null and Null constraints
+  a. 'CREATE TABLE messages (date date NOT NULL);'
+  b. 'ALTER TABLE messages ADD id int NULL;
+  
+Unique Constraints - Applies to any type of column: ie 'int', 'numeric', etc
+  - 'CREATE TABLE messages (data date, id bigint UNIQUE);'
+    - the creation of unique constraints generates implicit btree indices on cloumn(s)
+  - 'CRATE TABLE messages (date date, id bigint, message text, UNIQUE(id,message));'
+    - the combination needs to be unique between specified columns
+    - this constraint is being set at the table level appose to the column as previous
+
+Primary Key Constraint - Combination of: 'UNIQUE' & 'NOT NULL' Constraints
+  - Primary key constraint on 1 column
+    - 'CREATE TABLE messages (date date, id numeric PRIMARY KEY);'
+  - Primary key constraint on 2 columns
+    - 'CREATE TABLE messages (date date, id numeric, message text PRIMARY KEY(id, message));
+  
+Foreign Key Constraint - Links Tables - Referential Integrity
+- Parent Table
+  - 'CREATE TABLE messages (date date, id int PRIMARY KEY);'
+- Subordinate Table
+  - 'CREATE TABLE messages_categories (id int REFERENCES messages(id), category text;
+
+Check Constraint - confirms colum values based on Boolean criteria: - CHECK (expr)'
+- check that id contains values greater than 0
+ - 'CREATE TABLE messages (date date NOT NULL, id numeric CHECK ( id > 0 ));'
+- create teh same constraint with name
+ - 'CREATE TABLE messages (date date NOT NULL, id numeric CONSTRAINT positive_id CHECK ( id > 0 ));'
+- create check constraint which summarizes all rules for all columns
+ - 'CREATE TABLE messages (date date, id numeric CHECK ( date IS NOT NULL AND id > 0 AND id IS NOT NULL ));'
 * Books
 [[file://home/crito/Documents/Database/Postgres/Learning_PostgreSQL.pdf][Learning PostgreSQL - O'Reilly]]
 [[file://home/crito/Documents/Database/Postgres/PostgreSQL_Up_and_Running_2e.pdf][PostgreSQL Up and Running 2e]]

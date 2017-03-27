@@ -1,0 +1,10 @@
+#+TAGS: irc
+
+
+* irc									:irc:
+* Cmds
+* Overview
+* Lecture
+* Tutorial
+* Books
+* Links

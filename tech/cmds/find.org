@@ -70,6 +70,10 @@ find . -name "pattern" -exec rm -rf {} \;
 #+BEGIN_SRC sh
 find . -type f | wc -l
 #+END_SRC
+** Print only the file name 
+#+BEGIN_SRC sh
+find . -type f -printf '%f\n
+#+END_SRC
 * Lecture
 * Tutorial
 * Books

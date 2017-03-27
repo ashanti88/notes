@@ -1,0 +1,12 @@
+#+TAGS: sysd
+
+
+* coredumpctl							       :sysd:
+* Description
+Retrieves core dumps from the systemd's journal
+
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

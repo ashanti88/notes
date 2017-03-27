@@ -1,0 +1,12 @@
+#+TAGS: net anal
+
+
+* tracepath							   :net:anal:
+* Description
+tracepath works in a similar way to traceroute, but doesn't require root privilege which traceroute does.
+
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

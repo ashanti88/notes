@@ -1,0 +1,16 @@
+#+TAGS: code
+
+
+* Perl
+* Cmds
+* One liners
+- print a file in reverse
+#+BEGIN_SRC sh
+perl -e 'print reverse <>' file.txt
+#+END_SRC
+
+* Overview
+* Lecture
+* Tutorial
+* Books
+* Links

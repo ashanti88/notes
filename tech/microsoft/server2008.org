@@ -1,0 +1,10 @@
+#+TAGS: ms
+
+
+* MS Server 2008							 :ms:
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

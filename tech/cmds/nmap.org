@@ -71,8 +71,11 @@
 this will show which ips will be scanned before you start.
 
 ** Resume an aborted scan
-> nmap --resume <-oNfile/-oGfile>
-no other arguments other than --resume. Only -oN and -oG can be used.
+#+BEGIN_SRC sh
+nmap --resume nmap_scan.txt
+#+END_SRC
+- no other arguments other than --resume. 
+- Only -oN and -oG can be used.
 
 ** Examples:
 *** This will locate random web servers
@@ -113,10 +116,154 @@ this is an extensive scan that uses a file to provide the ip address and outputs
 > nmap -p0- -v -A -T4 <address>
 
 this is an aggressive scan that will scan every port, and enables aggressive tests (-A) such as os detection. Ok if stealth isn't necessary
+*** Verbosity/Debug
+v       - will increase verbosity
+shift-v - will decrease verbosity
+d       - will increase debug level
+shift-d - will decrease debug level
+*** traceroute
+** Scan by Service
+*** FTP Scan 
+#+BEGIN_SRC sh
+nmap --scan-delay 5s -g 53 -iL 21.txt -Pn -n -sS --open -p21 --script=banner,ftp-annon,ftp-bounce
+#+END_SRC
+
+*** SSH Scan
+#+BEGIN_SRC sh
+nmap --scan-delay 5s -g 53 -iL 22.txt -Pn -n -sS --open -p22 --script=sshv1,ssh2-enum-algos
+#+END_SRC
+
+*** DNS Scan
+#+BEGIN_SRC sh
+nmap --scan delay 5s -g 53 -iL 53.txt -Pn -n -sS -sU --open -p53 --script=dns-cache-snoop,dns-service-discovery,dns-update,dns-zone-transfer,dns-recursion
+#+END_SRC
+check av vendors list against cache
+
+*** DHCP Scan
+#+BEGIN_SRC sh
+nmap --scan-delay 5s -g 53 -iL 67.txt -Pn -n -sS --sU --open -p67 -sC
+#+END_SRC
+
+*** MSSQL Scan
+#+BEGIN_SRC sh
+nmap --scan-delay 5s -g 53 -iL msql.txt -Pn -n -sS -sUV --open -p T:1433,U:1434 --script=ms-sql-info,ms-sql-empty-password
+#+END_SRC
+
+*** NFS Scan
+#+BEGIN_SRC sh
+nmap --scan-delay 5s -g 53 -iL 111.txt -Pn -n -sS --open -p111 --script=rpcinfo,nfs-ls,nfs-showmount,nfs-statfs
+#+END_SRC
+
+*** NetBIOS Scan
+#+BEGIN_SRC sh
+nmap --scan-delay 5s -g 53 -iL 137.txt -Pn -n -sS -sU --open -p137 --script=nbstat
+#+END_SRC
+
+*** SMB Scan
+#+BEGIN_SRC sh
+nmap --scan-delay 5s -g 53 -iL smb.txt -Pn -n -sS --open -p139,445 --script="smb-enum*",smb-os-discovery,smb-security-mode,smb-server-stats,smb-system-info,smbv2-enabled,smb-check-vulns -script-args safe=1
+#+END_SRC
+
+*** Web Scan
+#+BEGIN_SRC sh
+nmap --scan-delay 5s -g 53 -iL web.txt -Pn -n -sS --open -p80,443,8000,8080,8443 --script=http-date,http-enum,http-favicon,http-headers,http-open-proxy,http-php-version,http-robots.txt,http-title,http-trace,http-vhosts,http-vmware-path-vuln,citrix-enum-apps-xml,citrix-enum-server-xml --stats-every 30s
+#+END_SRC
+
+*** SNMP Scan
+#+BEGIN_SRC sh
+nmap --scan-delay 5s -g 53 -iL 161.txt -Pn -n -sS -sU --open -p161 --script=snmp-interfaces,snmp-netstat,snmp-processes,snmp-sysdescr,snmp-win32-services,snmp-win32-shares,snmp-win32-software
+#+END_SRC
+
+*** LDAP Scan
+#+BEGIN_SRC sh
+nnmap --scan-delay 5s -g 53 -iL 389.txt -Pn -n -sS --open -p389 --script=ldap-rootdse
+#+END_SRC
+
+*** SSL Scan
+#+BEGIN_SRC sh
+nnmap --scan-delay 5s -g 53 -iL 443.txt -Pn -n -sS --open -p443 --script=banner,ssl-cert,ssl-enum-ciphers,sslv2,ssl-heartbleed
+#+END_SRC
+#+BEGIN_SRC sh
+nmap --traceroute 10.0.0.0/24
+#+END_SRC
 * Lecture
 * Tutorial
+** KY ISSA NMAP 
+*** [[https://www.youtube.com/watch?v%3D22Ad04Aw-Bo][Part 1: TCP IP And Basics of Nmap]]
+*** [[https://www.youtube.com/watch?v%3DhdkKy3vJ0vM][Part 2: TCP IP And Basics of Nmap - Adrian Crenshaw]]
+- Nmap allows for different pings to be sent
+  -sn -No port scan
+  -PR -ARP ping
+  -Pn -No ping (can be slow, ARP always done)
+  -PU -udp ping
+  -PT -tcp ping
+  -PI -icmp echo ping
+  -PS -syn ping, default port 80, altered with -PS22-25
+- using PI is less easily detected as no full connection is made  
+  
+- nmap range scan without port scan
+#+BEGIN_SRC sh
+nmap -sn 10.0.0.*
+#+END_SRC
+
+- scan only the first 100 ports
+#+BEGIN_SRC sh
+nmap -F 10.0.0.10
+#+END_SRC
+
+- return only the open ports
+#+BEGIN_SRC sh
+nmap -sS -sU 10.0.0.100-125 -p T:80,U:53 --open
+#+END_SRC
+
+- scan list queries dns reverse lookup (don't have to touch the target)
+#+BEGIN_SRC sh
+nmap -sL 10.0.0.*
+#+END_SRC
+
+*** [[https://www.youtube.com/watch?v%3DP5uRFxFXpyg][Part 3: OS And Service Fingerprinting - Jeremy Druin]]
+*** [[https://www.youtube.com/watch?v%3D0X3sw_OKwdM][Part 4: OS And Service Fingerprinting - Jeremy Druin]]
+- using os option
+--osscan-limit will reduce the time spent of os detection
+#+BEGIN_SRC sh
+nmap -O --osscan-limit 10.0.0.1
+#+END_SRC
+
+--osscan-guess will be more aggressive in its approach of detection
+#+BEGIN_SRC sh
+nmap -O --osscan-guess 10.0.0.1
+#+END_SRC
+
+*** [[https://www.youtube.com/watch?v%3DsLXurGHuz0Q][Part 5: Kicking Ass With Nmap]]
+Methodology
+- Create subnet lists - connect to network
+  - ifconfig
+  - /etc/resolv.conf
+  - Netdiscover
+  - Wireshark
+  - Dig
+- Ping scan to create list of live ips
+  - nmap -sP -PI
+  - cut the network up /16 at a time
+- Syn Scan using timing and other evasion techniques one port at a time
+  - cat hostlist.txt | sort -R | nmap -sS -p389 -oG myscan -iL -
+- Use nmap scripts against the hosts one by one in each port.txt file
+  - nmpa -Pn -n --open -p21 --script ftp-anon,ftp-bounce,ftp-libopie -iL 21.txt
+    
+- To findout about nmap scripts use http://nmap.org/nsedoc/scripts/
+- Also nmap --script-help "ftp-*"  
+
+- IP Geo Locate script
+#+BEGIN_SRC sh
+nmap -Pn -p80 --script ip-geolocation-* gitfshop.co.uk
+#+END_SRC
+
+Recommends:
+http://blog.spiderlabs.com
+
 * Books
 [[file://home/crito/Documents/Security/Tools/Nmap_Essentials.pdf][Nmap Essentials]]
+
 * Links
 
 

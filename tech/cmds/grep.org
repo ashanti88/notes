@@ -7,11 +7,14 @@
 
 > grep <options> <pattern> <file>
 
-** Search entire direcotry for pattern
+** Ssearch entire direcotry for pattern
 #+BEGIN_SRC sh
 grep -Ri  .
 #+END_SRC
-
+** print only the filenames
+#+BEGIN_SRC sh
+grep -rl
+#+END_SRC
 * Lecture
 * Tutorial
 * Books
