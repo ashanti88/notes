@@ -1,7 +1,7 @@
 #+TAGS: linux arch
 
 
-* arch								 :linux:arch:
+* Arch								 :linux:arch:
 * Description
 * Usage
 ** System Maintenance
@@ -87,6 +87,8 @@ find -xtype l -print
 Wiki: [[https://wiki.archlinux.org/index.php/fonts#Emoji_and_symbols][Arch-Fonts]]
 *** Setting fonts for local user
 - files need to be added to .local/share/fonts
+** Hybrid Graphics
+file://home/crito/org/tech/linux_concepts/hybrid_graphics.org
 * Lectures
 * Tutorial
 * Articles

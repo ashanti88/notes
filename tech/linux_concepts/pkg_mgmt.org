@@ -326,6 +326,11 @@ dnf upgrade
 *** zypper							   :suse:pkg:
 ** Arch							       :sys:pkg:arch:
 *** pacman							   :arch:pkg:
+- list installed pkgs
+#+BEGIN_SRC sh
+pacman -Q > pkg_list.txt
+#+END_SRC
+
 *** yaourt							   :arch:pkg:
 - Search for pkg
 #+BEGIN_SRC sh

