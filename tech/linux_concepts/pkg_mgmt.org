@@ -330,6 +330,12 @@ dnf upgrade
 #+BEGIN_SRC sh
 pacman -Qo
 #+END_SRC
+=======
+- list installed pkgs
+#+BEGIN_SRC sh
+pacman -Q > pkg_list.txt
+#+END_SRC
+
 *** yaourt							   :arch:pkg:
 - Search for pkg
 #+BEGIN_SRC sh

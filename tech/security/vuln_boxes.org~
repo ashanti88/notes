@@ -1,0 +1,37 @@
+#+TAGS:
+
+
+* Vuln Boxes
+* Boxes
+** Metasploitable 2
+*** Walk Through with RWB on youtube
+https://www.youtube.com/watch?v=JGUoOotVXNQ
+
+**** Enumeration
+- netdiscover
+#+BEGIN_SRC sh
+netdiscover -r 192.168.56.0/24
+#+END_SRC
+
+- nmap of results from above
+#+BEGIN_SRC sh
+nmap -sV -p-65535 192.168.56.102
+#+END_SRC
+
+- open port 21 - decides to use telnet to confirm service
+#+BEGIN_SRC sh
+telent 192.168.0.102 21
+#+END_SRC
+
+- nmap udp scan
+#+BEGIN_SRC sh
+nmap -sU 192.168.0.102
+#+END_SRC
+
+**** Telnet port 21
+Setting up wireshark to capture a telnet session login will allow the password to be caught.
+To view the session right click the packet in wire shack and slect follow tcp stream.
+* Lecture
+* Tutorial
+* Books
+* Links

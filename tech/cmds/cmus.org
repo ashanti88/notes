@@ -1,9 +1,15 @@
 #+TAGS: term music wf
 
 
-* cmus
+* cmus							      :term:music:wf:
 * Description
+Terminal music player
 * Usage
+- adding music
+1. press 5
+2. press the 'a' on the directory you would like to add
+You should now see files adding in the bottom righthadn corner
+
 * Lecture
 * Tutorial
 * Books

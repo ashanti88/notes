@@ -195,5 +195,8 @@ We need the nmap.xsl as it is the stylesheet for the xml file
   - OpenVAS
   - Nessus
   - Nexpose
+** ISSA Web Pen-testing Workshop
+*** [[https://www.youtube.com/watch?v%3DJPd2YtgJm8Q][Intro to Mutillidae, Burp Suite & Injection]]
+
 * Books
 * Links

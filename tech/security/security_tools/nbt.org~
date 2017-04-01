@@ -1,0 +1,16 @@
+#+TAGS:
+
+
+* nbtscan
+* Description
+a program for scanning IP networks for NetBIOS name information
+* Usage
+- simple network scan
+#+BEGIN_SRC sh
+nbtscan 10.0.0.0/24
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

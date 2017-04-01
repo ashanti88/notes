@@ -15,7 +15,6 @@ anonymous - this will check if the ftp server allows anonymous login
 snmp_enum - this will help in detection of devices that are using SNMP 
 snmp_login - will use a word list, attempting to login to the device
 
-
 * Related
 - Armitage
 - Cobalt Strike
@@ -52,7 +51,6 @@ db_import /tmp/nessus_report_Host_101
 *** Speciality Vuln Scanners
 vnc_none_auth - this will scan for VNC server configured without a password (rare as modern VNC servers require password for installation). Possible RealVNC4.1.1
 open_x11 - this searches a range of hosts for X11 servers that allow connection without authentication
-
 
 * Lecture
 ** [[https://www.youtube.com/watch?v%3DadSQyRPpiBw][Getting Started with Meatasploit - Nathan Sweaney]]
@@ -146,6 +144,25 @@ meterpreter> migrate 624 - migrate to another process that is less detectable
   - scanner/snmp/snmp_login
 
 * Tutorial
+** [[https://www.youtube.com/watch?v%3D9J2ZrKHk6DQ][Introduction to metasploit - Adrian Crenshaw]]
+
+-running sessions in msf can be viewed with: 
+> sessions
+this will list any active sessions
+
+- to connect to a session
+> sessions -i 1
+this will connect us to session 1
+
+- encoders
+  - the x86/shikata_ga_nai
+    
+- windows bax with meterpreter
+hashdump
+  - this will dump all the user passwords
+tspkg - this can be used in metasploit to cra
+wdigest
+
 * Books
 [[file://home/crito/Documents/Security/Metasploit/Metasploit-The_Penetration_Testers_Guide.pdf][Metasploit - The Penetration Tester's Guide]]
 [[file://home/crito/Documents/Security/Metasploit/Metasploit_Penetration_Testing_Cookbook_2e.pdf][Metasploit Penetration Testing Cookbook]]

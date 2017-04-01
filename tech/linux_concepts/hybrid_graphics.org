@@ -1,0 +1,16 @@
+#+TAGS: linux
+
+
+* Hybrid Graphics						      :linux:
+* Cmds
+* Overview
+** Testing
+To see if the laptop is using the graphics card use:
+#+BEGIN_SRC sh
+lspci -vnnn | perl -lne 'print if /^\d+\:.+(\[\S+\:\S+\])/' | grep VGA
+#+END_SRC
+This will print out a line with [VGA Controller] at the end. This is the current graphics controller
+* Lecture
+* Tutorial
+* Books
+* Links

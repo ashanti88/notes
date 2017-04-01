@@ -4,16 +4,32 @@
 * git								   :code:vcs:
 * Description
 * Usage
-** Clone
-#+BEGIN_SRC sh
-git clone https://github.com:AlickMitchell/notes.git
-#+END_SRC
-
 ** Create a new repo
 #+BEGIN_SRC sh
 git init 
 #+END_SRC
 do this inside the directory to create a repo
+
+** Setting user creds
+-setting username
+#+BEGIN_SRC sh
+git config --global user.name "Alick"
+#+END_SRC
+
+- setting email
+#+BEGIN_SRC sh
+git config --global user.email "mitchell.alick@gmail.com"
+#+END_SRC
+
+- setting default editor
+#+BEGIN_SRC sh
+git config --global core.editor vim
+#+END_SRC
+
+** Clone
+#+BEGIN_SRC sh
+git clone https://github.com:AlickMitchell/notes.git
+#+END_SRC
 
 ** Commits
 1. add files to repo for commit
@@ -63,8 +79,16 @@ git merge branch
 3. then add and commit
 
 ** Github
-> git -T git@github.com
-this will return a message that github doesn't allow shell access, but allows you to know that you can connect to github
+- SSH test
+#+BEGIN_SRC sh
+ssh -T git@github.com
+#+END_SRC
+This will return a message that github doesn't allow shell access, but allows you to know that you can connect to github
+
+- Github not using ssh key
+- first check that it's been added to github
+- check the .git/config makesure that it is connecting over ssh not https
+  - url = git@github.com:AlickMitchell/notes.git
 
 *** Error
 19:13:43 ajax:~/org$ git push origin master
@@ -80,6 +104,7 @@ The above error was throw as ssh didn't know about the github ssh-key
 > ssh-agent /bin/bash
 > ssh-add github-key
 > ssh-add -l - this will show the added key in the list
+
 
 * Lecture
 * Tutorial
