@@ -1,0 +1,27 @@
+#+TAGS: sec_o recon
+
+
+* cutycapt							:sec_o:recon:
+* Description
+Webkit rendering capture tool (website screen capture)
+* Usage
+- simple website view
+#+BEGIN_SRC sh
+cutycapt --url=www.aa.com --out=aa.jpg
+#+END_SRC
+
+- change the user-agent
+#+BEGIN_SRC 
+cutycapt --url=www.aa.com --out=aa.jpg --user-agent="Mozilla/5.0 (Linux; Android 4.3; GT-I9505 Build/JSS15J) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.59 Mobile Safari/537.36"
+#+END_SRC
+
+- stop javascript from running
+#+BEGIN_SRC sh
+cutycapt --url=www.aa.com --out=aa.jpg --javascript=off
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Lis
+[[https://www.youtube.com/watch?v%3DazpTgUBl0Fk][How To - kali Linux 2.0 - CutyCapt Website Screen Capture]]

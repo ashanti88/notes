@@ -1,0 +1,42 @@
+#+TAGS: sec_o enum
+
+
+* sparta
+[[https://github.com/SECFORCE/sparta][github.com/SECFORCE/sparta]]
+* Description
+This tool is a gui framwork that brings together many tools for enumeration
+
+Required Tools:
+- [[file://home/crito/org/tech/security/security_tools/nmap.org][Nmap]]
+- [[file://home/crito/org/tech/security/security_tools/hydra.org][Hydra]]
+- [[file://home/crito/org/tech/security/security_tools/nmap.org][Nmap]]
+- Cutycapt
+* Files
+- /usr/share/sparta/sparta.conf
+- By deafult sparta will automatically run all scans once a target is added.
+  - this should be changed in the /usr/share/sparta/sparta.conf file and change the enable-scheduler=False
+* Usage
+- Scan
+  - nmap can be run or nmap xml files can be imported
+  - using the stages means results are produced quicker for you
+    - stage configurations are found in the sparta.conf
+  - found services are shown in the main window
+    - these services can then have more tools run on them by pressing the right button
+- Brute
+  - simple gui interface with all fields labeled
+    
+- Saving sessions
+  - Sessions can be saved, this save will contain all run scans
+    
+- Adding your own tools
+  - You can't add interactive cmd line tools
+  - /usr/share/sparta/sparta.conf - under [ToolSettings] add the path to the tool
+    - xprobe2-path=/usr/bin/xprobe2
+  - next alter the [HostActions] - add the cmdline host action
+    - xprobe2-os-detect=Run xprobe2 OS Fingerprint, xprobe2 [IP]
+  - should now be available in the gui
+    
+* Lecture
+* Tutorial
+* Books
+* Links

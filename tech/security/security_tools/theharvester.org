@@ -1,14 +1,47 @@
-#+TAGS: sec_o
+#+TAGS: sec_o osint
 
 
-* theHarvester
+* theHarvester							:sec_o:osint:
 Github: [[https://github.com/laramies/theHarvester][theHarvester]]
 * Description
-This tool will use specified search engine to search for the stated company\_name|domain.
+This tool will use specified search engine to search for the stated company name|domain.
+Good for finding:
+- emails
+- subdomains
+- employee names
+- Company Web Footprint
 
 * Usage
-> theharvester -d <company\_name|domain> -l <number\_of\_searches> -f
-<file\_name>
+- Basic scan using google as the source
+#+BEGIN_SRC sh
+theharvester -d angling-news.co.uk -b google
+#+END_SRC
+Makesure that you verify the emails that are produced
+
+- DNS bruteforce attack
+#+BEGIN_SRC sh
+theharvester -d angling-news.co.uk -b bing -c
+#+END_SRC
+Use different data source for a complete picture of the sites web footprint
+
+- Writing resuts to files
+#+BEGIN_SRC sh
+theharvester -d angling-news.co.uk -b bing -f angling_news.harvest
+#+END_SRC
+This will create an xml and html file
+
+- Virtual hosts
+#+BEGIN_SRC sh
+theharvester -d angling-news.co.uk -b bing -v
+#+END_SRC
+This will reverse lookup all at domains that are also hosted on teh same ip as angling-news
+- There is a bug in theHarvester that creates a <strong>minijs record this bug has be filed and should be fixed in the next versions (this was noted in version 2.6)
+  
+- Using twitter
+#+BEGIN_SRC sh
+theharvester -d angling-news.co.uk -b twitter 
+#+END_SRC
+All the variable for the search can be foundi n the files in /usr/share/theharvester/discovery/ in here you can alter useragent, add an API key etc
 
 ** Options
 * Links

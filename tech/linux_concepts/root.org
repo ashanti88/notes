@@ -1,37 +1,55 @@
-*Commands:*
+#+TAGS: sys root
 
-sudo
 
-su
+* Root								   :sys:root:
+* Cmds
+- [[file://home/crito/org/tech/cmds/sudo.org][sudo]]
+- [[file://home/crito/org/tech/cmds/su.org][su]]
+- [[file://home/crito/org/tech/cmds/usermod.org][usermod]]
+- [[file://home/crito/org/tech/cmds/visudo.org][visudo]]
 
-usermod
-
-visudo
-
-*How to obtain root privileges*
-
-* *
-
-*Log in as root*
+* Overview
+* How to obtain root privileges
+** Log in as root
 
 login: root
 
 you are root from an initial login
 
-*Use "su" to become Root*
-
-> su
-
+** Use "su" to become Root*
+#+BEGIN_SRC sh
+su
+#+END_SRC
 using "substitute user" root can be moved into
 
-*Use "sudo" to execute commands as Root*
-
-> sudo <command>
-
+** Use "sudo" to execute commands as Root*
+#+BEGIN_SRC sh
+sudo 
+#+END_SRC
 this allows root to be run for one off commands.
 
-*Configuring sudo*
-
+* Configuring sudo
 sudo is configured through the /etc/sudoers file. This file should not
 be edited directly but with the visudo command. This command will open
 /etc/sudoers in the set default text editor.
+
+* Resetting forgotten root password 
+** Live CD
+1. Boot the LiveCD and mount the root partition of your main system.
+2. Use the passwd --root MOUNT_POINT USER_NAME command to set the new password (you won't be prompted for an old one).
+3. Unmount the root partition.
+4. Reboot, and enter your new password. If you can't remember it, go to step 1.  
+
+** Using GRUB to invoke bash
+1. Select the appropriate boot entry in the GRUB menu and press e to edit the line.
+2. Select the kernel line and press e again to edit it.
+3. Append init=/bin/bash at the end of line.
+4. Press Ctrl-X to boot (this change is only temporary and will not be saved to your menu.lst). After booting you will be at the bash prompt.
+5. Your root file system is mounted as readonly now, so remount it as read/write mount -n -o remount,rw /.
+6. Use the passwd command to create a new root password.
+7. Reboot by typing reboot -f and do not lose your password again!
+
+* Lecture
+* Tutorial
+* Books
+* Links

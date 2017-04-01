@@ -1,0 +1,19 @@
+#+TAGS:
+
+
+* Virtualbox
+* Cmds
+- [[file://home/crito/org/tech/virt_and_cloud/vagrant.org][vagrant]]
+* Overview
+* Usage
+** mounting a share
+#+BEGIN_SRC sh
+mount -t vboxsf sf_Dropbox mtp
+#+END_SRC
+where sf_Dropbox is the share name and mtp is the mount directory
+
+** 
+* Lecture
+* Tutorial
+* Books
+* Links

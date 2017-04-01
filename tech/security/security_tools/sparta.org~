@@ -1,0 +1,28 @@
+#+TAGS: sec_o enum
+
+
+* sparta
+[[https://github.com/SECFORCE/sparta][github.com/SECFORCE/sparta]]
+* Description
+This uses nmap and nikto and combines the information in one space
+
+Required Tools:
+- [[file://home/crito/org/tech/security/security_tools/nmap.org][Nmap]]
+- [[file://home/crito/org/tech/security/security_tools/hydra.org][Hydra]]
+- [[file://home/crito/org/tech/security/security_tools/nmap.org][Nmap]]
+- Cutycapt
+
+* Usage
+- Scan
+  - nmap can be run or nmap xml files can be imported
+  - using the stages means results are produced quicker for you
+    - stage configurations are found in the sparta.conf
+- Brute
+  - simple gui interface with all fields labeled
+    
+By deafult sparta will automatically run all scans once a target is added.
+  - this should be changed in the /usr/share/sparta/sparta.conf file and change the enable-scheduler=False
+* Lecture
+* Tutorial
+* Books
+* Links

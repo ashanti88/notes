@@ -1,7 +1,7 @@
 #+TAGS: sec_o
 
 
-* offensive skills
+* Offensive
 * Description
 * Phases
 ** Recon
@@ -14,6 +14,13 @@
 - Ruby attack
 - Cold boot
 - Evil Maid
+* CTF
+[[https://www.youtube.com/watch?v%3Dk1iFjyrsQqI][Boot2Root Challenge - SkyDog CTF - RWBNetSec]]
+- viewing image data with exiftool
+- crack zip passwords with fcrackzip
+- if a file is set root:root 777 with os.system() this can be used for priv escal
+  - change contents of os.system('chmod u+s /bin/sh')
+
 * Lecture
 * Tutorial
 ** PluralSight - System Hacking - Dale Meredith

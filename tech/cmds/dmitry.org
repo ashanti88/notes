@@ -1,10 +1,11 @@
-#+TAGS:
+#+TAGS: sec_o osint
 
 
 * dmitry
 * Description
 DMitry (Deep Magic Information Gathering Tool)
 * Usage
+The tool is a little dated and might be better to use other tools
 
 > dmitry <option> <domain.com>
 
@@ -20,10 +21,27 @@ f - perform port scan and show any filtered ports
 b - read in the banner received from the scanned port 
 t [0-9] - ttl when scanning a tcp port ( this option requires the p flag to be passed)
 
-** Perform all scans
-> dmitry -winsepfbo <output.txt> <domain.com>
+** Examples
+- Perform all scans
+#+BEGIN_SRC sh
+dmitry -winsepfbo bluelevers.out.txt bluelevers.co.uk
+#+END_SRC
+
+- Simple scan
+#+BEGIN_SRC sh
+dmitry -wnseo angling-news.co.uk
+#+END_SRC
+This will output a file to angling-news.co.uk as no file is specified
+
+- Port scan
+#+BEGIN_SRC sh
+dmity - pbo angling-news.port.txt angling-news.co.uk
+#+END_SRC
+This will do a simple port scan of the domain, only scanning 150 ports
+Nmap would be far better for this
 
 * Lecture
 * Tutorial
 * Books
 * Links
+[[https://www.youtube.com/watch?v%3D1gDI79z4oqM][How To - Kali Linux 2.0 - Dmitry Information Gathering Tool]]

@@ -1,0 +1,33 @@
+#+TAGS: net conf wifi
+
+
+* wpa_cli						       :sys:net:conf:
+  
+* Description
+This is the interactive client for wireless configuration.
+
+* Usage
+** Basic Configuration
+1. > wpa_cli - this will take you into an iteractive shell 
+2. wpa> scan
+3. wpa> scan_results - this will print out all found networks
+4. wpa> add_network - this will output available networks as integers
+5. wpa> set_network <net_int> ssid "my_ssid"
+6. wpa> set_network <net_int> psk "password"
+7. wpa> enable_network <net_int>
+   
+** Save the configuration
+wpa> save_config
+
+** Connect to known ssid
+> wpa_passphrase <MYSSID> <passphrase>
+This will produce a wpa_supplicant configuration as output
+
+> wpa_supplicant -B -i <int> -c <(wpa_passphrase <MYSSID> <passphrase>)
+This needs to be run in a root shell, not as sudo
+
+* Lecture
+* Tutorial
+* Books
+* Link
+[[https://wiki.archlinux.org/index.php/WPA_supplicant#Connecting_with_wpa_cli][Arch Wiki]]
