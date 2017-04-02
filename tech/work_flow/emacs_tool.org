@@ -779,6 +779,10 @@ The above(3,4) can also be achieved with:
 vagrant ssh-config --host <host_name> >> $HOME/.ssh/config
 #+END_SRC
 
+*** all-the-icons
+Github: [[https://github.com/domtronn/all-the-icons.el][all-the-icons]]
+To add the fonts required places all the required .tff into ~/.local/share/fonts
+
 * Lecture
 ** Have Emacs Teach You Chinese or English or Math or whatever - thoughtbot Josh Moller-Mara
 URL: [[https://www.youtube.com/watch?v%253DuraPXeLfWcM][Emacs Teach you chinese or English...]]

@@ -1,0 +1,55 @@
+#+TAGS: sys sec enc
+
+
+* cryptsetup							:sys:sec:enc:
+* Description
+* Usage
+- list current key slots active
+#+BEGIN_SRC sh
+cryptsetup luksDump /dev/sdb1 | grep BLED
+#+END_SRC
+
+- add a key to a slot 
+#+BEGIN_SRC sh
+cryptsetup luksAddKey /dev/sdb1
+#+END_SRC
+- first you will be asked for one of the already set passwords
+- then we can add our new passphrase, and this will take the next available slot
+  
+- add key to specific slot
+#+BEGIN_SRC sh
+cryptsetup luksAddKey /dev/sdb1 -s 5
+#+END_SRC
+this will place the new passphrase into slot 5
+
+- delete an existing key
+#+BEGIN_SRC sh
+cryptsetup luksRemoveKey /dev/sdb1
+#+END_SRC
+this will ask you which passphrase is to be removed, just enter that passphrase
+
+- delete an existing slot
+#+BEGIN_SRC sh
+cryptsetup luksKillSlot /dev/sdb1 2
+#+END_SRC
+Enter any quailfied key and the passphrase will be removed in slot 2
+
+- reset forgotten LUKS key
+Only works if the LUKS partition is already unencrypted
+#+BEGIN_SRC sh
+fdisk -l 
+dmsetup table --showkeys
+echo "607f482870c795a9b1e307ffbfc6643eaa219e9ef8c6773de02cd298c8fcda3c" > existing_lukskey.txt
+xxd -r -p existing_lukskey.txt existing_lukskey.bin
+cryptsetup luksAddKey /dev/sdb1 --master-key-file <(cat existing_lukskey.bin)
+#+END_SRC
+- list all disks and find the dev that the passphrase belongs to
+- dmsetup table will dump all the keys associated with each dev
+- take the hash that is printed and place it in a file on its own
+- convert that file into a binary
+- using the master key reste the password
+
+* Lecture
+* Tutorial
+* Books
+* Links

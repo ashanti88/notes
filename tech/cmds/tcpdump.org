@@ -14,6 +14,20 @@ tcpdump -i wlp2s0
 tcpdump -c 10 -i wlp2s0
 #+END_SRC
 
+- Write output to a file
+#+BEGIN_SRC sh
+tcpdump -v -n -X -w packets.pcap
+#+END_SRC
+
+- specify host to filter by
+#+BEGIN_SRC sh
+tcpdump -v -n -X -w packets.pcap host 172.16.0.129
+#+END_SRC
+-v verbose
+-n don't convert addresses
+-X provides more data in the output
+-w write
+
 * Usage
 * Lecture
 * Tutorial

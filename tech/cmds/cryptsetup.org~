@@ -1,0 +1,34 @@
+#+TAGS: sys sec enc
+
+
+* cryptsetup							:sys:sec:enc:
+* Description
+* Usage
+- list current key slots active
+#+BEGIN_SRC sh
+cryptsetup luksDump /dev/sdb1 | grep BLED
+#+END_SRC
+
+- add a key to a slot 
+#+BEGIN_SRC sh
+cryptsetup luksAddKey /dev/sdb1
+#+END_SRC
+- first you will be asked for one of the already set passwords
+- then we can add our new passphrase, and this will take the next available slot
+  
+- add key to specific slot
+#+BEGIN_SRC sh
+cryptsetup luksAddKey /dev/sdb1 -s 5
+#+END_SRC
+this will place the new passphrase into slot 5
+
+- delete an existing key
+#+BEGIN_SRC sh
+cryptsetup luksRemoveKey /dev/sdb1
+#+END_SRC
+this will ask you which passphrase is to be removed, just enter that passphrase
+
+* Lecture
+* Tutorial
+* Books
+* Links

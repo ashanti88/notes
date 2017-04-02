@@ -1,11 +1,23 @@
 #+TAGS: sec_o
 
 
-* burp suite
+* Burp Suite
 HomePage: [[https://portswigger.net/burp/][portswigger.net/burp]]
 * Description
 * Usage
 * Lecture
 * Tutorial
+** [[https://www.youtube.com/watch?v%3DjVc64Gy0Z4Q][Web Auditing CTF w/ Burp Suite - HackHappy]]
+- Setting up firefox
+  - prefs -> advanced -> network -> settings
+  - add localhost/127.0.0.1 for http proxy and set port to 8080
+  - check the tickbox use this proxy
+
+- [[http://hashhunters.net][hash hunters]] - this site provides previously cracked hashes
+  - hashes have different values between case (Upper and Lower)
+    
+- php strcmp() == 0, this was gotten around by altering the variables to arrays in burp suite ans then forwarding
+  
+
 * Books
 * Links
