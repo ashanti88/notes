@@ -1,0 +1,43 @@
+#+TAGS:
+
+
+* OWASP Top Ten
+* Cmds
+* 2013 
+HomePage: [[https://www.owasp.org/index.php/Category:OWASP_Top_Ten_Project][OWASP Top Ten Project]]
+** Injection
+*** Overview
+- Threat Agent
+  - Anyone who can send untrusted data to the system
+    
+- Attack Vectors
+  - simple text based attacks that exploit syntax of the target 
+    
+- Targets
+  - SQL
+  - noSQL
+  - LDAP
+  - Xpath
+  - OS cmds
+  - XML Parsers
+  - SMTP Headers
+
+- Detection
+  - Fuzzers
+  - Scanners
+    
+*** OWASP Cheatsheet
+[[https://www.owasp.org/index.php/SQL_Injection_Prevention_Cheat_Sheet][SQL Injection Prevention Cheat Sheet]]
+
+** Broken Authentication and Session Mgmt
+** Cross Site Scripting (XSS)
+** Insecure Direct Object Reference
+** Security Misconfiguration
+** Missing Function Level Access Control
+** Cross Site Request Forgery (CSRF)
+** Using Components with Known Vulns
+** Unvailidated Redirects and Forwards
+* Lecture
+* Tutorial
+* Books
+* Links

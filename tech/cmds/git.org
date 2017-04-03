@@ -105,7 +105,6 @@ The above error was throw as ssh didn't know about the github ssh-key
 > ssh-add github-key
 > ssh-add -l - this will show the added key in the list
 
-
 * Lecture
 * Tutorial
 * Books

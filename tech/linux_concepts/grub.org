@@ -1,0 +1,16 @@
+#+TAGS:
+
+
+* Grub
+* Overview
+* Grub Shell
+** Cmds
+- setting the pager
+grub> set pager=1
+
+- view what partitions are available
+* Lecture
+* Tutorial
+* Books
+* Links
+[[https://www.linux.com/learn/how-rescue-non-booting-grub-2-linux][How to Rescue a Non-Booting GRUB 2 on Linux]]

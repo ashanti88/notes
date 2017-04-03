@@ -1,7 +1,7 @@
-#+TAGS: sec_o
+#+TAGS: sec_o web
 
 
-* Burp Suite
+* Burp Suite							  :sec_o:web:
 HomePage: [[https://portswigger.net/burp/][portswigger.net/burp]]
 * Description
 * Usage
@@ -18,6 +18,24 @@ HomePage: [[https://portswigger.net/burp/][portswigger.net/burp]]
     
 - php strcmp() == 0, this was gotten around by altering the variables to arrays in burp suite ans then forwarding
   
+** [[https://www.youtube.com/watch?v%3DL4un5IppoY4][Introduction to Installing, Configuring and Using Burp-Suite Proxy]]
+- The listner is configured in the options tab
+  - by deafult it is set to 127.0.0.1:8080 
+    - the port can be changed to 
+  - Intercept Client
+    - move url to top of the table
+    - add '^jpeg$' to the file extensions
+  - Server Responses
+    - move the URL match option to the top
+    - add a rule that mathches the above for file extensions
+      
+- Scope
+ - this can be set manually or automated
+   - auto - with right click on a url on the site map list
+   - maually can be added to the list in the scope tab
+     
+- Spider site
+  - right click on the the site list and the spider option is there
 
 * Books
 * Links

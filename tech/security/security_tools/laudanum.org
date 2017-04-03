@@ -1,0 +1,12 @@
+#+TAGS: sec_o web shell
+
+
+* Laudanum						    :sec_o:web:shell:
+Github: [[https://github.com/jbarcia/Web-Shells/tree/master/laudanum][Laudanum: Injectable Web Exploit]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links
+[[https://blog.secureideas.com/2013/01/introduction-to-laudanum.html][Introduction to Laudanum - SecureIdeas]]

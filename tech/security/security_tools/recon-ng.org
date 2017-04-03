@@ -2,6 +2,9 @@
 
 
 * recon-ng						   :sec_o:recon:enum:
+Bitbucket: [[https://bitbucket.org/LaNMaSteR53/recon-ng][recon-ng]]
+Wiki: [[https://bitbucket.org/LaNMaSteR53/recon-ng/wiki/Usage%2520Guide][Usage Guide]]
+
 * Description
 this is a web vulnerability framework similar in design to msf in its tool structure
 * Usage
@@ -27,17 +30,43 @@ view all modules
 set module
 > use recon/domains-vulnerabilities/xssposed
 
-view the info on a module
+view the info on currently loaded module
 > show info
-
 this will show all available options for selected module
 
-*Modules
+** Modules
 
 For more detailed information on a module look it up in the wiki.
 
 * Lecture
 * Tutorial
+** [[https://www.youtube.com/watch?v%3DoN7oKFxm30o][Introduction to Recon-ng Framework - ISSA KY Workshop]]
+/usr/share/recon-ng/data
+  - suffixes.txt
+  - av_domains.lst
+  - contains data to be used by recon-ng
+/usr/share/recon-ng/modules
+  - this houses the modules that can be pulled into recon-ng
+    
+- Usage
+Similar to msf in mechaincs of the framework
+
+> use recon/domains-hosts/google_site_web
+this will load the google_site_web.py module to be used
+
+> show info
+this will show information about the loaded module
+
+> workspaces list
+as with msf, recon-ng uses workspaces to partition projects
+
+- the workspaces use sqlite as the database
+  
+- set cmd allows for globals to be set
+  - PROXY
+  - USER-AGENT
+  etc
+
 * Books
 * Links
 

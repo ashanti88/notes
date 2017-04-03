@@ -1,0 +1,10 @@
+#+TAGS: sec_o pass
+
+
+* John the Ripper						 :sec_o:pass:
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -186,6 +186,14 @@ nnmap --scan-delay 5s -g 53 -iL 443.txt -Pn -n -sS --open -p443 --script=banner,
 #+BEGIN_SRC sh
 nmap --traceroute 10.0.0.0/24
 #+END_SRC
+** Produce HTML report
+- getting a html report from nmap report
+#+BEGIN_SRC sh
+nmap -O -sV -sC -oX nmap-scan.xml 192.168.56.101
+cp /usr/share/nmap/nmap.xsl .
+#+END_SRC
+We need the nmap.xsl as it is the stylesheet for the xml file
+
 * Lecture
 * Tutorial
 ** KY ISSA NMAP 

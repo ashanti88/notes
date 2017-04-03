@@ -1,0 +1,18 @@
+#+TAGS: sys usr
+
+
+* Quck Fixes							    :sys:usr:
+** ideapad 510 15isk keyboard error beep
+the bios didn't provide an option to disable the keyboard error beep
+- this can be switched off with:
+#+BEGIN_SRC sh
+xset b off
+xset b 0 0 0
+#+END_SRC
+- this has to be performed inside of X
+- also unless startup scprit is set, each boot
+
+* Lecture
+* Tutorial
+* Books
+* Links

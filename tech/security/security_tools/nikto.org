@@ -4,7 +4,74 @@
 * nikto
 Home Page: [[https://cirt.net/Nikto2][nikto]]
 * Description
+Examine a web server to find potential problesms and security vulns, including:
+  - Server and software misconfiguration
+  - Default files and programs
+  - Insecure files and programs
+  - Outdated servers and programs
+
+Based on LibWhisker2 and can run on any platform which has a Perl Env.
 * Usage
+** Basic
+#+BEGIN_SRC sh
+nikto -h 192.168.56.102 
+#+END_SRC
+
+- specify the port and protocol
+#+BEGIN_SRC sh
+nikto -h 192.168.56.102 -p 443
+#+END_SRC
+
+- specify the port and protocol
+#+BEGIN_SRC sh
+nikto -h https://192.168.56.102:443/
+#+END_SRC
+
+- multiple port testing 
+#+BEGIN_SRC sh
+nikto -h 192.168.56.102 -p 80,88,443
+#+END_SRC
+
+- multiple host testing
+#+BEGIN_SRC sh
+nikto -h hosts.txt
+#+END_SRC
+hosts.txt
+#+BEGIN_SRC sh
+192.168.0.1
+http://67.43.11.32:8000/
+#+END_SRC
+
+** Nmap and Nikto
+the host file can also be a nmap grappable file
+#+BEGIN_SRC sh
+nmap -p80 192.168.56.0/24 -oG - | nikto -h -
+#+END_SRC
+
+** Using a Proxy
+#+BEGIN_SRC sh
+nikto -h localhost -useproxy http://localhost:8080/
+#+END_SRC
+
+** Interactive options
+v - Turn verbose mode on/off
+d - Turn debug mode on/off
+e - Turn error reporting on/off
+p - Turn progress reporting on/off
+r - Turn redirect display on/off
+c - Turn cookie display on/off
+o - Turn OK display on/off
+a - Turn auth display on/off
+q - Quit
+N - Next host
+P - Pause
+SPACE - Report current scan status
+
+** Output
+- html
+#+BEGIN_SRC sh
+nikto -h 192.168.56.102 - output /home/crito/test.html -Format HTM
+#+END_SRC
 * Lecture
 * Tutorial
 * Books

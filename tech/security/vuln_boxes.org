@@ -1,7 +1,7 @@
 #+TAGS: sec ctf
 
 
-* Vuln Boxes
+* Vuln Boxes							    :sec:ctf:
 * Boxes
 ** Metasploitable
 ** Metasploitable 2
@@ -135,6 +135,18 @@ Simple vuln that only requires telnet
 > telnet 192.168.56.102 1524
 that is it, should now have a root shell
 
+*** [[https://www.youtube.com/watch?v%3D0fbBwGAuINw][How to Exploit Metasploitable 2 with NMap, Nexpose, Nessus and Metasploit]]
+- getting a html report from nmap report
+#+BEGIN_SRC sh
+nmap -O -sV -sC -oX nmap-scan.xml 192.168.56.101
+cp /usr/share/nmap/nmap.xsl .
+#+END_SRC
+We need the nmap.xsl as it is the stylesheet for the xml file
+
+- Vulnerability Scanners
+  - OpenVAS
+  - Nessus
+  - Nexpose
 ** Sokar 1
 VulnHub: [[https://www.vulnhub.com/?q%3Dsokar&sort%3Ddate-asc&type%3Dvm][Sokar 1]]
 *** HackHappy Walkthrough
@@ -227,10 +239,32 @@ will now be able to use su and become apophis
     
 - I think that the .git file should have been looked for and edited the config to point to our host machine
 
-** Mutillidae
-** [[https://www.youtube.com/watch?v%3DCYsiNYeAS6U][Introduction to OWASP Mutillidae II Web Pen Testing Environment - Jeremy Druin]]
+** Mutillidae II
+*** [[https://www.youtube.com/watch?v%3DCYsiNYeAS6U][Introduction to OWASP Mutillidae II Web Pen Testing Environment - Jeremy Druin]]
 - is contained in Metasploit2
   
 - Besides "hints" and "bubble hints" there is a file with 1,000+ lines of pre-tested hacks against various pages
   - <directory>/mutillidae/documentation/mutillidae-test-scripts.txt
+*** [[https://www.youtube.com/watch?v%3D2ngGLMgjRVU][Web Pen-Testing Workshop - Part 2 - SQL Injection]]
+*** [[https://www.youtube.com/watch?v%3Du3Wf_3SI_zE][Web Pen-Testing Workshop - Part 3 - Uploading Web Shells via SQL Injections]]
+- null is used as it casts its self as any data type
+- [[file://home/crito/org/tech/security/security_tools/laudanum.org][Laudanum]] is a tool that is useful for creating web shells
+
+*** [[https://www.youtube.com/watch?v%3D4aGIrbC1tCk][Web Pen-testing Workshop - Part 4 - Auth Bypass via SQLi & Cookie Tampering]]
+*** [[https://www.youtube.com/watch?v%3D0fODWaeupV0&t%3D5s][Web Pen-testing Workshop - Part 5 - Local/Remote File Inclusion]]
+    
+
+** SkyDog
+VulnHub: [[http://download.vulnhub.com/skydog][SkyDogCTF]]
+*** [[https://www.youtube.com/watch?v%3Dk1iFjyrsQqI][SkyDog CTF - RWBNetSec]]
+- viewing image data with exiftool
+- crack zip passwords with fcrackzip
+- if a file is set root:root 777 with os.system() this can be used for priv escal
+  - change contents of os.system('chmod u+s /bin/sh')
+
+** De-ICE S1.110
+VlunHub: [[https://www.vulnhub.com/?q%3Dde-ice&sort%3Ddate-asc&type%3Dvm][De-ICE]]
+*** [[https://www.youtube.com/watch?v%3DoLM6L1_LYV0][Walkthrough De-ICE - HackHappy]]
+- Inside the coredump was a copy of the shadow file
+
 * Links
