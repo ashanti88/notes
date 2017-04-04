@@ -253,7 +253,6 @@ will now be able to use su and become apophis
 *** [[https://www.youtube.com/watch?v%3D4aGIrbC1tCk][Web Pen-testing Workshop - Part 4 - Auth Bypass via SQLi & Cookie Tampering]]
 *** [[https://www.youtube.com/watch?v%3D0fODWaeupV0&t%3D5s][Web Pen-testing Workshop - Part 5 - Local/Remote File Inclusion]]
     
-
 ** SkyDog
 VulnHub: [[http://download.vulnhub.com/skydog][SkyDogCTF]]
 *** [[https://www.youtube.com/watch?v%3Dk1iFjyrsQqI][SkyDog CTF - RWBNetSec]]
@@ -266,5 +265,28 @@ VulnHub: [[http://download.vulnhub.com/skydog][SkyDogCTF]]
 VlunHub: [[https://www.vulnhub.com/?q%3Dde-ice&sort%3Ddate-asc&type%3Dvm][De-ICE]]
 *** [[https://www.youtube.com/watch?v%3DoLM6L1_LYV0][Walkthrough De-ICE - HackHappy]]
 - Inside the coredump was a copy of the shadow file
+
+** Pentester Lab: PHP include And Post Exploitation
+- file extension work around
+  - adding the ?page=/../etc/passwd%00
+    
+- mime checking 
+  - this can be fooled be creating a file that contains what the check expects
+  - mime check looks at the header
+#+BEGIN_SRC sh
+%PDF-1.3
+<?php system("id;whoami"); ?>
+#+END_SRC
+
+- now find where the file is being uploaded to
+  - dirbuster
+  - uploads
+opening this file will not do anything, we need it to run throught the php parser    
+
+- open the file from the search bar using the ?page=uploads/paper.pdf%00
+  - this is now executed throught the php parser
+    
+** Wallaby's Nightmare
+- php nuke rocket
 
 * Links

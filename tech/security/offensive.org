@@ -5,6 +5,8 @@
 * Description
 * Recon
 * Enumeration
+** using hex to move to the passwd file
+ - 2E2E2Fetc/passwd - /../etc/passwd
 * Exploitation
 ** Passwords
 *** Cmds
