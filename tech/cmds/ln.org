@@ -19,6 +19,12 @@ linux uses two types of links soft and hard.
 ** Links over different partitions
 
 Only symbolic links can be created across partitions
+** Link two directories with different names
+- make sure that the directory that is going to be the sym link isn't already created
+#+BEGIN_SRC sh
+ln -s /media/sf_Dropbox /home/crito/dropbox
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

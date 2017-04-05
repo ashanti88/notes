@@ -1,7 +1,7 @@
-#+TAGS:
+#+TAGS: sec_o web enum
 
 
-* nikto
+* nikto							     :sec_o:web_enum:
 Home Page: [[https://cirt.net/Nikto2][nikto]]
 * Description
 Examine a web server to find potential problesms and security vulns, including:
@@ -71,6 +71,11 @@ SPACE - Report current scan status
 - html
 #+BEGIN_SRC sh
 nikto -h 192.168.56.102 - output /home/crito/test.html -Format HTM
+#+END_SRC
+
+- As only one format can be output at a time use rediecte to get a plain text copy
+#+BEGIN_SRC sh
+nikto -h 192.168.56.102 - output /home/crito/test.html -Format HTM > test.txt
 #+END_SRC
 * Lecture
 * Tutorial

@@ -5,8 +5,6 @@
 * Description
 * Recon
 * Enumeration
-** using hex to move to the passwd file
- - 2E2E2Fetc/passwd - /../etc/passwd
 * Exploitation
 ** Passwords
 *** Cmds
@@ -17,14 +15,13 @@
 * Maintaining Access 
 * Covering Tracks
 * Attacks
-- Cold boot
-- Cross Site Request Forgery (CSRF)
-- Cross Site Tracing (XST)
-- Evil Maid
-- Local File Inclusion Vulnerability
 - Man in the Middle
 - Ruby attack
+- Cold boot
+- Evil Maid
 - Shellshock
+- Cross Site Request Forgery (CSRF)
+- Cross Site Tracing (XST)
 
 * Code
 ** Python
