@@ -1,14 +1,34 @@
-> rkhunter --check
+#+TAGS:
 
-check the system for rootkits
 
-> rkhunter --update
+* rkhunter
+* files
+/etc/rkhunter.conf
 
-check for a later version of data files
+- whitelist known script files
+SCRIPTWHITELIST="/usr/sbin/app\_to\_wlist"
 
-> rkhunter --versioncheck
+* Description
+* Usage
+- check the system for rootkits
+#+BEGIN_SRC sh
+rkhunter --check
+#+END_SRC
 
-checks the installed version against the current
+- check for a later version of data files
+#+BEGIN_SRC sh
+rkhunter --update
+#+END_SRC
+
+- checks the installed version against the current
+#+BEGIN_SRC sh
+rkhunter --versioncheck
+#+END_SRC
+
+- check configuration
+#+BEGIN_SRC sh
+rkhunter -C
+#+END_SRC
 
 > rkhunter --propupd
 
@@ -26,12 +46,11 @@ this will only output the warnings
 
 *Edit /etc/rkhunter.conf*
 
-whitelist known script files
-
-SCRIPTWHITELIST="/usr/sbin/app\_to\_wlist"
 
 *Check the Configuration*
 
-> rkhunter -C
-
-check configuration
+* Lecture
+* Tutorial
+* Books
+* Links
+[[https://www.digitalocean.com/community/tutorials/how-to-use-rkhunter-to-guard-against-rootkits-on-an-ubuntu-vps][How to use rkhunter to guard against rootkits on VPS]]

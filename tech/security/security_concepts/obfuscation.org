@@ -1,0 +1,18 @@
+#+TAGS: sec
+
+
+* Obfuscation								:sec:
+* Cmds
+* Web Page
+Site: [[http://www.pc-help.org/obscure.htm][How To Obsure Any URL]]
+- though we are used to the http://example.com format of entering urls into the address box this can also be accomplished using, binary or hex
+http://%67%6f%6f%67%6c%65.%63%6f%6d - this is http://google.com in hex
+  - this can be useful when trying to manipulate a sites file hierarchy
+  - ascii chart can be found in man ascii 
+
+* Image
+* Document
+* Lecture
+* Tutorial
+* Books
+* Links

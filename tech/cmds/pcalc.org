@@ -1,0 +1,15 @@
+#+TAGS: code
+
+
+* pcalc								       :code:
+Github: [[https://github.com/vapier/pcalc][github.com/pcalc]]
+* Description
+Programmers calculator
+ - it is able to use binary, base-10, hex, octal
+ - default output will show base-10, hex, binary in that order
+* Usage
+
+* Lecture
+* Tutorial
+* Books
+* Links

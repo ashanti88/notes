@@ -1,9 +1,43 @@
+#+TAGS: sys op admn
 
 
-
-
-* Description							  :sys:admin:
-
-
-
+* screen						       :sys:op:admin:
+* Description
 * Usage
+
+Ctrl-A is the meta key
+
+- list existing sessions
+#+BEGIN_SRC sh
+screen list
+#+END_SRC
+
+- detatch session
+#+BEGIN_SRC sh
+Ctrl-A d
+#+END_SRC
+
+- attach session
+#+BEGIN_SRC sh
+Ctrl-A r 1198
+#+END_SRC
+where 1198 is the session id
+
+- list sessions
+#+BEGIN_SRC sh
+screen ls
+#+END_SRC
+
+- Activate logging
+#+BEGIN_SRC sh
+screen -L
+#+END_SRC
+
+- view key bindings
+#+BEGIN_SRC sh
+Ctrl-A ?
+#+END_SRC
+* Lecture
+* Tutorial
+* Books
+* Links

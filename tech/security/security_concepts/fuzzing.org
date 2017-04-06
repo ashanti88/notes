@@ -1,0 +1,72 @@
+#+TAGS: sec_o enum
+
+
+* Fuzzing							 :sec_o:enum:
+* Cmds
+- burp
+- peach
+
+* Overview
+* Lecture
+** [[https://www.youtube.com/watch?v%3D3y8JuixcSdU][Offensive Sevurity 2013 - FSU - Fuzzing]]
+
+- Exploitation Theory
+  - Von Neumann Arch
+    - unable to distinguish between data and instructions
+    - instruction and data stores in same memory
+      - this allows for the modification of code
+  - Harvard Mode
+    - this seperates out data and instruction into there own memory
+      - this is implemented inside processors for specfic tasks, but not on whole systems
+  - Other Architectures
+    - Tagged Arch
+    - Capablility Arch
+    - Trusted Computing Base
+
+- Exploits can be generalized into a three step process
+1. Some sort of memory corruption
+2. Change / hijack of control flow
+3. Execution of the shellcode
+   
+- What is fuzzing?
+  - The process of sending specific data to an application in hope to elicit certain responses
+  - Specific?
+    - Mutated data, generational data, edge cases, unanticipated datatypes, etc.
+  - Certain?
+    - crashes, errors, anomalous behaviour, different application states
+      
+- Fuzzing Phases
+  1. Identify Target (application)
+  2. Identify inputs
+  3. Generate Fuzzed Data
+     - Two methods for fuzzing data
+      i) Generation
+      ii) Mutation
+  4. Execute Fuzzed Data
+  5. Monitor for Exceptions
+  6. Determine Exploitability
+     
+- Methods for generating fuzzed data
+  - Generation fuzzing
+  - Mutation fuzzing
+    
+- Generating fuzzed data
+  - String repetitions
+    - A*10, A*100, A*1000
+  - Character translations
+  - Directory Traversal
+  - delimiters
+  - Metacharacter / Command injection
+    - sql -- comment
+  - File types
+  - Bit Flipping for protocol headers
+
+Vulnerablility Scoring
+http://www.first.org/cvss
+
+HAOE book cd has a vanilla system that has a lot of the counter measures switched off 
+
+* Tutorial
+* Books
+* Links
+[[https://www.owasp.org/index.php/Fuzzing][OWASP - Fuzzing]]

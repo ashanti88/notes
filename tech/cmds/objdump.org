@@ -1,0 +1,20 @@
+#+TAGS: code
+
+
+* objdump							       :code:
+* Description
+* Usage
+- view the main function
+#+BEGIN_SRC sh
+objdump -D ./a.out | grep -A 20 main.:
+#+END_SRC
+
+- show using intel syntax
+#+BEGIN_SRC sh
+ojbdump -M intel -D ./a.out | grep -A 20 main.:
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

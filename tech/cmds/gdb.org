@@ -3,6 +3,14 @@
 
 * gdb						       :code:debug:c:cpp:asm:
 * Cmds
+** asm language selection
+- selecting intel for gdb for session
+(gdb) set dis intel
+- set intel permanently
+#+BEGIN_SRC sh
+echo "set dis intel" > ~/.gdbinit
+#+END_SRC
+
 * Overview
 * Lecture
 * Tutorial

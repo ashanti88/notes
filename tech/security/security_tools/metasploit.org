@@ -20,6 +20,12 @@ snmp_login - will use a word list, attempting to login to the device
 - Cobalt Strike
 * Description
 * Usage
+** Setting up the db
+- makesure that postgres is running then:
+#+BEGIN_SRC sh
+msfdb init
+#+END_SRC
+
 ** Vulnerability Scanners
 *** NeXpose
 - import scan
