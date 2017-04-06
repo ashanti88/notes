@@ -82,6 +82,27 @@ systemctl start systemd-swap.service
 systemctl enable systemd-swap.service
 #+END_SRC
 
+** Crating a swap file on an encrypted hdd
+- instead of creating a new partition a file can be created /swapfile
+#+BEGIN_SRC sh
+fallocate -l 4G /swapfile
+chmod 600 /swapfile
+mkswap /swapfile
+swapon /swapfile
+#+END_SRC
+- edit the fstab file
+#+BEGIN_SRC sh
+/swafile none swap defaults 0 0
+#+END_SRC
+** Testing for swap
+- the cmds below show if swap is on
+#+BEGIN_SRC sh
+cat /proc/swaps
+cat /proc/meminfo
+swapon -s
+vmstat
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

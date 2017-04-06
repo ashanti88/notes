@@ -65,6 +65,10 @@ wget -r -A.pdf http://url-to-webpage-with-pdfs/
 -r - turn on recursive retrieving
 -A - file type
 
+** pull all the gz files from a site
+#+BEGIN_SRC sh
+wget -A gz -m -p -E -k -K -np http://distro.ibiblio.org/openwall/wordlists/
+#+END_SRC
 ** FTP download with wget*
 #+BEGIN_SRC sh
 wget $FTP_URL

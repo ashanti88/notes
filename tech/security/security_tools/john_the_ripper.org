@@ -57,7 +57,7 @@ john --rule=single --wordlist=password.txt --stdout | wc
 #+END_SRC
 
   - Wordlist
-    - JTR uses teh wordlist supplied by the user to generate thashes to compare against target hashes
+    - JTR uses the wordlist supplied by the user to generate thashes to compare against target hashes
     - Unlike single crack mode, the hash guess generated from the dictionary word is tried against all target hashes
       - This meas JTR will need to generate multiple hashes per dictionary word if the target hashes contain different salts
     - The contents and order of the words in the wordlist is critical

@@ -80,8 +80,19 @@ http://atlas.r470y.com/ - atlas blog
   - GDB
   - Ktrace/KDump
     
+** [[https://www.youtube.com/watch?v%3D0fbBwGAuINw][How to Exploit Metasploitable 2 with NMap, Nexpose, Nessus and Metasploit]]
 
+- getting a html report from nmap report
+#+BEGIN_SRC sh
+nmap -O -sV -sC -oX nmap-scan.xml 192.168.56.101
+cp /usr/share/nmap/nmap.xsl .
+#+END_SRC
+We need the nmap.xsl as it is the stylesheet for the xml file
 
+- Vulnerability Scanners
+  - OpenVAS
+  - Nessus
+  - Nexpose
 * Tutorial
 ** PluralSight - System Hacking - Dale Meredith
 
@@ -243,24 +254,12 @@ PDC needs to be synced otherwise kerberose doesn't work
 
 **** Cover Tracks
 
-** [[https://www.youtube.com/watch?v%3D0fbBwGAuINw][How to Exploit Metasploitable 2 with NMap, Nexpose, Nessus and Metasploit]]
-- getting a html report from nmap report
-#+BEGIN_SRC sh
-nmap -O -sV -sC -oX nmap-scan.xml 192.168.56.101
-cp /usr/share/nmap/nmap.xsl .
-#+END_SRC
-We need the nmap.xsl as it is the stylesheet for the xml file
-
-- Vulnerability Scanners
-  - OpenVAS
-  - Nessus
-  - Nexpose
 ** ISSA Web Pen-testing Workshop
 *** [[https://www.youtube.com/watch?v%3DJPd2YtgJm8Q][Intro to Mutillidae, Burp Suite & Injection]]
 
 ** Offensive Security 2013 - FSU 
 *** [[https://www.youtube.com/watch?v%3D4yNgP3CUOWo][Lecture 2: Linux Overview]]
-** [[https://www.youtube.com/watch?v%3D3y8JuixcSdU][Lecture 7: Fuzzing]]
+*** [[https://www.youtube.com/watch?v%3D3y8JuixcSdU][Lecture 7: Fuzzing]]
 
 - Exploitation Theory
   - Von Neumann Arch
@@ -333,6 +332,7 @@ Owen Redwood
     
 http://websec.github.io/unicode-security-guide/character-transformations/
 
+*** [[https://www.youtube.com/watch?v%3DyXX6DWFTLaQ][Lecture 3: Secure Coding in C cont]]
 
 
 * Books

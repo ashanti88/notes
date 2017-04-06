@@ -1,0 +1,14 @@
+#+TAGS: sys file
+
+
+* fallocate							   :sys:file:
+* Description
+* Usage
+- creating a swap file
+#+BEGIN_SRC sh
+fallocate 
+#+END_SRC
+* Lecture
+* Tutorial
+* Books
+* Links
