@@ -1,35 +1,37 @@
+#+TAGS: comp bakup
 
 
+* tar
 * Description							 :comp:bakup:
-
-Tar is more efficient for copying large amounts of data apose to using
-cp.
+Tar is used to backup and archive files. It also has the ability to harness compression tools to compress its archives
 
 * Usage
 
-> tar <options> <archive\_name> <file\_name/s>
+> tar options archive_name file_names
 
-Creating an Archive of files
+- Creating an Archive of files
+#+BEGIN_SRC sh
+tar -cf file.tar file1 file2 file3
+#+END_SRC
 
-> tar -cf file.tar file1 file2 file3
+- Creating an Archive of directories
+#+BEGIN_SRC sh
+tar -cf dir.tar dir1 dir2
+#+END_SRC
 
-Creating an Archive of directories
+- Compression of the tar file
+#+BEGIN_SRC sh
+tar -cvjf file.tar.bz2 file1 file2 file3 file4
+#+END_SRC
+-v is for verbose
+-j is for bzip2
 
-> tar -cf dir.tar dir1 dir2
+#+BEGIN_SRC sh
+tar -cvzf file.tar.gzip file1 file2 file3
+#+END_SRC
+-z is for gzip
 
-Compression of the tar file
-
-> tar -cvjf file.tar.bz2 file1 file2 file3 file4
-
--  v is for verbose
-
--  j is for bzip2
-
->tar -cvzf file.tar.gzip file1 file2 file3
-
-- z is for gzip
-
-Adding files to an archive
+- Adding files to an archive
 
 This adds additional files to an archive
 
@@ -39,16 +41,22 @@ Removing files from an archive
 
 > tar -f file.tar --delete file1 file2
 
-List the archive
+- List the archive
 
 > tar -tf file.tar
 
-Extracting files from an Archive
-
+- Extracting files from an Archive
 bzip2
-
-> tar xvjf file.tar
+#+BEGIN_SRC sh
+tar xvjf file.tar
+#+END_SRC
 
 gzip
+#+BEGIN_SRC sh
+tar xvzf file.tar
+#+END_SRC
 
-> tar xvzf file.tar
+* Lecture
+* Tutorial
+* Books
+* Links

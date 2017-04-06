@@ -59,3 +59,7 @@ Emergency for Electric
 
 ticket number
 40606297
+* pen
+LD_PRELOAD
+rpc port 111 rpcinfo -e ?? -> run to detect what service is running on the rpc port
+

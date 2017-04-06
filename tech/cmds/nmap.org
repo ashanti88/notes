@@ -195,6 +195,53 @@ cp /usr/share/nmap/nmap.xsl .
 We need the nmap.xsl as it is the stylesheet for the xml file
 
 * Lecture
+** [[https://www.youtube.com/watch?v%3DM-Uq7YSfZ4I][Mastering the Nmap Scripting Engine - Fyodor & David Fifield]]
+   
+- nmap -A -T4 scanme.nmap.org
+  - A - Advanced options
+    - os detection
+    - version detection
+    - nse 
+      
+- using the ssh-hostkey script you will be given a key for the ssh server, this is handy if the machine is running dhcp and cahnges ip
+  
+- Large Scale Scan - SMB/MSRPC Scripts
+  13 script suite
+    - Informational
+       smb-os-discovery
+       smb-server-stats
+       smb-system-info
+       smb-security-mode
+    - Detailed Enumeration
+       smb-enum-users
+       smb-enum-domains
+       smb-enum-groups
+       smb-enum-processes
+       smb-enum-sessions
+       smb-enum-shares
+    - More intrusive
+       smb-brute
+       smb-check-vulns     
+       smb-psexec
+  
++ Writing NSE Scripts
+  - lua
+  - protocl/helper libs
+    - 45, including DNS, HTTP, MSRPC, SNMP etc
+  - protocol brute forcers
+    
++ Speed up scan
+  -n     - turn off name resolver
+  -Pn    - turn of ping scan
+  -p X   - choose specific ports
+  -open  - only tell me about ports that are open
+  - 66.171.10.- same as 66.171.10.0/24
+
++ unpwdb
+  - real measured results
+
+- http-brute - this script can will use unpwdb to brute for user/password challenge
+
 * Tutorial
 ** KY ISSA NMAP 
 *** [[https://www.youtube.com/watch?v%3D22Ad04Aw-Bo][Part 1: TCP IP And Basics of Nmap]]

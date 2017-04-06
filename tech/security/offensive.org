@@ -14,6 +14,132 @@
 - [[file://home/crito/org/tech/security/security_tools/john_the_ripper.org][John the Ripper]]
 *** Links
 [[http://www.adeptus-mechanicus.com/codex/jtrhcmkv/jtrhcmkv.php][John the Ripper and Hashcat - Markov Mode Comparison]]
+** Priv Escalation
+*** [[https://www.youtube.com/watch?v%3Ddk2wsyFiosg&t%3D37s][Linux Privilege Escalation - Jake Williams]]
+
+- Only root users can:
+  - Effectively hide
+  - Bind ports below 1024
+  - Read/Write any file
+  - Persist easily between reboots
+    
++ Binary exploits (shellcode) should be a last resort
+  - Some priv escalation is a waiting game
+    - writing a file to a cron.d directory
+    - Must wait for crond to restart
+    
+- Kernel issues
+  - uname -a
+  - /etc/release
+  - /etc/issue
+  
+- LMGFY to find known issues with these kernels and releases
+  
++ Just because you find a kernel exploit doesn't mean you should use it
+  - it might not be stable; immediate crash
+  - You might get root and then crash the box
+  - The exploit might have undesirable artifacts that get you caught
+
++ Simpler exploits are always better
+  
++ Exploiting a vuln program running as root gives you root
+  - Look for web servers, mail servers as a command injection here gives you root privs
+
++ Binary exploits of a root owned program are far less dangerous than a kernel exploit
+  - Even if service crashes, the machine doesn't
+  - Services probably will auto-restart
+
++ Trivially vuln setuid programs
+  - run the ltrace cmd against any setuid and setgid programs found
+  - A rediculous number of these are homegrown and use the 'system' syscall
+  - If they don't specify the path, you win
+    
+  - Look for setuid programs with:
+   - find directory -user root -perm -4000 -exec ls -ld {} \; > /tmp/gaping-security-hole
+
++ Cron jobs
+- Can you read cron files owned by other users?
+- Even if not some careful scripting with ps can help you find frequently run jobs
+- Are any scripts or binaries in cron jobs subject to tampering?
+- What about cron files themselves?
+- Can you write to a cron.d directory?
+
++ Weak Permissions on Scripts
+  - If a script with user writeable permissions is invoked as root, it may be modified to run arbitrary commands
+  - Always check both world writeable and user writeable permissions before admitting defeat
+
+  - Don't jush check the scripts called by priv users, many of these call other scripts internally
+    - And many of those have weak permissions 
+      
++ Weak permissions on binaries
+  - user writeable permissions on binaries are less common than on scripts
+  - unlikely to find world writeable binaries
+    - but grop writeable bins are not unheard of, esp in custom software
+      
++ Weak permissions on LD_PRELOAD
+  - The LD_PRELOAD environ variable is a way to load a specific version of a shared lib for a given application
+    - LD_PRELOAD is ignored for setuid programs
+      
+  - However a program may be invoked as root and be vuln
+    
++ That shouldn't be setuid/setgid
+  - An amazing number of sysads don't understand what should and shouldn't be setuid
+  - Any command in sudo that can edit or overwrite files is an ob risk
+  - Users with restricted sudo access can use it to obtain unrestricted root perms
+  - In performing incident response, we've also seen obscure editors with the setuid bit set  
+  - This is presumably a backdoor for the attacker to regain root perms at will
+  - We sincerely hope no sysadmins are stupid enough to have setuid perms on editors
+  - using the :shell in vi provides a root shell  
+
++ Don't sudo less
+  - The less tool often used to page files can invoke an editor
+  - On some buntu sys the default nano
+  - Many sys still use vi as an editor
+  - less can use ed to drop into default editor, and if vi you can spwan a root shell
+  
+  - more cmd is just as bad as less
+    - ? key to see options    
+    - ! will invoke shell cmds on most sys
+      - !bash
+      
++ Don't sudo cp and mv
+  - We can't think of a good reason for either
+  - With sudo cp of sudo mv, you can overwrite /etc/shadow or other critical files and obtain bd access
+    
++ Don't sudo find
+  - The find cmd is often set with sudo perm so helpdesk can find and clean large temp files
+  - Besides obs screw up ops, this is a big sec hole
+  - find . -exec bash -i \;
+    
++ Don't sudo script interpreters
+  - All unsafe:
+    - Python
+    - Perl
+    - Ruby
+    - Lua
+    - others...
+
+- Perl
+#+BEGIN_SRC pl
+sudo perl
+exec "/bin/bash";
+#+END_SRC
+
+- Ruby
+#+BEGIN_SRC rb
+sudo ruby
+exec "/bin/bash"
+#+END_SRC
+
+- Python
+#+BEGIN_SRC py
+sudo python
+import os
+os.system('/bin/bash/')
+#+END_SRC
+
+
+
 * Maintaining Access 
 * Covering Tracks
 * Attacks
@@ -333,7 +459,6 @@ Owen Redwood
 http://websec.github.io/unicode-security-guide/character-transformations/
 
 *** [[https://www.youtube.com/watch?v%3DyXX6DWFTLaQ][Lecture 3: Secure Coding in C cont]]
-
 
 * Books
 * Links

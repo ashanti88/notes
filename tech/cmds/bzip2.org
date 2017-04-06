@@ -1,7 +1,7 @@
-#+TAGS: file comp
+#+TAGS: file comp bz
 
 
-* bzip2								  :file:comp:
+* bzip2							       :file:comp:bz:
 HomePage: [[http://www.bzip.org/][bzip.org]]
 * Description
 bzip2 provides a better compression rate than gzip, the price for this

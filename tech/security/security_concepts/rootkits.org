@@ -2,7 +2,6 @@
 
 
 * Rootkits							   :sec:kern:
-* Cmds
 * Known Rootkits
 **   55808 Trojan - Variant A                         
 **   ADM Worm                                         
