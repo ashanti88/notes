@@ -1,0 +1,26 @@
+#+TAGS:
+
+
+* Remote Access Trojan
+* Cmds
+* RATs
+** sakula
+Sakula initiates simple HTTP requests when communicating with its command and control (C&C) server. The RAT uses a tool called “mimkatz” to perform “pass the hash” authentication, which sends the hash to the remote server instead of the associated plaintext password.
+** KjW0rm
+associated with the recent breach of TV stations in France. KjW0rm was written in VBS, which makes it even harder to detect. The Trojan creates a backdoor that allows the attacker to take control of the machine, extract information, and send it back to the C&C server.
+** Havex
+Targets industrial control systems (ICS). It is very sophisticated and provides the attacker with full control over the infected machine. Havex uses different variants (mutations) and is very stealthy. The communication with its C&C server is established over HTTP and HTTPS. Its footprint inside the victim machine is minimal.
+** ComRat/Agent.BTZ
+Believed to be developed by the Russian government to target ICS networks in Europe, Agent.BTZ (also known as Uroburos) propagates via phishing attacks. It uses advanced encryption to protect itself from analysis, provides full administration capabilities over the infected machine, and sends extracted sensitive information back to its C&C server. Agent.BTZ uses advanced anti-analysis and forensic techniques.
+** Dark Comet
+It was first identified in 2011 and still infects thousands of computers without being detected. Dark Comet uses Crypters to hide it existence from antivirus tools. It performs several malicious administrative tasks such as: disabling Task Manager, Windows Firewall, and Windows UAC.
+** AlienSpy
+AlienSpy collects system information, activates webcams, establishes secure connections with the C&C server, and provides full control over the victim machine. The RAT also uses anti-analysis techniques such as detecting the presence of virtual machines.
+** Heseber BOT
+It deploys Virtual Networking Computing  (VNC) as part of its operation. Since VNC is a legitimate remote administration tool, this prevents Heseber from being detected by any antivirus software. Hesber uses VNC to transfer files and provide control over the infected machine.
+
+* Overview
+* Lecture
+* Tutorial
+* Books
+* Links

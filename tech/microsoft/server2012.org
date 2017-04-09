@@ -1,7 +1,7 @@
-#+TAGS: ms
+#+TAGS: ms 2012
 
 
-* MS Server 2012							 :ms:
+* MS Server 2012						    :ms:2012:
 * Description
 * Usage
 * Lecture
@@ -42,5 +42,79 @@
   - Admin on both machines
   - Migrate roles, features, system settings, shares, data...
   
+** 
+*** [[https://www.youtube.com/watch?v%3Dt9ng8mOysTc][Installing and Configuring Windows Server 2012]]
+notes lost
+*** [[https://www.youtube.com/watch?v%3Dr3683aneTp4][Introduction to Windows PowerShell]]
+- Operating system built around PowerShell
+- New version of Cmd prompt
+- Combines both GUI and scripting
+  
+- Getting to PowerShell
+  - on taskbar by default
+  - on the tools drop down in Server Manager
+  - start screen --> PowerShell is one of the tiles
+   
+ cmd        PwSh                                                 
+ net start  get-services | where-object {$_.status -eq "Running"} 
+  
+- PowerShell can be run in 2 ways
+  - Windows PowerShell
+  - Windows PowerShell ISE (Intergrated Scripting Environment) 
+    - the ise provided tab completion and a list of all powershell cmds to the right
+
+- Simple cmds
+- return all commands that are used with service
+#+BEGIN_SRC sh
+Get-Command -Noun service
+#+END_SRC
+this will print a list out with the service keyword
+
+- show all running processors
+#+BEGIN_SRC sh
+Get-Process
+#+END_SRC
+
+- show help for keyword specified
+#+BEGIN_SRC sh
+Get-Help process
+#+END_SRC
+
+- get possible features that a specified computer has
+#+BEGIN_SRC sh
+Get-WindowsFeature -ComputerName UK-DB-01
+#+END_SRC
+This will return all features and roles with checkboxes to indicate if the feature has been initiated    
+
+*** [[https://www.youtube.com/watch?v%3DIFkwRgmEjbU][Installing and Configuring Active Directory Domain Services]]
+
+- Installing Active Directory
+  - Server Manager --> Add Roles --> Features Wizard --> Before you begin (Next) --> Role-based or feature-based Installation --> Select a server from the server pool --> tick the box of the feature you want installed --> prompted with dependencies --> Overview of feature --> Confirm Installation --> Installation Progress --> thiw window can then be closed --> once installed configuration needs to be set
+
+Logical Components of AD domain Services
+- Forest - a collection of one or more AD domains that share a common logical structure, directory schema, directory configuration and global catalog
+- Tree - a collection of domains that share a common DNS namespace
+Parent - Technet.vn
+  - Child - video.Technet.vn
+
+- Domin - the core administrative unit of AD DS
+- Organizational Unit (OU) - containers n AD DS which provide a framework for administratior and group policy links
+- Site - A collection of AD objects defined by their physical location
+- Schema - Defines all attributes for all objects in AD
+- Partition - Logical secion of the actual AD DS db
+
+Physical Components of AD DS
+Domain Controllers - Contain copies of the AD DS DB
+Data Store - The file on each domain cntroller that stores the AD DS information
+Global Catalog Servers - Domain Controllers which host the global catalog, which is partial read-only copy of all the objects in the forest 
+Read-Only Domain Controllers (RODC) - Contain a special read-only copy of the AD DS DB
+
+Configure AD
+- default is now set to "Add a domain controller to an existing domain"
+- first DC -> Add a new forest -> buttermilk.local -> select funtional level of the new forest and root domain - set to the oldest DC -> makesure to set to lowest level of DC in domain functional level -> Set DNS (recommended) -> have to have at least one GC -> password -> confirm the netbios name (BUTTERMILK) -> specifiy where DB; Log files; SYSVOL should be stored -> review the configuration -> check warnings and install if all ok -> it will now install then restart -> when reconnecting do so using bluelevers\administrator not domain controller
+  
+- 2 DCs are recommend minimum for all environments
+- makesure that the DC has the DNS ip set 
+
 * Books
 * Links

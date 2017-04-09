@@ -1,0 +1,39 @@
+#+TAGS: sec
+
+
+* Botnets								:sec:
+* Cmds
+* Overview
+* Botnets
+** Storm 2008
+** Waledac 2009
+** Conficker 2009
+** Kelihos.A 2010 (hlux)
+** Miner 2011
+** Kelihos.B 2012
+** ZeroAccess 2012
+** split into 6/7 botnets
+** P2P Zeus (Gameover) 2012
+** Kalihos.C 2013
+
+* Lecture
+** [[https://www.youtube.com/watch?v%3DsJiknNjeIE8][Prowling Peer-to-Peer Botnets After Dark]]
+- Peer-to-Peer networks
+  - decentralized
+  - dynamic and self-organizing
+  - different types of protocols
+    - Gossiping
+    - Overlay network
+    - edonkey
+  -Bootstrapping
+    - initial attempt ot find other peers
+
+- Peer-to-peer botnets
+  - infected machines form a peer-to-peer network
+  - resiliency against takedown attempts
+    
+prowler - crawling software
+    
+* Tutorial
+* Books
+* Links

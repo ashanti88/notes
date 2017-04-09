@@ -660,6 +660,5 @@ Gerenal Bug Categories
 4. External Resource Interactions
 -- refer to the seven kingdoms
 
-
 * Books
 * Links
