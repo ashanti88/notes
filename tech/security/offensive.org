@@ -148,6 +148,7 @@ os.system('/bin/bash/')
 ** DLL injection
 ** Evil Maid
 ** Heartbleed
+** HTTP Response Splitting
 ** Local File Inclusion Vulnerability
 ** Man in the Middle
 ** Pixie Dust Attack
@@ -173,7 +174,6 @@ os.system('/bin/bash/')
 #+BEGIN_SRC sh
 reaver -c 1 -i wlan0mon -b E0:91:F5:6F:3F:C6 -vv
 #+END_SRC
-
 
 ** Ruby attack
 ** Shellshock
@@ -659,7 +659,6 @@ Gerenal Bug Categories
 3. State Mechanics
 4. External Resource Interactions
 -- refer to the seven kingdoms
-
 
 
 * Books

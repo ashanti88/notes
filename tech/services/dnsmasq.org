@@ -119,7 +119,7 @@ systemctl enable dnsmasq.service
 nameserver 127.0.0.1
 #+END_SRC
 
-*** /etec/dnsmasq.conf
+*** /etc/dnsmasq.conf
 #+BEGIN_SRC sh
 #
 # Configuration file for dnsmasq acting as a caching nameserver.
@@ -164,6 +164,13 @@ cache-size=1000
 neg-ttl=3600
 resolv-file=/etc/resolv.dnsmasq
 no-poll
+#+END_SRC
+
+*** debian
+the pid is spawned in /run/dnsmasq.pid
+conf needs to be altered 
+#+BEGIN_SRC sh
+pid-file=/var/run/dnsmasq/dnsmasq.pid
 #+END_SRC
 
 * Usage
