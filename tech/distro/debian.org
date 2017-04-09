@@ -36,9 +36,8 @@ nameserver x.x.x.x
 - any number of dns servers can be added 
 Concepts:
 *** Configuration Tools
-**** [[file://home/crito/org/tech/cmds/wpa_cli.org][wpa_cli]]
-**** [[file://home/crito/org/tech/cmds/netctl.org][netctl]]
-
+- [[file://home/crito/org/tech/cmds/wpa_cli.org][wpa_cli]]
+- [[file://home/crito/org/tech/cmds/netctl.org][netctl]]
 *** Creating a bridge
 **** iproute2
 Create <ip link add name <bridge\_name> type bridge <ip link set
@@ -85,6 +84,16 @@ You now have an application called katoolin
 
 This will provide numerical options to choose from
 To exit ctrl c
+
+*** Adding wifi interface
+1. Close virtualbox
+2. Execute in bash (for Debians): sudo adduser $USER vboxusers. If you don't have a Debian-like distro, read here.
+3. Log out and log in again
+4. Attach to your PC the USB devices you want to be automatically mounted in the VM (virtual machine).
+5. Open Virtualbox
+6. Select your VM and go to "Machine" -> "Settings" -> "USB".
+7. Check "Enable USB Controller"; click on the icon with the USB plug and the plus, and click on the devices you want to be automatically mounted in the VM. Click "Ok".
+8. Click on "Start" toolbar button, and ensure your USB devices are recognized and mounted by the VM. Remember that you have to unmount them in the host OS too if you have to disconnect them after you exit the VM.
 
 * Lectures
 ** Anatomy of a Debian Package - Google Tech Talk

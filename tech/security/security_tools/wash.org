@@ -1,0 +1,17 @@
+#+TAGS: sec wifi
+
+
+* wash
+* Description
+Tool for finding WPS enabled AP's, and also can be used for grabbing bssid/essid
+* Usage
+- basic usage
+#+BEGIN_SRC sh
+wash -i wlan0mon
+#+END_SRC
+This will create something that looks like:
+file:/home/crito/Pictures/org/Wash-WPS-locks.jpg -- need a larger pic
+* Lecture
+* Tutorial
+* Books
+* Links

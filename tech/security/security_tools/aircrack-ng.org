@@ -1,11 +1,10 @@
 #+TAGS: sec_o
 
 
-* aircrack
+* Aircrack-ngihi-
 Home Page: [[https://www.aircrack-ng.org/][aircrack-ng.org]]
 * Description
 * Usage
-
 ** Airmon-ng
 > airmon-ng stop <interface> <channel>
 
@@ -20,8 +19,16 @@ should bring up a mon interface
 <interface>
 
 ** Aircrack-ng
-> aircrack-ng -w <password.lst> -b <bssid> psk*.cap
+- with wordlist
+#+BEGIN_SRC sh
+aircrack-ng -w password.lst -b E2:02:3C:A1:20:01 psk.cap
+#+END_SRC
 
+- using john the ripper 
+#+BEGIN_SRC sh
+john --stdout --incremental:all | aircrack-ng -b E2:02:3C:A1:20:01 psk.cap
+#+END_SRC
 John the ripper can be used to feed a list into aircrack.
+
 * Links
 

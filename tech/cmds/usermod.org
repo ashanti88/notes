@@ -4,7 +4,6 @@
 * usermod							     :sys:op:
 * Description
 * Usage
-
 ** Adding a user to the sudoers group
 
 > usermod -aG sudo <username>

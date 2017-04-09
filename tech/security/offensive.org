@@ -4,6 +4,7 @@
 * Offensive							      :sec_o:
 * Description
 * Recon
+
 * Enumeration
 ** using hex to move to the passwd file
  - 2E2E2Fetc/passwd - /../etc/passwd
@@ -138,21 +139,45 @@ import os
 os.system('/bin/bash/')
 #+END_SRC
 
-
-
 * Maintaining Access 
 * Covering Tracks
 * Attacks
-- Cold boot
-- Cross Site Request Forgery (CSRF)
-- Cross Site Tracing (XST)
-- DLL injection
-- Evil Maid
-- Heartbleed
-- Local File Inclusion Vulnerability
-- Man in the Middle
-- Ruby attack
-- Shellshock
+** Cold boot
+** Cross Site Request Forgery (CSRF)
+** Cross Site Tracing (XST)
+** DLL injection
+** Evil Maid
+** Heartbleed
+** Local File Inclusion Vulnerability
+** Man in the Middle
+** Pixie Dust Attack
+- Wifi Protected Setup (WPS)
+- Uses a PIN to allow access to home network
+
+- 8 digits - 7 | 1 - checksum
+  - 7 -> 4 + 3
+    
+- Problem is how the protocol generates the E S1 and E S2 values, pseudo random numbers
+- Some vendors also implement the protocol poorly
+- Broadlink uses the C rand() function
+- Ralink never generates an E S1 or E S2 value and they remain 0
+
+- if the random number state is recovered then E S1 and E S2 can be calculated
+- PSK1 and PSK2 can be calculated from the E-hash1 and E-Hash2 values
+*** aircrack
+1. airmon
+2. wash -i wlan0mon
+3. Copy the ESSID
+4. reaver -c 1 -i wlan0mon -b <essid> -vv -K 1
+- if this fails you can always bruteforce the wps
+#+BEGIN_SRC sh
+reaver -c 1 -i wlan0mon -b E0:91:F5:6F:3F:C6 -vv
+#+END_SRC
+
+
+** Ruby attack
+** Shellshock
+** SMB Relay Attack
 
 * Code
 ** Python
@@ -382,6 +407,16 @@ PDC needs to be synced otherwise kerberose doesn't work
 
 ** ISSA Web Pen-testing Workshop
 *** [[https://www.youtube.com/watch?v%3DJPd2YtgJm8Q][Intro to Mutillidae, Burp Suite & Injection]]
+*** [[https://www.youtube.com/watch?v%3DxSqw-KwQatI][Webshells]]
+- on kali they are found in /usr/share/webshells
+
+- weevely - github and kali more advanced webshell
+  - instead of using puts ands gets it uses cookies
+- neopi - 
+*** [[https://www.youtube.com/watch?v%3DKJn2HIpFmO0][HTML & Javascript Injection]]
+- burp sutie has a builtin decoder for encoding webshell code
+*** [[https://www.youtube.com/watch?v%3Dt-44ZsaeIQE&t%3D3s][Beef Hooks]]
+*** [[https://www.youtube.com/watch?v%3Dd71YfVR1eWA][JSON Injection]]
 
 ** Offensive Security 2013 - FSU 
 *** [[https://www.youtube.com/watch?v%3D4yNgP3CUOWo][Lecture 2: Linux Overview]]
@@ -459,6 +494,173 @@ Owen Redwood
 http://websec.github.io/unicode-security-guide/character-transformations/
 
 *** [[https://www.youtube.com/watch?v%3DyXX6DWFTLaQ][Lecture 3: Secure Coding in C cont]]
+reading:
+http://blog.reghr.org/archives/1054 - cryto lib bugs
+http://www.cs.utah.edu/~regehr/papers/overflow12.pdf
+http://floating-point-gui.
+0x352 HAOE - Formatted Output Security
+0x280 up to 0x300
+0x350 up to 0x400
+
+Race conditions
+  - CVE-2007-4303
+  - CVE-2007-4302
+
+*** [[https://www.youtube.com/watch?v%3DMnmX911MqMU&t%3D3176s][Lecture 4]]
+Links:
+[[http://cve.mitre.org][Common Vulns and Exposures - CVE]]
+[[http://cwe.mitre.org][Common Weakness Enumeration - CWE]]
+[[http://cce.mitre.org][Common Configuration Enumeration - CCE]]
+Seven kingdoms of exploit
+[[http://nvd.nist.gov/home.cfm][National Vuln Database]]
+
+CVEs
+- list of information security vulns that aims to provide common names for publicly known problems
+- Goal to make it easier to spread/share data
+- Run by MITRE
+
+Vuln - "is a mistake in software that can be directly used by a hacker to gain access to a system or network"
+
+CCE
+- Assigns unique identifiers to configuration guidance statements
+  - The required permissions for accessing the directory %System Root%\System32\Setup should be "Administrator Account" only
+  - The "account lockout threshold" for failed password attempts should be 3
+  - For Linux, passwords should be stored in either SHA256 or SHA512 or the default DES formats and in the /etc/shadow file not the /etc/passwd file
+    
+CWE
+- A softwate weakness is an error that may lead to a software vuln, such as those enumerated by the CVE list
+- Examples software weaknesses include:
+  - buffer overflows, format strings, etc
+  - structure and validity problems; common special element manipulations
+  - channel and path errors
+  - handler errors
+  - user interface errors
+  - pathname traversal and equivalence errors
+  - authentication errors
+  - resource management errors
+
+Code Nomenclature
+
+Code ----> Bugs ----> Weaknesses ---- --> Exposures  -----> 
+                                                            |                                     Exploited Vulns
+							    ----   Vulns   ----------> 
+
+Discovering Vulns
+3 Primary Methods:
+
+1. Source code Auditing
+  - Requires Source Code
+    
+2. Reverse Engineering
+  - Can be done withourt source code
+  - Requires binary applications
+  - very time consuming and requires high technical skill
+    
+3. Fuzzing
+  - Lost of tools/Frameworks exist
+  - Easy to make custom ones
+  - Binary or source code availability is unimportant 
+    
+Auditing tools
+- Author's source code comments
+- Editors/Reading Tools
+  - vi/emacs; source insight; eclipse; source-navigator
+-Pattern matchng tools    
+- Static analyzers
+  - prone to missing vulns
+  - prone to false pos+
+
+Approaches
+- Find the most bugs?
+- Find the easiest to find bugs?
+- Find the weaknesses that are most reliable to exploit?
+
+It is important to limit the approach
+ - will never have enough time to find all the bugs
+   
+General Methodology
+1. Understand the Application
+   - features
+   - Architecture
+     - what over services does the application require
+   - Programming Lang
+   - Compnents
+      - DB - try to hit db for sqli
+      - file shate - try to upload a file
+     
+2. Understand the Attack Surface
+   - You must choose which ones to focus on 
+     - Sabotage
+       - defacing, attacker deleting records, altering them, destroying user trust
+     - Gaining Access
+       - attack / harass other users
+       - botnet
+       - identity theft
+     - Piracy/theft
+
+3. Target your efforts
+   - depends on your style
+     
+Targeting: How to think like an attacker
+  Traditional strategies:
+    - ipurt sources related to code paths
+    - target important components
+      - security mechanisms
+        - Auth
+	- http/https
+      - Data mgmt/DB
+      - Interpreters (php)
+    - Complex parsing, protocols or functions 
+  Meta Targeting startegies
+    - Start by looking at source code comments      
+      - grep for:
+        - fix this, todo!, xxx, *****
+        - swearing/typos
+        - old code
+          - old libs
+	- code checked in at 4am
+	- code checked in at same time as other buggy code
+	  
+Reading Code
+  - Review fewer than 200-400 lines of code at a time
+  - Faster code review is not better
+    - Optimal code review is around 300-500 loc
+  - Never review code for more than 90 mins at a time
+    -significant diminishing returns after this
+  - Be thorough
+    - vast majority of code is ok
+  - Avoid making assumptions    
+    - can cause you to miss bugs, or assume something is done correctly
+  - Look for abstraction
+    - switching between C and C++ styles of code
+      - two different devs with different backgrounds > bugs
+  - Focus on code patterns
+    - copy paste chunks
+      - forgetting to up chuck variables
+
+-------------------------
+
+Look up off by one errors
+sizeof !=strlen
+- size of bytes not elements
+  
+Programs in memory
+- .txt section
+   - contains machines intstructions
+- .data section
+   - global initialized variables
+- .bss section
+- heap section
+- stack section
+  
+Gerenal Bug Categories 
+1. API Based Bugs
+2. Programming Construct Errors
+3. State Mechanics
+4. External Resource Interactions
+-- refer to the seven kingdoms
+
+
 
 * Books
 * Links

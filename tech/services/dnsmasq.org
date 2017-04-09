@@ -63,7 +63,7 @@ log-queries
 #+END_SRC
 
 7. Configure name resolution and caching
-prevent dnsmasq form forwarding plain names(without any dots), or addresses in the non-routed address space to the parent nameservers.
+prevent dnsmasq from forwarding plain names(without any dots), or addresses in the non-routed address space to the parent nameservers.
 #+BEGIN_SRC sh
 domain-needed
 bogus-priv
