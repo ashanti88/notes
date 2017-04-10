@@ -661,4 +661,93 @@ Gerenal Bug Categories
 -- refer to the seven kingdoms
 
 * Books
+** [[file://home/crito/Documents/Security/The-Hacker-Playbook-Practical-Guide-To-Penetration-Testing-2014.pdf][The Hacker Playbok - Practical Guide to Penetration Testing]]
+*** Pregame and Before the Snap
+- setting up a baseline
+  - once you have it ready to run take a snapshot of the vm 
+
+- recommeded distro
+  - pentoo
+
+***** high level tool list (Linux)
+  - windows credential editor 
+  - smbexec 
+  - Veil 
+  - Discover scripts 
+  - Mimikatz 
+  - Burp 
+  - PeepingTom
+  - Powersploit
+  - BeEF 
+  - Responder
+  - Firefox
+    - web dev add-on
+    - foxy proxy
+    - Tamper data
+    - User Agent Switch
+      
+***** high level tool list (windows)
+  - HxD
+  - Evade
+  - Hyperion
+  - Cain and Abel
+  - Firefox
+    - web dev add-on
+    - foxy proxy
+    - Tamper data
+    - User Agent Switch
+  - Evil Foca
+    
+**** Passive Scan 
+1. discover sscripts
+   - this tool leveridges all the osint tools in one framework
+   
+2. recon-ng
+ 
+**** Scanning Process
+  1. scan using nexpose/nessus (Loud only for auth)
+  2. scan with nmap
+  3. scan with custom nmap
+  4. screen capture with peepingtom
+
+- nmap banner grab
+#+BEGIN_SRC sh
+nmap --script /usr/share/nmap/scripts/banner-plus.nse --min-rate=400 --min-parallelism=512 -p1-65535 -n -Pn -Ps -oA 192.168.56.102
+#+END_SRC
+--min-rate=400 - guarantee that the scan will finish after set time
+-n - disable dns resolution
+-Pn - disable ping
+
+**** Web App Scanning
+Tools
+  - zap
+  - WebScarab
+  - Nikto
+  - w3af
+
+- Using Burp
+ The process  
+  - Spider/Discovery/Scanning
+  - Scanning with web app scanner
+  - Manual parameter injection
+  - Session token analysis
+    
+1. configure network proxy
+2. start burp suite
+3. spider through the app
+4. discover content
+5. run the active scanner
+6. exploit
+   
+*** The Drive
+- Metasploit
+  
+
+   
+
+
+
+
+
+
 * Links

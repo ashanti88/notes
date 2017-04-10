@@ -42,10 +42,10 @@
   - Admin on both machines
   - Migrate roles, features, system settings, shares, data...
   
-** 
+** Microsoft MCSA/MCSE Learning Channel - 70-410
 *** [[https://www.youtube.com/watch?v%3Dt9ng8mOysTc][Installing and Configuring Windows Server 2012]]
 notes lost
-*** [[https://www.youtube.com/watch?v%3Dr3683aneTp4][Introduction to Windows PowerShell]]
+*** [[https://www.youtube.com/watch?v%3Dr3683aneTp4][Introduction to Windows PowerShell]]				    :2012:ps:
 - Operating system built around PowerShell
 - New version of Cmd prompt
 - Combines both GUI and scripting
@@ -86,7 +86,7 @@ Get-WindowsFeature -ComputerName UK-DB-01
 #+END_SRC
 This will return all features and roles with checkboxes to indicate if the feature has been initiated    
 
-*** [[https://www.youtube.com/watch?v%3DIFkwRgmEjbU][Installing and Configuring Active Directory Domain Services]]
+*** [[https://www.youtube.com/watch?v%3DIFkwRgmEjbU][Installing and Configuring Active Directory Domain Services]] :2012:ad:conf:
 
 - Installing Active Directory
   - Server Manager --> Add Roles --> Features Wizard --> Before you begin (Next) --> Role-based or feature-based Installation --> Select a server from the server pool --> tick the box of the feature you want installed --> prompted with dependencies --> Overview of feature --> Confirm Installation --> Installation Progress --> thiw window can then be closed --> once installed configuration needs to be set
@@ -115,6 +115,46 @@ Configure AD
   
 - 2 DCs are recommend minimum for all environments
 - makesure that the DC has the DNS ip set 
+
+*** [[https://www.youtube.com/watch?v%3DEVDIPEqhAPM][Configuring User Account Management]]			       :2012:ad:user:
+- Tools
+  - Active Directory Users and Computer 
+    - start menu
+    - under tools in Server Manager
+    - from the cmd - dsadd ? - this is the out-dated method
+    - from PS - this is cover in another lesson
+  - Active Directory Administrative Centre
+    - more complicated
+    - for larger enterprise users
+      
+GUI
+- Users directory
+  - guest account is disabled by default (this is ms recommend)
+  
+- Creating a new user
+  - right click on user --> New --> User --> New Object User - complete fields --> password - set check boxes as needed - the account will now appear in the user directory
+  - Double clicking on the acount will bring up a properties popup with tabs
+    - from here acct exp can be added
+    - encryption
+    - profiles tab - roaming users
+    - telephones
+    - organization - job role etc
+    - adv. features can be added in the views on the task bar this will add more tabs to the popup
+
+- user template
+  - right click on user --> New --> fill fields with generic info --> set pass to never expire and disable
+    - this account can now be copied for a user that requires the same privs and features
+      - don't copy active user accts as templates
+	
+- password reset
+  - right click on acct --> reset password --> add new password
+  - unlocking the acct can also be done from here
+
+- unlock acct (only)
+  - right click acct --> account tab --> unlock acct check box
+    
+- disable the account
+  - right click --> disable acct
 
 * Books
 * Links
