@@ -1,7 +1,7 @@
-#+TAGS: sec xss 
+#+TAGS: sec web xss 
 
 
-* beef								    :sec:xss:
+* beef								:sec:web:xss:
 * Description
 Browser Exploitation Framework
 * Usage

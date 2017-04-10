@@ -24,19 +24,20 @@ This can be broken down further by specifying the category.
 > show <category>
 
 ** Commands
-
-view all modules
+- view all modules
 #+BEGIN_SRC sh
 show modules
 #+END_SRC
 
-set module
+- set module
 #+BEGIN_SRC sh
 use recon/domains-vulnerabilities/xssposed
 #+END_SRC
 
-view the info on currently loaded module
-> show info
+- view the info on currently loaded module
+#+BEGIN_SRC sh
+show info
+#+END_SRC
 this will show all available options for selected module
 
 ** Modules

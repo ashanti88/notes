@@ -742,4 +742,9 @@ Tools
 *** The Drive
 - Metasploit
 
+*** The Throw
+- SQL Injections
+  - SQLmap
+  - SQLninja
+    
 * Links
