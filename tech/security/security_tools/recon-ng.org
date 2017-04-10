@@ -6,10 +6,11 @@ Bitbucket: [[https://bitbucket.org/LaNMaSteR53/recon-ng][recon-ng]]
 Wiki: [[https://bitbucket.org/LaNMaSteR53/recon-ng/wiki/Usage%2520Guide][Usage Guide]]
 
 * Description
-this is a web vulnerability framework similar in design to msf in its tool structure
+This is a web vulnerability framework similar in design to msf in its tool structure
+
 * Usage
-** Admin
-the framework uses workspaces similar to msf. Domains can be attached to these workspaces.
+
+- the framework uses workspaces similar to msf. Domains can be attached to these workspaces.
 
 > workspace [list | add | select | delete]
 
@@ -25,17 +26,20 @@ This can be broken down further by specifying the category.
 ** Commands
 
 view all modules
-> show modules
+#+BEGIN_SRC sh
+show modules
+#+END_SRC
 
 set module
-> use recon/domains-vulnerabilities/xssposed
+#+BEGIN_SRC sh
+use recon/domains-vulnerabilities/xssposed
+#+END_SRC
 
 view the info on currently loaded module
 > show info
 this will show all available options for selected module
 
 ** Modules
-
 For more detailed information on a module look it up in the wiki.
 
 * Lecture

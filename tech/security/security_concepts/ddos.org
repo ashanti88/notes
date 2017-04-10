@@ -8,11 +8,52 @@
 - Javascript
 - NTP reflection 
 - DNS reflection
+- RA Flood
 * DDOS Ransom Groups
 - Armada Collective
 - Lizard Squad
 - DD4BC
 * Lecture
+** [[https://www.youtube.com/watch?v%3Dq2FxTgd3uTE][Evil Dos Attacks and Strong Defenses - Sam Browne & Matthew Prince]]
+- SockStress
+  - flow control - window size of 0 - can not send anymore - Sever keeps process up
+    - open many process and kill the server
+    
+- New RA Flood
+  - Each RA now contains
+    - 17 Route information sections
+    - 18 Prefix information sections
+  - How to perform this attack
+    - for best results use a gigabit ethernet NIC on attacker and a gigabit switch
+    - use thc-ipv6 2.3 on kali
+    - two terminal windows:
+      1. ./fake_router6 eth a::/64
+      2. ./flood_router26 eth1
+    - Windows dies within 30 seconds
+
+  - Mitigation 
+    - Disable IPv6 - not practical
+    - Turn off Router Discovery with netsh
+    - use a firewall to block rogue RAs
+    - Get a switch with RA Guard
+    - MS "IPv6 Readiness Update"
+      
+- Annoyance attacks 10-80Gbps range
+- 60Gbps - to this to take down american banks  
+
+- what is need to a quick, dirty and dangerous ddos
+  - a list of open dns resolvers - misconfigured dns servers
+  - some servers running on networks that allow source IP spoofing
+    
+- send as much as you can
+#+BEGIN_SRC sh
+dig ANY isc.org @63.217.84.76 +edns=0 +notcp +bufsize=4096
+#+END_SRC
+this amplification is 50x
+
+- Good networks don't let packets originate from IPs they don't own (BCP38)
+- lots of bad networks that allow spoofed ips
+  
 * Tutorial
 * Books
 * Links

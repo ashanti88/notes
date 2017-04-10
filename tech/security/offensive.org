@@ -741,13 +741,5 @@ Tools
    
 *** The Drive
 - Metasploit
-  
-
-   
-
-
-
-
-
 
 * Links
