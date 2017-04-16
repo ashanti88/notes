@@ -1,14 +1,14 @@
-#+TAGS: sec_o
+#+TAGS: sec
 
 
-* Offensive							      :sec_o:
+* Offensive								:sec:
 * Description
-* Recon
-
-* Enumeration
+* Process 
+** Recon
+** Enumeration
 ** using hex to move to the passwd file
  - 2E2E2Fetc/passwd - /../etc/passwd
-* Exploitation
+** Exploitation
 ** Passwords
 *** Cmds
 - [[file://home/crito/org/tech/security/security_tools/hashcat.org][hashcat]]
@@ -139,8 +139,8 @@ import os
 os.system('/bin/bash/')
 #+END_SRC
 
-* Maintaining Access 
-* Covering Tracks
+** Maintaining Access 
+** Covering Tracks
 * Attacks
 ** Cold boot
 ** Cross Site Request Forgery (CSRF)
@@ -659,6 +659,59 @@ Gerenal Bug Categories
 3. State Mechanics
 4. External Resource Interactions
 -- refer to the seven kingdoms
+
+** CBT Nuggets Kali Linux 
+*** Welcome to the tools of kali linux
+*** What is BackTrack
+*** Bypassing Wireless Mac Filtering
+  - Find the AP
+    - airmon-ng & airodump-ng
+  - Find an associated client
+    - airodump-ng
+  - Borrow the MAC address - macchanger
+    
+- Hidden ssid will show with the <length: 0> in airodump-ng
+  
+- connecting with specific ssid with ifconfig
+#+BEGIN_SRC sh
+iwconfig wlan0 essid my_ssid_here channel 1
+#+END_SRC
+
+- just show the clients of an AP
+#+BEGIN_SRC sh
+airodump-ng -c 1 -a --bssid 00:18:11:60:17:3F wlan0mon
+#+END_SRC
+-a specifies that only clients should be shown
+
+- change mac addr
+#+BEGIN_SRC sh
+macchanger -m 56:55:CA:F2:6F:AF wlan0
+#+END_SRC
+
+*** Rogue Access Point
+- tools:
+  - airmon-ng
+  - airbase-ng
+  - dhcpd3
+
+- dhcpd.conf
+#+BEGIN_SRC sh
+ddns-update-style ad-hoc;
+default-lease-time 600;
+max-lease-time 7200;
+subnet 192.168.2.0 netmask 255.255.255.0 {
+option subnet-mask 255.255.255.0;
+option broadcast-address 192.168.2.255;
+option routers 192.168.2.1;
+option domain-name-servers 208.67.222.222;
+range 192.168.2.51 192.168.2.100;
+}
+#+END_SRC
+
+- setting up AP
+#+BEGIN_SRC sh
+airbase-ng --essid "Free_Hotspot" -c 6 wlan0mon
+#+END_SRC
 
 * Books
 ** [[file://home/crito/Documents/Security/The-Hacker-Playbook-Practical-Guide-To-Penetration-Testing-2014.pdf][The Hacker Playbok - Practical Guide to Penetration Testing]]

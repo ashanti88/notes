@@ -1,0 +1,11 @@
+#+TAGS: auto
+
+
+* Configuration Management Database
+Wiki: [[https://en.wikipedia.org/wiki/Configuration_management_database][wikipedia.org/Configuration-management-database]]
+* Cmds
+* Overview
+* Lecture
+* Tutorial
+* Books
+* Links

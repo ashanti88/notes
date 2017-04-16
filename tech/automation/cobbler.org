@@ -1,0 +1,11 @@
+#+TAGS: auto
+
+
+* Cobbler							       :auto:
+HomePage: [[http://cobbler.github.io/][cobbler.github.io]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

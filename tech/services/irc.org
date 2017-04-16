@@ -1,8 +1,8 @@
-#+TAGS: irc
+#+TAGS: net pro irc
 
 
-* irc									:irc:
-* Cmds
+* Internet Relay Chat						:net:pro:irc:
+[[file://home/crito/Documents/RFC/rfc2812-irc.pdf][RFC 2812 - IRC]]
 * Overview
 * Lecture
 * Tutorial

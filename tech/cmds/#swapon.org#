@@ -1,0 +1,14 @@
+#+TAGS: sys mem swap
+
+
+* swapon						       :sys:mem:swap:
+* Description
+* Usage
+- view all swap devices, used and unused
+#+BEGIN_SRC sh
+swapon -s
+#+END_SRC
+* Lecture
+* Tutorial
+* Books
+* Links

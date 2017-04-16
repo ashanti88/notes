@@ -317,7 +317,7 @@
 ** Under 30mins
 *** TODO usb switchblade - lookup
 *** TODO salting of hashes
-* Skills CV 
+* Skills 
 - Automation
  - Ansible
 - Database

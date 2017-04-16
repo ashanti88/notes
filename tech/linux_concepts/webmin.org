@@ -1,0 +1,12 @@
+#+TAGS: sys admin web gui
+
+
+* Webmin						  :sys:admin:web:gui:
+HomePage: [[http://www.webmin.com/][webmin.com]]
+* Description
+A Web wrapper that aids in system administration and configuration, similar vien as Cpanel.
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

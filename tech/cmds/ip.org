@@ -58,7 +58,6 @@ ip link set wlp2s0 up
 #+END_SRC
 
 ** Viewing Routing Information
-
 ** Adding a default gateway
 #+BEGIN_SRC sh
 ip route add default

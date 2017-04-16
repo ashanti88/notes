@@ -1,8 +1,8 @@
+#+TAGS: net pro web dns
 
 
-
-* dns								:net:web:pro:
-* Description
+* dns							    :net:web:pro:dns:
+* Diescription
 * Cmds
 - [[file://home/crito/org/tech/cmds/nslookup.org][nslookup]]
 - [[file://home/crito/org/tech/cmds/dig.org][dig]]

@@ -22,6 +22,44 @@ host_key_checking = False
 vm-ubuntu ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222 ansible_ssh_user=ubuntu ansible_ssh_private_key_file=/home/crito/vagrant_boxes/ansible/.vagrant/machines/default/virtualbox/private_key
 #+END_SRC
 * Overview
+- RHEL 6 and below can't support Control Persist feature of OpenSSH so falls back to using a python implementation of OpenSSH, 'paramiko'. It is advised if this is the case to use another implementation of Linux as the control machine (fedora, ubuntu etc)
+- Using sudo was previously done with the option --ask-sudo-pass, this has now been deprecated for --ask-become-pass
+
+** Inventory
+These are the machines that ansible will work against
+- defaults to /etc/ansible/hosts 
+- a different inventory file can be specified by using the the -i <path> option
+- these files use an INI-like format that looks like this:
+#+BEGIN_SRC sh
+mail.example.com
+
+[webservers]
+foo.example.com
+bar.example.com
+
+[dbservers]
+one.example.com
+two.example.com
+bar.example.com
+#+END_SRC
+
+- for use with vagrant on a local machine it a simple version looks like this
+#+BEGIN_SRC sh
+[vagrant]
+testserver	ansible_host=127.0.0.1 ansible_ssh_port=2222 ansible_ssh_user=vagrant ansible_ssh_private_key_file=/home/crito/vagrant/testserver/.vagrant//machines/default/virtualbox/private_key
+#+END_SRC
+
+- a machine may be a member of more than one group, but variable precedence has to be taken into account
+- none default ssh port numbers can be added to this file at the end of the machine name
+#+BEGIN_SRC sh
+mail.example.com:4444
+#+END_SRC
+
+- multiple hosts using the same naming convention
+#+BEGIN_SRC sh
+mail[01:50].example.com
+#+END_SRC
+
 * Lecture
 ** Learn you some Ansible for great good! - OpenStack Summit May 2015
 url:[[url][https://www.youtube.com/watch?v=qEuk65few9I]]
@@ -107,6 +145,8 @@ Many more.....
 **** Playbooks
 + Tell Ansible what to do
 + These are written in YAML
+* Tutorial
+** [[https://serversforhackers.com/an-ansible-tutorial][Ansible Tutorial - Servers for Hackers]]
 ** [[https://www.youtube.com/watch?v%3DkHQUzNiKLoU][Introduction to Ansible - Michelle Perz]]
 *** What is Ansible
 It is a simple automation language that can purfectly describe an IT application infrastructure in Ansible Playbooks.
@@ -214,7 +254,7 @@ node-3 ansible_host=10.42.0.8
 [haproxy]
 haproxy ansible_host=10.42.0.100
 
-[all:vara]
+[all:vars]
 ansible_user=vagrant
 ansible_ssh_private_key_file=~/.vagrant.d/insecure_private_key
 #+END_SRC
@@ -578,8 +618,6 @@ pid-file=/var/run/mysqld/mysqld.pid
 #+BEGIN_SRC sh
 ansible-playbook -i hosts site.yml
 #+END_SRC
-* Tutorial
-[[https://serversforhackers.com/an-ansible-tutorial][Ansible Tutorial - Servers for Hackers]]
 * Books
 ** [[file://home/crito/Documents/SysAdmin/Mgmt/Ansible/Ansible_Playbook_Essentials.pdf][Ansible Playbook Essentials - Packt]]
      - [[https://github.com/schoolofdevops/ansible-playbook-essentials][Github - files for book]]

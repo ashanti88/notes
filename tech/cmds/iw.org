@@ -8,6 +8,17 @@
 #+BEGIN_SRC sh
 iw dev wlp2s0 scan | grep SSID
 #+END_SRC
+
+** Get the link status
+#+BEGIN_SRC sh
+iw dev wlp2s0 link
+#+END_SRC
+   
+** Connect to AP
+#+BEGIN_SRC sh
+iw dev wlp2s0 connect number6
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

@@ -10,4 +10,5 @@
 * Lecture
 * Tutorial
 * Books
+[[file://home/$USER/Documents/Security/Attack/SQL_Injection_Attacks_and_Defense-Syngress.pdf][SQL Injection Attack and Defense]]
 * Links

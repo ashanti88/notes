@@ -1,1 +1,11 @@
-*Border Gateway Protocol*
+#+TAGS: net pro
+
+
+* Border Gateway Protocol					    :net:pro:
+[[https://tools.ietf.org/html/rfc1163#section-2][RFC 1105 - BGP]]
+[[https://tools.ietf.org/html/rfc1164][RFC 1164 - Application of the Border Gateway Protocol in the Internet]]
+* Overview
+* Lecture
+* Tutorial
+* Books
+* Links
