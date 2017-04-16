@@ -1,5 +1,9 @@
+#+TAGS:
 
 
+* DNSSec
+* Cmds
+* Overview
 * Lecture
 ** DNSSEC - Solving A Decades-Old Vulnerablility - Carlos Meza
 url: https://www.youtube.com/watch?v=99NLF2cfLvo&list=WL&index=96
@@ -10,3 +14,7 @@ AND
 
 + DNSSEC is the unspoofable caller ID
 
+* Tutorial
+* Books
+* Links
+[[https://blog.cloudflare.com/dnssec-an-introduction/]]

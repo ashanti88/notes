@@ -1,3 +1,1 @@
-*notes:*
-
-[[https://blog.cloudflare.com/dnssec-an-introduction/]]
+/home/crito/org/tech/security/security_concepts/dnssec.org

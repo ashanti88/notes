@@ -143,6 +143,77 @@ C-h ? - overview of help
 C-h P - search Package
 C-h
 * Modes
+* Packages
+*** projectile - provides an easy way to navigate a project :emacs:projectile:project:
+HomePage: [[http://batsov.com/projectile/][batsoy.com/projectile]]
+*** epc - middleware that connects pythonland to emacsland
+*** jedi 
+*** auto-complete						 :emacs:comp:
+*** ido-vertical
+*** YASnippet							  :emacs:yas:
+- expanding snippets is done by typing the key and pressing the TAB
+owd <TAB>   -------------> /home/crito/org/tech/$1
+
+- for the key it's better to use key combinations, as words will prompt auto-completion
+
+*** Helm						  :emacs:helm:search:
+*** vagrant-tramp						:emacs:tramp:
+This package allows files in vagrant boxes to be edited
+
++ Set-Up
+1. start vagrant box
+2. output the .ssh/config needed with
+   > vagrant ssh-config
+3. add this output to the .ssh/config. The name should be changed from default
+4. in emacs use C-x C-f /<name_in_ssh_config>:/file/to/edit/in/vagrant
+
+The above(3,4) can also be achieved with:
+#+BEGIN_SRC sh:
+vagrant ssh-config --host <host_name> >> $HOME/.ssh/config
+#+END_SRC
+
+*** all-the-icons
+Github: [[https://github.com/domtronn/all-the-icons.el][all-the-icons]]
+To add the fonts required places all the required .tff into ~/.local/share/fonts
+
+*** eww								  :emacs:web:
+Gnu: [[https://www.gnu.org/software/emacs/manual/html_node/eww/index.html#Top][gnu.org/eww]]
+
+- By deafult eww uses duckduckgo
+#+BEGIN_SRC elisp
+eww
+stormtrooper fancydress
+#+END_SRC
+
+- Make emacs use eww as default browser
+#+BEGIN_SRC elisp
+;; make emacs always use its own browser for opening URL links
+(setq browse-url-browser-function 'eww-browse-url)
+#+END_SRC
+
+- Open a local html file
+#+BEGIN_SRC elisp
+eww-open-file
+web_file.html
+#+END_SRC
+or
+#+BEGIN_SRC sh
+eww
+file://home/crito/www/hollywood.html
+#+END_SRC
+**** Navigation & Basic Keys
+back - l
+forward - r - M-x eww-forward
+reload - g - M-x eww-reload
+home - 
+download url - d - M-x eww-download
+copy page url - w - M-x eww-copy-page-url
+store current url as bookmark - b - Mx eww-add-bookmark
+show all bookmarks - B - M-x eww-list-bookmarks
+list all the eww buffers - S - M-x eww-list-buffers
+view source code - v - M-x eww-source-code
+view existing cookies - C - M-x eww-
+
 *** org-mode						    :emacs:org:notes:
 **** Cheat Sheet
 ***** Visibility Cycling
@@ -753,73 +824,6 @@ M-x magit-status - uses this command with the dired directory that contains the 
   C-c C-c - this will make the commit
 M-x magit-push-current-to-upstream
   - if using a ssh key may have a problem with setting key
-
-* Packages
-*** projectile - provides an easy way to navigate a project :emacs:projectile:project:
-HomePage: [[http://batsov.com/projectile/][batsoy.com/projectile]]
-*** epc - middleware that connects pythonland to emacsland
-*** jedi 
-*** auto-complete						 :emacs:comp:
-*** ido-vertical
-*** YASnippet							  :emacs:yas:
- 
-*** Helm						  :emacs:helm:search:
-*** vagrant-tramp						:emacs:tramp:
-This package allows files in vagrant boxes to be edited
-
-+ Set-Up
-1. start vagrant box
-2. output the .ssh/config needed with
-   > vagrant ssh-config
-3. add this output to the .ssh/config. The name should be changed from default
-4. in emacs use C-x C-f /<name_in_ssh_config>:/file/to/edit/in/vagrant
-
-The above(3,4) can also be achieved with:
-#+BEGIN_SRC sh:
-vagrant ssh-config --host <host_name> >> $HOME/.ssh/config
-#+END_SRC
-
-*** all-the-icons
-Github: [[https://github.com/domtronn/all-the-icons.el][all-the-icons]]
-To add the fonts required places all the required .tff into ~/.local/share/fonts
-
-*** eww								  :emacs:web:
-Gnu: [[https://www.gnu.org/software/emacs/manual/html_node/eww/index.html#Top][gnu.org/eww]]
-
-- By deafult eww uses duckduckgo
-#+BEGIN_SRC elisp
-eww
-stormtrooper fancydress
-#+END_SRC
-
-- Make emacs use eww as default browser
-#+BEGIN_SRC elisp
-;; make emacs always use its own browser for opening URL links
-(setq browse-url-browser-function 'eww-browse-url)
-#+END_SRC
-
-- Open a local html file
-#+BEGIN_SRC elisp
-eww-open-file
-web_file.html
-#+END_SRC
-or
-#+BEGIN_SRC sh
-eww
-file://home/crito/www/hollywood.html
-#+END_SRC
-**** Navigation & Basic Keys
-back - l
-forward - r - M-x eww-forward
-reload - g - M-x eww-reload
-home - 
-download url - d - M-x eww-download
-copy page url - w - M-x eww-copy-page-url
-store current url as bookmark - b - Mx eww-add-bookmark
-show all bookmarks - B - M-x eww-list-bookmarks
-list all the eww buffers - S - M-x eww-list-buffers
-view source code - v - M-x eww-source-code
-view existing cookies - C - M-x eww-
 
 * Lecture
 ** Have Emacs Teach You Chinese or English or Math or whatever - thoughtbot Josh Moller-Mara

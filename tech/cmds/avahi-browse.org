@@ -1,0 +1,14 @@
+#+TAGS: sys net
+
+
+* avahi-browse							    :sys:net:
+* Description
+* Usage
+- discover services in network
+#+BEGIN_SRC sh
+avahi-browse -atr
+#+END_SRC
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -1,4 +1,4 @@
-#+TAGS:
+#+TAGS: file txt
 
 
 * awk								   :file:txt:
@@ -95,4 +95,5 @@ awk '!seen[$0]++' file.txt
 * Lecture
 * Tutorial
 * Books
+file://home/crito/Documents/Tools/Effective_awk_Programming_4ed.pdf
 * Links

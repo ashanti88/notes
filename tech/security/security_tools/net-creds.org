@@ -1,0 +1,11 @@
+#+TAGS: sec net
+
+
+* net-creds							    :sec:net:
+Github: [[https://github.com/DanMcInerney/net-creds][github.com/net-creds]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

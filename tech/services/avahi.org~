@@ -1,0 +1,40 @@
+#+TAGS: sys net
+
+
+* Avahi								    :sys:net:
+HomePage: [[http://avahi.org/][avahi.org]]
+* Cmds
+- [[file://home/crito/org/tech/cmds/avahi-browse.org][avahi-browse]]
+* Overview
+Avahi provides advertisment of services on a local network, and the automatic connecting to certain services
+** File Sharing
+** Samba
+With Avahi running on both the server and client, the client should automatically find the server.
+
+** NFS
+Some file managers allow for automount
+  - konqueror
+  - finder
+
+** FTP
+Some FTP servers can be configured to advertise themselves
+  - vsftpd
+    - create a .service file in /etc/avahi/services 
+/etc/avahi/services/ftp.service
+#+BEGIN_SRC sh
+<?xml version="1.0" standalone='no'?>
+<!DOCTYPE service-group SYSTEM "avahi-service.dtd">
+<service-group>
+  <name>FTP file sharing</name>
+  <service>
+    <type>_ftp._tcp</type>
+    <port>21</port>
+  </service>
+</service-group>
+#+END_SRC
+
+** CUPS
+* Lecture
+* Tutorial
+* Books
+* Links

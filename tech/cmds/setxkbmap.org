@@ -1,0 +1,12 @@
+#+TAGS: admin key
+
+
+* setxkbmap							  :admin:key:
+* Description
+This cmd allows the setting of the keyboard layout (gb, us, de, etc...)
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links
+  

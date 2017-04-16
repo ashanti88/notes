@@ -9,7 +9,7 @@ change attribute is a command that is used to set/unset certain attributes.
 
 > chattr [options] [file]
 
-- Attributes & Flags
+** Attributes & Flags
 A - atime record is not updated
 S - updates synchronously on the disk.
 a - can only be opened in append mode
@@ -18,19 +18,23 @@ j - all of its information updated to the ext3 journal before being updated to t
 t - no tail-merging
 u - allows for undeletion
 
-- Operator
+** Operator
 + - adds the attribute
 - - removes the attribute
 = - keep attributes that the file has
 
-** How to add attributes
+** Make file immutable
 #+BEGIN_SRC sh
-chattr +$OPTIONS $FILE
+chattr +i file.txt
 #+END_SRC
 
-** How to remove attributes
+** Remove immutability from file R
 #+BEGIN_SRC sh
-chattr -$OPTIONS $FILE
+chattr -i file.txt
+#+END_SRC
+** Make file append-only (greate for logs)
+#+BEGIN_SRC sh
+chattr +a system.log
 #+END_SRC
 
 * Lecture

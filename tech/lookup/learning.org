@@ -14,6 +14,8 @@
 *** TODO Vim for Advanced Users - tutsplus
     - State "TODO"       from ""           [2017-01-11 Wed 12:10]
 ** Security
+*** WORKING Offensive Computer Security 2014
+    - State "WORKING"    from ""           [2017-04-16 Sun 05:03]
 *** TODO USB Forensics
 *** TODO Session Hijacking
 *** TODO Hacking Wireless Networks
@@ -79,6 +81,8 @@
 *** TODO EMC Information Storage and Management - CBT Nuggets
 
 ** Database
+*** WORKING CBT Nuggets - Postgresql
+    - State "WORKING"    from ""           [2017-04-16 Sun 05:00]
 *** TODO PHP with MySQL
 
 *** TODO Apache Hadoop - CBT Nuggets
@@ -120,6 +124,10 @@
 *** WORKING Bootstrap 3 Tutorial - Bootstrapbay
     - State "WORKING"    from ""           [2017-02-08 Wed 10:32]
 ** Microsoft
+*** WORKING Windows 2012 TechTV 70-410
+    - State "WORKING"    from ""           [2017-04-16 Sun 05:02]
+*** WORKING Windows 2012 CBT Nuggets 70-410
+    - State "WORKING"    from ""           [2017-04-16 Sun 05:01]
 *** TODO Windows Server 2012 Administration - TrainSignal
     - State "TODO"       from ""           [2017-01-11 Wed 12:09]
 *** TODO SQL Server 2012 Administration Essentials

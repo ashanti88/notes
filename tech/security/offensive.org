@@ -660,6 +660,85 @@ Gerenal Bug Categories
 4. External Resource Interactions
 -- refer to the seven kingdoms
 
+*** Lecture 5
++ The Permissions Spectrum
+
+- The Bios
+  - The ultimate authority of hw
+    
+Boot Process
+1. Bios
+2. POST - Power On Self Test
+   - CMOS
+   - Hardware initialization
+3. Bootloader 
+4. OS
+   
+- The "Academic" Rings model
+  - provide different levels of access
+    3 - Normal non-root user applications
+    2 - Device drivers (keyboard/mice/...)
+    1 - Device drivers (video card, etc)
+    0 - Kernel
+    
+- higher than ring 0
+  - SMM (-2) System Management Mode - on intel chips
+  - IPMI (-3) Intelligent Platform Management Interface
+  - Bios (-1)
+
+- The "Practical" Rings model
+  -  4 - Sandboxed non-root user application
+  -  3 - Normal non-root user applications
+  -  0 - Kernel/root
+  - -1 - Bios
+  - -2 - SMM
+  - -3 - IPMI
+  - Physical Access
+    
+- Pivoting - Priv Esc to remote system
+  - use one node to gain access to other nodes on the nextwork
+  - Lateral movement 
+    - Pass the Hash
+      
+- /etc/shadow
+  - options for hashes
+    - $1$ - it uses MD5 - no longer secure
+    - $5$ - it uses SHA-256
+    - $6$ - it uses SHA-512
+    - $2a# - it uses blowfish
+- otherwise it uses DES - considered no longer secure
+  
+- The least privilege principle
+  - every process/user/program mush be able to access only the info and resources that are necessary for its legitimate purpose
+    - no-login user accounts for services
+    - jails
+    - security in depth
+    - makes logs cleaner
+      
+- setuid as root programs
+  - theses programs have complete access on a UNIX system
+  - virtually every attack chain involves a focus on attacking these programs
+    - they are the single points of failure
+    - once attackers get any form of access, they want to esc to root
+      
+- Priv Esc Attack Surface
+  - sudi priv escs
+  - kernel priv escs
+  - daemon exploits / root process exploits
+  - weak passwords
+    
+- logs
+  - brute force attempts leave a big footprint
+  - remote logins
+  - system modifications
+  - kernel modification
+  - daemon logs
+  - module loading/unloading
+  - FW/Gateway/traffic logs
+    - IDS
+    - IPS
+  - AD/LDAP/SCP    
+
 ** CBT Nuggets Kali Linux 
 *** Welcome to the tools of kali linux
 *** What is BackTrack

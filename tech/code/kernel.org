@@ -1,4 +1,12 @@
+#+TAGS: linux
 
+
+* Kernel							      :linux:
+* Cmds
+ksplice
+kexec
+
+* Overview
 * Lectures
 ** GKH Patches carved into stone
 url: https://www.youtube.com/watch?v=L8OOzaqS37s
@@ -511,6 +519,43 @@ url:https://www.youtube.com/watch?v=0IQlpFWTFbM&list=WL&index=72
 
 Valerie Aurora - works on the kernel
 
+* Tutorial
+* Walk Throughs
+** wikiversity - Reading the Linux Kernel Sources
+
+**** Where to start reading
++ We could start at where the CPU begins
+  - This would first take us to /arch/i386/boot/compressed/head.S
+  - in newer kernels this would be head_32.S
+
++ It is in here that the image is de-compressed 
++ There is a large part of this file written in asm
+
++ then this would move us to the init/main.c
+  - this can be stepped through using JTAGS or
+    - step trhough an embedded version booting from flash
+  - to continue following the code would be quite complicated
+
+**** Other Places to start
++ We could examine where userland starts, init
++ Serveral things have to happen before init is called
+  - the root / filesystem has to be located & mounted
+  - the initial console must be opened and connected to file descriptors (0, 1, 2)
+  - the initial environment has to be created
+
++ Each system and sub-system has its own pre-requisites
+  - the block device on which the rootfs is hosted must be detected and initialised
+  - memory limits must be scanned
+  - memory mgmt unit (mmu) and programmable intrupt controllers (PICs, APICs, IOAPICs) must be detected, enumerated and programmed
+
++ So now we have a tangible point which to trace backwards from
+
++ Init starts only one user space process, that's init
++ thereafter it assumes its role as the mediator between user space and kernel space.
+  
+**** 
++ The system clock becomes the heartbeat of the system
+h - On a PC this is from a PIT (programmable Interrupt Timer) 
 
 * Articles
 ** Glibc feature test macros - Michael Kerrisk				:FMT:
@@ -652,8 +697,6 @@ initrd custom-initramfs.cpio.gz
   
 + All loaded modules can be found in /proc/modules
 
-
-
 * Books
 ** The Linux Programming Interface - Michael Kerrisk
 
@@ -699,42 +742,8 @@ template takes a pathname with the last 6 char XXXXXX. These chars will be repla
 + The max can be altered on 64bit machines to around 4million (2xy22)
 + The file to alter this can be found in /proc/sys/kernel/pid_max 
 
-* Walk Throughs
-** wikiversity - Reading the Linux Kernel Sources
+* Links
 
-**** Where to start reading
-+ We could start at where the CPU begins
-  - This would first take us to /arch/i386/boot/compressed/head.S
-  - in newer kernels this would be head_32.S
-
-+ It is in here that the image is de-compressed 
-+ There is a large part of this file written in asm
-
-+ then this would move us to the init/main.c
-  - this can be stepped through using JTAGS or
-    - step trhough an embedded version booting from flash
-  - to continue following the code would be quite complicated
-
-**** Other Places to start
-+ We could examine where userland starts, init
-+ Serveral things have to happen before init is called
-  - the root / filesystem has to be located & mounted
-  - the initial console must be opened and connected to file descriptors (0, 1, 2)
-  - the initial environment has to be created
-
-+ Each system and sub-system has its own pre-requisites
-  - the block device on which the rootfs is hosted must be detected and initialised
-  - memory limits must be scanned
-  - memory mgmt unit (mmu) and programmable intrupt controllers (PICs, APICs, IOAPICs) must be detected, enumerated and programmed
-
-+ So now we have a tangible point which to trace backwards from
-
-+ Init starts only one user space process, that's init
-+ thereafter it assumes its role as the mediator between user space and kernel space.
-  
-**** 
-+ The system clock becomes the heartbeat of the system
-h - On a PC this is from a PIT (programmable Interrupt Timer) 
 
 
 * Lookups
