@@ -1,7 +1,8 @@
-#+TAGS: net anal sec recon
+#+TAGS: net anal sec recon enum
 
 
-* nmap							 :net:anal:sec:recon:
+* nmap						    :net:anal:sec:recon:enum:
+HomePage: [[https://nmap.org/][nmap.org]]
 * Description
 * Usage
 
@@ -77,51 +78,14 @@ nmap --resume nmap_scan.txt
 - no other arguments other than --resume. 
 - Only -oN and -oG can be used.
 
-** Examples:
-*** This will locate random web servers
-> nmap -sS -PS80 -iR 0 -p 80
+** Produce HTML report
+- getting a html report from nmap report
+#+BEGIN_SRC sh
+nmap -O -sV -sC -oX nmap-scan.xml 192.168.56.101
+cp /usr/share/nmap/nmap.xsl .
+#+END_SRC
+We need the nmap.xsl as it is the stylesheet for the xml file
 
-*** this is an ipv6 scan
-> nmap -6 2001:800:40:2a03::3
-
-*** list of assigned dhcp ip addrs
-> egrep '\^lease' /var/lib/dhcp/dhcp.leases | awk '{print $2;}' | nmap
--iL -
-
-Obtain the list of assigned DHCP IP addresses and feed them directly to
-nmap for scanning a hyphen is passed to -iL to read from std input.
-
-*** Ping Network
-
-> nmap -T5 -sP x.x.x.x
-
-> nmap -PN -T4 --traceroute <address>
-
-*** Reverse-DNS and traceroute scan
-
-> nmap -n -sP -PR --packet-trace --send-eth <addtess>
-
-*** arp scan (-sP -PR)
-
-> nmap -n -sL -iR 50000 -oN - | grep 'report' | awk '{print $5;}' >
-50K\_ips
-
-*** Random List of 50000 ip addresses
-
-> nmap -sP -PE -PP -PS21,22,23,25,80,113,35439 -PA80,113,443,21004 -T4
---source-port 53 -iL <file> -oA <output\_filename>
-
-this is an extensive scan that uses a file to provide the ip address and outputs to all 4 types
-
-> nmap -p0- -v -A -T4 <address>
-
-this is an aggressive scan that will scan every port, and enables aggressive tests (-A) such as os detection. Ok if stealth isn't necessary
-*** Verbosity/Debug
-v       - will increase verbosity
-shift-v - will decrease verbosity
-d       - will increase debug level
-shift-d - will decrease debug level
-*** traceroute
 ** Scan by Service
 *** FTP Scan 
 #+BEGIN_SRC sh
@@ -186,14 +150,55 @@ nnmap --scan-delay 5s -g 53 -iL 443.txt -Pn -n -sS --open -p443 --script=banner,
 #+BEGIN_SRC sh
 nmap --traceroute 10.0.0.0/24
 #+END_SRC
-** Produce HTML report
-- getting a html report from nmap report
-#+BEGIN_SRC sh
-nmap -O -sV -sC -oX nmap-scan.xml 192.168.56.101
-cp /usr/share/nmap/nmap.xsl .
-#+END_SRC
-We need the nmap.xsl as it is the stylesheet for the xml file
+** Examples:
+*** This will locate random web servers
+> nmap -sS -PS80 -iR 0 -p 80
 
+*** this is an ipv6 scan
+> nmap -6 2001:800:40:2a03::3
+
+*** list of assigned dhcp ip addrs
+> egrep '\^lease' /var/lib/dhcp/dhcp.leases | awk '{print $2;}' | nmap
+-iL -
+
+Obtain the list of assigned DHCP IP addresses and feed them directly to
+nmap for scanning a hyphen is passed to -iL to read from std input.
+
+*** Ping Network
+
+> nmap -T5 -sP x.x.x.x
+
+> nmap -PN -T4 --traceroute <address>
+
+*** Reverse-DNS and traceroute scan
+
+> nmap -n -sP -PR --packet-trace --send-eth <addtess>
+
+*** arp scan (-sP -PR)
+
+> nmap -n -sL -iR 50000 -oN - | grep 'report' | awk '{print $5;}' >
+50K\_ips
+
+*** Random List of 50000 ip addresses
+
+> nmap -sP -PE -PP -PS21,22,23,25,80,113,35439 -PA80,113,443,21004 -T4
+--source-port 53 -iL <file> -oA <output\_filename>
+
+this is an extensive scan that uses a file to provide the ip address and outputs to all 4 types
+
+> nmap -p0- -v -A -T4 <address>
+
+this is an aggressive scan that will scan every port, and enables aggressive tests (-A) such as os detection. Ok if stealth isn't necessary
+*** Verbosity/Debug
+v       - will increase verbosity
+shift-v - will decrease verbosity
+d       - will increase debug level
+shift-d - will decrease debug level
+*** traceroute/tcpdump
+- to confirm the packet route use the --packet-trace flag
+#+BEGIN_SRC sh
+nmap 192.168.0.1 --packet-trace -Pn -p80 -n
+#+END_SRC
 * Lecture
 ** [[https://www.youtube.com/watch?v%3DM-Uq7YSfZ4I][Mastering the Nmap Scripting Engine - Fyodor & David Fifield]]
    

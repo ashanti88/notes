@@ -1,0 +1,60 @@
+#+TAGS:
+
+
+* Packet Analysis
+* Cmds
+- [[file://home/crito/org/tech/networking/networking_tools/tcpdump.org][TCPDump]]
+- [[file://home/crito/org/tech/networking/networking_tools/tshark.org][Tshark]]
+- [[file://home/crito/org/tech/networking/networking_tools/wireshark.org][Wireshark]]
+- Hping3
+- network miner
+
+* Usage
+* Lecture
+* Tutorial
+** Introduction to Packet Analysis
+*** [[https://www.youtube.com/watch?v%3DvisrNiKIP3E&t%3D6s][Introduction to TCP/IP Packet Structure]]
+
+*** [[https://www.youtube.com/watch?v%3Dk0EVIgaRSD4][Helper Protocols]]
+- Helper Protocols
+  - ARP
+  - RARP
+  - NetBIOS Name Service (NBNS)
+    - Resolves friendly Windows host names into IP addrs
+    - Obsoleted by Link-Local Multicast Name Resolution and Dynamic DNS
+      - but continues to thrive
+    - udp/137
+  - DNS
+*** [[https://www.youtube.com/watch?v%3DSiER4rJIOAo][Important Network Security Tools]]
+- nmap
+- TCPDump
+- Wireshark
+- traceroute
+- Hping3
+- Python Scapy
+
+*** [[https://www.youtube.com/watch?v%3DAIQVNlI_A20][Capturing Network Traffict with TCPDump]]
+- Network Packet Capture
+ - tcpdump is the better tool, due to low overhead
+   
+tcpdump -D - what interfaces are available to sniff on
+
+tcpdump -i eth0 --nn -A -vvv -w packet-capture.pcap
+-i - which interface to listen on
+-nn - prevents name resolution (first n), stops showing port friendly names (second n)
+-A - print each packet
+
+- other options
+  -c    - count, exit after a certain number of packets
+  -q    - quite output. Prints less to the screen
+  -r file - read packets from file created with the -w option or other tool
+  -X    - Also print (in hex) the data of each packet
+  -XX  - Also print (in hex) the data of each packet including link level header
+  
+- uses the Berkley Packet Filter syntax
+  - this is also used by Wireshark
+
+* Books
+[[file://home/crito/Documents/Networking/Practical_Packet_Analysis.pdf][Practical Packet Analysis]]
+
+* Links

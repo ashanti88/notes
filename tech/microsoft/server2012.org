@@ -156,5 +156,47 @@ GUI
 - disable the account
   - right click --> disable acct
 
+*** [[https://www.youtube.com/watch?v%3DfRW-5Z_CdBA][Group Account Management]]
+- Group Account
+  - Object in Active Directory
+- Group types
+  - Security
+  - Distribution
+- Group Scopes
+  - Local - not with AD, but on a local machine
+  - Domain Local
+  - Global
+  - Universal
+    
+- Create a group
+right click on container (user) -> New - Group -> New Object - Group - this is a wizard -> group scope - Domain Local/Global/Universal  -> Group type secuirty/distribution -> OK
+- properties -> members - this tab allows users to be added and view who is a memeber
+                          - groups can also be added to groups through the user's properties,  on the Member of tab
+			  - highlight users in main screen -> right click and click add to group -> select group to add users to
+			    
+*** [[https://www.youtube.com/watch?v%3DvzIFgt1IlHQ][Compurter Account Management]]
+- Computers container on the lefthand side of AD Users and Computers
+[[file://home/crito/Pictures/org/AD_Computers.png]]
+
+- adding a local macine to a Computer Account - from local machine
+  - on local machine -> join domain -> computer -> system -> change settings -> System Properties - change -> Computer Name/Domain Changes - add the Domain to join with -> OK -> challeneged for Domain credentials -> welcome to new domain -> need to reboot
+  - now on the dc computer in the Computer Container that new machine will be present
+- adding a local macine to a Computer Account - from DC
+  - right click on the Computer Container -> new Computer -> add computer name -> OK -> this will add the machine to the list
+    
+*** [[https://www.youtube.com/watch?v%3DhJq2frSDOf0][Working with Organizational Unit]]
+- the folders of OU property have a small icon on the folder
+- create a OU
+  - right click on the domain level on the lefthandside -> New - Organizational Unit -> add new name - check the protect if deleted -> the new container should now be created 
+  - using physical location is usually safe as it is not going to change much over time, omly if company moves
+    
+- OU - thinking points for creation
+  - Application of Group Policy Objects
+  - Delegation of Control
+  - Organization
+    
+- Delegation of control
+  - this wizard can help in setting of permissions of users and groups
+    - right click on the OU -> who do you want to give pressions to - add user -> Next -> select tasks to delegate
 * Books
 * Links

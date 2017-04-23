@@ -1,15 +1,29 @@
-*Simple Mail Transfer Protocol*
+#+TAGS:
 
-*Ports*
 
+* Simple Mail Transfer Protocol
+* Ports
 25 - Default transmission channel for internet email.
-
-465 - Not set by IETF, but by IANA for transmission of SMTP over SSL.
-Now revoked due to the implementation of STARTTLS and has been assigned
-to another service.
-
+465 - Not set by IETF, but by IANA for transmission of SMTP over SSL. Now revoked due to the implementation of STARTTLS and has been assigned to another service.
 587 - This is the default mail submission port.
+2525 - Alternative port.
 
-2525 - Alternative port. 
+* Description
+* Usage
+** SMTP Cmds
+HELO - This is the command that the client sends to the server to initiate a conversation. Generally, the IP address or domain name must accompany this command, such as HELO 192.168.101 or HELO client.microsoft.com.
+EHLO - This command is the same as HELO, but communicates to the server that the client wants to use Extended SMTP. If the server does not offer ESMTP, it will still recognize this command and reply appropriately.
+STARTTLS - Normally, SMTP servers communicate in plaintext. To improve security, the connection between SMTP servers can be encrypted by TLS (Transport Layer Security). This command starts the TLS session.
+RCPT - Specifies the email address of the recipient.
+DATA - Starts the transfer of the message contents.
+RSET - Used to abort the current email transaction.
+MAIL - Specifies the email address of the sender.
+QUIT - Closes the connection.
+HELP - Asks for the help screen.
+AUTH - Used to authenticate the client to the server.
+VRFY - Asks the server to verify is the email user's mailbox exists.
 
-*notes:*
+* Lecture
+* Tutorial
+* Books
+* Links

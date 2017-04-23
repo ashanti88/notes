@@ -5,6 +5,32 @@
 * Cmds
 * Overview
 * Lecture
+** [[https://www.youtube.com/watch?v%3DzMJD8PJKoYQ&list%3DWL&index%3D98][Namespaces and CGroups, the basis of Linux containers - Rami Rosen]]
+- namespace subsystem and the cgroup subsystem are the basis of the process virtualization
+  
+- cgroup subsystem
+  - Resource Mgmt & Resource Accounting Tracking
+
+- PID's cgroup controller
+  - PID_MAX_LIMIT = 4,194,304 (0x400000)
+    
+- moving from cgroup v1 ----> v2
+  - due to chaos in v1
+  - no consistency in v1
+  - both v1 and v2 can run on the same system, but a process has to belong exclusively to either not both
+    
+- Namespaces - currently seven
+ - mnt (mount points, filesystem)
+ - pid (processes)
+ - net (network stack)
+ - ipc (System V IPC)
+ - uts (hostname)
+ - user (UIDs)
+
+uts - provides away to get information like uname and hostname
+
+user Namespaces - cve 2013-1858 - exploitable security
+
 * Tutorial
 * Books
 * Links

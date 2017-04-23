@@ -235,7 +235,7 @@ pyenv – A Python version manager. Installs different versions and flavors of P
 pyvenv – A tool to create isolated virtual environments from a Python interpreter. Ships with Python from 3.4.
 
 virtualenv – Creates virtual environments, and is available in PyPi.
-*** Setting up Python2 virtual environment
+*** Sietting up Python2 virtual environment
 1. Install virtualenv
 #+BEGIN_SRC sh
 pip install virtualenv

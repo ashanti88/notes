@@ -1,0 +1,10 @@
+#+TAGS: sec voip tel
+
+
+* Telephone						       :sec:voip:tel:
+* Services
+** [[https://manage.cloudphone.com/signupvx?promo%3Dcloudadb17&planId%3D52&_ga%3D1.31755454.1648072489.1492387477][Voxox]]
+- 30 day trial, but requires cc
+* Tutorial
+* Books
+* Links

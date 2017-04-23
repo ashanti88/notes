@@ -1,0 +1,15 @@
+#+TAGS:
+
+
+* Mail
+* Description
+* Attacks
+** Mail Spoofing
+SPR - Sender Policy Framework - This record establishes which ip addr is associated with which mail server
+[[https://tools.ietf.org/html/rfc7208][Sender Policy Famework RFC 7208]]
+DMARC - Domain-based Message Authentication, Reporting, and Conformance
+
+* Lecture
+* Tutorial
+* Books
+* Links

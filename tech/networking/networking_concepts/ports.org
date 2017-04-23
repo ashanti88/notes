@@ -38,9 +38,9 @@ Software
 * 113  - auth
 * 123u - NTP
 * 135  - MSRPC - MS Remote Procedure Call
+* 137u - NETBIOS-NS - one of many udp ports for windows services
 * 138  - NETBIOS-DGM - Another windows service
 * 139  - NetBIOS-SSN - NetBIOS Sesson Service for communication with MS windows services (older than 445).
-* 137u - NETBIOS-NS - one of many udp ports for windows services
 * 143  - IMAP
 Software
 [[file://home/crito/org/tech/mail/dovecot.org][Dovecot]]

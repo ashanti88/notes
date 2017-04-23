@@ -3,11 +3,22 @@
 
 * Offensive								:sec:
 * Description
-* Process 
+* Process
 ** Recon
+*** Geoip - python
+- this lib is used to pull data from the mindmax db
+- first we need the midmax db
+#+BEGIN_SRC sh
+wget -N -q http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz
+gzip -d GeoLiteCity.dat.gz
+pip install geoip
+#+END_SRC
+- for examples of use
+https://github.com/appliedsec/pygeoip/wiki
 ** Enumeration
-** using hex to move to the passwd file
- - 2E2E2Fetc/passwd - /../etc/passwd
+*** Vulnerabiliy Scanners
+- [[file://home/crito/org/tech/security/security_tools/openvas.org][OpenVAS]]
+
 ** Exploitation
 ** Passwords
 *** Cmds
@@ -143,6 +154,12 @@ os.system('/bin/bash/')
 ** Covering Tracks
 * Attacks
 ** Cold boot
+** Command Injection
+- using hex to move to the passwd file
+#+BEGIN_SRC sh
+2E2E2Fetc/passwd
+#+END_SRC
+ - /../etc/passwd
 ** Cross Site Request Forgery (CSRF)
 ** Cross Site Tracing (XST)
 ** DLL injection
@@ -244,6 +261,28 @@ We need the nmap.xsl as it is the stylesheet for the xml file
   - OpenVAS
   - Nessus
   - Nexpose
+** [[https://www.youtube.com/watch?v%3D4uN44YfsQPk][The Wizard of Oz - Painting a Reality Through Deception - David Kennedy]]
+- SE Attacks Explained
+  1. Homework
+  2. Threat Model
+  3. Attack
+  4. Persistence and Exfil
+     
+- email marketing or forward facing people to discover what company email looks like
+  
+- ms diagnostics - exploit vector
+- excel macros - less so 
+- hta files - exploit vector
+
+- Sending the fish out
+  - only send it to one person at a time - then wait 1hr before pushing to next person
+    
+- C & C
+  - lateral movement to needed data
+    
+- snoof app - for spoofing phone numbers
+  
+- padgeant - putty feature that saves crts for ssh
 * Tutorial
 ** PluralSight - System Hacking - Dale Meredith
 
@@ -739,6 +778,7 @@ Boot Process
     - IPS
   - AD/LDAP/SCP    
 
+*** Lecture 6
 ** CBT Nuggets Kali Linux 
 *** Welcome to the tools of kali linux
 *** What is BackTrack
@@ -791,6 +831,9 @@ range 192.168.2.51 192.168.2.100;
 #+BEGIN_SRC sh
 airbase-ng --essid "Free_Hotspot" -c 6 wlan0mon
 #+END_SRC
+
+** Introduction to Packet Analysis
+*** [[https://www.youtube.com/watch?v%3DvisrNiKIP3E&t%3D6s][Introduction to TCP/IP Packet Structure]]
 
 * Books
 ** [[file://home/crito/Documents/Security/The-Hacker-Playbook-Practical-Guide-To-Penetration-Testing-2014.pdf][The Hacker Playbok - Practical Guide to Penetration Testing]]

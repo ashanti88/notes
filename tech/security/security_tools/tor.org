@@ -6,6 +6,25 @@
 *** Set up a tor site
 
 * Cmds
+* IP Tables
+** Configure all traffic to use Tor
+Wiki: [[https://en.wikibooks.org/wiki/How_to_Protect_your_Internet_Anonymity_and_Privacy/TOR_VPN][Anonymity and Privacy]]
+- edit /etc/tor/torrc
+#+BEGIN_SRC sh
+VirtualAddrNetwork 10.192.0.0/10
+AutomapHostsOnResolve 1
+TransPort 9040
+DNSPort 53
+#+END_SRC
+- setting ip rules to pass all traffic through tor
+#+BEGIN_SRC sh
+sudo iptables -t nat -A OUTPUT -p tcp -m owner --uid-owner bob -m tcp -j REDIRECT --to-ports 9040
+sudo iptables -t nat -A OUTPUT -p udp -m owner --uid-owner bob -m udp --dport 53 -j REDIRECT --to-ports 53
+sudo iptables -t filter -A OUTPUT -p tcp -m owner --uid-owner bob -m tcp --dport 9040 -j ACCEPT
+sudo iptables -t filter -A OUTPUT -p udp -m owner --uid-owner bob -m udp --dport 53 -j ACCEPT
+sudo iptables -t filter -A OUTPUT -m owner --uid-owner bob -j DROP
+#+END_SRC
+- the above can be put into a script, on reboot the original iptables will be in force
 * Lecture
 * Tutorial
 * Books

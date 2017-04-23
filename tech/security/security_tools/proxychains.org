@@ -1,11 +1,11 @@
-#+TAGS: sec
+#+TAGS: sec net
 
 
-* proxychains								:sec:
+* proxychains							    :sec:net:
 * Description
 Allows the use of proxies to tunnel cmds through
 * Files
-/etc/proxychain.conf
+/etc/proxychains.conf
 * Usage
 set to tor by default, comment out if you don't want to go through tor.
 
@@ -13,6 +13,25 @@ set to tor by default, comment out if you don't want to go through tor.
 <protocol> <ip_addr> <port>
 socks5 213.34.45.111 1080
 
+** Dynamic chaining
+- this will allow for multiple proxies to be used, if one fails it will move over to the next
+- uncomment
+  - dynamic_chain
+** Random chaining
+- this will provide pseudo randomness to proxychains 
+- uncomment
+  - random_chain
+  - dynamic_chain
+  - chain_len
+
+** Using Nmap
+- the only scan that can be performed through proxychains is the -sT
+- this is due to tcp connections are a must, is any other scan is chosen nmap will fall out of proxychains, and revert to using your host ip
+#+BEGIN_SRC sh
+proxychains nmap -sT 93.45.23.01
+#+END_SRC
+- recommend that you use tcpdump whilst scan is being performed and ensure that the target never appears, if target ip shows kill scan
+- dns will still be resolved by your dns, use tor-resolve to mitigate this
 * Lecture
 * Tutorial
 * Books

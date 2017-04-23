@@ -1,0 +1,13 @@
+#+TAGS: sec net vpn
+
+
+* VPN								:sec:net:vpn:
+* Description
+* Technologies
+- [[file://home/crito/org/tech/networking/networking_protocols/openvpn.org][OpenVPN]]
+
+* Providers
+* Lecture
+* Tutorial
+* Books
+* Links

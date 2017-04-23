@@ -1,14 +1,17 @@
-#+TAGS:
+#+TAGS: boot
 
 
-* Grub
+* Grub								       :boot:
 * Overview
-* Grub Shell
-** Cmds
+** Grub Shell
+*** Cmds
 - setting the pager
 grub> set pager=1
 
 - view what partitions are available
+  
+** Grub Rescue Shell
+
 * Lecture
 * Tutorial
 * Books

@@ -3,9 +3,23 @@
 
 * ldap
 * Cmds
+ldapsearch
+ldapadd
+ldapdelete
+ldapmodify
+slaptest
+slapcat
+slapadd
+
+* Server
 389 Directory Server
 * Overview
+LDAP uses the Sleepycat Berkley DB, 
 * Lecture
+** [[https://www.youtube.com/watch?v%3DjZs4p_e6H1c][What about the LDAP directory life after Sun?]]
+- good explanation of migration of directories, methodology
 * Tutorial
 * Books
+[[file://home/crito/Documents/Linux/Linux_Networking_Cookbook.pdf][Linux Networking Cookbook]]
 * Links
+
