@@ -1,0 +1,13 @@
+#+TAGS: sec enum
+
+
+* SpiderFoot							   :sec:enum:
+HomePage: [[http://www.spiderfoot.net/][spiderfoot.net]]
+GitHub: [[https://github.com/smicallef/spiderfoot][github.com/spiderfoot]]
+* Description
+Information agregation tool written in python2 
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

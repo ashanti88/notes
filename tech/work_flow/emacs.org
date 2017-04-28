@@ -142,6 +142,8 @@ Article: [[https://www.masteringemacs.org/article/running-shells-in-emacs-overvi
 C-h ? - overview of help
 C-h P - search Package
 C-h
+** Recover files after a crash
+C-x recover-session
 * Modes
 * Packages
 *** projectile - provides an easy way to navigate a project :emacs:projectile:project:

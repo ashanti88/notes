@@ -1,0 +1,11 @@
+#+TAGS: sec smtp
+
+
+* Swaks								   :sec:smtp:
+HomePage: [[http://www.jetmore.org/john/code/swaks/][jetmore.org/swaks]] 
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

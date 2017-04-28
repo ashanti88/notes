@@ -198,5 +198,59 @@ right click on container (user) -> New - Group -> New Object - Group - this is a
 - Delegation of control
   - this wizard can help in setting of permissions of users and groups
     - right click on the OU -> who do you want to give pressions to - add user -> Next -> select tasks to delegate
+*** [[https://www.youtube.com/watch?v%3DjP-Rv6oVsgs&index%3D8&list%3DPLKWqPrqG4yyRl8JGRCzbwr5riYScPYkjL][Managing Active Directory Domain Services Using PowerShell ]]
+- LDAP Distinguished Name DN
+  - every object will have a unique database name
+    
+- Bulk Management tools (used prior to PS, but still available)
+  - csvde - cmd line tool that can import or export AD objects from or to csv files
+  - LDIFDE - cmd line tool that can import, export, modify or delete AD objects from LDIF files (plain txt file)
+  - DS cmds
+    - Dsadd
+    - Dsget
+    - Dsquery
+    - Dsmod
+    - DSrm
+    - DSmove
+      
+- Windows PS cmdlets to Manage User Accounts
+  - New-ADUser
+  - Set-ADUser
+  - Remove-ADUser
+  - Set-ADAccountPassword
+  - Set-ADAccountExpiration
+  - Unlock-ADAccount
+  - Enable-ADAccount
+  - Disable-ADAccount
+    
+- Windows PS to Crate User Accounts
+  - AccountExpirationDate
+  - AccountPassword
+  - ChangePasswordAtLogon
+  - Department
+  - Enabled
+  - HomeDirectory
+  - HomeDrive
+  - GivenName
+  - Surname
+  - Path
+    
+- Creating a new OU with PS
+#+BEGIN_SRC sh
+new-adorganizationalunit PowerShell
+#+END_SRC
+
+- Createing a New User in PS
+#+BEGIN_SRC sh
+new-aduser -name "PowerShell User" -givenname PowerShell -surname User -Displayname "PowerShell User" -path "ou=PowerShell,ou=bluelevers,dc=local" 
+#+END_SRC
+
+- setting users password
+#+BEGIN_SRC sh
+set-adaccountpassword "PowerShell User"
+#+END_SRC
+a window will ask for the new password to be entered (if in the gui)
+
+
 * Books
 * Links

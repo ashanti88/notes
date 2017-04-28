@@ -1,5 +1,9 @@
+#+TAGS: sec recon
 
 
+* Shodan							  :sec:recon:
+* Description
+* Usage
 ** Filters
   
 Country - country:"XX" - GB, CN, US etc
@@ -15,9 +19,7 @@ Server:SQ-WEBCAM
 vuln:cve-2014-0160 country:"DE" country:"DE"
 This will search for the heartbleed in Germany
 
-
 ** Cli API
-   
 *** Command Overview
     
 | alert      | Manage the network alerts for your account                                                                                                              |
@@ -45,8 +47,11 @@ The basic search filters
 | port         | find particular ports that are open |
 | before/after | find results within a timeframe     |
 
-
 *** Examples
 
-Find apache servers in San Francisco
-> shod
+* Lecture
+* Tutorial
+* Books
+* Links
+
+

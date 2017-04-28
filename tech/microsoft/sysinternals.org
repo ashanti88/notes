@@ -1,0 +1,16 @@
+#+TAGS: ms
+
+
+* Sysinternals Suite 							 :ms:
+HomePage: https://technet.microsoft.com/en-gb/bb545027
+
+* Description
+* Usage
+** Ways to run
+- usb
+  
+* Lecture
+* Tutorial
+* Books
+* Links
+https://www.howtogeek.com/school/sysinternals-pro/lesson1/

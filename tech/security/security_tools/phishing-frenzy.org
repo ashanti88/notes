@@ -1,0 +1,12 @@
+#+TAGS: sec mail
+
+
+* Phishing-Frenzy						   :sec:mail:
+HomePage: [[https://phishingfrenzy.com/][phishingfrenzy.com]]
+GitHub: [[https://github.com/pentestgeek/phishing-frenzy][github.com/phishing-frenzy]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

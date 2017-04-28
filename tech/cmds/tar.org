@@ -33,17 +33,20 @@ tar -cvzf file.tar.gzip file1 file2 file3
 
 - Adding files to an archive
 
-This adds additional files to an archive
+- This adds additional files to an archive
+#+BEGIN_SRC sh
+tar -rf file.tar file5
+#+END_SRC
 
-> tar -rf file.tar file5
-
-Removing files from an archive
-
-> tar -f file.tar --delete file1 file2
+- Removing files from an archive
+#+BEGIN_SRC sh
+tar -f file.tar --delete file1 file2
+#+END_SRC
 
 - List the archive
-
-> tar -tf file.tar
+#+BEGIN_SRC sh
+tar -tf file.tar
+#+END_SRC
 
 - Extracting files from an Archive
 bzip2

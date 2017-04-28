@@ -1,0 +1,11 @@
+#+TAGS: sys
+
+
+* lsb_release								:sys:
+* Description
+This provides distribution specific information
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

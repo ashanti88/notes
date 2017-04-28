@@ -13,6 +13,7 @@ Examine a web server to find potential problesms and security vulns, including:
 Based on LibWhisker2 and can run on any platform which has a Perl Env.
 * Usage
 ** Basic
+- simple scan
 #+BEGIN_SRC sh
 nikto -h 192.168.56.102 
 #+END_SRC

@@ -8,6 +8,7 @@
 - [[file://home/crito/org/tech/networking/networking_tools/wireshark.org][Wireshark]]
 - Hping3
 - network miner
+- Packetrix VM
 
 * Usage
 * Lecture

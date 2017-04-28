@@ -5,9 +5,10 @@
 * Description
 This is the command line tool for meta data manipulation and editing.
 * Usage
-
-> exiftool image.jpg
-
+- scan image
+#+BEGIN_SRC sh
+exiftool image.jpg
+#+END_SRC
 
 * Lecture
 * Tutorial

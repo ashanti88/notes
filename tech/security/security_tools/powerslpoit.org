@@ -1,0 +1,11 @@
+#+TAGS: sec
+
+
+* PowerSploit 								:sec:
+GitHub: [[https://github.com/PowerShellMafia/PowerSploit][github.com/PowerShell]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

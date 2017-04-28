@@ -1,0 +1,17 @@
+#+TAGS: sysv
+
+
+* telinit
+* Description
+this tool will allow us to change the current runlevel of the system
+* Usage
+- change system to runlevel 3
+#+BEGIN_SRC sh
+telinit 3
+#+END_SRC
+* Alternative
+sysd: 
+* Lecture
+* Tutorial
+* Books
+* Links

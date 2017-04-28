@@ -153,6 +153,9 @@ os.system('/bin/bash/')
 ** Maintaining Access 
 ** Covering Tracks
 * Attacks
+** Clickjacking
+URL: https://www.owasp.org/index.php/Clickjacking
+
 ** Cold boot
 ** Command Injection
 - using hex to move to the passwd file
@@ -163,6 +166,10 @@ os.system('/bin/bash/')
 ** Cross Site Request Forgery (CSRF)
 ** Cross Site Tracing (XST)
 ** DLL injection
+** Drity Cow
+Github: https://github.com/dirtycow/dirtycow.github.io/wiki/VulnerabilityDetails
+Github: [[https://github.com/dirtycow/dirtycow.github.io/wiki/PoCs][List of POC]]
+
 ** Evil Maid
 ** Heartbleed
 ** HTTP Response Splitting
@@ -196,6 +203,7 @@ reaver -c 1 -i wlan0mon -b E0:91:F5:6F:3F:C6 -vv
 ** Shellshock
 ** SMB Relay Attack
 
+** SMTP Injection
 * Code
 ** Python
 *** Backdoor Shell
@@ -831,6 +839,10 @@ range 192.168.2.51 192.168.2.100;
 #+BEGIN_SRC sh
 airbase-ng --essid "Free_Hotspot" -c 6 wlan0mon
 #+END_SRC
+
+*** Metasploit Framework
+synflood module by default spoofs the source ip address
+*** PWNing system with msf
 
 ** Introduction to Packet Analysis
 *** [[https://www.youtube.com/watch?v%3DvisrNiKIP3E&t%3D6s][Introduction to TCP/IP Packet Structure]]

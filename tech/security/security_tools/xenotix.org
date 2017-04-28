@@ -1,0 +1,12 @@
+#+TAGS: sec win xss 
+
+
+* Xenotix							:sec:win:xss:
+HomePage: [[https://xenotix.in/][xenotix.in]]
+OWASP: [[https://www.owasp.org/index.php/OWASP_Xenotix_XSS_Exploit_Framework#tab%3DMain][owasp.org/Xenotix]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

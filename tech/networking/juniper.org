@@ -1,0 +1,13 @@
+#+TAGS: net jun
+
+
+* Juniper							    :net:jun:
+* Description
+* Usage
+* Lecture
+* Tutorial
+** CBT Nuggets - Juniper JNCIA Junos JN0-102
+*** OSI and Things That Use It
+
+* Books
+* Links

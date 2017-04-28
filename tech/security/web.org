@@ -1,0 +1,41 @@
+#+TAGS: sec web
+
+
+* Web								    :sec:web:
+* Web Servers
+** Apache
+** Nginx
+** Lighttpd
+* Frameworks
+** Wordpress
+** Joomla
+CVE-2013-5576
+** Drupal
+** Django
+
+* Applications
+** Jenkins
+Port: 8080
+*** Hacking Jenkins Servers with No Password
+article: https://www.pentestgeek.com/penetration-testing/hacking-jenkins-servers-with-no-password
+- note to the above Jenkins now creates a password on installation
+* Technologies
+** Cloudflare
+*** [[http://securityidiots.com/Web-Pentest/Information-Gathering/Cloudflare-Bypass/Part-2-Cloudflare-Security-Bypass.html][Cloudflare Bypass Security]]
+1. Is the site using CF or not
+   - check dns - is it a CF DNS server
+2. Once we have confirmed that site is using CF
+   - http://www.crimeflare.com/cfs.html this will provide a search for domains
+   - if this draws a blank then https://searchdns.netcraft.com/ can be used to check history, for previous ip before moving to CF
+3. Interrogate the DNS Server
+   - Admin may not have moved all the subdomains, mx records etc
+   - dig [A IP AAAA MX SOA SRV CNAME PTR SPF TXT] blueleves.co.uk
+4. Using email
+   - send an email to anyone@bluelevers.co.uk
+     - this may produce an error email from the correct ip address
+
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -1,7 +1,7 @@
-#+TAGS: sec_o
+#+TAGS: sec web
 
 
-* zaproxy
+* ZAProxy							    :sec:web:
 HomePage: [[https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project][Zed Attack Proxy Project - OWASP]]
 * Description
 An easy to use webapp pentest tool.

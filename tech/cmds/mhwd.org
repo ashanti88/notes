@@ -1,0 +1,40 @@
+#+TAGS: manjaro video
+
+
+* mhwd							      :manjaro:video:
+HomePage: [[https://wiki.manjaro.org/index.php?title%3DManjaro_Hardware_Detection_Overview][Manjaro HardWare Dectection]]
+* Description
+This is the Manjaro HardWare Detection tool.
+
+* Usage
+- view all hardware
+#+BEGIN_SRC sh
+mhwd -lh
+#+END_SRC
+
+- show all available drivers
+#+BEGIN_SRC sh
+mhwd -la
+#+END_SRC
+
+- show detailed information and which driver is currently in use
+#+BEGIN_SRC sh
+mhwd -l -d
+#+END_SRC
+
+- remove current driver
+#+BEGIN_SRC sh
+mhwd -r pci video-hybrid-intel-nvidia-bumblebee
+#+END_SRC
+
+- add a driver
+#+BEGIN_SRC sh
+mhwd -i pci video-hybrid-intel-nvidia-bumblebee
+#+END_SRC
+
+- details can be added with the -d flag
+
+* Lecture
+* Tutorial
+* Books
+* Links
