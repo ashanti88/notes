@@ -897,8 +897,6 @@ url: https://www.youtube.com/watch?v=SaKPr4J0K2I&list=WL&index=72
     
 - ugly fill is a module that can help with  
 - inline images with erc-image
-  
-   
 
 * Tutorials
 *** Master Emacs in one year
@@ -1484,6 +1482,7 @@ URL: http://orgmode.org/worg/org-tutorials/org-jekyll.html
 - re/rx builder - module for helping to build regualr expressions
 - inserting unicode C-x 8 ret  
   - this will allow you to insert the unicode
+
 * Books
 [[file://home/crito/Documents/Tools/Emacs/org.pdf][The Org Manual - GNU Manual]]
 * Links

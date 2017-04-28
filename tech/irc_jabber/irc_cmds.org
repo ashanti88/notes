@@ -1,21 +1,29 @@
-Register /msg NickServ REGISTER @@html:<password>@@ @@html:<email>@@
+#+TAGS: irc
 
-*Search channels*
 
+* IRC Cmds								:irc:
+* Usage 
+- Register a user
+#+BEGIN_SRC sh
+Register /msg NickServ REGISTER my_password my@email.com
+#+END_SRC
+
+** Search channels
 /list - list all server channels
 
 /list -re <regex>
 
-*Search with ALIS channel bot*
-
-channel search
-
+** Search with ALIS channel bot
+- channel search
 /msg alis list /word/
 
-channel topic search
-
+- channel topic search
 /msg alis list -topic /word/
 
-list options
-
+- list options
 /msg alis help list
+
+* Lecture
+* Tutorial
+* Books
+* Links

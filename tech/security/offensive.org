@@ -163,6 +163,7 @@ URL: https://www.owasp.org/index.php/Clickjacking
 2E2E2Fetc/passwd
 #+END_SRC
  - /../etc/passwd
+** Cookie-Stuffing
 ** Cross Site Request Forgery (CSRF)
 ** Cross Site Tracing (XST)
 ** DLL injection
