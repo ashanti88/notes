@@ -12,7 +12,7 @@
 
 ** Setting Tab width						  :emacs:tab:
 M-x set-variable<ret> tab-eidth 4
-* Usage
+* Concepts
 ** Make the above work
 Need an interface for completion and showing alternatives
 - auto-complete
@@ -63,33 +63,6 @@ add-to-list 'ac-sources 'ac-source-jedi-direct)
 ; Enable for python-mode
 add-hook 'python-mode-hook 'jedi:setup)
 
-** Jedi Server Options
- Finding your project (--sys-path)
- - sys-path is where python looks for modules
- Finding your installed modules (--virtual-env)
- - normally set to nil
-
- add this to .emacs
-defvar jedi-config-with-virtualenv nil
- "Set to non-nil to point to a particular virtualenv")
-
-; Variables to help find the project root
-defvar jedi-config:vcs-root-sentinel ".git")
-defvar jedi-config:python-module-sentinel "__init__.py")
-
-; Function to find project root given a buffer
-defvun get-project-root (buf repo-type init-file)
- (vc-find-root (expand-file-name (buffer-file_name buf)) repo-type))
- 
-defvar jedi-config:find-root-function 'get-project-root)
-
-; And call this on initialization
-defun current-buffer-project-root ()
- (funcall jedi-config:find-root-function
-   (current-buffer)
-   jedi-config:vcs-root-sentinel
-   jedi-config:python-module-sentinel))
-
 ** Set the server args
  A list (ARG1 VALUE1 ARG2 VALUE2 ...)
  Store in buffer local variable jedi:server-args
@@ -138,28 +111,75 @@ Article: [[https://www.masteringemacs.org/article/running-shells-in-emacs-overvi
 - Characters can be added using the unicode
   C-x 8 <ret>
 
-** Help
-C-h ? - overview of help
-C-h P - search Package
-C-h
+*** Increase and decrease font size
+Increase     - C-x C-+ 
+Deacrease - C-x C--
+
+** Bookmarks
+book-bmenu-list - C-x rl
+
+adding a bookmark - C-x rm <name>
+jump to a bookmark - C-x rb <name>
+
+** Finding Help
+C-h ?   - overview of help
+C-h P   - search Package
+C-h m - help on the mode currently in
+C-h i    - Emacs info
+  - u - move up a level
+  - [  - move to previous node
+  - ]  - move to next node
+  - spc - move down the page
+C-h f   - search for a specific emacs cmd
+C-h a - seach with apropos
+C-h k - see what a key binding does
+C-x v C-h - this will list all the bindings set to prefix
+
 ** Recover files after a crash
 C-x recover-session
 * Modes
 * Packages
-*** projectile - provides an easy way to navigate a project :emacs:projectile:project:
+** projectile - provides an easy way to navigate a project :emacs:projectile:project:
 HomePage: [[http://batsov.com/projectile/][batsoy.com/projectile]]
-*** epc - middleware that connects pythonland to emacsland
-*** jedi 
-*** auto-complete						 :emacs:comp:
-*** ido-vertical
-*** YASnippet							  :emacs:yas:
+** epc - middleware that connects pythonland to emacsland
+** jedi 
+*** Jedi Server Options
+ Finding your project (--sys-path)
+ - sys-path is where python looks for modules
+ Finding your installed modules (--virtual-env)
+ - normally set to nil
+
+ add this to .emacs
+defvar jedi-config-with-virtualenv nil
+ "Set to non-nil to point to a particular virtualenv")
+
+; Variables to help find the project root
+defvar jedi-config:vcs-root-sentinel ".git")
+defvar jedi-config:python-module-sentinel "__init__.py")
+
+; Function to find project root given a buffer
+defvun get-project-root (buf repo-type init-file)
+ (vc-find-root (expand-file-name (buffer-file_name buf)) repo-type))
+ 
+defvar jedi-config:find-root-function 'get-project-root)
+
+; And call this on initialization
+defun current-buffer-project-root ()
+ (funcall jedi-config:find-root-function
+   (current-buffer)
+   jedi-config:vcs-root-sentinel
+   jedi-config:python-module-sentinel))
+
+** auto-complete						 :emacs:comp:
+** ido-vertical
+** YASnippet							  :emacs:yas:
 - expanding snippets is done by typing the key and pressing the TAB
 owd <TAB>   -------------> /home/crito/org/tech/$1
 
 - for the key it's better to use key combinations, as words will prompt auto-completion
 
-*** Helm						  :emacs:helm:search:
-*** vagrant-tramp						:emacs:tramp:
+** Helm						  :emacs:helm:search:
+** vagrant-tramp						:emacs:tramp:
 This package allows files in vagrant boxes to be edited
 
 + Set-Up
@@ -174,11 +194,11 @@ The above(3,4) can also be achieved with:
 vagrant ssh-config --host <host_name> >> $HOME/.ssh/config
 #+END_SRC
 
-*** all-the-icons
+** all-the-icons
 Github: [[https://github.com/domtronn/all-the-icons.el][all-the-icons]]
 To add the fonts required places all the required .tff into ~/.local/share/fonts
 
-*** eww								  :emacs:web:
+** eww								  :emacs:web:
 Gnu: [[https://www.gnu.org/software/emacs/manual/html_node/eww/index.html#Top][gnu.org/eww]]
 
 - By deafult eww uses duckduckgo
@@ -216,7 +236,7 @@ list all the eww buffers - S - M-x eww-list-buffers
 view source code - v - M-x eww-source-code
 view existing cookies - C - M-x eww-
 
-*** org-mode						    :emacs:org:notes:
+** org-mode						    :emacs:org:notes:
 **** Cheat Sheet
 ***** Visibility Cycling
 *rotate current subtree between states             TAB
@@ -815,7 +835,12 @@ a	#+BEGIN_EXPORT ascii ... #+END_EXPORT
 A	#+ASCII: 
 i	#+INDEX: line 
 I	#+INCLUDE: line 
-*** magit							  :emacs:git:
+**** Inline images
+1. add the url
+2. C-c C-l but don't set a description
+3. C-c C-x C-v - the image should now be present in the window
+
+** magit							  :emacs:git:
 + Commands
 M-x magit-status - uses this command with the dired directory that contains the .git file
   s - this will stage the modified file
@@ -827,6 +852,10 @@ M-x magit-status - uses this command with the dired directory that contains the 
 M-x magit-push-current-to-upstream
   - if using a ssh key may have a problem with setting key
 
+** eshell 
+*** Open Multiple Shells
+C-2 M-x eshell
+any positive int
 * Lecture
 ** Have Emacs Teach You Chinese or English or Math or whatever - thoughtbot Josh Moller-Mara
 URL: [[https://www.youtube.com/watch?v%253DuraPXeLfWcM][Emacs Teach you chinese or English...]]
@@ -897,8 +926,6 @@ url: https://www.youtube.com/watch?v=SaKPr4J0K2I&list=WL&index=72
     
 - ugly fill is a module that can help with  
 - inline images with erc-image
-  
-   
 
 * Tutorials
 *** Master Emacs in one year
@@ -1484,9 +1511,8 @@ URL: http://orgmode.org/worg/org-tutorials/org-jekyll.html
 - re/rx builder - module for helping to build regualr expressions
 - inserting unicode C-x 8 ret  
   - this will allow you to insert the unicode
+
 * Books
 [[file://home/crito/Documents/Tools/Emacs/org.pdf][The Org Manual - GNU Manual]]
+[[file://home/crito/Documents/Tools/Emacs/mastering-emacs.pdf][Mastering Emacs]]
 * Links
-    
-
-    

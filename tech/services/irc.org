@@ -4,6 +4,189 @@
 * Internet Relay Chat						:net:pro:irc:
 [[file://home/crito/Documents/RFC/rfc2812-irc.pdf][RFC 2812 - IRC]]
 * Overview
+** Modes
+*** User Modes 
+(/mode <nick> +<flag>)
+O = Local IRC Operator
+o = Global IRC Operator (channel operator)
+i = Invisible (Not shown in /who searches)
+w = Can listen to wallop messages
+g = Can read & send to globops, and locops
+h = Available for help
+s = Can listen to server notices (see snomasks)
+k = See's all the /KILL's which were executed
+S = For services only. (Protects them)
+a = Is a Services Administrator
+A = Is a Server Administrator
+N = Is a Network Administrator
+T = Is a Tech Admininistator
+C = Is a Co Administrator
+c = See's all Connects/Disconnects on local server
+f = Listen to flood alerts from server
+r = Identifies the nick as being registered
+x = Gives the user hidden hostname
+e = Can listen to server messages sent to +e users
+b = Can read & send to chatops
+W = (IRC Operators only) Lets you see when people does a /whois on you
+q = (Services Admins only) Only U:lines can kick you
+B = Marks you as being a Bot
+F = Lets you recieve far Connect notices & Local notices.
+I = Invisible Join/Part. Makes you being hidden at channels
+H = (IRC Operators only) Hide IRC Operator status in /who and /whois
+d = Makes it so you can not recieve channel messages
+v = Receive infected DCC send rejection notices
+t = Says that you are using a /vhost
+G = Filters out all bad words (badwords.message.conf) in messages with <censored>
+z = Marks the client as being on a Secure Connection (SSL).
+
+*** snomasks
+(/mode <nick> +s +<snomask>)
+c - local connects
+F - far connects
+f - flood notices
+k - kill notices
+e - 'eyes' notices
+j - 'junk' notices
+v - vhost notices
+G - gline/shun notices
+
+*** Channel Modes 
+(/mode <chan> +<flag>) 
+p = Private channel
+s = Secret channel
+i = Invite-only allowed
+m = Moderated channel, noone can speak except users with mode +voh
+n = No messages from outside channel
+t = Only channel operators may set the topic
+r = Channel is registered
+R = Requires a registered nickname to join the channel
+c = No ANSI color can be sent to the channel (ColourBlock)
+q = Channel owner 
+Q = Peace mode See below
+O = IRCop only channel (Setable by IRCops)
+A = Administrator only channel (Setable by Admins)
+K = /Knock is not allowed
+V = /Invite is not allowed
+S = Strip all incoming colours away
+
+(/mode <chan> +<flag> <option>)
+l <number of max users> = Channel may hold at most <number> of users
+b <nick!user@host> = Bans the nick!user@host from the channel
+k <key> = Needs the channel key to join the channel
+o <nickname> = Gives operator status to the user
+v <nickname> = Gives voice to the user (May talk if chan is +m)
+L <chan2> = If +l is full, the next user will auto-join <chan2>
+a <nickname> = Gives protection to the user (No kick/drop)
+e <nick!user@host> = Exception ban - If someone matches it they can join even if a ban matches them
+h <nickname> = Gives halfop status to the user See below 
+f[*]<lines>:<seconds> = Flood protection, if * then banned, else just kicked
+H = No +I users may join that channel. (Setable by Admins).
+N = No nickname changes are permitted in the channel.
+^ = Reports Channel modes in bitstring.
+G = Makes the channel G Rated.
+u = "Auditorium". Makes /names and /who #channel only show @'s
+C = No CTCPs allowed in the channel.
+z = Only Clients on a Secure Connection (SSL) can join.
+
+Channel mode +Q Noone can kick each other except by U:Lines. Bans can be placed though.
+Channel halfops (+h) can Set topic, Kick non-ops, and Set modes +vmntibe
+
+*** Stats Flags 
+(/status <flag>)
+k = Lists all the current K:Lines, Z:Lines (Banned hosts/IP) & E:Lines (K:Line exceptions)
+g = Lists all the current G:Lines (Banned hosts) & Shuns
+E = Lists all the current E:Lines (K:Line Exceptions)
+f = Lists all the current F:lines (Filename masks on DCCDENY)
+O = Lists all the current O:Lines (IRC Operator Lines)
+Q = Lists all the current Q:Lines (Forbidden Nicks)
+C = Lists all the current C/N:Lines (Servers to connect or accept connects from)
+H = Lists all the current H:Lines (Hub Lines) & L:Lines (Leaf Lines)
+n = Lists all the current n:Lines (GECOS Deny)
+V = Lists all the current VHost lines
+T = Lists all the current T:Lines (Specific MOTD/Rules Lines)
+Y = Lists all the current Y:Lines (Connection classes)
+U = Lists all the current U:Lines (Usually Services)
+v = Lists all the current V:Lines (Version Deny)
+D = Lists all the current D:Lines (Disallow Lines-Oper & Server Orig Connects)
+d = Lists all the current d:Lines (Disallow Lines-Autoconnects)
+e = Lists all the current e:Lines (Proxy scan exempt IPs)
+I = Lists all the current I:Lines (Client auth Lines)
+F = Lists all the current F:Lines (DCCDENY Lines)
+r = Lists all Channel Restrict lines
+N = Lists the Network Configuration report
+S = Gives the Dynamic Configuration report
+W = Gives the current Server Load
+q = Lists all the SQLINEed Nicks
+u = Server Uptime
+m = Gives the Server command list
+z = Gives Misc Server Information
+s = Returns the scache and NS numbers
+t = Returns Misc Info
+L = Information about current server connections
+
+*** Quote options 
+(quote list <options>)
+>number List channels with more than <number> people.
+<number List channels with less than <number> people.
+C>number List channels created between now and <number> minutes ago.
+C<number List channels created earlier than <number> minutes ago.
+T>number List channels whose topics are older than <number> minutes.
+T<number List channels whose topics are newer than <number> minutes.
+*mask* List channels that match *mask*
+!*mask* List channels that do not match *mask*
+
+
+UnrealIRCd O:Line flags
+
+r = Access to /rehash server
+h = Oper can send /help ops - gets +h on oper up
+g = Oper can send /globops
+w = Oper can send /wallops
+l = Oper can send /locops
+c = Access to do local /squits and /connects
+k = Access to do local /kills
+b = Oper can /kline users from server
+B = Oper can /unkline users from server
+n = Oper can send local server notices (/notice $servername message)
+u = Oper can set /umode +c
+f = Oper can set /umode +f
+O = Global oper, flags included: oRDK
+o = Local oper, flags included: rhgwlckbBnuf
+R = Access to /restart server
+D = Access to /die server
+K = Access to do global /kills
+A = Gets +A on oper up. Server Administrator
+a = Gets +a on oper up. Services Administrator
+N = Gets +N on oper up. Network Administrator
+T = Gets +T on oper up. Technical Administator
+C = Gets +C on oper up. Co Administrator
+Y = Access to do remote /squits and /connects
+z = Can add /zlines
+H = Gets +x on oper up.
+W = Gets +W on oper up.	
+^ = Allows to use umode +I
+\* = Flags AaNCTzSHW^
+
+*** Rehash Flags 
+(/rehash -<flags>)
+dccdeny - Rehashes dccdeny.conf
+dynconf - Rehashes UnrealIRCd Config and Network file
+restrict - Rehashes chrestrict.conf
+vhost - Rehashes vhost.conf
+motd - Rehashes all MOTD files and RULES files (including T:lines)
+opermotd - Rehashes the OPERMOTD
+botmotd - Rehashes the BOTMOTD
+garbage - Force garbage collection
+badwords - Rehashes the badwords config.
+
+*** htm options
+(/htm <option>)
+ON - Force HTM to activate
+OFF - Force HTM to deactivate
+NOISY - Make HTM announce when it is entering/leaving HTM
+QUIET - Stop HTM from announcing when it is entering/leaving HTM
+TO <value> - Tell HTM at what incoming rate to activate HTM
+
 * Lecture
 * Tutorial
 * Books

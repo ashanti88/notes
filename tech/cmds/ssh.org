@@ -43,6 +43,9 @@ WantedBy=default.target
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 
 *** ssh-add
+#+BEGIN_SRC sh
+ssh-add ~/.ssh/git_eurus
+#+END_SRC
 *** Check what identities are currently set
 #+BEGIN_SRC sh
 ssh-add -l

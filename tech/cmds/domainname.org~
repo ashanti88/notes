@@ -1,7 +1,7 @@
-#+TAGS: MS LDAP AD
+#+TAGS: sys net dns
 
 
-* Active Directory						 :MS:LDAP:AD:
+* domainname							:sys:net:dns:
 * Description
 * Usage
 * Lecture

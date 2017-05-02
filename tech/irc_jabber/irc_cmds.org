@@ -5,7 +5,17 @@
 * Usage 
 - Register a user
 #+BEGIN_SRC sh
-Register /msg NickServ REGISTER my_password my@email.com
+/msg NickServ REGISTER my_password my@email.com
+#+END_SRC
+
+- Check your user login
+#+BEGIN_SRC sh
+/msg NickServ STATUS otirc
+#+END_SRC
+
+- Check user info
+#+BEGIN_SRC sh
+/msg NickServ INFO otirc
 #+END_SRC
 
 ** Search channels

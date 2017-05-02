@@ -1,0 +1,17 @@
+#+TAGS: sys mail
+
+
+* mail								   :sys:mail:
+* Description
+* Usage
+- send mail to admin
+#+BEGIN_SRC sh
+mail admin
+#+END_SRC
+This will then prompt for subject press ret, and the enter the message, the a newline with a period to send the message
+
+- to verify the above message run less /var/mail/admin
+* Lecture
+* Tutorial
+* Books
+* Links

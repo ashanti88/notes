@@ -1,0 +1,12 @@
+#+TAGS: sys
+
+
+* apropos								:sys:
+* Description
+This tool is used to search for posible cmds that match the set term
+
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -1,7 +1,7 @@
-#+TAGS:
+#+TAGS: sys net dns
 
 
-* DNS
+* DNS								:sys:net:dns:
 * Description
 * Usage
 * Servers
@@ -28,3 +28,4 @@ information.
 * Books
 file://home/crito/Documents/SysAdmin/DNS/DNS_and_Bind_on_IPv6.pdf
 * Links
+[[http://www.linuxjournal.com/article/4597][linuxjournal.com - An Introduction to DNS and DNS tools]]

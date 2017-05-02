@@ -1,9 +1,12 @@
-#+TAGS:
+#+TAGS: sys net
 
 
-* telnet
+* telnet							    :sys:net:
 * Description
 * Usage
+- sending mail with telnet
+[[file://home/crito/Pictures/org/telnet_mail.png]]
+
 * Lecture
 * Tutorial
 * Books

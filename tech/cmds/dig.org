@@ -3,12 +3,94 @@
 
 * dig							     :net:anal:recon:
 * Description
+Domain Information Groper is used to inspect a domains DNS records
+
 * Usage
-use specified dns server
+- use specified dns server
 #+BEGIN_SRC sh
 dig google.com @ns.123-reg.co.uk
 #+END_SRC
 this will use the 123-reg server to search for google.com
+
+- check A records
+#+BEGIN_SRC sh
+dig postfix-book.com A
+#+END_SRC
+#+RESULTS:
+|                    |              |                         |           |                |                  |      |         |    |            |    |             |   |
+| ;                  | <<>>         | DiG                     | 9.11.0-P3 | <<>>           | postfix-book.com | A    |         |    |            |    |             |   |
+| ;;                 | global       | options:                | +cmd      |                |                  |      |         |    |            |    |             |   |
+| ;;                 | Got          | answer:                 |           |                |                  |      |         |    |            |    |             |   |
+| ;;                 | ->>HEADER<<- | opcode:                 | QUERY,    | status:        | NOERROR,         | id:  |   27260 |    |            |    |             |   |
+| ;;                 | flags:       | qr                      | rd        | ra;            | QUERY:           | 1,   | ANSWER: | 1, | AUTHORITY: | 0, | ADDITIONAL: | 1 |
+|                    |              |                         |           |                |                  |      |         |    |            |    |             |   |
+| ;;                 | OPT          | PSEUDOSECTION:          |           |                |                  |      |         |    |            |    |             |   |
+| ;                  | EDNS:        | version:                | 0,        | flags:;        | udp:             | 4096 |         |    |            |    |             |   |
+| ;;                 | QUESTION     | SECTION:                |           |                |                  |      |         |    |            |    |             |   |
+| ;postfix-book.com. |              | IN                      | A         |                |                  |      |         |    |            |    |             |   |
+|                    |              |                         |           |                |                  |      |         |    |            |    |             |   |
+| ;;                 | ANSWER       | SECTION:                |           |                |                  |      |         |    |            |    |             |   |
+| postfix-book.com.  | 200          | IN                      | A         | 194.126.158.25 |                  |      |         |    |            |    |             |   |
+|                    |              |                         |           |                |                  |      |         |    |            |    |             |   |
+| ;;                 | Query        | time:                   | 79        | msec           |                  |      |         |    |            |    |             |   |
+| ;;                 | SERVER:      | 127.0.0.1#53(127.0.0.1) |           |                |                  |      |         |    |            |    |             |   |
+| ;;                 | WHEN:        | Mon                     | May       | 1              | 16:30:52         | BST  |    2017 |    |            |    |             |   |
+| ;;                 | MSG          | SIZE                    | rcvd:     | 61             |                  |      |         |    |            |    |             |   |
+|                    |              |                         |           |                |                  |      |         |    |            |    |             |   |
+
+- check MX records
+#+BEGIN_SRC sh
+dig postfix-book.com MX
+#+END_SRC
+#+RESULTS:
+|                    |              |                         |           |         |                        |      |         |    |            |    |             |   |
+| ;                  | <<>>         | DiG                     | 9.11.0-P3 | <<>>    | postfix-book.com       | MX   |         |    |            |    |             |   |
+| ;;                 | global       | options:                | +cmd      |         |                        |      |         |    |            |    |             |   |
+| ;;                 | Got          | answer:                 |           |         |                        |      |         |    |            |    |             |   |
+| ;;                 | ->>HEADER<<- | opcode:                 | QUERY,    | status: | NOERROR,               | id:  |   48015 |    |            |    |             |   |
+| ;;                 | flags:       | qr                      | rd        | ra;     | QUERY:                 | 1,   | ANSWER: | 1, | AUTHORITY: | 0, | ADDITIONAL: | 1 |
+|                    |              |                         |           |         |                        |      |         |    |            |    |             |   |
+| ;;                 | OPT          | PSEUDOSECTION:          |           |         |                        |      |         |    |            |    |             |   |
+| ;                  | EDNS:        | version:                | 0,        | flags:; | udp:                   | 4096 |         |    |            |    |             |   |
+| ;;                 | QUESTION     | SECTION:                |           |         |                        |      |         |    |            |    |             |   |
+| ;postfix-book.com. |              | IN                      | MX        |         |                        |      |         |    |            |    |             |   |
+|                    |              |                         |           |         |                        |      |         |    |            |    |             |   |
+| ;;                 | ANSWER       | SECTION:                |           |         |                        |      |         |    |            |    |             |   |
+| postfix-book.com.  | 200          | IN                      | MX        | 10      | mail.state-of-mind.de. |      |         |    |            |    |             |   |
+|                    |              |                         |           |         |                        |      |         |    |            |    |             |   |
+| ;;                 | Query        | time:                   | 72        | msec    |                        |      |         |    |            |    |             |   |
+| ;;                 | SERVER:      | 127.0.0.1#53(127.0.0.1) |           |         |                        |      |         |    |            |    |             |   |
+| ;;                 | WHEN:        | Mon                     | May       | 1       | 16:31:19               | BST  |    2017 |    |            |    |             |   |
+| ;;                 | MSG          | SIZE                    | rcvd:     | 82      |                        |      |         |    |            |    |             |   |
+|                    |              |                         |           |         |                        |      |         |    |            |    |             |   |
+
+- check reverse dns
+#+BEGIN_SRC sh
+dig -x 194.126.158.25
+#+END_SRC
+#+RESULTS:
+|                               |              |                         |           |                       |          |                |         |    |            |    |             |   |
+| ;                             | <<>>         | DiG                     | 9.11.0-P3 | <<>>                  | -x       | 194.126.158.25 |         |    |            |    |             |   |
+| ;;                            | global       | options:                | +cmd      |                       |          |                |         |    |            |    |             |   |
+| ;;                            | Got          | answer:                 |           |                       |          |                |         |    |            |    |             |   |
+| ;;                            | ->>HEADER<<- | opcode:                 | QUERY,    | status:               | NOERROR, | id:            |     157 |    |            |    |             |   |
+| ;;                            | flags:       | qr                      | rd        | ra;                   | QUERY:   | 1,             | ANSWER: | 1, | AUTHORITY: | 0, | ADDITIONAL: | 1 |
+|                               |              |                         |           |                       |          |                |         |    |            |    |             |   |
+| ;;                            | OPT          | PSEUDOSECTION:          |           |                       |          |                |         |    |            |    |             |   |
+| ;                             | EDNS:        | version:                | 0,        | flags:;               | udp:     | 4096           |         |    |            |    |             |   |
+| ;;                            | QUESTION     | SECTION:                |           |                       |          |                |         |    |            |    |             |   |
+| ;25.158.126.194.in-addr.arpa. | IN           | PTR                     |           |                       |          |                |         |    |            |    |             |   |
+|                               |              |                         |           |                       |          |                |         |    |            |    |             |   |
+| ;;                            | ANSWER       | SECTION:                |           |                       |          |                |         |    |            |    |             |   |
+| 25.158.126.194.in-addr.arpa.  | 259086       | IN                      | PTR       | www.state-of-mind.de. |          |                |         |    |            |    |             |   |
+|                               |              |                         |           |                       |          |                |         |    |            |    |             |   |
+| ;;                            | Query        | time:                   | 0         | msec                  |          |                |         |    |            |    |             |   |
+| ;;                            | SERVER:      | 127.0.0.1#53(127.0.0.1) |           |                       |          |                |         |    |            |    |             |   |
+| ;;                            | WHEN:        | Mon                     | May       | 1                     | 16:37:36 | BST            |    2017 |    |            |    |             |   |
+| ;;                            | MSG          | SIZE                    | rcvd:     | 90                    |          |                |         |    |            |    |             |   |
+|                               |              |                         |           |                       |          |                |         |    |            |    |             |   |
+
+
 * Lecture
 * Tutorial
 * Books

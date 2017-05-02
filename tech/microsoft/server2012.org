@@ -251,6 +251,5 @@ set-adaccountpassword "PowerShell User"
 #+END_SRC
 a window will ask for the new password to be entered (if in the gui)
 
-
 * Books
 * Links
