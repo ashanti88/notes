@@ -1,0 +1,86 @@
+#+TAGS: mon
+
+
+* Rsyslog								:mon:
+HomePage: [[http://www.rsyslog.com/][rsyslog.com]]
+* Description
+* Usage
+* Lecture
+** [[https://www.youtube.com/watch?v%3DpecYc0-9DQw][Setup Rsyslog Server]]
+This on a centos6 machine
+1. confirm installation and version of rsyslog
+2.a add the repo to /etc/yum.repos.d/rsyslog.repo
+/etc/yum.repos.d/rsyslog.repo
+#+BEGIN_SRC sh
+[rsyslog-v8-stable]
+name=Adiscon Rsyslog v8-stable for CentOS-$releasever-$basearch
+baseurl=http://rpms.adiscon.com/v8-stable/epel-$releasever/$basearch
+enabled=1
+gpgcheck=0
+protect=1
+#+END_SRC
+The above is found on the rsyslog site
+2.b alternative download the rpm
+
+3. make a copy of the /etc/rsyslog.conf --> /etc/rsyslog.conf.orig
+
+4. - update rsyslog
+
+#+BEGIN_SRC sh
+yum update rsyslog
+#+END_SRC
+
+5. confirm update
+#+BEGIN_SRC sh
+rsyslogd -v
+#+END_SRC
+this should now show the updated version
+
+6. edit the /etc/rsyslog.conf
+uncomment
+#+BEGIN_SRC sh
+module(load="imudp")
+input(type="imudp" port="514")
+#+END_SRC
+
+7. Add the templates to /etc/rsyslog.conf to the bottom of the file
+
+8. Start the service
+#+BEGIN_SRC sh
+service rsyslog start
+#+END_SRC
+
+9. Check that the new rsyslog dir has been created in /var/log/rsyslog_custom
+   
+10. Add the iptable rule to allow traffic to port 514 udp
+#+BEGIN_SRC sh
+-A INPUT -m state --state NEW -m udp -p udp --dport 514 -j ACCEPT
+#+END_SRC
+    
+11. Restart iptables and check that the rule has been added
+#+BEGIN_SRC sh
+service iptables restart
+iptables -nL
+#+END_SRC
+
+--- Adding Client ---
+On client machine
+12. edit /etc/rsyslog.conf
+add to the last line
+#+BEGIN_SRC sh
+######## client for 192.168.56.103 ####### rsyslog server
+*.* @@192.168.56.103:514
+#+END_SRC
+
+13. Start rsyslog service
+#+BEGIN_SRC sh
+service rsyslog start
+#+END_SRC
+
+On server
+14. Confirm that client has been added to /var/log/rsyslog_custom/ a new dir should be in here
+    
+* Tutorial
+* Books
+[[file://home/crito/Documents/SysAdmin/Monitor/rsyslog.pdf][Rsyslog]]
+* Links

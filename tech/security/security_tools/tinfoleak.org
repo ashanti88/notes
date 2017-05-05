@@ -1,0 +1,14 @@
+#+TAGS: recon
+
+
+* tinfoleak							      :recon:
+HomePage: https://tinfoleak.com/
+Github: https://github.com/krmaxwell/tinfoleak
+* Description
+This tool is used to search a specific twitter handle for information
+* Usage
+- 
+* Lecture
+* Tutorial
+* Books
+* Links

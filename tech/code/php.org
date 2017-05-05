@@ -82,8 +82,22 @@ composer --version
 rm /tmp/composer-setup.php
 #+END_SRC
 
+* Frameworks
+** Zend
+https://framework.zend.com/
+** Laravel
+https://laravel.com/
+** Behat
+http://behat.org
+* Testing
+** Behat
+http://behat.org
+** Behat
+http://behat.org
 * Lecture
 * Tutorial
+** PHP for Beginners - Become a PHP Master
+
 * Articles
 ** unlink() Vs unset()
 URL: http://phppot.com/php/php-unlink-vs-unset/
@@ -151,3 +165,6 @@ $black =& $white;
 $black is now storing the value of $white
 - if $white changes so does the value of $black
 
+* Links
+[[https://www.philnewton.net/guides/emacs-as-a-php-editor/][How to set up Emacs as a PHP Editor]]
+[[http://mgallego.github.io/blog/how-to-use-emacs-to-work-with-php/][How to use emacs to work with php]]

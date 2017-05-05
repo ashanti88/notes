@@ -1,0 +1,13 @@
+#+TAGS: recon enum
+
+
+* creepy							 :recon:enum:
+HomePage: [[http://www.geocreepy.com/][geocreepy.com]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+** [[https://www.youtube.com/watch?v%3DJqJ4zaDIVAs][Geolocation OSINT Tool Tutorial]] 
+
+* Books
+* Links

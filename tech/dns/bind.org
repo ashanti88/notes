@@ -258,5 +258,8 @@ authors.bind.   CHAOS  TXT "are better coders than I. :)"
 * Lecture
 * Tutorial
 * Books
+[[file://home/crito/Documents/SysAdmin/DNS/Pro_DNS_and_BIND_10.pdf][Pro DNS and BIND 10]]
+[[file://home/crito/Documents/SysAdmin/DNS/dns_and_bind-oreilly_5e.pdf][DNS and BIND - O'Reilly 5e]]
+
 * Links
 [[http://www.unixwiz.net/techtips/bind9-chroot.html][Building and Configuring BIND 9 in a chroot jail]]

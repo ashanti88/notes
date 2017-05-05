@@ -1,0 +1,17 @@
+#+TAGS: recon
+
+
+* Intelligence							      :recon:
+* Techniques
+** Display information
+- link chart
+- event chart
+- commodity flow charting
+- activity charting
+- financial charting
+- frequency charting
+- data correlation
+* Lecture
+* Tutorial
+* Books
+* Links

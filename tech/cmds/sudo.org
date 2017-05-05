@@ -41,6 +41,13 @@ sudo !!
 #+BEGIN_SRC sh
 usermod -a -G sudo frank
 #+END_SRC
+** Using sudo with multiple cmds
+url: [[https://www.cyberciti.biz/faq/how-to-run-multiple-commands-in-sudo-under-linux-or-unix/][cyberciti.biz/multiple_sudo_cmds]]
+
+#+BEGIN_SRC sh
+sudo -- sh -c 'date; whoami'
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

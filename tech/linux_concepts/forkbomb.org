@@ -14,3 +14,4 @@
 * Tutorial
 * Books
 * Links
+[[https://www.cyberciti.biz/faq/understanding-bash-fork-bomb/][cyberciti.biz/understanding-bash-fork-bomb]]

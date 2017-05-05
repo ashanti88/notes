@@ -1,7 +1,8 @@
-#+TAGS: boot
+#+TAGS: linux boot
 
 
-* Grub								       :boot:
+* Grub2 							       :boot:
+Manual: [[https://www.gnu.org/software/grub/manual/grub.html][gnu.org/grub]]
 * Overview
 ** Grub Shell
 *** Cmds
@@ -11,7 +12,6 @@ grub> set pager=1
 - view what partitions are available
   
 ** Grub Rescue Shell
-
 * Lecture
 * Tutorial
 * Books
