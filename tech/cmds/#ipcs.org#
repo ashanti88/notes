@@ -1,0 +1,45 @@
+#+TAGS: sys op
+
+
+* ipcs								     :sys:op:
+* Description
+* Usage
+- print the shared memory objects
+#+BEGIN_SRC sh
+ipcs -m
+#+END_SRC
+
+#+RESULTS:
+|            |          |        |          |          |        |        |
+|     ------ |   Shared | Memory | Segments | -------- |        |        |
+|        key |    shmid | owner  |    perms |    bytes | nattch | status |
+| 0x00000000 |   327680 | crito  |      600 |      900 |      2 | dest   |
+| 0x00000000 |  2228225 | crito  |      700 |   217012 |      2 | dest   |
+| 0x00000000 |  2064386 | crito  |      600 |   393216 |      2 | dest   |
+| 0x00000000 |  2097155 | crito  |      700 |  1021440 |      2 | dest   |
+| 0x00000000 |  2129924 | crito  |      700 |  1021440 |      2 | dest   |
+| 0x00000000 |  2162693 | crito  |      700 |  1021440 |      2 | dest   |
+| 0x00000000 |  2293766 | crito  |      700 |   211200 |      2 | dest   |
+| 0x00000000 |  2260999 | crito  |      700 |  8294400 |      2 | dest   |
+| 0x00000000 |  2392072 | crito  |      700 |   294400 |      2 | dest   |
+| 0x00000000 | 12779529 | crito  |      700 |     3440 |      2 | dest   |
+| 0x00000000 |  2424842 | crito  |      700 |    35168 |      2 | dest   |
+| 0x00000000 |  2457611 | crito  |      700 |    35392 |      2 | dest   |
+| 0x00000000 |  2555916 | crito  |      600 |   524288 |      2 | dest   |
+| 0x00000000 | 12746766 | crito  |      600 | 67108864 |      2 | dest   |
+|            |          |        |          |          |        |        |
+- nattch col indicates how many processors are attached to the shared memory object
+  
+- print the pids
+#+BEGIN_SRC sh
+ipcs -p -m
+#+END_SRC
+
+- get more information of a shared memory object, use the shmid
+#+BEGIN_SRC sh
+ipcs -m -i 32769
+#+END_SRC
+* Lecture
+* Tutorial
+* Books
+* Links

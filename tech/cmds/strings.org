@@ -1,0 +1,20 @@
+#+TAGS: sys file
+
+
+* strings							   :sys:file:
+* Description
+* Usage
+- print all ASCII text in a file
+#+BEGIN_SRC sh
+strings ~/bin/bakup.pl
+#+END_SRC
+
+- print all utf-8 in a file
+#+BEGIN_SRC sh
+strings -eS ~/bin/bakup.pl
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

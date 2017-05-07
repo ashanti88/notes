@@ -1,0 +1,9 @@
+#+TAGS: sci
+
+
+* Machine Learning							:sci:
+* Lecture
+* Tutorial
+* Books
+[[file://home/crito/Documents/Computer_Science/Machine_Learning.pdf][Machine Learning - Wiley]]
+* Links

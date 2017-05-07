@@ -1,0 +1,14 @@
+#+TAGS: sys file hex
+
+
+* hexdump						       :sys:file:hex:
+* Description
+* Usage
+- 
+#+BEGIN_SRC sh
+hexdump binary_file.dat
+#+END_SRC
+* Lecture
+* Tutorial
+* Books
+* Links

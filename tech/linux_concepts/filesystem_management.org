@@ -3,19 +3,15 @@
 
 * filesystem management
 * Cmds
+- mkfs
+- e2label
+- gparted
+- parted
+- fdisk
+
 * Overview
 * Lecture
 * Tutorial
 * Books
 * Links
-*Commands:*
 
-mkfs
-
-e2label
-
-gparted
-
-parted
-
-fdisk

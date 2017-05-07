@@ -1,7 +1,7 @@
 #+TAGS: mon
 
 
-* RSYSLOG								:mon:
+* Rsyslog								:mon:
 HomePage: [[http://www.rsyslog.com/][rsyslog.com]]
 * Description
 * Usage
@@ -82,4 +82,5 @@ On server
     
 * Tutorial
 * Books
+[[file://home/crito/Documents/SysAdmin/Monitor/rsyslog.pdf][Rsyslog]]
 * Links

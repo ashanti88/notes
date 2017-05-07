@@ -1,0 +1,15 @@
+#+TAGS: sys
+
+
+* ipcrm									:sys:
+* Description
+* Usage
+- delete a shared memory object
+#+BEGIN_SRC sh
+ipcrm -m 32696
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

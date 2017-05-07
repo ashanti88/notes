@@ -1,0 +1,15 @@
+#+TAGS: sys file hex
+
+
+* xxd							       :sys:file:hex:
+* Description
+* Usage
+- dump file in hex and print all ASCII text
+#+BEGIN_SRC sh
+xxd binary_file.dat
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

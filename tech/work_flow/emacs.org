@@ -125,6 +125,7 @@ jump to a bookmark - C-x rb <name>
 C-h ?   - overview of help
 C-h P   - search Package
 C-h m - help on the mode currently in
+      - this will also list the current minor modes
 C-h i    - Emacs info
   - u - move up a level
   - [  - move to previous node
@@ -137,12 +138,31 @@ C-x v C-h - this will list all the bindings set to prefix
 
 ** Recover files after a crash
 C-x recover-session
+** Python Environment
+python will need to install 
+#+BEGIN_SRC sh
+python3 -m pip install rope_py3k 
+python3 -m pip install jedi
+python3 -m pip install importmagic
+python3 -m pip install autopep8
+python3 -m pip install yapf
+python3 -m pip install flake8
+#+END_SRC
+
+
+
 * Modes
 * Packages
 ** projectile - provides an easy way to navigate a project :emacs:projectile:project:
 HomePage: [[http://batsov.com/projectile/][batsoy.com/projectile]]
 ** epc - middleware that connects pythonland to emacsland
-** jedi 
+** elpy
+check the elpy config
+M-x elpy-config - this will let you know what is need to run the environment
+
+Check the current file syntax
+C-c C-v - this will check the current file
+** jedi
 *** Jedi Server Options
  Finding your project (--sys-path)
  - sys-path is where python looks for modules
@@ -179,6 +199,8 @@ owd <TAB>   -------------> /home/crito/org/tech/$1
 - for the key it's better to use key combinations, as words will prompt auto-completion
 
 ** Helm						  :emacs:helm:search:
+** ido
+this is an alternative to helm
 ** vagrant-tramp						:emacs:tramp:
 This package allows files in vagrant boxes to be edited
 
