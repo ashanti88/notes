@@ -698,7 +698,8 @@ initrd custom-initramfs.cpio.gz
 + All loaded modules can be found in /proc/modules
 
 * Books
-** The Linux Programming Interface - Michael Kerrisk
+** [[file://home/crito/Documents/Linux/The_Linux_Programmers_Toolbox.pdf][The Linux Programmer's Toolbox]] 
+** [[file://home/crito/Documents/Linux/The_Linux_Programming_Interface_2010.pdf][The Linux Programming Interface]]
 
 *** Chapter 5 - I/O
 + System calls are executed atomically.
@@ -742,10 +743,8 @@ template takes a pathname with the last 6 char XXXXXX. These chars will be repla
 + The max can be altered on 64bit machines to around 4million (2xy22)
 + The file to alter this can be found in /proc/sys/kernel/pid_max 
 
+** [[file://home/crito/Documents/Linux/Linux_System_Programming_2e.pdf][Linux System Programming]]
 * Links
-
-
-
 * Lookups
 + hackbench
 + ksoftirqd

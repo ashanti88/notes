@@ -1,0 +1,19 @@
+#+TAGS: sys
+
+
+* ltrace								:sys:
+* Description
+* Usage
+- findout if semaphore is blocking on process
+#+BEGIN_SRC sh
+ltrace -p 661
+#+END_SRC
+if blocking a line with sem_wait will be returned
+
+[[file://home/crito/Pictures/org/ltrace_blocking.png]]
+
+
+* Lecture
+* Tutorial
+* Books
+* Links

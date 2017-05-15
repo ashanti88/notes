@@ -1,0 +1,15 @@
+#+TAGS: sys file
+
+
+* fuser								   :sys:file:
+* Description
+* Usage
+- find the pid of an open file
+#+BEGIN_SRC sh
+fuser ~/bin/bakup.pl
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

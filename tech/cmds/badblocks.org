@@ -1,0 +1,14 @@
+#+TAGS: sys hw disk
+
+
+* badblocks							:sys:hw:disk:
+* Description
+* Usage
+- test for badblocks on a disk
+#+BEGIN_SRC sh
+badblocks -s /dev/sdb
+#+END_SRC
+* Lecture
+* Tutorial
+* Books
+* Links

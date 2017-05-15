@@ -1,0 +1,11 @@
+#+TAGS: sys
+
+
+* smbclient								:sys:
+* Description
+List smb shares in a network
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

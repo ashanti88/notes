@@ -1,0 +1,12 @@
+#+TAGS: sys
+
+
+* mogrify								:sys:
+* Description
+Convert ppm images to png
+
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

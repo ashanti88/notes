@@ -256,6 +256,10 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((host,port))
 Login()
 #+END_SRC
+* Databases
+- NVD (National Vulnerability Database)
+- Open Source Vulnerability Database
+- 
 * Lecture
 ** [[https://www.youtube.com/watch?v%3DgYOy7CGpPIU][The Makin of atlas: Kiddie to Hacker in 5 Sleepless Nights]]
 http://atlas.r470y.com/ - atlas blog   

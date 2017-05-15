@@ -1,0 +1,16 @@
+#+TAGS: sys hw
+
+
+* hdparm							     :sys:hw:
+* Description
+Provides SATA/IDE device with an interface to get/set values
+* Usage
+- show data about /dev/sda
+#+BEGIN_SRC sh
+hdparm -i /dev/sda
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

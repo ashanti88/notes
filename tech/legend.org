@@ -2,12 +2,16 @@
 
 
 * System
-
 sys - system
 net - network
 db  - database
 sec - security
+pid - process
+file - works on a file
+txt - works on txt
+
 * Security
 sec - security
+
 * Monitoring
 mon - monitoring
