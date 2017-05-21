@@ -1,0 +1,15 @@
+#+TAGS: code
+
+
+* Paradigms                                                            :code:
+* Types
+** Imperative
+** Functional
+** Object Oriented
+** Metaprogramming
+** Concurrent
+** Declarative
+* Lecture
+* Tutorial
+* Books
+* Links

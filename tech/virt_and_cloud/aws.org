@@ -3,7 +3,62 @@
 
 * Amazon Web Services
 * Description
-* Usage
+* Compute
+* Lex
+** [[https://www.youtube.com/watch?v=I5OlTMLinio][Introducing Amazon Lex]]
+- Conversational Access
+  - Natural
+  - On-demand
+  - Accessible
+  - Efficient
+
+- Development Challenges
+  - Security
+  - Availability
+  - Speech Recognition
+  - Language Understanding
+  - Mobile
+  - Business Logic
+  - Testing
+  - Messaging platforms
+  - Authentication
+
+- Lex Feautures
+  - Test and speech language understanding: 
+  - Deployment to chat services
+  - Designed for builderrs
+  - Versioning and alias support
+  - Enterprise SaaS connectors
+    
+- Deployment to Chat Services
+  - Facebook Messenger
+  - Twilio
+  - Manual development   
+
+- Bot Use Cases
+  - Informational Bots
+    - Chattbots for consumer requests
+  - Application Bots
+    - Build poerful interfaces to mobile applicatons
+      - hotel reservation
+      - car hire
+      - restaurant reservation
+  - Enterprise Productivity Bots
+    - Steramline enterprise work activities and improve efficiencies
+  - IoT Bots
+    - Enable conversational interface for device interactions
+
+- Bot Monitoring
+  - Missed Utterance Count
+    - didn't hit any of your intents
+  - Latency
+  - Traffic 
+    - which bots are being used
+    - which intents are asked the most
+
+* Dynamo
+* Lambda
+* IoT
 * Lecture
 ** [[https://www.youtube.com/watch?v%3DeKyS9rvbj40][Introduction to Database Services - Brian Rice]]
 + If you host your DB on-site

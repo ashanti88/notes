@@ -4,6 +4,16 @@
 * ls								  :file:anal:
 * Description
 * Usage
+** View only directories
+#+BEGIN_SRC sh
+ls -d /home/crito/*
+#+END_SRC
+
+#+BEGIN_SRC sh
+ls -l | grep '^d'
+#+END_SRC
+
+** SELinux
 ls -Z - SELinux context
 
 user - unconfined\_u

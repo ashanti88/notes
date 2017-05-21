@@ -5,6 +5,7 @@
 * Description
 * Usage
 * Lecture
+[[https://www.youtube.com/watch?v=WFLvcMiG38w][Introduction to Make and GNU Autotools - Barry Smith]]
 * Tutorial
 * Books
 * Links

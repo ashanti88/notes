@@ -18,6 +18,11 @@ where sf_Dropbox is the share name and mtp is the mount directory
 - File -> Import Appliance -> select the ova file
 This will then show an over view of the box that will be created
 
+** Run VM Headless
+#+BEGIN_SRC sh
+VBoxManage startvm centos_box --type headless
+#+END_SRC
+this allows for the machine to be run in he background and ssh into
 * Lecture
 * Tutorial
 * Books

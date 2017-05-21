@@ -4,6 +4,7 @@
 * 1955 - TX-0
 * 1961 - MIT's Compatible Time-Sharing System (CTSS)
 * 1964 - CDC 6400
+* 1964 - IBM 704
 * 1976 - Intel 8086
 * 1982 - ZX Spectrum
 * 1982 - Commodore 64
@@ -11,3 +12,4 @@
 * 1987 - Amiga 500
 * 1991 - Amiga 500 Plus
 * 1984 - Macintosh 128K
+* 2010 - Cray XE6

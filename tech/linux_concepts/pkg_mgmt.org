@@ -158,6 +158,8 @@ apt-get autoremove
 # Verify disk space
 df -H
 
+** Ubuntu
+*** Snappy
 ** Rhel							       :sys:pkg:rhel:
 **** Repos 							  :rhel:repo:
 Adding a repo
@@ -326,14 +328,14 @@ dnf upgrade
 *** zypper							   :suse:pkg:
 ** Arch							       :sys:pkg:arch:
 *** pacman							   :arch:pkg:
-- 
-#+BEGIN_SRC sh
-pacman -Qo
-#+END_SRC
-=======
 - list installed pkgs
 #+BEGIN_SRC sh
 pacman -Q > pkg_list.txt
+#+END_SRC
+
+- delete orphaned pkgs
+#+BEGIN_SRC sh
+pacman -Rns $(pacman -Qtdq)
 #+END_SRC
 
 *** yaourt							   :arch:pkg:

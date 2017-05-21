@@ -1,0 +1,32 @@
+#+TAGS:
+
+
+* DevOps
+* Description
+* Usage
+* Lecture
+* Tutorial
+** [[https://courses.edx.org/courses/course-v1:LinuxFoundationX+LFS161x+2T2016/courseware/4e04e367dbaf4eff8562ae8f3e5b8e75/49e349c0589e4225b508b436a77d3d3e/][Linux Foundation LFS161 - Introduction to DevOps - John Willis]]
+damon edwards - devops podcast
+
+CAMS - Culture - Automation - Measurements - Sharing
+
+MTTR - Mean Time To Repair
+
+Plan -> Do -> Check -> Act
+
+Reading List
+- Phonix Project
+- DevOps Handbook
+  
+Recommended Resources
+- AwS - Transforming Software Development - youtube
+- Gene Kim - Leading A DevOps Transformation: Lessons Learned
+- CAMS - What Devops Means to Me - chef blog
+- The Agile Admin - What is DevOps?
+
+
+
+
+* Books
+* Links

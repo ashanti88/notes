@@ -1,0 +1,43 @@
+#+TAGS: sec sys boot luks
+
+
+* Disk Encryption						   :sec:boot:
+* Description
+* Usage
+** Multiple Encrypted Disks at Boot
+- this should only be done if the disk that holds the encrypted key is encrypted
+1. Create a random keyfile
+#+BEGIN_SRC sh
+sudo dd if=/dev/urandom of=/root/keyfile bs=1024 count=4
+#+END_SRC
+
+2. Make the keyfile readonly by root
+#+BEGIN_SRC sh
+chmod 0400 /root/keyfile
+#+END_SRC
+
+3. Add the keyfile to LUKS
+#+BEGIN_SRC sh
+sudo cryptsetup luksAddKey /dev/sdX /root/keyfile
+#+END_SRC
+- This will prompt for the passphase
+
+4. Create a mapper
+- /etc/crypttab
+
+dX_crypt      /dev/sdX  /root/keyfile  luks
+
+- here dX_crypt is the name that will be mapper to the disk
+  
+5. Add the encrypted disk to fstab
+- /etc/fstab
+
+/dev/mapper/sdX_crypt  /media/sdX     ext3    defaults        0       2
+
+6. Reboot
+- check now that the disk is being mounted
+
+* Lecture
+* Tutorial
+* Books
+* Links

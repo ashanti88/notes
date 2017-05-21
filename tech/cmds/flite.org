@@ -1,0 +1,16 @@
+#+TAGS: sys admin
+
+
+* flite                                                           :sys:admin:
+HomePage: [[http://www.festvox.org/flite/][festvox.org]]
+* Description
+Flite (festival-lite) is a small, fast run-time open source text to speech synthesis engine
+* Usage
+- test
+#+BEGIN_SRC sh
+echo hello | flite
+#+END_SRC
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -4,6 +4,15 @@
 * powertop							   :sys:anal:
 * Description
 * Usage
+** Tunables
+These provide some diagnositc information more for distribution devs.
+- Some of the tunables my save some power usage
+- be careful as some options my cut power to a needed piece of equipment
+  - if the above does occur re-enter powertop and click enter on the offending option
+
+This did cut the fan usage on my laptop (lenovo 510)
+ - does appear to be tied to the gpu
+ - a better solution woul be to use fan speed control of tpl
 * Lecture
 * Tutorial
 * Books

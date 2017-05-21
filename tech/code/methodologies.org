@@ -1,0 +1,20 @@
+#+TAGS: code
+
+
+* Methodologies                                                        :code:
+* Types
+** Scrum
+** Lean
+** Agile
+** Waterfall
+** Kanban
+** RAD (Rapid Application Development)
+** TDD (Test Driven Development)
+** Extreme Programming
+** Rational Unified Process 
+** Spiral Model
+
+* Lecture
+* Tutorial
+* Books
+* Links

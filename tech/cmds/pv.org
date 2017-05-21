@@ -1,10 +1,22 @@
+#+TAGS: sys ops
 
 
-
-
+* pv                                                                :sys:ops:
 * Description
-
-
-
-
+Its intended use is monitoring data copying progress, like when you run rsync or create a tar archive.
 * Usage
+- rsync
+#+BEGIN_SRC sh
+rsync -av /home/crito/ /media/crito/backup/ | pv
+#+END_SRC
+
+- tar
+#+BEGIN_SRC sh
+tar -czf - /file/path| (pv  > backup.tgz)
+#+END_SRC
+
+
+* Lecture
+* Tutorial
+* Books
+* Links

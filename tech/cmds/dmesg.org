@@ -1,0 +1,21 @@
+#+TAGS: sys anal
+
+
+* dmesg                                                            :sys:anal:
+* Description
+The ‘dmesg‘ command displays the messages from the kernel ring buffer.
+* Usage
+To pull information from dmesg we can use the gnu tool set
+- grep
+- tail
+- less
+- head
+  
+- clear the dmesg buffer 
+#+BEGIN_SRC sh
+dmesg -c
+#+END_SRC
+* Lecture
+* Tutorial
+* Books
+* Links

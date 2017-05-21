@@ -78,6 +78,11 @@ To unload the key
 #+BEGIN_SRC sh
 ssh-add -d .ssh/id_rsa
 #+END_SRC
+** Generate public key from private key
+#+BEGIN_SRC sh
+ssh-keygen -y -f .ssh/private_key > .ssh/private_key.public
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books
