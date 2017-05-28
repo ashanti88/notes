@@ -1,0 +1,7 @@
+#+TAGS: sys term
+
+
+* Termite
+* Urxvt
+* Terminator
+* Uxterm

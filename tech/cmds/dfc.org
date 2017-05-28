@@ -1,0 +1,11 @@
+#+TAGS: sys disk term
+
+
+* dfc                                                         :sys:disk:term:
+* Description
+this tool reports file system usage, similar to df but with color
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

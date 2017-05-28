@@ -339,11 +339,18 @@ pacman -Rns $(pacman -Qtdq)
 #+END_SRC
 
 *** yaourt							   :arch:pkg:
+**** Diagnosis
 - Search for pkg
 #+BEGIN_SRC sh
 yaourt -Ss python
 #+END_SRC
 
+- Provide yaourt Stats
+#+BEGIN_SRC sh
+yaourt --stats
+#+END_SRC
+
+**** Operations
 - Install pkg
 #+BEGIN_SRC sh
 yaourt -S python3.5
@@ -354,12 +361,24 @@ yaourt -S python3.5
 yaourt -Sr python3.5
 #+END_SRC
 
+- upgrade system
+#+BEGIN_SRC sh
+yaourt -Syu
+#+END_SRC
+
 - Update repos
 #+BEGIN_SRC sh
 yaourt -Sy
 #+END_SRC
 
-- upgrade system
+- Build from source
 #+BEGIN_SRC sh
-yaourt -Syu
+yaourt -Sb
 #+END_SRC
+
+- Backup Database
+#+BEGIN_SRC sh
+yaourt -B
+#+END_SRC
+*** pacli                                                          :arch:pkg:
+This tool is a tui for both pacman and yaourt

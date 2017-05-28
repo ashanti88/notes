@@ -1,0 +1,111 @@
+Bookmarks
+
+[[http://www.rfc-editor.org/rfc-index.html][RFC Index]]
+
+* Code
+[[https://developers.redhat.com/?elqTrackId=3a0ca73cff1544c086b6d71f1b52ad27&elq=346610e60100422a9779159173e55c79&elqaid=23724&elqat=1&elqCampaignId=102247][Red Hat Developers]]
+[[https://rhnh.net/2011/01/31/yaml-tutorial/][YAML Tutorial]]
+** Python
+[[https://python.swaroopch.com/stdlib.html][Python Std Lib]]
+[[http://docs.python-guide.org/en/latest/][The Hitchhiker's Guide to Python]]
+*** Blog
+[[http://love-python.blogspot.co.uk/][Love Python]]
+[[http://planetpython.org/][Planet Python]]
+[[http://effbot.org/][effbot - python articles]]
+[[https://www.pydanny.com/][PyDanny - Python Articles]]
+[[http://inventwithpython.com/blog/][Invent With Python]]
+*** Django
+[[https://tutorial.djangogirls.org/en/html/][Django Girls Tutorial]]
+** Perl
+[[http://www.perlmonks.org/][Perl Monks]]
+** C
+** Go
+** php
+** JS
+** elisp
+** ProLog
+[[https://www.cpp.edu/~jrfisher/www/prolog_tutorial/contents.html][Prolog - J R Fisher]]
+
+* System Admin
+[[https://blog.bigdinosaur.org/][Big Dinosaur]]
+
+** System
+[[https://www.linux.com/learn/intro-to-linux/2017/2/best-third-party-repositories-centos][The Best Third-Party Repos for Centos]]
+*** Init
+** Mail 
+** Web
+
+*** Apache
+[[https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-on-centos-7][How-to-install LAMP Centos7 - DigitalOcean]]
+[[http://srobb.net/jailkit.html][Setting up an Apache Jail in Centos6 & Centos7]]
+*** Nginx
+*** Varnish
+[[https://www.varnish-cache.org/docs/trunk/tutorial/][Varnish - Tutorial]]
+[[https://www.privoxy.org/][Privoxy - HomePage]]
+[[https://www.cyberciti.biz/faq/how-to-install-and-configure-varnish-cache-on-ubuntu-linux-16-04-lts/][How-to-install and Configure Varnish Cache on Ubuntu linux 16.04]]
+
+** Networking
+[[http://networkstatic.net/][Network Static - Brent Salisbury's Blog]]
+
+** Virtualization
+** Cloud
+** Monitoring
+** Security (Blue Team)
+[[https://www.kali.org/penetration-testing/openvas-vulnerability-scanning/][OpenVAS - Kali Linux]]
+** Database
+*** MySQL
+*** PostgreSQL
+*** SQLite
+** Storage
+** DNS
+** LB
+*** HAProxy
+[[https://www.haproxy.com/][HAProxy]]
+* DevOps
+[[http://itrevolution.com/devops-blog/][itrevolution - DevOps]]
+[[https://continuousdelivery.com/][Continous Delivery]]
+
+* Tech Blogs
+[[http://joelmccracken.github.io/][Joel's Journal - Software Development]]
+[[https://doughellmann.com/blog/][Doughellmann - OpenStack, Python and OpenSource]]
+[[http://lucumr.pocoo.org/][Armin Ronacher - OpenSource]]
+[[http://blog.vmsplice.net/][Stefan Hajnoczi - OpenSource, KVM and Qemu]]
+[[https://landley.net/][Rob Landley - Toybox creator]]
+[[https://brennan.io/blog/][Stephen Brennan - C shell build]]
+[[http://jvns.ca/][Julia Evans]]
+[[https://0xax.github.io/][Just a memo - Linux Kernel and low level]]
+[[http://blog.scottlowe.org/][Scott Lowe - Virtualization, Networking, OpenSource and Cloud Computing]]
+
+* Emacs
+** Blogs
+[[http://sachachua.com/blog/][Sachachua]]
+[[http://karl-voit.at/about/][Karl Voit - General Emacs]]
+
+* Tux
+** Blogs
+[[http://www.kroah.com/log/][Greg Kroah-Hartmann]]
+[[http://www.kroah.com/log/][Collection of Linux Tips]]
+[[http://www.brendangregg.com/index.html][Brendan Gregg]]
+[[http://linux-man-pages.blogspot.co.uk/][Linux-Man-Pages - Michael Kerrisk]]
+** Distro
+*** Arch
+*** Debian
+*** Red Hat
+** Tools
+*** Bash
+
+[[http://www.rdesktop.org/][rdesktop]]
+* Kernel
+[[https://www.kernel.org/doc/Documentation/cgroup-v1/cgroups.txt][Cgroup]]
+
+[[https://lwn.net/Articles/196292/][A Filesystems Reading List]]
+[[https://lwn.net/Articles/270081/][An Efficient Implementation of Fundamental OS Services]]
+[[https://lwn.net/Articles/286233/][The Kernel Hacker's Bookshelf]]
+[[https://lwn.net/Articles/296738/][The Kernel Hacker's Bookshelf - UNIX Internals]]
+[[https://lwn.net/Articles/385081/][The Kernel Hacker's Bookshelf - Generating Realistic Impressions for File-System Benchmarking]]
+
+* Security
+[[http://www.l0pht.com/][l0pht]]
+[[http://www.irongeek.com/][Irongeek]]
+[[http://www.pentest.guru/][Pentest Guru - All About In-Security]]
+[[https://www.coresecurity.com/blog/][Core Security]]

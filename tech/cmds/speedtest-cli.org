@@ -1,0 +1,15 @@
+#+TAGS: net anal
+
+
+* speedtest-cli                                                    :net:anal:
+* Description
+this tool test your current network coonection speed
+* Usage
+- test upload and download speeds
+#+BEGIN_SRC sh
+speedtest-cli
+#+END_SRC
+* Lecture
+* Tutorial
+* Books
+* Links

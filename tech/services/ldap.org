@@ -21,5 +21,6 @@ LDAP uses the Sleepycat Berkley DB,
 * Tutorial
 * Books
 [[file://home/crito/Documents/Linux/Linux_Networking_Cookbook.pdf][Linux Networking Cookbook]]
+[[file://home/crito/Documents/SysAdmin/OReilly_ldap.pdf][O'Reilly LDAP]]
 * Links
 

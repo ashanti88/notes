@@ -1,0 +1,16 @@
+#+TAGS: sys disk
+
+
+* du
+* Description
+Show current disk space usage
+* Usage
+- summerize and human readable
+#+BEGIN_SRC sh
+du -Sh
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

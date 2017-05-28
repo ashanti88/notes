@@ -1,7 +1,7 @@
-#+TAGS: sys sysv
+#+TAGS: sys sysv runlevel
 
 
-* telinit							   :sys:sysv:
+* telinit                                                 :sys:sysv:runlevel:
 * Description
 this tool will allow us to change the current runlevel of the system
 * Usage
@@ -10,7 +10,8 @@ this tool will allow us to change the current runlevel of the system
 telinit 3
 #+END_SRC
 * Alternative
-sysd: 
+sysd: [[file://home/crito/org/tech/cmds/systemctl.org][systemctl]]
+
 * Lecture
 * Tutorial
 * Books

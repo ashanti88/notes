@@ -1,14 +1,17 @@
-#+TAGS: bakup
+#+TAGS: bakup file
 
 
-* rsync								      :bakup:
+* rsync                                                          :bakup:file:
 * Description
 * Usage
 - sync two directories
 #+BEGIN_SRC sh
-rsync -r dir1/ dir2
+rsync -rzhv dir1/ dir2
 #+END_SRC
 r - recursive
+z - compress
+h - human readable numbers
+v - verbose
 the trailing / is required as it signifies the contents of that dir, otherwise you would get /dir2/dir1/contents
 
 - copy a file from remote server to local machine
