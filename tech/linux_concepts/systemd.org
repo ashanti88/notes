@@ -100,6 +100,7 @@ url: https://www.youtube.com/watch?v=VIPonFvPlAs&index=64&list=WL
 
 * Tutorial
 * Books
+[[file://home/crito/Documents/SysAdmin/systemd-ebook-psankar.pdf][Systemd for Administrators]]
 * Links
 [[https://www.linux.com/learn/here-we-go-again-another-linux-init-intro-systemd][Here we go again another linux init]]
 [[https://www.linux.com/learn/understanding-and-using-systemd][Understanding and Using Systemd]]

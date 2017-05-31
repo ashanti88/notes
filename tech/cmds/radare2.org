@@ -1,0 +1,26 @@
+#+TAGS: code disassembler
+
+
+* Radare2                                                 :code:disassembler:
+HomePage: [[https://rada.re/r/][rada.re]]
+* Description
+* Usage
+- Commands
+** Analysis
+- s - seek
+- a - analyze
+  - aa - analyze all
+
+** Disassemble
+- pdf - print disassemble function
+  - pdf @ main - this will dissassemble and print the main function
+- px - print hex
+    
+
+* Lecture
+* Tutorial
+- [[https://samsymons.com/blog/reverse-engineering-with-radare2-part-1/][Reverse-Engineering with Radare2 - Part 1]]
+
+* Books
+[[file://home/crito/Documents/Tools/radare.pdf][Radare]]
+* Links

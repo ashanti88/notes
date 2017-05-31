@@ -1,7 +1,9 @@
+#+TAGS: virt
 
 
-
-
+* KVM                                                                  :virt:
+* Description
+* Usage
 * Lecture
 ** KVM and QEMU Internals - Understanding the IO subsystem - Kyle Bader :openstack:
    
@@ -41,3 +43,11 @@
 - Supermicro - mentioned with percona
 - gorilla scalability model - neil gunther
 - rbd based cluster
+* Tutorial
+** [[https://www.linux.com/learn/intro-to-linux/2017/5/creating-virtual-machines-kvm-part-1][KVM - Linux.com]]
+
+* Books
+* Links
+
+
+

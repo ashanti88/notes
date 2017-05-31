@@ -1,7 +1,7 @@
 #+TAGS: sec password
 
 
-* kpcli
+* kpcli                                                        :sec:password:
 HomePage: [[http://kpcli.sourceforge.net/][kpcli.sourceforge.net]]
 * Description
 Cmd line interface for keepassX

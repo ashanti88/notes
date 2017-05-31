@@ -112,6 +112,8 @@ Software
 Software
 [[file://home/crito/org/tech/linux_concepts/cpanel.org][cPanel]]
 
+* 2379  - etcd
+* 2380  - etcd
 * 3306  - MySQL
 Software
 [[file://home/crito/org/tech/database/mysql.org][MySQL]]

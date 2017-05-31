@@ -1,0 +1,13 @@
+#+TAGS: code:asm
+
+
+* nasm                                                             :code:asm:
+HomePage: [[http://www.nasm.us/][nasm.us]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+[[http://cs.lmu.edu/~ray/notes/nasmtutorial/][Loyola Marymount University - NASM Tutorial]]
+* Books
+[[file://home/crito/Documents/Tools/nasm_manual.pdf][Nasm Manual]]
+* Links

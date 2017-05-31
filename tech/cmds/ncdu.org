@@ -3,6 +3,7 @@
 
 * ncdu 								     :sys:op:
 Home Page: [[https://dev.yorhel.nl/ncdu][ncdu]]
+HomePage: [[https://dev.yorhel.nl/ncdu][yorhel.nl/ncdu]]
 * Description
 * Usage
 * Lecture

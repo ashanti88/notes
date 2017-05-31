@@ -1,0 +1,15 @@
+#+TAGS:
+
+
+* Gnome 
+* Kde
+* i3wm
+** Key-bindings
+- terminal
+$mod + Ret
+  
+- reload i3.conf & i3statusbar.conf
+$mod + Shift + r
+* xfce
+* lxde
+* mate

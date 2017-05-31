@@ -13,6 +13,9 @@
 ** RAID 10
 * Usage
 * Lecture
+** [[https://www.youtube.com/watch?v=yAuEgepZG_8][RAID: Obsolete? - Part 1]]
+zfs assumes that errors are caused by faulty disk not ram.
+  - makesure to use errror correcting ram otherwise this can become a problem
 * Tutorial
 * Books
 [[file://home/crito/Documents/Linux/Managing_RAID_on_Linux.pdf][Managing RAID on Linux]]

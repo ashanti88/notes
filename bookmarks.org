@@ -27,10 +27,8 @@ Bookmarks
 [[https://www.cpp.edu/~jrfisher/www/prolog_tutorial/contents.html][Prolog - J R Fisher]]
 [[http://www.learnprolognow.org/lpnpage.php?pageid=online][Learn Prolog Now]]
 
-
 * System Admin
 [[https://blog.bigdinosaur.org/][Big Dinosaur]]
-
 ** System
 [[https://www.linux.com/learn/intro-to-linux/2017/2/best-third-party-repositories-centos][The Best Third-Party Repos for Centos]]
 *** Init

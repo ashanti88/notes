@@ -55,7 +55,12 @@ nmcli dev wifi connect SSID password pa$$w0rd iface wlan1
 #+BEGIN_SRC sh
 nmcli dev disconnect iface eth0
 #+END_SRC
+*** Switch Wifi Off
+#+BEGIN_SRC sh
+nmcli r wifi off
+#+END_SRC
 * Alternatives
+curses: [[file://home/crito/org/tech/cmds/nmtui.org][nmtui]]
 ncurses: [[file://home/crito/org/tech/cmds/wifi-menu.org][wifi-menu]]
 sysd: [[file://home/crito/org/tech/cmds/netctl.org][netctl]] (terminal)
 

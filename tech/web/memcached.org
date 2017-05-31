@@ -1,11 +1,14 @@
-#+TAGS:
+#+TAGS: web cache
 
 
-* Memcached
+* Memcached                                                       :web:cache:
 HomePage: [[https://memcached.org/][memcached.org]]
 * Description
 * Usage
 * Lecture
 * Tutorial
 * Books
+[[file://home/crito/Documents/SysAdmin/Web/Pragmatic_Fridays_Using_memcached.pdf][Pragmatic Fridays Using memcached]]
+[[file://home/crito/Documents/SysAdmin/Web/memcached.pdf][Memcached]]
+[[file://home/crito/Documents/SysAdmin/Web/MySQL_Memcached.pdf][MySQL Memcached]]
 * Links

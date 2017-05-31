@@ -1,0 +1,23 @@
+#+TAGS: virt cloud net
+
+
+* Kubernetes                                                 :virt:cloud:net:
+HomePage: [[https://kubernetes.io/][kubernetes.io]]
+* Description
+* Usage
+
+- Kubernetes UI
+https://<your_master_ip>/api/v1/proxy/namespaces/kube-system/services/kube-ui  
+
+- Grafana
+https://<your_master_ip>/api/v1/proxy/namespaces/kube-system/services/monitoring-grafana
+
+- Swagger
+https://<your_master_ip>/swagger-ui/
+
+* Lecture
+* Tutorial
+* Books
+** [[file://home/crito/Documents/SysAdmin/Cloud/Getting_Started_with_Kubernetes.pdf][Getting Started with Kubernetes]]
+
+* Links

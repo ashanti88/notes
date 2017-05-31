@@ -173,6 +173,12 @@ URL: https://www.owasp.org/index.php/Clickjacking
  - /../etc/passwd
 ** Cookie-Stuffing
 ** Cross Site Request Forgery (CSRF)
+*** [[https://www.youtube.com/watch?v=iY74zUB6Mpk][Cross-Site Request Forgery Attack Lecture - Kevin Du]]
+- Countermeasures against CSRF Attacks
+  - Secret Token
+  - do not attach cookies for Cross-Site requests
+    - this could break functionality (this is an extreme measure)
+  - Same-Site Cookie
 ** Cross Site Tracing (XST)
 ** DLL injection
 ** Drity Cow
@@ -261,7 +267,7 @@ Login()
 - Open Source Vulnerability Database
 - 
 * Lecture
-** [[https://www.youtube.com/watch?v%3DgYOy7CGpPIU][The Makin of atlas: Kiddie to Hacker in 5 Sleepless Nights]]
+** [[https://www.youtube.com/watch?v%3DgYOy7CGpPIU][The Making of atlas: Kiddie to Hacker in 5 Sleepless Nights]]
 http://atlas.r470y.com/ - atlas blog   
 
 - Tools
