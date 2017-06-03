@@ -1,0 +1,504 @@
+#+TAGS: python py script
+
+
+* Python3
+* modules
+Docs: [[https://docs.python.org/3/py-modindex.html][Python3/modules]]
+- list all installed modules
+#+BEGIN_SRC sh
+pip freeze
+#+END_SRC
+** Builtin
+*** Functions
+- len
+#+BEGIN_SRC python
+len("Ola")
+#+END_SRC
+
+- upper
+#+BEGIN_SRC python
+"Ola".upper()
+#+END_SRC
+
+** PyPi
+** re
+** requests
+** BeautifulSoup
+** urllib/urllib2
+** selenium
+** ZeroMQ
+** SQLAlchemy
+*** CRUD Review(Full Stack Foundation Udacity)
+- what needs to be imported
+#+BEGIN_SRC python
+from sqlalchemy import create_engine
+from sqlalchemy.orm import session maker
+#+END_SRC
+
+- connect to engine
+#+BEGIN_SRC python
+engine = create_engine('sqlite:///restaurantMenu.db')
+Base.metadata.bind = engine
+DBSession = sessionmaker(bind = engine)
+session = DBSession()
+#+END_SRC
+
+- Create
+- Create a new Restaurant and call it Pizza Palace
+#+BEGIN_SRC python
+myFirstRestaurant = Restaurant(name = "Pizza Palace")
+session.add(myFirstRestaurant)
+session.commit()
+#+END_SRC
+
+- add a new item to the Pizza Palace menu
+#+BEGIN_SRC python
+cheesepizza = menuItem(name="Cheese Pizza", description = "Made with all natural ingredients and fresh mozzarella", course = "Entree", price = "$8.99", restaurant = myFirstRestaurant)
+#+END_SRC
+
+- Read
+- using the query method to pull information from our db
+#+BEGIN_SRC python
+firstResult = session.query(Restaurant).first()
+firstResult.name
+
+items = session.query(MenuItem).all()
+for item in items:
+    print(item.name)
+#+END_SRC
+
+- Update
+- update follows this sequence
+  1) Find entry
+  2) Reset value(s)
+  3) Add to session
+  4) Execute session.commit()
+     
+- update urban burgers veggie burger to new price
+#+BEGIN_SRC python
+veggieBurgers = session.query(MenuItem).filter_by(name = 'Veggie Burger')
+for veggieBurger in veggieBurgers:
+    print(veggieBurger.id)
+    print(veggieBurger.price)
+    print(veggieBurger.restaurant.name)
+    print("\n") 
+#+END_SRC
+- then we update the burgers price
+#+BEGIN_SRC python
+UrbanVeggieBurger = session.query(MenuItem).filter_by(id=8).one()
+UrbanVeggieburger.price = '$2.99'
+session.add(UrbanVeggieBurger)
+session.commit()
+#+END_SRC
+
+- Delete
+- delete follws this sequence
+  1) Find the entry
+  2) session.delete(Entry)
+  3) session.commit()
+     
+- spinach ice cream needs to be removed as it's not selling
+#+BEGIN_SRC python
+spinach = session.query(MenuItem).filter_by(name = 'Spinach Ice Cream').one()
+session.delete(spinach)
+session.commit()
+#+END_SRC
+
+* tools
+** ipython/jupyter 
+*** automagic
++ Turning on/off automagic
+#+BEGIN_SRC sh
+%automagic
+#+END_SRC
+
+*** cells
+shift + enter - execute cell and create a new cell
+ctrl + enter - execute cell but no new cell
+
+** pyenv
+
+* Web_Frameworks
+[[file://home/crito/org/tech/web/web_frameworks/django.org][Django]]
+[[file://home/crito/org/tech/web/web_frameworks/django_cms.org][Django CMS]]
+[[file://home/crito/org/tech/web/web_frameworks/flask.org][Flask]]
+Wagtail(CMS)
+Pyramid
+* Web Servers
+DigitalOcean: [[https://www.digitalocean.com/community/tutorials/a-comparison-of-web-servers-for-python-based-web-applications][Comparison of Web Servers for Python Based Web Applications]]
+[[file://home/crito/org/tech/web/web_service/gunicorn.org][Gunicorn]]
+[[file://home/crito/org/tech/web/web_frameworks/cherrypy.org][CherryPy]]
+Tornado
+Twisted Web
+uWSGI
+Waitress WSGI Server
+Apache - mod_wsgi
+* Concepts
+** Virtual Environments
+*** How to Install Python 3 and Set Up a Local Programming Environment on Centos7 :py:centos:
+DigitalOcean: [[https://www.digitalocean.com/community/tutorials/how-to-install-python-3-and-set-up-a-local-programming-environment-on-centos-7][Install Python3 and Set Up a Local Programming Environment on CentOS7]]
+1. update yum
+#+BEGIN_SRC sh
+yum update
+#+END_SRC
+
+2. Install yum-utils
+#+BEGIN_SRC sh
+yum install yum-utils
+#+END_SRC
+
+3. Install group development
+#+BEGIN_SRC sh
+yum install groupinstall development
+#+END_SRC
+
+4. Installing and Setting up Python3
+install the ius community repo
+#+BEGIN_SRC sh
+wget https://centos7.iuscommunity.org/ius-release.rpm
+rpm -Uvh ius-release.rpm
+#+END_SRC
+
+install the version of python3 required
+#+BEGIN_SRC sh
+yum search python3
+yum install python35u.x86_64
+#+END_SRC
+
+5. Install pip3
+#+BEGIN_SRC sh
+yum install python35u-pip
+#+END_SRC
+
+6. Install python3Xu-devel (this package contains pyvenv)
+#+BEGIN_SRC sh
+yum install python35u-devel
+#+END_SRC
+*** Setting up a Virtual Environment in Ubuntu		     :py:virt:ubuntu:
+- this is required for creating virtual environments
+#+BEGIN_SRC sh 
+sudo apt-get install python3.5-venv
+#+END_SRC
+- to create a virtual environment
+#+BEGIN_SRC sh
+python3 -m venv env_test
+cd env_test
+source bin/activeate
+deactivate
+#+END_SRC
+
+*** Setting up a Virtual Environment				    :py:virt:
+1. move to environments directory
+#+BEGIN_SRC sh
+cd environments
+#+END_SRC
+2. create new environment
+#+BEGIN_SRC sh
+pyvenv-3.5 my_env
+#+END_SRC
+
+This will then create a directory that contains:
+bin
+include
+lib
+lib64
+pyvenv.cfg
+
+These files and directories work to isolate you project from the wider machine settings
+
+3. Activet the environment
+#+BEGIN_SRC sh
+source my_env/bin/activate
+#+END_SRC
+
+- the prompt will now look something like this:
+(my_env) [root@localhost my_env]#
+
+Commands:
+python - will now use the environment python
+pip - will now use the environment pip
+
+4. To exit the environment
+#+BEGIN_SRC sh
+deactivate
+#+END_SRC
+
+*** Vagrant issue with python server host connection		 :py:vagrant:
+When using python development servers you may need to specify the 0.0.0.0:port
+I found when using django python server I had to sepcifiy the 0.0.0.0 ip addr to access it from the host
+#+BEGIN_SRC sh
+python manage.py runserver 0.0.0.0:8000
+#+END_SRC
+*** Difference between pyenv, pyvenv and virtualenv		     :py:env:
+url: [[http://masnun.com/2016/04/10/python-pyenv-pyvenv-virtualenv-whats-the-difference.html][pyenv, pyvenv and virtualenv]] 
+pyenv – A Python version manager. Installs different versions and flavors of Python interpreters.
+
+pyvenv – A tool to create isolated virtual environments from a Python interpreter. Ships with Python from 3.4.
+
+virtualenv – Creates virtual environments, and is available in PyPi.
+*** Sietting up Python2 virtual environment
+1. Install virtualenv
+#+BEGIN_SRC sh
+pip install virtualenv
+#+END_SRC
+2. Create the project directory
+#+BEGIN_SRC sh
+virtualenv new_project
+#+END_SRC
+3. Move into project directory and create virtual env
+#+BEGIN_SRC sh
+cd new_project
+virtualenv my_project
+#+END_SRC
+this cmd will create a dir in current dir that contains the binaries
+4. Now we need to activate the env
+#+BEGIN_SRC sh
+source my_project/bin/activate
+#+END_SRC
+5. Finished working on project
+#+BEGIN_SRC sh
+deactivate
+#+END_SRC
+
+* Code
+** Basics
+*** User Input
+#+BEGIN_SRC py
+name = raw_input("please enter your name: ")
+print(name)
+#+END_SRC
+* Lecture
+** [[https://www.youtube.com/watch?v%3DDKmNiwmyl6k][Beyond Scraping]] - Anthon van der Neut
++ What are web pages?
+  - tree structure of tags
+  - tags can have attributes
+  - tags can have data
+    
++ Simple Websites
+  - use urllib2/requests
+  - form data ok
+  - redirection
+    
++ Cookies
+  - keeping state
+  - often used to preserve authentication 
+    
++ Authentication
+  - browser build in
+  - some form + cookies
+  - OpenID
+
++ JavaScript
+  - urllib2/requests of little use
+  - Parts of the tree structure that is HTML is updated/changed by JS
+  - Why?
+    - nicer user experience, quicker updates
+     
+  - Downsides
+    - don't kown when the page is finished
+
++ Selenium
+  - just use a browser with it
+  - used for testing but that is easy
+  - Never any discrepancy with what you see as a "normal" user
+  - Helps with debugging(built-in, firebug etc)    
+    - only runs as long as the program runs
+  - Not able to be run without a browser being opened, requires a Desktop Environment (Can't just be run from cron).
+    
++ The problems with JavaScript based pages
+  - Never sure when the data is there
+    - wait reasonable amount of time
+    - check if some particular piece of data is available
+      
++ Seclecting a part of a webpage
+  - by "id"
+  - by class
+  - programmatically walking the tree
+  - XPATH
+  - there is a re-usable option
+
++ CSS select
+  - skill useful to have whrn building websites
+  - beware of restrictions
+    
++ A typical selenium session
+1. Open a browser to some url
+2. Click login button
+  - Wait until redirected to OpenID provider
+3. Provide credentials
+4. Wait until back at the requested page
+5. Fill out search criteria
+6. Click a matching reference
+7. Retrieve the data
+Debugging the above can involve a lot of waiting time
+
++ Client-Server
+Server keeps browser open even if client doesn't    
+Protocols
+  - data to and from server
+    
++ ZeroMQ
+Many to one
+ - Server can run on a different machine
+   
+Unicode based exchanges easy to get data
+
++ A typical clien-server based session
+1. Open browser to some url if not already there
+2. Click login button, if not already logged in
+  - Wait until redirected to OpenID
+3. Provide credentials
+4. Wait until back at the requested page
+5. Fill out search criteria
+6. Click a matching reference
+7. Retrieve the data
+Debugging the above becomes a lot faster
+
++ What protocol functions are needed?
+- Open a window, by unique id(wid)
+- Goto url with that wid
+- select some item(iid) on the page(wid)
+- click some item(iid)
+- clear input/textarea(iid)
+- type some text in item(iid)
+- return html under item(iid)
+- return current URL(wid)
+
++ BeautifulSoup4
+- faster than selenium
+- especially good for large table based reference data
+- many ways to select data from the HTML site
+- CSS select support
+  
++ pyvirtualdisplay(vnc)
+- virtual window replacing the need for a desktop
+- still easy to check by using vnc to vurtual window
+  
+** [[https://www.youtube.com/watch?v%3DwoKYyhLCcnU][Introduction to SQLAlchemy - Mike Bayer]]
++ SQLAlchemy Pilosophies
+- Bring the usage of different databases and adapters to an interface as consistent as possible, but still expose distinct behaviours and features of each backend
+- Never "hide" the database or its concepts. Developers must know/continue to think in SQL  
+- Allow expression of DB/SQL tasks using declarative patterns  
+
+file://home/crito/Pictures/org/sqlalchemy_overview.png
+
+- SQLAlchemy Core
+Engine - a registry which provides connectivity to a particular database server.
+Dialect - interprets generic SQL and database commands in terms of a specific DBAPI and database backend.
+Connection Pool - holds a collection of database connections in memory for fast re-use.
+SQL Expression Language - Allows SQL statements to be written using Python expressions
+Schema/Types - Uses Python objects to represent tables, columns, and datatypes.
+
+- SQLAlchemy ORM
+  - Allows constructin of Python objects which can be mapped to relational database tables.
+  - Transparently persists objects into their corresponding database tables using the unit of work pattern.
+  - Provides a query system which loads objects and attributes using SQL generated from mappings.
+  - Builds on top of the Core - uses the Core to generate SQL and talk to the database.
+    
+The Python DBAPI
+  - PEP-0249 - Python Database API
+  - The de-facto system for providing Python database interfaces.
+  - There are many DBAPI implementations available, most databases have more than one.
+  
+Important DBAPI Facts
+  - Assumes that a transaction is always in progress. There is no begin() method, only commit() and rollback().
+  - DBAPI encourages bound parameters, via the execute() and executemany() methods. But has six different formats.
+  - All DBAPIs have inconsistencies regarding datatypes, primary key generation, custom database features, result/cursor behaviour.
+  - DBAPI has it's own exception hierarchy, which SQLAlchemy exposes directly
+(myISAM is not a transactional database).
+
+
+- Engine Basics
+Initial python setup for sqlalchemy
+#+BEGIN_SRC py
+from sqlalchemy import create_engine
+
+engine = create_engine("sqlite:///some.db") # this creates it in local dir
+engine = create_engine("sqlite:////home/crito/some.db") # using absoulte path
+engine = create_engine("postgresql://crito:pass@localhsot/test") 
+#+END_SRC
+
+- Engine Facts
+  - Executing via the Engine directly is called connectionless execution - the Engine connects and disconnects for us.
+  - Using a Connection is called explicit execution. We control the span of a connection in use.
+  - Engine usually uses a connection pool, which means "disconnecting" often means the connection is just returned to the pool.
+  - The SQL we send to engine.execute() as a string is not modified, is consumed by the DBAPI verbatim.
+
+- What is "Metadata"?
+  - Popularized by Martin Fowler "Patterns of Enterprise Architecture"
+  - Describes the structure of the database, ie tables, columns, constraints, in terms of data structures in Python.
+  - Serves as the basis for SQL generation and object relation mapping
+  - Can generate to a schema
+
+Some Basic Types
+  - Integer - basic integer type, generates INT
+  - String - ASCII strings, generates VARCHAR
+  - Unicode - Unicode strings, generates VARCHAR, NVARCHAR depending on database 
+  - Boolean - generates BOOLEAN, INT, TINYINT
+  - DateTime - generates DATETIME or TIMESTAMP, returns Python datetime() objects
+  - Float - floating point values
+  - Numeric - precision numerics using Python
+    
+Create and Drop
+  - metadata.create_all(engine, checkfirst=<True|False>) emits CREATE statements for all tables.
+  - table.create(engine, checkfirst=<True|False>) emits CREATE for a single table.
+  - metadata.drop_all(engine, checkfirst=<True|False>) emts DROP statements for all tables.
+    
+Metadata will workout dependencies and drops them first
+
+SQL Expressions
+  - The SQL Expression system builds upon Table Metadata in order to compose SQL statements in Python.
+  - We will build Python objects that represent individual SQL strings(statements) we'd send to the database.
+  - These objects are composed of other objects that each represent some unit of SQL, like a comparison, a SELECT statement, a conjunction such as AND or OR.
+  - We work with these objects in Python, which are then converted to strings when we "execute" them(as well as if we print them).  
+    
+Object Relational Mapping
+- Object Relational Mapping or ORM is the process of associating object oriented classes with database tables.
+- We refer to the set of object oriented classes as a domain model.
+
+What does an ORM Do?
+- The most basic task is to translate between a domain object and a table row.
+- Can also represent arbitrary rows as domain objects within the application, that is, rows derived from SELECT statements or views.
+- Most ORMs also represent basic compositions, primarily one-to-many and many-to-one, using foreign key associations.
+- Provide a means of querying the db in terms of the domain model structure
+- Some can represent class inheritance hierarchies using a variety of schemes
+- Some can handle "sharding" of data
+- Provice various patterns for concurrency, including row versioning
+- Provide patterns for data validation and coercion
+
+SQLAlchemy ORM
+- The SQLAlchemy ORM is essentially a data mapper style ORM
+- Modern version use declarative configuration; the "domain and schema separate" configuration model is present underneath this layer.
+- The ORM builds upon SQLAlchemy Core, and many of the SQL Expression concepts are present when working with the ORM as well.
+- In contrast to the SQL Expression language, which presents a schema-centric view of data, it presents a domain-model centric view of data.
+
+Key ORM Patterns
+- Unit of Work - objects are maintained by a system that tracks changes over the course of a transaction, and flushes pending changes periodically, in a transparent or semi-transparent manner.
+- Identity Map - objects are tracked by their primary key within the unit of work, and are kept unique on that primary key identity.
+- Lazy Loading - Some attributes of an object may emit additional SQL queries when they are accessed.
+- Eager Loading - Multiple tables are queried at once in order to load related objects and collections.
+- Method Chaining - queries are composed using a string of method calls which each return a new query object.
+  
+* Tutorial
+** [[https://www.youtube.com/watch?v%3Drkx5_MRAV3A&t%3D9s][A Hands-On Introduction to Python for Beginning Programmers - Jessica McKellar]]
+matplotlib - data representation
+pymol - chemical structure representation
+echonest api - music manipulation
+
+- getting help inside interpreter
+#+BEGIN_SRC sh
+help(len)
+#+END_SRC
+
+- to list all defined variables
+dir()
+
+- comparisons
+"H" in "Hello"
+"z" not in "Hello"
+
+- no action in if block
+pass
+
+* Books
+* Links

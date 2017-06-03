@@ -315,10 +315,16 @@ Same validation is performed, but it is performed on the serializer now.
 - Model Encapsulation
 Always use model methods and manager methos for state changing operations
 
-       
+** [[https://www.youtube.com/watch?v=-2X4mB4hyLA][Why would a new developer choose Django? - Josh Simmons (2016)]]
+
 * Tutorial
-** [[https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-debian-8][How to setup Django with Postgres, Nginx and Gunicor on Debian 8]]
+** [[https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-debian-8][How to setup Django with Postgres, Nginx and Gunicorn on Debian 8]]
+** [[https://www.youtube.com/watch?v=5809nv1SC0o][Building Websites with Python and Django - Microsoft Learning]]
+
+** Mastering Django Web Devlopment - Packt Video Series
+
 * Books
+[[file://home/crito/Documents/Python/Django/Django_Web_Development_with_Python.pdf][Django Web Development with Python]]
 [[file://home/crito/Documents/Python/Django/Beginning_Django_CMS.pdf][Beginning Django CMS]]
 [[file://home/crito/Documents/Python/Django/Beginning_Django_E-Commerce.pdf][Beginning Django E-Commerce]]
 [[file://home/crito/Documents/Python/Django/Lightweight_Django-O'Reilly.pdf][Leightweight Django]]

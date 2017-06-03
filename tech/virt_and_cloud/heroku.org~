@@ -1,0 +1,41 @@
+#+TAGS: web dev code cloud
+
+
+* Heroku                                                 :web:dev:code:cloud:
+
+* Description
+* Usage
+- installation ubuntu/debian
+#+BEGIN_SRC sh
+sudo add-apt-repository "deb https://cli-assets.heroku.com/branches/stable/apt ./"
+curl -L https://cli-assets.heroku.com/apt/release.key | sudo apt-key add -
+sudo apt-get update
+sudo apt-get install heroku
+#+END_SRC
+
+** Commands
+- create an application
+#+BEGIN_SRC sh
+heroku create
+#+END_SRC
+- push a git repo to heroku
+#+BEGIN_SRC sh
+git push heroku master
+#+END_SRC
+the app has to be created inside the git repo
+- ensure that at least one instance of the app is running
+#+BEGIN_SRC sh
+heroku ps:scale web=1
+#+END_SRC
+* Lecture
+* Tutorial
+** [[https://devcenter.heroku.com/articles/getting-started-with-python#introduction][Getting Started on Heroku with Python]]
+- Ensure that:
+  - pip
+  - virtualenv
+  - setuptools
+are installed
+
+
+* Books
+* Links

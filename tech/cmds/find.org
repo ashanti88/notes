@@ -36,6 +36,13 @@ find . -type d
 find . -type f -name "*.conf"
 #+END_SRC
 
+** Find file by regex
+- this will find all files in the current directory and subdirectories 
+#+BEGIN_SRC sh
+find . -regex ".*django.*"
+#+END_SRC
+As find will search the fqdn .* has to be the first term
+
 ** Finding files by size
 We can use the size flag with size descriptions
   - c - bytes

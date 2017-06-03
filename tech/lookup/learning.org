@@ -106,7 +106,8 @@
 *** TODO Learn Python Django From Scratch - Udemy
 *** TODO Data Science with R
 *** TODO Ruby on Rails
-*** TODO Git Essentials
+*** DONE Git Essentials
+    - State "DONE"       from "TODO"       [2017-06-01 Thu 17:24]
 *** TODO C
 *** TODO Clean Code
 *** TODO Linux System Programming
@@ -123,6 +124,8 @@
 *** TODO On the Job Training Series Java - CBT Nuggets
 *** WORKING Bootstrap 3 Tutorial - Bootstrapbay
     - State "WORKING"    from ""           [2017-02-08 Wed 10:32]
+*** WORKING Mastering Django Web Devlopment - Packt Video Series
+    - State "WORKING"    from              [2017-06-01 Thu 17:24]
 ** Microsoft
 *** WORKING Windows 2012 TechTV 70-410
     - State "WORKING"    from ""           [2017-04-16 Sun 05:02]

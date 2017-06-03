@@ -1,0 +1,19 @@
+#+TAGS: virt virtualbox
+
+
+* VBoxManage
+* Description
+This cmd provides cmd line administration of virtualbox vms
+* Usage
+- start a vm headless
+#+BEGIN_SRC sh
+VBoxManage startvm centos_box --type headless
+#+END_SRC
+- show information on vm named centos7
+#+BEGIN_SRC sh
+VBoxManage showvminfo centos7
+#+END_SRC
+* Lecture
+* Tutorial
+* Books
+* Links

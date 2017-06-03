@@ -327,6 +327,8 @@ dnf upgrade
 ** Suse							       :sys:pkg:suse:
 *** zypper							   :suse:pkg:
 ** Arch							       :sys:pkg:arch:
+*** ABS(Arch Build System)
+Arch: [[https://wiki.archlinux.org/index.php/Arch_Build_System][archlinux.org/Arch_Build_System]]
 *** pacman							   :arch:pkg:
 - list installed pkgs
 #+BEGIN_SRC sh

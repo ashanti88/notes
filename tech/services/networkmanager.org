@@ -3,9 +3,8 @@
 
 * NetworkManager                                                   :net:wifi:
 * Description
-program for providing detection and configuration for systems to automatically connect to network.
+Program for providing detection and configuration for systems to automatically connect to network.
 * Usage
-
 * Lecture
 * Tutorial
 * Books

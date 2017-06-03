@@ -14,7 +14,7 @@ ef - embed file
 
 ** Extract
 > steghide extract -sf pic.jpg
-sf - specify stgofile
+sf - specify stegofile
 
 * Lecture
 * Tutorial

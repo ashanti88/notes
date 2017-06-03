@@ -1,0 +1,22 @@
+#+TAGS: sys bash
+
+
+* compgen                                                          :sys:bash:
+* Description
+This is a bash builtin cmd. It will list all available cmds on the machine that can be executed.
+* Usage
+- list all available cmds
+#+BEGIN_SRC sh
+compgen -c
+#+END_SRC
+
+- list all bash aliases
+#+BEGIN_SRC sh
+compgen -a
+#+END_SRC
+
+
+* Lecture
+* Tutorial
+* Books
+* Links

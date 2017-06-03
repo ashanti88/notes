@@ -1,0 +1,44 @@
+#+TAGS: code
+
+
+* Python2                                                              :code:
+* Description
+* Usage
+* Concepts
+
+*** Sietting up Python2 virtual environment
+1. Install virtualenv
+#+BEGIN_SRC sh
+pip install virtualenv
+#+END_SRC
+or
+#+BEGIN_SRC sh
+sudo apt-get install python-virtualenv
+#+END_SRC
+
+2. Create the project directory
+#+BEGIN_SRC sh
+virtualenv new_project
+#+END_SRC
+
+3. Move into project directory and create virtual env
+#+BEGIN_SRC sh
+cd new_project
+virtualenv my_project
+#+END_SRC
+this cmd will create a dir in current dir that contains the binaries
+
+4. Now we need to activate the env
+#+BEGIN_SRC sh
+source my_project/bin/activate
+#+END_SRC
+
+5. Finished working on project
+#+BEGIN_SRC sh
+deactivate
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

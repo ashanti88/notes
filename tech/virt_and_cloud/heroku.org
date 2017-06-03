@@ -1,0 +1,109 @@
+#+TAGS: web dev code cloud
+
+
+* Heroku                                                 :web:dev:code:cloud:
+
+* Description
+* Usage
+- installation ubuntu/debian
+#+BEGIN_SRC sh
+sudo add-apt-repository "deb https://cli-assets.heroku.com/branches/stable/apt ./"
+curl -L https://cli-assets.heroku.com/apt/release.key | sudo apt-key add -
+sudo apt-get update
+sudo apt-get install heroku
+#+END_SRC
+
+** Commands
+- login
+#+BEGIN_SRC sh
+heroku login
+#+END_SRC
+- create an application
+#+BEGIN_SRC sh
+heroku create
+#+END_SRC
+- push a git repo to heroku
+#+BEGIN_SRC sh
+git push heroku master
+#+END_SRC
+the app has to be created inside the git repo
+- ensure that at least one instance of the app is running
+#+BEGIN_SRC sh
+heroku ps:scale web=1
+#+END_SRC
+- vist app
+#+BEGIN_SRC sh
+heroku open
+#+END_SRC
+During the git push a url will also be provided
+
+- view logs
+#+BEGIN_SRC sh
+heroku logs --tail
+#+END_SRC
+- view number of dynos are running
+#+BEGIN_SRC sh
+heroku ps
+#+END_SRC
+
+- creating arequirements.txt
+#+BEGIN_SRC sh
+pip freeze
+#+END_SRC
+
+- setting up the environment
+#+BEGIN_SRC sh
+pip install -r requirements.txt
+#+END_SRC
+
+- addons
+#+BEGIN_SRC sh
+heroku addons:create papertrail
+#+END_SRC
+- view all addons
+#+BEGIN_SRC sh
+heroku addons
+#+END_SRC
+- open papertrail
+#+BEGIN_SRC sh
+heroku addons:open papertrail
+#+END_SRC
+
+** Run a shell on heroku instance
+- python shell
+#+BEGIN_SRC sh
+heroku run python manage.py shell
+#+END_SRC
+this runs python shell in the context of your app
+
+- bash shell
+#+BEGIN_SRC sh
+heroku run bash
+#+END_SRC
+this will run bash on the dyno 
+** Config Vars
+- set a variable
+#+BEGIN_SRC sh
+heroku config:set TIMES=2
+#+END_SRC
+
+- view all config vars
+#+BEGIN_SRC sh
+heroku config
+#+END_SRC
+
+* Addons
+** Papertrail
+HomePage: https://devcenter.heroku.com/articles/papertrail
+* Lecture
+* Tutorial
+** [[https://devcenter.heroku.com/articles/getting-started-with-python#introduction][Getting Started on Heroku with Python]]
+- Ensure that:
+  - pip
+  - virtualenv
+  - setuptools
+are installed
+
+
+* Books
+* Links
