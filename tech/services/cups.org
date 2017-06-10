@@ -1,1 +1,11 @@
+#+TAGS: sys ptr
 
+
+* CUPS                                                              :sys:ptr:
+Docs: [[https://www.cups.org/documentation.html][cups.org]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

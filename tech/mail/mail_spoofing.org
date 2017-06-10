@@ -1,0 +1,11 @@
+#+TAGS: mail
+
+
+* Mail Sppoofing                                                       :mail:
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links
+[[https://itservices.uchicago.edu/news/why-am-i-receiving-email-bounce-back-messages][Good Article on Mail Spoofing]]

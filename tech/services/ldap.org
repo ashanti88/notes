@@ -1,7 +1,8 @@
 #+TAGS: ldap
 
 
-* ldap
+* ldp                                                                 :ldap:
+OpenLDAP: [[https://www.openldap.org/][openldap.org]]
 * Cmds
 ldapsearch
 ldapadd

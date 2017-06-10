@@ -220,5 +220,7 @@ newaliases
 #+END_SRC
 
 * Links
+Postfix mail server block .bat, .exe .com .vbs mime attachments --common virus spreading files
+http://www.cyberciti.biz/tips/postfix-block-mime-attachment-files.html
 
 

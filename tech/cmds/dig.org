@@ -90,7 +90,6 @@ dig -x 194.126.158.25
 | ;;                            | MSG          | SIZE                    | rcvd:     | 90                    |          |                |         |    |            |    |             |   |
 |                               |              |                         |           |                       |          |                |         |    |            |    |             |   |
 
-
 * Lecture
 * Tutorial
 * Books

@@ -1,0 +1,34 @@
+#+TAGS: code sys
+
+
+* Rust                                                             :code:sys:
+HomePage: [[https://www.rust-lang.org/en-US/index.html][rust-lang.org]]
+Community: [[http://www.rustaceans.org/][rustaceans.org]]
+* Description
+* Usage
+* Lecture
+** [[https://www.youtube.com/watch?v=FMqydRampuo][Rust 101 - E Dunham]]
+areweideyet.com - this provides info on what each ide currently supports
+
+Compiler - issues warnings that could cause issues later in the program
+
+rustfmt - this is available on github and will ensure that std formatting is used in a project
+
+- finding possible projects that need help
+  - is:issue label:easy language:rust - use this search term to find simple issues on github
+  - try porting something to rust
+
+** [[https://www.youtube.com/watch?v=GCsxYAxw3JQ][How I Convinced the World's Largest Package Manager to Use Rust - Ashley Williams]]
+
+** [[https://www.youtube.com/watch?v=agzf6ftEsLU][Intro to the Rust Programming Language - Alex Crichton]]
+** [[https://www.youtube.com/watch?v=iF-FgJvDl6w][The Illustrated Adventure Survival Guide for New Rustaceans - Liz Baillie]]
+
+* Tutorial
+* Books
+[[file://home/crito/Documents/Code/The_Rust_Programming_Language.pdf][The Rust Programming Language]]
+[[file://home/crito/Documents/Code/Rust_Essentials.pdf][Rust Essentials]]
+* Links
+http://rustbyexample.com 
+https://play.rust-lang.org/ - web playpen for rust
+https://crates.io
+

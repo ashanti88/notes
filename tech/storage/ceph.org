@@ -1,7 +1,7 @@
-#+TAGS: fs storage
+#+TAGS: fs stor
 
 
-* ceph								    :storage:
+* ceph                                                                 :stor:
 * Description
 * Usage
 * Lecture

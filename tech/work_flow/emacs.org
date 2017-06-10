@@ -1,7 +1,7 @@
 ; -*- mode: Org;-*-
 #+TAGS: code txt
 
-* emacs								   :code:txt:
+* emacs                                                      :emacs:code:txt:
 * Description
 * Configuration
 ** Setting display configuration on GUI
@@ -149,172 +149,7 @@ python3 -m pip install yapf
 python3 -m pip install flake8
 #+END_SRC
 
-* Packages
-** projectile - provides an easy way to navigate a project :emacs:projectile:project:
-HomePage: [[http://batsov.com/projectile/][batsoy.com/projectile]]
-** epc - middleware that connects pythonland to emacsland
-** elpy
-check the elpy config
-M-x elpy-config - this will let you know what is need to run the environment
-
-Check the current file syntax
-C-c C-v - this will check the current file
-** jedi
-*** Jedi Server Options
- Finding your project (--sys-path)
- - sys-path is where python looks for modules
- Finding your installed modules (--virtual-env)
- - normally set to nil
-
- add this to .emacs
-defvar jedi-config-with-virtualenv nil
- "Set to non-nil to point to a particular virtualenv")
-
-; Variables to help find the project root
-defvar jedi-config:vcs-root-sentinel ".git")
-defvar jedi-config:python-module-sentinel "__init__.py")
-
-; Function to find project root given a buffer
-defvun get-project-root (buf repo-type init-file)
- (vc-find-root (expand-file-name (buffer-file_name buf)) repo-type))
- 
-defvar jedi-config:find-root-function 'get-project-root)
-
-; And call this on initialization
-defun current-buffer-project-root ()
- (funcall jedi-config:find-root-function
-   (current-buffer)
-   jedi-config:vcs-root-sentinel
-   jedi-config:python-module-sentinel))
-
-** auto-complete						 :emacs:comp:
-** ido-vertical
-** YASnippet							  :emacs:yas:
-- expanding snippets is done by typing the key and pressing the TAB
-owd <TAB>   -------------> /home/crito/org/tech/$1
-
-- for the key it's better to use key combinations, as words will prompt auto-completion
-
-** Helm						  :emacs:helm:search:
-** ido
-this is an alternative to helm
-**cvagrant-tramp						:emacs:tramp:
-This package allows files in vagrant boxes to be edited
-
-+ Set-Up
-1. start vagrant box
-2. output the .ssh/config needed with
-   > vagrant ssh-config
-3. add this output to the .ssh/config. The name should be changed from default
-4. in emacs use C-x C-f /<name_in_ssh_config>:/file/to/edit/in/vagrant
-
-The above(3,4) can also be achieved with:
-#+BEGIN_SRC sh:
-vagrant ssh-config --host <host_name> >> $HOME/.ssh/config
-#+END_SRC
-
-** all-the-icons
-Github: [[https://github.com/domtronn/all-the-icons.el][all-the-icons]]
-To add the fonts required places all the required .tff into ~/.local/share/fonts
-
-** eww								  :emacs:web:
-Gnu: [[https://www.gnu.org/software/emacs/manual/html_node/eww/index.html#Top][gnu.org/eww]]
-
-- By deafult eww uses duckduckgo
-#+BEGIN_SRC elisp
-eww
-stormtrooper fancydress
-#+END_SRC
-
-- Make emacs use eww as default browser
-#+BEGIN_SRC elisp
-;; make emacs always use its own browser for opening URL links
-(setq browse-url-browser-function 'eww-browse-url)
-#+END_SRC
-
-- Open a local html file
-#+BEGIN_SRC elisp
-eww-open-file
-web_file.html
-#+END_SRC
-or
-#+BEGIN_SRC sh
-eww
-file://home/crito/www/hollywood.html
-#+END_SRC
-*** Navigation & Basic Keys
-back - l
-forward - r - M-x eww-forward
-reload - g - M-x eww-reload
-home - 
-download url - d - M-x eww-download
-copy page url - w - M-x eww-copy-page-url
-store current url as bookmark - b - Mx eww-add-bookmark
-show all bookmarks - B - M-x eww-list-bookmarks
-list all the eww buffers - S - M-x eww-list-buffers
-view source code - v - M-x eww-source-code
-view existing cookies - C - M-x eww-
-
-*** Setting backgroud contrast
-- when initially installed eww uses a background that makes the rest of the text on google unreadable
-(setq shr-color-visible-luminance-min 90)
-the above variable sets the color back to black
-
-** org-mode                                              :emacs:org:notes:
-**** Cheat Sheet
-***** Visibility Cycling
-*rotate current subtree between states             TAB
-*rotate entire buffer between states               S-TAB
-*restore property-dependent startup visibility     C-u C-u TAB
-*show the whole file, including drawers            C-u C-u C-u TAB
-*reveal context around point                       C-c C-r
-*
-***** Motion
-*next/previous heading                             C-c C-n/p
-*next/previous heading, same level                 C-c C-f/b
-*backward to higher level heading                  C-c C-u
-*jump to another place in document                 C-c C-j
-*previous/next plain list item                     S-UP/DOWN\notetwo
-*
-*
-***** Structure Editing
-*insert new heading/item at current level          M-RET
-*insert new heading after subtree                  C-RET
-*insert new TODO entry/checkbox item               M-S-RET
-*insert TODO entry/ckbx after subtree              C-S-RET
-*turn (head)line into item, cycle item type        C-c -
-*turn item/line into headline                      C-c *
-*promote/demote heading                            M-LEFT/RIGHT
-*promote/demote current subtree                    M-S-LEFT/RIGHT
-*move subtree/list item up/down                    M-S-UP/DOWN
-*sort subtree/region/plain-list                    C-c ^
-*clone a subtree                                   C-c C-x c
-*copy visible text                                 C-c C-x v
-*kill/copy subtree                                 C-c C-x C-w/M-w
-*yank subtree                                      C-c C-x C-y or C-y
-*narrow buffer to subtree / widen                  C-x n s/w
-*
-*
-***** Capture - Refile - Archiving
-*capture a new item (C-u C-u = goto last)          C-c c \noteone
-*refile subtree (C-u C-u = goto last)              C-c C-w
-*archive subtree using the default command         C-c C-x C-a
-*move subtree to archive file                      C-c C-x C-s
-*toggle ARCHIVE tag / to ARCHIVE sibling           C-c C-x a/A
-*force cycling of an ARCHIVEd tree                 C-TAB
-*
-***** Filtering and Sparse Trees
-*construct a sparse tree by various criteria       C-c /
-*view TODO's in sparse tree                        C-c / t/T
-*global TODO list in agenda mode                   C-c a t \noteone
-*time sorted view of current org file              C-c a L
-*
-***** Tables
-*
-*--------------------------------------------------------------------------------
-*Creating a table
-*--------------ove list and you are not sure about its quality, please go to [[http://melpa.org][MELPA's website]] to check its number of downloads.
-**** Emacs is a way of life
+** Emacs is a way of life
 Emacs people are basically people who are hacking Lisp code for fun. They get the job done in a creative way. For example, [[http://sachachua.com/blog/][Sacha Chua]] mentioned that [[http://sachachua.com/blog/2012/07/transcript-emacs-chat-john-wiegley/][she let Emacs read the manual when cooking]].
 
 So *what benefit* can I get after knowing the Emacs way?
@@ -327,16 +162,7 @@ Things that used to be important become trivial now. For example, I don't care w
 
 We are living in the world of science and engineering. I improve myself *more quickly* by sharing to the best, by learning from the best. Knowledge is not black magic. Hiding knowledge will *make it stale*.
 
-**** Take action
-All roads lead to Rome. It doesn't matter which road you choose. What matters is walking on the road right now. 
-
-But please make sure you *actually* understand the key points of this article at first.
-
-For example, do you realize that previous sections imply following actions:
-- Find all the developers of the Emacs plugins I listed
-- Follow them on Quora/Twitter/Github/Reddit/Google+
-- Read all their old posts on Quora/Reddit/Google+
-**** FAQ
+*** FAQ
 ***** I'm Emacs dummy. How to start?
 Go to [[https://github.com/redguardtoo/emacs.d]] and check the section "Install stable version in easiest way" in [[https://github.com/redguardtoo/emacs.d/blob/master/README.org][README]].
 
@@ -479,23 +305,176 @@ For example, a developer had difficulties to sort a big dictionary file with *pu
 After consulting with me, he found that the [[https://github.com/tumashu/chinese-pyim/commit/90519d3f][GNU Sort is much better]] in this case.
 
 So be practical. [[http://en.wikipedia.org/wiki/Richard_Stallman][Richard Stallman]] created a whole GNU ecosystem for you. Emacs is only one component. Why not take full advantage of the system?
-**** Contact me
-Here is my [[https://twitter.com/#!/chen_bin][twitter]] and [[https://plus.google.com/110954683162859211810][google+]].
+* Packages
+** projectile - provides an easy way to navigate a project :emacs:projectile:project:
+HomePage: [[http://batsov.com/projectile/][batsoy.com/projectile]]
+** epc - middleware that connects pythonland to emacsland
+** elpy
+check the elpy config
+M-x elpy-config - this will let you know what is need to run the environment
 
-My blog is at [[http://blog.binchen.org]].
+Check the current file syntax
+C-c C-v - this will check the current file
+** jedi
+*** Jedi Server Options
+ Finding your project (--sys-path)
+ - sys-path is where python looks for modules
+ Finding your installed modules (--virtual-env)
+ - normally set to nil
 
-Please don't ask basic questions, since I've already shown you how to find the answer.
-**** Summary
-- Start from real world problem
-- Follow the master
-- Report bugs to the master you follow
-- Read and practice while following master
+ add this to .emacs
+defvar jedi-config-with-virtualenv nil
+ "Set to non-nil to point to a particular virtualenv")
 
-This article is published at [[https://github.com/redguardtoo/mastering-emacs-in-one-year-guide]].
+; Variables to help find the project root
+defvar jedi-config:vcs-root-sentinel ".git")
+defvar jedi-config:python-module-sentinel "__init__.py")
 
-Please use github's bug tracker instead of emailing me directly. Github notification mail is always in my first priority folder.
+; Function to find project root given a buffer
+defvun get-project-root (buf repo-type init-file)
+ (vc-find-root (expand-file-name (buffer-file_name buf)) repo-type))
+ 
+defvar jedi-config:find-root-function 'get-project-root)
 
-Emacs is actually a platform. Cool people keep appearing. I will update this article from time to time in the future.
+; And call this on initialization
+defun current-buffer-project-root ()
+ (funcall jedi-config:find-root-function
+   (current-buffer)
+   jedi-config:vcs-root-sentinel
+   jedi-config:python-module-sentinel))
+
+** auto-complete
+** ido-vertical
+** YASnippet							  :emacs:yas:
+- expanding snippets is done by typing the key and pressing the TAB
+owd <TAB>   -------------> /home/crito/org/tech/$1
+
+- for the key it's better to use key combinations, as words will prompt auto-completion
+
+** Helm						  :emacs:helm:search:
+** ido
+this is an alternative to helm
+**cvagrant-tramp						:emacs:tramp:
+This package allows files in vagrant boxes to be edited
+
++ Set-Up
+1. start vagrant box
+2. output the .ssh/config needed with
+   > vagrant ssh-config
+3. add this output to the .ssh/config. The name should be changed from default
+4. in emacs use C-x C-f /<name_in_ssh_config>:/file/to/edit/in/vagrant
+
+The above(3,4) can also be achieved with:
+#+BEGIN_SRC sh:
+vagrant ssh-config --host <host_name> >> $HOME/.ssh/config
+#+END_SRC
+
+** all-the-icons
+Github: [[https://github.com/domtronn/all-the-icons.el][all-the-icons]]
+To add the fonts required places all the required .tff into ~/.local/share/fonts
+
+** eww								  :emacs:web:
+Gnu: [[https://www.gnu.org/software/emacs/manual/html_node/eww/index.html#Top][gnu.org/eww]]
+
+- By deafult eww uses duckduckgo
+#+BEGIN_SRC elisp
+eww
+stormtrooper fancydress
+#+END_SRC
+
+- Make emacs use eww as default browser
+#+BEGIN_SRC elisp
+;; make emacs always use its own browser for opening URL links
+(setq browse-url-browser-function 'eww-browse-url)
+#+END_SRC
+
+- Open a local html file
+#+BEGIN_SRC elisp
+eww-open-file
+web_file.html
+#+END_SRC
+or
+#+BEGIN_SRC sh
+eww
+file://home/crito/www/hollywood.html
+#+END_SRC
+*** Navigation & Basic Keys
+back - l
+forward - r - M-x eww-forward
+reload - g - M-x eww-reload
+home - 
+download url - d - M-x eww-download
+copy page url - w - M-x eww-copy-page-url
+store current url as bookmark - b - Mx eww-add-bookmark
+show all bookmarks - B - M-x eww-list-bookmarks
+list all the eww buffers - S - M-x eww-list-buffers
+view source code - v - M-x eww-source-code
+view existing cookies - C - M-x eww-
+
+*** Setting backgroud contrast
+- when initially installed eww uses a background that makes the rest of the text on google unreadable
+(setq shr-color-visible-luminance-min 90)
+the above variable sets the color back to black
+
+** org-mode                                                :emacs:org:notes:
+*** Cheat Sheet
+***** Visibility Cycling
+*rotate current subtree between states             TAB
+*rotate entire buffer between states               S-TAB
+*restore property-dependent startup visibility     C-u C-u TAB
+*show the whole file, including drawers            C-u C-u C-u TAB
+*reveal context around point                       C-c C-r
+*
+***** Motion
+*next/previous heading                             C-c C-n/p
+*next/previous heading, same level                 C-c C-f/b
+*backward to higher level heading                  C-c C-u
+*jump to another place in document                 C-c C-j
+*previous/next plain list item                     S-UP/DOWN\notetwo
+*
+*
+***** Structure Editing
+*insert new heading/item at current level          M-RET
+*insert new heading after subtree                  C-RET
+*insert new TODO entry/checkbox item               M-S-RET
+*insert TODO entry/ckbx after subtree              C-S-RET
+*turn (head)line into item, cycle item type        C-c -
+*turn item/line into headline                      C-c *
+*promote/demote heading                            M-LEFT/RIGHT
+*promote/demote current subtree                    M-S-LEFT/RIGHT
+*move subtree/list item up/down                    M-S-UP/DOWN
+*sort subtree/region/plain-list                    C-c ^
+*clone a subtree                                   C-c C-x c
+*copy visible text                                 C-c C-x v
+*kill/copy subtree                                 C-c C-x C-w/M-w
+*yank subtree                                      C-c C-x C-y or C-y
+*narrow buffer to subtree / widen                  C-x n s/w
+*
+*
+***** Capture - Refile - Archiving
+*capture a new item (C-u C-u = goto last)          C-c c \noteone
+*refile subtree (C-u C-u = goto last)              C-c C-w
+*archive subtree using the default command         C-c C-x C-a
+*move subtree to archive file                      C-c C-x C-s
+*toggle ARCHIVE tag / to ARCHIVE sibling           C-c C-x a/A
+*force cycling of an ARCHIVEd tree                 C-TAB
+*
+***** Filtering and Sparse Trees
+*construct a sparse tree by various criteria       C-c /
+*view TODO's in sparse tree                        C-c / t/T
+*global TODO list in agenda mode                   C-c a t \noteone
+*time sorted view of current org file              C-c a L
+*
+***** Tables
+*
+*--------------------------------------------------------------------------------
+*Creating a table
+*--------------ove list and you are not sure about its quality, please go to [[http://melpa.org][MELPA's website]] to check its number of downloads.
+*** Tags                                                     :emacs:org:tags:
+these are added either on the #+TAGS: line at the top of the org file, or on the heading line between colons
+- to search the tags use
+M-x org-agenda and then press m
+The output is in the form of | Filename | heading tag is on | all tags on that line |
 * Podcast
 ** [[https://emacs-el.com][emacs-el]]
 *** Ep 1 - Sacha Chua

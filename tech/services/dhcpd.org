@@ -2,6 +2,7 @@
 
 
 * dhcpd								   :net:dhcp:
+Arch: [[https://wiki.archlinux.org/index.php/Dhcpd][archlinux.org/dhcpd]]
 * Cmds
 * Overview
 * Lecture

@@ -4,6 +4,25 @@
 * plesk								       :mgmt:
 * Description
 * Usage
+** Mail
+For PLESK MAIL>>
+
+Random Plesk STARTTLS issue
+
+http://kb.odin.com/en/122364
+
+Check passwords for IMAP accounts (Plesk)
+
+/usr/local/psa/admin/sbin/mail\_auth\_view
+
+Mailcheck thingamajig (check if postfix won't start again)
+
+/usr/local/psa/admin/sbin/mchk --with-spam
+
+This is where the current mail for whatever account is:
+
+cd /var/qmail/mailnames/sdavieshomesolutions.com/mail/Maildir/
+Mail Log location (Plesk) - /usr/local/psa/var/log/maillog
 * Lecture
 * Tutorial
 * Books

@@ -1,7 +1,7 @@
 #+TAGS: virt virtualbox
 
 
-* VBoxManage
+* VBoxManage                                                :virt:virtualbox:
 * Description
 This cmd provides cmd line administration of virtualbox vms
 * Usage

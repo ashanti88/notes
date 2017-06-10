@@ -1,0 +1,12 @@
+#+TAGS: mail exim
+
+
+* exiqgrep                                                        :mail:exim:
+* Description
+* Usage
+- remove mail that is older than 30 mins
+exiqgrep -o 1800 -i | xargs -r exim -Mrm
+* Lecture
+* Tutorial
+* Books
+* Links

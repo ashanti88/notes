@@ -4,6 +4,28 @@
 * Vagrant							   :virt:dev:
 HomePage: [[https://www.vagrantup.com/][vagrantup.com]]
 Atlas: [[https://atlas.hashicorp.com/boxes/search][hashicorp.com/boxes]]
+* Description
+
+** Guest OS States
+- running
+- poweroff
+- saved
+- not created
+- aborted
+  
+** Vagrantfile
+This file is used to maintain that development is performed on the same platfrom by all involved in the project.
+
++ Variables
+  - config.vm.box = <url_to_box>
+  - config.vm.network :forward_port, guest: 4567, host: 45670, host_ip: "127.0.0.1" - this will restrict remote access using localhost
+  - VAGRANTFILE_API_VERSION = "2" - this will used version 2 format
+   
+** Boxes
+  - This is the base image that vagrant uses for the OS.
+  - The suffix used is usually .box but that is not mandatory.
+  - Once the box has been downloaded it is stored in $HOME/.vagrant.d/boxes. These boxes are then used as templates for projects.
+
 * Usage
 ** Cmds
 *** Create a box
@@ -53,29 +75,6 @@ vagrant ssh-config 7cf053b
 | LogLevel               | FATAL                                                                             |
 This out put should be placed in the .ssh/config
 
-* Description
-
-** Guest OS States
-- running
-- poweroff
-- saved
-- not created
-- aborted
-  
-** Vagrantfile
-This file is used to maintain that development is performed on the same platfrom by all involved in the project.
-
-+ Variables
-  - config.vm.box = <url_to_box>
-  - config.vm.network :forward_port, guest: 4567, host: 45670, host_ip: "127.0.0.1" - this will restrict remote access using localhost
-  - VAGRANTFILE_API_VERSION = "2" - this will used version 2 format
-   
-** Boxes
-  - This is the base image that vagrant uses for the OS.
-  - The suffix used is usually .box but that is not mandatory.
-  - Once the box has been downloaded it is stored in $HOME/.vagrant.d/boxes. These boxes are then used as templates for projects.
-
-* Usage
 * Lecture
 * Tutorial
 * Books

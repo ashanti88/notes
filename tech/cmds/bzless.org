@@ -1,7 +1,7 @@
-#+TAGS: comp file
+#+TAGS: file comp 
 
 
-* bzless							  :comp:file:
+* bzless                                                          :file:comp:
 * Description
 * Usage
 #+BEGIN_SRC sh

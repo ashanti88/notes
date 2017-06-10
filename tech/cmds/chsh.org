@@ -1,7 +1,7 @@
-#+TAGS: usr shell
+#+TAGS: sys shell
 
 
-* chsh 								  :usr:shell:
+* chsh                                                            :sys:shell:
 * files
 /etc/shells
 /etc/passwd

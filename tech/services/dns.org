@@ -1,7 +1,7 @@
-#+TAGS: sys net dns
+#+TAGS: dns
 
 
-* DNS								:sys:net:dns:
+* DNS                                                                   :dns:
 * Description
 * Usage
 * Servers

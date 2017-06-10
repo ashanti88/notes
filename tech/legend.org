@@ -1,17 +1,62 @@
 #+TAGS:
 
+* Distro 
+deb - Debian
+fedora - Fedora
+kali - Kali
+rhel - Red Hat generally
+ubuntu - Ubuntu 
 
-* System
-sys - system
-net - network
-db  - database
-sec - security
-pid - process
-file - works on a file
+* File - file 
 txt - works on txt
+cmp - file comparison
+comp - compression
+op - has an operation on a file
 
-* Security
-sec - security
+* Emacs - emacs
+helm - refers to helm mode
+org - refers to org mode
+yas - refers to yasnippet mode
+search - searching of files within emacs
+web - viewing web content in emacs
+tags - org mode tag system
+notes - refers to process of note taking
 
-* Monitoring
-mon - monitoring
+* System - sys
+db  - database
+file - works on a file
+gui - graphical user interface
+net - network
+pid - process
+prt - refers to printers
+shell - refers to one of the system shells
+
+* Network - net
+dhcp - refers to dhcp
+* DNS - dns
+* LDAP - ldap
+* Web - web
+* Mail - mail
+mda - Mail Delivery Agent
+mta - Mail Transfer Agent
+pop3 - works with or refers to POP3
+imap - works with or refers to imap
+* Automation - auto
+ruby - auto tool uses ruby
+* High Availability - ha
+* Storage - stor
+* Monitoring - mon
+* Security - sec
+red - offensive security
+blue - defensive security
+recon - refers to recon phase of pen-test
+
+* System Analysis - anal
+* Communications - comms
+irc - internet relay chat
+* Programming - code
+* Microsoft - ms
+2003 - refers to Server 2003
+2008 - refers to Server 2008
+2012 - refers to Server 2012
+2016 - refers to Server 2016

@@ -2,7 +2,10 @@
 
 
 * exim								   :mail:mta:
-* Description
+* cmds
+- [[file://home/crito/org/tech/cmds/exiqgrep.org][exiqgrep]]
+- [[file://home/crito/org/tech/cmds/exiwhat.org][exiwhat]]
+
 * Usage
 ** Basic Administration
 - Print a count of the mail queue
@@ -161,8 +164,41 @@ systemctl status dovecot.service
 systemctl enable dovecot.service
 #+END_SRC
 
+** Remove all emails from the queue
+#+BEGIN_SRC sh
+exiqgrep -o 0 -i | xargs -r exim -Mrm
+#+END_SRC
+or
+#+BEGIN_SRC sh
+exim -bp | awk '/\^ *[0-9]+[mhd]/{print "exim -Mrm " $3}' | bash
+#+END_SRC
+or
+#+BEGIN_SRC sh
+exim -bp | exiqgrep -i | xargs exim -Mrm
+#+END_SRC
+
+The above won't work on a really big queue, so  we can use
+#+BEGIN_SRC sh
+cd /var/spool/exim ; find input msglog -type f -mmin +30 -delete
+#+END_SRC
+
+** from someone (or -r for recipient, -y for younger than, -z frozen, -x non-frozen)
+
+exiqgrep -f countrye@mail.snow1.co.uk -i | xargs -r exim -Mrm
+
+** Spot spammers sending mail from their /home/ directory (through a script):
+#+BEGIN_SRC sh
+zegrep 'cwd=/home' =ls -tr /var/log/exim_mainlog= | awk '{print $3}' | sort -bg | uniq -c | sort -bgr | head -n20
+#+END_SRC
+or
+#+BEGIN_SRC sh
+grep cwd /var/log/exim\_mainlog | grep -v /var/spool | awk -F"cwd=" '{print $2}' | awk '{print $1}' | sort | uniq -c | sort -gr | head -20
+#+END_SRC
+
 * Lecture
 * Tutorial
 [[https://www.janoszen.com/2010/03/22/the-big-exim-tutorial/][The Big Exim Tutorial]]
 * Books
 * Links
+[[http://bradthemad.org/tech/notes/exim_cheatsheet.php][Exim Cheatsheet]]
+

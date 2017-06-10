@@ -1,7 +1,7 @@
 #+TAGS: mail imap
 
 
-* cyrus								  :mail:imap:
+* Cyrus								  :mail:imap:
 HomePage: [[https://www.cyrusimap.org/][cyrusimap.org]]
 * Description
 * Usage
