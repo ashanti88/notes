@@ -1,7 +1,8 @@
 #+TAGS: net cisco
 
 
-* cisco
+* Cisco
+Cisco Learning: [[https://learningnetwork.cisco.com/welcome][learningnetwork.cisco.com]]
 * Usage
 ** ios
 *** Change from user Exec to Priv Exec mode

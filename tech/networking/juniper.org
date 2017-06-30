@@ -2,6 +2,7 @@
 
 
 * Juniper							    :net:jun:
+Juniper Learning: [[https://learningportal.juniper.net/juniper/user_login.aspx][learningportal.juniper.net]]
 * Description
 * Usage
 * Lecture
@@ -10,4 +11,6 @@
 *** OSI and Things That Use It
 
 * Books
+[[file://home/crito/Documents/Networking/Junos/Junos_Enterprise_Routing.pdf][Junos Enterprise Routing - O'Reilly]]
+[[file://home/crito/Documents/Networking/Junos/Junos_Security.pdf][Junos Security - O'Reilly]]
 * Links

@@ -1,0 +1,24 @@
+#+TAGS: sys op anal
+
+
+* Process Management
+* Cmds
+[[file://home/crito/org/tech/cmds/top.org][top]]
+[[file://home/crito/org/tech/cmds/nice.org][nice]]
+
+* Usage
+putting a processing to background
+- A running process
+  - first pause the process
+  <ctlr> + z
+  - second move the process to background
+  bg
+- Starting a process in the background
+  - dd /dev/zero /devnull &
+    
+
+
+* Lecture
+* Tutorial
+* Books
+* Links

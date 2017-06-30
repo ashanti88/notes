@@ -4,11 +4,18 @@
 * bash								      :shell:
 * Description
 * Usage
+** Globbing
+- Also known as wildcards  
+ls host* - list anything that starts with host
+ls ?ost - ? is one char, list all files one char + "ost"
+ls [hm]ost - ls any file that match host or most
+ls [!hm] - list any file one char + "ost", but not host or most
+ls [0-9][0-9]script - list any file names script that is prefixed with two numbers
 * Lecture
 * Tutorial
 * Books
 [[file://home/crito/Documents/Linux/Shell/Bash/bash-Cookbook.pdf][bash Cookbook - O'Reilly]]
 [[file://home/crito/Documents/Linux/Shell/Bash/bash-Pocket_Reference.pdf][bash - Pocket Reference]]
-[[file://home/crito/Documents/Linux/Shell/Bash/Learning_the_bash_Shell.pdf][Learning the bash Shell]]
+[[file://home/crito/Documents/Linux/Shell/Bash/Learning_the_bash_Shell.pdf][Learning the Bash Shell]]
 [[file://home/crito/Documents/Linux/Shell/Bash/Pro_Bash_Programming_2e.pdf][Pro Bash Programming 2e]]
 * Links

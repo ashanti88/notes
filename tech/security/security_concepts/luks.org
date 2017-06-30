@@ -1,5 +1,27 @@
+#+TAGS: sec crypt
 
 
-+ Linux Unified Key Setup (LUKS)
+* Linux Unified Key Setup (LUKS)                                  :sec:crypt:
+* Description
+* Usage
+** Unencrypt and mount a partition
+1. identify the partition that you want to unencrypt
+#+BEGIN_SRC sh
+fdisk -l
+#+END_SRC
 
-* Articles
+2. Unencrypt the partition
+#+BEGIN_SRC sh
+udisksctl unlock -b /dev/sdb2
+#+END_SRC
+b - block device
+
+3. Mount the partition
+#+BEGIN_SRC sh
+udisksctl mount -b /dev/mapper/enc_hdd
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

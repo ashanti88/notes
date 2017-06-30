@@ -1,0 +1,12 @@
+#+TAGS: code for
+
+
+* Fortran                                                          :code:for:
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+[[file://home/crito/Documents/Fortran/Introduction_to_Programming_with_Fortran_3e.pdf][Introduction to Programming with Fortran]]
+[[file://home/crito/Documents/Fortran/Modern_Fortran.pdf][Modern Fortran]]
+* Links

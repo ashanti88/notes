@@ -4,6 +4,16 @@
 * ps								   :sys:anal:
 * Description
 * Usage
+** Basic
+- view current processors on the system
+#+BEGIN_SRC sh
+ps aux
+#+END_SRC
+
+- using forest to link parents and children
+#+BEGIN_SRC sh
+ps auxf
+#+END_SRC
 
 ** SELinux Contexts
 ps -eZ

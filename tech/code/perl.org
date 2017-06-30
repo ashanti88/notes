@@ -1,7 +1,8 @@
-#+TAGS: code
+#+TAGS: code pl
 
 
-* Perl
+* Perl                                                          :code:pl:
+HomePage: [[https://www.perl.org/][perl.org]]
 * Cmds
 * One liners
 - print a file in reverse
@@ -13,4 +14,8 @@ perl -e 'print reverse <>' file.txt
 * Lecture
 * Tutorial
 * Books
+[[file://home/crito/Documents/Perl/Learning_Perl5.pdf][Learning Perl]]
+[[file://home/crito/Documents/Perl/Advanced_Perl_Programming_2e.pdf][Advanced Perl Programming]]
+[[file://home/crito/Documents/Perl/Mastering_Perl.pdf][Mastering Perl]]
+[[file://home/crito/Documents/Perl/Mastering_Algorithms_with_Perl.pdf][Mastering Algorithms with Perl]]
 * Links

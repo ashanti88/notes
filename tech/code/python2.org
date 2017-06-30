@@ -1,7 +1,7 @@
-#+TAGS: code
+#+TAGS: code py2
 
 
-* Python2                                                              :code:
+* Python2                                                          :code:py2:
 * Description
 * Usage
 * Concepts

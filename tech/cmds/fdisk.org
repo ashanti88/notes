@@ -1,0 +1,11 @@
+#+TAGS: sys disk stor
+
+
+* fdisk                                                       :sys:disk:stor:
+* Description
+Display or manipulate a disk partition table.
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

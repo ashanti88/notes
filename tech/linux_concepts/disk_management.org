@@ -1,0 +1,16 @@
+#+TAGS: sys disk fs stor
+
+
+* Disk Management
+* Cmds
+- [[file://home/crito/org/tech/cmds/mkfs.org][mkfs]]
+- [[file://home/crito/org/tech/cmds/e2label.org][e2label]]
+- gparted
+- [[file://home/crito/org/tech/cmds/parted.org][parted]]
+- [[file://home/crito/org/tech/cmds/fdisk.org][fdisk]]
+
+* Lecture
+* Tutorial
+* Books
+* Links
+

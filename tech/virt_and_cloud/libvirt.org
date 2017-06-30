@@ -1,0 +1,36 @@
+#+TAGS: virt
+
+
+* libvirt
+* cmds
+** virsh
+- list all VMs running on machine
+#+BEGIN_SRC sh
+vish list
+#+END_SRC
+
+- stop a running VM
+#+BEGIN_SRC sh
+virsh destroy name_of_vm
+#+END_SRC
+
+- start a VM
+#+BEGIN_SRC sh
+virsh start name_of_vm
+#+END_SRC
+
+- edit the configuration of VM
+#+BEGIN_SRC sh
+virsh edit name_of_vm
+#+END_SRC
+This is the prefered method to edit, rather than using vim on the config file
+
+** virt-manager
+This is a GUI to manage VMs
+
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

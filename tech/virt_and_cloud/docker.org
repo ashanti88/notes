@@ -1,7 +1,7 @@
 #+TAGS: virt cont
 
 
-* docker							  :virt:cont:
+* Docker							  :virt:cont:
 HomePage: [[https://www.docker.com/][docker.com]]
 CheatSheet: [[https://github.com/wsargent/docker-cheat-sheet][github.com/docker-cheat-sheet]]
 * Description
@@ -69,10 +69,10 @@ docker port $DOCKER_ID
 * Lecture
 * Tutorials
 * Books
-[[file://home/crito/Documents/SysAdmin/Virtulization/Docker/Using_Docker.pdf][Using Docker]]
-[[file://home/crito/Documents/SysAdmin/Virtulization/Docker/Pro_Docker.pdf][Pro Docker]]
-[[file://home/crito/Documents/SysAdmin/Virtulization/Docker/Learning_Docker.pdf][Learning Docker]]
-[[file://home/crito/Documents/SysAdmin/Virtulization/Docker/Monitoring_Docker.pdf][Monitoring Docker]]
-[[file://home/crito/Documents/SysAdmin/Virtulization/Docker/Orchestrating_Docker.pdf][Orchestrating Docker]]
-[[file://home/crito/Documents/SysAdmin/Virtulization/Docker/Docker_Cookbook.pdf][Docker Cookbook]]
+[[file://home/crito/Documents/SysAdmin/Virt/Docker/Using_Docker.pdf][Using Docker]]
+[[file://home/crito/Documents/SysAdmin/Virt/Docker/Pro_Docker.pdf][Pro Docker]]
+[[file://home/crito/Documents/SysAdmin/Virt/Docker/Learning_Docker.pdf][Learning Docker]]
+[[file://home/crito/Documents/SysAdmin/Virt/Docker/Monitoring_Docker.pdf][Monitoring Docker]]
+[[file://home/crito/Documents/SysAdmin/Virt/Docker/Orchestrating_Docker.pdf][Orchestrating Docker]]
+[[file://home/crito/Documents/SysAdmin/Virt/Docker/Docker_Cookbook.pdf][Docker Cookbook]]
 * Links

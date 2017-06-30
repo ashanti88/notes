@@ -1,13 +1,13 @@
-#+TAGS: net vpn
+#+TAGS: net pro vpn
 
 
-* OpenVPN							    :net:vpn:
+* OpenVPN                                                       :net:pro:vpn:
 * Description
 * Usage
 * Lecture
 * Tutorial
 * Books
-file://home/crito/Documents/Networking/Beginning_OpenVPN.pdf
-file://home/crito/Documents/Networking/Virtual_Private_Networks-OReilly_2e.pdf
+[[file://home/crito/Documents/Networking/VPN/Beginning_OpenVPN.pdf][Beginning OpenVPN]]
+[[file://home/crito/Documents/Networking/VPN/OpenVPN_2_Cookbook.pdf][OpenVPN 2 Cookbook]]
 
 * Links

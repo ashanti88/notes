@@ -1,1 +1,19 @@
+#+TAGS: file
 
+
+* sort
+* Description
+* Usage
+- basic sort (default alpha)
+#+BEGIN_SRC sh
+sort file.txt
+#+END_SRC
+
+- sort numerically
+#+BEGIN_SRC sh
+sort -n file.txt
+#+END_SRC
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -1,0 +1,26 @@
+#+TAGS: desktop
+
+
+* xdg-utils
+HomePage: [[https://www.freedesktop.org/wiki/Software/xdg-utils/][xdg-utils]]
+* Description
+xdg-utils is a set of tools that allows applications to easily integrate with the desktop environment of the user, regardless of the specific desktop environment that the user runs.
+
+In the case of xdg-open it looks to the current desktop environment and will call its own default application call
+XFCE - exo-open
+KDE - kde-open
+Gnome - gvfs-open or gnome-open
+Mate - gvfs-open or mate-open
+
+Deafult applications are set in the .desktop files found in /usr/share/applications and ~/.local/share/applications. The .desktop format is a standardized format created by the freedesktop project.
+
+* Cmds
+- [[file://home/crito/org/tech/cmds/xdg-open.org][xdg-open]]
+- xdg-email
+- xdg-settings
+- xdg-screensaver
+
+* Lecture
+* Tutorial
+* Books
+* Links

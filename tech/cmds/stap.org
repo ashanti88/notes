@@ -1,7 +1,7 @@
-#+TAGS: sys anal
+#+TAGS: sys anal perf
 
 
-* stap								   :sys:anal:
+* stap                                                        :sys:anal:perf:
 * Description
 This is a frontend to the SystemTap tool.
 * Usage

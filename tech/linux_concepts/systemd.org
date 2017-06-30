@@ -1,7 +1,7 @@
-#+TAGS: sysd
+#+TAGS: sys init sysd
 
 
-* systemd 							       :sysd:
+* systemd                                                     :sys:init:sysd:
 HomePage: [[https://www.freedesktop.org/wiki/Software/systemd/][freedesktop.org/systemd]]
 * Cmds
 [[file://home/crito/org/tech/cmds/systemctl.org][systemctl]]
@@ -72,10 +72,8 @@ The Ubuntu error reporting service. It collects crash reports and sends them to 
 This is the service that interacts with wifi connections
 * Overview
 * Lecture
-** Systemd at the Core of the OS (CoreOS Fest 2015)	       :container:vm:
-url: https://www.youtube.com/watch?v=VIPonFvPlAs&index=64&list=WL
-
-*** Containers
+** [[https://www.youtube.com/watch?v=VIPonFvPlAs&index=64&list=WL][Systemd at the Core of the OS - CoreOS Fest 2015]]
++ Containers
 - Rocket
 - Docker
 - LXC
@@ -98,9 +96,81 @@ url: https://www.youtube.com/watch?v=VIPonFvPlAs&index=64&list=WL
 - systemd-resolved - allows hostnames to be used on containers
   - register host name by default via LLMNR, regardless if host or container
 
+** [[https://www.youtube.com/watch?v=S9YmaNuvw5U&t=6s][Demystifying Systemd - 2015 Red Hat Summit]]
+
++ Systemd Units Locations
+- Maintainer: /usr/lib/systemd/system - don't touch/edit, this is where rpm/dpkg puts unit files. Edits may be over wirtten with update
+- Administrator: /etc/systemd/system  - these will over-ride the above unit file 
+- Non-persistent, runtime: /run/systemd/system
+
++ Managing Services
+List loaded Services
+#+BEGIN_SRC sh
+systemctl -t service
+#+END_SRC
+-t - type
+
+List installed services 
+#+BEGIN_SRC sh
+systemctl list-unit-files -t service
+#+END_SRC
+This is similar to chkconfig --list
+
+Check for services in failed state
+#+BEGIN_SRC sh
+systemctl --state failed
+#+END_SRC
+
+Cockpit is a RHEL gui for systemd
+
++ Customizing Units
+
+- List a unit's proprties
+#+BEGIN_SRC sh
+systemctl show --all httpd
+#+END_SRC
+- Query a single property
+#+BEGIN_SRC sh
+systemctl show -p Restart httpd
+#+END_SRC
+
+- View all local changes
+#+BEGIN_SRC sh
+systemd-delta
+#+END_SRC
+
++ Slices Scopes Services
+Slice - Unit type for creating the cgroup hierarchy for resource management
+Scope - Organizational unit that groups a services' worker processes
+Service - Process or group of processes contolled by systemd 
+
++ Resource Management 
+#+BEGIN_SRC sh
+systemd-cgtop
+#+END_SRC
+This needs to be turned on for memory and io
+
++ Unit file layout - Custom application example
+#+BEGIN_SRC sh
+[Unit]
+Description=Describe the daemon
+After=network.target
+
+[Service]
+ExecStart=/usr/sbin/[myapp] -D
+Type=forking
+PIDFile=/var/run/myapp.pid
+
+[Install]
+WantedBy=multi-user.target
+#+END_SRC
+
+
+
 * Tutorial
 * Books
 [[file://home/crito/Documents/SysAdmin/systemd-ebook-psankar.pdf][Systemd for Administrators]]
+[[file://home/crito/Documents/SysAdmin/rh_systemd_reference_card.pdf][Systemd Reference Card]]
 * Links
 [[https://www.linux.com/learn/here-we-go-again-another-linux-init-intro-systemd][Here we go again another linux init]]
 [[https://www.linux.com/learn/understanding-and-using-systemd][Understanding and Using Systemd]]

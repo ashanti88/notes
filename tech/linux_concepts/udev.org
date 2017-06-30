@@ -1,0 +1,38 @@
+#+TAGS: sys disk
+
+
+* udev                                                             :sys:disk:
+* Required Kernel Config
+- for the installation of udev ensure that the below is set in the .config of the kernel build
+#+BEGIN_SRC sh
+CONFIG_HOTPLUG=y
+CONFIG_UEVENT_HELPER_PATH=
+CONFIG_NET=y
+CONFIG_UNIX=y
+CONFIG_SYSFS=y
+CONFIG_SYSFS_DEPRECATED*=n
+CONFIG_PROC_FS=y
+CONFIG_TMPFS=y
+CONFIG_TMPFS_POSIX_ACL=y
+CONFIG_INOTIFY=y
+CONFIG_SIGNALFD=y
+#+END_SRC
+
+* Description
+Udev is the device manager for the Linux 2.6 kernel that creates/removes device nodes in the /dev directory dynamically.
+* Usage
+** Kernel Device Event Management
+1. When bootup is initialized, the /dev directory is mounted in tmpfs.
+2. After that, Udev will copy the static device nodes from¬†/lib/udev/devices¬†to the /dev directory.
+3. The Udev daemon then runs and collects uevents from the kernel, for all the devices connected to the system.
+4. The Udev daemon will parse the uevent data and it will match the data with the rules specified in /etc/udev/rules.d.
+5. It will create the device nodes and symbolic links for the devices as specified in the rules.
+6. The Udev daemon reads the rules from /etc/udev/rules.d/*.rules and stores them in the memory.
+7. Udev will receive an inotify event, if any rules were changed. It will read the changes and will update the memory.
+* Lecture
+* Tutorial
+* Books
+[[file://home/crito/Documents/Linux/Kernel/Linux_Kernel_In_a_Nutshell.pdf][Linux Kernel in a Nutshell]]
+* Links
+[[https://www.linux.com/news/udev-introduction-device-management-modern-linux-system][udev - Introduction Device Management Modern Linux System]]
+[[http://pcidatabase.com/][pcidatabase.com - PCI Vendor and Device List]]

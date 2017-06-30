@@ -1,1 +1,11 @@
+#+TAGS: net wifi
 
+
+* 802.11                                                           :net:wifi:
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+[[file://home/crito/Documents/Networking/802.11_Wireless_Networks-The_Definitive_Guide_2e.pdf][802.11 Wireless Networks - The Definitive Guide]]
+* Links

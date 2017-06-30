@@ -8,8 +8,9 @@ htop
 * Description
 * Usage
 ** Interactive Commands
-shift + p - Show processors by cpu usage
 r - Renice a process
+k - kill a process
+shift + p - Show processors by cpu usage
 shift + w - write current configuration to /home/$USER/.toprc
 
 ** Fields

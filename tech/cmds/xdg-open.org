@@ -1,0 +1,15 @@
+#+TAGS: desktop app
+
+
+* xdg-open
+* Description
+* Usage
+- run file type with default application
+#+BEGIN_SRC sh
+xdg-open war_of_the_worlds.avi
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -1,0 +1,20 @@
+#+TAGS: sys perf anal
+
+
+* System Performance                                          :sys:perf:anal:
+* Cmds
+- [[file://home/crito/org/tech/linux_concepts/systemtap.org][SystemTap]]
+- ftrace
+- perf_events
+- eBPF
+- LTTng
+- ktap
+- dtrace4linux
+- OEL DTrace4
+- sysdig
+* Lecture
+* Tutorial
+* Books
+[[file://home/crito/Documents/SysAdmin/System/Systems_Performance.pdf][Systems Performance - Brendan Gregg]]
+* Links
+[[http://www.brendangregg.com/blog/2015-07-08/choosing-a-linux-tracer.html][Choosing a Linux Tracer - Brendan Gregg]]

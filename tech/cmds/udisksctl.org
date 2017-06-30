@@ -1,0 +1,12 @@
+#+TAGS: sys stor disk
+
+
+* udisksctl                                                   :sys:stor:disk:
+Freedesktop.org: [[https://people.freedesktop.org/~david/udisks2-20110628/udisksctl.1.html][udisksctl]]
+* Description
+udisksctl is a command-line program used to interact with the udisks daemon
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

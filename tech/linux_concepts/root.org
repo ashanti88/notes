@@ -9,7 +9,7 @@
 - [[file://home/crito/org/tech/cmds/visudo.org][visudo]]
 
 * Overview
-* How to obtain root privileges
+** How to obtain root privileges
 ** Log in as root
 
 login: root
@@ -28,12 +28,32 @@ sudo
 #+END_SRC
 this allows root to be run for one off commands.
 
-* Configuring sudo
+** Configuring sudo
 sudo is configured through the /etc/sudoers file. This file should not
 be edited directly but with the visudo command. This command will open
 /etc/sudoers in the set default text editor.
 
-* Resetting forgotten root password 
+** Allow non-root user to run root cmd
+In this example will allow user john to use the poweroff cmd
+1. use visudo
+#+BEGIN_SRC sh
+visudo
+#+END_SRC
+
+2. Add the following lines to the end of the file
+#+BEGIN_SRC sh
+User_Alias ADMINS = john                      --> define which user can run the root only commands
+Cmnd_Alias POWEROFF = /sbin/poweroff          --> define which command
+ADMINS     ALL=POWEROFF                       --> bind the command with the user
+#+END_SRC
+
+3. login as user john and run poweroff
+#+BEGIN_SRC sh
+su john
+sudo /usr/bin/poweroff
+#+END_SRC
+
+** Resetting forgotten root password 
 ** Live CD
 1. Boot the LiveCD and mount the root partition of your main system.
 2. Use the passwd --root MOUNT_POINT USER_NAME command to set the new password (you won't be prompted for an old one).

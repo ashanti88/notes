@@ -1,7 +1,7 @@
-#TAGS: code
+#TAGS: web code
 
 
-* crawlers
+* crawlers                                                         :web:code:
 * Cmds
 * Overview
 * Lecture

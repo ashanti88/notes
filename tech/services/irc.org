@@ -191,3 +191,5 @@ TO <value> - Tell HTM at what incoming rate to activate HTM
 * Tutorial
 * Books
 * Links
+[[https://www.digitalocean.com/community/tutorials/how-to-set-up-an-irc-server-on-ubuntu-14-04-with-inspircd-2-0-and-shalture][How To Set Up an IRC Server on Ubuntu 14.04 with InspIRCd 2.0]]
+[[http://www.codeography.com/2012/09/23/howto-irc-server.html][How To setup the Ultimate IRC Server]]

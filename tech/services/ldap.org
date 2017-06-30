@@ -1,7 +1,7 @@
-#+TAGS: ldap
+#+TAGS: net sec ldap
 
 
-* ldp                                                                 :ldap:
+* LDAP                                                         :net:sec:ldap:
 OpenLDAP: [[https://www.openldap.org/][openldap.org]]
 * Cmds
 ldapsearch
@@ -22,6 +22,8 @@ LDAP uses the Sleepycat Berkley DB,
 * Tutorial
 * Books
 [[file://home/crito/Documents/Linux/Linux_Networking_Cookbook.pdf][Linux Networking Cookbook]]
-[[file://home/crito/Documents/SysAdmin/OReilly_ldap.pdf][O'Reilly LDAP]]
+[[file://home/crito/Documents/SysAdmin/OReilly_ldap.pdf][LDAP - O'Reilly]]
+[[file://home/crito/Documents/SysAdmin/Red_Hat_Directory_Server-8.1-Deployment_Guide-en-US.pdf][Red Hat Directory Server 8.1 Deployment Guide]]
+[[file://home/crito/Documents/SysAdmin/Sun-LDAP_Setup_and_Configuration_Guide.pdf][Sun - LDAP Setup and Configuration Guide]]
 * Links
-
+https://wiki.debian.org/LDAP

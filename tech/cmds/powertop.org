@@ -17,3 +17,4 @@ This did cut the fan usage on my laptop (lenovo 510)
 * Tutorial
 * Books
 * Links
+[[https://wiki.manjaro.org/index.php?title=PowerTOP_to_Optimise_Laptop_Power_Consumption][PowerTOP to Optimise Laptop Power Consumption]]

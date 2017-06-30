@@ -3,7 +3,34 @@
 
 * KVM                                                                  :virt:
 * Description
+This is an overview of how linux implements virtualization
+[[file://home/crito/Pictures/org/kvm_arch_overview.jpg]]
+
+This is an overview of libvirt and the types of virtualization it is able to interact with and corresponding tools
+[[file://home/crito/Pictures/org/Libvirt_support.png]]
+
 * Usage
+- checking that the cpu is virt enabled
+#+BEGIN_SRC sh
+egrep 'vmx | svm' /proc/cpuinfo
+#+END_SRC
+vmx - intel based virt
+svm - amd based virt
+
+- checking that the linux kvm modules are installed
+#+BEGIN_SRC sh
+lsmod | grep kvm
+#+END_SRC
+This is the command run a RHEL system
+[[file://home/crito/Pictures/org/kvm_modules.png]]
+
+- check that libvirtd is running
+#+BEGIN_SRC sh
+systemctl status libvirtd
+#+END_SRC
+this will shows if it is running
+
+
 * Lecture
 ** KVM and QEMU Internals - Understanding the IO subsystem - Kyle Bader :openstack:
    

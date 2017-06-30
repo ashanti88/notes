@@ -1,0 +1,13 @@
+#+TAGS: sys disk
+
+
+* udev                                                             :sys:disk:
+* Description
+Udev is the device manager for the Linux 2.6 kernel that creates/removes device nodes in the /dev directory dynamically.
+* Usage
+* Lecture
+* Tutorial
+* Books
+[[file://home/crito/Documents/Linux/Kernel/Linux_Kernel_In_a_Nutshell.pdf][Linux Kernel in a Nutshell]]
+* Links
+[[https://www.linux.com/news/udev-introduction-device-management-modern-linux-system][udev - Introduction Device Management Modern Linux System]]

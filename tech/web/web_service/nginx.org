@@ -204,11 +204,173 @@ or
 $4'}httpd -S 2>&1|grep "port 443 name"|grep -v =hostname=| awk {'print
 $4'}
 
-** If a site randomy returns 403's and then 200 when curling**=
+** If a site randomy returns 403's and then 200 when curling
 
 Add Options +Indexes to the .htaccess file and you will get 200 on curls
 
 [[https://stackoverflow.com/questions/10365520/error-directory-index-forbidden-by-options-directive][Stackoverflow - error directory index forbidden]]
+
+** Speed up Nginx Performance with Ngx_Pagespeed on CentOS 7       :web:perf:
+1. These tools will be required
+[[file://home/crito/Pictures/org/ngx_pagespeed_1.png]]
+
+2. Pull the source code for Nginx
+[[file://home/crito/Pictures/org/ngx_pagespeed_2.png]]
+
+3. Next download the ngx_pagespeed source files unzip compressed files
+[[file://home/crito/Pictures/org/ngx_pagespeed_3.png]]
+
+4. Get the opmitized libraries to compile with Nginx
+[[file://home/crito/Pictures/org/ngx_pagespeed_4.png]]
+
+5. Configure the Nginx for compilation
+[[file://home/crito/Pictures/org/ngx_pagespeed_5.png]]
+
+6. Next compile and install
+#+BEGIN_SRC sh
+make
+make install
+#+END_SRC
+
+7. Create the need symbolic links
+[[file://home/crito/Pictures/org/ngx_pagespeed_6.png]]   
+
+8. Create the systemd unit file
+[[file://home/crito/Pictures/org/ngx_pagespeed_7.png]]
+
+you need to make note the location of the pid file and the Nginx binary  
+[[file://home/crito/Pictures/org/ngx_pagespeed_8.png]]
+
+9. Test that the systemd unit file works
+#+BEGIN_SRC sh
+systemctl start nginx
+systemctl enable nginx
+systemctl status nginx
+#+END_SRC
+
+10. Create a directory where the module is to cache the files for the site
+#+BEGIN_SRC sh
+mkdir -p /var/ngx_pagespeed_cache
+chown -R nobody:nobody /var/ngx_pagespeed_cache
+#+END_SRC
+
+11. Enable the module by adding the following lines to the server block in the nginx.conf
+[[file://home/crito/Pictures/org/ngx_pagespeed_10.png]]
+
+12. Check that the config file is error free
+#+BEGIN_SRC sh
+nginx -t
+#+END_SRC
+
+13. Now restart the service for the changes to take effect
+#+BEGIN_SRC sh 
+systemctl restart nginx.service
+#+END_SRC
+
+14. Test that Nginx is using Pagespeed
+#+BEGIN_SRC sh
+curl -I -p http://localhost
+#+END_SRC
+if Ngx_Pagespeed is enabled you should see the X-Page-Speed header implemented
+[[file://home/crito/Pictures/org/ngx_pagespeed_11.png]]
+
+*** Example Nginx with Ngx_Pagespeed enabled
+#+BEGIN_EXAMPLE
+#user  nobody;
+worker_processes  1;
+#error_log  logs/error.log;
+#error_log  logs/error.log  notice;
+#error_log  logs/error.log  info;
+#pid        logs/nginx.pid;
+events {
+worker_connections  1024;
+}
+http {
+include       mime.types;
+default_type  application/octet-stream;
+#log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+#                  '$status $body_bytes_sent "$http_referer" '
+#                  '"$http_user_agent" "$http_x_forwarded_for"';
+#access_log  logs/access.log  main;
+sendfile        on;
+#tcp_nopush     on;
+#keepalive_timeout  0;
+keepalive_timeout  65;
+#gzip  on;
+server {
+listen       80;
+server_name  localhost; 
+#charset koi8-r;
+#access_log  logs/host.access.log  main;
+# Pagespeed main settings
+pagespeed on;
+pagespeed FileCachePath /var/ngx_pagespeed_cache;
+# Ensure requests for pagespeed optimized resources go to the pagespeed
+# handler and no extraneous headers get set.
+location ~ "\.pagespeed\.([a-z]\.)?[a-z]{2}\.[^.]{10}\.[^.]+" { add_header "" ""; }
+location ~ "^/ngx_pagespeed_static/" { }
+location ~ "^/ngx_pagespeed_beacon" { }
+location / {
+root   html;
+index  index.html index.htm;
+}
+#error_page  404              /404.html;
+# redirect server error pages to the static page /50x.html
+#
+error_page   500 502 503 504  /50x.html;
+location = /50x.html {
+root   html;
+}
+# proxy the PHP scripts to Apache listening on 127.0.0.1:80
+#
+#location ~ \.php$ {
+#    proxy_pass   http://127.0.0.1;
+#}
+# pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+#
+#location ~ \.php$ {
+#    root           html;
+#    fastcgi_pass   127.0.0.1:9000;
+#    fastcgi_index  index.php;
+#    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;
+#    include        fastcgi_params;
+#}
+# deny access to .htaccess files, if Apache's document root
+# concurs with nginx's one
+#
+#location ~ /\.ht {
+#    deny  all;
+#}
+}
+# another virtual host using mix of IP-, name-, and port-based configuration
+#
+#server {
+#    listen       8000;
+#    listen       somename:8080;
+#    server_name  somename  alias  another.alias;
+#    location / {
+#        root   html;
+#        index  index.html index.htm;
+#    }
+#}
+# HTTPS server
+#
+#server {
+#    listen       443 ssl;
+#    server_name  localhost;
+#    ssl_certificate      cert.pem;
+#    ssl_certificate_key  cert.key;
+#    ssl_session_cache    shared:SSL:1m;
+#    ssl_session_timeout  5m;
+#    ssl_ciphers  HIGH:!aNULL:!MD5;
+#    ssl_prefer_server_ciphers  on;
+#    location / {
+#        root   html;
+#        index  index.html index.htm;
+#    }
+#}
+}
+#+END_EXAMPLE
 
 ** Cpanel
 *** Restart Apache Service with CPanel
@@ -220,5 +382,6 @@ Add Options +Indexes to the .htaccess file and you will get 200 on curls
 * Books
 
 * Links
-- [[https://www.linode.com/docs/websites/nginx/how-to-configure-nginx][How To Configure Nginx - Linode]]
-- [[https://www.digitalocean.com/community/tutorials/understanding-nginx-server-and-location-block-selection-algorithms][Understanding Ngin Server and Location Block Selection Algorithms]]
+[[https://www.linode.com/docs/websites/nginx/how-to-configure-nginx][How To Configure Nginx - Linode]]
+[[https://www.digitalocean.com/community/tutorials/understanding-nginx-server-and-location-block-selection-algorithms][Understanding Ngin Server and Location Block Selection Algorithms]]
+[[https://www.tecmint.com/nginx-web-server-security-hardening-and-performance-tips/][Nginx Securtiy Hardening and Performance tips - Techmint]]

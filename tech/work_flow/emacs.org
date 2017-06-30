@@ -417,64 +417,75 @@ view existing cookies - C - M-x eww-
 the above variable sets the color back to black
 
 ** org-mode                                                :emacs:org:notes:
+*** Setting images in org-mode
+1. Set the link but don't add a description
+2. the run C-c C-x C-v on the link, this should now bring the image up
+(C-c C-x C-v = org-toggle-inline-images)
+
 *** Cheat Sheet
-***** Visibility Cycling
-*rotate current subtree between states             TAB
-*rotate entire buffer between states               S-TAB
-*restore property-dependent startup visibility     C-u C-u TAB
-*show the whole file, including drawers            C-u C-u C-u TAB
-*reveal context around point                       C-c C-r
-*
-***** Motion
-*next/previous heading                             C-c C-n/p
-*next/previous heading, same level                 C-c C-f/b
-*backward to higher level heading                  C-c C-u
-*jump to another place in document                 C-c C-j
-*previous/next plain list item                     S-UP/DOWN\notetwo
-*
-*
-***** Structure Editing
-*insert new heading/item at current level          M-RET
-*insert new heading after subtree                  C-RET
-*insert new TODO entry/checkbox item               M-S-RET
-*insert TODO entry/ckbx after subtree              C-S-RET
-*turn (head)line into item, cycle item type        C-c -
-*turn item/line into headline                      C-c *
-*promote/demote heading                            M-LEFT/RIGHT
-*promote/demote current subtree                    M-S-LEFT/RIGHT
-*move subtree/list item up/down                    M-S-UP/DOWN
-*sort subtree/region/plain-list                    C-c ^
-*clone a subtree                                   C-c C-x c
-*copy visible text                                 C-c C-x v
-*kill/copy subtree                                 C-c C-x C-w/M-w
-*yank subtree                                      C-c C-x C-y or C-y
-*narrow buffer to subtree / widen                  C-x n s/w
-*
-*
-***** Capture - Refile - Archiving
-*capture a new item (C-u C-u = goto last)          C-c c \noteone
-*refile subtree (C-u C-u = goto last)              C-c C-w
-*archive subtree using the default command         C-c C-x C-a
-*move subtree to archive file                      C-c C-x C-s
-*toggle ARCHIVE tag / to ARCHIVE sibling           C-c C-x a/A
-*force cycling of an ARCHIVEd tree                 C-TAB
-*
-***** Filtering and Sparse Trees
-*construct a sparse tree by various criteria       C-c /
-*view TODO's in sparse tree                        C-c / t/T
-*global TODO list in agenda mode                   C-c a t \noteone
-*time sorted view of current org file              C-c a L
-*
-***** Tables
-*
-*--------------------------------------------------------------------------------
-*Creating a table
-*--------------ove list and you are not sure about its quality, please go to [[http://melpa.org][MELPA's website]] to check its number of downloads.
-*** Tags                                                     :emacs:org:tags:
+**** Visibility Cycling
+rotate current subtree between states             TAB
+rotate entire buffer between states               S-TAB
+restore property-dependent startup visibility     C-u C-u TAB
+show the whole file, including drawers            C-u C-u C-u TAB
+reveal context around point                       C-c C-r
+
+**** Motion
+next/previous heading                             C-c C-n/p
+next/previous heading, same level                 C-c C-f/b
+backward to higher level heading                  C-c C-u
+jump to another place in document                 C-c C-j
+previous/next plain list item                     S-UP/DOWN\notetwo
+
+**** Structure Editing
+insert new heading/item at current level          M-RET
+insert new heading after subtree                  C-RET
+insert new TODO entry/checkbox item               M-S-RET
+insert TODO entry/ckbx after subtree              C-S-RET
+turn (head)line into item, cycle item type        C-c -
+turn item/line into headline                      C-c *
+promote/demote heading                            M-LEFT/RIGHT
+promote/demote current subtree                    M-S-LEFT/RIGHT
+move subtree/list item up/down                    M-S-UP/DOWN
+sort subtree/region/plain-list                    C-c ^
+clone a subtree                                   C-c C-x c
+copy visible text                                 C-c C-x v
+kill/copy subtree                                 C-c C-x C-w/M-w
+yank subtree                                      C-c C-x C-y or C-y
+narrow buffer to subtree / widen                  C-x n s/w
+
+**** Capture - Refile - Archiving
+capture a new item (C-u C-u = goto last)          C-c c \noteone
+refile subtree (C-u C-u = goto last)              C-c C-w
+archive subtree using the default command         C-c C-x C-a
+move subtree to archive file                      C-c C-x C-s
+toggle ARCHIVE tag / to ARCHIVE sibling           C-c C-x a/A
+force cycling of an ARCHIVEd tree                 C-TAB
+
+**** Filtering and Sparse Trees
+construct a sparse tree by various criteria       C-c /
+view TODO's in sparse tree                        C-c / t/T
+global TODO list in agenda mode                   C-c a t \noteone
+time sorted view of current org file              C-c a L
+
+**** Tables
+
+--------------------------------------------------------------------------------
+Creating a table
+--------------ove list and you are not sure about its quality, please go to [[http://melpa.org][MELPA's website]] to check its number of downloads.
+
+**** Tags                                                    :emacs:org:tags:
 these are added either on the #+TAGS: line at the top of the org file, or on the heading line between colons
 - to search the tags use
 M-x org-agenda and then press m
 The output is in the form of | Filename | heading tag is on | all tags on that line |
+** pdf-tools
+**** Usage
+scroll up page   - space
+scroll down page - delete
+next page        - n
+previous page    - p
+view outline     - o
 * Podcast
 ** [[https://emacs-el.com][emacs-el]]
 *** Ep 1 - Sacha Chua
@@ -488,9 +499,7 @@ emacs.devl
 *** Ep3 - Tobias Macey + Chris Pattti
 
 * Articles
-** Emacs Mini Manual
-rl: http://tuhdo.github.io/emacs-tutor.html
-
+** [[http://tuhdo.github.io/emacs-tutor.html][Emacs Mini Manual]]
 *** Part 1
 
 *** Built-in-help system
@@ -571,6 +580,7 @@ rl: http://tuhdo.github.io/emacs-tutor.html
 *** Undo/redo
  C-x u - this brings up an undo tracker that allows for moving through the changes made to the current file.
  C-/ - this is a quick undo
+ M-_ - quick redo
  
 *** Search
  C-s - this is froward search.
@@ -629,9 +639,7 @@ rl: http://tuhdo.github.io/emacs-tutor.html
  2. term - this is a terminal emulator written in Emacs lisp.
  3. eshell - this is emacs own shell. As it's its own shell the syntax is different. Interupt is C-c C-c
 
-** Using org to Blog with Jekyll
-URL: http://orgmode.org/worg/org-tutorials/org-jekyll.html
-
+[[http://orgmode.org/worg/org-tutorials/org-jekyll.html][Using org to Blog with Jekyll]]
 ** [[https://www.youtube.com/watch?v%3DJA4dqmDFt5Y][Emacs Chat - Mickey Petersen]]
 - sexp - these expressions are like vim navigation shortcuts
 - re/rx builder - module for helping to build regualr expressions

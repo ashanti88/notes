@@ -1,0 +1,19 @@
+#+TAGS: sys perf anal
+
+
+* Linux Kernel Tracing                                        :sys:perf:anal:
+* Cmds
+- SystemTap
+- ftrace
+- perf_events
+- eBPF
+- LTTng
+- ktap
+- dtrace4linux
+- OEL DTrace4
+- sysdig
+* Lecture
+* Tutorial
+* Books
+* Links
+[[http://www.brendangregg.com/blog/2015-07-08/choosing-a-linux-tracer.html][Choosing a Linux Tracer - Brendan Gregg]]

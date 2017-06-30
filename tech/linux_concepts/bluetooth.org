@@ -1,0 +1,13 @@
+#+TAGS: net bt
+
+
+* Bluetooth                                                          :net:bt:
+* Cmds
+- bluetoothctl
+
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

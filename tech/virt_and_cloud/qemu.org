@@ -1,0 +1,22 @@
+#+TAGS: virt
+
+
+* QEMU                                                                 :virt:
+* Description
+* Usage
+* Lecture
+** [[https://01.org/linuxgraphics/gfx-docs/drm/process/coding-style.html][Emulating Raspberry Pi on Linux with QEMU Part 1]]
+article: http://embedonix.com/articles/linux/emulating-raspberry-pi-on-linux/
+
+#!/bin/bash
+# Starts raspberry pi image in configuration mode
+ 
+this is the script to setup the qemu
+#+BEGIN_SRC sh
+#!/bin/bash
+# starts rasberry pi image in configuration mode
+qemu-system-arm -kernel ./qemu-rpi-kernel/kernel-qemu -cpu arm1176 -m 256 -M versatilepb -no-reboot -serial stdio -append "root=/dev/sda2 panic=1 rootfstype=ext4 rw init=/bin/bash" -hda rpi.img
+#+END_SRC
+* Tutorial
+* Books
+* Links

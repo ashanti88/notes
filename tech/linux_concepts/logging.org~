@@ -1,0 +1,38 @@
+#+TAGS:
+
+
+* 
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+** [[file://home/crito/Documents/Tools/I_Heart_Logs.pdf][I Heart gs]]
+Physical and Logical Logging
+  - Physical - storing all changed data
+  - Logical  - storing the sql cmd that causes the change
+
++ Primary Backup Model
+
+Master --------> |
+                 |
+Slave  <-------- | The Log
+                 |
+Slave  <-------- |		 
+
++ State Machine Replication
+  
+Writes --------------------------> |
+                                   |
+         ----->   Peer   <-------- | 
+         |                         | The Log
+Reads -------->   Peer   <-------- |
+         |                         |
+         ----->   Peer   <-------- |
+	 
++ Logging Protocols
+- Paxos
+- ZAB
+- RAFT
+- Viewstamped Replication
+* Links

@@ -1,0 +1,17 @@
+#+TAGS: ssh http tun
+
+
+* corkscrew                                                    :ssh:http:tun:
+
+* Description
+This tool allows for ssh over http
+* Usage
+- adding to .ssh/config
+#+BEGIN_SRC sh
+
+#+END_SRC
+* Lecture
+* Tutorial
+* Books
+* Links
+[[http://www.techrepublic.com/blog/linux-and-open-source/using-corkscrew-to-tunnel-ssh-over-http/][Using Corkscrew - techrepublic]]

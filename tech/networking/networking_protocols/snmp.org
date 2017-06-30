@@ -1,17 +1,11 @@
-*Simple Network Management Protocol*
+#+TAGS: net pro
 
-* *
 
-*Ports*
-
-Port 161  udp - sending and receiving requests
-
-Port 162 udp - receiving traps
-
-*Community Strings*
-
-default
-
-read-only - 'public'
-
-read-write - 'private'
+* Simple Network Management Protocol                                :net:pro:
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+[[file://home/crito/Documents/Networking/Essential_SNMP_2e.pdf][Essential SNMP - O'Reilly]]
+* Links

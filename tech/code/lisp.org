@@ -1,10 +1,9 @@
+#+TAGS: code lisp
 
 
-
-
-
-
-
+* Lisp                                                            :code:lisp:
+* Description
+* Usage
 * Lectures
 ** Structrue and Interpretation of Computer Programs - Harold abelson & Gerald Jay Sussman
 *** Overview and Introduction to Lisp - Lecture 1a
@@ -415,4 +414,15 @@ Henderson Escher Example:
 
 
     
+* Tutorial
+* Books
+[[file://home/crito/Documents/Lisp/The_Little_Schemer_Series/The_Little_Schemer.pdf][The Little Schemer]]
+[[file://home/crito/Documents/Lisp/The_Little_Schemer_Series/The_Reasoned_Schemer.pdf][The Reasoned Schemer]]
+[[file://home/crito/Documents/Lisp/The_Little_Schemer_Series/The_Seasoned_Schemer.pdf][The Seasoned Schemer]]
+* Links
+
+
+
+
+
 

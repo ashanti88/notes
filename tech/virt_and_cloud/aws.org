@@ -1,7 +1,7 @@
 #+TAGS: cloud aws
 
 
-* Amazon Web Services
+* Amazon Web Services                                             :cloud:aws:
 * Description
 * Compute
 * Lex

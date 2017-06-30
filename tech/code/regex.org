@@ -1,6 +1,19 @@
+#+TAGS: code file
 
 
-
+* Regular Expressions                                             :code:file:
+* Description
+* Usage
+* Lecture
 * Patterns
 ** Select lines with an ip address, the dot may need changing to - depending on seperator
+#+BEGIN_SRC sh
 grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' file.txt
+#+END_SRC
+* Tutorial
+* Books
+[[file://home/crito/Documents/Tools/Regular_Expressions_Cookbook_2e.pdf][Regular Expressions Cookbook]]
+[[file://home/crito/Documents/Tools/Mastering_Regular_Expressions-OReilly_2e.pdf][Mastering Regular Expressions]]
+* Links
+
+

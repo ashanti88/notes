@@ -6,6 +6,8 @@
 This tool provides a simple text ui that allows for basic and some complex system tasks.
 It provides options that then lead to the application that deals with it.
 * Usage
+- S - search function
+This allows for a quick file search of the system
 * Lecture
 * Tutorial
 * Books

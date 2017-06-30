@@ -1,19 +1,16 @@
 +TAGS: net anal
 
-* Bandwidth Monitoring						   :net:anal:
-* Description
-
-* Tools
-  - [[file://home/crito/org/tech/cmds/bmon.org][bmon]]
-  - [[file://home/crito/org/tech/cmds/bwbar.org][bwbar]]
-  - [[file://home/crito/org/tech/cmds/bwm-ng.org][bwm-ng]]
-  - [[file://home/crito/org/tech/monitoring/cacti.org][cacti]]
-  - [[file://home/crito/org/tech/cmds/iftop.org][iftop]]
-  - [[file://home/crito/org/tech/cmds/iperf.org][iperf]]
-  - [[file://home/crito/org/tech/cmds/iptraf-ng.org][iptraf]]
-  - [[file://home/crito/org/tech/cmds/nethogs.org][nethogs]]
-  - [[file://home/crito/org/tech/cmds/netwatch.org][netwatch]]
-  - [[file://home/crito/org/tech/monitoring/network/mrtg.org][MRTG]]
-  - [[file://home/crito/org/tech/cmds/tcptrack.org][tcptrack]]
-  - [[file://home/crito/org/tech/monitoring/network/vnstat.org][vnstat]]
+* Bandwidth Monitoring Tools                                       :net:anal:
+- [[file://home/crito/org/tech/cmds/bmon.org][bmon]]
+- [[file://home/crito/org/tech/cmds/bwbar.org][bwbar]]
+- [[file://home/crito/org/tech/cmds/bwm-ng.org][bwm-ng]]
+- [[file://home/crito/org/tech/monitoring/cacti.org][cacti]]
+- [[file://home/crito/org/tech/cmds/iftop.org][iftop]]
+- [[file://home/crito/org/tech/cmds/iperf.org][iperf]]
+- [[file://home/crito/org/tech/cmds/iptraf-ng.org][iptraf]]
+- [[file://home/crito/org/tech/cmds/nethogs.org][nethogs]]
+- [[file://home/crito/org/tech/cmds/netwatch.org][netwatch]]
+- [[file://home/crito/org/tech/monitoring/network/mrtg.org][MRTG]]
+- [[file://home/crito/org/tech/cmds/tcptrack.org][tcptrack]]
+- [[file://home/crito/org/tech/monitoring/network/vnstat.org][vnstat]]
 

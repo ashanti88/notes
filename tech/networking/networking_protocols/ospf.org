@@ -1,1 +1,12 @@
-*Open Shortest Path First*
+#+TAGS: net pro
+
+
+* Open Shortest Path First                                          :net:pro:
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+[[file://home/crito/Documents/Networking/OSPF-A_Network_Routing_Protocol.pdf][OSPF - A Network Routing Protocol]]
+
+* Links

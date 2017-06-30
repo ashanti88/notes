@@ -1,0 +1,11 @@
+#+TAGS:
+
+
+* udevadm
+* Description
+This is the utility provided by udev to manage devices device nodes in a system.
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

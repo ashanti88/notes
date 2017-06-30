@@ -1,0 +1,20 @@
+#+TAGS: ssh http tun
+
+
+* corkscrew                                                    :ssh:http:tun:
+* Description
+This tool allows for ssh over http
+* Usage
+- adding to .ssh/config
+#+BEGIN_SRC sh
+Host SomeHost
+    Hostname some.host.example.com
+    ProxyCommand /usr/bin/corkscrew proxy.example.com 8080 %h %p
+#+END_SRC
+%h - Hostname
+%p - Port (default 22 if not set)
+* Lecture
+* Tutorial
+* Books
+* Links
+[[http://www.techrepublic.com/blog/linux-and-open-source/using-corkscrew-to-tunnel-ssh-over-http/][Using Corkscrew - techrepublic]]
