@@ -34,6 +34,8 @@ systemctl isolate graphical.target
 - /usr/lib/systemd/system - this is where pkgs install services
 /etc takes precedence over /usr/lib
 
+- ~/.config/systemd/user/
+
 - Example Unit File
 #+BEGIN_SRC sh
 [Unit]
@@ -70,6 +72,44 @@ Real-time kernel scheduler.
 The Ubuntu error reporting service. It collects crash reports and sends them to https://daisy.ubuntu.com.
 ** wpa_supplicant.service
 This is the service that interacts with wifi connections
+* Timers
+Arch: https://wiki.archlinux.org/index.php/Systemd/Timers
+This files are a replacement for cron services
+** Set Simple Script to Run Every Hour
+1. we have a file named /home/crito/bin/myscript
+2. Create a service file
+#+BEGIN_EXAMPLE
+[Unit]
+Description=MyScript
+
+[Service]
+ExecStart=/home/crito/bin/myscript
+#+END_EXAMPLE
+This needs to be placed in either /etc/systemd/system or ~/.config/systemd/user/
+
+3. Create the timer file and place this in the same place as the service file
+#+BEGIN_EXAMPLE
+[Unit]
+Description=Runs myscript every hour
+
+[Timer]
+#Time to wait after booting before we run first time
+OnBootSec=10min
+#Time between running each consecutive time
+OnUnitActiveSec=1h
+Unit=myscript.service
+
+[Install]
+WantedBy=multi-user.target
+#+END_EXAMPLE
+
+4. Enable / Start - we use the timer file rather than the service file
+#+BEGIN_SRC sh
+systemctl start myscript.timer
+systemctl enable myscript.timer
+#+END_SRC
+
+** Running multiple scripts at the same time
 * Overview
 * Lecture
 ** [[https://www.youtube.com/watch?v=VIPonFvPlAs&index=64&list=WL][Systemd at the Core of the OS - CoreOS Fest 2015]]
@@ -164,7 +204,6 @@ PIDFile=/var/run/myapp.pid
 [Install]
 WantedBy=multi-user.target
 #+END_SRC
-
 
 
 * Tutorial

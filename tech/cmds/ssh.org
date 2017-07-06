@@ -83,7 +83,190 @@ ssh-add -d .ssh/id_rsa
 ssh-keygen -y -f .ssh/private_key > .ssh/private_key.public
 #+END_SRC
 
+** Secure Configuration
+*** Network Options
+Port 5000 - not usign the default port(22) can avoid common runs agains this port. Sometimes this is not a good idea due to certain application expecting the standard port, this should be considered.
+
+AddressFamily inet - this only allows traffic over ipv4 not ipv6.
+
+ListenAddress 192.168.1.0 - this will mean that the service will only listen on the local network 192.168.1.0, and not be accessable from the internet. ListenAddress 0.0.0.0 will allow the service to be accessed from all addresses.
+
+Protocol 2 - this will only allow protocol 2 to be used, protcol 1 has known weaknesses that can allow exploitation of the service. 
+
+X11Forwarding no - A prefered method for VNC is to tunnel it over ssh, this my be required for certain applications.
+
+TCPKeepalive no - These are sent outside of the encrypted channel and can be spoofed, ClientAliveInterval is encrypted and is unspoofable so works as an alternative.
+
+ClientAliveInterval 60 - secure alternative to TCPKeepalive.
+
+ClientAliveCountMax 3 - The number of attempts that the sshd will illicit a response from the ssh client before disconnecting. Unresponsive ssh client will be disconnected after 3 minutes.
+
+*** Key Configuration
+
+HostKey /etc/ssh/ssh_host_rsa_key - these are the default host key locations
+HostKey /etc/ssh/ssh_host_dsa_key
+
+UsePrivilegeSeparation yes - this option splits up server processors in an attempt to prevent privilege escalation
+
+PubkeyAuthentication yes - Use public key authentication for access. Using this option in conjunction with PasswordAuthentication no, means only uses with correct key can access the server.
+
+AuthorizedKeysFile %h/.ssh/authorized_keys - this is the location that remote hosts public keys are added who will have access.
+*** Authentication
+
+AllowUsers user_one user_two - White list the users that can login to the server, this is a space seperated list.
+
+LoginGraceTime 60 - this provides a 60 second window to login to the system when prompted
+
+PermitRootLogin no - Disable root logins completely, not save practice to be login to a server as root, use sudo or wheel group once logged in.
+
+StrictModes yes - this forces the correct permissions of key files, must not be writable by anyone but the owner.
+
+IgnoreRhosts yes - Ignore Rhosts authentication for .rhosts and .shorts files in RhostsRSAAuthentication or HostbasedAuthentication /etc/hosts.equiv is still used if the the HostBasedAuthentication option is not disabled.
+
+HostBasedAuthentication no - Decides if rhosts or /etc/hosts.equiv and a public key is are allowed (host-based authentication.
+
+IgnoreUserKnownHosts yes - This determines if the ~/.ssh/known_hosts file is to be ignored. When accessing multiple boxes on the same ip.
+
+PermitEmptyPasswords no - Password is required for access. In this configuration a key is required.
+
+ChallengeResponseAuthentication no - This is not required as wee aren't using login or password authentication.
+
+PasswordAuthentication no - With this disabled a key is required to login to the server.
+
+UsePAM no - not needed as we aren't using password authentication.
+
+UseLogin no - as priviliege seperation is used login isn't required.
+
+SyslogFacility AUTH - log sshd messages to the AUTH syslog facility, which stores its messages in /var/log/auth.log 
+#+BEGIN_SRC sh
+grep sshd /var/log/auth.log
+#+END_SRC
+
+LogLevel INFO - Defines verbosity of login. Available options SILENT, QUIET, FATAL, ERROR, INFO, VERBOSE, DEBUG, DEBUG2 and DEBUG3. INFO is default
+
+PrintLastLog yes - When user logs in print the last login time. Good option for unauthorized access analysis.
+
+MaxAuthTries 2 - This is the number of attemps that can be tried per connection. Failures are logged after half the number is reached.
+
+Banner /etc/issue.net - this is the banner that greets a user at login
+
+
+
+*** configuration
+#+BEGIN_EXAMPLE
+# user modified sshd_config
+# See the sshd(8) manpage for details
+
+#### Networking options ####
+
+# Listen on a non-standard port > 1024
+Port 50000
+
+# Restrict to IPv4. inet = IPv4, inet6 = IPv6, any = both 
+AddressFamily inet
+
+# Listen only on the internal network address
+ListenAddress 192.168.1.0
+
+# Only use protocol version 2
+Protocol 2
+
+# Disable XForwarding unless you need it
+X11Forwarding no
+
+# Disable TCPKeepAlive and use ClientAliveInterval instead to prevent TCP Spoofing attacks
+TCPKeepAlive no
+ClientAliveInterval 600
+ClientAliveCountMax 3
+
+#### Networking options ####
+
+
+#### Key Configuration ####
+
+# HostKeys for protocol version 2
+HostKey /etc/ssh/ssh_host_rsa_key
+HostKey /etc/ssh/ssh_host_dsa_key
+
+#Privilege Separation is turned on for security
+UsePrivilegeSeparation yes
+
+# Use public key authentication
+PubkeyAuthentication yes
+AuthorizedKeysFile      %h/.ssh/authorized_keys
+
+# Disable black listed key usage (update your keys!)
+PermitBlacklistedKeys no
+
+#### Key Configuration ####
+
+
+#### Authentication ####
+
+# Whitelist allowed users
+AllowUsers user1 user2
+
+# one minute to enter your key passphrase
+LoginGraceTime 60
+
+# No root login
+PermitRootLogin no
+
+# Force permissions checks on keyfiles and directories
+StrictModes yes
+
+# Don't read the user's ~/.rhosts and ~/.shosts files
+IgnoreRhosts yes
+
+# similar for protocol version 2
+HostbasedAuthentication no
+
+# Don't trust ~/.ssh/known_hosts for RhostsRSAAuthentication
+IgnoreUserKnownHosts yes
+
+# To enable empty passwords, change to yes (NOT RECOMMENDED)
+PermitEmptyPasswords no
+
+# Disable challenge and response auth. Unessisary when using keys
+ChallengeResponseAuthentication no
+
+# Disable the use of passwords completly, only use public/private keys
+PasswordAuthentication no
+
+# Using keys, no need for PAM. Also allows SSHD to be run as a non-root user
+UsePAM no
+
+# Don't use login(1)
+UseLogin no
+
+#### Authentication ####
+
+
+#### Misc ####
+
+# Logging
+SyslogFacility AUTH
+LogLevel INFO
+
+# Print the last time the user logged in
+PrintLastLog yes
+
+MaxAuthTries 2
+
+MaxStartups 10:30:60
+
+# Display login banner
+Banner /etc/issue.net
+
+# Allow client to pass locale environment variables
+AcceptEnv LANG LC_*
+
+Subsystem sftp /usr/lib/openssh/sftp-server
+
+#### Misc ####
+#+END_EXAMPLE
 * Lecture
 * Tutorial
 * Books
 * Links
+[[https://www.slac.stanford.edu/comp/unix/sshGSSAPI.html][Using SSH and GSSAPI Authentication]]

@@ -1,0 +1,27 @@
+#+TAGS:
+
+
+* Advanced Linux Sound Architecture
+HomePage: [[https://www.alsa-project.org/main/index.php/Main_Page][alsa-project.org]]
+* Description
+* Interfaces
+- Information Interface
+  - /proc/asound
+- Control Interface
+  - /dev/snd/controlCX
+- Mixer Interface
+  - /dev/snd/mixerCXDX
+- PCM Interface
+  - /dev/snd/pcmCXDX
+- Raw MIDI Intrface
+  - /dev/snd/midiCXDX
+- Sequence Interface
+  - /dev/snd/seq
+- Timer Interface
+  - /dev/snd/timer
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links
+[[http://equalarea.com/paul/alsa-audio.html][A Tutorial on using the ALSA Audio API]]

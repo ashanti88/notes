@@ -2,6 +2,9 @@
 
 
 * QEMU                                                                 :virt:
+* cmds
+vde - Virtual Distributed Ethernet
+vde2 - Virtual Distributed Ethernet 2
 * Description
 * Usage
 * Lecture

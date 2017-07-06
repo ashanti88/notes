@@ -1,0 +1,16 @@
+#+TAGS: sys disk stor
+
+
+* fdisk                                                       :sys:disk:stor:
+* Description
+Display or manipulate a disk partition table.
+* Usage
+- view all disks on the system
+#+BEGIN_SRC sh
+fdisk -l
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

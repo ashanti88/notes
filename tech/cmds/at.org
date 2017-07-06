@@ -1,0 +1,40 @@
+#+TAGS: op
+
+
+* at
+* Description
+Run a specific task at a specific time, once.
+* Usage
+- check status of atd
+#+BEGIN_SRC sh
+systemctl status atd -l
+#+END_SRC
+this will provide information on the at daemon
+
+- add a job
+#+BEGIN_SRC sh
+at 14:30
+#+END_SRC
+This will drop us into the at cmd
+#+BEGIN_EXAMPLE
+at> logger hello at 2.30 from at
+at> <EOT>
+#+END_EXAMPLE
+Ctrl-d is used to schedule the job and exit
+
+- view at queue
+#+BEGIN_SRC sh
+atq
+#+END_SRC
+
+- remove jobs from queue
+#+BEGIN_SRC sh
+atrm 1
+#+END_SRC
+The 1 is the job number that is found in the queue
+
+
+* Lecture
+* Tutorial
+* Books
+* Links

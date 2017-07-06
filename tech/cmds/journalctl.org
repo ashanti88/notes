@@ -7,6 +7,21 @@
 /etc/systemd/journald.conf
 /var/log/journal
 * Usage
+** Search wil a filter
+#+BEGIN_SRC sh
+journalctl --since=yesterday
+#+END_SRC
+
+- view everything that has been logged regardign a certain cmd
+#+BEGIN_SRC sh
+journalctl _COMM=su
+#+END_SRC
+This will show all logging that involves the "su" cmd
+** Search for specific service
+#+BEGIN_SRC sh
+journalctl -u slapd -o verbose
+#+END_SRC
+This will give complete information on the service
 ** Replay all the boot messages
 - this sessions boot process
 #+BEGIN_SRC sh
@@ -28,6 +43,22 @@ this will show what was or attempted to be started
 ** Restart the daemon
 #+BEGIN_SRC sh
 systemctl restart systemd-journald
+#+END_SRC
+
+** dmesg for systemd
+- kernel messages
+#+BEGIN_SRC sh
+journalctl -k
+#+END_SRC
+
+- boot messages
+#+BEGIN_SRC sh
+journal -b
+#+END_SRC
+
+- to show the end of the kernel output
+#+BEGIN_SRC sh
+journalctl -ke
 #+END_SRC
 
 * Lecture

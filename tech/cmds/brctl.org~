@@ -1,0 +1,32 @@
+#+TAGS:
+
+
+* brctl
+* Description
+This command is used to create and manipulate ethernet bridge.
+* Usage
+- Create new bridge
+#+BEGIN_SRC sh
+brctl addbr name_of_bridge
+#+END_SRC
+
+- Show available bridges
+#+BEGIN_SRC sh
+brctl show
+#+END_SRC
+
+- Delete existing bridge
+#+BEGIN_SRC sh
+brctl delbr name_of_bridge
+#+END_SRC
+
+- Add an interface to an existing bridge
+#+BEGIN_SRC sh
+brctl addif dev eth0
+#+END_SRC
+This will add the eth0 interface to dev bridge
+
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -1,13 +1,13 @@
-#+TAGS: log
+#+TAGS: log op anal
 
 
-* logrotate
+* logrotate                                                     :log:op:anal:
 Arch: [[https://wiki.archlinux.org/index.php/logrotate][archlinux.org/logrotate]]
 * Description
-This service controls the logs specified in /etc/logrotate.d
+This service controls the logs specified in /etc/logrotate.d. It is used to ensure that logs don't grow out of hand.
 * Files
 /etc/logrotate.conf - this is the main logrotate config
-/etc/logrotate.d/ - this contains all the log configs
+/etc/logrotate.d/ - this contains all the log configs, and over-rides anything in logrotate.conf
 /var/lib/logrotate.status - this the last time the log was rotated
 * Usage
 - Manually run logrotate on specific log config

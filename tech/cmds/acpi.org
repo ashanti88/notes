@@ -1,0 +1,14 @@
+#+TAGS: sys anal
+
+
+* acpi                                                             :sys:anal:
+* Description
+* Usage
+- view all cooling and battery information
+#+BEGIN_SRC sh
+acpi -V
+#+END_SRC
+* Lecture
+* Tutorial
+* Books
+* Links

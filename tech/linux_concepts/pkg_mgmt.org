@@ -415,7 +415,6 @@ pacman -R $(pacman -Qtdq)
 
 - Clean out the old pkg from /var/cache/pacman/pkg/
 
-
 *** yaourt							   :arch:pkg:
 **** Diagnosis
 - Search for pkg

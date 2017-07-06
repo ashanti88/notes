@@ -6,7 +6,7 @@ HomePage: [[https://nmap.org/][nmap.org]]
 * Description
 * Usage
 
-> nmap <options> <search\_address>
+> nmap <options> <search_address>
 
 ** Search Types
 -sS - syn scan. This is the default scan.
@@ -150,6 +150,53 @@ nnmap --scan-delay 5s -g 53 -iL 443.txt -Pn -n -sS --open -p443 --script=banner,
 #+BEGIN_SRC sh
 nmap --traceroute 10.0.0.0/24
 #+END_SRC
+** Scripts
+- DNS Brute Force
+#+BEGIN_SRC sh
+nmap -p 80 --script dns-brute.nse vulnweb.com
+#+END_SRC
+Detecting sub-domains associated with an organizations domain can reveal new targets when performing a security assessment. The discovered hosts may be virtual web hosts on a single web server or may be distinct hosts on IP addresses spread across the world in different data centres.
+
+- Find hosts on IP
+#+BEGIN_SRC sh
+nmap -p 80 --script hostmap-bfk.nse vulnweb.com
+#+END_SRC
+Another tactic for expanding an attack surface is to find virtual hosts on an IP address that you are attempting to compromise (or assess). This can be done by using the hostmap-* scripts in the NSE collection. The hostmap-bfk.nse seems to work reasonably well providing a good starting point for your recon (IP to Host services do vary in accuracy).
+
+- Traceroute Geolocation
+#+BEGIN_SRC sh
+sudo nmap --traceroute --script traceroute-geolocation.nse -p 80 vulnweb.com
+#+END_SRC
+Perform a traceroute to your target IP address and have geolocation data plotted for each hop along the way. Makes correlating the reverse dns names of routers in your path with locations much easier.
+
+- HTTP Enumeration
+#+BEGIN_SRC sh
+nmap --script http-enum 192.168.10.55
+#+END_SRC
+One of the more aggressive tests, this script effectively brute forces a web server path in order to discover web applications in use. Attempts will be made to find valid paths on the web server that match a list of known paths for common web applications. The standard test includes testing of over 2000 paths, meaning that the web server log will have over 2000 entries that are HTTP 404 not found, not a stealthy testing option! This is very similar to the famous Nikto web server testing tool (that performs 6000+ tests).
+
+- HTTP Title
+#+BEGIN_SRC sh
+nmap --script http-title -sV -p 80 192.168.1.0/24
+#+END_SRC
+t is not a difficult thing to find the Title of the web page from a web server, this script just makes it easier to get those title's in one set of results from a range of IP addresses.
+
+Having the title of the page included in the Nmap scan results can provide context to a host, that may identify the primary purpose of the web server and whether that server is a potential attack target.
+
+- smb-os-discovery
+#+BEGIN_SRC sh
+nmap -p 445 --script smb-os-discovery 192.168.1.0/24
+#+END_SRC
+Determine operating system, computer name, netbios name and domain with the smb-os-discovery.nse script. An example use case could be to use this script to find all the Windows XP hosts on a large network, so they can be unplugged and thrown out (Windows XP is no longer supported by Microsoft). The key advantage to using Nmap for something like this rather than a Microsoft native tool is that it will find all systems connected to the network not just those attached to a domain.
+
+- smb-brute
+#+BEGIN_SRC sh
+nmap -sV -p 445 --script smb-brute 192.168.1.101 
+#+END_SRC
+While I would not classify brute forcing accounts as a recon function of the assessment process this script can lead to large amount of recon if we do get valid credentials as there are other smb-* scripts that can be leveraged to retrieve all local user accounts (smb-enum-users.nse), groups (smb-enum-groups.nse), processes (smb-enum-processes.nse) and even execute processes remotely with the smb-psexec.nse script.
+
+
+
 ** Examples:
 *** This will locate random web servers
 > nmap -sS -PS80 -iR 0 -p 80

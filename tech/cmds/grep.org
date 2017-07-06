@@ -18,4 +18,6 @@ grep -rl
 * Lecture
 * Tutorial
 * Books
+[[file://home/crito/Documents/Tools/Grep_Pocket_Reference.pdf][Grep Pocket Reference]]
+
 * Links
