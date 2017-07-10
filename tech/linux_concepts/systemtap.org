@@ -3,9 +3,18 @@
 
 * SystemTap                                                   :sys:anal:perf:
 HomePage: [[https://sourceware.org/systemtap/][sourceware.org/systemtap]]
+* Cmds
+- [[file://home/crito/org/tech/cmds/stap.org][stap]] is the SystemTap tool frontend
+
 * Description
 * Usage
-- [[file://home/crito/org/tech/cmds/stap.org][stap]] is the SystemTap tool frontend
+** RHEL
+- packages required
+#+BEGIN_SRC sh
+yum install systemtap systemtap-runtime
+stap-prep
+#+END_SRC
+
 * Lecture
 ** [[https://www.youtube.com/watch?v%3Dl7aQWoTRqKw&list%3DWL&index%3D53][What my is my system doing? Full System Observability with SystemTap - Mark Wielaard]]
 + The circle of observability

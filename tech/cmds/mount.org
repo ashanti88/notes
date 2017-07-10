@@ -8,6 +8,12 @@
 #+BEGIN_SRC sh
 mount -t iso9660 -o ro /dev/cdrom /home/crito/mtp/cdrom/
 #+END_SRC
+
+- attempt to mount all disk in /etc/fstab not already mounted
+#+BEGIN_SRC sh
+mount -a
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

@@ -553,6 +553,8 @@ https://www.kernel.org/doc/html/v4.11/process/submitting-patches.html
 https://01.org/linuxgraphics/gfx-docs/drm/process/coding-style.html
 
 Patches must follow Keese's BRILLO commit prefix conventions
+** [[https://www.youtube.com/watch?v=7aONIVSXiJ8][Introduction to Memory Management in Linux - Matt Poter]]
+
 * Tutorial
 * Walk Throughs
 ** wikiversity - Reading the Linux Kernel Sources

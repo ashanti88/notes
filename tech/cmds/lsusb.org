@@ -3,26 +3,32 @@
 
 * lsusb								:sys:hw:anal:
 * Description
+* files
+/sys/bus/usb/devices - this will 
 * Usage
 
 > lsusb <options>
+- check type of device connected
+#+BEGIN_SRC sh
+lsusb -t
+#+END_SRC
+this will allow use to check the type of device connected is what we think it is
 
-** Options
-v - verbose
+- a full description of connected device
+#+BEGIN_SRC sh
+lsusb -v -d 045e:0737
+#+END_SRC
+this will output a full description of the device. The divice id can be found with lsusb
 
 ** Format
-Bus 004 Device 002: ID 8087:0024 Intel Corp. Integrated Rate Matching
-Hub
-
+#+BEGIN_EXAMPLE
+Bus 004 Device 002: ID 8087:0024 Intel Corp. Integrated Rate Matching Hub
 Bus 004 - This is the bus number
-
 Device 002 - This is the device attached to the bus
-
 ID 8087 - This is the manufacture id
-
 Intel Corp - Company name
-
 Integrated Rate Matching Hub - Device name
+#+END_EXAMPLE
 
 * Lecture
 * Tutorial

@@ -1,0 +1,11 @@
+#+TAGS: sec web wp
+
+
+* WPSeku                                                         :sec:web:wp:
+Github: https://github.com/m4ll0k/WPSeku.git
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -1,0 +1,11 @@
+#+TAGS: net op
+
+
+* ping6                                                              :net:op:
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links
+[[https://www.cyberciti.biz/faq/howto-test-ipv6-network-with-ping6-command/][Howto Test ipv6 Network with ping6]]

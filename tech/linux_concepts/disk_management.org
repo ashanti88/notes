@@ -1,7 +1,30 @@
 #+TAGS: sys disk fs stor
 
 
-* Disk Management
+* Disk Management                                          :sys:disk:fs:stor:
+* Files
+/proc/partitions - this shows all the current partirions on the system
+/dev/mapper - this is where encrypted partitions are kept
+/etc/crypttab - this is the configuration file for encrypted files
+** /etc/fstab - contains the configuration for which disks to be mounted at boot
+Columns
+  1. UUID or Label or device name
+  2. mount point
+  3. file system of partition
+  4. mount options - defaults is normally set
+  5. Backup Support (dump) - though dump isn't used much today, some modern bakup utilites required dump - 1 - yes | 0 - no
+  6. fsck option - this option allows for fsck to be run at boot - 0 don't check | 1 check root fs | 2 check none root fs
+
+example using UUID, Lable and device
+#+BEGIN_EXAMPLE
+/dev/sda1 /home xfs defaults 1 2
+# <file system>                           <mount point>  <type>  <options>  <dump>  <pass>     
+UUID=b5632fb9-5b21-48ef-afe2-1613a2698aba /              ext4    defaults,noatime,discard 0       1
+tmpfs                                     /tmp           tmpfs   defaults,noatime,mode=1777 0       0
+/dev/mapper/enc_hdd                       /mnt           ext4    defaults,noatime,discard 0 2  
+LABLE=myfs				  /data          xfs     defaults,noatime, 0 2
+#+END_EXAMPLE
+
 * Cmds
 - [[file://home/crito/org/tech/cmds/mkfs.org][mkfs]]
 - [[file://home/crito/org/tech/cmds/e2label.org][e2label]]

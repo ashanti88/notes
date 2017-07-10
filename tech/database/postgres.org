@@ -263,7 +263,7 @@ Multiple commands can be seperated with whitespace, terminate with semicolon
 - \d[S+] - reveals tables, views, sequences and various DB objects
 - \q - this quits psql
   
-*** Access Controls
+*** Acess Controls
 Config files:
 pg_hba.conf
 pg_ident.conf

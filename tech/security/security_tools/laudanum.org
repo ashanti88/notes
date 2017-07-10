@@ -4,6 +4,7 @@
 * Laudanum						    :sec_o:web:shell:
 Github: [[https://github.com/jbarcia/Web-Shells/tree/master/laudanum][Laudanum: Injectable Web Exploit]]
 * Description
+
 * Usage
 * Lecture
 * Tutorial

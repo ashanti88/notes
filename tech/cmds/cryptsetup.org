@@ -34,6 +34,12 @@ cryptsetup luksKillSlot /dev/sdb1 2
 #+END_SRC
 Enter any quailfied key and the passphrase will be removed in slot 2
 
+- re-encrypt a partition and remove from /dev/mapper
+#+BEGIN_SRC sh
+umount /dev/mapper/secret
+cryptsetup luksClose /dev/mapper/secret
+#+END_SRC
+
 - reset forgotten LUKS key
 Only works if the LUKS partition is already unencrypted
 #+BEGIN_SRC sh
