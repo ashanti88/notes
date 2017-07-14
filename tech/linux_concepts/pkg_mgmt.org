@@ -427,6 +427,14 @@ yaourt -Ss python
 yaourt --stats
 #+END_SRC
 
+- View all installed software
+#+BEGIN_SRC sh
+yaourt -Q
+#+END_SRC
+
+--date - will output list in chronological order
+-t - this will output packages that have no dependencies
+
 **** Operations
 - Install pkg
 #+BEGIN_SRC sh

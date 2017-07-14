@@ -41,6 +41,14 @@ While much of Linux is independent of the architecture on which it runs, there a
 *** Device Drivers (DD)  
 The vast majority of the source code in the Linux kernel exists in device drivers that make a particular hardware device usable. The Linux source tree provides a drivers subdirectory that is further divided by the various devices that are supported, such as Bluetooth, I2C, serial, and so on. You can find the device driver sources in ./linux/drivers.
 
+* Compilation
+** Arch
+https://wiki.archlinux.org/index.php/Kernels/Traditional_compilation
+- recompile grub with
+#+BEGIN_SRC sh
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+#+END_SRC
+
 * Lectures
 ** [[https://www.youtube.com/watch?v=L8OOzaqS37s][Patches carved into stone - GKH]]
 *** Tool Set

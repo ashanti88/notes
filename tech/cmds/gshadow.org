@@ -1,0 +1,9 @@
+#+TAGS: sys op group
+
+
+* gshadow                                                      :sys:op:group:
+* Description
+This is used to administer /etc/group and /etc/gshadow
+* Usage
+- 
+* Links

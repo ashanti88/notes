@@ -1,0 +1,14 @@
+#+TAGS: sys usr pass
+
+
+* passwd                                                       :sys:usr:pass:
+* Description
+This is used to administer user passwords.
+* Usage
+- change a users password
+#+BEGIN_SRC sh
+passwd frank
+#+END_SRC
+
+* Books
+* Links

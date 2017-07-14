@@ -1,0 +1,25 @@
+#+TAGS: sys clock
+
+
+* hwclock                                                         :sys:clock:
+* Description
+* Usage
+- view current hwclock
+#+BEGIN_SRC sh
+hwclock --show
+#+END_SRC
+
+- manually setting the hardware clock
+#+BEGIN_SRC sh
+hwclock --set --date "27 Aug 2016 14:25"
+#+END_SRC
+
+- synchronize both hardware clock and system clock
+#+BEGIN_SRC sh
+hwclock --systohc
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

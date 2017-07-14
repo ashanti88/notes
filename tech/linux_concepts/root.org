@@ -2,6 +2,11 @@
 
 
 * Root								   :sys:root:
+* Files
+- /etc/sudoers - this file contains the configuration for sudo. Who, and what can do what
+- /var/log/messages - this logs successful sudo authentication
+- /var/log/secure - 
+
 * Cmds
 - [[file://home/crito/org/tech/cmds/sudo.org][sudo]]
 - [[file://home/crito/org/tech/cmds/su.org][su]]
@@ -16,18 +21,18 @@ login: root
 
 you are root from an initial login
 
-** Use "su" to become Root*
+** Use "su" to become Root
 #+BEGIN_SRC sh
 su
 #+END_SRC
 using "substitute user" root can be moved into
 
-** Use "sudo" to execute commands as Root*
+** Use "sudo" to execute commands with Root permissions in own shell   
+Sudo can be set up that the root acct can be totally disabled.
 #+BEGIN_SRC sh
 sudo 
 #+END_SRC
 this allows root to be run for one off commands.
-
 ** Configuring sudo
 sudo is configured through the /etc/sudoers file. This file should not
 be edited directly but with the visudo command. This command will open

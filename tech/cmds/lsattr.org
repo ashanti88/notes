@@ -4,6 +4,11 @@
 * lsattr							    :file:op:
 * Description
 * Usage
+- to see the attributes of file
+#+BEGIN_SRC sh
+lsattr
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

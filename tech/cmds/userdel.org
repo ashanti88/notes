@@ -1,0 +1,9 @@
+#+TAGS: sys usr
+
+
+* userdel                                                           :sys:usr:
+* Description
+This cmd allows use to remove users
+* Usage
+
+* Links

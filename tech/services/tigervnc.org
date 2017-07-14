@@ -1,0 +1,47 @@
+#+TAGS: vnc
+
+
+* TigerVNC                                                              :vnc:
+HomePage: [[http://tigervnc.org/][tigervnc.org]]
+* Description
+TigerVNC is a high-performance, platform-neutral implementation of VNC (Virtual Network Computing), a client/server application that allows users to launch and interact with graphical applications on remote machines. TigerVNC provides the levels of performance necessary to run 3D and video applications, and it attempts to maintain a common look and feel and re-use components, where possible, across the various platforms that it supports. TigerVNC also provides extensions for advanced authentication methods and TLS encryption. 
+* Usage
+** Configuring TigerVNC
+- first copy the unit file from /usr/lib/systemd/vncserver@.service /etc/systemd/system/vncserver@.service
+#+BEGIN_SRC sh
+cp /usr/lib/systemd/vncserver@.service /etc/systemd/system/vncserver@.service
+#+END_SRC
+
+- edit the /etc/systemd/system/vncserver@.service replacing USER with the actual username. Leave the remaining config untouched.
+  
+- Reload systemd unit files
+#+BEGIN_SRC sh
+systemctl deamon-reload
+#+END_SRC
+
+- set the password for the TigerVNC user
+#+BEGIN_SRC sh
+su - tigervnc_user
+vncpasswd
+#+END_SRC
+you need to be the user to set the password
+
+** Starting the VNC server
+#+BEGIN_SRC sh
+systemctl start vncserver@:display_number.service
+#+END_SRC
+
+** Multiple Users
+A single unit file is required for each user
+#+BEGIN_SRC sh
+cp /usr/lib/systemd/vncserver@.service /etc/systemd/syste/vncserver-frank@.serrvice
+cp /usr/lib/systemd/vncserver@.service /etc/systemd/syste/vncserver-bob@.serrvice
+#+END_SRC
+password are to be set as above
+
+
+* Lecture
+* Tutorial
+* Books
+* Links
+[[https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/System_Administrators_Guide/ch-TigerVNC.html][RHEL7 - TigerVNC]]

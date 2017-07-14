@@ -7,12 +7,17 @@
 This command allows the setting of the date or provides the time.
 * Usage
 ** Show the date and time
+- show current date and time
+#+BEGIN_SRC sh
+date
+#+END_SRC
 
-> date
+- show current date and time of specific time zone
+#+BEGIN_SRC sh
+date --utc
+#+END_SRC
 
-<day> <date> <month> <HH:MM:SS> <time\_zone> <YYYY>
-
-* Find the day of a certain date
+** Find the day of a certain date
 #+BEGIN_SRC sh
 date --date="03/08/2019"
 #+END_SRC
@@ -31,11 +36,10 @@ has a date on each line.
 
 > date --file=<file>
 
-* Using relative date
+** Using relative date
 #+BEGIN_SRC sh
-date --date="next <string>"
+date --date="next month"
 #+END_SRC
-
 mon-sun, month, year
 
 ** Seconds since the epoch
@@ -64,19 +68,32 @@ examples:
 > date --date='1 year ago'
 
 ** Set date and time
+- manually set the time
+#+BEGIN_SRC sh
+date --set 11:15:12
+#+END_SRC
 
-> date -s "<day> <month> <date> <HH:MM:SS> <time\_zone> <YYYY>"
+- manually set the date
+#+BEGIN_SRC sh
+date --set 2017-05-22
+#+END_SRC
 
--s or --set 
+** View the last modification time for a file                          :file:
+- view the modification date of a file
+#+BEGIN_SRC sh
+date -r file_name.txt
+#+END_SRC
 
-*Display universal time (UTC)*
+** Show date in certain format
 
-> date -u
+[[file://home/crito/Pictures/org/date_format_ops.png]]
 
-*View the last modification time for a file*
+- showing the date in a certain format
+#+BEGIN_SRC sh
+date +"%H%M%S"
+#+END_SRC
 
-> date -r <file>
-* Lecture
+
 * Tutorial
 * Books
 * Links

@@ -1,0 +1,11 @@
+#+TAGS: sys usr pass
+
+
+* pwck                                                         :sys:usr:pass:
+* Description
+This tool is used to check the integrity between /etc/passwd and /etc/shadow. It checks that the format and data is valid.
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

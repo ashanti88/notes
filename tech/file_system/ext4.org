@@ -2,12 +2,126 @@
 
 
 * ext4                                                               :sys:fs:
+Wiki: [[https://ext4.wiki.kernel.org/index.php/Main_Page][ext4.wiki.org]]
+* Files
+- /proc/fs/ext4
+- /sys/fs/ext4
+- delayed_allocation_blocks   This file is read-only and shows the number of
+                              blocks that are dirty in the page cache, but
+                              which do not have their location in the
+                              filesystem allocated yet.
+
+- inode_goal                  Tuning parameter which (if non-zero) controls
+                              the goal inode used by the inode allocator in
+                              preference to all other allocation heuristics.
+                              This is intended for debugging use only, and
+                              should be 0 on production systems.
+
+- inode_readahead_blks        Tuning parameter which controls the maximum
+                              number of inode table blocks that ext4's inode
+                              table readahead algorithm will pre-read into
+                              the buffer cache
+
+- lifetime_write_kbytes       This file is read-only and shows the number of
+                              kilobytes of data that have been written to this
+                              filesystem since it was created.
+
+- max_writeback_mb_bump       The maximum number of megabytes the writeback
+                              code will try to write out before move on to
+                              another inode.
+
+- mb_group_prealloc           The multiblock allocator will round up allocation
+                              requests to a multiple of this tuning parameter if
+                              the stripe size is not set in the ext4 superblock
+
+- mb_max_to_scan              The maximum number of extents the multiblock
+                              allocator will search to find the best extent
+
+- mb_min_to_scan              The minimum number of extents the multiblock
+                              allocator will search to find the best extent
+
+- mb_order2_req               Tuning parameter which controls the minimum size
+                              for requests (as a power of 2) where the buddy
+                              cache is used
+
+- mb_stats                    Controls whether the multiblock allocator should
+                              collect statistics, which are shown during the
+                              unmount. 1 means to collect statistics, 0 means
+                              not to collect statistics
+
+- mb_stream_req               Files which have fewer blocks than this tunable
+                              parameter will have their blocks allocated out
+                              of a block group specific preallocation pool, so
+                              that small files are packed closely together.
+                              Each large file will have its blocks allocated
+                              out of its own unique preallocation pool.
+
+- session_write_kbytes        This file is read-only and shows the number of
+                              kilobytes of data that have been written to this
+                              filesystem since it was mounted.
+
+- reserved_clusters           This is RW file and contains number of reserved
+                              clusters in the file system which will be used
+                              in the specific situations to avoid costly
+                              zeroout, unexpected ENOSPC, or possible data
+                              loss. The default is 2% or 4096 clusters,
+                              whichever is smaller and this can be changed
+                              however it can never exceed number of clusters
+                              in the file system. If there is not enough space
+                              for the reserved space when mounting the file
+                              mount will _not_ fail.
+
 * Description
+1EiB - Max File System Size
+16TiB - Max File Size
+48bit block addressing
+
 * Usage
+** Create a ext4 File System
+#+BEGIN_SRC sh
+mkfs.ext4 /dev/sdc1
+#+END_SRC
+** Resizing a File System
+*** Growing
+1. unmount partition (though this can be done whlst mounted)
+#+BEGIN_SRC sh
+umount /dev/sda1
+#+END_SRC
+
+2. run the file system check
+#+BEGIN_SRC sh
+e2fsck /dev/sda1
+#+END_SRC
+
+3. resize the partition
+#+BEGIN_SRC sh
+resize2fs /dev/sda1 
+#+END_SRC
 ** Journaling
+
+** Options for Mounting
+ro - read only
+journal_checksum - Enable checksuming of the journal transactions. 
+norecovery - don't load the journal on mounting. If the filesystem was unmounted uncleanly it could lead to issues. 
+noacl - this disables posix acl attributes
+bsddf - make df act like bsd df
+
+*** Writing data to the File System
+data=journal - all data are committed into journal prior to being written into the main filesystem. 
+data=writeback - data ordering is not preserved. Data may be written to the main filesystem before metadata is written to the journal.
+data=ordered - data is forced to the main file system prior to the metadata being written to the journal.
+commit=nrsec - set the number of seconds before data is written to the main filesystem, Default is 5 seconds. Power lose could lead to the lose of 5 seconds of data.
+
+*** Actions on disc errors
+errors=remount-ro - remount the filesystem in read only on error 
+errors=continue - keep going on a filesystem error
+errors=panic - panic and halt the machine on error
 
 * Lecture
 * Tutorial
 * Books
 * Links
 [[https://www.ibm.com/developerworks/library/l-journaling-filesystems/][Anatomy of Linux journaling file systems]]
+[[https://www.kernel.org/doc/Documentation/filesystems/ext4.txt][Kernel Documentation]]
+[[http://fedoraproject.org/wiki/Features/Ext4][Fedora Project - Ext4]]
+[[https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Storage_Administration_Guide/ch-ext4.html][RHEL 6 Documentation - EXT4]]

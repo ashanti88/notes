@@ -1,0 +1,195 @@
+#+TAGS:
+
+
+* Managing Users and Groups
+* Files
+- /etc/passwd - users file
+- /etc/group  - groups file
+- /etc/shadow - this file holds the hashes for the user passwords
+- /etc/gshadow - this file holds the hashes for the group passwords
+- /etc/login.defs - this file holds security policies for login
+- /usr/share/doc/setup*/uidgid - this files describes system uses for RHEL
+
+* Cmds
+- [[file://home/crito/org/tech/cmds/id.org][id]]
+- [[file://home/crito/org/tech/cmds/adduser.org][adduser]]
+- [[file://home/crito/org/tech/cmds/usermod.org][usermod]]
+- [[file://home/crito/org/tech/cmds/useradd.org][useradd]]
+- [[file://home/crito/org/tech/cmds/userdel.org][userdel]]
+- [[file://home/crito/org/tech/cmds/newusers.org][newusers]]
+- [[file://home/crito/org/tech/cmds/passwd.org][passwd]]
+- [[file://home/crito/org/tech/cmds/gshadow.org][gshadow]]
+- [[file://home/crito/org/tech/cmds/groupadd.org][groupadd]]
+- [[file://home/crito/org/tech/cmds/groupmod.org][groupmod]]
+- [[file://home/crito/org/tech/cmds/groupdel.org][groupdel]]
+- [[file://home/crito/org/tech/cmds/pwck.org][pwck]]
+- [[file://home/crito/org/tech/cmds/chsh.org][chsh]]
+
+* Description
+* Usage
+
+** Creating a new user
+
+Three options for adding new users.
+
+1. [[file://home/crito/org/tech/cmds/adduser.org][adduser]]
+perfered method using a useradd frontend from slackware, but found in many distros
+
+2. [[file://home/crito/org/tech/cmds/useradd.org][useradd]]
+does the same as above but no prompting
+
+3. [[file://home/crito/org/tech/cmds/newusers.org][newusers]]
+This cmd can be used to create batch files of users  
+
+** Changing a users shell
+
+- Change a users shell
+#+BEGIN_SRC sh
+chsh -s /bin/shell -u frank
+#+END_SRC
+
+** Adding a group
+- adding a new group
+#+BEGIN_SRC sh
+groupadd -g 2222 accounts
+#+END_SRC
+the gid is optional but must be above 999
+
+** Deleting a group*
+- [[file://home/crito/org/tech/cmds/groupdel.org][groupdel]]
+#+BEGIN_SRC sh
+groupdel accounts
+#+END_SRC
+
+** Adding an existing user to a group
+- [[file://home/crito/org/tech/cmds/usermod.org][usermod]] 
+#+BEGIN_SRC sh
+usermod -G accounts frank
+#+END_SRC
+
+** Creating Group Directories
+1. as root create the /opt/myproject directory
+#+BEGIN_SRC sh
+mkdir /opt/myproject
+#+END_SRC
+
+2. add the myproject to the system
+#+BEGIN_SRC sh
+groupadd myproject
+#+END_SRC
+
+3. associate the contents of /opt/myproject directory with the myproject group
+#+BEGIN_SRC sh
+chown root:myproject /opt/myproject
+#+END_SRC
+
+4. allow users of the group to be able to create new files within the directory and set the setgid bit
+#+BEGIN_SRC sh
+chmod 2775 /opt/myproject
+#+END_SRC
+
+5. add users to the group
+#+BEGIN_SRC sh
+useradd -aG myproject frank
+#+END_SRC
+
+** Setting default permissions for files
+This is done by setting the umask, by default it is set to 022.
+1. file is initially created with 777
+2. the umask is then subtracted from the permissions
+3. we now have default permissions set
+
+note: regualar files can't created with execute bit set 0000 umask wouldn't set the execute bit.
+
+- display current umask
+#+BEGIN_SRC sh
+umask
+#+END_SRC
+octal output
+#+BEGIN_SRC sh
+umask -S
+#+END_SRC
+symbolic output
+
+- set new umask
+#+BEGIN_SRC sh
+umask 0337
+#+END_SRC
+octal
+#+BEGIN_SRC sh
+umask -S u=r,g=r,o=
+#+END_SRC
+or
+#+BEGIN_SRC sh
+umask -S u=r,g=r,o=rwx
+#+END_SRC
+
+- to set persistent user add to .bashrc or shell rc file
+#+BEGIN_EXAMPLE
+umaks 0227
+#+END_EXAMPLE
+- to set persistent system-wide add below to /etc/login.defs
+#+BEGIN_EXAMPLE
+UMASK 077
+#+END_EXAMPLE
+
+** Using Access Control Lists
+There are two types of ACL
+1. Access ACL - this sets the ACL to a specific file or directory
+2. Default ACL - this sets the ACL for directory, any file inside without ACL adhears to these
+   
+ACLs can be set for:
+i) Per user
+ii) Per group
+iii) Via the effective rights mask
+iv) for users not in the user group for the file
+
+*** Setting an access ACL for a file
+#+BEGIN_SRC sh
+setfacl -m u:frank:rw /opt/myproject/frank_can.txt
+#+END_SRC
+Multiple rules can be set with comma seperation
+u:uid:perms
+g:gid:perms
+m:perms - mask
+o:perms - sets the perms of users who aren't in the files group 
+
+- when setfacl is run it appends the new rules to already existing rules
+   
+- Remove all rules
+#+BEGIN_SRC sh
+setfacl -x file.txt
+#+END_SRC
+
+- Remove a specific users rules
+#+BEGIN_SRC sh
+setfacl -x u:1002 /opt/myproject/this_file.txt
+#+END_SRC
+
+*** Setting a default ACL
+#+BEGIN_SRC sh
+setfacl -m d:o:rx /opt/myproject
+#+END_SRC
+this has to be set on to a directory
+
+*** Retrieve ACL for a file
+#+BEGIN_SRC sh
+getfacl /home/crito/thatfile.txt
+#+END_SRC
+
+*** Achiving, Copying 
+tar - set the --acls to preserve all the acl for the files
+cp - set the --preserve=mode, also the -a retains acl data
+
+** Useful commands for user information
+
+- What groups is a user in?
+#+BEGIN_SRC sh
+cat /etc/group | grep accounts
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links
+

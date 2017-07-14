@@ -5,6 +5,46 @@
 Wiki: [[https://perf.wiki.kernel.org/index.php/Tutorial][perf.wiki]]
 * Description
 * Usage
+** Counting Examples
+
+[[file://home/crito/Pictures/org/perf_counting_events.png]]
+
+** Report
+- read the perf file perf.data
+#+BEGIN_SRC sh
+perf report
+#+END_SRC
+** Top
+#+BEGIN_SRC sh
+perf top
+#+END_SRC
+** Stat
+- monitor movement of data
+#+BEGIN_SRC sh
+perf stat -B dd if=/dev/zero of=/dev/null count=100000
+#+END_SRC
+
+- by default perf will measure both user and kernel levels
+#+BEGIN_SRC sh
+perf stat -e cycles dd if=/dev/zero of=/dev/null count=100000
+#+END_SRC
+or explicitly
+#+BEGIN_SRC sh
+perf stat -e cycles:uk dd if=/dev/zero of=/dev/null count=100000
+#+END_SRC
+
+- measure only user level
+#+BEGIN_SRC sh
+perf stat -e cycles:u dd if=/dev/zero of=/dev/null count=100000
+#+END_SRC
+
+- Modifiers
+u - monitor at priv level 3, 2, 1 (user)
+k - monitor at priv level 0 (kernel)
+h - monitor hypervisor events on a virtualization environment
+H - monitor host machine on a virtualization environment
+G - monitor guest machine on a virtualization environment
+
 ** Examples
 *** Performance analysis of the system
 #+BEGIN_SRC sh
@@ -33,4 +73,5 @@ java - lookup perf-map-agent on github
 * Tutorial
 * Books
 * Links
+[[http://www.brendangregg.com/perf.html][Linux perf Examples - Brendan Gregg]]
 

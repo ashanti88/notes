@@ -3,6 +3,7 @@
 
 * id							      :sys:anal:user:
 * Description
+This cmd will display user and group ids
 * Usage
 * Lecture
 * Tutorial

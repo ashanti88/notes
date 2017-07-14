@@ -1,0 +1,24 @@
+#+TAGS: sys op adm keyboard
+
+
+* System Locale                                                  :sys:op:adm:
+* Files
+- /etc/locale.conf
+* Cmds
+- localectl
+* Description
+
+* Usage
+- check current settings
+#+BEGIN_SRC sh
+localectl status
+#+END_SRC
+
+** Options for locale.conf
+Don't set LC_ALL in locale.conf
+[[file://home/crito/Pictures/org/locale_ops.png]]
+
+* Lecture
+* Tutorial
+* Books
+* Links

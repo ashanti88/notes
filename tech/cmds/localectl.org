@@ -1,0 +1,46 @@
+#+TAGS: sys op adm lang keyboard 
+
+
+* localectl                                        :sys:op:adm:lang:keyboard:
+* Description
+* Usage
+- current locale status
+#+BEGIN_SRC sh
+localectl status
+#+END_SRC
+
+- list available locales
+#+BEGIN_SRC sh
+localectl list-locales
+#+END_SRC
+
+- Setting the locale
+#+BEGIN_SRC sh
+localectl set-locale LANG=en_GB.utf8
+#+END_SRC
+
+** Keyboard
+- list all available keyboards
+#+BEGIN_SRC sh
+localectl list-keymaps
+#+END_SRC
+
+- setting the keymap
+#+BEGIN_SRC sh
+localectl set-map uk
+#+END_SRC
+- replace uk with the need keymap from list-keymap
+- this will also set the X11 keyboard mapping, unless the --no-convert option was set
+#+BEGIN_SRC sh
+localectl set-x11-keymap uk
+#+END_SRC  
+this will also set both X11 and console keyboard
+
+- Different X11 keyboard setup to the console
+#+BEGIN_SRC sh
+localectl --no-convert set-x11-keymap de
+#+END_SRC
+
+* Tutorial
+* Books
+* Links

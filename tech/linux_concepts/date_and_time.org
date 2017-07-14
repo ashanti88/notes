@@ -1,0 +1,13 @@
+#+TAGS: sys adm date
+
+
+* Date and Time                                                :sys:adm:date:
+* Cmds
+- [[file://home/crito/org/tech/cmds/date.org][date]]
+
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

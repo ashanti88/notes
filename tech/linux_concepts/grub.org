@@ -96,8 +96,14 @@ This will show the new option as the saved_entry=<new_option>
 
 4. Reboot system for change to take effect
 
+** Adding a new kernel to the conf
+#+BEGIN_SRC sh
+grub-mkconfig -o /boot/grub/grub.cfg
+#+END_SRC
+This will rebuild the configuration
 * Lecture
 * Tutorial
 * Books
 * Links
 [[https://www.linux.com/learn/how-rescue-non-booting-grub-2-linux][How to Rescue a Non-Booting GRUB 2 on Linux]]
+[[https://opensource.com/article/17/3/introduction-grub2-configuration-linux?sc_cid=70160000001273HAAQ][An Introduction to GRUB2 configuration for your Linux machine]]
