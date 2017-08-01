@@ -196,15 +196,18 @@ nmap -sV -p 445 --script smb-brute 192.168.1.101
 While I would not classify brute forcing accounts as a recon function of the assessment process this script can lead to large amount of recon if we do get valid credentials as there are other smb-* scripts that can be leveraged to retrieve all local user accounts (smb-enum-users.nse), groups (smb-enum-groups.nse), processes (smb-enum-processes.nse) and even execute processes remotely with the smb-psexec.nse script.
 
 
-
 ** Examples:
-*** This will locate random web servers
-> nmap -sS -PS80 -iR 0 -p 80
+*** Locate random web servers
+#+BEGIN_SRC sh
+nmap -sS -PS80 -iR 0 -p 80
+#+END_SRC
 
-*** this is an ipv6 scan
-> nmap -6 2001:800:40:2a03::3
+*** ipv6 scan
+#+BEGIN_SRC sh
+nmap -6 2001:800:40:2a03::3
+#+END_SRC
 
-*** list of assigned dhcp ip addrs
+*** List of assigned dhcp ip addrs
 > egrep '\^lease' /var/lib/dhcp/dhcp.leases | awk '{print $2;}' | nmap
 -iL -
 
@@ -221,21 +224,23 @@ nmap for scanning a hyphen is passed to -iL to read from std input.
 
 > nmap -n -sP -PR --packet-trace --send-eth <addtess>
 
-*** arp scan (-sP -PR)
-
-> nmap -n -sL -iR 50000 -oN - | grep 'report' | awk '{print $5;}' >
-50K\_ips
+*** Arp scan (-sP -PR)
+#+BEGIN_SRC sh
+nmap -n -sL -iR 50000 -oN - | grep 'report' | awk '{print $5;}' > 50Kips
+#+END_SRC
 
 *** Random List of 50000 ip addresses
-
-> nmap -sP -PE -PP -PS21,22,23,25,80,113,35439 -PA80,113,443,21004 -T4
---source-port 53 -iL <file> -oA <output\_filename>
-
+#+BEGIN_SRC sh
+nmap -sP -PE -PP -PS21,22,23,25,80,113,35439 -PA80,113,443,21004 -T4 --source-port 53 -iL file_of_ips.txt -oA scan_results
+#+END_SRC
 this is an extensive scan that uses a file to provide the ip address and outputs to all 4 types
 
-> nmap -p0- -v -A -T4 <address>
-
+*** Aggressive Scan
+#+BEGIN_SRC sh
+nmap -p0- -v -A -T4 114.34.12.2
+#+END_SRC
 this is an aggressive scan that will scan every port, and enables aggressive tests (-A) such as os detection. Ok if stealth isn't necessary
+
 *** Verbosity/Debug
 v       - will increase verbosity
 shift-v - will decrease verbosity
@@ -246,6 +251,7 @@ shift-d - will decrease debug level
 #+BEGIN_SRC sh
 nmap 192.168.0.1 --packet-trace -Pn -p80 -n
 #+END_SRC
+
 * Lecture
 ** [[https://www.youtube.com/watch?v%3DM-Uq7YSfZ4I][Mastering the Nmap Scripting Engine - Fyodor & David Fifield]]
    

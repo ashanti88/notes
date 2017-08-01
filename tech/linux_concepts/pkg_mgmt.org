@@ -467,3 +467,6 @@ yaourt -B
 #+END_SRC
 *** pacli                                                          :arch:pkg:
 This tool is a tui for both pacman and yaourt
+** freeBSD
+*** pkg
+*** ports

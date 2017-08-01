@@ -4,16 +4,36 @@
 * LDAP                                                         :net:sec:ldap:
 OpenLDAP: [[https://www.openldap.org/][openldap.org]]
 * Cmds
-ldapsearch
-ldapadd
-ldapdelete
-ldapmodify
-slaptest
-slapcat
-slapadd
+- ldapsearch
+- ldapadd
+- ldapdelete
+- ldapmodify
+- slaptest
+- slapcat
+- slapadd
 
+** Server Utils
+[[file://home/crito/Pictures/org/openldap_utils.png]]
+
+** Client Utils
+[[file://home/crito/Pictures/org/openldap_client_utils.png]]
 * Server
-389 Directory Server
+** OpenLDAP
+** 389 Directory Server
+- possible to handle thousands of operations
+- TLS
+- SASL
+
+*** Setup on RHEL/CENTOS
+1. install the EPEL repo
+#+BEGIN_SRC sh
+wget http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-9.noarch.rpm
+rpm -ivh epel-release-7-9.noarch.rpm 
+#+END_SRC
+
+2. ensure that the host file is configured correctly
+   
+3. set appropriate /etc/sysctl.conf
 * Overview
 LDAP uses the Sleepycat Berkley DB, 
 * Lecture
@@ -27,3 +47,5 @@ LDAP uses the Sleepycat Berkley DB,
 [[file://home/crito/Documents/SysAdmin/Sun-LDAP_Setup_and_Configuration_Guide.pdf][Sun - LDAP Setup and Configuration Guide]]
 * Links
 https://wiki.debian.org/LDAP
+[[http://www.thegeekstuff.com/2017/07/ldap-389-directory-server-install/][How to Install LDAP 389 Directory Server On Linux]]
+[[https://www.howtoforge.com/linux_openldap_setup_server_client][Step-by-Step OpenLDAP Installation and Configuration]]

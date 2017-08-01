@@ -51,6 +51,11 @@ Key features:
 ** Print lines that match a pattern
 > awk '/<pattern>/' <file>
 
+- cut second column of ps aux
+#+BEGIN_SRC sh
+ps aux | awk '{ print $2 }'
+#+END_SRC
+
 ** Print only specific fields
 > awk '{print $x $y;}' <file>
 

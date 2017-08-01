@@ -1,0 +1,21 @@
+#+TAGS: term
+
+
+* script                                                             :script:
+* Description
+This cmd will log your terminal session to a txt file.
+* Usage
+- simple session log
+#+BEGIN_SRC sh
+script log_file.txt
+#+END_SRC
+
+- append to log file
+#+BEGIN_SRC sh
+script -a log_file.txt
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

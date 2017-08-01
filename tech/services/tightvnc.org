@@ -1,0 +1,79 @@
+#+TAGS:
+
+
+* TightVNC
+HomePage: [[http://www.tightvnc.com/][tightvnc.com]]
+* Description
+* Usage
+
+- Configuring VNC server and client Debian
+
+1. Install required software
+#+BEGIN_SRC sh
+apt-get update
+apt-get upgrade
+apt-get install tightvncserver
+#+END_SRC
+you will also have to install the desktop environment if not already installed
+
+2. Create the vnc user
+#+BEGIN_SRC sh
+adduser vnc
+gpasswd -a vnc sudo
+#+END_SRC
+
+3. Switch to the vnc user and start the service 
+#+BEGIN_SRC sh
+vncserver
+#+END_SRC
+first time this will prompt for a password 6-8 char in length
+connections are started to be served on ports starting at 5901
+
+4. Edit the ~/.vnc/xstartup
+#+BEGIN_EXAMPLE
+#!/bin/sh
+[ -x /etc/vnc/xstartup ] && exec /etc/vnc/xstartup
+[ -r $HOME/.Xresources ] && xrdb $HOME/.Xresources
+xsetroot -solid grey
+vncconfig -iconic &
+x-terminal-emulator -geometry 80x24+10+10 -ls -title "$VNCDESKTOP Desktop" &
+x-window-manager &
+#+END_EXAMPLE
+
+- i3
+#+BEGIN_EXAMPLE
+#!/bin/sh
+
+xrdb $HOME/.Xresources
+xsetroot -solid grey
+#x-terminal-emulator -geometry 80x24+10+10 -ls -title "$VNCDESKTOP Desktop" &
+#x-window-manager &
+#Fix to make GNOME work
+export XKL_XMODMAP_DISABLE=1
+#/etc/X11/Xsession
+i3 &
+#+END_EXAMPLE
+
+- gnome
+#+BEGIN_EXAMPLE
+#!/bin/shxrdb $HOME/.Xresources
+xsetroot -solid grey
+x-terminal-emulator -geometry 80x24+10+10 -ls -title "$VNCDESKTOP Desktop" &
+# x-window-manager &
+gnome-session &
+#+END_EXAMPLE
+
+- to start the service
+#+BEGIN_SRC sh
+vncserver -geometry 1024x720 :1
+#+END_SRC
+
+- to kill the service
+#+BEGIN_SRC sh
+vncserver -kill :1
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -207,3 +207,4 @@ OpenShift - account
 * Books
 ** [[file://home/crito/Documents/Linux/Security/Fedora-25-SELinux.pdf][SELinux-Fedora 25]]
 * Links
+[[http://www.thegeekstuff.com/2017/07/chcon-command-examples/][15 SELinux chcon Cmd Examples to Change Security Context]]

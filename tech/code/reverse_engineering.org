@@ -1,7 +1,7 @@
 #+TAGS: code:sec
 
 
-* Reverse Engineering                                              :code:sec:
+* Reverse Engineering                                              :codE:††sec:
 * Usage
 * Tools
 - [[file://home/crito/org/tech/cmds/radare2.org][Radare2]]

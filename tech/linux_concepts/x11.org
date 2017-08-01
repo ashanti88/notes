@@ -1,0 +1,28 @@
+#+TAGS: X
+
+
+* X11
+* Description
+* Usage
+- Starting a second desktop
+1. move to another virtual console
+#+BEGIN_EXAMPLE
+C-M-F3
+#+END_EXAMPLE
+2. start a new instance of the desktop
+- i3wm
+#+BEGIN_SRC sh
+startx -- :1 vt4
+#+END_SRC
+start windows manager on display 1 in virtual terminal 4
+
+- gnome
+#+BEGIN_SRC sh
+startx gnome-session -- :1 vt5
+#+END_SRC
+start gdm on display 1 in virtual terminal 5
+
+* Lecture
+* Tutorial
+* Books
+* Links

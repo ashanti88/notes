@@ -1,0 +1,11 @@
+#+TAGS: mail
+
+
+* Procmail                                                             :mail:
+Arch: [[https://wiki.archlinux.org/index.php/Procmail][wiki.archlinux.org/Procmail]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

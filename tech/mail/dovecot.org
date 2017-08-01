@@ -2,12 +2,38 @@
 
 
 * Dovecot						 :mail:mda:pop3:imap:
+HomePage: [[https://wiki.dovecot.org/FrontPage][wiki.dovecot.org]]
 * Description
 * Usage
+- find dovecot configuration file location
+#+BEGIN_SRC sh
+doveconf -n | head -n1
+#+END_SRC
+
 - dump configuration
 #+BEGIN_SRC sh
 doveconf -n
 #+END_SRC
+
+** Basic Configuration
+https://wiki.dovecot.org/BasicConfiguration
+1. find dovecot configuration file location
+#+BEGIN_SRC sh
+doveconf -n | head -n1
+#+END_SRC
+
+2. copy files from location to /etc/dovecot/
+#+BEGIN_SRC sh
+cp -r /usr/share/doc/dovecot/example-config/* /etc/dovecot/
+#+END_SRC
+
+3. Authentication
+#+BEGIN_SRC sh
+echo "$USER:{PLAIN}password:$UID:$GID::$HOME" > users
+sudo mv users /etc/dovecot/
+#+END_SRC
+
+4. 
 * Lecture
 * Tutorial
 * Books

@@ -1,7 +1,7 @@
-#+TAGS: 
+#+TAGS:
 
 
-* openldap
+* JBOSS Enterprise Application Platform
 * Description
 * Usage
 * Lecture

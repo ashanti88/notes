@@ -7,4 +7,6 @@
 * Lecture
 * Tutorial
 * Books
+[[file://home/crito/Documents/Database/SQL_Antipatterns.pdf][SQL Antipatterns - Bill Karwin]]
 * Links
+[[https://www.datacamp.com/community/tutorials/sql-tutorial-query#gs.=0Mnfmw][SQL Tutorial: How To Write Better Queries - Karlijn Willems]]

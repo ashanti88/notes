@@ -1,0 +1,32 @@
+#+TAGS:
+
+
+* TightVNC
+HomePage: [[http://www.tightvnc.com/][tightvnc.com]]
+* Description
+* Usage
+- Configuring VNC server and client Debian
+
+1. Install required software
+#+BEGIN_SRC sh
+apt-get update
+apt-get upgrade
+apt-get install tightvncserver
+#+END_SRC
+you will also have to install the desktop environment if not already installed
+
+2. Create the vnc user
+#+BEGIN_SRC sh
+adduser vnc
+gpasswd -a vnc sudo
+#+END_SRC
+
+3. Switch to the vnc user and start the service 
+#+BEGIN_SRC sh
+vncserver
+#+END_SRC
+first time this will prompt for a password 6-8 char in length
+* Lecture
+* Tutorial
+* Books
+* Links

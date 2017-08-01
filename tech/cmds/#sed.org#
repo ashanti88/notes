@@ -1,0 +1,77 @@
+#+TAGS: file op anal
+
+
+* sed								    :file:op:
+HomePage: [[https://www.gnu.org/software/sed/manual/sed.html][gnu.org/sed]]
+* Description
+* Usage
+** Replace text
+- this will replace all instances of "crito" with "eurus"
+#+BEGIN_SRC sh
+sed -i 's/crito/eurus/g' /etc/passwd
+#+END_SRC
+the -i ensures that the change is made to file (interactive)
+
+** Regular Expressions
+- show lines that only begin with "root"
+#+BEGIN_SRC sh
+sed -n /^root/p /etc/passwd
+#+END_SRC
+
+** Spacing
+*** Double Space file
+#+BEGIN_SRC sh
+sed G file.txt
+#+END_SRC
+*** Double Space file with blank lines
+#+BEGIN_SRC sh
+> sed '/^$/d;G
+#+END_SRC
+*** Triple space file
+#+BEGIN_SRC sh
+sed 'G;G'
+#+END_SRC
+*** Undo Double spacing
+#+BEGIN_SRC sh
+sed 'n;d'
+#+END_SRC
+*** Insert blank line above regex
+#+BEGIN_SRC sh
+sed '/regex/{x;p;x;}'
+#+END_SRC
+*** Insert blank line after regex
+#+BEGIN_SRC sh
+sed '/regex/G'
+#+END_SRC
+
+** Numbering 
+*** Number each line of a file(number above)
+#+BEGIN_SRC sh
+sed = file.txt
+#+END_SRC
+
+*** Number each line(same line)
+#+BEGIN_SRC sh
+sed = file.txt | sed 'N;s/\n/\t/'
+#+END_SRC
+
+** Count lines
+#+BEGIN_SRC sh
+sed -n '$='
+#+END_SRC
+
+** Print specific lines of text
+- print 20 - 25 from file.txt
+#+BEGIN_SRC sh
+sed -n 20,25p file.txt
+#+END_SRC
+
+- print first 5 lines of a file
+#+BEGIN_SRC sh
+sed 5q /etc/passwd
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

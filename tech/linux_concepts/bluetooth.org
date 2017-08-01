@@ -4,6 +4,7 @@
 * Bluetooth                                                          :net:bt:
 * Cmds
 - bluetoothctl
+- blueman-manager
 
 * Description
 * Usage
@@ -11,3 +12,4 @@
 * Tutorial
 * Books
 * Links
+http://www.linuxjournal.com/content/bluetooth-hacks

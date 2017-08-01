@@ -3,7 +3,7 @@
 
 * Termite
 Arch: [[https://wiki.archlinux.org/index.php/termite][archlinux.org/termite]]
-* Urxvt
+* Uxvt
 Arch: [[https://wiki.archlinux.org/index.php/rxvt-unicode][archlinux.org/rxvt-unicode]]
 * Terminator
 HomePage: [[https://gnometerminator.blogspot.co.uk/p/introduction.html][gnometerminator.co.uk]]

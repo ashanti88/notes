@@ -1,0 +1,28 @@
+#+TAGS: term learning
+
+
+* script                                                    :script:learning:
+* Description
+This cmd will log your terminal session to a txt file.
+* Usage
+- simple session log
+#+BEGIN_SRC sh
+script log_file.txt
+#+END_SRC
+
+- append to log file
+#+BEGIN_SRC sh
+script -a log_file.txt
+#+END_SRC
+
+- watch the file as typed
+#+BEGIN_SRC sh
+script --timing=time.txt script.log 
+scriptreplay --timing=time.txt script.log
+#+END_SRC
+--timing - this file also needs to be created by script
+
+* Lecture
+* Tutorial
+* Books
+* Links

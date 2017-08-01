@@ -23,7 +23,7 @@ Udev is the device manager for the Linux 2.6 kernel that creates/removes device 
 * Usage
 ** Kernel Device Event Management
 1. When bootup is initialized, the /dev directory is mounted in tmpfs.
-2. After that, Udev will copy the static device nodes from¬†/lib/udev/devices¬†to the /dev directory.
+2. After that, Udev will copy the static device nodes from /lib/udev/devices to the /dev directory.
 3. The Udev daemon then runs and collects uevents from the kernel, for all the devices connected to the system.
 4. The Udev daemon will parse the uevent data and it will match the data with the rules specified in /etc/udev/rules.d.
 5. It will create the device nodes and symbolic links for the devices as specified in the rules.

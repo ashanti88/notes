@@ -5,13 +5,14 @@
 * Description
 * Usage
 ** Adding a user to the sudoers group
+#+BEGIN_SRC sh
+usermod -aG sudo <username>
+#+END_SRC
 
-> usermod -aG sudo <username>
-
-+ Disabling a users account
-
-> usermod --lock --expiredate <YYYY-MM-DD> <username>
-
+** Disabling a users account
+#+BEGIN_SRC sh
+usermod --lock --expiredate <YYYY-MM-DD> <username>
+#+END_SRC
 lock or L - this disables the account but other methods of login such as
 public keys is still possible.
 

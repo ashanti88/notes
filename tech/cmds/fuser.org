@@ -3,7 +3,8 @@
 
 * fuser								   :sys:file:
 * Description
-* Usage
+The fuser command is a very smart unix utility used to find which process is using a file, a directory or a socket. It also gives information about the user owning the process and the type of access. The fuser tool displays the process id(PID) of every process using the specified files or file systems.
+* Uage
 - find the pid of an open file
 #+BEGIN_SRC sh
 fuser ~/bin/bakup.pl
@@ -14,12 +15,24 @@ fuser ~/bin/bakup.pl
 fuser -k -KILL ~/bin/bakup.pl
 #+END_SRC
 
+- ask before killing a process
+#+BEGIN_SRC sh
+fuser -i -k 123/tcp
+#+END_SRC
+
 - what process has files open on specific file system
 #+BEGIN_SRC sh
 fuser -m /mnt/flash
 #+END_SRC
 
+- which application is using a tcp/udp socket
+#+BEGIN_SRC sh
+fuser -v -n tcp 80
+#+END_SRC
+
 * Lecture
 * Tutorial
+** [[https://www.digitalocean.com/community/tutorials/how-to-use-the-linux-fuser-command][How To Use the Linux Command]]
+
 * Books
 * Links

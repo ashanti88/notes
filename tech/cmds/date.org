@@ -93,7 +93,6 @@ date -r file_name.txt
 date +"%H%M%S"
 #+END_SRC
 
-
 * Tutorial
 * Books
 * Links

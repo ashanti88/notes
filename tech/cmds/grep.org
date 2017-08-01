@@ -5,12 +5,30 @@
 * Description
 * Usage
 
-> grep <options> <pattern> <file>
+> grep [options] <pattern> <file>
 
-** Ssearch entire direcotry for pattern
+** Search entire direcotry for pattern
 #+BEGIN_SRC sh
-grep -Ri  .
+grep crito /etc/*
 #+END_SRC
+will serach each file in directory for "crito" (case sensitive)
+
+#+BEGIN_SRC sh
+grep -i crito /etc/*
+#+END_SRC
+search the entire directory for "crito" (case insensitive)
+
+#+BEGIN_SRC sh
+grep -Ri crito /etc/*
+#+END_SRC
+search recusively any sub-directories for "crito" (case insensitive)
+
+** Invert match
+#+BEGIN_SRC sh
+grep -i crito /etc/* | grep -v wheel
+#+END_SRC
+this will show all file that contain "crito" but exclude any that contain "wheel"
+
 ** print only the filenames
 #+BEGIN_SRC sh
 grep -rl

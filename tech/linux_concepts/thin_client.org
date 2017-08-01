@@ -1,10 +1,11 @@
 #+TAGS:
 
 
-* DRAC
+* Thin Client
 * Description
 * Usage
 * Lecture
 * Tutorial
 * Books
 * Links
+http://moo.nac.uci.edu/~hjm/LTSP_HOWTO.html

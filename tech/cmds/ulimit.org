@@ -4,13 +4,22 @@
 * ulimit							     :sys:op:
 * Description
 This allows us to manage system wide resources and regulate users resource usage.
-* Usage
-> ulimit <options>
+* Files
+- /etc/security/limits.conf
+- /etc/security/limits.d/
 
-** Setting Process Limit
-> ulimit -u 30
+* Usage
+- show all associated limits for a login
+#+BEGIN_SRC sh
+ulimit -a
+#+END_SRC
+
+- Setting Process Limit
+#+BEGIN_SRC sh
+ulimit -u 30
+#+END_SRC
 
 * Lecture
 * Tutorial
-* Books
 * Links
+[[http://www.networkworld.com/article/2693414/setting-limits-with-ulimit.html][Using the ulimit command on Linux Systems]]

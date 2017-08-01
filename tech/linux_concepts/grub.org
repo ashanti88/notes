@@ -5,6 +5,9 @@
 Manual: [[https://www.gnu.org/software/grub/manual/grub.html][gnu.org/grub]]
 Manual: [[https://www.gnu.org/software/grub/manual/grub.html][gnu.org]]
 * Overview
+* Cmds
+- grub2-mkconfig
+
 * Files
 /boot/grub/grubenv - this shows the default kernel to be booted
 /boot/grub/grub.cfg - this file is automatically created from /etc/grub.d/ and /etc/default/grub

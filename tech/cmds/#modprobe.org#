@@ -1,0 +1,50 @@
+#+TAGS: kernel anal
+
+
+* modprobe							:kernel:anal:
+* Description
+* Usage
+** View all loaded modules
+#+BEGIN_SRC sh
+less /proc/modules
+#+END_SRC
+or
+#+BEGIN_SRC sh
+lsmod
+#+END_SRC 
+
+** Add a module
+#+BEGIN_SRC sh
+modprobe vfat
+#+END_SRC
+this will install any dependent modules
+
+** Remove a module
+#+BEGIN_SRC sh
+modprobe -r vfat
+#+END_SRC
+this will remove the selected module and deals with dependencies
+
+** Get information on a module
+#+BEGIN_SRC sh
+modinfo ehci_pci
+#+END_SRC
+this will show all kernel parameters available near the bottom of the output
+
+** Set kernel parameter
+/lib/modprobe.d/ - shouldn't usually modify these files
+/etc/modprobe.d/ - here is where modificattions should be made
+man 5 modprobe.d - this explains conf of modprobe directory
+
+- changing cdrom lockdoor parameter
+1. create a file in /etc/modprobe.d with the following
+cdrom.conf
+#+BEGIN_EXAMPLE
+options cdrom lockdoor=0
+#+END_EXAMPLE
+this will mean that the parameter is now set to 0
+
+* Lecture
+* Tutorial
+* Books
+* Links

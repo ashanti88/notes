@@ -10,5 +10,4 @@ This is used to administer user passwords.
 passwd frank
 #+END_SRC
 
-* Books
 * Links

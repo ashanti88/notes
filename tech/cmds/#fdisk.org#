@@ -1,0 +1,21 @@
+#+TAGS: sys disk stor
+
+
+* fdisk                                                       :sys:disk:stor:
+* Description
+Display or manipulate a disk partition table.
+* Usage
+- enter interactive mode on /dev/sdb
+#+BEGIN_SRC sh
+fdisk /dev/sdb
+#+END_SRC
+
+** Options
+m - help/menu
+p - print partition table (show current disk state)
+n - create a new partition
+
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -110,7 +110,13 @@ systemctl enable myscript.timer
 #+END_SRC
 
 ** Running multiple scripts at the same time
-* Overview
+* Examples
+** Show current default target
+#+BEGIN_SRC sh
+systemctl get-default
+#+END_SRC
+** Switching defualt target
+
 * Lecture
 ** [[https://www.youtube.com/watch?v=VIPonFvPlAs&index=64&list=WL][Systemd at the Core of the OS - CoreOS Fest 2015]]
 + Containers
@@ -204,7 +210,6 @@ PIDFile=/var/run/myapp.pid
 [Install]
 WantedBy=multi-user.target
 #+END_SRC
-
 
 * Tutorial
 * Books
