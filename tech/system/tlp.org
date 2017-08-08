@@ -1,0 +1,11 @@
+#+TAGS: sys power
+
+
+* TLP                                                             :sys:power:
+HomePage: [[http://linrunner.de/en/tlp/docs/tlp-linux-advanced-power-management.html][linrunner.de/tlp]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

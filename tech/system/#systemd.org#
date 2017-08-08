@@ -165,7 +165,6 @@ systemctl isolate multi-user.target
 #+END_SRC
 this move you to the non-graphical multi-user mode
 
-
 * Lecture
 ** [[https://www.youtube.com/watch?v=VIPonFvPlAs&index=64&list=WL][Systemd at the Core of the OS - CoreOS Fest 2015]]
 + Containers

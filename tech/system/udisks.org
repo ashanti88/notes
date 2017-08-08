@@ -1,0 +1,11 @@
+#+TAGS:
+
+
+* udisks
+HomePage: [[https://www.freedesktop.org/wiki/Software/udisks/][freedesktop.org/udisks]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

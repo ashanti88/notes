@@ -1,0 +1,12 @@
+#+TAGS: sysd ntp
+
+
+* Systemd-Timesyncd                                                :sysd:ntp:
+HomePage: [[https://www.freedesktop.org/software/systemd/man/systemd-timesyncd.service.html][freedesktop.org/systemd-timesyncd]]
+Arch: [[https://wiki.archlinux.org/index.php/systemd-timesyncd][archlinux.org/systemd-timesyncd]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

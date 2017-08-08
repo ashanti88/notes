@@ -1,0 +1,11 @@
+#+TAGS: linux distro
+
+
+* Gentoo                                                       :linux:distro:
+Wiki: [[https://wiki.gentoo.org/wiki/Main_Page][wiki.gentoo.org]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

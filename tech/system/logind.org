@@ -1,0 +1,12 @@
+#+TAGS: sys
+
+
+* logind                                                                :sys:
+HomePage: [[https://www.freedesktop.org/wiki/Software/systemd/logind/][freedesktop.org/logind]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links
+[[https://www.freedesktop.org/wiki/Software/systemd/multiseat/][Multi-Seat on Linux]]

@@ -1,0 +1,12 @@
+#+TAGS: term sh
+
+
+* Handy Snippets
+- How Old is my install
+#+BEGIN_SRC sh
+dumpe2fs $(mount | grep 'on \/ ' | awk '{print $1}') | grep 'Filesystem created:'
+#+END_SRC
+this will check the creation date of the root filesystem
+
+* Books
+* Links

@@ -45,11 +45,11 @@ nmcli con show
 ** Ops
 *** Connect
 #+BEGIN_SRC sh
-nmcli dev wifi connect SSID password pa$$w0rd
+nmcli dev wifi connect SSID_name password pa$$w0rd
 #+END_SRC
 - use a specific interface
 #+BEGIN_SRC sh
-nmcli dev wifi connect SSID password pa$$w0rd iface wlan1 
+nmcli dev wifi connect SSID_name password pa$$w0rd iface wlan1 
 #+END_SRC
 *** Disconnect
 #+BEGIN_SRC sh

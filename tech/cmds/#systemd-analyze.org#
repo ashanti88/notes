@@ -1,0 +1,16 @@
+#+TAGS: sysd anal
+
+
+* systemd-analyze                                                 :sysd:anal:
+* Description
+* Usage
+** blame
+- this will show the services that are taking the longest to start up
+#+BEGIN_SRC sh
+systemd-analyze blame
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links
