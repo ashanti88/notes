@@ -1,0 +1,21 @@
+#+TAGS: linux
+
+
+* FHS                                                                 :linux:
+* /
+* /boot
+* /bin
+* /sbin
+* /lib
+* /usr
+** /usr/bin
+** /usr/sbin
+** /usr/lib
+** /usr/local
+* /etc
+* /dev
+* /var
+** /var/log
+* /home
+* Books
+* Links

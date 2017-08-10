@@ -3,7 +3,20 @@
 
 * su								   :sys:root:
 * Description
+When a user executes the su command, they are prompted for the root password and, after authentication, are given a root shell prompt.
+Once logged in using the su command, the user is the root user and has absolute administrative access to the system. Note that this access is still subject to the restrictions imposed by SELinux, if it is enabled. In addition, once a user has become root, it is possible for them to use the su command to change to any other user on the system without being prompted for a password.
+
 * Usage
+- switch to root
+#+BEGIN_SRC sh
+su
+#+END_SRC
+
+- add user to wheel group
+#+BEGIN_SRC sh
+usermod -a -G wheel fred
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

@@ -375,23 +375,34 @@ Incomplete transactions can be found in /var/lib/yum/transaction-all* and transa
 **** Basic Administration					   :rhel:dnf:
 - Install application
 #+BEGIN_SRC sh
-dnf install $APP
+dnf install vim
 #+END_SRC
 
 - Remove application
 #+BEGIN_SRC sh
-dnf remove $APP
+dnf remove vim
 #+END_SRC
 
 - Search for application
 #+BEGIN_SRC sh
-dnf search $APP
+dnf search vim
+#+END_SRC
+
+- Check for available updates
+#+BEGIN_SRC sh
+dnf check-update
 #+END_SRC
 
 - Upgrade All Software to Newest Version
 #+BEGIN_SRC sh
 dnf upgrade
 #+END_SRC
+
+- Upgrade a specific package
+#+BEGIN_SRC sh
+dnf upgrade vim
+#+END_SRC
+
 ** Suse							       :sys:pkg:suse:
 *** zypper							   :suse:pkg:
 ** Arch							       :sys:pkg:arch:

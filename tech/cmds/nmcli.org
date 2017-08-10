@@ -3,6 +3,7 @@
 
 * nmcli                                                   :net:op:admin:term:
 HomePage: [[https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Networking_Guide/sec-Network_Config_Using_nmcli.html][nmcli]]
+
 * Description
 + Network Manager Command Line Interface
 This tool allows for changes to the network via the cmd line.
@@ -43,7 +44,7 @@ nmcli dev wifi list
 nmcli con show
 #+END_SRC
 ** Ops
-*** Connect
+*** Cnonect
 #+BEGIN_SRC sh
 nmcli dev wifi connect SSID_name password pa$$w0rd
 #+END_SRC
@@ -68,6 +69,7 @@ sysd: [[file://home/crito/org/tech/cmds/netctl.org][netctl]] (terminal)
 * Tutorial
 * Books
 * Links
+[[https://fedoraproject.org/wiki/Networking/CLI][FedoraProject - Networking/CLI]]
 
 
 

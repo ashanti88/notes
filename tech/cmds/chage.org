@@ -3,15 +3,14 @@
 
 * chage								     :sys:op:
 * Description
-Change Age
-* Usage
-> chage <options> <user>
+For security reasons, it is advisable to require users to change their passwords periodically. This can be done by using the chage command.
 
-- Options
-m <days> - min number of days before changing password
-M <days> - max number of days for a password remains valid
-E        - sets a date that a user account will expire
-W <days> - 
+* Usage
+$ chage <options> <user>
+
+** Options
+[[file://home/crito/Pictures/org/chage_options.png]]
+
 
 ** Running with Prompted Questions
 #+BEGIN_SRC sh

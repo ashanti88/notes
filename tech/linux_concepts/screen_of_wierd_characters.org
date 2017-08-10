@@ -1,15 +1,20 @@
+#+TAGS: term
+
+
+* Screen of Wierd Characters                                           :term:
+* Description
 if stdout recieves some binary data
-
-resolve with
-
-> echo '\033c'
+* Usage
+- resolve with
+#+BEGIN_SRC sh
+echo '\033c'
+#+END_SRC
 
 some distros have 
-
-> reset
-
+#+BEGIN_SRC sh
+reset
+#+END_SRC
 this performs the same action
 
-*links:*
-
+* Links
 http://www.unixguide.net/linux/faq/06.14.shtml

@@ -1,0 +1,21 @@
+#+TAGS: hw anal
+
+
+* lm_sensors                                                        :hw:anal:
+* Description
+Linux monitoring sensors is a free and open-source application that provides tools and drivers for monitoring temperatures, voltage, and fans. This document explains how to install, configure, and use lm_sensors. 
+* Usage
+- detect any hw monitoring chips
+#+BEGIN_SRC sh
+sensors-detect
+#+END_SRC
+
+- take a sensor reading
+#+BEGIN_SRC sh
+sensors
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

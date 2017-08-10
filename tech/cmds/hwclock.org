@@ -3,6 +3,10 @@
 
 * hwclock                                                         :sys:clock:
 * Description
+hwclock is a utility for accessing the hardware clock, also referred to as the Real Time Clock (RTC). The hardware clock is independent of the operating system you use and works even when the machine is shut down. This utility is used for displaying the time from the hardware clock. hwclock also contains facilities for compensating for systematic drift in the hardware clock.
+
+The hwclock utility saves its settings in the /etc/adjtime file, which is created with the first change you make, for example, when you set the time manually or synchronize the hardware clock with the system time.
+
 * Usage
 - view current hwclock
 #+BEGIN_SRC sh

@@ -53,6 +53,7 @@ PrivateTmp=true
 WantedBy=multi.user.target
 #+END_SRC
 
+* Targets
 * Services
 ** accounts-daemon.service
 It is part of AccountsService, which allows programs to get and manipulate user account information. I can't think of a good reason to allow this kind of behind-my-back operations, so I mask it.
@@ -164,7 +165,6 @@ This in this mode you need to type "exit" and take you to the grub screen
 systemctl isolate multi-user.target
 #+END_SRC
 this move you to the non-graphical multi-user mode
-
 
 * Lecture
 ** [[https://www.youtube.com/watch?v=VIPonFvPlAs&index=64&list=WL][Systemd at the Core of the OS - CoreOS Fest 2015]]

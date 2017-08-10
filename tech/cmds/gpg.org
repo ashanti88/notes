@@ -3,6 +3,9 @@
 
 * gpg								:sec:enc:pgp:
 HomePage: [[https://www.gnupg.org/][gnupg.org]]
+* Cmds
+- dirmngr
+
 * Description
 
 * Usage
@@ -114,8 +117,8 @@ gpg --decrypt file\_to\_encrypt.txt.gpg > secret.txt
 #+END_SRC
 The file secret.txt will now contain the actual text file.
 
-
 * Lecture
 * Tutorial
 * Books
+[[file://home/crito/Documents/Tools/PGP-GPG.pdf][PGP & GPG - Email for the Practical Paranoid]]
 * Links
