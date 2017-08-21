@@ -1,8 +1,16 @@
-#+TAGS: sec
+#+TAGS: sec mail
 
 
-* Mail									:sec:
+* Mail                                                             :sec:mail:
 * Description
+* Enumeration
+- [[file://home/crito/org/tech/security/security_tools/theharvester.org][theHarvester]]
+- [[file://home/crito/org/tech/security/security_tools/smtp-user-enum.org][smtp-user-enum]]
+
+** Using the VRFY cmd
+We can verify whether e-mail accounts exist on a server is simply to telnet to the server on port 25 and run the VRFY command. The VRFY command makes a server check whether a specific user ID exists. Spammers often automate this method to perform a directory harvest attack, which is a way of gleaning valid e-mail addresses from a server or domain.
+
+
 * Attacks
 ** Mail Spoofing
 SPR - Sender Policy Framework - This record establishes which ip addr is associated with which mail server

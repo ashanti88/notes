@@ -21,9 +21,11 @@ G - group names
 
 UserName - Login id
 
-Adding new user to group?
-
+- Adding new user to group?
+#+BEGIN_SRC sh
 useradd -G admins,ftp,www,developers jerry
+#+END_SRC
+this only works with new users
 
 * Lecture
 * Tutorial

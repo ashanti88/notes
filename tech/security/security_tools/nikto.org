@@ -1,7 +1,7 @@
-#+TAGS: sec_o web enum
+#+TAGS: sec sec_o web enum
 
 
-* nikto							     :sec_o:web_enum:
+* nikto                                                  :sec:sec_o:web:enum:
 Home Page: [[https://cirt.net/Nikto2][nikto]]
 * Description
 Examine a web server to find potential problesms and security vulns, including:
@@ -82,3 +82,4 @@ nikto -h 192.168.56.102 - output /home/crito/test.html -Format HTM > test.txt
 * Tutorial
 * Books
 * Links
+[[https://hackertarget.com/nikto-tutorial/][Nikto Tutorial]]

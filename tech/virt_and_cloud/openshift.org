@@ -1,0 +1,11 @@
+#+TAGS: virt container
+
+
+* OpenShift                                                  :virt:container:
+HomePage: [[https://www.openshift.com/][openshift.com]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

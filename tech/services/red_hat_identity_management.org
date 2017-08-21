@@ -1,18 +1,35 @@
-#+TAGS: sec auth rhel
+#+TAGS:
 
 
-* Kerberos                                                    :sec:auth:rhel:
-HomePage: http://web.mit.edu/kerberos/
-* Cmds
-- authconfig
-- klist
+* Red Hat Identity Management (FreeIPA Server)
+HomePage: [[https://www.freeipa.org/page/Main_Page][freeipa.org/Main_Page]]
+Docs: [[https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Linux_Domain_Identity_Authentication_and_Policy_Guide/installing-ipa.html][redhat.com/documentation/7/Linux_Domain_Identity_Authentication]]
+RHEL: https://access.redhat.com/products/identity-management
+
 * Files
-- /etc/krb5.keytab
+- /var/log/ipaserver-install.log
+
+* cmds 
+- [[file://home/crito/org/tech/cmds/ipa.org][ipa]]
+
 * Description
 * Usage
+** Installation
+FreeIPA: [[https://www.freeipa.org/page/Quick_Start_Guide][freeipa.org/quick_start_guide]]
+*** WARNING: Your system is running out of entropy, you may experience long delays
+[[http://blog-ftweedal.rhcloud.com/2014/05/more-entropy-with-haveged/][Mor entropy with haveged - Opposite Blog]]
+more entropy can be leveraged with haveged
+#+BEGIN_SRC sh
+yum -y install haveged
+systemctl start haveged.service
+systemctl enable haveged.service
+#+END_SRC
+
+another option is the rngd service which pulls entropy from hardware
+
 * Lecture
 * Tutorial
-** RHCE Configuration of Kerberos 
+** RHCE IPA Server Install 
 + Red Hat Identity Management
 
 - Based on the FreeIPA (Identity, Policy, Audit) Project
@@ -52,10 +69,16 @@ Preparing IdM Installation
 
 + Installation
 #+BEGIN_SRC sh
-yum -y install ipa-server bind nds-ldap
+yum -y install ipa-server bind nds-ldap ipa-server-dns
 ipa-server-install
 #+END_SRC
 ipa-server-install will prompt for option to be set
+
+- open required ports
+#+BEGIN_SRC sh
+firewall-cmd --permanent --add-service={ntp,http,https,ldap,ldaps,kerberos,kpasswd,dns}
+firewall-cmd --reload
+#+END_SRC
 
 - restart ssh to obtain Kerberos Credentials
 #+BEGIN_SRC sh
@@ -84,3 +107,4 @@ ipa user-find frank
 
 * Books
 * Links
+[[https://www.certdepot.net/rhel7-configure-freeipa-server/][Configure a FreeIPA Server - CertDepot]]

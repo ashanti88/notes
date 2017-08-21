@@ -6,6 +6,11 @@
 This tool is used to search for posible cmds that match the set term
 
 * Usage
+** Alternative
+#+BEGIN_SRC sh
+man -k ssh
+#+END_SRC
+man -k provides the same function as apropos
 * Lecture
 * Tutorial
 * Books

@@ -1,0 +1,17 @@
+#+TAGS: kerberos auth password sec
+
+
+* authconfig                                     :kerberos:auth:password:sec:
+* Files
+- /etc/sysconfig/authconfig - this file contains the options that were set when authconfig-tui was run
+- /etc/sssd/sssd.conf - all the parameters that are specified in authconfig 
+- /etc/krb5.conf - this sets all the kerberos settings
+- /etc/nsswitch.conf - sets the order for looking for passwords
+- /etc/nslcd.conf - this is found on earl RHEL 7 versions
+
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

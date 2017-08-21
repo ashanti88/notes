@@ -42,23 +42,26 @@ Create .mutt/cache/bodies/ .mutt/cache/headers/ .mutt/certificates
 *tutorial said to put muttrc in the .mutt folder, but it didn't load, but loaded when in ~/
 
 .muttrc
-
-set ssl\_starttls=yes 
-set ssl\_force\_tls=yes 
-set imap\_user ='my\_email@gmail.com' 
-set imap\_pass = 'Gmail pass' 
+#+BEGIN_EXAMPLE
+set ssl_starttls=yes 
+set ssl_force_tls=yes 
+set imap_user ='my_email@gmail.com' 
+set imap_pass = 'Gmail pass' 
 set from='mitchell.alick@gmail.com' 
 set realname= 'Alick' 
 set folder ='imaps://imap.gmail.com:993' 
 set spoolfile = '+INBOX' 
 set postponed='+[Google Mail]/Drafts' 
 set trash= '+[Google Mail/Trash' 
-set header\_cache = "~/.mutt/cache/headers" 
-set message\_cachedir ="~/.mutt/cache/bodies" 
-set certificate\_file ="~/.mutt/certificates"
-set smtp\_url = 'smtps://my\_email@gmail.com:587/' 
-set smtp\_pass ='Gmail pass' 
-set move = no set imap\_keepalive = 900
+set header_cache = "~/.mutt/cache/headers" 
+set message_cachedir ="~/.mutt/cache/bodies" 
+set certificate_file ="~/.mutt/certificates"
+set smtp_url = 'smtps://my_email@gmail.com:587/' 
+set smtp_pass ='Gmail pass' 
+set move = no set imap_keepalive = 900
+#+END_EXAMPLE
+Gmail now requires that less sercure apps be enabled from your google settings
+
 * Lecture
 * Tutorial
 * Links

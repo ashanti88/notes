@@ -1,0 +1,213 @@
+#+TAGS: linux
+
+
+* Slackware                                                           :linux:
+SlackBook: [[http://www.slackbook.org/html/index.html][slackbook.org/index.html]]
+* Description
+* Install
+** GPT + LUKS + LVM 14.2
+1. Setup disk Partitions
+- use gdisk to partition the hard drive
+sda1 +32M GUID ef02 (bios boot)
+sda2 +512M GUID default (Linux Filesystem)
+sda3 remainder of the disk GUID 8e00
+
+- press "p" whilst in gdisk to view partitions
+[[file://home/crito/Pictures/org/gdisk_parts.png]]
+
+- press "w" to write to disk
+  
+2. Encrypt the the LVM partition
+#+BEGIN_SRC sh
+cryptsetup luksFormat -c aes-xts-plain64:sha512 -h sha512 -s 256 /dev/sda3
+#+END_SRC
+
+3. Open the encrypted partition
+#+BEGIN_SRC sh
+cryptsetup luksOpen /dev/sda3 slack
+#+END_SRC
+
+4. Create the lvm groups
+#+BEGIN_SRC sh
+pvcreate /dev/mapper/enc_hdd
+vgcreate slack /dev/mapper/enc_hdd
+lvcreate -C y -L 4G -n swap slack
+lvcreate -C y -L 15G -n root slack
+lvcreate -C y -l 100%FREE -n home slack
+lvscan
+mkswap /dev/slack/swap
+#+END_SRC
+-C - contiguous
+-L Size (explicitly set with unit)
+-n name of volume
+-l Size (set with percentage of disk available)
+lvscan will show is how the logical volumes look to confirm
+
+5. Enter the Slackware Setup
+#+BEGIN_SRC sh
+setup
+#+END_SRC
+a. Set the correct KeyMap
+b. Add the Swap partition
+  - should auto-detect the partiton, but if it doesn't add the partition (/dev/slack/swap)
+c. In "Select other Linux partitions" add the / (dev/slack/root) ext4 /home(/dev/slack/home) ext4 /boot(/dev/sda2) ext2
+d. How click the auto-detect cd/dvd option and this should lead to the package installation selection
+e. Select "No" for the usb option
+f. Install lilo "simple"
+  - choose the Frame Buffer 1024x760x256
+g. No extra kernel parameters are required
+h. Lilo dest should be set to MBR if it is the only OS to be installed
+i. Mouse use default
+j. Enable GPM for mouse in console
+k. Configure Network
+  - hostname
+  - domain name
+  - Use NetworkManager for Workstations
+l. Select the services that you require a boot    
+m. Select the Hwclock, UTC is fine for linux only. (dual boot with windows will require local time to be set)
+n. Choose location
+o. Select desktop to boot to
+p. set password
+q. Don't reboot the system and makesure to EXIT as this will ensure that the mounts(proc, sys...) are kept on /mnt
+
+6. Creating the initrd
+#+BEGIN_SRC sh
+cd /mnt
+chroot . /bin/bash -l
+mkinitrd -c -k 4.4.14 -m ext4 -f ext4 -r /dev/slack/root -C /dev/sda3 -L
+#+END_SRC
+-c clear initrd root tree first
+-k what kernel is to be booted
+-m modulees to load, if more than one it is : delimited
+-f what is the filesystem on the / partition
+-r what is the logical volume
+-C what is the physical partition
+-L this is LVM
+It will prompt you to run lilo next, but first edit the lilo.conf
+
+7. Edit /etc/lilo.conf
+- uncomment the "compact" option
+- and add the following
+#+BEGIN_EXAMPLE
+image = /boot/vmlinuz-generic
+  initrd = /boot/initrd.gz
+  root = /dev/slack/root
+  label = Slack
+  read-only
+#+END_EXAMPLE
+- then run
+#+BEGIN_SRC sh
+lilo
+#+END_SRC
+
+8. Exit and clean up
+- exit chroot and unmount everything in /mnt
+#+BEGIN_SRC sh
+exit
+cd
+umount -l /mnt
+reboot
+#+END_SRC
+-l lazy unmount, clean up later
+Makesure to remove the install media
+* Pkg Mgmt
+** slackpkg
+https://docs.slackware.com/slackware:slackpkg
+*** Setup
+1. Select the mirrors to use
+#+BEGIN_SRC sh
+vim /etc/slackpkg/mirrors
+#+END_SRC
+uncomment the nearest mirrors
+
+2. Update the pkgs and the gpg key
+#+BEGIN_SRC sh
+slackpkg update gpg
+slackpgk update
+#+END_SRC
+if there isn't anything to update you will see this
+#+BEGIN_EXAMPLE
+No changes in ChangeLog.txt between your last update and now.
+Do you really want to download all other files (y/N)?
+#+END_EXAMPLE
+
+*** Blacklisting
+/etc/slackpkg/blacklist
+- For example the following patterns will make slackpkg disregard any package that was installed from SBo and from alienBob's repository:
+#+BEGIN_EXAMPLE
+[0-9]+_SBo
+[0-9]+alien
+#+END_EXAMPLE
+
+*** Search
+- search for a package
+#+BEGIN_SRC sh
+slackpkg search mc
+#+END_SRC
+This will search the package list for mc
+
+- file-search
+#+BEGIN_SRC sh
+slackpkg file-search sshd
+#+END_SRC
+Search a specific file and later install or remove the package that contains this file
+
+*** Info
+- get information of a pkg
+#+BEGIN_SRC sh
+slackpkg info mc
+#+END_SRC
+
+*** Install
+- install a pkg
+#+BEGIN_SRC sh
+slackpkg install nmap
+#+END_SRC
+
+*** Remove
+- remove a specific pkg
+#+BEGIN_SRC sh
+slackpkg remove nmap
+#+END_SRC
+
+*** Update
+- update a specific pkg
+#+BEGIN_SRC sh
+slackpkg update nmap
+#+END_SRC
+
+*** Full System Upgrade
+#+BEGIN_SRC sh
+slackpkg update
+slackpkg install-new
+slackpkg upgrade-all
+slackpkg clean-system
+#+END_SRC
+
+** SlackBuilds
+http://slackbuilds.org/
+
+* Start a Graphical Desktop Environment
+- create /etc/X11/xorg.conf
+#+BEGIN_SRC sh
+X -configure
+#+END_SRC
+
+- choosing the windows manager
+#+BEGIN_SRC sh
+xwmconfig
+xstart
+#+END_SRC
+
+- Setting up Graphical Login
+/etc/inittab
+#+BEGIN_EXAMPLE
+id:4:initdefault:
+#+END_EXAMPLE
+runlevel 3(console) is default, and runlevel 5 is console not graphical
+
+
+* Lecture
+* Tutorial
+* Books
+* Links

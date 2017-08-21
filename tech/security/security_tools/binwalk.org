@@ -1,0 +1,34 @@
+#+TAGS: sec
+
+
+* Binwalk                                                               :sec:
+GitHub: [[https://github.com/devttys0/binwalk/wiki/Quick-Start-Guide][github.com/binwalk]]
+* Description
+* Usage
+- Scanning Firmware
+#+BEGIN_SRC sh
+binwalk firmware.bin
+#+END_SRC
+This will scan the bin for many different embedded file types and file systems
+
+- File Extraction
+#+BEGIN_SRC sh
+binwalk -e firmware.bin
+#+END_SRC
+This will extract any files that are found
+
+- Recursively extract files
+#+BEGIN_SRC sh
+binwalk -Me firmware.bin
+#+END_SRC
+
+- Find interesting sections of the binary
+#+BEGIN_SRC sh
+binwalk -E firmware.bin
+#+END_SRC
+this is the entropy scan, useful if no signatures are found
+
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -1,0 +1,11 @@
+#+TAGS: mon
+
+
+* Sensu                                                                 :mon:
+HomePage: [[https://sensuapp.org/][sensuapp.org]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

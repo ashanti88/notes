@@ -1,8 +1,4 @@
-#+TAGS: sound
 
-
-* Advanced Linux Sound Architecture                                   :sound:
-HomePage: [[https://www.alsa-project.org/main/index.php/Main_Page][alsa-project.org]]
 * Description
 * Interfaces
 - Information Interface

@@ -120,6 +120,7 @@ Software
 [[file://home/crito/org/tech/database/mysql.org][MariaDB]]
 
 * 3389  - ms-term-server - MS termial services allow users to access applications and data on a remote box.
+* 5099  - Ansible Accelerated mode
 * 5224  - Plesk-license-update
 Software
 [[file://home/crito/org/tech/linux_concepts/plesk.org][Plesk]]

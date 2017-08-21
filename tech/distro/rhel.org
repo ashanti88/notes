@@ -43,6 +43,11 @@ HOSTNAME=yournew.hostname.com
 #+END_EXAMPLE
 
 ** Package Management
+*** Repos
+- [[https://fedoraproject.org/wiki/EPEL][EPEL(Extra Packages for Enterprise Linux)]]
+- [[https://rpms.remirepo.net/][REMI]]
+- [[http://packages.atrpms.net/][ATrpms]]
+- [[https://webtatic.com/projects/yum-repository/][Webtatic]]
 *** Exclude Specfic Repository
 Get repo list
 #+BEGIN_SRC sh
@@ -84,7 +89,6 @@ q - query the database
 #+BEGIN_SRC sh
 rpm -Vv
 #+END_SRC
-
 
 **** Repo Administration
 Adding a repo

@@ -195,7 +195,6 @@ nmap -sV -p 445 --script smb-brute 192.168.1.101
 #+END_SRC
 While I would not classify brute forcing accounts as a recon function of the assessment process this script can lead to large amount of recon if we do get valid credentials as there are other smb-* scripts that can be leveraged to retrieve all local user accounts (smb-enum-users.nse), groups (smb-enum-groups.nse), processes (smb-enum-processes.nse) and even execute processes remotely with the smb-psexec.nse script.
 
-
 ** Examples:
 *** Locate random web servers
 #+BEGIN_SRC sh

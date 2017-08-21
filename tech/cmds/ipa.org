@@ -1,0 +1,12 @@
+#+TAGS: sec rhel
+
+
+* ipa
+* Description
+This tool is used for the configuration and administration of IdM Service
+* Usage
+- 
+* Lecture
+* Tutorial
+* Books
+* Links

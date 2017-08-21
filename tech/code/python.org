@@ -45,12 +45,17 @@ deactivate
 
 
 * Python3                                                   :code:py3:script:
-* modules
+* Modules
 Docs: [[https://docs.python.org/3/py-modindex.html][Python3/modules]]
 - list all installed modules
 #+BEGIN_SRC sh
 pip freeze
 #+END_SRC
+or
+#+BEGIN_SRC sh
+pip list
+#+END_SRC
+
 ** Builtin
 *** Functions
 - len
@@ -64,13 +69,13 @@ len("Ola")
 #+END_SRC
 
 ** PyPi
-** re
-** requests
-** BeautifulSoup
-** urllib/urllib2
-** selenium
-** ZeroMQ
-** SQLAlchemy
+*** re
+*** requests
+*** BeautifulSoup
+*** urllib/urllib2
+*** selenium
+*** ZeroMQ
+*** SQLAlchemy
 *** CRUD Review(Full Stack Foundation Udacity)
 - what needs to be imported
 #+BEGIN_SRC python
@@ -145,6 +150,25 @@ session.commit()
 spinach = session.query(MenuItem).filter_by(name = 'Spinach Ice Cream').one()
 session.delete(spinach)
 session.commit()
+#+END_SRC
+
+*** lxml
+HomePage: http://lxml.de/1.3/index.html
+Tutorial: http://lxml.de/1.3/tutorial.html
+
+*** sh
+Docs: https://amoffat.github.io/sh/index.html
+This module is a replacement for calling bash cmds.
+- ls
+#+BEGIN_SRC python
+import sh
+sh.ls("-l", "/home/crito")
+#+END_SRC
+
+- ip
+#+BEGIN_SRC python
+import sh
+sh.ip("a")
 #+END_SRC
 
 ** Network
@@ -291,6 +315,25 @@ uWSGI
 Waitress WSGI Server
 Apache - mod_wsgi
 * Concepts
+** Executing bash from python
+Tutorial: http://www.mervine.net/executing-bash-from-python
+Functions:
+- os.system()
+- os.popen()
+- sh
+
+** Reading and Writing Files in Python
+Tutorial: http://www.pythonforbeginners.com/files/reading-and-writing-files-in-python
+Functions: 
+- open()
+file_object = open("filename", "mode")
+
++ Mode
+- ‘r’ – Read mode which is used when the file is only being read 
+- ‘w’ – Write mode which is used to edit and write new information to the file (any existing files with the same name will be erased when this mode is activated)
+- 'a’ – Appending mode, which is used to add new data to the end of the file; that is new information is automatically amended to the end 
+- ‘r+’ – Special read and write mode, which is used to handle both actions when working with a file
+
 ** Virtual Environments
 *** How to Install Python 3 and Set Up a Local Programming Environment on Centos7 :py:centos:
 DigitalOcean: [[https://www.digitalocean.com/community/tutorials/how-to-install-python-3-and-set-up-a-local-programming-environment-on-centos-7][Install Python3 and Set Up a Local Programming Environment on CentOS7]]

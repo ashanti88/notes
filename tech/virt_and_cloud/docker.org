@@ -4,8 +4,21 @@
 * Docker							  :virt:cont:
 HomePage: [[https://www.docker.com/][docker.com]]
 CheatSheet: [[https://github.com/wsargent/docker-cheat-sheet][github.com/docker-cheat-sheet]]
+* Cmds
+- [[file://home/crito/org/tech/virt_and_cloud/kubernetes.org][Kubernetes]]
+** [[https://github.com/Yelp/dockersh][Dockersh]]
+** [[https://github.com/kevana/ui-for-docker][DockerUI]]
+** [[https://github.com/shipyard/shipyard][Shipyard]]
+** [[https://github.com/gliderlabs/logspout][Logspout]]
+** [[https://github.com/jpetazzo/dind][DIND - Docker Inside Docker]] 
+
 * Description
 * Usage
+- clean up non-used network interfaces
+#+BEGIN_SRC sh
+docker network prune
+#+END_SRC
+
 ** Basic Usage
 *** Create a Container
 #+BEGIN_SRC sh
@@ -66,8 +79,199 @@ docker ps $DOCKER_ID
 docker port $DOCKER_ID
 #+END_SRC
 
+** Examples
 * Lecture
 * Tutorials
+*** Containers - Get Started Part 2
+https://docs.docker.com/get-started/part2/
+- app.py
+#+BEGIN_EXAMPLE
+from flask import Flask
+from redis import Redis, RedisError
+import os
+import socket
+
+# Connect to Redis
+redis = Redis(host="redis", db=0, socket_connect_timeout=2, socket_timeout=2)
+
+app = Flask(__name__)
+
+@app.route("/")
+def hello():
+    try:
+        visits = redis.incr("counter")
+    except RedisError:
+        visits = "<i>cannot connect to Redis, counter disabled</i>"
+
+    html = "<h3>Hello {name}!</h3>" \
+           "<b>Hostname:</b> {hostname}<br/>" \
+           "<b>Visits:</b> {visits}"
+    return html.format(name=os.getenv("NAME", "world"), hostname=socket.gethostname(), visits=visits)
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=80)
+#+END_EXAMPLE
+
+- requirements.txt
+#+BEGIN_EXAMPLE
+Flask
+Redis
+#+END_EXAMPLE
+
+- Create image using this directory's Dockerfile
+#+BEGIN_SRC sh
+docker build -t friendlyname .
+#+END_SRC
+
+- Run "friendlyname" mapping port 4000 to 80
+#+BEGIN_SRC sh
+docker run -p 4000:80 friendlyname
+#+END_SRC
+
+- Same thing, but in detached mode
+#+BEGIN_SRC sh
+docker run -d -p 4000:80 friendlyname
+#+END_SRC
+
+- See a list of all running containers
+#+BEGIN_SRC sh
+docker ps
+#+END_SRC
+
+- Gracefully stop the specified container
+#+BEGIN_SRC sh
+docker stop <hash>
+#+END_SRC
+
+- See a list of all containers, even the ones not running
+#+BEGIN_SRC sh
+docker ps -a
+#+END_SRC
+
+- Force shutdown of the specified container
+#+BEGIN_SRC sh
+docker kill <hash>
+#+END_SRC
+
+- Remove the specified container from this machine
+#+BEGIN_SRC sh
+docker rm <hash>
+#+END_SRC
+
+- Remove all containers from this machine
+#+BEGIN_SRC sh
+docker rm $(docker ps -a -q)
+#+END_SRC
+
+- Show all images on this machine
+#+BEGIN_SRC sh
+docker images -a
+#+END_SRC
+
+- Remove the specified image from this machine
+#+BEGIN_SRC sh
+docker rmi <imagename>
+#+END_SRC
+
+- Remove all images from this machine
+#+BEGIN_SRC sh
+docker rmi $(docker images -q)
+#+END_SRC
+
+- Log in this CLI session using your Docker credentials
+#+BEGIN_SRC sh
+docker login
+#+END_SRC
+
+- Tag <image> for upload to registry
+#+BEGIN_SRC sh
+docker tag <image> username/repository:tag
+#+END_SRC
+
+- Upload tagged image to registry
+#+BEGIN_SRC sh
+docker push username/repository:tag
+#+END_SRC
+
+- Run image from a registry
+#+BEGIN_SRC sh
+docker run username/repository:tag
+#+END_SRC
+
+*** Services - Get Started Part 3
+https://docs.docker.com/get-started/part2/
+
+docker-compose.yml
+#+BEGIN_EXAMPLE
+version: "3"
+services:
+  web:
+    # replace username/repo:tag with your name and image details
+    image: username/repository:tag
+    deploy:
+      replicas: 5
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 50M
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "80:80"
+    networks:
+      - webnet
+networks:
+  webnet:
+#+END_EXAMPLE
+
+- Before you can call docker stack, swarm needs to to initiated
+#+BEGIN_SRC sh
+docker swarm init
+#+END_SRC
+
+- Now run the script
+#+BEGIN_SRC sh
+docker stack deploy -c docker-compose.yml getstartedlab
+#+END_SRC
+
+- See a list of 5 containers
+#+BEGIN_SRC sh
+docker stack ps getstartedlab
+#+END_SRC
+You can run curl http://localhost several times in a row, or go to that URL in your browser and hit refresh a few times. Either way, you’ll see the container ID change, demonstrating the load-balancing; with each request, one of the 5 replicas is chosen, in a round-robin fashion, to respond.
+
+- To teardown the stack
+#+BEGIN_SRC sh
+docker stack rm getstartedlab
+docker swarm leave --force
+#+END_SRC
+
+**** Cmds used
+- List all running applications on this Docker host
+#+BEGIN_SRC sh
+docker stack ls
+#+END_SRC
+
+- Run the specified Compose file
+#+BEGIN_SRC sh
+docker stack deploy -c docker-compose.yml getstartedlab
+#+END_SRC
+
+- List the services associated with an app
+#+BEGIN_SRC sh
+docker stack services getstartedlab
+#+END_SRC
+
+- List the running containers associated with an app
+#+BEGIN_SRC sh
+docker stack ps getstartedlab
+#+END_SRC
+
+- Tear down an application
+#+BEGIN_SRC sh
+docker stack rm getstartedlab
+#+END_SRC
+
 * Books
 [[file://home/crito/Documents/SysAdmin/Virt/Docker/Using_Docker.pdf][Using Docker]]
 [[file://home/crito/Documents/SysAdmin/Virt/Docker/Pro_Docker.pdf][Pro Docker]]
