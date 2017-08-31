@@ -1,0 +1,39 @@
+#+TAGS: sec shell tty
+
+
+* TTY Shells                                                  :sec:shell:tty:
+* Python
+- bash shell
+#+BEGIN_SRC sh
+python -c 'import pty;pty.spawn("/bin/bash")'
+#+END_SRC
+
+- inside of python interpreter
+#+BEGIN_EXAMPLE
+os.system('/bin/bash')
+#+END_EXAMPLE
+
+* Perl
+- bash shell
+#+BEGIN_SRC sh
+perl -e 'exec "/bin/bash";'
+#+END_SRC
+
+* Ruby
+- bash shell
+#+BEGIN_SRC sh
+ruby -e 'exec "/bin/bash"'
+#+END_SRC
+
+* Lua
+- bash shell
+#+BEGIN_EXAMPLE
+os.execute('/bin/bash')
+#+END_EXAMPLE
+
+* Vi
+#+BEGIN_EXAMPLE
+:!bash
+#+END_EXAMPLE
+* Links
+[[https://netsec.ws/?p=337][Spawning a TTY Shell]]

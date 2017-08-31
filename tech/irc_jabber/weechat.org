@@ -69,20 +69,31 @@ The username part can be changed with the irc.server\_default.username
 
 ** Useful Commands
 - how long has weechat been running
-#+BEGIN_SRC sh
+#+BEGIN_EXAMPLE
 /uptime 
-#+END_SRC
+#+END_EXAMPLE
 
 - version that is running plus date it was compiled
-#+BEGIN_SRC sh
+#+BEGIN_EXAMPLE
 /version
-#+END_SRC
+#+END_EXAMPLE
 
 - search channel list with regex
-#+BEGIN_SRC sh
+#+BEGIN_EXAMPLE
 /list -re emacs*
-#+END_SRC
-will search for all channels with emacs in their name (don't add quotation marks around search)
+#+END_EXAMPLE
+Will search for all channels with emacs in their name (don't add quotation marks around search)
+
+- switch server
+#+BEGIN_EXAMPLE
+ctrl-x
+#+END_EXAMPLE
+
+- set the key-binding for nicklist up and down
+#+BEGIN_EXAMPLE
+/key bind ctrl-[ /bar scroll nicklist * -100%
+/key bind ctrl-] /bar scroll nicklist * +100%
+#+END_EXAMPLE
 
 * Lecture
 * Tutorial

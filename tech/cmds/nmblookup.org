@@ -1,0 +1,14 @@
+#+TAGS: smb enum
+
+
+* nmblookup                                                        :smb:enum:
+HomePage: [[https://www.samba.org/samba/docs/man/manpages-3/nmblookup.1.html][samba.org/nmblookup]]
+
+* Description
+nmblookup is used to query NetBIOS names and map them to IP addresses in a network using NetBIOS over TCP/IP queries. The options allow the name queries to be directed at a particular IP broadcast area or to a particular machine. All queries are done over UDP.
+* Usage
+
+* Lecture
+* Tutorial
+* Books
+* Links

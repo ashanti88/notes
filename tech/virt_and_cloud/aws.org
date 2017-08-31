@@ -442,6 +442,29 @@ The difference in these types is the costing, light you pay less up front but yo
 
 *** Understanding Elastic IPs and ELB
 
+*** SES, SNS, SQS
+SES - Simple Email Service
+  - AWS service allowing you to send email from hosted applications
+  - Designed for bulk service
+  - Leverages AWS email reputation, volume
+  - Outbound scanning on all email sent
+  - Uses AWS closed-loop system
+  - Accounts limited to 10,000 emails/day, quantity automatically increases
+  - Charged based on quantity of email sent
+    
+SNS - Simple Notification Service
+  - Message transmission for humans and services
+  - Protocols: HTTP/HTTPS, Email, SMS, SQS
+  - SNS Topic created, subscribers added, AWS services report to a topic
+  - As with everythin, pay-as-you-go... first million API requests/month free
+
+SQS - Simple Queue Service
+  - Message Queuing System
+  - Allows you to build applcations without concerns of how communication is stored or handled
+  - Unlimited messages, unlimited queue size
+  - Message payload up to 25KB 
+  - $0.50 / million SQS requests
+
 ** Getting Started with Amazon EC2 Linux Instances - Amazon
 *** Overview
 - Selecting Availability Zone if not set by you is selected by Amazon.

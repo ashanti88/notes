@@ -2,7 +2,7 @@
 
 
 * rkhunter							   :sec:blue:
-* files
+* Files
 /etc/rkhunter.conf
 
 - whitelist known script files
@@ -30,24 +30,20 @@ rkhunter --versioncheck
 rkhunter -C
 #+END_SRC
 
-> rkhunter --propupd
+- sets current values as known-good values
+#+BEGIN_SRC sh
+rkhunter --propupd
+#+END_SRC
 
-sets current values as known-good values
+- This will run one section of tests at a time for you to check then continue. A more thourgh examination of the warnings can be done by viewing the log files in /var/log/rkhunter.log
+#+BEGIN_SRC sh
+rkhunter -c --enable all --disable none
+#+END_SRC
 
-> rkhunter -c --enable all --disable none
-
-this will run one section of tests at a time for you to check then
-continue. A more thourgh examination of the warnings can be done by
-viewing the log files in /var/log/rkhunter.log
-
-> rkhunter -c --enable all --disable none --rwo
-
-this will only output the warnings
-
-*Edit /etc/rkhunter.conf*
-
-
-*Check the Configuration*
+- This will only output the warnings
+#+BEGIN_SRC sh
+rkhunter -c --enable all --disable none --rwo
+#+END_SRC
 
 * Lecture
 * Tutorial

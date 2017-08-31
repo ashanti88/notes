@@ -77,8 +77,9 @@ There are two methods
 1. Query which kernels and OSs are available
 - Arch, Manjaro
 #+BEGIN_SRC sh
-awk -F\' /^menuentry/{print\$2} /boot/grub/grub2.cfg
+awk -F\' /^menuentry/{print\$2} /boot/grub/grub.cfg
 #+END_SRC
+
 - CentOS/RHEL
 #+BEGIN_SRC sh
 awk -F\' /^menuentry/{print\$2} /etc/grub2.cfg

@@ -1,10 +1,33 @@
-#+TAGS: sec_o enum dns
+#+TAGS: sec sec_o enum dns
 
 
-* dnsrecon
+* dnsrecon                                               :sec:sec_o:enum:dns:
+GitHub: [[https://github.com/darkoperator/dnsrecon][github.com/dnsrecon]]
+
 * Description
 * Usage
+- Basic
+#+BEGIN_SRC sh
+dnsrecon -d example.com
+#+END_SRC
+
+- reverse lookup
+#+BEGIN_SRC sh
+dnsrecon -r 104.155.151.202-104.155.151.210
+#+END_SRC
+
+- Zonewalk
+#+BEGIN_SRC sh
+dnsrecon -d example.com -t zonewalk
+#+END_SRC
+
+- csv
+#+BEGIN_SRC sh
+dnsrecon -d example.com -c filename.txt
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books
 * Links
+[[https://pentestlab.blog/2012/11/13/dns-reconnaissance-dnsrecon/][DNS Reconnaissance - DNSRecon]]

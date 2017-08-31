@@ -4,6 +4,14 @@
 * smtp-user-enum					    :sec_o:enum:mail:
 * Description
 * Usage
+- Basic scan
+#+BEGIN_SRC sh
+smtp-user-enum -M VRFY -U user.txt -t 172.16.179.220
+#+END_SRC
+-U - this is a file with names to check (each line is considered a user)
+-M - this is the mode to use to check for the account VRFY, EXPN and RCPT (default: VRFY)
+-t - target
+
 * Lecture
 * Tutorial
 * Books

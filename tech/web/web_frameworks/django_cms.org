@@ -9,3 +9,4 @@
 * Books
 [[file://home/crito/Documents/Python/Django/Beginning_Django_CMS.pdf][Beginning Django CMS]]
 * Links
+[[https://tutorial.djangogirls.org/en/installation/][Django Girls Tutorial]]

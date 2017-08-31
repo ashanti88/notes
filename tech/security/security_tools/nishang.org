@@ -1,7 +1,7 @@
-#+TAGS:
+#+TAGS: sec win ps shell
 
 
-* nishang
+* nishang                                                  :sec:win:ps:shell:
 Home Page: [[https://github.com/samratashok/nishang/wiki][nishang]]
 * Description
 Nishang is a framework and collection of scripts and payloads which enables usage of PowerShell for offensive security usage and during Penetraion Tests. Nishang is useful during various phases of a penetration test and is most powerful for post exploitation usage.
@@ -21,5 +21,6 @@ Nishang is a framework and collection of scripts and payloads which enables usag
 * Lecture
 * Tutorial
 * Links
+[[http://resources.infosecinstitute.com/nishang-a-post-exploitation-framework/#gref][Nishang: A Post-Exploitation framework]]
 
 

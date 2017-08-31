@@ -1,0 +1,11 @@
+#+TAGS: devops mgmt sec compliance
+
+
+* OpenSCAP                                       :devops:mgmt:sec:compliance:
+HomePage: [[https://www.open-scap.org/][open-scap.org]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

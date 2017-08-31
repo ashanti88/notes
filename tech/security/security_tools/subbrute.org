@@ -2,6 +2,8 @@
 
 
 * SubBrute							 :recon:enum:
+GitHub: [[https://github.com/TheRook/subbrute][github.com/subbrute]]
+
 * Description
 Subdomain enumeration tool
 * Usage

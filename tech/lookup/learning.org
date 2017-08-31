@@ -11,8 +11,17 @@
 *** TODO Debian
 *** TODO Understand Enterprise Arch
     
-*** TODO Vim for Advanced Users - tutsplus
+*** DONE Vim for Advanced Users - tutsplus
+    - State "DONE"       from "TODO"       [2017-08-22 Tue 12:45]
+    - State "TODO"       from "DONE"       [2017-08-22 Tue 12:45]
+    - State "DONE"       from "TODO"       [2017-08-22 Tue 12:44]
     - State "TODO"       from ""           [2017-01-11 Wed 12:10]
+*** DONE Red Hat System Administrator
+    - State "DONE"       from "TODO"       [2017-08-22 Tue 12:45]
+    - State "TODO"       from              [2017-08-22 Tue 12:45]
+*** WORKING Red Hat System Engineer 
+    - State "WORKING"    from "TODO"       [2017-08-22 Tue 12:46]
+    - State "TODO"       from              [2017-08-22 Tue 12:45]
 ** Security
 *** WORKING Offensive Computer Security 2014
     - State "WORKING"    from ""           [2017-04-16 Sun 05:03]
@@ -40,7 +49,6 @@
 *** TODO Mobile Platforms
 *** TODO Network PT with python
 *** TODO Risk Identification
-*** TODO Bitcoin
 *** DONE System Hacking
     - State "DONE"       from "TODO"       [2017-01-11 Wed 11:21]
 
@@ -69,7 +77,8 @@
     - State "TODO"       from ""           [2017-01-11 Wed 18:13]
 *** TODO MPLS Fundimentals - CBT Nuggets
     - State "TODO"       from ""           [2017-01-11 Wed 18:14]
-*** TODO Juniper JNCIA Junos - CBT Nuggets
+*** WORKING Juniper JNCIA Junos - CBT Nuggets
+    - State "WORKING"    from "TODO"       [2017-08-22 Tue 12:48]
     - State "TODO"       from ""           [2017-01-11 Wed 18:14]
 *** TODO GNS - CBT Nuggets
     - State "TODO"       from ""           [2017-01-11 Wed 18:15]
@@ -110,7 +119,8 @@
     - State "DONE"       from "TODO"       [2017-06-01 Thu 17:24]
 *** TODO C
 *** TODO Clean Code
-*** TODO Linux System Programming
+*** WORKING Linux System Programming
+    - State "WORKING"    from "TODO"       [2017-08-22 Tue 12:58]
 *** DONE Introduction to HTML for designers - Pluralsight
 *** DONE Introduction to CSS for designers - Pluralsight
     - State "DONE"       from ""           [2017-01-21 Sat 23:23]

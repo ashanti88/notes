@@ -4,8 +4,15 @@
 * telnet							    :sys:net:
 * Description
 * Usage
-- sending mail with telnet
+** Sending mail with telnet
 [[file://home/crito/Pictures/org/telnet_mail.png]]
+
+** SMTP User Enumeration
+- checking for smtp accounts
+[[file://home/crito/Pictures/org/smtp_enum1.jpeg]]
+
+- checking for users with rcpt
+[[file://home/crito/Pictures/org/smtp_enum2.jpeg]]
 
 * Lecture
 * Tutorial

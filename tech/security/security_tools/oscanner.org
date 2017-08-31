@@ -1,0 +1,12 @@
+#+TAGS: sec oracle enum db 
+
+
+* OScanner                                               :sec:oracle:enum:db:
+HomePage: [[http://www.cqure.net/wp/tools/database/oscanner/][cqure.net/oscanner]]
+* Description
+Oscanner is an Oracle assessment framework developed in Java. It has a plugin-based architecture
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

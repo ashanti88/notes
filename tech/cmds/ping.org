@@ -4,53 +4,71 @@
 * ping								   :net:anal:
 * Description
 * Usage
-
 ** Increase and Decrease time interval between packets
 > ping -i <seconds> <ipaddress>
 The default ping is 1 second before sending the next packet.
-
-** Increase the interval
-
-** Decrease the interval
-
->ping -i <seconds> <ipaddress>
-
--  Only root can specify a time less than 0.2 seconds
+*** Increase the interval
+#+BEGIN_SRC sh
+ping -i 3 192.168.0.10
+#+END_SRC
+*** Decrease the interval
+#+BEGIN_SRC sh
+ping -i 0.5 192.168.0.10
+#+END_SRC
+Only root can specify a time less than 0.2 seconds
 
 ** Check the localhost connectivity
-> ping 0
+#+BEGIN_SRC sh
+ping 0
+#+END_SRC
 or
-> ping localhost
+#+BEGIN_SRC sh
+ping localhost
+#+END_SRC
 or
-> ping 127.0.0.1
+#+BEGIN_SRC sh
+ping 127.0.0.1
+#+END_SRC
 
 ** Send n packets and stop
-> ping -c <packets> <ipaddress>
+#+BEGIN_SRC sh
+ping -c 100 192.168.0.10
+#+END_SRC
 CTRL+C is used to stop the exit.
 
 ** Flood the network
-> ping -f <ipaddress>
+#+BEGIN_SRC sh
+ping -f 192.168.0.1
+#+END_SRC
 This can send hundreds of packets a second and can only be used by root.
 
 ** Find a domains ip address
-> ping -c 1 <domain.com>
+#+BEGIN_SRC sh
+> ping -c 1 domain.com
+#+END_SRC
 This sends only one packet and shows the domains ip address.
 
 ** Print only the summary output
-> ping -c <packets> -q <ipaddress>
+#+BEGIN_SRC sh
+ping -c 100 -q 192.168.0.10
+#+END_SRC
 
 ** Change the packet size
-> ping -s <bytes> <ipaddress>
-By defaut the packet size is between 56-100. The overall size of the
-packet will be the bytes specified and the header.
+#+BEGIN_SRC sh
+> ping -s 512 192.168.0.10
+#+END_SRC
+By defaut the packet size is between 56-100. The overall size of the packet will be the bytes specified and the header.
 
 ** Specify the timeout
-> ping -w <seconds> <ipaddress>
-If both -c and -w are used which ever comes first terminates the
-application.
+#+BEGIN_SRC sh
+ping -w 60 192.168.0.10
+#+END_SRC
+If both -c and -w are used which ever comes first terminates the application.
 
 ** Check route of ping request
-> ping -R <ipaddress>
+#+BEGIN_SRC sh
+ping -R 192.168.0.10
+#+END_SRC
 This shows the route of the ping.
 
 * Lecture

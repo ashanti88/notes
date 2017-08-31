@@ -32,7 +32,7 @@ HomePage: [[https://nmap.org/][nmap.org]]
 -p[1024-] - when bracketed only ports that are in the nmap-services file will be scanned.
 -A - equivalent to -sV -sC -O --traceroute
 -O - os detection
--T<num> - timing mode -  lower the number slower the scan. T4 equivalent to -T aggressive
+-T<num> - timing mode - lower the number slower the scan. T4 equivalent to -T aggressive
 -oA <file> - outputs to all formats
 -PN - no ping
 -n - no name resolution
@@ -50,7 +50,7 @@ HomePage: [[https://nmap.org/][nmap.org]]
 -PE - this ping scan uses icmp echo request packets to determine an up host.
 -PP - this ping scan uses icmp timestamp request to determine an up host.
 -PM - this ping scan uses icmp adderess mask query to determine an up host.
--PO<protocol\_list> - this scan sends ip packets with the specified number set in the header. Default is for ICMP(protocol 1), IGMP(protocol 2), and IP-in-IP(protocol 4). TCP is protocol 6 and UDP is protocol 17.
+-PO <protocol\list> - this scan sends ip packets with the specified number set in the header. Default is for ICMP(protocol 1), IGMP(protocol 2), and IP-in-IP(protocol 4). TCP is protocol 6 and UDP is protocol 17.
 -PR - ARP Sscan - works in LAN, advantage over IP filtered fw.
 --spoof-mac - this allows the host mac address to be spoofed.
 -v - verbose - the more v's the more verbose
@@ -63,7 +63,7 @@ HomePage: [[https://nmap.org/][nmap.org]]
 --reason - this provieds which discovery method the target responded to.
 --packet-trace - this provides information on every packet sent.
 -D - decoy
--S<source\_ip\_address>, -e<sending\_device\_name>
+-S <source_ip_address>, -e <sending_device_name>
 -F - this is the fast option. Instead of scanning 1000 ports as per default only the top 100 will be scanned.
 --append-output - this will append output to previous file in -oN, -oX or -oG.
 
@@ -151,31 +151,31 @@ nnmap --scan-delay 5s -g 53 -iL 443.txt -Pn -n -sS --open -p443 --script=banner,
 nmap --traceroute 10.0.0.0/24
 #+END_SRC
 ** Scripts
-- DNS Brute Force
+*** DNS Brute Force
 #+BEGIN_SRC sh
 nmap -p 80 --script dns-brute.nse vulnweb.com
 #+END_SRC
 Detecting sub-domains associated with an organizations domain can reveal new targets when performing a security assessment. The discovered hosts may be virtual web hosts on a single web server or may be distinct hosts on IP addresses spread across the world in different data centres.
 
-- Find hosts on IP
+*** Find hosts on IP
 #+BEGIN_SRC sh
 nmap -p 80 --script hostmap-bfk.nse vulnweb.com
 #+END_SRC
 Another tactic for expanding an attack surface is to find virtual hosts on an IP address that you are attempting to compromise (or assess). This can be done by using the hostmap-* scripts in the NSE collection. The hostmap-bfk.nse seems to work reasonably well providing a good starting point for your recon (IP to Host services do vary in accuracy).
 
-- Traceroute Geolocation
+*** Traceroute Geolocation
 #+BEGIN_SRC sh
 sudo nmap --traceroute --script traceroute-geolocation.nse -p 80 vulnweb.com
 #+END_SRC
 Perform a traceroute to your target IP address and have geolocation data plotted for each hop along the way. Makes correlating the reverse dns names of routers in your path with locations much easier.
 
-- HTTP Enumeration
+*** HTTP Enumeration
 #+BEGIN_SRC sh
 nmap --script http-enum 192.168.10.55
 #+END_SRC
 One of the more aggressive tests, this script effectively brute forces a web server path in order to discover web applications in use. Attempts will be made to find valid paths on the web server that match a list of known paths for common web applications. The standard test includes testing of over 2000 paths, meaning that the web server log will have over 2000 entries that are HTTP 404 not found, not a stealthy testing option! This is very similar to the famous Nikto web server testing tool (that performs 6000+ tests).
 
-- HTTP Title
+*** HTTP Title
 #+BEGIN_SRC sh
 nmap --script http-title -sV -p 80 192.168.1.0/24
 #+END_SRC
@@ -183,17 +183,22 @@ t is not a difficult thing to find the Title of the web page from a web server, 
 
 Having the title of the page included in the Nmap scan results can provide context to a host, that may identify the primary purpose of the web server and whether that server is a potential attack target.
 
-- smb-os-discovery
+*** smb-os-discovery
 #+BEGIN_SRC sh
 nmap -p 445 --script smb-os-discovery 192.168.1.0/24
 #+END_SRC
 Determine operating system, computer name, netbios name and domain with the smb-os-discovery.nse script. An example use case could be to use this script to find all the Windows XP hosts on a large network, so they can be unplugged and thrown out (Windows XP is no longer supported by Microsoft). The key advantage to using Nmap for something like this rather than a Microsoft native tool is that it will find all systems connected to the network not just those attached to a domain.
 
-- smb-brute
+*** smb-brute
 #+BEGIN_SRC sh
 nmap -sV -p 445 --script smb-brute 192.168.1.101 
 #+END_SRC
 While I would not classify brute forcing accounts as a recon function of the assessment process this script can lead to large amount of recon if we do get valid credentials as there are other smb-* scripts that can be leveraged to retrieve all local user accounts (smb-enum-users.nse), groups (smb-enum-groups.nse), processes (smb-enum-processes.nse) and even execute processes remotely with the smb-psexec.nse script.
+
+*** SMTP User Enumeration
+#+BEGIN_SRC sh
+nmap --script smtp-enum-users.nse 172.162.220.15
+#+END_SRC
 
 ** Examples:
 *** Locate random web servers
@@ -214,14 +219,26 @@ Obtain the list of assigned DHCP IP addresses and feed them directly to
 nmap for scanning a hyphen is passed to -iL to read from std input.
 
 *** Ping Network
+#+BEGIN_SRC sh
+nmap -T5 -sP x.x.x.x
+#+END_SRC
+T5 - Timing template 5 Fast 0 Slow
+sP - Ping scan 
 
-> nmap -T5 -sP x.x.x.x
-
-> nmap -PN -T4 --traceroute <address>
+#+BEGIN_SRC sh
+nmap -PN -T4 --traceroute <address>
+#+END_SRC
+PN         - No Ping 
+traceroute - run traceroute on target
 
 *** Reverse-DNS and traceroute scan
-
-> nmap -n -sP -PR --packet-trace --send-eth <addtess>
+#+BEGIN_SRC sh
+nmap -n -sP -PR --packet-trace --send-eth 192.168.0.10
+#+END_SRC
+n            - no name resolution
+PR           - ARP scan 
+packet-trace - this provides information on every packet sent.
+send-eth     - Send using raw ethernet frames or IP packets
 
 *** Arp scan (-sP -PR)
 #+BEGIN_SRC sh
@@ -232,13 +249,13 @@ nmap -n -sL -iR 50000 -oN - | grep 'report' | awk '{print $5;}' > 50Kips
 #+BEGIN_SRC sh
 nmap -sP -PE -PP -PS21,22,23,25,80,113,35439 -PA80,113,443,21004 -T4 --source-port 53 -iL file_of_ips.txt -oA scan_results
 #+END_SRC
-this is an extensive scan that uses a file to provide the ip address and outputs to all 4 types
+This is an extensive scan that uses a file to provide the ip address and outputs to all 4 types
 
 *** Aggressive Scan
 #+BEGIN_SRC sh
 nmap -p0- -v -A -T4 114.34.12.2
 #+END_SRC
-this is an aggressive scan that will scan every port, and enables aggressive tests (-A) such as os detection. Ok if stealth isn't necessary
+This is an aggressive scan that will scan every port, and enables aggressive tests (-A) such as os detection. Ok if stealth isn't necessary
 
 *** Verbosity/Debug
 v       - will increase verbosity
@@ -246,10 +263,10 @@ shift-v - will decrease verbosity
 d       - will increase debug level
 shift-d - will decrease debug level
 *** traceroute/tcpdump
-- to confirm the packet route use the --packet-trace flag
 #+BEGIN_SRC sh
 nmap 192.168.0.1 --packet-trace -Pn -p80 -n
 #+END_SRC
+To confirm the packet route use the --packet-trace flag
 
 * Lecture
 ** [[https://www.youtube.com/watch?v%3DM-Uq7YSfZ4I][Mastering the Nmap Scripting Engine - Fyodor & David Fifield]]

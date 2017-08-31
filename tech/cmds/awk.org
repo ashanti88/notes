@@ -46,10 +46,15 @@ Key features:
 8) each statement in actions should be delimited with a semicolon.
 
 ** Print every line
-> awk '{print;}' <file>
+#+BEGIN_SRC sh
+> awk '{print;}' file.txt
+#+END_SRC
 
 ** Print lines that match a pattern
-> awk '/<pattern>/' <file>
+#+BEGIN_SRC sh
+awk '/pattern/' <file>
+#+END_SRC
+the forward slashes are needed
 
 - cut second column of ps aux
 #+BEGIN_SRC sh
@@ -57,13 +62,13 @@ ps aux | awk '{ print $2 }'
 #+END_SRC
 
 ** Print only specific fields
-> awk '{print $x $y;}' <file>
-
+#+BEGIN_SRC sh
+awk '{print $x $y;}' file.txt
+#+END_SRC
 this will only print field x and filed y. counting with awk starts with
 1 not 0.
 
-+ Initialisation and final action
-
+- Initialisation and final action
 These are specified with the keywords BEGIN and END
 
 syntax:
@@ -74,29 +79,23 @@ BEGIN { Actions }
 
 END { Actons }
 
-+ comments in awk
 
-BEGIN - this action will be performed before awk starts to read the
-file.
-
-END - this action will be performed after awk has finished reading the
-file.
 
 ** Print how many lines are in a file
+#+BEGIN_SRC sh
+awk 'BEGIN { count = 0; } { print; } { count++; } END { print count; }'
+#+END_SRC
 
-> awk 'BEGIN { count = 0; }
-
-{ print; } { count++; }
-
-END { print count; }'
 ** Setting the delimiter
 #+BEGIN_SRC sh
 awk -F":" { print $1; } access.log
 #+END_SRC
+
 ** Print first line instance and keep order
 #+BEGIN_SRC sh
 awk '!seen[$0]++' file.txt
 #+END_SRC
+
 * Lecture
 * Tutorial
 * Books

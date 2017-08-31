@@ -44,7 +44,6 @@ all three can be put on a usb
   - strange data
 + Once lost this data can't be recovered!!
 
-
 * Tutorial
 * Books
 * Links

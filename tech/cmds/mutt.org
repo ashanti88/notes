@@ -43,22 +43,37 @@ Create .mutt/cache/bodies/ .mutt/cache/headers/ .mutt/certificates
 
 .muttrc
 #+BEGIN_EXAMPLE
-set ssl_starttls=yes 
-set ssl_force_tls=yes 
-set imap_user ='my_email@gmail.com' 
-set imap_pass = 'Gmail pass' 
-set from='mitchell.alick@gmail.com' 
-set realname= 'Alick' 
-set folder ='imaps://imap.gmail.com:993' 
-set spoolfile = '+INBOX' 
-set postponed='+[Google Mail]/Drafts' 
-set trash= '+[Google Mail/Trash' 
-set header_cache = "~/.mutt/cache/headers" 
-set message_cachedir ="~/.mutt/cache/bodies" 
-set certificate_file ="~/.mutt/certificates"
-set smtp_url = 'smtps://my_email@gmail.com:587/' 
-set smtp_pass ='Gmail pass' 
-set move = no set imap_keepalive = 900
+set realname = 'Alick'
+set from = 'mitchell.alick@gmail.com'
+set use_from = yes 
+set envelope_from = yes
+
+set smtp_url = 'smtps://mitchell.alick@gmail.com:587/'
+set smtp_pass = 'dl~iKVVSbQ#:V&qaJf8&'
+set imap_user = 'mitchell.alick@gmail.com'
+set imap_pass = 'dl~iKVVSbQ#:V&qaJf8&'
+set folder = 'imaps://imap.gmail.com:993'
+set spoolfile = '+INBOX'
+set ssl_force_tls =yes
+
+
+set ssl_starttls = yes
+set postponed = '+[Google Mail]/Drafts'
+set trash = '+[Google Mail/Trash'
+#set any_label = '+[Google Mail/any_label'
+set header_cache = "~/.muttrc/cache/headers"
+set message_cachedir = "~/.muttrc/cache/bodies"
+set certificate_file = "~/.muttrc/certificates"
+set move = no
+set imap_keepalive = 900
+
+bind index G imap-fetch-mail
+set editor = "vim"
+set charset = "utf-8"
+set record = ''
+
+mailboxes = +INBOX +Linux +Social +Developer +Tech_News +Shopping +Spam +Work
+set mailcap_path = ~/.muttrc/mailcap
 #+END_EXAMPLE
 Gmail now requires that less sercure apps be enabled from your google settings
 

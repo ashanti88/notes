@@ -1,0 +1,18 @@
+#+TAGS: fs disk
+
+
+* dumpe2fs                                                          :fs:disk:
+* Description
+prints  the  super  block  and  blocks group information for the filesystem on a device.
+
+* Usage
+- show all infomation about the super block and blocks goup information
+#+BEGIN_SRC sh
+dumpe2fs /dev/sda1 | less
+#+END_SRC
+There is a lot of information so less allowes us to view it before it runs off the screen
+
+* Lecture
+* Tutorial
+* Books
+* Links

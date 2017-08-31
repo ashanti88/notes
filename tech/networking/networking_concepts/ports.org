@@ -88,6 +88,7 @@ Software
 
 * 1433t - MS-SQL - default port for MSSQL
 * 1434  - MS-SQL-DS - MS SQL Server
+* 1521  - Oracle Database
 * 1723  - pptp - Point-to-Point Tunneling Protocol - often used to implement vpn solutions on windows
 * 1900u - UPNP - MS Service Discovery Protocol, Universal Plug-n-Play
 * 2079t - CalDAV and CardDAV 
@@ -132,6 +133,7 @@ Software
 * 5900  - VNC
 * 6379  - Redis
 * 8080  - HTTP-Proxy - commonly used for http proxies or alternative for normal http server.
+* 8140  - Puppet Master
 * 8443  - Plesk-https
 Software
 [[file://home/crito/org/tech/linux_concepts/plesk.org][Plesk]]

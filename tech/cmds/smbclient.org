@@ -1,7 +1,7 @@
-#+TAGS: sys
+#+TAGS: sys smb enum
 
 
-* smbclient								:sys:
+* smbclient                                                    :sys:smb:enum:
 * Description
 List smb shares in a network
 * Usage

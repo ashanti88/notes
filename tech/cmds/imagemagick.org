@@ -2,6 +2,7 @@
 
 
 * imagemagick							  :php:image:
+HomePage: [[https://www.imagemagick.org/script/index.php][imagemagick.org]]
 * Description
 * Install
 ** REHL
@@ -13,8 +14,14 @@ yum install -y ImageMagick ImageMagick-devel
 #+END_SRC
 Correct the remi repo for the correct version of RHEL
 * Usage
+- resize image
+#+BEGIN_SRC sh
+convert -resize 2048x1152 source.png dest.png
+convert -resize %50 source.png dest.png
+#+END_SRC
 
 * Lecture
 * Tutorial
 * Books
 * Links
+[[http://www.imagemagick.org/Usage/][Examples of using ImageMagick]]

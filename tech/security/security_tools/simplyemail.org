@@ -1,0 +1,20 @@
+#+TAGS: sec sec_o enum mail
+
+
+* SimplyEmail                                           :sec:sec_o:enum:mail:
+GitHub: [[https://github.com/killswitch-GUI/SimplyEmail/tree/50e60639c03cadd3f07b0fb09ebeeb7b2b75bf8b][github.com/SimplyEmail]]
+
+* Description
+This tool was based off the work of theHarvester and kind of a port of the functionality. This was just an expansion of what was used to build theHarvester and will incorporate his work but allow users to easily build Modules for the Framework. Which I felt was desperately needed after building my first module for theHarvester.
+* Usage
+- use all non API methods
+#+BEGIN_SRC sh
+simplyemail -all -e example.com
+#+END_SRC
+
+
+
+* Lecture
+* Tutorial
+* Books
+* Links
