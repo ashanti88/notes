@@ -1,0 +1,30 @@
+#+TAGS:
+
+
+* Web Services
+* Description
+The make up of a web service
+- Service Consumer
+- Service Provider
+- XML (Extensible Markup Language)
+- SOAP (Simple Object Access Protocol)
+- WSDL (Web Service Descriptive Language) - Tells consumer services/fuctions provided
+- UDDI (Universal Description Discovery and Integration) - lists the available services available
+
+* Test the Web Service  
+** Fingerprint
+Use google dorking
+#+BEGIN_EXAMPLE
+www.example.com filetype:wsdl
+#+END_EXAMPLE
+
+** Tools
+- SoapUI
+
+
+* Lecture
+* Tutorial
+* Books
+* Links
+[[http://resources.infosecinstitute.com/web-services-penetration-testing-part-1/#gref][Web Services Penetration Testing Part 1 - Infosec]]
+[[http://resources.infosecinstitute.com/web-services-penetration-testing-part-2-automated-approach-soapui-pro/][Web Services Penetration Testing Part 2 - Infosec]]

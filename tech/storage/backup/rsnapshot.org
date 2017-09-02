@@ -1,0 +1,11 @@
+#+TAGS: stor bakup
+
+
+* rsnapshot                                                      :stor:bakup:
+HomePage: [[http://rsnapshot.org/][rsnapshot.org]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

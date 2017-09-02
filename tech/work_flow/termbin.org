@@ -1,0 +1,16 @@
+#+TAGS: term anal
+
+
+* Pastebins
+** Linux.Community Paste Bin
+HomePage: https://paste.linux.community/
+
+** Termbin.com                                                    :term:anal:
+HomePage: http://termbin.com/
+*** Usage
+- show the output of the install of tmux
+#+BEGIN_SRC sh
+apt-get install tmux 2>&1 | netcat termbin.com 9999
+#+END_SRC
+this will produce a url to view this output
+

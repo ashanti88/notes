@@ -31,6 +31,29 @@ An easy to use webapp pentest tool.
 - As a debugger
 - As part of a larger security program
  
+** [[https://www.youtube.com/watch?v=3oOWtX7zu5k][Security Scanning using OWASP ZAP in a CI pipeline - Simon Bennetts]]
+- Where to Start (Docker) - A single App
+  - The Baseline scan
+    - Completely safe
+    - Runs in 1-2 minutes
+    - Can be easily integrated into CI/CD
+    - Easy to get started
+      #+BEGIN_SRC sh
+      docker pull owasp/zap2docker-weekly
+      docker run -t owasp/zap2docker-weekly zap-baseline.py -t https://example.com
+      #+END_SRC
+      
+- Where next - Multiple Apps
+  - Mass Baseline scan
+    - Part of the community-scripts repo: zaproxy/community-scripts/api/mass-baseline
+      
+- New Jenkins Plugin
+  
+- python api
+  - install through pip
+  
+** [[https://www.youtube.com/watch?feature=player_embedded&v=ZWSLFHpg1So][Security Testing in Development and QA]]
+   
 * Tutorial
 * Books
 [[file://home/crito/Documents/Security/Tools/ZAP_Getting_Started.pdf][ZAP - Getting Started Guide]]

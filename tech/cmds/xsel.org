@@ -1,0 +1,14 @@
+#+TAGS: term
+
+
+* xsel                                                                 :term:
+* Description
+This cmd allows use to copy from the terminal to the clipboard
+
+* Usage
+copy std out to the clipboard
+#+BEGIN_SRC sh
+echo "text to copy" | xsel -b
+#+END_SRC
+
+* Links

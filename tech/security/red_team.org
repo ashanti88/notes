@@ -23,16 +23,21 @@ https://github.com/appliedsec/pygeoip/wiki
 *** Web Tools
 - haveibeenpwned.com
 
-** Enumeration
-*** Vulnerabiliy Scanners
-- [[file://home/crito/org/tech/security/security_tools/openvas.org][OpenVAS]]
+** [[file://home/crito/org/tech/security/security_concepts/enumeration.org][Enumeration]]
+** Service/Device Analysis
+- Web
+- Database
+- Mail
+- Firewall
+- WAF
+Run an analysis on all services/devices of intrest
 
 ** Exploitation
-** Passwords
-*** Cmds
+*** Passwords
+**** Cmds
 - [[file://home/crito/org/tech/security/security_tools/hashcat.org][hashcat]]
 - [[file://home/crito/org/tech/security/security_tools/john_the_ripper.org][John the Ripper]]
-*** Links
+**** Links
 [[http://www.adeptus-mechanicus.com/codex/jtrhcmkv/jtrhcmkv.php][John the Ripper and Hashcat - Markov Mode Comparison]]
 ** Priv Escalation
 *** [[https://www.youtube.com/watch?v%3Ddk2wsyFiosg&t%3D37s][Linux Privilege Escalation - Jake Williams]]
@@ -567,6 +572,43 @@ Searching in files
   - IPv6 Dropper
 
 https://github.com/mubix/Not-In-Pentesting-Class
+
+** [[https://www.youtube.com/watch?v=PYwqyVlH8lQ][Security Testing Fundamentals - Ken van Wyk]]
+
+- ccc paper on format strings vuln in C
+
+- Testing Methods
+  - Fuzzing
+    - hit software with random/garbage data
+    - look for unanticipated failure states
+    - observe and record
+    - MS estimate 20-25% of bugs found this way
+  
+    - Smart Fuzzing
+      - check releveant rfc for required fields
+        - what happens if missing, or more are added
+    - Tools
+      - OWASP's JBroFuzz
+      - PEACH
+      - SPI Fuzzer
+	
+  - Pen Testing
+    
+  - Dynamic Validation
+    - Time to verify all those security requirements and functional specs
+      
+  - Risk-basd Testing
+    - Start with abuse eases, weakness scenarios
+    - Describe and script them
+    - Try them one step at a time
+      
+  - Threat modeling
+    - Who would attack us?
+    - What are their goals?
+    - What resources do they have?
+    - How will they apply technology?
+    - How much time do they have?
+
 
 * Tutorial
 ** PluralSight - System Hacking - Dale Meredith

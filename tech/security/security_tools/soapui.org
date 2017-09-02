@@ -1,0 +1,15 @@
+#+TAGS: sec web
+
+
+* SoapUI                                                            :sec:web:
+HomePage: [[https://www.soapui.org/][soapui.org]]
+GitHub: [[https://github.com/SmartBear/soapui][github.com/soapui]]
+
+* Description
+* Usage
+* Lecture
+* Tutorial
+** [[https://www.youtube.com/watch?v=-5s7sORyzwo][APIs - Testing the magic behind the scenes]]
+
+* Books
+* Links

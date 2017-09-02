@@ -105,6 +105,12 @@ The above error was throw as ssh didn't know about the github ssh-key
 > ssh-add github-key
 > ssh-add -l - this will show the added key in the list
 
+** Reset
+- if you have made a change to a branch and would like to go back to the original state
+#+BEGIN_SRC sh
+git reset --hard
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

@@ -1,0 +1,17 @@
+#+TAGS:
+
+
+* Termbin.com
+HomePage: http://termbin.com/
+* Description
+* Usage
+- show the output of the install of tmux
+#+BEGIN_SRC sh
+apt-get install tmux 2>&1 | netcat termbin.com 9999
+#+END_SRC
+this will produce a url to view this output
+
+* Lecture
+* Tutorial
+* Books
+* Links

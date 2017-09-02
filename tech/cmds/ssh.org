@@ -2,6 +2,11 @@
 
 
 * ssh 									:ssh:
+* Files
+/etc/ssh/ssh_config 		- the config file for the ssh client
+/etc/ssh/sshd_config 		- the config file for the ssh daemon
+/home/user/.ssh/authorized_keys - this holds remote hosts public keys 
+/home/user/.ssh/config  	- this is a way to save host configs
 * Description
 * Usage
 ** ssh Key Generation
@@ -83,6 +88,13 @@ ssh-add -d .ssh/id_rsa
 ssh-keygen -y -f .ssh/private_key > .ssh/private_key.public
 #+END_SRC
 
+** Enable key only auth
+- this will allow only key auth, no password auth
+#+BEGIN_EXAMPLE
+PasswordAuthentication no
+#+END_EXAMPLE
+this is the only variable that needs to be changed
+
 ** Secure Configuration
 *** Network Options
 Port 5000 - not usign the default port(22) can avoid common runs agains this port. Sometimes this is not a good idea due to certain application expecting the standard port, this should be considered.
@@ -102,7 +114,6 @@ ClientAliveInterval 60 - secure alternative to TCPKeepalive.
 ClientAliveCountMax 3 - The number of attempts that the sshd will illicit a response from the ssh client before disconnecting. Unresponsive ssh client will be disconnected after 3 minutes.
 
 *** Key Configuration
-
 HostKey /etc/ssh/ssh_host_rsa_key - these are the default host key locations
 HostKey /etc/ssh/ssh_host_dsa_key
 
@@ -110,7 +121,8 @@ UsePrivilegeSeparation yes - this option splits up server processors in an attem
 
 PubkeyAuthentication yes - Use public key authentication for access. Using this option in conjunction with PasswordAuthentication no, means only uses with correct key can access the server.
 
-AuthorizedKeysFile %h/.ssh/authorized_keys - this is the location that remote hosts public keys are added who will have access.
+AuthorizedKeysFile %h/.ssh/authorized_keys - this is the location that remote hosts public keys are kept who will have access.
+
 *** Authentication
 
 AllowUsers user_one user_two - White list the users that can login to the server, this is a space seperated list.
@@ -149,8 +161,6 @@ PrintLastLog yes - When user logs in print the last login time. Good option for 
 MaxAuthTries 2 - This is the number of attemps that can be tried per connection. Failures are logged after half the number is reached.
 
 Banner /etc/issue.net - this is the banner that greets a user at login
-
-
 
 *** configuration
 #+BEGIN_EXAMPLE
@@ -265,6 +275,7 @@ Subsystem sftp /usr/lib/openssh/sftp-server
 
 #### Misc ####
 #+END_EXAMPLE
+
 * Lecture
 * Tutorial
 * Books

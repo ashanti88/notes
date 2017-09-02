@@ -1,10 +1,11 @@
-#+TAGS:
+#+TAGS: sec red
 
 
-* Enumeration
+* Enumeration                                                       :sec:red:
 * Tools
-- [[file://home/crito/org/tech/security/security_tools/nmap.org][Nmap]] - port/service enumeration
-- [[file://home/crito/org/tech/security/security_tools/nikto.org][Nikto]]
+** Vulnerabiliy Scanners
+- [[file://home/crito/org/tech/security/security_tools/openvas.org][OpenVAS]]
+
 ** DNS
 - [[file://home/crito/org/tech/cmds/whois.org][Whois]] - client to access the whois directory
 - [[file://home/crito/org/tech/cmds/dig.org][Dig]] - A, MX record lookup
@@ -33,18 +34,25 @@ Not just subdomain but it gives you information about DNS server, MX record, TXT
 *** [[file://home/crito/org/tech/security/security_tools/knock.org][Knock]]
 *** [[file://home/crito/org/tech/security/security_tools/dnsrecon.org][DNSRecon]]
 
+** Services
+- [[file://home/crito/org/tech/security/security_tools/nmap.org][Nmap]] - port/service enumeration
+*** Web
+- [[file://home/crito/org/tech/security/security_tools/nikto.org][Nikto]]
+- [[file://home/crito/org/tech/security/security_tools/soapui.org][SoapUI]]
+- [[file://home/crito/org/tech/security/security_tools/burp_suite.org][Burp Suite]]
+- [[file://home/crito/org/tech/security/security_tools/zaproxy.org][ZAProxy]]
 
-** SMTP
+*** SMTP
 - [[file://home/crito/org/tech/security/security_tools/theharvester.org][theHarvester]] - email enumeration
 - [[file://home/crito/org/tech/security/security_tools/simplyemail.org][SimplyEmail]]
 - [[file://home/crito/org/tech/cmds/telnet.org][telnet]]
 - [[file://home/crito/org/tech/security/security_tools/metasploit.org][Metasploit]] - smtp_enum 
 
-** SMB
+*** SMB
 - [[file://home/crito/org/tech/cmds/nmblookup.org][nmblookup]]
 - [[file://home/crito/org/tech/cmds/smbclient.org][smbclient]]
 
-** Database
+*** Database
 
 * Lecture
 * Tutorial

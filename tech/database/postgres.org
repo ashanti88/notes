@@ -3,13 +3,25 @@
 
 * PostreSQL					     :DB:postgresql:postgres:
 HomePage: [[https://www.postgresql.org/][postgresql.org]]
+* Cmds
+- psql
+- createuser
+- createdb
+
 * Description
 * Usage
 ** Basic Admin
-*** Changing a users password
+*** Logging into psql
 #+BEGIN_SRC sh
-\password frank
+psql -d postgres -U root
 #+END_SRC
+this will log root into postgres working on the postgrs database
+
+*** Changing a users password
+- from within psql
+#+BEGIN_EXAMPLE
+\password frank
+#+END_EXAMPLE
 
 ** Configuration for Centos7
 *** Installation
@@ -45,10 +57,10 @@ psql
 #+END_SRC
 
 6. Quit postgres
-#+BEGIN_SRC sh
+#+BEGIN_EXAMPLE
 \q
+#+END_EXAMPLE
 
-#+END_SRC
 *** Create a user
 1. To create the first role/user you will need to be postgres user
 #+BEGIN_SRC sh
@@ -65,9 +77,10 @@ createuser --interactive
 #+BEGIN_SRC sh
 createdb test_one
 #+END_SRC
+
 *** Create a table
 In this example we will create a small table playground from inside psql
-#+BEGIN_SRC sh
+#+BEGIN_EXAMPLE
 CREATE TABLE playground (
     equip_id serial PRIMARY KEY,
     type varchar (50) NOT NULL,
@@ -75,14 +88,15 @@ CREATE TABLE playground (
     location varchar(25) check (location in ('north', 'south', 'west', 'east', 'northeast', 'southeast', 'southwest', 'northwest')),
     install_date date
 );
-#+END_SRC
+#+END_EXAMPLE
+
 *** Inset into table
-#+BEGIN_SRC sh
+#+BEGIN_EXAMPLE
 INSERT INTO playground (type, color, location, install_date) VALUES ('slide', 'blue', 'south', '2014-04-28');
-#+END_SRC
+#+END_EXAMPLE
+
 * Lecture
-** Just Use Postgres - Rhys Elsmore
-[[https://www.youtube.com/watch?v%3DUgcC_bY4rPg][URL]]
+** [[https://www.youtube.com/watch?v=UgcC_bY4rPg][Just Use Postgres - Rhys Elsmore]]
 
 - more services provide more attack surface.
 - code level db locking - redis 
@@ -96,6 +110,7 @@ INSERT INTO playground (type, color, location, install_date) VALUES ('slide', 'b
   - able to remove MongoDB
 - Avoid Race Conditions
   - Access - row locking
+
 * Tutorial
 ** [[https://www.postgresql.org/docs/9.4/static/tutorial.html][PostgreSQL Tutorial]]
 ** LinuxCBT - PostgreSQL
@@ -528,6 +543,7 @@ Check Constraint - confirms colum values based on Boolean criteria: - CHECK (exp
  - 'CREATE TABLE messages (date date NOT NULL, id numeric CONSTRAINT positive_id CHECK ( id > 0 ));'
 - create check constraint which summarizes all rules for all columns
  - 'CREATE TABLE messages (date date, id numeric CHECK ( date IS NOT NULL AND id > 0 AND id IS NOT NULL ));'
+
 * Books
 [[file://home/crito/Documents/Database/Postgres/Learning_PostgreSQL.pdf][Learning PostgreSQL - O'Reilly]]
 [[file://home/crito/Documents/Database/Postgres/PostgreSQL_Up_and_Running_2e.pdf][PostgreSQL Up and Running 2e]]
