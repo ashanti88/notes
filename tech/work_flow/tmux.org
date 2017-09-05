@@ -46,6 +46,13 @@ Enter
 echo "the tmux selection" | xsel -b
 #+END_SRC
 
+** tmux-yank
+this plugin provides a more straight forward way to copy to clipboard than using xsel
+#+BEGIN_EXAMPLE
+Prefix + [
+Space
+y
+#+END_EXAMPLE
 
 * Plugins
 tmux-continuum

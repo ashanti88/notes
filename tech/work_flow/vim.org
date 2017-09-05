@@ -1,6 +1,6 @@
 #+TAGS: code txt
 
-* vim
+* vim                                                              :code:txt:
 * Description
 * Usage
 auto commands are normally added to vimrc
@@ -14,34 +14,35 @@ syntax on filetype indent on set smartindent
 autocmd BufRead,BufWritePre *.html normal gg=Gauto commands are normally
 added to vimrc
 
-syntax for adding auto commands 
+syntax for adding auto commands
 
 autocmd event pattern command
 
-Example 
+Example
 
 html makesure formatting is correct
 
-syntax on 
+syntax on
 
-filetype indent on 
+filetype indent on
 
 set smartindent
 
 autocmd BufRead,BufWritePre *.html normal gg=G
 
-How to know which event to use 
+How to know which event to use
 
-:help autocmd-events 
+:help autocmd-events
 
 provides information and a list of the types of events
 
-Resoucing vimrc :source ~/.vimrc 
+Resoucing vimrc :source ~/.vimrc
 
 How to know which event to use :help autocmd-events provides information
 and a list of the types of events
 
 Resoucing vimrc :source ~/.vimrc
+
 ** Navigation
 h - left
 
@@ -209,6 +210,29 @@ find the value of a boolean with :set <setting>?
 for clarity
 
 finding values of none boolean values :set <setting> but set no value
+
+** Spelling
+- to initiate spell check run the following
+#+BEGIN_EXAMPLE
+:set spell spelllang=en_gb
+#+END_EXAMPLE
+this will use the en_gb dictionary, without the en_gb it will use the default
+
+- run spellcheck on local buffer
+#+BEGIN_EXAMPLE
+:setlocal spell spelllang=en_gb
+#+END_EXAMPLE
+
+- to disable spellcheck
+#+BEGIN_EXAMPLE
+:set nospell
+#+END_EXAMPLE
+
+- get selection for incorrect spelling
+#+BEGIN_EXAMPLE
+z + =
+#+END_EXAMPLE
+this will output a numbered list too choose from
 
 ** Recomended Settings
 :set relativenumber is handy for working out offsets :set wrap can be

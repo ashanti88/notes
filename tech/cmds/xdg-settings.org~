@@ -1,0 +1,16 @@
+#+TAGS:
+
+
+* xdg-settings
+* Description
+Get/set various values for the desktop environment
+* Usage
+- setting default browser
+#+BEGIN_SRC sh
+xdg-settings set default-web-browser firefox.desktop
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

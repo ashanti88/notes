@@ -1,10 +1,13 @@
-#+TAGS: virt
+#+TAGS: virt virtualbox vdi
 
 
-* Virtualbox                                                          :virt:
+* Virualbox                                             :virt:virtualbox:vdi:
 HomePage: [[https://www.virtualbox.org/][virtualbox.org]]
 * Cmds
 - [[file://home/crito/org/tech/virt_and_cloud/vagrant.org][vagrant]]
+- [[file://home/crito/org/tech/cmds/VBoxHeadless.org][VBoxHeadless]]
+- [[file://home/crito/org/tech/cmds/VBoxManage.org][VBoxManage]]
+
 * Usage
 ** mounting a share
 #+BEGIN_SRC sh
@@ -23,6 +26,30 @@ This will then show an over view of the box that will be created
 VBoxManage startvm centos_box --type headless
 #+END_SRC
 this allows for the machine to be run in he background and ssh into
+** Connect to a remote virtual machine
+- this can be done over vrdp
+#+BEGIN_SRC sh
+VBoxManage modifyvm "VM_name" --vrde on
+#+END_SRC
+This sets the vm to use vrdp
+
+- to connect to the vm
+#+BEGIN_SRC sh
+rdesktop-vrdp -a 16 192.168.0.4:3389
+#+END_SRC
+The ip is the host machine (not any ip attached to the vm), and 3389 is the default
+
+- if running more than one instance you can set a range of ports 
+#+BEGIN_SRC sh
+VBoxManage modifyvm "VM_name" --vrdeport 5000,5010-5020
+#+END_SRC
+This will allow the ports 5000, and 5010 through 5020
+
+- to see the vrdp port a vm is using 
+#+BEGIN_SRC sh
+VBoxManage showvminfo "VM_name"
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

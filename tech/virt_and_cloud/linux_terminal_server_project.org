@@ -1,0 +1,13 @@
+#+TAGS: vdi
+
+
+* Linux Terminal Server Project                                         :vdi:
+HomePage: [[http://www.ltsp.org/][ltsp.org]]
+Wiki: [[http://wiki.ltsp.org/wiki/][wiki.ltsp.org]]
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links
+http://moo.nac.uci.edu/~hjm/LTSP_HOWTO.html

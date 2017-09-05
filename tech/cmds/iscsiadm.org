@@ -1,0 +1,25 @@
+#+TAGS: stor san iscsi
+
+
+* iscsiadm
+* Description
+* Usage
+- discover targets
+#+BEGIN_SRC sh
+iscsiadm --mode discoverydb --type sendtargets --portal 192.168.4.101 --discover
+#+END_SRC  
+
+- Login into iSCSI SAN
+#+BEGIN_SRC sh
+iscsiadm --mode node --targetname iqn.2017-10.com.example:target1 --portal 192.168.4.101 --login
+#+END_SRC
+
+- delete 
+#+BEGIN_SRC sh
+iscsiadm -m node -T iqn.2017-10.com.example:target1 -o delete
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

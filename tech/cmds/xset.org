@@ -1,0 +1,21 @@
+#+TAGS: term x
+
+
+* xset                                                               :term:x:
+* Description
+This program is used to set various user preference options of the display.
+* Usage
+- turn the motherboard warning beeps off
+#+BEGIN_EXAMPLE
+#! /bin/sh
+
+# this is to turn off the keyboard error beeps
+xset b off
+xset b 0 0 0
+#+END_EXAMPLE
+used this because my lenovo had no bios option to turn the motherboard error beep off
+
+* Lecture
+* Tutorial
+* Books
+* Links
