@@ -1,7 +1,7 @@
 #+TAGS: gui
 
 
-* Windows Managers
+* Windows Managers                                                    :gui:
 ** i3
 ** xmonad
 ** Awesome WM

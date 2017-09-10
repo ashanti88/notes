@@ -5,12 +5,343 @@
 RHEL: [[https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/5/html/Deployment_Guide/ch-sysconfig.html][RHEL 5 /etc/sysconfig]]
 Fedora: [[https://docs.fedoraproject.org/en-US/Fedora/12/html/Deployment_Guide/ch-sysconfig.html#s1-sysconfig-files][Fedora - /etc/sysconfig]]
 * Red Hat Enterprise Linux 
+** Firewall
+file://home/crito/org/tech/linux_concepts/centos7_firewall.org
+
+** SMTP Server on RHEL7
+file://home/crito/org/tech/linux_concepts/rhel7_Setting_Up_an_SMTP_Server.org
+
+** [[file://home/crito/org/tech/linux_concepts/centos7_networking_config.org][CentOS 7 Network Configuration]]				 :centos:net:
+** CentOS 7 Mail Server
+file://home/crito/org/tech/linux_concepts/centos7_mail_server.org
+
 ** Red Hat Identity Management(IdM) Solution
+
+** How to Install Xfce on CentOS7
+url: https://www.rootusers.com/how-to-install-xfce-gui-in-centos-7-linux/
+
+- Ensure that the epel repo is installed
+#+BEGIN_SRC sh
+yum install epel-release -y
+#+END_SRC
+
+- Add the group package "Server with GUI", this will install Gnome
+#+BEGIN_SRC sh
+yum groupinstall "Server with GUI" -y
+#+END_SRC
+
+- Install xfce
+#+BEGIN_SRC sh
+yum groupinstall "xfce" -y
+#+END_SRC
+
+- Remove xfce
+#+BEGIN_SRC sh
+yum groupremove "xfce"
+#+END_SRC
+
+** RHEL7 Logging
+Service - Direct write ---> /so/log/.log
+        - systemctl    ---> journald
+	- rsyslogd     ---> /var/log/...
+	  
+journalctl can be set to write to rsyslog, this way all logs are kept in one logical area
+  - it is also possible to have rsyslog write to journalctl
+    
+- Connection Journald to rsyslog
+  - rsyslog messagees are sent ot jounald and vice versa
+  - Sending to journal in rsyslog.conf (not enabled)
+    #+BEGIN_EXAMPLE
+    $Modload omjournal
+    *.* :omjournal:
+    #+END_EXAMPLE
+  - Receiving from journal in rsyslog.conf (enabled)
+    #+BEGIN_EXAMPLE
+    $ModLoad imuxsock
+    $OmitLocalLogging off
+    #+END_EXAMPLE
+    - in /etc/rsyslog.d/listend.conf
+      #+BEGIN_EXAMPLE
+      $SystemLogSocketName /run/systemd/journal/syslog
+      #+END_EXAMPLE
+
+- Modules
+  - connecting rsyslog to journald goes through modules
+  - Different modules are available
+    - im*: input module
+    - om*: output module
+    - and others such as parser modules, messages modification modules and more
+  - Module - Importing Text Files      
+    #+BEGIN_EXAMPLE
+    $ModLoad imfile
+    $InputFileName /var/log/httpd/error_log
+    $InputFileTag apache-error:
+    $InputRunFileMonitor
+    #+END_EXAMPLE
+  - Module - Exporting to a Database
+    #+BEGIN_EXAMPLE
+    $ModLoad ommysql
+    $ActionOmmysqlServerPort 1234
+    *.* :ommysql:database-srvername,database-name,database-userid,database-password
+    #+END_EXAMPLE
+    
+- Setting up Remote Logging
+/etc/rsyslog.conf
+- two methods
+  - udp - best backwards compatiability
+  - tcp - recommended (if all applications run tcp logging)
+
+- setting remote host
+#+BEGIN_EXAMPLE
+*.* @@server1.example.com:514
+#+END_EXAMPLE
+@@ - tcp
+@  - udp
+
+** RHEL7 Networking
+*** Basic Overview
+- nmcli
+- ip
+- tracepath
+- traceroute
+- netstat
+- ss
+
+- Verifying Current State
+#+BEGIN_SRC 
+ip addr show
+#+END_SRC
+gives address information about all interfaces
+
+#+BEGIN_SRC sh
+ip -s link show enp1s0 
+#+END_SRC
+give packet statistics
+
+don't use ifconfig, has now being depricated and may not show all configured information
+
+- Analyse a path
+#+BEGIN_SRC sh
+tracepath www.redhat.com
+traceroute www.redhat.com
+#+END_SRC
+
+- Analyse ports and services 
+#+BEGIN_SRC sh
+netstat -tunapl
+ss - tunapl
+netstat -tunpel
+#+END_SRC
+
+- NetworkManager monitors and manages network settings
+  - nmcli is used to manage the settings
+  - configuration is saves in the /etc/sysconfig/network-scripts directory
+
+- nmcli concepts  
+  - a device is a network
+  - a connection is a collection of configuration settings
+  - multiple connections can exist for a device, but only one can be active at a time    
+  - to find out which connections exist for which devices
+    #+BEGIN_SRC sh
+    nmcli con show
+    #+END_SRC
+  - get device status
+    #+BEGIN_SRC sh
+    nmcli dev status
+    #+END_SRC
+    
+- Creating Network Connections with nmcli
+  - create a new connection with name "dhcp" that autoconnects on int eno1
+    #+BEGIN_SRC sh
+    nmcli con add con-name "dhcp" type ethernet ifname eno1
+    #+END_SRC
+  - create a new connection with the name "static" that doesn't connect automatically
+    #+BEGIN_SRC sh
+    nmcli con add con-name "static ifname eno1 autoconnect no type ethernet ip4 192.168.122.102 gw4 192.168.122.1
+    #+END_SRC
+  - bring up the static connection
+    #+BEGIN_SRC sh
+    nmcli con up "static" 
+    #+END_SRC
+  - bring down the static connection
+    #+BEGIN_SRC sh
+    nmcli con down "static"
+    #+END_SRC
+  - Change a connection variable
+    #+BEGIN_SRC sh
+    nmcli con show "static"
+    cmcli con mod "static" ipv4.dns 192.168.122.1
+    #+END_SRC
+    the first cmd will show all available variables and current values
+  - add another dns server
+    #+BEGIN_SRC sh
+    nmcli con mod "static" +ipv4.dns 8.8.8.8
+    #+END_SRC
+  - modify the ip and gw
+    #+BEGIN_SRC sh
+    nmcli con mod "static" ipv4.addresses "192.168.100.10/24 192.168.100.1"
+    #+END_SRC
+  - add a secondary IP addr
+    #+BEGIN_SRC sh
+    nmcli con mod "static" +ipv4.addresses 10.0.0.10/24
+    #+END_SRC
+  - Activate new settings
+    #+BEGIN_SRC sh
+    nmcli con up "static"
+    #+END_SRC
+    
+- Configuration Files
+/etc/sysconfig/network-scripts/ifcfg-<nam>
+
+- after modifying any of these files use
+  #+BEGIN_SRC sh
+  nmcli con reload
+  #+END_SRC
+  to reload the configs
+
+- Setting the hostname
+/etc/hostname
+
+- on the cmd line you can use
+  #+BEGIN_SRC sh
+  hostnamectl set-hostname server1.example.com
+  #+END_SRC
+
+- DNS
+/etc/sysconfig/network-scripts/ifcfg-<name> --> /etc/resolv.conf
+the dns name resolver is pushed from ifcfg-name to /etc/resolv.conf
+  - to makesure it is always correct place it in ifcfg-name
+    
+*** Routing
+- Setting up Static Routes
+using the nmtui cmd you can easily add routes in the connections edit connection page.
+  - this method will add a config file to /etc/sysconfig/network-scripts/route-<int>... 
+    #+BEGIN_EXAMPLE
+    ADDRESS0=10.0.0.0
+    NETMASK0=255.255.255.0
+    GATEWAY0=192.168.4.4
+    #+END_EXAMPLE
+    
+*** Understanding Bridges
+- virtual bridges are used with vms
+  
+vm0       vm1
+ |         |
+vnet0    vnet1
+ \        /
+  \      /
+   virbr0
+      |
+    eno1
+
+- to view bridge details
+#+BEGIN_SRC sh
+brctl show
+#+END_SRC
+this will show all vm interfaces connected to the bridge
+ 
+- show the bridge interface details
+#+BEGIN_SRC sh
+ip link show
+#+END_SRC
+
+**** Setting Up a Bridge
+- install the utils
+#+BEGIN_SRC sh
+yum install bridge-utils
+#+END_SRC
+
+- disconnect the interface you are creating the bridge on
+#+BEGIN_SRC sh
+nmcli dev show
+nmcli dev disconnect enp1s0
+#+END_SRC
+
+- create the connection to the bridge and add the interface
+#+BEGIN_SRC sh
+nmcli con add type bride-slave con-name br0-port1 ifname enp1s0 master br0
+#+END_SRC
+
+- create the bridge interface
+#+BEGIN_SRC sh
+nmcli con add type bridge con-name br0 ifname br0
+#+END_SRC
+
+This new bridge will have a configuration file placed into /etc/sysconfig/network-scripts/
+ifcfg-br0
+ifcfg-br0port1
+
+*** Understanding Network Bonds and Teams
+- Both take care of link aggregation
+- Network Bonding is deprecated, use Network Teaming instead
+- Teaming works with a kernel driver and a user space daemon
+  - teamd
+    
+- Teamd
+  - modes are called runners
+    - broadcast
+    - roundrobin
+    - activebackup
+    - loadbalance
+    - lacp
+  - show current state of the team with name "team0"
+    #+BEGIN_SRC sh
+    teamctl team0 state
+    #+END_SRC
+    
+**** Configuring Teams
+- Four Steps to Configuring Teaming
+  - Create team interface
+    #+BEGIN_SRC sh
+    nmcli con add type team con-name team0 ifname team0 config '{"runner":{"name": "loadbalancer"}}
+    #+END_SRC
+  - Determine network configuration
+    #+BEGIN_SRC sh
+    nmcli con mod team0 ipv4.addresses 10.0.0.10/24
+    nmcli con mod team0 ipv4.method manual
+    #+END_SRC
+  - Assign the port interfaces
+    #+BEGIN_SRC sh
+    nmcli con add type team-slave ifname eth0 master team0 con-name team0-eth0
+    nmcli con add type team-slave ifname eth1 master team0 con-name team0-eth1
+    #+END_SRC
+  - Bring team and port interfaces up/down
+    #+BEGIN_SRC sh
+    nmcli con up team0
+    nmcli dev dis eth0
+    nmcli dev dis eth1
+    #+END_SRC
+  - Verify
+    #+BEGIN_SRC sh
+    teamctl team0 state
+    #+END_SRC
+    
+**** Create a Bridge Based on Network Teams
+- Doesn't work with NetworkManager enabled
+- Modify the team configuration file ifcfg-team0 and add
+#+BEGIN_EXAMPLE
+BRIDGE=brteam0
+#+END_EXAMPLE
+this will tell it to connect to the bridge device
+
+- Make sure no IP configuration remains in the ifcfg-team0-port files
+- Manually create a bridge file
+#+BEGIN_EXAMPLE
+DEVICE=brteam0
+TYPE=Brigde
+IPADDR0=192.168.122.100
+PREFIX0=24
+#+END_EXAMPLE
+
+The man pages have examples
+#+BEGIN_SRC sh
+man 5 nmcli-examples
+#+END_SRC
 
 * CentOS							:rhel:centos:
 HomePage: [[https://www.centos.org/][centos.org]]
 Wiki: [[https://wiki.centos.org/][wiki.centos.org]]
-** [[file://home/crito/org/tech/linux_concepts/centos7_networking_config.org][CentOS 7 Network Configuration]]				 :centos:net:
+Placed notes for Centos in RHEL
 
 * Fedora							     :fedora:
 ** [[file://home/crito/org/tech/linux_concepts/fedora_networking_config.org][Fedora Network Configuration]]

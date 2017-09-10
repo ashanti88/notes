@@ -8,3 +8,4 @@
 * Tutorial
 * Books
 * Links
+[[https://developers.redhat.com/blog/2017/06/09/the-need-for-speed-and-the-kernel-datapath-recent-improvements-in-udp-packets-processing/][The need for speed and the kernel datapath recent improvements in udp packets processing]]

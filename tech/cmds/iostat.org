@@ -8,21 +8,25 @@ Github: [[https://github.com/sysstat/sysstat][github.com/sysstat]]
 Report Central Processing Unit (CPU) statistics and input/output statistics for devices and partitions.
 
 * Usage
+#+BEGIN_EXAMPLE
+$ iostat <options> <device> <interval> <num_capture>
+#+END_EXAMPLE
 
-> iostat <options> <device> <interval> <num_capture>
-
-+ Options
+- Options
 c - Display cpu statistics
 d - Display i/o statistics
 n - Display network statistics
 t - Display timestamp information
 x - Display extended information
-+ Display statistics for a device
-> iostat -p <device>
+m - output in mb/s
 
-- adding -m to any of these will produce the output in mb/s
+** Show only the disk every 2 seconds for 10 times
+#+BEGIN_SRC sh
+iostat -d /dev/sda 2 10
+#+END_SRC
 
-* Output
+
+** Output
 %user - The percentage of CPU utilization that occurred while executing at the user level (this is the application usage).
 %nice - The percentage of CPU utilization that occurred while executing at the user level with nice priority.
 %system - The percentage of CPU utilization that occurred while executing at the system level (kernel).

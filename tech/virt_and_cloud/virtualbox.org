@@ -9,7 +9,45 @@ HomePage: [[https://www.virtualbox.org/][virtualbox.org]]
 - [[file://home/crito/org/tech/cmds/VBoxManage.org][VBoxManage]]
 
 * Usage
+** Adding Guest Additions to Fedora
+- update the kernel
+#+BEGIN_SRC sh
+yum update kernel*
+reboot
+#+END_SRC
+
+- click the "Install Guest Additions" and mount
+#+BEGIN_SRC sh
+mkdir /media/VirtualBoxGuestAdditions
+mount -r /dev/cdrom /media/VirtualBoxGuestAdditions
+#+END_SRC
+
+- Add the epel repo for Centos/RHEL
+- yum
+#+BEGIN_SRC sh
+yum install epel-release
+#+END_SRC
+or
+- rpm
+#+BEGIN_SRC sh
+rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+#+END_SRC
+
+- Add the following pkgs
+#+BEGIN_SRC sh
+yum install gcc kernel-devel kernel-headers dkms make bzip2 perl
+#+END_SRC
+
+- Now install Gueat Additions
+#+BEGIN_SRC sh
+cd /media/VirtualBoxGuestAdditions
+./VBoxLinuxAdditions.run
+#+END_SRC
+
 ** mounting a share
+- if using Guest Additions just mark as auto-mount in settings
+
+- otherwise use
 #+BEGIN_SRC sh
 mount -t vboxsf sf_Dropbox mtp
 #+END_SRC
@@ -26,7 +64,7 @@ This will then show an over view of the box that will be created
 VBoxManage startvm centos_box --type headless
 #+END_SRC
 this allows for the machine to be run in he background and ssh into
-** Connect to a remote virtual machine
+** Connect to a virtual machine with rdp
 - this can be done over vrdp
 #+BEGIN_SRC sh
 VBoxManage modifyvm "VM_name" --vrde on
@@ -36,6 +74,10 @@ This sets the vm to use vrdp
 - to connect to the vm
 #+BEGIN_SRC sh
 rdesktop-vrdp -a 16 192.168.0.4:3389
+#+END_SRC
+or
+#+BEGIN_SRC sh
+xfreerdp /w:1280 /h:800 /v:192.168.0.4:3389
 #+END_SRC
 The ip is the host machine (not any ip attached to the vm), and 3389 is the default
 

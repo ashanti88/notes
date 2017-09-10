@@ -1,0 +1,12 @@
+#+TAGS:
+
+
+* SANE
+Arch: [[https://wiki.archlinux.org/index.php/SANE][wiki.archlinux.org/SANE]]
+* Description
+Scanner Access Now Easy
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

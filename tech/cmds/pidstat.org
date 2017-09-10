@@ -7,15 +7,22 @@ The pidstat command is used for monitoring individual tasks currently being mana
 The pidstat command can also be used for monitoring the child processes of selected tasks. Read about option -T below.
 
 * Usage
+#+BEGIN_EXAMPLE
+$ pidstat <options> <pid> <interval> <num_to_print>
+#+END_EXAMPLE
 
-> pidstat <options> <pid> <interval> <num_to_print>
-
-+ Options
+- Options
 p <pid> - specify pid to monitor
 C <name> - specify process name 
 d - report i/o statistics
 l - display process name and arguments
 t - print in tree format
+
+** Report task switching activity
+#+BEGIN_SRC sh
+pidstat -w -p 3446 2 5
+#+END_SRC
+this will monitor pid 3446 and report every 2 seconds for 5 intervals
 
 * Lecture
 * Tutorial

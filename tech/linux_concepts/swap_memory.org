@@ -3,9 +3,10 @@
 
 * Swap Memory						       :sys:mem:swap:
 * Cmds
-[[file://home/crito/org/tech/cmds/swapon.org][swapon]]
-[[file://home/crito/org/tech/cmds/swapoff.org][swapoff]]
-[[file://home/crito/org/tech/cmds/mkswap.org][mkswap]]
+- [[file://home/crito/org/tech/cmds/swapon.org][swapon]]
+- [[file://home/crito/org/tech/cmds/swapoff.org][swapoff]]
+- [[file://home/crito/org/tech/cmds/mkswap.org][mkswap]]
+
 * Files
 /proc/swap - shows what partitions are set for swap
 /proc/sys/vm/swappiness - swappiness value is kept here
@@ -66,8 +67,9 @@ sysctl vm.swappiness
 
 - Permanently setting Swappiness
 /etc/sysctl.d/99-sysctl.conf
--------------------------------
+#+BEGIN_EXAMPLE
 vm.swappiness=10
+#+END_EXAMPLE
 
 *** Server Recommendations
 MySQL - vm.swappiness=10    

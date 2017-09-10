@@ -1,0 +1,184 @@
+#+TAGS: db
+
+
+* Oracle Database                                                        :db:
+* cmds
+- sqlplus - client
+* Description
+* Usage
+** Oracle 11g
+url: https://docs.oracle.com/en/database/
+** Installing on Centos7 (VM)
+Oracle-Base: https://oracle-base.com/articles/11g/oracle-db-11gr2-installation-on-oracle-linux-7
+
+- Overview
+  - Download Software
+  - Unpack Files
+  - Edit host file
+  - Oracle Installation Prerequisites
+    - Automatic Setup
+    - Manual Setup
+    - Additional Setup
+  - Installation
+  - Post Installation
+
+*** Download the Oracle DB 11g from website
+http://www.oracle.com/technetwork/database/enterprise-edition/downloads/index.html
+
+*** Unpack Files
+- the unzip utilitiy is required
+#+BEGIN_SRC sh
+yum install unzip
+#+END_SRC
+
+- unzip files
+#+BEGIN_SRC sh
+unzip linux.x64_11gR2_database_1of2.zip
+unzip linux.x64_11gR2_database_2of2.zip
+#+END_SRC
+  
+*** Hosts File
+/etc/hosts
+#+BEGIN_EXAMPLE
+127.0.0.1       localhost 
+192.168.0.215   oracledb
+#+END_EXAMPLE
+
+/etc/hostname
+#+BEGIN_EXAMPLE
+oracledb
+#+END_EXAMPLE
+  
+*** Oracle Installation Prerequisites
+Option of either the Automatic setup or the Manual setup.
+The Additional setup is required for all installations.
+
+**** Automatic
+for the automatic install the Oracle Linux repo has to be installed
+#+BEGIN_SRC sh
+cd /etc/yum.repos.d
+wget http://yum.oracle.com/public-yum-ol7.repo
+#+END_SRC
+the ol7 represents the versiion of Oracle Linux
+
+- I had to import the oracle gpg key
+https://docs.oracle.com/cd/E52668_01/E39381/html/ol_import_gpg.html
+#+BEGIN_SRC sh
+wget http://public-yum.oracle.com/RPM-GPG-KEY-oracle-ol7
+gpg --quiet --with-fingerprint ./RPM-GPG-KEY-oracle-ol7
+rpm --import ./RPM-GPG-KEY-oracle-ol7
+#+END_SRC
+
+- now for the automatic setup
+#+BEGIN_SRC sh
+yum install oracle-rdbms-server-11gR2-preinstall
+yum update
+#+END_SRC
+
+**** Manual
+   
+**** Additional
+- set the oracle user password
+#+BEGIN_SRC sh
+passwd oracle
+#+END_SRC
+
+- Configure SELinux to be permissive
+/etc/selinux/config
+#+BEGIN_EXAMPLE
+SELINUX=permissive
+#+END_EXAMPLE
+
+- and set the current state to permissive
+#+BEGIN_SRC sh
+setenforce 0
+#+END_SRC
+
+- disable the firewall
+#+BEGIN_SRC sh
+systemctl stop firewalld
+systemctl disable firewalld
+#+END_SRC
+
+- Create the dirs where the software will be installed
+#+BEGIN_SRC sh
+mkdir -p /u01/app/oracle/product/11.2.0.4/db_1
+chown -R oracle:oinstall /u01
+chmod -R 775 /u01
+#+END_SRC
+
+- add the Oracle settigns to the oracle users bash_profile
+#+BEGIN_EXAMPLE
+# Oracle Settings
+TMP=/tmp; export TMP
+TMPDIR=$TMP; export TMPDIR
+
+ORACLE_HOSTNAME=ol7.localdomain; export ORACLE_HOSTNAME
+ORACLE_UNQNAME=DB11G; export ORACLE_UNQNAME
+ORACLE_BASE=/u01/app/oracle; export ORACLE_BASE
+ORACLE_HOME=$ORACLE_BASE/product/11.2.0.4/db_1; export ORACLE_HOME
+ORACLE_SID=DB11G; export ORACLE_SID
+ORACLE_TERM=xterm; export ORACLE_TERM
+PATH=/usr/sbin:$PATH; export PATH
+PATH=$ORACLE_HOME/bin:$PATH; export PATH
+
+LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib; export LD_LIBRARY_PATH
+CLASSPATH=$ORACLE_HOME/JRE:$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib; export CLASSPATH
+#+END_EXAMPLE
+
+- switch to oracle user to install the software
+#+BEGIN_SRC sh
+./runInstaller
+#+END_SRC
+this will start the GUI installer
+
+* Lecture
+* Tutorial
+** CBT Linux Oracle Database 11g SQL Fundamentals
+*** Lesson 2 - About SQL
+- Dr E F Codd, IBM 1970 - legendary paper 
+
+- SQL --> Chamberlain + Boyce @ IBM --> SEQEUEL
+  
+- DDL - Data Definition Language
+  - create
+  - alter
+  - drop
+    
+- DML - Data Manipulation Language
+  - select - read from the DB
+  - insert
+  - update - modifiy a value
+  - delete - delete a value
+    
+- DCL - Data Control Language
+  - grant
+  - revoke
+
+- TxCL - Transaction Control Language
+  - commit
+  - rollback
+  - savepoint
+
+- SQL Variants
+  - ANSI 
+  - PL/SQL - Oracle
+  - Transact-SQL - M$
+  - MySQL - Oracle
+    - MariaDB
+  - IBM DB2
+  - PostgeSQL
+
+- SQL * Plus
+  - interactive/batch cli for OracleDB
+    - server
+    - client
+      
+- cmd types
+  - SQL * Plus
+  - SQL
+  - PL/SQL
+  - Host OS
+
+* Books
+* Links

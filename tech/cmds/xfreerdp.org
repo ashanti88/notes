@@ -13,6 +13,11 @@ xfreerdp /v:192.168.0.4:3389
 #+END_SRC
 this is the basic to vm on virtualbox
 
+- setting the window size
+#+BEGIN_SRC sh
+xfreerdp /w:1366 /h:768 /v:192.168.0.4:3389
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

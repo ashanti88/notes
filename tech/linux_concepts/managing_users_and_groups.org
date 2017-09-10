@@ -1,7 +1,7 @@
-#+TAGS:
+#+TAGS: op
 
 
-* Managing Users and Groups
+* Managing Users and Groups                                              :op:
 * Files
 - /etc/passwd - users file
 - /etc/group  - groups file

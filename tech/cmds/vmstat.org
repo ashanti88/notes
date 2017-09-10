@@ -4,35 +4,22 @@
 * vmstat							:sys:anal:op:
 * Description
 * Usage
-
-+ Fields
+- Fields
 
 vmstat output contains the following fields
 
 Procs - r: Total number of processes waiting to run
-
-Procs - b: Total number of busy processes
-
+Procs - b: Total number of busy/blocking processes
 Memory - swpd: Used virtual memory
-
 Memory - free: Free virtual memory
-
 Memory - buff: Memory used as buffers
-
 Memory - cache: Memory used as cache
-
-Swap - si: Memory swapped from disk (for every second)
-
-Swap - so: Memory swapped to disk (for every second)
-
+Swap - si: Memory swapped from disk (for every second) Swap In
+Swap - so: Memory swapped to disk (for every second) Swap Out
 IO - bi: Blocks in (for every second)
-
 IO - bo: Blocks out (for every second)
-
 System - in: interupts per second
-
 System - cs: context switches
-
 CPU - us, sy, id, wa, st - user time, system time, idle, wait time,
 stolen time from a virtual machine.
 
@@ -43,25 +30,27 @@ Display active and inactive memory*
 > vmstat -a
 
 ** Display number of forks since last boot
+#+BEGIN_SRC sh
+vmstat -f
+#+END_SRC
+this command displays the count of all fork, vfork and clone system calls since the last boot.
 
-> vmstat -f
-
-this command displays the count of all fork, vfork and clone system
-calls since the last boot.
-
-** Execute every x seconds
-
-> vmstat x
-
+** Execute every 2 seconds
+#+BEGIN_SRC sh
+vmstat 2
+#+END_SRC
 to exit CTRL-C
 
-> vmstat x y
-
-this will execute vmstat x seconds y times
+#+BEGIN_SRC sh
+vmstat 2 10
+#+END_SRC
+this will execute vmstat 2 seconds 10 times
 
 ** Display the slabinfo
-
-> vmstat -m
+#+BEGIN_SRC sh
+vmstat -m
+#+END_SRC
+This has to be initiated in the kernel
 
 * Lectures
 ** vmstat - Tutorial with Brendan Gregg (solaris centric)

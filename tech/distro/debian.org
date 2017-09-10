@@ -80,6 +80,9 @@ Deleting a bridge requires that the bridge is down <ip link set dev
     - chattr +i /etc/resolv.conf
 * Based Distros
 ** Ubuntu							     :ubuntu:
+*** Mail Server 
+file://home/crito/org/tech/linux_concepts/ubuntu_mail_server.org
+
 ** Kali								       :kali:
 *** Adding Kali tools to Debian
 Kalis tools can be added to a debian machine with katoolin

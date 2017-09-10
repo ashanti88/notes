@@ -551,4 +551,5 @@ Check Constraint - confirms colum values based on Boolean criteria: - CHECK (exp
 [[file://home/crito/Documents/Database/Postgres/PostgreSQL_Cookbook-Packt.pdf][PostgreSQL Cookbook - Packt]]
 
 * Links
+[[https://www.if-not-true-then-false.com/2012/install-postgresql-on-fedora-centos-red-hat-rhel/][Install PostgreSQL 9.6 on Fedora 26/25]]
 

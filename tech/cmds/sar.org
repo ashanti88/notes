@@ -4,37 +4,68 @@
 * sar							   :sys:anal:sysstat:
 HomePage: [[http://sebastien.godard.pagesperso-orange.fr/][sebastien.godard.fr/sysstat]]
 Github: [[https://github.com/sysstat/sysstat][github.com/sysstat]]
+* Files
+/var/log/sa/sadd - data file, needs sar to read
+/var/log/sa - data is written to here
+/etc/sysconfig/sysstat - has a HISTORY variable that defines how long the above data should be kept
+
 * Description
 System Activity Reporter
 The sar command writes to standard output the contents of selected cumulative activity counters in the operating system. The accounting system, based on the values in the count and interval parameters, writes information the specified number of times spaced at the specified intervals in seconds. 
 
 * Setup
-** First Method (no service mgmt)
+** First Me/thod (no service mgmt)
 These two files have to be changed for sar to be used
 
-/etc/default/sysstat # Should sadc collect system activity informations?
-Valid values # are "true" and "false". Please do not put other values,
-they # will be overwritten by debconf! ENABLED="true"
+/etc/default/sysstat # Should sadc collect system activity informations? Valid values # are "true" and "false". Please do not put other values, they # will be overwritten by debconf! ENABLED="true"
 
-/etc/cron.d/sysstat Change 5-55/10 * * * * root command -v debian-sa1 >
-/dev/null && debian-sa1 1 1 To //2 / * * * root command -v debian-sa1 >
-/dev/null && debian-sa1 1 1
+/etc/cron.d/sysstat Change 
+5-55/10 * * * * root command -v debian-sa1 > /dev/null && debian-sa1 1 1 
+To 
+2 / * * * root command -v debian-sa1 > /dev/null && debian-sa1 1 1
 
 ** Second Method (sysv)
-Start and enable the service
+- Install sysstat if not already installed
+
+- Start and enable the service
 #+BEGIN_SRC sh
 service sysstat start
 chkconfig sysstat on
 #+END_SRC
 
 ** Third Method (sysd)
-Start the and Enable the service
+- Install sysstat if not already installed
+
+- Start the and Enable the service
 #+BEGIN_SRC sh
 systemctl start sysstat.service
 systemctl enable sysstat.service
 #+END_SRC
 
+** RHCE Video Setup
+- install sysstat
+#+BEGIN_SRC sh
+yum install -y sysstat
+#+END_SRC
+
+- confirm that cron jobs are set for sa1(short term stats) and sa2(long term stats)
+/etc/cron.d/sysstat
+#+BEGIN_EXAMPLE
+# Run system activity accounting tool every 10 minutes
+*/10 * * * * root /usr/lib64/sa/sa1 1 1
+# Generate a daily summary of process accounting at 23:53
+53 23 * * * root /usr/lib64/sa/sa2 -A
+#+END_EXAMPLE
+
+- check the history variable is set for the required amount of time (usually a month)
+/etc/sysconfig/sysstat
+
 * Usage
+Before starting sar set LANG=C this will provide time in 24 hour format appose to am/pm
+#+BEGIN_SRC sh
+echo alias sar='LANG=C sar' >> /etc/bashrc
+#+END_SRC
+
 To report on previously captured data – type :
 #+BEGIN_SRC sh
 sar -u -f filename > file
@@ -64,8 +95,8 @@ View CPU stats :
 #+BEGIN_SRC sh
 sar -P ALL 3 10
 #+END_SRC
-
 The above numbers are interval and count (3 secs 10 times)
+
 * Lecture
 * Tutorial
 * Books

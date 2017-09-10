@@ -2,10 +2,8 @@
 
 
 * top								   :sys:anal:
-* Cmds
-top 
-htop
 * Description
+htop uses around 5 times as much memory
 * Usage
 ** Interactive Commands
 r - Renice a process
@@ -32,6 +30,12 @@ shift + w - write current configuration to /home/$USER/.toprc
       - t - stopped by debugger during the tracing
 - COMMAND - executable that has spawned the process
 - LOAD - Number of processeors waiting to use cpu each cycle. 1 5 15 minute intervals.
+
+*** Create a customised top layout
+- Pressing f allows you to select which fields to display interactively
+- Once you have the fields you like press q to exit, W will save the config to ~/.toprc
+
+
 * Lecture
 * Tutorial
 * Books

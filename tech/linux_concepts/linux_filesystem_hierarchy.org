@@ -1,4 +1,4 @@
-#+TAGS: sys fs
+#+TAGS: sys fs proc sys
 
 
 * Linux Filesystem Hierarchy                                         :sys:fs:
@@ -18,6 +18,27 @@ To comply with the FSSTND the following directories or symbolic links to directo
 /tmp   - Temporary files
 /usr   - Secondary hierarchy
 /var   - Variable data
+   
+Other Directories
+** /proc  - Deprecated filesystem (procfs) is home to system data structures 
+- This directory has many status files that can be used to get current operations system parameters
+- Many performance analysing tools mine the contents of /proc for data
+- Linux can be optimized through /proc
+  - parameters are applied in a flexible way through the /proc/sys file systems (in older would have to be recompilied to get the parameters changed)
+  - Differnt interfaces are offered through /proc/sys to tune different aspects of the OS
+  
+- Indside of /proc
+  - First you will notice a lot of numbered directories, the number corresponds to the process pid 
+    - inside these directories is information pertaining to the pid
+    - cat the cmdline file to find out what application is tied to the pid
+  - partitions file contains all the partitions on the current system
+  - cpuinfo contains details of the system cpu
+  - filesystems file tells what filesystems the current system supports
+    - if you don't see a filesystem that you tink your system should support missing it only means the modules hasn't been loaded by the kernel 
+- /proc/sys
+  - this houses lots of parameters that can be altered as needed
+    - swappiness variable is housed here /proc/sys/vm/swappiness
+
 * Lecture
 * Tutorial
 * Books

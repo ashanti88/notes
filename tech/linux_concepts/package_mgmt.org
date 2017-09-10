@@ -160,36 +160,7 @@ df -H
 
 * Ubuntu
 *** Snappy
-* Rhel							       :sys:pkg:rhel:
-***** Exclude Specfic Repository
-Get repo list
-#+BEGIN_SRC sh
-yum repolist
-#+END_SRC
-
-****** Method One - Temporary
-On the cmd line
-#+BEGIN_SRC sh
-yum update --disablerepo=isu 
-#+END_SRC
-This will not upgrade the packages that belong to the given repo.
-
-****** Method Two - Permanent
-Edit the repo files in /etc/yum.repos.d
-set the enable parameter to 0.
-
-***** EPEL (Extra Packages for Enterprise Linux)
-Centos
-#+BEGIN_SRC sh
-yum install epel-release
-#+END_SRC
-
-***** IUS (Inline with Upstream Stable)
-#+BEGIN_SRC sh
-wget https://centos7.iuscommunity.org/ius-release.rpm
-rpm -Uvh ius-release.rpm
-yum repolist
-#+END_SRC
+* RHEL							       :sys:pkg:rhel:
 *** rpm								   :rhel:pkg:
 **** Basic Actions
 - List of all installed packages
@@ -202,7 +173,6 @@ q - query the database
 #+BEGIN_SRC sh
 rpm -Vv
 #+END_SRC
-
 
 
 **** Repo Administration
@@ -253,7 +223,37 @@ rpm -qd chrony
 repoquery -ql yp-tools
 #+END_SRC
 
-*** yum								   :rhel:pkg:
+***** Exclude Specfic Repository
+Get repo list
+#+BEGIN_SRC sh
+yum repolist
+#+END_SRC
+
+****** Method One - Temporary
+On the cmd line
+#+BEGIN_SRC sh
+yum update --disablerepo=isu 
+#+END_SRC
+This will not upgrade the packages that belong to the given repo.
+
+****** Method Two - Permanent
+Edit the repo files in /etc/yum.repos.d
+set the enable parameter to 0.
+
+***** EPEL (Extra Packages for Enterprise Linux)
+Centos
+#+BEGIN_SRC sh
+yum install epel-release
+#+END_SRC
+
+***** IUS (Inline with Upstream Stable)
+#+BEGIN_SRC sh
+wget https://centos7.iuscommunity.org/ius-release.rpm
+rpm -Uvh ius-release.rpm
+yum repolist
+#+END_SRC
+
+*** ycpfum                                                         :rhel:pkg:
 **** Basic Administration
 - Install application
 #+BEGIN_SRC sh
@@ -370,6 +370,12 @@ yum-complete-transaction --cleanup-only
 yum update
 #+END_SRC
 Incomplete transactions can be found in /var/lib/yum/transaction-all* and transaction-done*
+
+**** Update to a minor version
+#+BEGIN_SRC sh
+yum --releaserver=7.3 update
+#+END_SRC
+this will update the current install to 7.3
 
 *** dnf 						       :sys:rhel:pkg:
 **** Basic Administration					   :rhel:dnf:

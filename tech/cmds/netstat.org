@@ -5,7 +5,9 @@
 * Description
 Netstat shows all opened ports tcp, udp and unix.
 * Usage
-> netstat <options>
+#+BEGIN_EXAMPLE
+$ netstat [options]
+#+END_EXAMPLE
 
 ** Options
 n - no host look up
@@ -18,10 +20,16 @@ s - statistics
 e - extended information
 
 ** Examples
-*** tuna
+*** Tuna plz
 #+BEGIN_SRC sh
 netstat -tunapl
 #+END_SRC
+t - tcp
+u - udp
+n - numeric - show numeric addr instead of trying to resolve name
+a - all - show both listening and none-listening
+p - program - show the pid
+l - listening - only show listening sockets
 
 *** Find out on which port a program is running 
 #+BEGIN_SRC 
@@ -34,7 +42,7 @@ netstat -an | grep ":$PORT"
 
 *** Find out on which pprogram is using a certain port
 #+BEGIN_SRC sh
-netstat -i:$PORT
+netstat -i:80
 #+END_SRC
 *** List all ports (both listening and non-listening)
 #+BEGIN_SRC 
@@ -69,7 +77,7 @@ netstat -lu
 
 - unix
 #+BEGIN_SRC sh
-> netstat -lx
+netstat -lx
 #+END_SRC
 
 *** Show statistics for each protocol

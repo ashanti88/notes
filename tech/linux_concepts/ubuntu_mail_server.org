@@ -159,8 +159,5 @@ systemctl reload postfix
 systemctl reload dovecot
 #+END_SRC
 
-* Lecture
-* Tutorial
-* Books
 * Links
 [[https://www.linux.com/learn/how-build-email-server-ubuntu-linux][How to Build an Email Server on Ubuntu Linux]]

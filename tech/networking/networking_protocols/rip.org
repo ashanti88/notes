@@ -1,1 +1,10 @@
-*Routing Information Protocol*
+#+TAGS: net
+
+
+* Routing Information Protocol                                          :net:
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

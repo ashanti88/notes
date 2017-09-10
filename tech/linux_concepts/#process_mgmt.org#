@@ -1,0 +1,47 @@
+#+TAGS: sys op anal process
+
+
+* Process Management
+* Cmds
+- [[file://home/crito/org/tech/cmds/top.org][top]]
+- [[file://home/crito/org/tech/cmds/nice.org][nice]]
+- [[file://home/crito/org/tech/cmds/ps.org][ps]]
+- [[file://home/crito/org/tech/cmds/kill.org][kill]]
+- [[file://home/crito/org/tech/cmds/killall.org][killall]]
+
+* Usage
+putting a processing to background
+- A running process
+  - first pause the process
+  <ctlr> + z
+  - second move the process to background
+  bg
+
+- Starting a process in the background
+#+BEGIN_SRC sh
+dd /dev/zero /devnull&
+#+END_SRC
+    
+** Process States
+T - Stopped
+R - Runnable (ready)
+R - Running (user)
+R - Running (kernel)
+K - Sleeping
+D - Sleeping
+S - Sleeping
+Z - Zombie
+
+[[file://home/crito/Pictures/org/process_state.png]]
+
+*** Process Overview
+[[file://home/crito/Pictures/org/linux_process_states.png]]
+
+** Process Control
+
+[[file://home/crito/Pictures/org/process_signals.png]]
+
+* Lecture
+* Tutorial
+* Books
+* Links
