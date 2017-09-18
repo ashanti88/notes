@@ -10,11 +10,47 @@ Display or manipulate a disk partition table.
 fdisk /dev/sdb
 #+END_SRC
 
-** Options
+- Options
 m - help/menu
 p - print partition table (show current disk state)
 n - create a new partition
+d - delete
 
+** Create Partition 
+#+BEGIN_EXAMPLE
+Command (m for help): n
+Command action
+  l logical (5 or over)
+  p primary partition (1-4)
+l
+First sector (39849982-41940991, default 39849982):
+Using default value 39849982
+Last sector, +sectors or +size{K,M,G} (39849982-41940991, default 41940991):
+Using default value 41940991
+#+END_EXAMPLE 
+Above we have just used the default values, which starts as the first available sector and ends and the end of the device
++50G  - this will set a partion of 50G
++512M - this will set a partion of 512M 
+
+- Change the Patition fs-type
+#+BEGIN_EXAMPLE
+Command (m for help): t
+Hex code (type L to list codes):83
+#+END_EXAMPLE
+82 - Linux swap
+83 - Linux
+df - Linux LVM
+
+- Wrire to disk
+#+BEGIN_EXAMPLE
+Command (m for help): w
+Command (m for help): q
+#+END_EXAMPLE
+
+- Format Partition with File-System
+#+BEGIN_SRC sh
+mkfs.ext4 /dev/sdb5
+#+END_SRC
 
 * Lecture
 * Tutorial

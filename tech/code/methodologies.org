@@ -4,8 +4,8 @@
 * Methodologies                                                        :code:
 * Types
 ** Scrum
-** Lean
-** Agile
+** [[file://home/crito/org/tech/code/lean.org][Lean]]
+** [[file://home/crito/org/tech/code/agile.org][Agile]]
 ** Waterfall
 ** Kanban
 ** RAD (Rapid Application Development)

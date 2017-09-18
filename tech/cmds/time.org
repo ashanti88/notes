@@ -5,6 +5,10 @@
 * Description
 This cmd will produce the amount of CPU time used by a give process command.
 * Usage
+- view how much cpu usage a cmd uses
+#+BEGIN_SRC sh
+time -p ls
+#+END_SRC
 * Lecture
 * Tutorial
 * Books

@@ -3,8 +3,16 @@
 
 * mtr 							       :net:anal:mon:
 URL: [[https://www.linode.com/docs/networking/diagnostics/diagnosing-network-issues-with-mtr][mtr]]
+
 * Description
+mtr combines the functionality of the traceroute and ping programs in a  single  network diagnostic tool.
+
 * Usage
+- simple traceroute
+#+BEGIN_SRC sh
+mtr google.com
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

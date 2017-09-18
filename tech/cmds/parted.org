@@ -3,7 +3,97 @@
 
 * parted                                                      :sys:disk:stor:
 * Description
+cmd line partitioning tool
+
 * Usage
+- starting the interactive shell
+#+BEGIN_SRC sh
+parted /dev/sdb
+#+END_SRC
+select the device that is to be partitioned
+
+** Create a new partition table
+- legacy BIOS MBR
+#+BEGIN_EXAMPLE
+(parted) mklabel msdos
+#+END_EXAMPLE
+- uefi
+#+BEGIN_EXAMPLE
+(parted) mklabel gpt
+#+END_EXAMPLE
+
+** Partition Schemes
+- genral syntax
+#+BEGIN_EXAMPLE
+(parted) mkpart part-type fs-type start end
+#+END_EXAMPLE
+part-type - Primary, Extended or logical
+fs-type   - This is only used as an identifier, as parted doesn't create the file-system
+start     - This is where the partition begins
+end       - This is where the partition ends (100% is the end of the device)
+
+** Set the boot flag
+#+BEGIN_EXAMPLE
+(parted) set 1 boot on
+#+END_EXAMPLE
+1 is the partition that the boot flag should be set on
+
+** UEFI Example
+For UEFI a bootable EFI System Partition is required (recommended size is 512MiB)
+#+BEGIN_EXAMPLE
+(parted) mkpart ESP fat32 1MiB 513MiB
+(parted) set 1 boot on
+(parted) mkpart primary ext4 513MiB 40GiB
+(parted) mkpart primary ext4 40GiB 100%
+#+END_EXAMPLE
+A UEFI boot sector, and a 40G (/) and a remainder partition (/home)
+
+** BIOS Example
+no special boot partition is required with the legacy BIOS
+#+BEGIN_EXAMPLE
+(parted) mkpart primary ext4 1Mib 40GiB
+(parted) set 1 boot on
+(parted) mkpart primary ext4 40GiB 60GiB
+(parted) mkpart primary linux-swap 60GiB 64GiB
+(parted) mkpart primary ext4 64GiB 100%
+#+END_EXAMPLE
+/ - 40G
+/var - 20G
+/swap - 4G
+/home - Remainer
+
+** Resize  
+First resize the partition then resize the file-system
+
+*** Grow (ext2,3,4)
+
+#+BEGIN_EXAMPLE
+(parted) resizepart 100%
+#+END_EXAMPLE
+
+-resize the file-system
+#+BEGIN_SRC sh
+e2fsck /dev/sdb1
+resize2fs /dev/sdb1
+#+END_SRC
+The size can be specified by resize2fs, but it defaults to the whole device
+
+*** Shrink (ext2,3,4)
+#+BEGIN_SRC sh
+resize2fs /dev/sdb1 50G
+#+END_SRC
+
+#+BEGIN_EXAMPLE
+(parted) resizepart 1MiB 50GiB
+#+END_EXAMPLE
+At this point the kernel is not aware of the new partition size there are 2 options
+- reboot
+- util-linux resizepart
+#+BEGIN_SRC sh
+resizepart /dev/sdb 1 50G
+e2fsck -f /dev/sdb1
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

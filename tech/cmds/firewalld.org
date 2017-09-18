@@ -7,7 +7,10 @@ HomePage: [[http://www.firewalld.org/][firewalld.org]]
 [[file://home/crito/org/tech/cmds/firewall-config.org][firewall-config]]
 [[file://home/crito/org/tech/cmds/firewall-cmd.org][firewall-cmd]]
 * Files
+/usr/lib/firewalld/services - this directory houses all the services files (xml)
+/etc/firewalld/services - this directory is where you add your own service files
 /etc/firewalld/firewalld.conf
+
 * Description
 * Usage
 The [[file://home/crito/org/tech/cmds/firewall-cmd.org][firewall-cmd]] is generally used for administration
@@ -31,6 +34,20 @@ For use in public areas. You do not trust the other computers on networks to not
 All network connections are accepted.
 *** Work
 For use in work areas. You mostly trust the other computers on networks to not harm your computer. Only selected incoming connections are accepted.
+** Creating Services files
+First copy a service file from /usr/lib/firewalld/services/ to use as a template
+
+- ldap.xml
+#+BEGIN_EXAMPLE
+<?xml version="1.0" encoding="utf-8"?>
+<service>
+  <short>LDAP</short>
+  <description>Lightweight Directory Access Protocol (LDAP) server</description>
+  <port protocol="tcp" port="389"/>
+</service>
+#+END_EXAMPLE
+replace the fileds with the new details
+
 * Lecture
 * Tutorial
 * Books

@@ -1,0 +1,12 @@
+#+TAGS: ci cd apache devops
+
+
+* Ivy - The Agile Dependency Manager
+HomePage: http://ant.apache.org/ivy/
+
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

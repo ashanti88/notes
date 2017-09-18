@@ -1,0 +1,12 @@
+#+TAGS: ci cd code devops
+
+
+* Continuous Delivery
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+[[file://home/crito/Documents/Code/Methodology/Continuous_Delivery.pdf][Continuous Delivery]]
+* Links
+[[https://dzone.com/articles/continuous-delivery-using][Continuous Delivery Using Maven]]

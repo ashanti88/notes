@@ -1,0 +1,1 @@
+/mnt/home/crito/org/tech/monitoring/elk_stack.org

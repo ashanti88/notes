@@ -3,7 +3,40 @@
 
 * DNS                                                                   :dns:
 * Description
-* Usage
+This is a small exaple of how DNS is structured
+         . root
+         |
+     ---------------
+     |      |      |
+    com    net    org
+     |
+ ---------
+ |   |   |
+cnn  |  microsoft
+     |
+  server1
+     |
+    ns <--------------- you
+You request an address lookup from your name server, if it isn't already in the cache it will recursivley ask the name servers, starting with root until it eventually is given the ip.
+
+Different DNS Sever Roles
+- Primary (master) Nameserver
+- Secondary (slave) Nameserver
+- Cache only Nameserver
+  
+Recource Records
+A     - name to IP Address
+AAAA  - name to IPv6 Address
+CNAME - Canonical Name; alias 
+PTR   - Reverse DNS Resolution
+NS    - Name Server; which name server is authoritative
+SOA   - Start Of Authority; generic information about a domain
+MX    - Mail Exchange tht is responsible for this domain
+TXT   - Supplies additional data,such as data that is used by sender policy framework networks and related 
+SRV   - Hosts that provide a specific service
+
+
+
 * Public Servers
 ** Google
 8.8.8.8
@@ -20,6 +53,7 @@
 * Services
 [[file://home/crito/org/tech/dns/bind.org][BIND]]
 [[file://home/crito/org/tech/dns/nsd.org][NSD]]
+file://home/crito/org/tech/dns/unbound.org
 file://home/crito/org/tech/dns/maradns.org
 
 * Authoritative Vs Non-authoritative Answer

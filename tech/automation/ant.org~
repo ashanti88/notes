@@ -1,0 +1,23 @@
+#+TAGS: ci cd devops java
+
+
+* Ant
+HomePage: http://ant.apache.org/
+Manual: http://ant.apache.org/manual/index.html
+
+* Description
+Ant was the first among “modern” build tools. In many aspects it is similar to Make. It was released in 2000 and in a short period of time became the most popular build tool for Java projects. It has very low learning curve thus allowing anyone to start using it without any special preparation. It is based on procedural programming idea.
+
+After its initial release, it was improved with the ability to accept plug-ins.
+
+Major drawback was XML as the format to write build scripts. XML, being hierarchical in nature, is not a good fit for procedural programming approach Ant uses. Another problem with Ant is that its XML tends to become unmanageably big when used with all but very small projects.
+
+Later on, as dependency management over the network became a must, Ant adopted Apache Ivy.
+
+Main benefit of Ant is its control of the build process.
+
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

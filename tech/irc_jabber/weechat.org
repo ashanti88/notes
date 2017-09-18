@@ -4,6 +4,12 @@
 * weechat								:irc:
 * Description
 * Usage
+** Adding a Server
+- this server will connect with ssl
+#+BEGIN_SRC sh
+server add ircnet irc.us.ircnet.net/6697 --ssl
+#+END_SRC
+
 ** Reload config files
 #+BEGIN_SRC sh
 /reload .weechat/irc.conf
@@ -42,8 +48,8 @@ add proxy
 This should not be a blanket setting as it will cause problems login on
 to some irc servers.
 
--  for a server to use this proxy set the irc.server.<server\_id>.proxy
-   <proxy\_id>
+-  for a server to use this proxy set the irc.server.<server_id>.proxy
+   <proxy_id>
 
 ** Hidding Hostname
 
@@ -66,6 +72,22 @@ The username part can be changed with the irc.server\_default.username
 #+BEGIN_SRC sh
 /plugin load <plugin>
 #+END_SRC
+
+** Scripts
+- autojoin.py
+#+BEGIN_SRC sh
+/autojoin --run
+#+END_SRC
+this will add the channels to the autojoin variable in irc.conf
+
+** Downloading
+- with downloads they will be stored in .weechat/xfer
+  
+- sytax to download a file
+#+BEGIN_SRC sh
+/MSG NICK-OF-USER XDCC SEND 33
+#+END_SRC
+33 is the index number in the channel
 
 ** Useful Commands
 - how long has weechat been running
@@ -99,3 +121,4 @@ ctrl-x
 * Tutorial
 * Books
 * Links
+https://guides.fixato.org/setting_up_weechat.html

@@ -6,6 +6,30 @@ Wiki: [[https://perf.wiki.kernel.org/index.php/Tutorial][perf.wiki]]
 * Description
 * Usage
 ** Counting Examples
+- CPU counter statistics for the specified command
+#+BEGIN_SRC sh
+perf stat -d ls
+#+END_SRC
+
+- Detailed CPU counter statistics (include extras) for the specified command
+#+BEGIN_SRC sh
+perf stat -d ls
+#+END_SRC
+
+- CPU counter statistics for the specified PID, until Ctrl-C
+#+BEGIN_SRC sh
+perf stat -p 5151
+#+END_SRC
+
+- Various basic CPU statistics, system wide, for 10 seconds
+#+BEGIN_SRC sh
+perf stat -e cycles,instructions,cache-references,cache-misses,bus-cycles -a sleep 10
+#+END_SRC
+
+- Various CPU level 1 data cache statistics for the specified command
+#+BEGIN_SRC sh
+perf stat -e L1-dcache-loads,L1-dcache-load-misses,L1-dcache-stores ls
+#+END_SRC
 
 [[file://home/crito/Pictures/org/perf_counting_events.png]]
 

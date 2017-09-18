@@ -338,6 +338,50 @@ The man pages have examples
 man 5 nmcli-examples
 #+END_SRC
 
+** RHEL7 Configuring a Cache-only DNS Server
+files - /etc/unbound/unbound.conf
+
+- install dns server
+#+BEGIN_SRC sh
+yum install unbound
+#+END_SRC
+
+- enable and start the service
+#+BEGIN_SRC sh
+systemctl enable unbound
+systemctl start unbound
+#+END_SRC
+
+- create a config for unbound
+#+BEGIN_EXAMPLE
+interface: 0.0.0.0
+access-control: 0.0.0.0/0 allow
+forward-zone:
+	name: "."
+	forward-addr: 8.8.8.8
+#+END_EXAMPLE
+- listen of all interfaces
+- allow all to use the dns server
+- set up google as the forward zone (where the server will retrieve addresses it doesn't know)
+  
+- check the configuration
+#+BEGIN_SRC sh
+unbound-checkconf
+#+END_SRC
+
+- restart the unbound server
+#+BEGIN_SRC sh
+systemctl restart unbound
+systemctl status -l unbound
+#+END_SRC
+also check the status, just to makesure no errors are being thrown
+
+- Open the FW
+#+BEGIN_SRC sh
+firewall-cmd --permanent --add-service=dns
+firewall-cmd --reload
+#+END_SRC
+
 * CentOS							:rhel:centos:
 HomePage: [[https://www.centos.org/][centos.org]]
 Wiki: [[https://wiki.centos.org/][wiki.centos.org]]
@@ -349,19 +393,19 @@ HomePage: [[https://getfedora.org/][getfedora.org]]
 Wiki: [[https://fedoraproject.org/wiki/Fedora_Project_Wiki][fedoraproject.org/wiki]]
 SysAdmin 26: [[https://docs.fedoraproject.org/en-US/Fedora/26/html/System_Administrators_Guide/index.html][docs.fedoraproject.org/26/system_administrators_guide]]
 
-* Usage
-** Enable a repo for update
+** Usage
+*** Enable a repo for update
 If the repo is disabled it can be enabled on the cmd line with
 #+BEGIN_SRC sh
 yum enablerepo= repo_name  update
 #+END_SRC
 
-** Configuring Network
-*** Hosts File
+*** Configuring Network
+**** Hosts File
 - /etc/hosts
 This file asks as a flat db dns file, it is looked at before dns is queried
 
-** Setting Hostname 
+*** Setting Hostname 
 - Temporary
 #+BEGIN_SRC sh
 hostname yournew.hostname.com
@@ -373,12 +417,13 @@ Edit /etc/sysconfig/network so that this persists after a reboot.
 HOSTNAME=yournew.hostname.com
 #+END_EXAMPLE
 
-** Package Management
+*** Package Management
 *** Repos
 - [[https://fedoraproject.org/wiki/EPEL][EPEL(Extra Packages for Enterprise Linux)]]
 - [[https://rpms.remirepo.net/][REMI]]
 - [[http://packages.atrpms.net/][ATrpms]]
 - [[https://webtatic.com/projects/yum-repository/][Webtatic]]
+
 *** Exclude Specfic Repository
 Get repo list
 #+BEGIN_SRC sh
@@ -620,7 +665,7 @@ dnf upgrade vim
 #+END_SRC
 
 - [[file://home/crito/org/tech/linux_concepts/pkg_mgmt.org][RPM & yum]]
-** SELinux
+*** SELinux
 - [[file://home/crito/org/tech/security/selinux.org][selinux]]
 
 * Lecture

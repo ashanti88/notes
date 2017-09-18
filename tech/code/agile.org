@@ -1,0 +1,18 @@
+#+TAGS:
+
+
+* Agile
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+file://home/crito/Documents/Code/Methodology/Agile_Model-Based_Development_Using_UML-RSDS.pdf    
+file://home/crito/Documents/Code/Methodology/Agile_Software_Development_with_HP_Agile_Manager.pdf
+file://home/crito/Documents/Code/Methodology/Broken_Agile_2ed.pdf                                
+file://home/crito/Documents/Code/Methodology/Essential_Skills_for_the_Agile_Developer.pdf        
+file://home/crito/Documents/Code/Methodology/Learning_Agile.pdf                                  
+file://home/crito/Documents/Code/Methodology/The_Agile_Samurai.pdf                               
+file://home/crito/Documents/Code/Methodology/The_Art_of_Agile_Development.pdf                    
+
+* Links

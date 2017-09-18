@@ -3,6 +3,8 @@
 
 * Video Tuts
 ** System
+*** WORKING O'reilly - Using Linux Performance Tools
+    - State "WORKING"    from              [2017-09-16 Sat 02:01]
 *** TODO Cloud Computing
 *** DONE CloudFlare
     - State "DONE"       from "TODO"       [2017-01-11 Wed 11:20]
@@ -19,9 +21,13 @@
 *** DONE Red Hat System Administrator
     - State "DONE"       from "TODO"       [2017-08-22 Tue 12:45]
     - State "TODO"       from              [2017-08-22 Tue 12:45]
-*** WORKING Red Hat System Engineer 
+*** DONE Red Hat RHCA
+    - State "DONE"       from "WORKING"    [2017-09-16 Sat 02:02]
     - State "WORKING"    from "TODO"       [2017-08-22 Tue 12:46]
     - State "TODO"       from              [2017-08-22 Tue 12:45]
+*** WORKING Red Hat RHCE
+    - State "WORKING"    from              [2017-09-16 Sat 02:02]
+
 ** Security
 *** WORKING Offensive Computer Security 2014
     - State "WORKING"    from ""           [2017-04-16 Sun 05:03]
@@ -103,7 +109,8 @@
 ** Virt and Cloud
 *** DONE Introduction to OpenStack - Pluralsight
     - State "DONE"       from ""           [2017-01-11 Wed 13:35]
-*** WORKING Amazon Web Services Foundations - CBT Nuggets
+*** DONE Amazon Web Services Foundations - CBT Nuggets
+    - State "DONE"       from "WORKING"    [2017-09-16 Sat 02:03]
     - State "WORKING"    from "TODO"       [2017-01-21 Sat 23:35]
     - State "TODO"       from ""           [2017-01-11 Wed 18:18]
 *** TODO Cloud Computing - CBT Nuggets
@@ -154,9 +161,48 @@
     
 * Books
 ** System
-*** TODO [[file://home/crito/Documents/Computer_Science/Operating_Sys/Operating_Systems-Design_and_Implementations.pdf][Operating Systems - Andrew Tanenbaum]]
-*** TODO [[file://home/crito/Documents/SysAdmin/System/Systems_Performance.pdf][Systems Performance - Brendan Gregg]]
+*** WORKING [[file://home/crito/Documents/Computer_Science/Operating_Sys/Operating_Systems-Design_and_Implementations.pdf][Operating Systems - Andrew Tanenbaum]]
+    - State "WORKING"    from "TODO"       [2017-09-16 Sat 02:04]
+*** WORKING [[file://home/crito/Documents/SysAdmin/System/Systems_Performance.pdf][Systems Performance - Brendan Gregg]]
+    - State "WORKING"    from "TODO"       [2017-09-16 Sat 02:04]
+** Devops
+*** TODO [[file://home/crito/Documents/Code/Methodology/Continuous_Delivery.pdf][Continuous Delivery - Jez Humble, David Farley]]
+    - State "TODO"       from              [2017-09-16 Sat 02:08]
 ** Security
+file://home/crito/Documents/Security/Red/A_Buffer_Overflow_Study-Attacks_and_Defenses.pdf                        
+file://home/crito/Documents/Security/Red/Attacks_At_The_Data_Link_Layer.pdf                                      
+file://home/crito/Documents/Security/Red/Context_App_Tool_Manual.pdf                                             
+file://home/crito/Documents/Security/Red/Exploiting_Software.pdf                                                 
+file://home/crito/Documents/Security/Red/Facebook_Hacking.pdf                                                    
+file://home/crito/Documents/Security/Red/FW_IDS                                                                  
+file://home/crito/Documents/Security/Red/gmail_Hacking.pdf                                                       
+file://home/crito/Documents/Security/Red/Hacking_Basic_Security-Penetration_Testing_and_How_to_Hack.pdf          
+file://home/crito/Documents/Security/Red/Hacking_Exposed_6e.pdf                                                  
+file://home/crito/Documents/Security/Red/Hacking_Point_of_Sale.pdf                                               
+file://home/crito/Documents/Security/Red/Hacking-The_Art_of_Exploitation.pdf                                     
+file://home/crito/Documents/Security/Red/Hacking-The_Beginners_Guide_to_Master_The_Art_of_Hacking_In_No_Time.pdf 
+file://home/crito/Documents/Security/Red/Hacking-The_No-Nonsense_Guide.epub                                      
+file://home/crito/Documents/Security/Red/Malware_Analyst.pdf                                                     
+file://home/crito/Documents/Security/Red/Malware_History.pdf                                                     
+file://home/crito/Documents/Security/Red/Network_Attacks_and_Exploitation-A_Framework.pdf                        
+file://home/crito/Documents/Security/Red/Red_Team_Field_Manual.pdf                                               
+file://home/crito/Documents/Security/Red/Router_Exploitation.pdf                                                 
+file://home/crito/Documents/Security/Red/SQL_Injection_Attack_and_Defense.pdf                                    
+file://home/crito/Documents/Security/Red/SQL_Injection_Attacks_and_Defense-Syngress.pdf                          
+file://home/crito/Documents/Security/Red/SQL_Injection_White_Paper.pdf                                           
+file://home/crito/Documents/Security/Red/The_Antivirus_Hackers_Handbook.pdf                                      
+file://home/crito/Documents/Security/Red/The_Browser_Hackers_Handbook.pdf                                        
+file://home/crito/Documents/Security/Red/The_Giant_Black_Book_of_Viruses.pdf                                     
+file://home/crito/Documents/Security/Red/The_Hacker_Playbook_2-Practical_Guide_to_Penetration_Testing.pdf        
+file://home/crito/Documents/Security/Red/The_Hacker_Playbook-Practical_Guide_to_Penetration_Testing.pdf          
+file://home/crito/Documents/Security/Red/The_Hackers_Handbook.pdf                                                
+file://home/crito/Documents/Security/Red/The_Rootkit_Arsenal_2e.pdf                                              
+file://home/crito/Documents/Security/Red/The_Rootkit_Arsenal.pdf                                                 
+file://home/crito/Documents/Security/Red/The_Shellcoders_Handbook_2e.pdf                                         
+file://home/crito/Documents/Security/Red/The_Shell_Coders_Handbook_2e.pdf                                        
+file://home/crito/Documents/Security/Red/Unauthorised_Access.pdf                                                 
+file://home/crito/Documents/Security/Red/XSS_Attacks-Cross_Site_Scripting_Exploits_and_Defense.pdf               
+
 ** Networking
 *** TODO [[file://home/crito/Documents/Networking/SDN-Software_Defined_Networks.pdf][SDN - Software Defined Networks]]
 *** TODO [[file://home/crito/Documents/Networking/Computer_Networks-A_Tanenbaum_5ed.pdf][Computer Networks - Andrew Tanenbaum 5ed]]

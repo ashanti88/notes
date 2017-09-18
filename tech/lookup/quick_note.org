@@ -1,8 +1,6 @@
 #+TAGS: note
 
 
-* Work
-** Local Companies - Lanway, Daisy Group, Mintel
 * note
 - rowhammer for rooting
 - zone transfer

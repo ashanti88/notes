@@ -1,0 +1,15 @@
+#+TAGS: op file
+
+
+* readlink                                                          :op:file:
+* Description
+* Usage
+- find the full path of a file
+#+BEGIN_SRC sh
+readlink -f file.txt
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

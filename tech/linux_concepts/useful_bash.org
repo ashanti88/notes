@@ -1,8 +1,29 @@
-#+TAGS:
+#+TAGS: term shell bash zsh
 
 
 * Useful Bash
 * System
+- Rename files with regular expression
+#+BEGIN_SRC sh
+rename 's/\.bak$/.txt/' *.bak
+#+END_SRC
+
+- Get full path of file
+#+BEGIN_SRC sh
+readlink -f file.txt
+#+END_SRC
+
+- List contents of tar.gz and extract one
+#+BEGIN_SRC sh
+tar -ztvf file.tgz
+tar -zxvf file.tgz filename
+#+END_SRC
+
+- List files by Size
+#+BEGIN_SRC sh
+ls -lS
+#+END_SRC
+
 * Mail
 * IRC
 * Books

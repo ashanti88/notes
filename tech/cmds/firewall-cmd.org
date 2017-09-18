@@ -2,13 +2,29 @@
 
 
 * firewall-cmd							  :sec_d:fwd:
+* files
+/usr/lib/firewalld/services - this directory houses all the services files (xml)
+/etc/firewalld/services - this directory is where you add your own service files
+/etc/firewalld/firewalld.conf - this is firewalld overall config file
+
 * Description
 * Usage
+Always mark sure that iptables are not working on the system
+#+BEGIN_SRC sh
+systemctl stop iptables
+systemctl mask iptables
+#+END_SRC
+
 ** Status of Firewalld
 #+BEGIN_SRC sh
 firewall-cmd --state
 #+END_SRC
 This will tell you if it is running or not
+
+- whate services ports are currently open
+#+BEGIN_SRC sh
+firewall-cmd --get-services
+#+END_SRC
 
 ** Get current default zone
 #+BEGIN_SRC sh
@@ -24,11 +40,28 @@ firewall-cmd --get-active-zone
 #+BEGIN_SRC sh
 firewall-cmd --zone=home --list-all
 #+END_SRC
+
+#+RESULTS:
+
 ** Opening a port
 #+BEGIN_SRC sh
 firewall-cmd --permanent --add-port=7070/tcp
 firewall-cmd --reload
 #+END_SRC
+
+- or by service
+#+BEGIN_SRC sh
+firewall-cmd --add-service=vnc.server
+#+END_SRC
+this will take effect automatically, but will not be permanent on reboot
+
+- to make permanent
+#+BEGIN_SRC sh
+firewall-cmd --add-service=vnc.server --permanent
+firewall-cmd --reload
+#+END_SRC
+
+** Closting a port
 
 ** Get the specific configuration associated with a zone
 #+BEGIN_SRC sh
@@ -49,6 +82,45 @@ ZONE=home
 - Debian
   
 - Arch
+
+** Complex Rules
+check out
+#+BEGIN_SRC sh
+man firewalld.richlanguage
+#+END_SRC
+
+- adding a rich-rule
+#+BEGIN_SRC sh
+firewall-cmd --permanent --zone=public --add-rich-rule='rule family=ipv4 source address=10.0.0.100/32 reject'
+firewall-cmd --permanent --add-rich-rule='rule service name=http limit value=3/m accept'
+firewall-cmd --permanent --add-rich-rule='rule protocol value=cbt accept'
+firewall-cmd --permanent --add-rich-rule='rule family=ipv4 source address=10.0.0.0/24 port port=7900-7905 protocol=tcp accept' 
+firewall-cmd --permanent --add-rich-rule='rule service name="ssh" log prefix="ssh" level="notice" limit value="2/m" accept'
+firewall-cmd --reload
+#+END_SRC
+
+- to view the added rich rules
+#+BEGIN_SRC sh
+firewall-cmd --list-all
+#+END_SRC
+
+** Configuring NAT
+- for the use of NAT in the LAN, if not already configured at installation
+#+BEGIN_SRC sh
+firewall-cmd --permanent --zone=public --add-masquerade
+#+END_SRC
+
+** Port Forwarding
+- forward 888 to 80 on 10.0.0.10
+#+BEGIN_SRC sh
+firewall-cmd --permanent --zone=public --add-forward-port=888:proto=tcp:toport=80:toaddr=10.0.0.10
+#+END_SRC
+** Examples
+- open specific ip addr
+#+BEGIN_SRC sh
+firewall-cmd --permanent --add-source=10.0.0.0/24
+firewall-cmd reload
+#+END_SRC
 
 * Lecture
 * Tutorial

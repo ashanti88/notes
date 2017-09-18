@@ -133,6 +133,7 @@ CLASSPATH=$ORACLE_HOME/JRE:$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib; export CLA
 this will start the GUI installer
 
 * Lecture
+** [[https://www.youtube.com/watch?v=addFo5FMzkg][Oracle SGA Architecture Overview - Pete Cassidy]]
 * Tutorial
 ** CBT Linux Oracle Database 11g SQL Fundamentals
 *** Lesson 2 - About SQL

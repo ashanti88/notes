@@ -1,0 +1,11 @@
+#+TAGS: ci cd devops artifact
+
+
+* Artifactory
+HomePage: https://www.jfrog.com/artifactory/
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

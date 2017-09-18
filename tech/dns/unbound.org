@@ -1,0 +1,29 @@
+#+TAGS: dns
+
+
+* Unbound
+HomePage: [[https://www.unbound.net/][unbound.net]]
+
+* Description
+* Usage
+- dumping the cache
+#+BEGIN_SRC sh
+unbound-control dump_cache
+#+END_SRC
+
+- flush a specfic domain from the cache
+#+BEGIN_SRC sh
+unbound-control flush microsoft.com
+#+END_SRC
+
+- load a cache file into unbound
+#+BEGIN_SRC sh
+unbound-control load_cache cachefile
+#+END_SRC
+
+
+
+* Lecture
+* Tutorial
+* Books
+* Links

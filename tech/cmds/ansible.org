@@ -368,7 +368,6 @@ host_key_checking = False
 vm-ubuntu ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222 ansible_ssh_user=ubuntu ansible_ssh_private_key_file=/home/crito/vagrant_boxes/ansible/.vagrant/machines/default/virtualbox/private_key
 #+END_EXAMPLE
 
-
 * Lecture
 ** Learn you some Ansible for great good! - OpenStack Summit May 2015
 url:[[url][https://www.youtube.com/watch?v=qEuk65few9I]]
@@ -941,3 +940,4 @@ ansible-playbook -i hosts site.yml
 * Links
 [[https://galaxy.ansible.com/][Ansible Galaxy - A git for sharing roles]]
 [[https://www.ansible.com/get-started][Ansible - Get Started]]
+

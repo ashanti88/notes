@@ -11,6 +11,15 @@
 - [[file://home/crito/org/tech/cmds/mongotop.org][mongotop]] 
   
 * Description
+** Setting Up Secure MongoDB on Ubuntu 16.04
+URL: https://www.digitalocean.com/community/tutorials/how-to-install-and-secure-mongodb-on-ubuntu-16-04
+
+- Add the repo (though mongodb is available in ubuntu's repo, for the most upto date use Mongo's own repo)
+#+BEGIN_SRC sh
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6
+#+END_SRC
+
+- 
 * Lecture
 * Tutorial
 ** Mongodb Tutorial for Beginners - Microsoft Virtual Academy

@@ -3,6 +3,14 @@
 
 * apache								:web:
 HomePage: [[https://www.apache.org/][apache.org]]
+* Files
+** RHEL
+/etc/httpd - server root
+/etc/httpd/conf/httpd.conf - main configuration file
+/etc/httpd/conf.modules.d/*.conf - module configuration directory
+/etc/httpd/conf.d/*.conf   - Supplemental configuration files
+/var/www/html - Default document root
+
 * Description
 * Usage
 ** Basic Admin
@@ -20,6 +28,7 @@ apachectl start
 #+BEGIN_SRC sh
 apachectl stop
 #+END_SRC
+
 ** Graceful Stop
 #+BEGIN_SRC sh
 apachectl graceful-stop
@@ -44,6 +53,186 @@ a2dismod mod_wsgi
 ** .htaccess
 ** chroot Apache Web Server					     :chroot:
 [[https://www.cyberciti.biz/tips/chroot-apache-under-rhel-fedora-centos-linux.html][Chroot Apache Centos - NixCraft]]
+** Changing document root
+- change the document root in the httpd.conf
+- also need to add the correct selinux lables to the new document root  
+#+BEGIN_SRC sh
+semanage fcontext -a -t httpd_sys_content_t '/web(/.*)?'
+restorecon -R -v /web
+#+END_SRC
+
+** Configuring a Simple Web Server (rhel)
+- install apache
+#+BEGIN_SRC sh
+yum install httpd
+#+END_SRC
+
+- confirm state, enable and open firewall
+#+BEGIN_SRC sh
+systemctl enable httpd
+systemctl start httpd
+firewall-cmd --permanent --add-service=http --add-service=https
+firewall-cmd --reload
+#+END_SRC
+
+- add a text html page to the doc root
+/var/www/html/index.html
+#+BEGIN_EXAMPLE
+Welcome to my server
+#+END_EXAMPLE
+
+** Giving developers access to the root document
+- create the webdev group
+#+BEGIN_SRC sh
+groupadd webdev
+#+END_SRC
+
+- set permissions on the directory
+#+BEGIN_SRC sh
+setfacl -R -m g:webdev:rwX /web
+setfacl -R -m d:g:webdev:rwX /web
+#+END_SRC
+The first is to set permissions on existing files, and the second to set a default rule for new files
+Uppercase X, set execute on directories only
+
+** Configuring Virtual hosts (RHEL)
+for more than a couple of virtual hosts you should create specific domain files in /etc/httpd/conf.d/
+#+BEGIN_SRC sh
+touch /etc/httpd/conf.d/sales.conf
+touch /etc/httpd/conf.d/example.conf
+#+END_SRC
+
+sales.conf
+#+BEGIN_EXAMPLE
+<Directory /srv/web/sales>
+	Require all granted
+	AllowOverride None
+</Directory>
+
+<VirtualHost *:80>
+	DocumentRoot /srv/web/sales
+	ServerName sales.example.com
+	ServerAlias buying.example.com
+	ServerAdmin root@sales.example.com
+	ErrorLog "logs/sales_error_log
+	CustomLog "logs/sales_access_log" combined
+</VirtualHost>
+#+END_EXAMPLE
+
+- makesure that the document root exsists, and has the correct SELinux lebael
+#+BEGIN_SRC sh
+mkdir /srv/web/sales
+semanage -a -t httpd_sys_content_t
+semanage fcontext -a -t httpd_sys_content_t '/srv/web(/.*)?'
+restorecon -R -v /srv/web
+#+END_SRC
+  
+- restart the apache server
+#+BEGIN_SRC sh
+systemctl restart httpd
+#+END_SRC
+
+- Configure /etc/hosts file
+#+BEGIN_EXAMPLE
+192.168.0.4 server1.example.com server1 sales.example.com
+#+END_EXAMPLE
+
+Always a good idea to setup a default virtual host 00.conf(with an error message) as errors in virtual host configs will mean a redirection to the first correcctly configured virtual host.
+
+Common Errors Working with Virtual Hosts
+  - No DocumentRoot specified for a host
+  - Non-default DocumentRoot with faulty SELinux label
+  - No name resolution, error in nameing (example.com instead of www.example.com)
+
+*** Advanced Apache Features
+**** Configure Authentication (RHEL)
+#+BEGIN_SRC sh
+yum install -y httpd-manual
+#+END_SRC
+This will add a manual in the /etc/httpd/conf.d/ that you can browser through your browser.
+
+- setup basic authentication
+#+BEGIN_SRC sh
+htpasswd -c /etc/httpd/htpasswd user_name
+#+END_SRC
+this will prompt you for a password
+
+- add a directory section in /etc/httpd/conf/
+#+BEGIN_EXAMPLE
+<Directory /var/www/html/secret>
+	AuthType Basic
+	AuthName "Secret Files"
+	AuthUserFile /etc/httpd/htpasswd
+	Require user user_name
+</Directory>
+#+END_EXAMPLE
+
+- /var/www/html create the secret directory
+#+BEGIN_SRC sh
+cd /var/www/html
+mkdir secret
+cd secret
+vim index.html
+#+END_SRC
+
+- index.html
+#+BEGIN_EXAMPLE
+Place welcome to secret directory
+#+END_EXAMPLE
+when this page is browsed you will be challenged for a user/password
+
+
+**** Configuring Apache for LDAP Authentication (RHEL)
+- direcorty that needs to be added
+#+BEGIN_EXAMPLE
+<Directory /www/docs/private>
+	AuthName "Private"
+	AuthType Basic
+	AuthBasicProvider file
+	AuthUserFile /usr/local/apache/passwd/passwords
+	AuthLDAPURL ldap://ldaphost/o=yourorg
+	AuthGroupFile /usr/local/apache/passwd/groups
+	Require group GroupName
+	Require ldap-group cn=mygroup,o=yourorg
+#+END_EXAMPLE
+
+**** Enabling CGI Scripts (RHEL)
+- CGI scritps should be kept in /var/www/cgi-bin/
+- CGI scripts must be executable by apache user and group
+- CGI can be used by Python and PHP, but that's not optimal
+
+- PHP
+  - install mod_php
+  - this adds what is need for php to function to the httpd.conf
+    
+- Python
+  - install mon_wsgi
+  - Define a WSGIScriptAlias to redirect requeests to the correct application in the httpd.conf
+    #+BEGIN_EXAMPLE
+    WSGIScriptAlias /myapp/ /srv/myapp/www/myapp.py
+    #+END_EXAMPLE
+**** Setting up TLS for a site (RHEL)   
+- install tools to create certificates     
+#+BEGIN_SRC sh
+yum install cryto-utils
+yum install mod_ssl
+#+END_SRC
+
+- create the keys
+#+BEGIN_SRC sh
+genkey server1.example.com
+#+END_SRC
+This will run through an ncurses based creation wizzard     
+  - there is an option to encrypt the private key, if selected it has to be entered everytime the server is restarted
+The keys will be placed in /etc/pki/tls/private (priv key) and /etc/certs/ (public key)    
+
+- Configure apache to use TLS
+mod_ssl places a file in /etc/httpd/conf.d/ssl.conf
+  - in this file change the SSLCertificateFile and SSLCertificateKeyFile to the newly generated cert files
+#+BEGIN_SRC sh
+systemctl restart httpd
+#+END_SRC
+
 * Modules
 Wiki: [[https://en.wikipedia.org/wiki/List_of_Apache_modules][List of Apache Modules]]
 ** mod_wsgi

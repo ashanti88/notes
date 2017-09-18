@@ -1,0 +1,337 @@
+XDCC – An .EDU Admin’s Nightmare
+
+------------------------
+
+ 
+
+Written by TonikGin
+
+Sept. 11 2002
+
+contact: e-mail: tonikgin01@yahoo.com
+
+ 
+
+This paper was written purely for the administrators, nobody else. I strongly feel that the administrators at every college in the world (particularly targeted America) need to read this, or else they will face many problems. All the information in here is true, accurate, and describes that is actually being done to university computer networks. In this I describe how a hacker scans for machines, how the machine is broken into, and what tools are used. Also, I outline the steps needed to prevent these attacks, how to see if you are already victim, and to catch the people doing this to you. Written in 5 hours, I present the final product.
+
+ 
+
+ 
+
+- Contents
+
+--- 1. Starting with the basics
+
+------ a. Intro to IRC
+
+------ b. Intro to File Sharing
+
+------ c. Intro to XDCC
+
+--- 2. Programs used, In Depth
+
+------ a. X-Scan
+
+------ b. Dameware
+
+------ c. Iroffer
+
+------ d. Firedaemon
+
+------ e. Serv-u (brief)
+
+------ f. .Bat files
+
+--- 3. The Process
+
+------ a. Step-by-Step
+
+------ b. No Genius
+
+--- 4. Halten!
+
+------ a. Protection
+
+------ b. Damn! I am a Victim…
+
+------ c. Tricky kids
+
+--- 5. Who are these people?
+
+------ a. Organization
+
+------ b. Operators
+
+------ c. Scanners
+
+------ d. Hackers
+
+------ e. Fillers
+
+------ f. Leechers
+
+--- 6. Ending Notes
+
+------ a. Methods
+
+------ b. Conclusion
+
+ 
+
+ 
+
+Summary:
+
+In a recent advisory written by Microsoft, and by trends being noticed by many university administrators over the past recent years, people have wanted to know what all these slave computers are on IRC. These machines are serving to newest warez (games, movies, apps, mp3, ect.) to anyone that knows how to use a keyboard. Also, massive amounts of bandwidth is being wasted (easily up to 2MB/s each machine). In this, I will describe from an insiders view, what is happening, how this is being done, how to see if you are a victim, and what you can do to prevent this from happening to your network.
+
+ 
+
+ 
+
+--- Chapter 1. - Starting with the Basics
+
+ 
+
+A) Intro to IRC
+
+    IRC is a worldwide network of computers all setup for one purpose, communication.  People can come to IRC to chat with friends or meet new people, discuss hot topics such as politics, religion, or breaking news. Over the recent years it has gained much fame, much due to popularity in the warez scene. Warez, simply defined, is the illegal downloading of copyrighted material. Groups which have access to pre-released games, are willing to sneak a camera into a theatre, or happened to beta test the newest Microsoft OS, are eagerly willing to digitize these formats, and make them readily available on the internet for the masses. How does IRC fit into this? IRC is one meeting place people (deemed leechers) can come to congregate and download these files.
+
+ 
+
+B) Intro to File Sharing
+
+     Ahhh.. the wonders of connecting to a server, finding a file, and downloading it. Sure is easier than going to Best Buy and buying the game (and usually quicker). So, what is exactly file sharing? Simply… sharing files. Large amounts of people connect to servers, where they are all ‘connected’ to each other, to download files off others hard drives. IRC has a file server feature, where people can connect, view files on your machine, and download whatever you give them access too. But there are also services such as Kazza, BearShare, Napster, LimeWire, and many more which when you search for a file, your looking through everyones computer at once. That is what it is all about. How is file sharing related to this article? Read on…
+
+ 
+
+ 
+
+C) Intro to XDCC
+
+     Pay attention, this is where things pick up. XDCC revolutionized IRC. Many people now use IRC because of this new ‘XDCC’ feature. What is it? Like a file server, yet automated. It will periodically list the files (usually 1-5 large files) in the channel (chat room) which it is hosting, for people to download. There is a program called Iroffer (1) which makes this even easier. It will (using the definitions in a configuration file you setup), connect to an IRC server, join a channel, and automatically list files. You can set bandwidth limits, max sends per persons, and more, which will all be covered later.  
+
+ 
+
+--- Chapter 2.  – Programs Used
+
+ 
+
+A) X-Scan
+
+     X-Scan (2) is a great program, no doubt. Using an upgradeable exploit database, multi-threaded scanning, and great stability, the author(s) have really delivered. For windows, X-Scan can scan anything from POP3 vulnerabilities, cracking File Sharing passwords, null passwords, to web server faults. When dealing with IRC XDCC hacking although, many deem to turn to one choice in particular ‘NT-Server-Password’. What this does is scan a large user given range of IP’s and checks for file sharing. When it finds a windows machine with file sharing enabled (port 139), it will get a netbios table list of all usernames on that machine. This can be acquired manually also using the following commands in DOS:
+
+C:\winnt\system32\> nbtstat –A 127.0.0.1
+
+Where 127.0.0.1 is any given IP with file sharing or netbios. Back on track… Once it gets a list of all usernames for an IP, it will then check for weak passwords, or no passwords at all. Many people, when installing windows 2000, NT, or XP will forget the true essence of a password. This is highly critical that you set an Administrator password. For people that do not type in a password, this is where it will take advantage of you. It will send back to the attacker the following response:
+
+[127.0.0.1]: Found NT-Server-Password: Administrator/[Blank password]
+
+[127.0.0.1]: "NT-Server-Password" scan complete, Found 1.
+
+Once they have this information, and you have file sharing enabled, consider yourself fully rooted. This ‘vulnerability’ has been around for a long time, and is not Microsoft’s fault, but user error for not supplying a password. Chances are definite that with a strong password, the program would had not guessed it, and moved on to the next IP. But no, you are a victim, your computer is now property of someone you don’t even know.
+
+ 
+
+B) Dameware NT Utilities
+
+     Once an attacker has scanned an IP range, and gathered some vulnerable machines, they will fire up Dameware (3). This program can effectively be used to see what your computer is doing, remotely. See what processes are running under the current account (very useful to an attacker), look at the Event Logs (and clear them), shut down the machine, run programs, spawn a DOS prompt (same as shell), see the hard drives attached and the free space on them, go through the users files, upload any new files, edit what they wish.. ect. It is exactly like being on the victim’s computer. There is even a remote control feature, to see the victims monitor screen in a window on your computer,  and move their mouse like you were there sitting in their chair. A great program indeed, with much time put into it. An attacker uses this to mainly check your free space on your hard drive, and see what processes are running (programs in the background, services.) Also, once they connect to your computer with this, and login with the supplied credentials from X-Scan, they have a date pipe connected form your machine, to their machine, and no longer need to log back in until either you or they re-establish their connection to the internet.
+
+ 
+
+C) Iroffer
+
+     This is the main problem. This program is the one which connects to a defined IRC server, joins a defined room, and serves files. With the option to not have a bandwidth speed limit, if this program is installed onto EDU domains, there inlays a huge problem. Due to college universities and the massive amount of users and data on their networks, they need a strong backbone, with many clients that have a high rate of speed to that backbone. Therefore, expect massive amounts of bandwidth to be thrown out of the trash, and a growing number of complaints from students of staff for having ‘slower browsing experiences’, or a substantial ping reply. Bah, I got off track… that comes later on. Iroffer was originally made for *nix, but, was ported to windows with the help of Cygwin (4).
+
+ 
+
+D) Firedaemon (5)
+
+     This is a legit program, which has been used corruptively by the xdcc hackers. It will install a program as a service, and ensure that it is started up along with windows the next time the machine reboots. This way, the hacker doesn’t have to install a backdoor Trojan on your computer, to keep getting access (and risk being caught) to re-start their programs. They need their programs to start with windows, and make sure they do every time. Usually Iroffer is started along with Serv-U which will be explained next. Firedaemon installs a program onto the victims machine as a system service, with net capabilities (more on this later.)
+
+ 
+
+E) Serv-U FTP Server (6)
+
+     This program is used to install an ftp backdoor on your computer, so files can be uploaded to your machine. The file name may be masked as something else, but there will always be a Servudaemon.ini in the folder, which is the file that tells the program how to act. Such as, what port on your machine to setup the ftp protocol on, along with usernames and passwords, and maybe privileges for each account, to limit how much some people have access to your machine in the ‘xdcc group’ compared to others.
+
+ 
+
+F) Psexec
+
+     Ok, I learned of psexec (7) through these methods of setting up slave machines, and since, I now have personally used it at work managing the network computers there! This program is handy as hell, and very small, also very legitimate. What it can do, is given the IP address (or network name) run a program on the remote machine, even with arguments. For example:
+
+C:\winnt\> psexec \\127.0.0.2 –u Administrator c:\winnt\system32\iroffer.exe config.txt
+
+What would this do? Simple. Psexec is telling dos to run this file, since it is not a win32 gui program, it must be run command line. The two backslashes before the destination just tells it that it is a network computer (LAN, or internet), just as like going to start menu, and running \\127.0.0.2. Next the –u tells the program ‘use the following username when logging into the computer’. And the ‘Administrator’ following it, is just that, the username to connect as (It asks for password after u type enter, then verifies, and connects). Next, the drive, path and filename of the file to be run is given, along with any arguments. In this case, I added config.txt, which would tell Iroffer.exe to use this file to set up as it’s configuration (i.e. IRC server to connect to, channel to join, bot info, ect).For more commands, simply type ‘psexec’ in the command prompt of the folder you have it in, and it will tell you all the arguments for the program and how to use them.
+
+ 
+
+G) Bat files
+
+     These are usually small batch source files written in notepad, then saves as a *.bat file. This file is nothing more than a group of dos commands. What would a hacker want with dos commands? Well, for one thing firedaemon can be executed with arguments, and in a command line interface. Also, when a service is started, these bat files can start the service (net start servicename), automating the process for the hacker of installing and running files on a machine. Here is an example of a sample bat file, and what it would do.
+SET MXHOME=c:\winnt\system32
+
+SET MXBIN=c:\winnt\system32
+
+c:\winnt\system32\firedaemon -i ServiceName1"c:\winnt\system32" "c:\winnt\system32\iroffer.exe" "config.txt" Y 0 0 0 Y
+
+c:\winnt\system32\firedaemon –I ServiceName2 "c:\winnt\system32" "c:\winnt\system32\servudaemon.exe" "" Y 0 0 0 Y
+
+net start ServiceName1
+
+net start ServiceName2
+
+Ok, now for an explanation. This file executes firedaemon, with the required arguments to install Iroffer.exe and servudaemon.exe. Notice the config.txt after Iroffer, which Iroffer needs a configuration file in the first place to run so it knows what to do. ServiceName1 and 2, are each of the services it saves itself as on the machine. Then, ‘net start servicename1’ executes servicename1, which would start Iroffer, and it would connect to the ircserver, install the files, ect. Take note, as I mentioned earlier, with firedaemon, you only need to install a service with it once, and never again does a hacker have to worry about regaining access to your computer! It will be started up again each time windows starts, and since it is running under a system process (firedaemon) it will not be visible to the user that it is running.
+
+     There is another bat file administrators need to be aware of, secure.bat. This can be found in many different versions, each unique in it’s own way, yet each with one purpose in mind, stopping other scanners from finding the machine. It’s really sad it has come to this, but *.edu domains are scanned so much, all hours of the day that some people will stumble across already hacked IP’s. And, to keep that machine from being broken into, they ‘secure it’. None of these methods are actual one-hundred percent securing the machine in any way, just patching it so it does not show up in a basic scan (X-Scan being used by other malicious users.)  Usually the bat file just deletes shared drives using the net command in dos, but this doesn’t really matter, since once the user restarts the machine, the shared drive is back online (maybe if firedaemon was implemented into this, but I have yet to see).  There is another method, “secures” the administrator account by getting rid of it, then making another administrator account with the login and password being whatever the hacker specifying, it then sets this as the master administrator account. This is a good idea, but when most people restart there machine wont boot back up, and the hackers not only lost an opportunity for a bot, but also the you the admin have to go through the trouble of restoring the accounts on the machine for the user (sound familiar?) I hope I made that paragraph as clear as possible; I am trying hard to be somewhat very detailed.
+
+ 
+
+-- Chapter 3. – The process
+
+ 
+
+A). Step-by-Step
+
+     Now, Chapter 2 may have left you thinking ‘Insane! They do all that work, just to host some movies to people that don’t even know?’ Well, not so true. When making bots, you learn shortcuts. Sometimes u do not need to do one stop on a machine, or you can add more lines to a batch file to simplify things for you. Here is a timeline, along with hacker’s actions
+
+ 
+
+12:00am – Hacker opens X-Scan, and enters his range. Just so happens to be 2,550 IP address in the range, which covers an entire dorm subnet at a well known fast backbone university.
+
+12:30am – Scannign complete, hacker looks through the logs of X-Scan, looking for any Administrator accounts without a password, or User accounts without passwords.
+
+12:31am – Dameware NT Utilities started up, hacker wants to connect to a an IP found vulnerable
+
+12:32am – Hacker enters IP into dameware, double clicks on Processes. Dameware asks for a username and password, the hacker connects as user ‘Marcy, and leaves the password field blank. Connection successful!
+
+12:32am – Upon looking through the processes, the hacker notices that no firewall he or she seems to recognize installed, and proceeds to setup the bat files for transfer for the remote machine.
+
+12:35am – Since this machine is running windows 2000, the hacker makes sure the bat file points to c:\winnt\ instead of c:\windows, and goes to his or her start menu, selects run, then types \\IP\c$\winnt\system32 , where IP is the IP address found vulnerable.
+
+12:36am – Eventually (file sharing is somewhat slow sometimes) the hacker sees the system32 folder of the victims pc, and it looks like he is in a normal folder browsing on his or her pc, convenient hacking isn’t it, eh Microsoft? Using drag and drop, the hacker selects the files (.bat file to automate things, the files for Iroffer, and servu ftp) and drags them to the window of the victims PC.
+
+12:37am – Approx. 1 minute later (servu exec is around a meg, and cygwin dll is close to a meg) the files are on the remote computer in c:\winnt\system32, job well done. But, now that the hacker has the files where they are supposed to be, the .bat file has to be run
+
+12:38am – A few seconds, and a command prompt later, the hacker simply types:
+c:\winnt\> psexec \\IP c:\winnt\system32\inst.bat
+
+Where again, IP represents the internet protocol address of the remote machine, and inst.bat is the bat file to run (can be named anything, as long as it end with .bat.)  You may have noticed I didn’t type –u Marcy, to tell dameware to connect as that user, well in 2.B I stated that a pipe connection is made between you and that other machine once u connect the first time (dameware), so no need to type it again, unless u or the other machine has been restarted since.
+
+12:39am – And back over on IRC, people see “XDCCBOT-567 has joined #warezchannel”, at the same time the ftp is up and running, and system is secured, if the hacker set it up so that way in the .bat file. The bot joins the channel (Section 2.G) because the .bat launched firedaemon which created a service for iroffer (and servu, but separate service name) on the computer, and then launched that service. 
+
+12:40am – Need to fill this computer with the newest movie to serve! Since the .bat file started servu ftp server also, the hacker will just connect to the IP on the port he specified in servudaemon.ini and using the login and password he entered in there also (password encrypted). Now, the person will fxp files from one server, to your victim machine.
+
+1:10am – Movie complete! Time to rar it all up into one big file using rar.exe, then add a pack with Iroffer (9)
+
+12:40 – Move on to next IP.
+
+ 
+
+B) No genius
+
+     As you can see, anyone can do this. It does not take a code monkey, assembly pounding, stack smashing genius to pull this off. In fact, anyone can do this. Show any person which has basic knowledge of a computer what to do, lead them through a few times, and they can get 50 bots a day into their warez channel and waste all your bandwidth they please. Now, how are you going to stop it?
+
+ 
+
+-- Chapter 4.  -Halten!
+
+ 
+
+A) Protection
+
+     Ok, this can easily be stopped on a university’s part. In fact, I do not even blame this on the people’s machines which leave file sharing enabled, or don’t have strong windows password. They don’t know any better, half of them only use their computers at the dorms for porn or mp3’s anyways, with the occasional e-mail to mom and dad back home. I blame this purely on you lazy administrators out there. Seriously, if you’re going to be an administrator, do your job. Set rules for each computer attacked to the network, that each must log into their machine with a password and not a default Administrator account. Also, disable file sharing on all machines. No, I am not talking about the Peer-2-Peer programs such as Kazza (which wouldn’t be too bad to block those anyways), I am talking about the file sharing protocol itself. You might also want to look into a firewall which blocks outgoing sends on port 139 for all machines, or at least is only limited to the LAN and not an outside IP if it crucial to have. And scan your own networks! Please, use the information in this text to scan your own networks, see which clients on the networks have file sharing enabled, or a weak password, and go to their dorm or room and tell them the problem. Most likely (about seventy-five percent chance) the machine was already hacked. So, you might want to look for firedaemon running by checking the current processes. If the user knows what firedaemon is, and uses it for personal use, don’t worry about it, but if they have no idea what it is, then they are definitely a victim. Also, have all computers on the network run a firewall application also, along with the universities network firewall built into the routers.
+
+ 
+
+B) Damn! I am a Victim…
+
+     If only I had written this earlier. Ok, here’s what to do. First off, don’t format the hard drive, leave that as a last resort. Go to the Control Panel, then select Administrative Tools. Now choose Computer Management. You will see two boxes, left will have a list with more options, and right box blank. In the left box, select Services and Applications, and under that click on Services. See to your right? Those are all the services on your computer. Look for firedaemon. Stop the service by right clicking, and selecting stop. Or, in command prompt “net stop servicename”. Once you have done this, right click the Firedaemon service, and go to properties. See ‘path to executable:’? Go to that folder, and delete it. Well, you can also look at the other files the hacker uploaded, and maybe find a host mask or IP of who the hacker is in one of their config files.
+
+ 
+
+C) Tricky kids
+
+     These people getting these xdcc bots know the attention that they have been getting lately. So, they try to cover up their activities. Firedaemon.exe may be named something completely different, which would also change the service name of it. Also, the configuration files edited in notepad, well since they can be any file extension, as long as the contents are ASCII, they may save the configuration file for Iroffer as emp.gif (used on many machines) or mask it as a dll file. Just look for smaller files... around 1.5kb - 4kb, and open them with notepad. What may have been Pamela.jpg could be the configuration file for Iroffer! Now, what to do with that? Download mirc, and connect to one of the servers listed (you will be able to tell) then go to the channel listed (will look like this ‘channel #warezgroup -plist 20 -pformat full’, that just means to join channel #warezgroup) See all the bots? Those are all other victims also. Get the IP’s of any ops in the channel (ops are people in the top of the channel list with a @ before their name), since they run the channel, one of them knows who hacked your machine, if not one of them in the first place.  People don’t realize how serious this is. There are 4 major slave bot servers where warez is exchanged like this… Criten, Efnet, Undernet and Dalnet. Criten being number one concern because the entire server is nothing but warez, it was made primarily for nothing but people to come and download these files from the hacked machines, with literally over a thousand slave machines logged onto it’s servers.
+
+ 
+
+-- Chapter 5. – Who are these people?
+
+ 
+
+A.) Organization
+
+     Believe it or not, these people are highly organized. For people I have met as young as 14, and as old as in their upper 50’s, they all act in the same mindset, keeping everything under control.
+
+ 
+
+B.) Operaters
+
+     The leaders of the group, the big dogs. These people recruit the small people. They run the channel, set meetings, coordinate who does what, what bots get what warez, ect.
+
+ 
+
+C) Scanners
+
+     The scum. These people usually don’t even have control over the channel; they are being used by the channel operators and hackers to get important information, which machines are vulnerable. These people don’t usually even know the dangers of scanning, or that they can easy be seen doing a mass scan of an entire subnet by most administrators. All they do, is scan constantly from their machines (or other hacked machines), and send the logs to the hackers.
+
+ 
+
+D) Hackers
+
+     They don’t even deserve to be called it, but it’s legally what they are doing. These are the people that the scanners send the logs to. Once in their possession, they log into the machine, load the bot, start up the ftp server, secure it, and get out.
+
+ 
+
+E) Fillers
+
+     This role may be undertaken by channel ops, or the hackers, or anyone else with access to a box with a fats connection, a dump site (usually hacked machine with good uptime, tosn of bandwidth, and tons of warez uploaded to it), or a topsite (legit sites hosted by some network admins to receive warez). They log into a ftp, then the hacked machine, and perform an FXP transfer, which is transferring from site to site. A common program to do this is FlashFXP, a legit program.
+
+ 
+
+F) Leechers
+
+     The masses of people that join a channel (chat room) and download from the bots. They send a command to the bots, and the files are sent, or they are places in a send queue. The channels are more powerful if they have more leechers in their channel (easily thousands of people).
+
+ 
+
+-- Chapter 6. - Ending Notes
+
+ 
+
+A.) Methods
+
+     In this I noted the most common method people are using. Firedaemon will always be used, these hackers need to restart their programs each time you reboot. But, more sophiscated kids might employ other methods to scan or install these services. There are the ‘rootkits’, which are programs that auto mate the entire process. A hacker types in a range, and it will automatically scan for the vulnerability, copy files, run them, and secure they system, then move on. These are not ‘publicly’ available on the internet for download, but in fact kept low. People program these, and may only be given out to one or two other very close peers, or nobody at all. Another method  would be running an eggdrop service on IRC, with specific tcl scripts to scan for them. Then a hacker types a command, it will scan, and with another command send the results back (automated scripting.)
+
+     Hackers may not always access your networks from their computers. A method becoming widely used now is to hack a residential cable or DSL line, and do all the hacking from there. That way they are not themselves directly connecting to the remote victim PC, rather routing through another box.
+
+ 
+
+B.) Conclusion
+
+     I hope I covered everything, any further questions you have feel free to e-mail me. I want to make a further note, please don’t take this as ‘Oh whew! I have cable, I am not vulnerable!’ Cause your wrong, in fact in a scan of 1275 *.edu IP’s, compared to 1275 cable IP’s, there were 170% more cable machines found vulnerable. Just since not as much of bandwidth is in play, most hackers wont install an xdcc bot onto these machines, maybe a DDoS (Distributed Denial of Service) bot, but if you have antivirus it should pick up most major versions like Evilbot (sorry, no kaiten.) Cable users with Optonline ISP (*.optonline.*) need to be aware, since you are all on 10mbit lines for each computers. Pretty much everyone is vulnerable, but these hackers are greedy, and want only the fastest lines. *.edu preferred, but if things get grim enough, optonlines and other ISP’s with faster than usual cable/DSL speeds may become targeted.  That wraps it up, stay safe everyone. If you have any questions, feel free to e-mail me at tonikgin01@yahoo.com, thanks again!
+
+- TonikGin
+
+ 
+
+ 
+
+ 
+
+References:
+
+1: Iroffer : http://www.iroffer.org/
+
+2: X-Scan : http://www.xfocus.org/programs.php
+
+3: Dameware NT Utilities : http://www.dameware.com/products/dntu/
+
+4: Cygwin : http://www.russonline.net/tonikgin/www.cygwin.com
+
+5: Firedaemon : http://www.russonline.net/tonikgin/www.firedaemon.com
+
+6: Serv-U FTP Server : http://www.russonline.net/tonikgin/www.serv-u.com
+
+7: Psexec : http://www.sysinternals.com/ntw2k/freeware/psexec.shtml

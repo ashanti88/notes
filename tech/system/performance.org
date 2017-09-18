@@ -1,13 +1,15 @@
-
+#+TAGS:
 
 
 * Performance
-  
 * Tools & Applications
-  - perf
-  - top
-  - dstat
-  - iostat
+- top
+- dstat
+- iostat
+- vmstat  
+- free
+- perf
+- BPF
 
 * Books
 [[file://home/crito/Documents/SysAdmin/System/Systems_Performance.pdf][Systems Performance - Brendan Gregg]]
@@ -79,5 +81,199 @@ hit-ratio = hits/total accesses(hits and misses)
   - Warm - contains some requested data but not enought to be considered hot
   - Warmth - this describes how hot or cold a cache is
 
-
 * Tutorials
+** Using Linux Performance Tools - O'Reilly
+Github: https://github.com/goldshtn/linux-tracing-workshop
+
+- The USE Method
+Anti-Patterns
+  - looking under the streetlight
+  - "The Tools Method"
+    - use random tools, because you have them
+  - Assumptions, irrational beliefs
+  - Blame someone else
+
+U - Utilisation
+S - Saturation
+E - Errors
+
+for each hard/software resource identify utilisation, saturation and errors
+
+- The USE Checklist for Linux Systems
+  http://www.brendangregg.com/USEmethod/use-linux.html
+  this link provides component to tool
+
+- Types of Performance Tools
+  - Categorized by Depth
+    - Counting tools (how many times?)
+      - top, ifconfig
+    - Latency tools (how long?)
+      - iolatency, fileslower, dbslower
+    - Stack aggregators (where from?)
+      - perf, stackcount
+    - Tracers
+      - Logs, perf, trace
+	
+  - Categorized by Data Processing
+    - Real-time
+      - Output as events arrive
+      - No long-term aggregation
+      - Lower overhead
+	
+    - Later analysis
+      - Aggregated or raw data written to a file
+      - Post-processing required
+      - Can go back and investigate
+
+- Tracing Vs Sampling
+  - Sampling works by getting a snapshot or a call stack every N occurrences of an interesting event.
+  - Tracing works by getting a message or a call stack at every occurrence of an interesting event.(lower fequency)
+    
+  - Tools
+    - SysDig
+    - BPF
+    - perf
+    - SystemTap
+    - ftrace
+    - LTTng
+      
+- Kernel Tracepoints
+  - Enbedded in the kernel at compile-time to trace events for various areas in the system
+    - 1609 tracepoints in Linux 4.8
+    - None in the TCP/IP stack
+    - tracepoints can be found in /sys/kernel/debug/tracing/
+      - each tracepoint has a format file and this provides more information.
+      
+  - Tracepoint usage
+    - Summary of block device utilization and latency
+    - Blocked process wait times and timeline
+    - Kernel memory allocation patterns
+    - Hardware interrupt handling and distribution
+    - Application workload characterization through syscalls
+    
+- PMU Events
+  - Performance Management Unit, provides processor performance counters
+  - Availability on some VMs is limited
+    - some virtualize the PMU (Xen, VMWare)
+    - is available in EC2 dedicated hosts
+      
+- Processor Performance Counters senarios
+  - Instructions retired
+    - Find the IPC/CPI metric to understand if the application is using the CPU effectively
+  - LLC (last level cache) misses
+    - Detect algorithm inefficiencies or noisy neighbors
+  - CPU port utilization
+    - Understand how to better spread the workload between the processor's execution units
+      
+  - Collecting Processor Performance Counters
+    - Performance counters can be read at predefined intervals
+      - Read at start and end, subtract, get metric
+    - For stack sampliing, can configure the processor to generate an interrup when a counter overfolows
+      - E.g. grab a stack sample every 100K cache misses
+	
+- KProbes and UProbes
+  - Dynamic Tracing
+    - Tracepoints can't cover everything
+      - some areas don't have tracepoints (TCP/UDP)
+      - Somethime you really wish for another tracepoint, tracepoint isn't detailed enough
+    - Dynamic tracing is about instrumenting arbitrary functions in kernel- or user-space
+      - Count TCP segments sent/received
+      - Trace failed memory allocations with allocation size
+      - Aggregate database query text and latency
+  - Probe Discovery
+    - Unlike tracepoints, you need to find the function you're interested in - by reading the source
+      - nm, objdump, /proc/kallsyms, perf and others can help
+    - Function arguments, local variables and return values can also be recorded
+      
+- Listing Probe Locations
+  - The OS kernel functions can be found in /proc/kallsyms
+    - use grep to narrow your function search, as there are a huge amount
+      
+      
+- USDT (User Statically Defined Tracing)
+  - Brings kernel tracepoints to user programs
+  - Tracepoint information and arguments embedded in the binary and available to tracing tools
+  - Probes are nops until enabled (no overhead)
+
+  - .d/.stp files (Dtrace and SystemTap)
+    - these two tools are commonly used to access the data from the USDT
+  
+  - Finding USDT probes
+    #+BEGIN_SRC sh
+    readelf -n binary
+    #+END_SRC
+    - this will list descriptors embedded into the binary (stapsdt)
+    - tplist is python script that makes the above output much more readable
+      
+- Introduction to Perf
+debian
+#+BEGIN_SRC sh
+apt install linux-tools-common
+#+END_SRC
+rhel
+#+BEGIN_SRC sh
+yum install perf
+#+END_SRC
+
+- perf is a linux multi-tool for performance investigations
+- developed in the kernel tree
+  
+- Example One-Liners
+Record CPU Samples with stacks to find CPU hot path
+#+BEGIN_SRC sh
+perf record -ag -F 97
+#+END_SRC
+
+Probe user-space memory allocation failures with stacks
+#+BEGIN_SRC sh
+perf probe -x /lib64/libc.so.6 --add 'malloc%return res=$retval'
+perf record -e probe:malloc --filter 'res==0' -g -p 188
+#+END_SRC
+
+Collect disk I/O access statistics and pinpoint heavy disk consumers
+#+BEGIN_SRC sh
+perf record -e block:block_rq_insert -a
+#+END_SRC
+
+Trac syscalls to find missing or excessive file operations
+#+BEGIN_SRC sh
+perf trace -e open
+#+END_SRC
+
+Get number of evernts over a time interval
+#+BEGIN_SRC sh
+perf stat -a -e sched:sched_switch -- sleep 5
+#+END_SRC
+
+Monitor system performance (like top) on 1000s of metrics
+#+BEGIN_SRC sh
+perf top
+perf top -e block:block_rq_insert
+perf top -e page_faults
+#+END_SRC
+
+- CPU Recording with Perf
+- to find a CPU bottleneck, record stacks at timed intervals
+system-wide
+#+BEGIN_SRC sh
+perf record -ag -F 97
+#+END_SRC
+a - all cpus
+g - capture call stacks
+F - frequency of samples /sec
+
+specific process
+#+BEGIN_SRC sh
+perf record -p 188 -g -F 97
+#+END_SRC
+p - specific process
+
+specific workload
+#+BEGIN_SRC sh
+perf record -g -F 97 -- ./myapp
+#+END_SRC
+-- - run workload and capture it
+
+17
+
+* Links

@@ -73,6 +73,10 @@ This will find all crito's python files in current directory
 #+BEGIN_SRC sh
 find . -name "pattern" -exec rm -rf {} \;
 #+END_SRC
+or
+#+BEGIN_SRC sh
+find . -name "pattern" -delete
+#+END_SRC
 ** Count files in directory recursively
 #+BEGIN_SRC sh
 find . -type f | wc -l

@@ -7,6 +7,7 @@
 - mount dvd/cdrom
 #+BEGIN_SRC sh
 mount -t iso9660 -o ro /dev/cdrom /home/crito/mtp/cdrom/
+mount -o loop file.iso /home/crito/mtp
 #+END_SRC
 
 - attempt to mount all disk in /etc/fstab not already mounted

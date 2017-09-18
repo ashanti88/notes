@@ -1,0 +1,25 @@
+#+TAGS: apache ci cd build code java
+
+
+* Maven
+HomePage: https://maven.apache.org/guides/getting-started/index.html
+
+* Description
+Maven was released in 2004. Its goal was to improve upon some of the problems developers were facing when using Ant.
+
+Maven continues using XML as the format to write build specification. However, structure is diametrically different. While Ant requires developers to write all the commands that lead to the successful execution of some task, Maven relies on conventions and provides the available targets (goals) that can be invoked. As the additional, and probably most important addition, Maven introduced the ability to download dependencies over the network (later on adopted by Ant through Ivy). That in itself revolutionized the way we deliver software.
+
+However, Maven has its own problems. Dependencies management does not handle conflicts well between different versions of the same library (something Ivy is much better at). XML as the build configuration format is strictly structured and highly standardized. Customization of targets (goals) is hard. Since Maven is focused mostly on dependency management, complex, customized build scripts are actually harder to write in Maven than in Ant.
+
+Maven configuration written in XML continuous being big and cumbersome. On bigger projects it can have hundreds of lines of code without actually doing anything “extraordinary”.
+
+Main benefit from Maven is its life-cycle. As long as the project is based on certain standards, with Maven one can pass through the whole life cycle with relative ease. This comes at a cost of flexibility.
+
+In the mean time the interest for DSLs (Domain Specific Languages) continued increasing. The idea is to have languages designed to solve problems belonging to a specific domain. In case of builds, one of the results of applying DSL is Gradle.
+
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links
+[[https://maven.apache.org/guides/mini/guide-configuring-maven.html][Guide to Configuring Maven]]

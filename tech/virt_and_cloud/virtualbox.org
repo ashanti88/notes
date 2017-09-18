@@ -64,6 +64,47 @@ This will then show an over view of the box that will be created
 VBoxManage startvm centos_box --type headless
 #+END_SRC
 this allows for the machine to be run in he background and ssh into
+** Installing MacOS
+http://www.wikigain.com/install-macos-sierra-10-12-virtualbox/
+
+*** Virtual Box Code
+						www.wikigain.com
+
+Code for Virtualbox 5.x.x:
+
+cd "C:\Program Files\Oracle\VirtualBox\"
+VBoxManage.exe modifyvm "Mac" --cpuidset 00000001 000106e5 00100800 0098e3fd bfebfbff
+VBoxManage setextradata "Mac" "VBoxInternal/Devices/efi/0/Config/DmiSystemProduct" "iMac11,3"
+VBoxManage setextradata "Mac" "VBoxInternal/Devices/efi/0/Config/DmiSystemVersion" "1.0"
+VBoxManage setextradata "Mac" "VBoxInternal/Devices/efi/0/Config/DmiBoardProduct" "Iloveapple"
+VBoxManage setextradata "Mac" "VBoxInternal/Devices/smc/0/Config/DeviceKey" "ourhardworkbythesewordsguardedpleasedontsteal(c)AppleComputerInc"
+VBoxManage setextradata "Mac" "VBoxInternal/Devices/smc/0/Config/GetKeyFromRealSMC" 1
+
+Code for Virtualbox 4.x.x:
+
+cd "C:\Program Files\Oracle\VirtualBox\"
+VBoxManage.exe modifyvm "Mac" --cpuidset 00000001 000306a9 04100800 7fbae3ff bfebfbff
+VBoxManage setextradata "Mac" "VBoxInternal/Devices/efi/0/Config/DmiSystemProduct" "MacBookPro11,3"
+VBoxManage setextradata "Mac" "VBoxInternal/Devices/efi/0/Config/DmiSystemVersion" "1.0"
+VBoxManage setextradata "Mac" "VBoxInternal/Devices/efi/0/Config/DmiBoardProduct" "Iloveapple"
+VBoxManage setextradata "Mac" "VBoxInternal/Devices/smc/0/Config/DeviceKey" "ourhardworkbythesewordsguardedpleasedontsteal(c)AppleComputerInc"
+VBoxManage setextradata "Mac" "VBoxInternal/Devices/smc/0/Config/GetKeyFromRealSMC" 1
+
+
+===============================================================================================================================================================	
+
+Need Help, check the article below:
+
+	VirtualBox Step by step Guide:  http://www.wikigain.com/install-macos-sierra-10-12-virtualbox/
+*** Change the resolution
+cd "C:\Program Files\Oracle\Virtualbox"
+
+VBoxManage setextradata "VM Name" VBoxInternal2/EfiGopMode N
+
+Where N can be one of 0,1,2,3,4,5 referring to the 640x480, 800x600, 1024x768, 1280x1024, 1440x900, 1900x1200
+						      0	       1	 2	   3	      4 	5
+Tutorial by wikigain
+
 ** Connect to a virtual machine with rdp
 - this can be done over vrdp
 #+BEGIN_SRC sh

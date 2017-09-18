@@ -1,0 +1,15 @@
+#+TAGS: file read
+
+
+* tac
+* Description
+* Usage
+- read file backwards
+#+BEGIN_SRC sh
+tac filename.txt
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links
