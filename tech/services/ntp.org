@@ -10,4 +10,5 @@ chrony
 * Lecture
 * Tutorial
 * Books
+[[file://home/crito/Documents/SysAdmin/NTP_Security-A_Quick_Start_Guide.pdf][NTP Security - A Quick Start Guide]]
 * Links

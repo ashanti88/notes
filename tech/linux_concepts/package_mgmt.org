@@ -162,6 +162,8 @@ df -H
 *** Snappy
 * RHEL							       :sys:pkg:rhel:
 *** rpm								   :rhel:pkg:
+http://repoforge.org/
+
 **** Basic Actions
 - List of all installed packages
 #+BEGIN_SRC sh
@@ -173,7 +175,6 @@ q - query the database
 #+BEGIN_SRC sh
 rpm -Vv
 #+END_SRC
-
 
 **** Repo Administration
 Adding a repo
@@ -253,7 +254,7 @@ rpm -Uvh ius-release.rpm
 yum repolist
 #+END_SRC
 
-*** ycpfum                                                         :rhel:pkg:
+*** yum                                                         :rhel:pkg:
 **** Basic Administration
 - Install application
 #+BEGIN_SRC sh

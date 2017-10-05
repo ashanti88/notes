@@ -97,6 +97,12 @@ Wiki: [[https://wiki.archlinux.org/index.php/fonts#Emoji_and_symbols][Arch-Fonts
 ** Hybrid Graphics
 file://home/crito/org/tech/linux_concepts/hybrid_graphics.org
 
+** Setting keyboard
+- from the terminal
+#+BEGIN_SRC sh
+setxkbmap gb
+#+END_SRC
+
 * Lectures
 * Tutorial
 * Articles

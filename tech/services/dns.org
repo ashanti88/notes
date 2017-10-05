@@ -73,6 +73,9 @@ information.
 * Lecture
 * Tutorial
 * Books
-file://home/crito/Documents/SysAdmin/DNS/DNS_and_Bind_on_IPv6.pdf
+[[file://home/crito/Documents/SysAdmin/DNS/dns_and_bind-oreilly_5e.pdf][DNS and BIND - O'Reilly]]
+[[file://home/crito/Documents/SysAdmin/DNS/DNS_and_BIND_on_IPv6.pdf][DNS and BIND on IPv6]]
+[[file://home/crito/Documents/SysAdmin/DNS/DNS_HowTo_for_Linux.pdf][DNS HowTo for Linux]]
+[[file://home/crito/Documents/SysAdmin/DNS/Pro_DNS_and_BIND_10.pdf][Pro DNS and BIND 10]]
 * Links
 [[http://www.linuxjournal.com/article/4597][linuxjournal.com - An Introduction to DNS and DNS tools]]

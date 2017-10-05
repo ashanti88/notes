@@ -382,12 +382,226 @@ firewall-cmd --permanent --add-service=dns
 firewall-cmd --reload
 #+END_SRC
 
-* CentOS							:rhel:centos:
+** RHEL7 Configuring a Samba Server
+*** Accessing Samba shares
+- for working with samba you will need the utils
+#+BEGIN_SRC sh
+yum install cifs-utils
+#+END_SRC
+
+- smbclient
+#+BEGIN_SRC sh
+smbclient -L //localhost
+#+END_SRC
+will show all exports
+
+- mounting a directory for smb share
+#+BEGIN_SRC sh
+mount -o username=guest //localhost/share /mnt
+#+END_SRC
+
+*** Samba Server Configuration
+- Create the share on the Linux File System
+- Grant Access Permissiions on the Linux File System
+- Create the share in smb.conf
+- Configure Security
+- Consider Restrictions through smb.conf
+- Start the Samba Server
+  #+BEGIN_SRC sh
+  systemctl start smb nmb
+  systemctl enable smb nmb
+  #+END_SRC
+
+- Creating the Samba Share
+#+BEGIN_SRC sh
+mkdir /sambashare
+chmod 777 /samabashare/
+#+END_SRC
+not secure but is ok for initial configuration
+
+- Configuring smb.conf
+  - confirm installation of samba
+    #+BEGIN_SRC sh
+    yum install samba samba-client
+    #+END_SRC
+  - edit Share definitions in /etc/smb.conf
+    #+BEGIN_EXAMPLE
+    [sambashare]
+    	comment = my_share
+	path = /sambashare
+	public = yes
+	writable = yes
+	write list = +users
+    #+END_EXAMPLE
+    there are a few examples to help create the required share in the file
+  - start the samba service
+    #+BEGIN_SRC sh
+    systemctl start smb
+    systemctl enable smb
+    #+END_SRC
+  - confirm the samba service is running
+    #+BEGIN_SRC sh
+    systemctl status -L smb
+    smbclient -L //localhost
+    #+END_SRC
+  - Create samba users
+    #+BEGIN_SRC sh
+    smbpasswd -a user_name
+    #+END_SRC
+    there needs to be a corresponding user on the linux system aswell
+  - Mount the share
+    #+BEGIN_SRC sh
+    mount -o username=bob //localhost/sambashare /mnt
+    #+END_SRC
+    
+- Tuning the share for access restrictions 
+  - edit the smb.conf for ip access
+    #+BEGIN_EXAMPLE
+    hosts allow = 192.168.0
+    #+END_EXAMPLE
+    this will allow all ips in the 192.168.0.0/24 range
+  or
+  - firewalld could be used instead to samba, but choose only one method
+    
+  - wirte permissions smb.conf
+    #+BEGIN_EXAMPLE
+    write list = @users
+    valid users = @users
+    #+END_EXAMPLE
+    only users in the users group can access and write to the share
+  or
+   - alternative option
+     #+BEGIN_EXAMPLE
+     read only = no
+     #+END_EXAMPLE
+     this will use the linux system to decide who has privs
+     #+BEGIN_EXAMPLE
+     read only = yes
+     #+END_EXAMPLE
+     no one can write to the share
+
+- Verifying the Configuration
+#+BEGIN_SRC sh
+testparm
+#+END_SRC
+will throw an error if any is present in smb.conf
+
+- SELinux Configuration
+  - add all service man pages and update the man pages
+    #+BEGIN_SRC sh
+    yum whatprovides */sepolicy
+    yum install policycoreutils-devel
+    sepolicy manpage -a -p /usr/share/man/man8
+    mandb -c
+    man -k _selinux
+    #+END_SRC
+    this will provide a list of selinux service policies
+    
+  - find samba policy
+    #+BEGIN_SRC sh
+    man -k _selinux | grep samba
+    #+END_SRC
+    this will provide you with the man page that will help you configure selinux for samba
+    
+  - setting the selinux labels
+    - only samaba share
+      #+BEGIN_SRC sh
+      ls -dZ /sambashare
+      semanage fcontext -a -t samba_share_t "/sambashare(/.*)?"
+      restorcon -R -v /sambashare/
+      geetenforce
+      setenforce 1
+      #+END_SRC
+    - view all available boolians
+      #+BEGIN_SRC sh
+      getsebool -a | grep samba
+      #+END_SRC
+      
+- Open the FW
+#+BEGIN_SRC sh
+firewall-cmd --permanent --add-service=samba
+firewall-cmd reload
+#+END_SRC
+you may also need samba-client service    
+
+** RHEL7 Setting up an SMTP Server (RHCE)
+- Understanding Server Roles
+  - Email transmission - SMTP
+  - Email reception - POP, IMAP
+  - Email Client - mutt, evolution etc
+    - users also run Postfix but as a null client.
+      
+- Understanding Postfix Configuration
+  - relaying - mail is sent to an outgoing mail server for further processing
+    - DNS MX records are used to look up the mail server for the recipient domain.
+
+*** Configuring Postfix for Mail Reception
+  - /etc/postfix/
+    - master.cf - this is where postfix processes are called from
+    - main.cf - this is used to control the entire configuration
+      - inet_interface  - this variable is what postfix will listen on
+      - myorigin        - this should be set to the domain
+      - relayhost       - the server to forward mail to for further processing (if the host is in [] this means dns doesn't need to be done)
+      - mydestination   - who's mail should the server accept (these domains end with a full stop example.com. )
+      - local_transport - what protocols to use for local mail delivery
+      - mynetworks      - what networks the mail server will accept connects from
+      - inet_protocols  - this is set to all by default, this may cause issues if ipv6 has not been configured. If only on an ipv4 network change this to ipv4.
+	
+- useful cmds
+#+BEGIN_SRC sh
+postconf
+#+END_SRC
+this will print to the screen all variables and values of the postfix config
+
+#+BEGIN_SRC sh
+postconf inet_interfaces
+#+END_SRC
+this will print the specific key-value pair of the requested variable (here it would be the inet_interfaces)
+
+#+BEGIN_SRC sh
+postconf -e 'myorigin = example.com'
+#+END_SRC
+this will alter the current value of the variable (myorigin will be example.com)
+
+#+BEGIN_SRC sh
+postqueue -p
+#+END_SRC
+which messages are still to be 
+
+#+BEGIN_SRC sh
+postqueue -f
+#+END_SRC
+this will flush the current queue
+
+*** Understanding Postfix Maps
+- /etc/postfix has additional config files to add extra functionality
+- use cmd postmap [filename]
+  - access    - configures access restrictions
+    #+BEGIN_EXAMPLE
+    192.168.122.101 OK
+    192.168.100 REJECT
+    #+END_EXAMPLE
+  - canonical - contains alias configuration
+    #+BEGIN_EXAMPLE
+    jim		jim@somewhere.com
+    @somewhere.com	@example.com
+    #+END_EXAMPLE
+  - relocated - gives information about moved users
+    #+BEGIN_EXAMPLE
+    jim@example.com 	jim@somewhere.com
+    #+END_EXAMPLE
+  - virtual   - forwards mail to specific users
+    #+BEGIN_EXAMPLE
+    frank@example.com 	root
+    #+END_EXAMPLE
+
+
+* CentOS
 HomePage: [[https://www.centos.org/][centos.org]]
 Wiki: [[https://wiki.centos.org/][wiki.centos.org]]
 Placed notes for Centos in RHEL
 
-* Fedora							     :fedora:
+* Fedora
 ** [[file://home/crito/org/tech/linux_concepts/fedora_networking_config.org][Fedora Network Configuration]]
 HomePage: [[https://getfedora.org/][getfedora.org]]
 Wiki: [[https://fedoraproject.org/wiki/Fedora_Project_Wiki][fedoraproject.org/wiki]]
@@ -673,4 +887,7 @@ dnf upgrade vim
 * Books
 [[file://home/crito/Documents/Linux/Red_Hat/Red_Hat_RHCSA_RHCE_7_Cert_Guide.pdf][RHCSA/RHCE 7 Cert Guide]]
 [[file://home/crito/Documents/Linux/Red_Hat/Red_Hat_RHCSA_RHCE_6_Cert_Guide.pdf][RHCSA/RHCE 6 Cert Guide]]
+[[file://home/crito/Documents/Linux/RHEL/RHEL_Server_Cookbook.pdf][Red Hat Enterprise Linux Server Cookbook]]
+[[file://home/crito/Documents/Linux/RHEL/The_Definitive_Guide_to_CentOS.pdf][The Definitive Guide to CentOS]]
+
 * Links

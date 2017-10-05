@@ -1,7 +1,8 @@
-#+TAGS: shell
+#+TAGS: zsh shell 
 
 
 * zsh
+HomePage: http://zsh.sourceforge.net/
 * Description
 * Configuration
 ** .zshrc
@@ -106,7 +107,26 @@ fi
 * Usage
 ** oh my zsh
 HomePage: [[https://github.com/robbyrussell/oh-my-zsh][github.com/oh-my-zsh]]
+
+1. Install zsh
+#+BEGIN_SRC sh
+pacman -S zsh
+#+END_SRC
+
+2. Clone the oh-my-zsh repo
+#+BEGIN_SRC sh
+git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+#+END_SRC
+Make sure that you back up your original .zshrc
+
+3. Copy the .zshrc from the repo
+#+BEGIN_SRC sh
+cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
+#+END_SRC
+
+
 * Lecture
 * Tutorial
 * Books
 * Links
+https://www.smashingmagazine.com/2015/07/become-command-line-power-user-oh-my-zsh-z/

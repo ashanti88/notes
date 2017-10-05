@@ -1,7 +1,10 @@
-#+TAGS: db
+#+TAGS: db oracle 11g 12c
 
 
-* Oracle Database                                                        :db:
+* Oracle Database
+Forum: http://forums.oracle.com
+11g docs: https://docs.oracle.com/cd/E11882_01/index.htm
+
 * cmds
 - sqlplus - client
 * Description
@@ -135,7 +138,7 @@ this will start the GUI installer
 * Lecture
 ** [[https://www.youtube.com/watch?v=addFo5FMzkg][Oracle SGA Architecture Overview - Pete Cassidy]]
 * Tutorial
-** CBT Linux Oracle Database 11g SQL Fundamentals
+** CBT Nuggets Oracle Database 11g SQL Fundamentals 1z0-051
 *** Lesson 2 - About SQL
 - Dr E F Codd, IBM 1970 - legendary paper 
 
@@ -181,5 +184,276 @@ this will start the GUI installer
   - PL/SQL
   - Host OS
 
+*** Lesson 3 - The Select Statement
+- Schemas
+  - Defn - logical container for data structures
+  - same name for tables can be used if created by different users
+    - emp, hr.emp, lisa.emp are all able to coexist ownership is part of the nameing
+      
+- Functions of SELECT
+  - projection: columns
+  - selection: rows
+  - jions: > 1 related tables
+    
+  - SQL statements are case-insensitive
+    #+BEGIN_EXAMPLE
+    SELECT _______ FROM ______;
+    #+END_EXAMPLE
+  - SELECT
+    - * - all
+    - col,col <----- EID, first_name, last_name - order of the colums are how oracle will give the data back
+    - Distinct - only show unique enteries
+    - expression
+      - + * - /
+      - uses the nomal mathmatical order of precidents 
+	
+  - Describing Table Structure
+    - DESCRIBE / DESC
+      - Reveals data types
+
+SQLPLUS
+- Formating Colums
+#+BEGIN_EXAMPLE
+SQL> column salary format $99,999.99;
+#+END_EXAMPLE
+this will display salary as an actual monatary values apose to just a number
+
+- Clear Screen
+#+BEGIN_EXAMPLE
+SQL> host clear
+#+END_EXAMPLE
+
+- View Current Buffer
+#+BEGIN_EXAMPLE
+SQL> l
+#+END_EXAMPLE
+
+- Write output to a file
+#+BEGIN_EXAMPLE
+SQL> spool employees.txt
+SQL> SELECT * FROM emploees;
+SQL> spool off
+#+END_EXAMPLE
+
+- move out to the shell
+#+BEGIN_EXAMPLE
+SQL> host
+$ exit
+SQL>
+#+END_EXAMPLE
+
+*** Lesson 4 - Continuation of the Select Statement
+
+Restricting/Sorting Data
+  - limiting Rows
+    - WHERE
+  - Sorting Rows
+    - ORDER BY
+      
+SELECT
+FROM
+WHERE
+
+Filtering Strings and Dates
+  - need single quotation marks
+    #+BEGIN_EXAMPLE
+    last_name = 'Warner'
+    crt_date  = '20-AUG-84'
+    #+END_EXAMPLE
+  - case-sensitive and date format sensitive (DD-MMM-YY is the default date format)
+    
+Wildcard Searches
+  - % = >= 0 characters - analogous to *
+  - _ = 1 character     - analogous to .
+    
+Regexp Exp
+#+BEGIN_EXAMPLE
+hire_date LIKE '%98'   # all employees from 98
+last_name LIKE 'S%'    # all employees with a last name that begins with 'S'
+last_name LIKE '_ith%' # all employees with a last name that contains *ith*
+#+END_EXAMPLE
+
+Precedence Rules for WHERE
+1. Arithmetic
+2. Concat
+3. Comparisons
+4. IS(NOT)NULL, LIKE, (NOT)IN
+5. (NOT)BETWEEN
+6. Noteuqal
+7. Not
+8. AND
+9. OR
+   
+Ordering Query Results
+
+SELECT
+FROM
+*WHERE* - optional
+ORDER BY ----> ASC  - a-z 1-99 (default)
+         ----> DESC - z-a 99-1 
+
+- without ORDER BY, oracle uses an 'undefined' sort order
+  
+
+Examples of WHERE  
+#+BEGIN_EXAMPLE
+SELECT table_name FROM user_tables;
+
+SELECT employee_id, first_name, last_name, department_id FROM employees 
+WHERE department_id = 100;
+
+SELECT * FROM departments 
+WHERE location_id = 50;
+
+SELECT emmployee_id, first_name, last_name FROM employees 
+WHERE last_name = 'King';
+
+SELECT employee_id first_name, last_name FROM employees 
+WHERE last_name = 'King' 
+AND first_name = 'Janette';
+
+SELECT employee_id, first_name, last_name, salary FROM employees 
+WHERE salary > 14000;
+
+SELECT employee_id, first_name, last_name, salary FROM employees 
+WHERE salary <= 14000;
+
+SELECT employee_id, first_name, last_name, hire_date FROM employees
+WHERE hire_date > '01-JAN-07'
+ORDER BY hire_date ASC;
+
+SELECT employee_id, first_name, last_name, hire_date FROM employees
+WHERE hire_date BETWEEN '01-JAN-07' AND '01-JAN-08'
+
+SELECT employee_id, first_name, last_name, hire_date FROM employees
+WHERE last_name BETWEEN 'Chung' AND 'Ozer';
+
+SELECT employee_id, first_name, last_name, hire_date FROM employees
+WHERE last_name BETWEEN 'C%' AND 'E%';
+
+-- This will return only employees with last names of 'Chung' or 'Ozer' 
+SELECT employee_id, first_name, last_name, hire_date FROM employees
+WHERE last_name IN ('Chung', 'Ozer'); 
+
+-- Everyone but 'Chung' and 'Ozer'
+SELECT employee_id, first_name, last_name, hire_date FROM employees
+WHERE last_name NOT IN ('Chung', 'Ozer'); 
+
+SELECT employee_id, first_name, last_name, manager_id FROM employees
+WHERE manager_id IN (101, 103, 123);
+
+SELECT first_name, last_name FROM employees
+WHERE last_name LIKE 'S%';
+
+SELECT first_name, last_name FROM employees
+WHERE last_name NOT LIKE 'S%';
+
+SELECT employee_id, first_name, last_name, commission_pct FROM employees
+WHERE commission_pact is NULL;
+
+SELECT employee_id, first_name, last_name, salary FROM employees 
+WHERE salary > 10000
+AND last_name LIKE '%i%';
+
+SELECT employee_id, first_name, last_name, salary FROM employees 
+WHERE salary > 10000
+OR last_name LIKE 'S%'
+ORDER BY salary ASC;
+#+END_EXAMPLE
+
+Substitution Variables 
+  - & - only available in sqlplus or sqldev
+
+  &user_var  -> prompt @ query runtime
+  &&user_var -> prompt once, reuse many times
+  
+** CBT Nuggets Oracle Database 11g 1Z0-052
+*** Lesson 3 - Preparing the DB Environment
+- Oracle Planning Q's
+  1. Which edition of Oracle
+  2. System Requirements
+  3. Prerequisite steps
+     - os users, groups
+     - FS, security, provisioning
+       
+- Oracle 11g Editions
+  - Enterprise - max version
+  - Standard   - <= 4 cpu sockets
+      - supports RAC (real application clustering)
+  - Std Ed One - <= 2 sockets $180/user (5min)
+  - Express    - free, small footprint DB
+    
+- System Requirements
+  - MS Windows(2003>), *Nix
+    - 32bit
+    - 64bit
+  - 1GB RAM
+  - VRAM/swap ---> double RAM
+  - 5.2 GB disk space
+    
+- Optimal Flexible Arch (OFA)
+  - makes it easier to manage multi inst/versions of Oracle DB
+  - env variables
+    - ORACLE_BASE - root of database package - /u01/app/oracle
+    - ORACLE_HOME - root of 1 instance - /u01/app/oracle/product/11.1.0/dbname
+      
+- Oracle Universal Installer (OUI)
+  - Java app ---> consistent interface
+    - uses
+      - installation
+      - uninstallation
+      - patching
+      - upgrades
+  
+*** Lesson 4 - Creating an Oracle DB
+
+DB Planning Questions
+  - Storage
+    - disk config, disk number, will RAID be used
+    - how many data files
+  - How many tablespaces?    
+  - What data types will be stored?
+  - Future growth possibility (Scaling)
+  - Data access type?
+    - OLTP (Oline Transaction Processing) - Short term frequent transactions
+    - OLAP (Oline Analytical Processing)  - Data warehousing
+  - Which character set? - shoulds I use unicode, will I require multiple languages (twice as much space)
+    - difficult to change later after configuration
+      
+Database Config Assistant (DBCA)
+  - Called from OUI or separately
+  - Operations
+    - Create DB
+    - Config DB options
+    - Delete DB
+    - Manage templates
+      - seed     - includes data files
+      - non-seed - no data files
+  
+  - the DBCA can be found /app/oracle/product/11.2.0/dbhome/bin/
+    - makesure that this is added to the path env variable
+      
+  - Defualt Users
+    - SYS    - root, superuser account
+    - SYSTEM - almost full control 
+    - DBSNMP - used for snmp
+    - SYSMAN - used for db management
+      
+Oracle DB Admin Tools
+  - OUI and the OUI Inventory
+  - DBCA
+  - Enterprise Manager
+    - DB Control
+    - Grid Control
+  - SQL*Plus
+    - interactive or batch
+  - SQL Developer ---> requires JRE
+    
+Other Tools
+  - Navicat - http://navicat.com
+  - TOAD - http://quest.com
+    
 * Books
+
 * Links
+http://orana.info/

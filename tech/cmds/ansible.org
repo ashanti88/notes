@@ -1,7 +1,7 @@
 #+TAGS: auto
 
 
-* ansible							       :auto:
+* Ansible
 HomePage: [[https://www.ansible.com/][ansible.com]]
 Galaxy: [[https://galaxy.ansible.com/][galaxy.ansible.com]]
 
@@ -926,6 +926,36 @@ pid-file=/var/run/mysqld/mysqld.pid
 #+BEGIN_SRC sh
 ansible-playbook -i hosts site.yml
 #+END_SRC
+
+** Linux Academy - Red Hat Certificate of Expertise in Ansible Automation Prep Course
+*** Lesson Four - YAML Refresher
+YAML Ain't Markup Language
+  - distinguish it's purpose as data-orientated, rather than as document markup
+  - Ansible prefers spaces to tabs
+  --- this at the top of an ansible file denotes that it is a configuration file
+  
+  - A dash indicates files that should be included in the configuration
+    #+BEGIN_EXAMPLE
+    vars_files:
+    - conf/copyright.yml
+    - conf/webdefaults.yml
+    #+END_EXAMPLE
+    
+- Example playbook.yml
+#+BEGIN_EXAMPLE
+---
+
+- colours:
+    - red
+    - orange
+    - blue
+    
+- cars:
+    - ford
+    - mazda
+    
+#+END_EXAMPLE
+makesure that spaces are used instead of tabs
 
 * Books
 ** [[file://home/crito/Documents/SysAdmin/Mgmt/Ansible/Ansible_Playbook_Essentials.pdf][Ansible Playbook Essentials - Packt]]

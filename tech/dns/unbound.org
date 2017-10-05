@@ -21,8 +21,6 @@ unbound-control flush microsoft.com
 unbound-control load_cache cachefile
 #+END_SRC
 
-
-
 * Lecture
 * Tutorial
 * Books

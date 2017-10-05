@@ -1,0 +1,15 @@
+#+TAGS: initramfs
+
+
+* Dracut
+Wiki: https://dracut.wiki.kernel.org/index.php/Main_Page
+
+* Description
+Initramfs generation tools
+
+* Usage
+
+* Lecture
+* Tutorial
+* Books
+* Links

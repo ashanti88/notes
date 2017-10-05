@@ -2,11 +2,17 @@
 
 
 * LDAP - Lightweight Directory Access Protocol
+* LDA  - Local Delivery Agent
+[[file://home/crito/org/tech/mail/procmail.org][Procmail]]
+maildrop
+
 * NIS  - Network Information Service
 * NUMA - Non Uniform Memory Access 
 Wiki: https://en.wikipedia.org/wiki/Non-uniform_memory_access
 Non-uniform memory access (NUMA) is a computer memory design used in multiprocessing, where the memory access time depends on the memory location relative to the processor. Under NUMA, a processor can access its own local memory faster than non-local memory (memory local to another processor or memory shared between processors). The benefits of NUMA are limited to particular workloads, notably on servers where the data is often associated strongly with certain tasks or users.
+* RAC  - Real Application Clustering (oracle)
 * SSO  - Single Sign On
 * SSSD - System Security Services Daemon
 RHEL: [[https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/5/html/5.7_Release_Notes/sssd.html][redhat.com/5/sssd]]
 * UAT  - User Acceptence Testing
+* UCE  - Unsolicited Commercial Email

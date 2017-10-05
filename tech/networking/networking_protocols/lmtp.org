@@ -1,0 +1,11 @@
+#+TAGS: mail
+
+
+* Local Mail Transfer Protocol
+Wiki: https://en.wikipedia.org/wiki/Local_Mail_Transfer_Protocol
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

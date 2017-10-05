@@ -54,6 +54,10 @@ Space
 y
 #+END_EXAMPLE
 
+** remote connect to tmux session
+#+BEGIN_SRC sh
+ssh lisa@server1 -t tmux attach-session
+#+END_SRC
 * Plugins
 tmux-continuum
 tmux-powerline

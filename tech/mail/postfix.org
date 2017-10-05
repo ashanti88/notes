@@ -31,6 +31,8 @@ postfix values
 #+BEGIN_SRC sh
 postcat -q $MAIL_ID
 #+END_SRC
+
+- flush the mail queue
 *** postsuper
 - To remove MAIL\_ID mail from the queue
 #+BEGIN_SRC sh
@@ -134,7 +136,7 @@ systemctl stop postfix.service
 * Tutorial
 * Books
 [[file://home/crito/Documents/SysAdmin/Mail/Postfix-The_Definitive_Guide.pdf][Postfix - The Definitive Guide - O'Reilly]]
-** [[file://home/crito/Documents/SysAdmin/Mail/The_Book_of_Postfix_No_Starch.pdf][The Book of Postfix - No Starch]]
+** [[file://home/crito/Documents/SysAdmin/Mail/The_Book_of_Postfix-No_Starch.pdf][The Book of Postfix - No Starch]]
 *** Chapter 2
 [[file://home/crito/Documents/RFC/rfc821.pdf][RFC 821 - SMTP]]
 - Initial Checklist
@@ -219,6 +221,78 @@ or
 newaliases
 #+END_SRC
 
+*** Chapter 5
+- Postfix is to be viewd as a Router
+  - it moves mail as a router moves data
+  - where the router uses lookup tables, postfix uses maps
+    - a few of these maps aliases, virtual, transport
+      
+- Postfix Daemons
+  - master
+    - controls the overall service
+  - bounce and defer
+  - error
+  - trivila-rewrite
+  - showq
+  - flush
+  - qmgr
+    - the heart of the postfix service
+    - decides which mail a process will receive
+  - proxymap
+  - spawn
+  - local
+    - this deals with local mailbox delivery
+    - can work with both mbox or Maildir formats
+    - for more functionality local can delegate mailbox delivery to a local devlivery agent such as maildrop or procmail.
+  - virtual
+    - this is a stripped down version of local
+    - it delievers exclusively to mailboxes.
+    - it is the most secure Postfix delivery agent
+  - smtp
+    - deals with outbound mail
+    - finds its destination mail exchangesrs and sorts the list by preference, and tries each address until it finds a server that responds.
+  - lmtp
+    - often used with the Cyrus IMAP server
+  - pipe
+  - pickup
+  - smtpd
+  - cleanup
+  - sendmail
+  - qmqpd
+  - anvil
+    
+- Postfix Queues
+  - the queue_directory parameter in main.cf specifies the directory that holds the queues that postfix will poll 
+  - each queue has its own sub directory
+  - all messages remain in these directories until postfix delivers them
+  
+  - incoming
+    - cleanup deamon sends all mail to incoming queue
+  - maildrop
+    - messages submitted with the sendmail cmd are processed.
+  - deferred
+    - if mail fails to be deliver and all recipients have been attemped then the message is placed here.
+    - postfix will retry periodically, this time can be set with the queue_run_delay parameter.
+  - active
+    - messages in this queue are ready to be sent or are in the process of being sent
+    - the default queue size is 20,000 messages
+  - hold
+    - these messages are held until an administrator intervenes
+    - no delivery attempts are made
+    - using postsuper cmd you can manually choose messages to place into this queue or move from the queue to the deferred queue
+  - corrupt    
+    - contains damaged queue files
+    - rather than disgarding them, they are saved for further investigation.
+      
+- Maps
+  - these are files and db that postfixes uses to lookup informaiton.
+  - they all use the key value format
+  - to view all map types run
+    #+BEGIN_SRC sh
+    postconf -m
+    #+END_SRC
+    
+      
 * Links
 Postfix mail server block .bat, .exe .com .vbs mime attachments --common virus spreading files
 http://www.cyberciti.biz/tips/postfix-block-mime-attachment-files.html

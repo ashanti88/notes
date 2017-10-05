@@ -1,7 +1,7 @@
 #+TAGS: deb ubuntu
 
 
-* debian								:deb:
+* Debian								:deb:
 * Usage
 ** General System Configuration					   :deb:conf:
 *** Setting the default text editor
@@ -79,10 +79,6 @@ Deleting a bridge requires that the bridge is down <ip link set dev
   - created a new /etc/resolv.conf and then made immutable
     - chattr +i /etc/resolv.conf
 * Based Distros
-** Ubuntu							     :ubuntu:
-*** Mail Server 
-file://home/crito/org/tech/linux_concepts/ubuntu_mail_server.org
-
 ** Kali								       :kali:
 *** Adding Kali tools to Debian
 Kalis tools can be added to a debian machine with katoolin
@@ -254,4 +250,7 @@ snapcraft init
 
 * Articles
 * Books
+[[file://home/crito/Documents/Linux/Debian/Debian7_System_Administration_Best_Practices.pdf][Debian 7: System Administration Best Practices]]
+[[file://home/crito/Documents/Linux/Debian/The_Debian_System-Concepts_and_Techniques.pdf][The Debian System - Concepts and Techniques - No Starch Press]]
+
 * Links

@@ -10,6 +10,12 @@ HomePage: http://web.mit.edu/kerberos/
 - /etc/krb5.keytab
 * Description
 * Usage
+ 
+** Understanding the Principal and keytab
+- The kerberos server stores accounts and keys for systems, the so called service principals
+- Every network service to which a user authenticates needs a service principal and corresponding key. To verify the service identity, a copy of that key is required: the so called keytab.
+- use klist -k to view the contents of a keytab 
+- The keytab for a service is created at the IdM server. If the NFS Server is a different machine, it needs to be copied over to the NFS server; the NFS server must be able to access it
 * Lecture
 * Tutorial
 ** RHCE Configuration of Kerberos 

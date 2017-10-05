@@ -1,0 +1,76 @@
+#+TAGS: file disk stor ext2 ext3 ext4
+
+
+* debugfs
+* Description
+* Usage
+** Viewing file stats
+#+BEGIN_EXAMPLE
+debugfs 1.43.6 (29-Aug-2017)
+debugfs:  open /dev/mapper/enc_hdd
+debugfs:  cd /home/crito/
+debugfs:  ls
+ 29884418  (12) .    29884417  (12) ..    29887359  (16) jupyter
+ 29884638  (16) linux    29884931  (16) Rimworld    29884591  (12) xfer
+ 29884422  (16) .config    30016480  (16) Console    29884507  (16) latex
+ 29884548  (16) docker    29884564  (16) dotfiles
+ 30146777  (36) public_html    29884485  (20) .guayadeque
+ 29884810  (60) test_data.txt    29884490  (52) .icons
+ 29884495  (36) Desktop    29884497  (56) Downloads
+ 29884500  (20) Documents    29884501  (16) Music    31458462  (116) Pictures
+ 29884510  (16) .local    29884509  (196) .gnupg    29886415  (32) .dropbox
+ 30015643  (96) .dropbox-dist    30015784  (16) .steam
+ 29884467  (20) .steampath    29884556  (152) .steampid
+ 30016919  (16) Torrents    29885397  (84) .rtorrent.rc
+ 30803365  (24) VirtualBox VMs    32505880  (12) .ssh    32505884  (12) org
+ 31195145  (24) vuln_boxes    29894328  (20) .gitconfig
+ 31457283  (20) Engagements    30546257  (12) bin    31458840  (16) os_disk
+ 29884502  (52) .fehbg    33030449  (100) ansible    34603016  (12) code
+ 34996750  (32) .vim    34603153  (16) vagrant    34603155  (20) .vagrant.d
+ 34734084  (52) source    29887870  (2468) cs_hash
+debugfs:  stat test_data.txt
+Inode: 29884810   Type: regular    Mode:  0644   Flags: 0x80000
+Generation: 517609304    Version: 0x00000000:00000001
+User:  1000   Group:  1000   Project:     0   Size: 18
+File ACL: 0    Directory ACL: 0
+Links: 1   Blockcount: 8
+Fragment:  Address: 0    Number: 0    Size: 0
+ ctime: 0x59cdeffe:22579900 -- Fri Sep 29 08:02:22 2017
+ atime: 0x59cdec54:808a8cdc -- Fri Sep 29 07:46:44 2017
+ mtime: 0x59cdec54:808a8cdc -- Fri Sep 29 07:46:44 2017
+crtime: 0x59cdeffe:22579900 -- Fri Sep 29 08:02:22 2017
+Size of extra inode fields: 32
+EXTENTS:
+(0):119570886
+#+END_EXAMPLE
+
+** Undeleting Files
+Immediately unmount the filesystem, as the data of the deleted file may be lost.
+
+- enter debugfs
+#+BEGIN_SRC sh
+debugfs -w /dev/mapper/enc_hdd
+#+END_SRC
+
+- list deleted files
+#+BEGIN_EXAMPLE
+debugfs: lsdel
+#+END_EXAMPLE
+this will output a list of inodes with time deleted, use this to determine the deleted file
+
+- get the logdump of the file
+#+BEGIN_EXAMPLE
+debugfs: logdump -i <7544312>
+#+END_EXAMPLE
+This will output a information regards the file, note the Blocks
+
+- recover the file
+#+BEGIN_SRC sh
+dd if=/dev/mapper/enc_hdd of=recovered_file.txt bs=4096 count=1 skip=7235938
+#+END_SRC
+the skip variable is the number of blocks that we learnt above
+
+* Lecture
+* Tutorial
+* Books
+* Links

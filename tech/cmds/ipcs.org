@@ -39,6 +39,12 @@ ipcs -p -m
 #+BEGIN_SRC sh
 ipcs -m -i 32769
 #+END_SRC
+
+- print the shared memory settings
+#+BEGIN_SRC sh
+ipcs -lm
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

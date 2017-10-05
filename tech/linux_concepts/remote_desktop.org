@@ -1,0 +1,17 @@
+#+TAGS: rdp ssh vnc
+
+
+* Remote Desktops
+* Applications
+** xfreerdp
+** TightVNC
+** TigerVNC
+** X2Go
+https://wiki.x2go.org/doku.php/doc:newtox2go
+** Chrome Remote Desktop
+
+** TeamViewer
+* Lecture
+* Tutorial
+* Books
+* Links

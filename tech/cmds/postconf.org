@@ -4,12 +4,12 @@
 * postconf						       :mail:postfix:
 * Description
 * Usage
-+ Provide all currently set Postfix variables
+- Provide all currently set Postfix variables
 #+BEGIN_SRC sh
 postconf
 #+END_SRC
 
-+ Setting variable
+- Setting variable
 #+BEGIN_SRC sh
 postconf -e 'inet_protocols = ipv4'
 #+END_SRC

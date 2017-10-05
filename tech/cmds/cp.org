@@ -4,6 +4,19 @@
 * cp								     :sys:op:
 * Description
 * Usage
+- copy a directory
+#+BEGIN_SRC sh
+cp -r /home/code test
+#+END_SRC
+this will create a directory called test that contains all the files that code did
+
+- copy a directory, but only copy changed files
+#+BEGIN_SRC sh
+cp -r -u /home/code /test
+#+END_SRC
+this will only copy new and altered files
+
+:
 * Lecture
 * Tutorial
 * Books

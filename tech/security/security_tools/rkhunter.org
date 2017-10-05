@@ -6,7 +6,9 @@
 /etc/rkhunter.conf
 
 - whitelist known script files
-SCRIPTWHITELIST="/usr/sbin/app\_to\_wlist"
+#+BEGIN_EXAMPLE
+SCRIPTWHITELIST="/usr/sbin/app_to_wlist"
+#+END_EXAMPLE
 
 * Description
 * Usage

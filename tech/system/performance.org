@@ -1,4 +1,4 @@
-#+TAGS:
+#+TAGS: sys anal
 
 
 * Performance
@@ -274,6 +274,29 @@ perf record -g -F 97 -- ./myapp
 #+END_SRC
 -- - run workload and capture it
 
-17
+- Reading a flame Graph
+  - A visualization method (adjacency graph), very useful for stack traces, invented by Brendan Gregg.
+  - Turns millions of stack traces into an interactive graph
+    - identify CPU hotspots on the system/application
+    - show stacks that perform heavy disk accesses
+    - find treads that block for a long time and the stack where they do it
+      
+- Generating Flame Graphs
+  - Canonical flame graph generator
+    - https://github.com/BrendanGregg/FlameGraph
+  - Generators for other runtimes
+    - go-torch
+    - node-flame
+    - pyflame
+    - d3-flame-graph - d3js
+      
+  - Colorization
+    - FlameGraph.pl has colour palettes for Java, C and other runtimes
+      - this will allow you to disern what type of code is being called where visually
 
+  - generate flame graph from perf script
+    #+BEGIN_SRC sh
+    perf script | stackcollapse-perf.pl | flamegraph.pl > flame_graph.svg
+    #+END_SRC
+    
 * Links

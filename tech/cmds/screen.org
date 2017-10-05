@@ -2,41 +2,43 @@
 
 
 * screen						       :sys:op:admin:
+Arch: https://wiki.archlinux.org/index.php/GNU_Screen
 * Description
 * Usage
 
 Ctrl-A is the meta key
 
 - list existing sessions
-#+BEGIN_SRC sh
+#+BEGIN_EXAMPLE
 screen list
-#+END_SRC
+#+END_EXAMPLE
 
 - detatch session
-#+BEGIN_SRC sh
+#+BEGIN_EXAMPLE
 Ctrl-A d
-#+END_SRC
+#+END_EXAMPLE
 
 - attach session
-#+BEGIN_SRC sh
+#+BEGIN_EXAMPLE
 Ctrl-A r 1198
-#+END_SRC
+#+END_EXAMPLE
 where 1198 is the session id
 
 - list sessions
-#+BEGIN_SRC sh
+#+BEGIN_EXAMPLE
 screen ls
-#+END_SRC
+#+END_EXAMPLE
 
 - Activate logging
-#+BEGIN_SRC sh
+#+BEGIN_EXAMPLE
 screen -L
-#+END_SRC
+#+END_EXAMPLE
 
 - view key bindings
-#+BEGIN_SRC sh
+#+BEGIN_EXAMPLE
 Ctrl-A ?
-#+END_SRC
+#+END_EXAMPLE
+
 * Lecture
 * Tutorial
 * Books

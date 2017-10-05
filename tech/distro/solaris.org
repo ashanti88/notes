@@ -2,6 +2,7 @@
 
 
 * Solaris
+Solaris 11: http://www.oracle.com/technetwork/server-storage/solaris11/overview/index.html
 * OpenIndiana
 HomePage: [[https://www.openindiana.org/][openindiana.org]]
 * Lecture

@@ -10,4 +10,5 @@
 * Lecture
 * Tutorial
 * Books
+[[file://home/crito/Documents/SysAdmin/Server_Load_Balancing.pdf][Server Load Balancing - O'Reilly]]
 * Links

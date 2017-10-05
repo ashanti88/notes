@@ -27,6 +27,10 @@ unlock or U -this enables a locked account 
 
 expiredate - to set date for indefinite use "" and empty string.
 
+** Change the user shell
+#+BEGIN_SRC sh
+usermod -s /usr/bin/zsh lisa
+#+END_SRC
 * Lecture
 * Tutorial
 * Books

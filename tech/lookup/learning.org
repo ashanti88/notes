@@ -28,6 +28,8 @@
 *** WORKING Red Hat RHCE
     - State "WORKING"    from              [2017-09-16 Sat 02:02]
 
+*** TODO CBT Nuggets Linux Systemd
+    - State "TODO"       from              [2017-09-19 Tue 08:35]
 ** Security
 *** WORKING Offensive Computer Security 2014
     - State "WORKING"    from ""           [2017-04-16 Sun 05:03]
@@ -91,7 +93,12 @@
 *** TODO CCNP Firewall - CBT Nuggets
     - State "TODO"       from ""           [2017-01-11 Wed 18:16]
 
-** Automation and Monitoring
+** Monitoring
+*** TODO CBT Nuggets - Nagios Monitoring Administration
+    - State "TODO"       from              [2017-09-19 Tue 08:36]
+** Automation
+*** TODO Linux Academy - Red Hat Certification of Expertise in Ansible Automation
+    - State "TODO"       from              [2017-09-19 Tue 08:37]
 ** Storage
 *** TODO EMC Information Storage and Management - CBT Nuggets
 
@@ -102,6 +109,8 @@
 
 *** TODO Apache Hadoop - CBT Nuggets
     - State "TODO"       from ""           [2017-01-11 Wed 18:18]
+*** WORKING CBT Nuggets - Oracle 11g DBA 1
+    - State "WORKING"    from              [2017-09-19 Tue 08:33]
 ** Web
 *** DONE Practical Apache Web Server
     - State "DONE"       from "TODO"       [2017-01-11 Wed 11:20]

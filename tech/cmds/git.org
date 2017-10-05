@@ -78,7 +78,13 @@ git merge branch
 2. > git rm -r --cached <file>
 3. then add and commit
 
-** Github
+** Reset
+- if you have made a change to a branch and would like to go back to the original state
+#+BEGIN_SRC sh
+git reset --hard
+#+END_SRC
+
+* Github
 - SSH test
 #+BEGIN_SRC sh
 ssh -T git@github.com
@@ -104,12 +110,6 @@ The above error was throw as ssh didn't know about the github ssh-key
 > ssh-agent /bin/bash
 > ssh-add github-key
 > ssh-add -l - this will show the added key in the list
-
-** Reset
-- if you have made a change to a branch and would like to go back to the original state
-#+BEGIN_SRC sh
-git reset --hard
-#+END_SRC
 
 * Lecture
 * Tutorial

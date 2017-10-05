@@ -45,6 +45,9 @@ LDAP uses the Sleepycat Berkley DB,
 [[file://home/crito/Documents/SysAdmin/OReilly_ldap.pdf][LDAP - O'Reilly]]
 [[file://home/crito/Documents/SysAdmin/Red_Hat_Directory_Server-8.1-Deployment_Guide-en-US.pdf][Red Hat Directory Server 8.1 Deployment Guide]]
 [[file://home/crito/Documents/SysAdmin/Sun-LDAP_Setup_and_Configuration_Guide.pdf][Sun - LDAP Setup and Configuration Guide]]
+[[file://home/crito/Documents/SysAdmin/Addison_Wesley-LDAP_Directories_Explained.pdf][LDAP Directories Explained - Addison Wesley]]
+[[file://home/crito/Documents/SysAdmin/Understanding_LDAP.pdf][Understanding LDAP - IBM]]
+[[file://home/crito/Documents/SysAdmin/Red_Hat_Directory_Server-8.1-Deployment_Guide-en-US.pdf][Red Hat Directory Server 8.1]]
 * Links
 https://wiki.debian.org/LDAP
 [[http://www.thegeekstuff.com/2017/07/ldap-389-directory-server-install/][How to Install LDAP 389 Directory Server On Linux]]
