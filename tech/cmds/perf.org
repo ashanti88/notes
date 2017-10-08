@@ -1,7 +1,7 @@
 #+TAGS: sys anal
 
 
-* perf								   :sys:anal:
+* perf
 Wiki: [[https://perf.wiki.kernel.org/index.php/Tutorial][perf.wiki]]
 * Description
 * Usage
@@ -96,6 +96,8 @@ java - lookup perf-map-agent on github
 * Lecture
 * Tutorial
 * Books
+** [[file://home/crito/Documents/SysAdmin/System/Systems_Performance.pdf][Systems Performance - Brendan Gregg]]
+
 * Links
 [[http://www.brendangregg.com/perf.html][Linux perf Examples - Brendan Gregg]]
-
+[[https://kevinclosson.net/2013/02/18/using-linux-perf1-to-analyze-database-processes-part-i/][Using Linux Perf To Analyze Database Processes - Kevin Closson]]

@@ -1,15 +1,6 @@
 #+TAGS: note
 
 
-* note
-- rowhammer for rooting
-- zone transfer
-- gpg chain of trust
-- redhat 32 and 64 lib interchangable?
-- openid
-- XPATH
-- css select
-
 * System
 - sudoedit - what is this cmd
 
@@ -43,21 +34,20 @@
 * Apache
 * Learn
 ** Jenkins - automation tool
-* Russian Cyber
-- Fancy Bear
-- Russian cyber weapon called Snake or "Ouroboros" - Ukrainian Gov
-- Grizzly steppe - russian cyber op
-** APT 29
-- Hammertoss - malware found in 2015
-
-
-
-Emergency for Electric
-0800 195 41 41
-
-ticket number
-40606297
 * pen
 LD_PRELOAD
 rpc port 111 rpcinfo -e ?? -> run to detect what service is running on the rpc port
 
+* Work list
+vagrant
+varnish
+magento
+docker
+aws
+  - pipeline
+  - cloudwatch
+  - rds
+datadog
+OSX
+jenkins
+git

@@ -1,7 +1,7 @@
-#+TAGS: sysd op
+#+TAGS: systemd op service
 
 
-* systemctl							       :sysd:
+* systemctl
 * Description
 * Usage
 ** System
@@ -120,6 +120,3 @@ systemctl reset-failed
 * Tutorial
 * Books
 * Links
-#+BEGIN_SRC sh
-date
-#+END_SRC

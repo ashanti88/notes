@@ -1,10 +1,11 @@
 #+TAGS: web proxy cache lb
 
 
-* haproxy						 :web:proxy:cache:lb:
+* haproxy
 * Description
 * Usage
 * Lectures
+* Books
 * Articles
 ** An Introduction to HAProxy and Load Balancing Concepts - Digital Ocean
 [[https://www.digitalocean.com/community/tutorials/an-introduction-to-haproxy-and-load-balancing-concepts][URL]]

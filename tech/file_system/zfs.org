@@ -1,7 +1,8 @@
-#+TAGS:
+#+TAGS: storage fs
 
 
 * ZFS
+HomePage: [[http://open-zfs.org/wiki/Main_Page][open-zfs.org]]
 * Description
 * Usage
 * Lecture
@@ -9,3 +10,4 @@
 * Books
 [[file://home/crito/Documents/Unix/FreeBSD_Mastery_ZFS.pdf][FreeBSD Mastery ZFS]]
 * Links
+[[https://www.howtogeek.com/175159/an-introduction-to-the-z-file-system-zfs-for-linux/][An Introduction to the Z File System (ZFS) for Linux - How-to-Geek]]

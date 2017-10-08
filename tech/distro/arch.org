@@ -86,7 +86,7 @@ find -xtype l -print
   - chattr +i /etc/resolv.conf
 
 ** Package Management
-[[file:~/org/tech/system/pkg_mgmt.org][Package Management]]
+[[file:~/org/tech/linux_concepts/package_mgmt.org][Package Management]]
 
 ** PGP Keys
 write up on how to resolve a corrupt keyring

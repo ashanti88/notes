@@ -3,7 +3,7 @@
 
 * strace
 * Description
-* Us:wage
+* Usage
 > strace <command>
 * Lecture
 ** Your System Calls and You - A Brief Exploration of Usint strace

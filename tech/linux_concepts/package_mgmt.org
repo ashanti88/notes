@@ -415,6 +415,9 @@ dnf upgrade vim
 * Arch(Manjaro|Antergos)                                       :sys:pkg:arch:
 *** ABS(Arch Build System)
 Arch: [[https://wiki.archlinux.org/index.php/Arch_Build_System][archlinux.org/Arch_Build_System]]
+*** Repos
+The repos are edited in /etc/pacman.conf
+
 *** pacman							   :arch:pkg:
 - list installed pkgs
 #+BEGIN_SRC sh

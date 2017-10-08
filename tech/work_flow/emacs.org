@@ -1,7 +1,7 @@
 ; -*- mode: Org;-*-
 #+TAGS: code txt
 
-* emacs                                                      :emacs:code:txt:
+* emacs
 * Description
 * Configuration
 ** Setting display configuration on GUI
@@ -647,9 +647,10 @@ emacs.devl
   - this will allow you to insert the unicode
 
 * Books
-[[pdfview://home/crito/Documents/Tools/Emacs/org.pdf::1][The Org Manual - GNU Manual]]
+[[/home/crito/Documents/Tools/Emacs/org.pdf][The Org Manual - GNU Manual]]
 [[file://home/crito/Documents/Tools/Emacs/mastering-emacs.pdf][Mastering Emacs]]
-[[pdfview:/mnt/home/crito/Documents/Tools/Emacs/Writing_GNU_Emacs_Extensions.pdf::1][Writing_GN_Emacs_Extensions]]
+[[/mnt/home/crito/Documents/Tools/Emacs/Writing_GNU_Emacs_Extensions.pdf][Writing_GN_Emacs_Extensions]]
+[[/mnt/home/crito/Documents/Tools/Emacs/The_Craft_of_Text_Editing.pdf][The Craft of Text Editing]]
+[[/mnt/home/crito/Documents/Tools/Emacs/gnu_emacs_pocket.pdf][GNU Emac Pocket]]
 
 * Links
-

@@ -1,7 +1,7 @@
 #+TAGS: virt dev
 
 
-* Vagrant							   :virt:dev:
+* Vagrant
 HomePage: [[https://www.vagrantup.com/][vagrantup.com]]
 Atlas: [[https://atlas.hashicorp.com/boxes/search][hashicorp.com/boxes]]
 * Description
@@ -120,8 +120,10 @@ The create an ansible playbook to provision the required software and configurat
 * Lecture
 * Tutorial
 * Books
-[[file://home/crito/Documents/SysAdmin/Virtulization/Vagrant/Pro%20Vagrant.pdf][Pro Vagrant]]
-[[file://home/crito/Documents/SysAdmin/Virtulization/Vagrant/vagrant.pdf][Vagrant - O'reilly]]
+** [[file://home/crito/Documents/SysAdmin/Virt/Vagrant/vagrant.pdf][Vagrant - O'Reilly]]
+** [[file://home/crito/Documents/SysAdmin/Virt/Vagrant/Pro%20Vagrant.pdf][Pro Vagrant]] 
+** [[file://home/crito/Documents/SysAdmin/Virt/Vagrant/Vagrant_Virtual_Development_Environment_Cookbook.pdf][Vagrant Development Environment Cookbook]]
+** [[file://home/crito/Documents/SysAdmin/Virtulization/Vagrant/Creating_Development_Environments_with_Vagrant.pdf][Creating Development Environments with Vagrant]]
 
 * Links
 

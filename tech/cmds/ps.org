@@ -1,19 +1,45 @@
-#+TAGS: sys anal
+#+TAGS: sys anal perf
 
 
-* ps								   :sys:anal:
+* ps
 * Description
 * Usage
-** Basic
 - view current processors on the system
 #+BEGIN_SRC sh
 ps aux
 #+END_SRC
+a - select all processes
+u - use username not uid
+x - lifts the "must have a tty" restriction
 
 - using forest to link parents and children
 #+BEGIN_SRC sh
 ps auxf
 #+END_SRC
+f - forest
+
+** View the process status and WCHAN field (hung process)
+- This will show WCHAN, the address of the kernel function where the process is sleeping. Running tasks will show "-"
+#+BEGIN_SRC sh
+ps -flp 1597
+#+END_SRC
+l - BSD long format 
+
+The whcan field can be found for the process at /proc/1597/wchan
+
+If viewing a process in stat "D", next look at /proc/pid/status
+ - in here there's two values 
+   voluntary_ctxt_switches:
+   nonvoluntary_ctxt_switches:
+   these two values tell us how many times a process has been taken off the cpu (or put back)
+ - if these two values don't increase after a few seconds, this is a good indication that the process has hung
+ - these context switches can also befound /proc/pid/sched
+   nr_switches
+   nr_voluntary_switches
+   nr_involuntary_switches
+   
+  - the nr_switches value which is the combined value of both can be found on at /proc/pid/schedstat it's the thrid value
+    
 
 ** SELinux Contexts
 ps -eZ

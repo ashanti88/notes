@@ -1,24 +1,22 @@
-#+TAGS: virt cont
+#+TAGS: virt container
 
 
-* Docker							  :virt:cont:
+* Docker
 HomePage: [[https://www.docker.com/][docker.com]]
 CheatSheet: [[https://github.com/wsargent/docker-cheat-sheet][github.com/docker-cheat-sheet]]
-* Cmds
+* cmds
+- docker-compose
+
+* Tools
 - [[file://home/crito/org/tech/virt_and_cloud/kubernetes.org][Kubernetes]]
-** [[https://github.com/Yelp/dockersh][Dockersh]]
-** [[https://github.com/kevana/ui-for-docker][DockerUI]]
-** [[https://github.com/shipyard/shipyard][Shipyard]]
-** [[https://github.com/gliderlabs/logspout][Logspout]]
+- [[https://github.com/Yelp/dockersh][Dockersh]]
+- [[https://github.com/kevana/ui-for-docker][DockerUI]]
+- [[https://github.com/shipyard/shipyard][Shipyard]]
+- [[https://github.com/gliderlabs/logspout][Logspout]]
 ** [[https://github.com/jpetazzo/dind][DIND - Docker Inside Docker]] 
 
 * Description
 * Usage
-- clean up non-used network interfaces
-#+BEGIN_SRC sh
-docker network prune
-#+END_SRC
-
 ** Basic Usage
 *** Create a Container
 #+BEGIN_SRC sh
@@ -77,6 +75,12 @@ docker ps $DOCKER_ID
 *** Shows public facing port of container
 #+BEGIN_SRC sh
 docker port $DOCKER_ID
+#+END_SRC
+
+** Networking
+- clean up non-used network interfaces
+#+BEGIN_SRC sh
+docker network prune
 #+END_SRC
 
 ** Examples
@@ -273,10 +277,11 @@ docker stack rm getstartedlab
 #+END_SRC
 
 * Books
-[[file://home/crito/Documents/SysAdmin/Virt/Docker/Using_Docker.pdf][Using Docker]]
-[[file://home/crito/Documents/SysAdmin/Virt/Docker/Pro_Docker.pdf][Pro Docker]]
-[[file://home/crito/Documents/SysAdmin/Virt/Docker/Learning_Docker.pdf][Learning Docker]]
-[[file://home/crito/Documents/SysAdmin/Virt/Docker/Monitoring_Docker.pdf][Monitoring Docker]]
-[[file://home/crito/Documents/SysAdmin/Virt/Docker/Orchestrating_Docker.pdf][Orchestrating Docker]]
-[[file://home/crito/Documents/SysAdmin/Virt/Docker/Docker_Cookbook.pdf][Docker Cookbook]]
+** [[file://home/crito/Documents/SysAdmin/Virt/Docker/Using_Docker.pdf][Using Docker]]
+** [[file://home/crito/Documents/SysAdmin/Virt/Docker/Pro_Docker.pdf][Pro Docker]]
+** [[file://home/crito/Documents/SysAdmin/Virt/Docker/Learning_Docker.pdf][Learning Docker]]
+** [[file://home/crito/Documents/SysAdmin/Virt/Docker/Monitoring_Docker.pdf][Monitoring Docker]]
+** [[file://home/crito/Documents/SysAdmin/Virt/Docker/Orchestrating_Docker.pdf][Orchestrating Docker]]
+** [[file://home/crito/Documents/SysAdmin/Virt/Docker/Docker_Cookbook.pdf][Docker Cookbook]]
+
 * Links

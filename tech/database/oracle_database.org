@@ -367,6 +367,90 @@ Substitution Variables
   &user_var  -> prompt @ query runtime
   &&user_var -> prompt once, reuse many times
   
+*** Lesson 5 - Single-Row Functions
+
+Types of SR Functions
+  - character - Lower, Upper, Concat
+  - number - Round, Trunc
+  - date - SYSDATE, MONTHS__BETWEEN
+  - Conversion - datatype conversion
+      - implicit (by Oracle)
+      - explicit (by DBA)
+	
+- when a function is called the product is returned in a pseudo column
+  
+- Implicit
+  - DATE to VARCHAR2
+  - NUMBER to VARCHAR2
+  - VARCHAR/CHAR to NUMBER
+  - VARCHAR/CHAR to DATE
+    
+- Explicit (type casting)
+  - TO_CHAR(num,date)
+  - TO_NUMBER(char)
+  - TO_DATE(char)
+    
+The Dual Table
+  - Is a builtin table
+  - Shouldn't be modified
+  - SELECT requires FROM - so for calls to the system the dual is used
+    
+Examples of using SR Functions
+#+BEGIN_EXAMPLE
+-- This shows the sr for changing case of column
+SELECT job_id, LOWER(job_id), INITCAP(job_id), job_title, UPPER(job_title)
+FROM jobs; 
+
+SELECT 2 + 2 AS Sum FROM dual;
+
+SELECT LENGTH('Hello world!!') AS length  FROM dual; 
+
+-- Extract a specific range of chars
+SELECT job_title,         -- will show all data in the field
+SUBSTR(job_title, 1, 10), -- will only show characters 1-10
+SUBSTR(job_title, 11)     -- will show character 11 onwards
+FROM jobs;
+
+-- This will return the number of sales per job_title
+SELECT job_title,
+INSTR(job_title, 'Sales') AS Sales_Occur  
+FROM jobs
+ORDER BY Sales_Occur DESC;
+
+-- this always for string literals to be added to the returned data
+SELECT first_name || ', ' || last_name AS FullName
+From employees;
+
+SELECT 314.42325,
+ROUND(314.42325, 2),  -- 314.42
+ROUND(314.42325, 0),  -- 314
+TRUNC(314.42325)      -- 314
+FROM dual;
+
+SELECT employee_id, first_name, last_name, salary AS Yearly,
+ROUND(salary / 12), 2) AS Monthly 
+FROM employees;
+
+-- NVL will convert one value to another where stated by WHERE
+SELECT employee_id, commission_pct,
+NVL(NULL,0.2)
+FROM employees
+WHERE commission_pct IS NULL;
+
+SELECT first_name, last_name, job_id, hire_date,
+ROUND((SYSDATE - hire_date) / 365, 2) AS YearsTenure
+FROM employees
+ORDER BY YearsTenure DESC;
+
+SELECT TO_CHAR(1210.73, '$9,999.00')
+FROM dual;
+
+SELECT TO_DATE('2010/04/30', 'yyyy/mm/dd')
+FROM dual;
+#+END_EXAMPLE
+
+
+
 ** CBT Nuggets Oracle Database 11g 1Z0-052
 *** Lesson 3 - Preparing the DB Environment
 - Oracle Planning Q's

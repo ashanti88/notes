@@ -1,7 +1,7 @@
 #+TAGS: sys anal
 
 
-* top								   :sys:anal:
+* top
 * Description
 htop uses around 5 times as much memory
 * Usage
@@ -35,6 +35,19 @@ shift + w - write current configuration to /home/$USER/.toprc
 - Pressing f allows you to select which fields to display interactively
 - Once you have the fields you like press q to exit, W will save the config to ~/.toprc
 
+** Inspect Individual Process
+- this will run until ctrl-c
+#+BEGIN_SRC sh
+ps -cbp 1227
+#+END_SRC
+c - switch process between exact cmd line input and cmd name
+b - batch output, will not accept input
+p - list specified process
+
+- this will output 3 iterations
+#+BEGIN_SRC sh
+ps -n 3 -bp 1227
+#+END_SRC
 
 * Lecture
 * Tutorial

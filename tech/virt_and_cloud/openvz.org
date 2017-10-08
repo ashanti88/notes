@@ -1,0 +1,11 @@
+#+TAGS: virt containers vps vm
+
+
+* OpenVZ
+HomePage: https://openvz.org/Main_Page
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -1,7 +1,7 @@
-#+TAGS: sys anal perf
+#+TAGS: sys anal perf mon
 
 
-* SystemTap                                                   :sys:anal:perf:
+* SystemTap
 HomePage: [[https://sourceware.org/systemtap/][sourceware.org/systemtap]]
 * Cmds
 - [[file://home/crito/org/tech/cmds/stap.org][stap]] is the SystemTap tool frontend

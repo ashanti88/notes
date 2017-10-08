@@ -7,6 +7,7 @@ Manual: [[https://www.gnu.org/software/grub/manual/grub.html][gnu.org]]
 * Overview
 * Cmds
 - grub2-mkconfig
+- grub-install
 
 * Files
 /boot/grub/grubenv - this shows the default kernel to be booted
@@ -15,6 +16,11 @@ Manual: [[https://www.gnu.org/software/grub/manual/grub.html][gnu.org]]
 /etc/grub.d/ - the files in here are used to build the grub.cfg file, they indicate individual kernels and OSs
 
 * Usage
+** what version do I have?
+#+BEGIN_SRC sh
+grub-install --version
+#+END_SRC
+
 ** Grub Shell
 *** Cmds
 - setting the pager

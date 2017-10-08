@@ -1,7 +1,7 @@
 #+TAGS: fs disk io
 
 
-* RAID								 :fs:disk:io:
+* RAID
 * Description
 ** RAID 0
 ** RAID 1

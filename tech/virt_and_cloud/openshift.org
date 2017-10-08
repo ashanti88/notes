@@ -6,6 +6,11 @@ HomePage: [[https://www.openshift.com/][openshift.com]]
 * Description
 * Usage
 * Lecture
+[[https://www.youtube.com/watch?v=yFPYGeKwmpk][OpenShift 3 Walkthrough]]
+
 * Tutorial
+** [[https://www.youtube.com/watch?v=U5WJgE_T-tE][Effectively running python applications in Kubernetes/OpenShift: Maciej Szulik: pycon 2017]]
+
 * Books
 * Links
+[[https://opensource.com/article/17/5/colorful-deployments?sc_cid=70160000001273HAAQ][Intro to blue-green, canary, and rolling deployments on OpenShift]]

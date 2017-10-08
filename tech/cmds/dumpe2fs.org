@@ -1,7 +1,7 @@
 #+TAGS: fs disk
 
 
-* dumpe2fs                                                          :fs:disk:
+* dumpe2fs
 * Description
 prints  the  super  block  and  blocks group information for the filesystem on a device.
 

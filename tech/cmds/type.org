@@ -1,0 +1,12 @@
+#+TAGS: op sys
+
+
+* type
+* Description
+Displays information about a command
+
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

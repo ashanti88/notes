@@ -1,14 +1,256 @@
 #+TAGS: web cache
 
 
-* Varnish							  :web:cache:
+* Varnish
 Home: [[https://varnish-cache.org/intro/index.html#intro][Varnish]]
 HomePage: https://varnish-cache.org/
+* Cmds
+- varnishlog
+- varnishstat
+
 * Description
 Varnish Cache is a web application accelerator also known as a caching HTTP reverse proxy. You install it in front of any server that speaks HTTP and configure it to cache the contents. Varnish Cache is really, really fast. It typically speeds up delivery with a factor of 300 - 1000x, depending on your architecture.
 * Usage
 * Lecture
 * Tutorial
+** [[https://www.youtube.com/watch?v=ybMdQWUjp2E][Varnish Cache Workshop at Varnishcon 2016: Thijs Feryn]]
+Github: https://www.youtube.com/redirect?q=https%3A%2F%2Fgithub.com%2Fthijsferyn%2Fvarnishtraining&redir_token=eA8kX13up2gz2gyT-63rLoW-FQN8MTUwNzMyNzE3OUAxNTA3MjQwNzc5&event=video_description&v=ybMdQWUjp2E
+
+What can Varnish Do?
+  - Cache
+  - LB
+  - Proxy
+  - WAP
+  - HTTP Accelerator
+    
+Why Cache?
+  - run out of ways to optimize their application stack
+  - Infrasturcture or code optimization costs too much money
+  - Don't recompute if the data hasn't changed
+    
+- Everything is stored in Memory
+  
+VCL - Varnish Configuration Language
+
+- Normal Setup
+
+User ---> Server
+
+- With Forward Proxy
+#+BEGIN_EXAMPLE
+|      OFFICE      |
+| User <----> Proxy| <-----> Server
+|                  |
+#+END_EXAMPLE
+
+- with Reverse Proxy
+#+BEGIN_EXAMPLE
+                |    DATA CENTER     |
+User <--------> | Proxy <---> Server |
+                |                    |
+#+END_EXAMPLE
+
+- Debian
+#+BEGIN_SRC sh
+apt-get install apt-transport-https
+curl https://repl.varnish-cache.org/GPG-key.txt | apt-key add -
+echo "deb https://repo.varnish-cache.org/debian/ jessie varnish-4.1" >> /etc/apt/source.list.d/varnish-cache.list
+apt-get update
+apt-get install varnish
+#+END_SRC
+
+- RHEL (6)
+#+BEGIN_SRC sh
+yum install epel-release
+rpm --nosignature -i https://repo.varnish-cache.org/redhat/varnish-4.1.el6.rpm
+yum install varnish
+#+END_SRC
+
+- Config File
+  - for debian/ubuntu copy from
+    #+BEGIN_SRC sh
+    cp /lib/systemd/system/varnish.service /etc/systemd/system/
+    #+END_SRC
+  - admin interface is found at localhost:6082
+  - all changes to config file require a service reload
+    
+- Options
+  - a - binding address and port
+  - T - admin binding file
+  - f - VCL file
+  - S - Secret file
+  - s - storage
+  - j - jailing
+  - l - shared memory log size
+  - t - default TTL
+  - p - runtime parameters
+
+  - Apache with Varnish on same server    
+    ports.conf
+    #+BEGIN_EXAMPLE
+    Listen 8080
+    #+END_EXAMPLE
+    vhost
+    #+BEGIN_EXAMPLE
+    <VirtualHost *:8080>
+    #+END_EXAMPLE
+    
+  - Nginx with Varnish on same server
+    vhost
+    #+BEGIN_EXAMPLE
+    vhost
+    #+END_EXAMPLE
+
+- The Backend
+  - linking back to varnish with vcl file
+  - or by using the -b parameter as a daemon option
+    #+BEGIN_EXAMPLE
+    -b 127.0.0.1:8080
+    #+END_EXAMPLE
+  
+- Minimal VCL file
+#+BEGIN_EXAMPLE
+vcl 4.0;
+
+backend default {
+	.host = "127.0.0.1";		
+	.port = "8080";
+}
+#+END_EXAMPLE
+		
+- Varnish and HTTP
+  - Idempotence - execute multiple times, but always have the same outcome
+    - only cache GET, HEAD, not POST, PUT, DELETE, PATCH as these will change the data
+  - State 
+	- user specific data
+      - Auth headers
+      - Cookies - varnish will not cache
+  - TTL
+      - 120s by default
+      - respects HTTP cache-control header
+      - respects expires header
+	  - Order
+		- VCL
+		- s-maxage
+		- max-age
+		- expires
+		- default value 120s
+	  - Use TTL to indicate what not to cache
+		#+BEGIN_EXAMPLE
+		Cache-Control: max-age=0
+		Cache-Control: s-maxage=0
+		Cache-Control: private
+		Cache-Control: no-cache
+		Cache-Control: no-store
+		Expires: Fri, 20 Dec 2017 00:00:00 GMT	
+		#+END_EXAMPLE
+		
+- The Flow
+This is a finite state machine
+
+get an image of the flow
+
+
+  - Varnish Configuration Language
+    - is not a programming language
+    - contains hooks and subroutines
+    - these subroutines influnce how the flow works
+
+  - VCL Objects
+	- req     - incoming req 
+	- req.top - top level esi req
+	- bereq   - request object to send to backend
+	- beresp  - backend response
+	- resp    - response to send back to client
+	- obj     - cached obj
+	- client  - client info
+	- server  - server info
+    - local   - local tcp info
+	- remote  - remote tcp info
+	- storage - storage info
+	  
+- Default Behaviour
+#+BEGIN_EXAMPLE
+vcl 4.0;
+sub vcl_recv {
+	if (req.method == "PRI")
+		return (synth(405));
+	}
+	if (req.method != "GET" &&
+	  req.method != "HEAD" &&
+	  req.method != "PUT" &&
+	  req.method != "POST" &&
+	  req.method != "TRACE" &&
+	  req.method != "OPTIONS" &&
+	  req.method != "DELETE") {
+		return (pipe);
+	}
+	if (req.method != "GET" && req.method != "HEAD") {
+		return (pass);
+	}
+	if (req.http.Authorization || req.http.Cookie) {
+		return (pass);
+	}
+	return (hash);
+}
+
+sub vcl_hash {
+	...
+}
+sub vcl_hit {
+}
+sub vcl_miss {
+	...
+}
+sub vcl_deliver {
+	...
+}
+sub vcl_backend_response {
+	...
+}
+#+END_EXAMPLE
+
+- Customize VCL
+
+  - More on Backend
+#+BEGIN_EXAMPLE
+vcl 4.0;
+
+backend default {                                             ----------------------------
+	.host                  = "127.0.0.1";
+	.port                  = "80";
+	.max_connections       = 300;                                      Default
+	.first_byte_timeout    = 100s;
+	.connectn_timeout      = 5s;
+	.between_bytes_timeout = 2s;                              ----------------------------
+	.probe = {
+		.url = "/";
+		.interval  = 5s;
+		.timeout   = 1s;
+		.window    = 5;
+		.threshold = 3;
+}
+#+END_EXAMPLE
+
+- Do you really want to cache static assets
+  - if storage is a constraint then static images can be left to nginx or apache
+	
+- URL Blacklist
+#+BEGIN_EXAMPLE
+sub vcl_recv {
+	if (req.url = "^/status\.php$"
+		req.url = "^/update\.php$"
+		req.url = "^/admin$"
+		req.url = "^/admin/.*$" {
+		return (pass);
+	}
+}
+#+END_EXAMPLE
+
+
 * Books
+** [[file://home/crito/Documents/SysAdmin/Web/varnish-cache.pdf][Varnish Administrator Documentation]]
+** [[file://home/crito/Documents/SysAdmin/Web/varnish-book-4.x-19-g7d535e1.pdf][Varnish Book]]
+
 * Links
 [[https://www.cyberciti.biz/faq/how-to-install-and-configure-varnish-cache-on-ubuntu-linux-16-04-lts/][How to install and configure Varnish cache on Ubuntu Linux 16.04]]

@@ -381,13 +381,16 @@ Innodb_* Counters
 
 * Optimization
 ** Single Table
+#+BEGIN_EXAMPLE
 mysql> use <database>;
 mysql> optimize table blue_levers_wp;
+#+END_EXAMPLE
 
 ** Multiple Tables
+#+BEGIN_EXAMPLE
 mysql> use <database>;
-mysql> optimize table <table\_one>, <table\_two>, <table\_three>;
-
+mysql> optimize table <table_one>, <table_two>, <table_three>;
+#+END_EXAMPLE
 Optimie table works for InnoDB engine, MyISAM engine and ARCHIVE tables.
 
 ** Defrag using mysqlcheck cmd

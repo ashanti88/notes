@@ -125,3 +125,4 @@ errors=panic - panic and halt the machine on error
 [[https://www.kernel.org/doc/Documentation/filesystems/ext4.txt][Kernel Documentation]]
 [[http://fedoraproject.org/wiki/Features/Ext4][Fedora Project - Ext4]]
 [[https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Storage_Administration_Guide/ch-ext4.html][RHEL 6 Documentation - EXT4]]
+[[https://opensource.com/article/17/5/introduction-ext4-filesystem][An introduction to Linux's EXT4 filesystem - Opensource.com]]
