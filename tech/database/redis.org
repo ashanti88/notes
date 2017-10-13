@@ -1,10 +1,18 @@
 #+TAGS: db nosql cache
 
 
-* Redis							     :db:nosql:cache:
+* Redis
 HomePage: [[https://redis.io/][redis.io]] 
+* Cmds
+- redis-cli
+
 * Description
-Redis is what is known as a key-value store, often referred to as NoSQL.
+Redis is a key-value database which is often grouped under the NoSQL category of databases. It was initially released by the developer Salvatore Sanfilippo on the 10th of April 2009.
+
+Redis is an in-memory database which means that it’s data is stored on its host’s RAM memory. This makes Redis blazingly fast because it does not have to wait for traditional hard drive seek and read times.
+
+Being a NoSQL database, Redis allows you to create schema-less data structures that fit your applications needs. You can use Redis for simple things, like creating a visitor counter, or for more detailed information, such as storing user information.
+
 * Usage
 ** Operations
 set - give a key a value
@@ -57,10 +65,14 @@ hdel - delete a hash value
 
 ** Flush Redis Cache
 Log into the redis CLI using the following:
-> redis-cli -p 6380
+#+BEGIN_SRC sh
+redis-cli -p 6380
+#+END_SRC
 
 Then run flushall to flush all db's in redis:
-> 127.0.0.1:6380> flushall
+#+BEGIN_SRC sh
+127.0.0.1:6380> flushall
+#+END_SRC
 
 ** Installing Extra Instances
 URL: [[https://gist.github.com/jarvys/11393385][github multiple instances]]

@@ -9,8 +9,10 @@ Sysctl is used to examine and change kernel parameters at runtime. Sysctl is imp
 - /etc/sysctl.d/*.conf
 - /run/sysctl.d/*.conf
 - /usr/lib/sysctl.d/*.conf
+- /proc/sys/ - here is where the runtime parameters can be changed
+
 * Usage
-- print all variables
+- Print all variables
 #+BEGIN_SRC sh
 sysctl -a | less
 #+END_SRC

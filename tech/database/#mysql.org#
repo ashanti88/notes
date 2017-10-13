@@ -113,7 +113,7 @@ This modifies the user table directly.
 1. stop and restart mysql with --no-grant-tables parameter
 #+BEGIN_SRC sh
 systemctl stop mysqld.service
-mysqld --no-grant-tables
+mysqld --skip-grant-tables # or --no-grant-tables with <= 5.6
 #+END_SRC
 
 2. Connect to mysql
@@ -130,8 +130,10 @@ delete from user where host='localhost';
 INSERT INTO mysql.user (Host, User, Password) VALUES ('%', 'root', password('YOURPASSWORD'));
 GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION;
 INSERT INTO mysql.user (Host, User, Password) VALUES ('localhost', 'root', password('YOURPASSWORD'));
-GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION;
+GRANT ALL ON *.* TO 'root'@'localhost' WITH GRANT OPTION;
 #+END_EXAMPLE
+
+4. Restart the mysqld
 
 ** Uses
 *** List All Users
@@ -1429,3 +1431,5 @@ show engine innodb status\G
 [[file://home/crito/Documents/Database/MySQL/MySQL_Cookbook_2e.pdf][MySQL Cookbook - O'Reilly]]
 [[file://home/crito/Documents/Database/MySQL/MySQL_for_Python.pdf][MySQL for Python]]
 
+* Links
+https://www.stewright.me/2016/04/install-mysql-server-raspberry-pi/

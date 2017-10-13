@@ -1,7 +1,7 @@
 #+TAGS: sys op
 
 
-* usermod							     :sys:op:
+* usermod
 * Description
 * Usage
 ** Adding a user to the sudoers group

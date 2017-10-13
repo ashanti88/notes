@@ -1,0 +1,16 @@
+#+TAGS: net admin conf curses
+
+
+* nmtui
+Home Page: [[https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Networking_Guide/sec-Networking_Config_Using_nmtui.html][nmtui]]
+* Description
+Network Manager Text User Interfaceion
+- this tool allows for an curses environment to adjust netwrok settings.
+
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links
+
+

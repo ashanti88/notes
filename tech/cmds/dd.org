@@ -1,7 +1,7 @@
 #+TAGS: sys op io
 
 
-* dd								  :sys:op:io:
+* dd
 * Description
 * Usage
 #+BEGIN_SRC sh
@@ -63,8 +63,9 @@ notrunc - do not truncate the file
 
 ** Copying an image for Raspberry Pi				   :rasp:img:
 #+BEGIN_SRC sh
-dd if=raspberry\_pi.img of=/dev/mmblk0
+dd if=raspberry_pi.img of=/dev/mmblk0 bs=1M
 #+END_SRC
+set the device not the partition
 
 * Lecture
 * Tutorial

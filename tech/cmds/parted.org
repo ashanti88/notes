@@ -1,19 +1,4 @@
-#+TAGS: sys disk stor
-
-
-* parted                                                      :sys:disk:stor:
-* Description
-cmd line partitioning tool
-
-* Usage
-- starting the interactive shell
-#+BEGIN_SRC sh
-parted /dev/sdb
-#+END_SRC
-select the device that is to be partitioned
-
-** Create a new partition table
-- legacy BIOS MBR
+ MBR
 #+BEGIN_EXAMPLE
 (parted) mklabel msdos
 #+END_EXAMPLE
@@ -62,7 +47,7 @@ no special boot partition is required with the legacy BIOS
 /swap - 4G
 /home - Remainer
 
-** Resize  
+** Resize
 First resize the partition then resize the file-system
 
 *** Grow (ext2,3,4)

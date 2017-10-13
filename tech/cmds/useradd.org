@@ -1,7 +1,7 @@
 #+TAGS: sys op
 
 
-* useradd							     :sys:op:
+* useradd
 * Description
 * Usage
 
@@ -15,7 +15,7 @@ This creates a normal user issues a uid, gid, but no home directory is created (
 
 s - shell
 m - create users home directory if it doesn't already exist
-d - home directory of the user 
+d - home directory of the user
 g - group name
 G - group names
 

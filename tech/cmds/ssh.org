@@ -1,7 +1,7 @@
-#+TAGS: ssh
+#+TAGS: ssh remote
 
 
-* ssh 									:ssh:
+* ssh
 * Files
 /etc/ssh/ssh_config 		- the config file for the ssh client
 /etc/ssh/sshd_config 		- the config file for the ssh daemon
@@ -73,6 +73,11 @@ ssh-add -D
 
 *** ssh-keygen
 *** ssh-copy-id
+ssh-copy-id uses the SSH protocol to connect to the target host and upload the SSH user key. The command edits the authorized_keys file on the server. It creates the .ssh directory if it doesn't exist. It creates the authorized keys file if it doesn't exist. Effectively, ssh key copied to server.
+
+It also checks if the key already exists on the server. Unless the -f option is given, each key is only added to the authorized keys file once.
+
+It further ensures that the key files have appropriate permissions. Generally, the user's home directory or any file or directory containing keys files should not be writable by anyone else. Otherwise someone else could add new authorized keys for the user and gain access. Private key files should not be readable by anyone else.
 ** Check an ssh keys password
 #+BEGIN_SRC sh
 eval $(ssh-agent)

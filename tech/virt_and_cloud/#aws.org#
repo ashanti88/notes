@@ -729,6 +729,193 @@ these metrics will now be able to be viewed on the dashboard under linux metrics
     - if you are expecting a sudden and very large increase in traffic, you need to pre-warm your ELB to avoid dropped requests
       
 
+*** Lesson 11 - AWS Billing and Linking AWS Accounts
+*** Lesson 12 - AWS Billing Dimensions and Metrics for CloudWatch    
+- Once Recieve Billing Alerts is activated it cannot be un-activated
+*** Lesson 13 - Cost Optimizing
+    
+- Save costs by purchasing reserved instances
+  
+- Reserve instances for 1 to 3 yrs at a discounted rate
+  - pay all, in part, or nothing upfront
+  - the more you pay upfront, the more you save
+    
+- Low Utilization
+  - save costs by minimizing the number of EC2 instances in-use
+  - set ClouldWatch alarms to spin down underutilized instances
+    - Example: 5% CPU utilization for 50 minutes
+      
+  - Find the right balance between availability and cost
+  
+  - remove unused LB as these are charges per LB
+    
+  - EBS volumes cost, enven when not in-use
+    - delete unused volumes
+    - take a snapshot if you want to keep the data
+  
+  - Provisioned IOPS cost more, make sure you're not provisioning more than necessary
+    
+  - Downsize volumes that have non-required space
+    
+  - EIPs cost money, if not in use disassociate them
+   
+*** Lesson 14 - Using the AWS Price List API and Cost Explorer
+*** Lesson 15 - Scalability and Elasticity Essentials    
+
+- What is elasticity?
+  - the ability to scale up for demand, then retract back when demand slows down
+  - pay only for what yoy need, when you need it
+    
+- Scalability Fundamentals
+  - Scalabiliity focuses meore on building for growth
+  - Examples:
+    - Increasing instance size
+    - Increasing the number of available instances
+    - Increasing vol capacity
+      
+- DynamoDB
+  - Scalability
+    - we can keep storing more and more data without having to provision any hardware
+      
+  - Elasticity
+    - We can increase or decrease read and write throughput capacity on demand
+    - As read requests increase, we can increase read throughput capacity
+    - As read requests slow down, we can decrease capacity
+      
+- EC2
+  - Scalability
+    - we can increase the size of the instance
+    - there are different instance types we can choose from to grow 
+    - launch more instances
+      
+  - Elasticity
+    - auto scaling gives the ability to grow with demand, and shrink back during slower periods
+      
+- RDS
+  - Scalabiliity
+    - we can increase the size of instaces
+    - launch read replicas
+    - there are different instance tyeps we can choose from to grow
+      
+  - Elasticity
+    - limited
+
+*** Lesson 16 - Determing Reserved Instance Purchases Based on Business Needs
+    
+- Reserved Instances
+  - Reserved instances give us the ability to purchase instance capacity for a specific period time
+  - We can choose standard reserved instances or scheduled reserved
+  - Offers discounts
+  - Reserves capacity
+    
+*** Lesson 17 - AutoScaling vs Resizing
+    
+- Autoscaling
+  - distributes the load across multiple instances
+  - uses metrics and rules to automate spinning up/terminating instances
+    
+- Changin instance sizes
+  - increases/decreases resources available to our application
+    
+- When to choose one over the over?
+  - they both have pros and cons
+    
+- Think about if a EC2 Compute Optimized may be more appropriate for the instance type
+  
+- Scheduled Scaling
+  - Auto scaling can scale or shrink on a schedule
+    - one time occurrence or recurring schedule
+    - can define a new minimum, maximum and scaling size
+    - lets you scale out before you actually need capacity in order to avoid delays
+      
+- Challenges of Auto Scaling
+  - relatively complicated to setup
+    - instances can be started and stopped at any time
+    - applicatiions need to be designed to handle distributed work
+    - Important data (sessions, images, etc...) needs to be stored in a central location
+    - If one server terminates, the application should still function
+  - Delays in scaling
+    - Instances take time to initialize
+    - Applicatins may require setup which could take even more time
+
+- Challenges of Resizing Instances      
+  - Compatibility
+    - instances must have the same virt type to resize
+    - incompatible instances require migration
+  - EBS- backed instances need to be stopped before resize
+  - Instance store-backed instances require migration by creating an imamge and launching a new instance from the image
+  - Resizing isn't very flexible comparted to Auto scaling
+  - There usually has to be downtime and careful planning
+  - Resizing instances in Auto Scaling groups may need "suspending"
+    
+*** Lesson 18 - Elastic Load Balancer Sticky Sessions
+    
+- Though cookies can be issued with the LB and instances behind, but this may lead to unevenly distributed traffic and ineffect the LB being bypassed due to the cokkies
+  
+- Elasticache is the prefered method, where the session data could be daved in RDS. This would ensure that the traffic is evenly distributed by the LB.
+      
+*** Lesson 19 - High Availability with Single Instance Applications that Require Elastic IP Addresses
+    
+- Problem - older applications moved to AWS might require static IP addresses
+  - reasons for this generally include IP addresses hard coded into the code
+  - Would require serious commitment to change it
+    
+- How can you make an application like this highly available and fault tolerant?
+  - use an elastic ip (EIP)
+  - Understand why Auto scaling will not work
+  - create a standby instance in other availability zones
+  - increase instance size to scale
+    
+*** Lesson 20 - Understanding RDS Multi-AZ Failover
+    
+- RDS Multi-AZ Failover
+  - Provisions and maintians a standby replica in a different AZ  
+  - The primary synchronously replicates to the standby instance for redundancy
+  - Can reduce downtime in the event of a failure on the Primary
+    
+- How does replication work?
+  - The feature can be turned on from the console or API
+  - Amazon automatically handles replication
+  - The primary instance synchronously replicates to the standby instance for redundancy
+  - Replication can cause higher write and commit latency
+    - using provisioned IOPS is recommended
+      
+- Other benefites of replication
+  - Patching
+    - patching can be done on the standby instance first, and the on the primary to minimize downtime
+  - Backups
+    - we can eliminate I/O locking and minimize latency spikes
+    - create backups from the standby instance
+      
+- What can trigger a failover?
+  - loss of availability in the primary availiability zone
+  - loss of network connectivity to the primary instance 
+  - resource failure with the underlying virtualized resources
+  - storage failure on the primary database
+  - the db instance's server type is changed
+  - software/OS patching
+  - a manual reboot with failover was initiated
+
+- How do failovers work?
+  - The Process is automated by AWS
+    1. Amazon detects an issue and starts the failover process
+    2. DNS records are modified to point to the standby instance
+    3. The application re-establishes any existing DB connections
+       
+*** Lesson 20 - Applying High Availability Bastion Host Instance
+    
+- Bastion Hosts
+  - "Gate" that protects our infrastructure but allows access for updates or other management
+  - Used to control remote access (e.g. via RDP or SSH)
+  - For inbound traffic exposed to the internet
+  - These should be hardened and secured very carefully and reularly updated
+    
+- Other Benefits
+  - can have an Elastic IP Address that never changs and can be whitelisted
+  - we can have standby Bastion Hosts for higher availability
+    
+
+
 
 
 ** AWS Certified Solutions Acrhitect - Associate - Linux Academy

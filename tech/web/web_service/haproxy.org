@@ -2,8 +2,109 @@
 
 
 * haproxy
+HomePage: http://www.haproxy.org/#docs
+Doc: https://cbonte.github.io/haproxy-dconv/
+
+* Files
+/usr/sbin/haproxy        - default location for the binary
+/usr/share/doc/haproxy   - documentation
+/etc/haproxy/haproxy.cfg - configuration file 
+
 * Description
 * Usage
+- Basic Configuration File
+#+BEGIN_EXAMPLE
+global
+    log 127.0.0.1 local0
+    daemon
+    maxconn 256
+ 
+defaults
+    mode http
+    timeout connect 5000ms
+    timeout client 50000ms
+    timeout server 50000ms
+    option forwardfor
+    option http-server-close
+ 
+frontend http-in
+    bind *:80
+    rspadd X-Forwarded-Host:\ http:\\\\example.com
+    default_backend appZ-backend
+ 
+backend appZ-backend
+    balance roundrobin
+    server appZ_01 IP_OF_MACHINE_01:8080 check
+    server appZ_02 IP_OF_MACHINE_02:8080 check
+    server appZ_03 IP_OF_MACHINE_03:8080 check
+    server appZ_04 IP_OF_MACHINE_04:8080 check
+#+END_EXAMPLE
+
+* Terminology
+Below are a few of the key terms and concepts you should understand when working with HAProxy. When working with load balancers, these are the key concepts that will apply to all solutions. 
+
+Frontend
+Frontend, within the context of HAProxy, dictates where and how incoming traffic is routed to machines behind HAProxy. They allow you to setup rules (ACL’s) that will “watch” for specific URL syntax inbound and outbound of the load balancer and intelligently route a user’s traffic as needed.
+
+Furthermore, the frontend is where you will configure what IP and ports that HAProxy will listen for traffic on as well as configuring HTTPS on those respective ports. 
+
+- Example Frontend
+#+BEGIN_EXAMPLE
+frontend http-in
+    bind *:80
+    default_backend appX-backend 
+#+END_EXAMPLE
+
+This frontend example shows that we are only opening port 80 for incoming requests and redirecting all traffic to the default backend called appX-backend. 
+
+Backend 
+
+As the name suggests, a backend within the context of HAProxy is a group of resources that is home to your data or applications. These backend resources are where traffic will get routed by the rules you have configured in your frontends. 
+
+Backend resource groups can consist of a single server or multiple servers but in the context of load balancers, it is assumed that a minimum of two are being used. The more backend resources you can add to a group; the lower the load on each individual resource will be while increasing the number of users you can serve at any given time. 
+
+Lastly, just as with the frontend, you will also configure the IP and ports that your backend resources are listening for requests on. 
+
+Example backend:
+#+BEGIN_EXAMPLE
+backend appX-backend
+    balance roundrobin
+    server appX_01 192.168.2.2:8080 check
+    server appX_02 192.168.2.3:8080 check
+#+END_EXAMPLE
+
+In this example, the backend is called appX-backend and it contains two servers that are being accessed using roundrobin which is explained later in this guide. 
+
+ACL (Access Control List)
+
+In the context of HAProxy, ACLs are the backbone of more in-depth and complex configurations that contain multiple frontends as well as multiple backends and need very precise routing.
+
+With ACLs, you have the ability to parse through requests and do a multitude of different actions such as rewriting and redirecting all traffic requests as needed. Because HAProxy has the ability to load balance over Layer 4 or Layer 7 in the OSI model, you can effectively configure it to handle a number of different uses at the same time with multiple frontends and backend.
+
+Example ACL:
+#+BEGIN_EXAMPLE
+frontend http-in
+    bind *:80
+    acl url_appX path_beg -i /appX/
+    use_backend appX-backend if url_appX
+    default_backend appZ-backend 
+#+END_EXAMPLE
+
+his example is rather simple in that it evaluates the incoming request for the resource path which is the context immediately after the first / such as http://example.com/appX. In this scenario, if the incoming request is http://example.com/appX, the request is sent to the backend called appX-backend whereas all other requests will default to the appZ-backend.
+
+
+Algorithms 
+
+HAProxy comes with a fairly large number of options when it comes to choosing the method in which you want requests to be served to your backend resources. Below are a few of the more common ones as well as a short description of how each will work. 
+
+Round Robin 
+
+Each server is used in a never-ending line, starting with the first one listed in a given backend until the end of that list is reached at which point the next request will go back to the first resource again. By default, HAProxy will use this algorithm if one is not specified when building a backend. 
+
+Least Connection
+
+Each resource in a given backend is evaluated to determine which one has the least number of active connections. The resource with the lowest number will receive the next request. The developers of HAProxy state that this algorithm is a great option for connections that are expected to last a long time such as LDAP and SQL but not for HTTP.       
+
 * Lectures
 * Books
 * Articles

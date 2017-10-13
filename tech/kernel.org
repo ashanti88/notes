@@ -5,6 +5,8 @@
 * Cmds
 ksplice
 kexec
+- [[file://home/crito/org/tech/cmds/sysctl.org][sysctl]]
+
 
 * Overview
 ** Major Subsystems

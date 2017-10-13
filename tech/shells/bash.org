@@ -4,6 +4,22 @@
 * bash
 * Description
 * Usage
+** Precedence of config files
+- non-interactive
+  /etc/profile
+  ~/.bash_profile
+  ~/.bash_login
+
+- interactive
+  /etc/bash.bashrc
+  ~/.bashrc
+  
+- Non-interactive shell
+When you open a terminal emulator (gnome-terminal for example), you are executing what is known as an interactive, non-login shell. 
+
+- Interactive shell
+When you log into your machine from the command line, or run a command such as su - username, you are running an interactive login shell.
+
 ** Globbing
 - Also known as wildcards  
 ls host* - list anything that starts with host
@@ -378,6 +394,5 @@ then
 	printf "Number of arguments is %d\n" "$#"
 fi
 #+END_EXAMPLE
-
 
 * Links

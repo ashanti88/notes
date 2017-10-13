@@ -1,8 +1,17 @@
-#+TAGS:
+#+TAGS: auto code
 
 
 * Terraform
+HomePage: https://www.terraform.io/
+
 * Description
+Modules in the Terraform ecosystem are a way to organize the code to: 
+  - be more reusable
+  - avoid code duplication
+  - improve the code organization and its readability
+
+If we compare them to a programming language, writing a Terraform module is the equivalent of writing a function and calling it many times with different parameters.
+
 * Usage
 * Lecture
 * Tutorial

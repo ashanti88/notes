@@ -1,0 +1,162 @@
+#+TAGS: mail
+
+
+* Mail
+** Introduction
+
+Email is quite possibly the most ubiquitous technology we use today. Although it is starting to see a little age, it still seems to chug along and stay in the forefront of our daily lives.
+
+With all the great benefits that email provides, there are also caveats. There are scandals, phishing, SPAM, and several other issues with email that can almost make it unusable. Luckily, changes are constantly being made in the world of Email to help prevent these caveats. This is why you should make sure you know how email works!
+
+No matter which path you take in the IT world, you WILL encounter email. Sysadmins have to manage email systems such as Exchange, Developers have to manage emails from their programs, Security professionals have to ensure email is safe and secure, and so on.
+
+Alright, now that we have the why out of the way, let’s put on our wetsuits and dive into the wonderful, and sometimes complicated, world of email!
+How does email work?
+
+Let’s kick this guide off by going through some protocols and theory. I know, that sounds like a party, doesn’t it?! Well, to get to the fun stuff, we’ve got to do a little legwork!
+The Protocols
+
+First up, let’s go over the protocols, or communication methods, of email:
+
+- SMTP
+  ⦁ The Simple Mail Transfer Protocol is the granddaddy of email and still the method by which email is sent and received by servers today.
+  
+  ⦁ SMTP was defined in 1982 (Crazy, right?!) https://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol
+  
+  ⦁ SMTP runs unsecured over port 25 and secured with a SSL/TLS certificate over port 587
+  
+  ⦁ Many ISPs block port 25 and 587 for residential connections.
+
+POP3
+  ⦁ POP3 is the third version of the “Post Office Protocol” which has been around since the beginning. POP has been around since the 80s with POP3 originated in 1988. https://en.wikipedia.org/wiki/Post_Office_Protocol
+  
+  ⦁ POP3 is a largely deprecated protocol in favor of IMAP (with some notable exceptions, such as GMAIL promoting their POP feature.)
+  
+  ⦁ POP3 is a “Pull only” protocol which means that your email client must reach out to fetch new messages. This can be scheduled to occur at certain intervals or performed manually.
+  
+  ⦁ POP3 communicates over port 110 and “Secure POP3”, which uses an SSL/TLS certificate, communicates over port 995.
+
+IMAP
+  ⦁ IMAP is the current universal standard for most email clients. Clients such as Outlook can retrieve email from Gmail, Yahoo, AOL, etc. using the IMAP protocol.
+  
+  ⦁ IMAP is a push and pull protocol that keeps folders and emails in sync at all times. Unlike POP3, if an email arrives, an IMAP client will detect this change and retrieve the message immediately as opposed to a set schedule.
+  
+  ⦁ IMAP uses port 143 and secured port 993.
+
+MAPI
+  ⦁ This is the protocol you will find in an enormous number of schools, businesses, and other organizations that host their own email using Microsoft Exchange. If you have ever used Microsoft Outlook with an Exchange server, you have used MAPI.
+  
+  ⦁ MAPI is a proprietary protocol that allows Microsoft’s Outlook client to transfer calendar, delegate, contact, and other important information between the Exchange server and Outlook.
+  
+  ⦁ MAPI is considered incredibly robust and supports many features that IMAP and POP3 cannot support. This is why many organizations that rely heavily on Administrative Assistants and Executive Admins still prefer Outlook and Exchange/Office 365 today.
+
+HTTPS
+  ⦁ HTTPS is used to deliver secure webpages and it is how email is accessed without a full client such as Outlook.
+  
+  ⦁ GMAIL, Outlook on the Web, Yahoo, AOL, etc. all deliver their primary email servers via HTTPS webpages that you sign into.
+  
+  ⦁ These email services can typically be setup on a client using IMAP, but it is very convenient just to open the email in a browser.
+
+MX Records
+
+  ⦁ A “Mail Exchanger” record is a DNS record that directs email to the appropriate mail server for the domain.
+
+** Common Email Software
+
+Now that we’ve mentioned protocols, let’s quickly go over some of the software that is used today. Obviously, there is a LOT more software than I’ll mention here, but I want to just go over some of the primary software you will find in the wild.
+
+- Outlook
+  ⦁ Outlook is still the most widely used desktop email client today. https://www.campaignmonitor.com/resources/guides/most-popular-email-clients/
+  
+  ⦁ Outlook communicates with Exchange servers over MAPI or to other email providers such as Gmail by IMAP.
+  
+- Exchange
+  ⦁ Exchange is a very common Email server for on-premises corporate email. You can’t go far in the corporate, education, or government world without running into an Exchange Server.
+  
+  ⦁ Exchange manages calendars, contacts, email, documents, and many other features that large organizations use.
+  
+  ⦁ Microsoft has taken Exchange to the cloud as Office 365, which many organizations are migrating to. https://www.okta.com/blog/2015/01/office-365-adoption-goes-through-the-roof/
+
+MailEnable
+  ⦁ MailEnable is a client that is very popular among hosting companies. It integrates easy with control panels, such as CPanel, and has a free version available. If you are looking for an easy way to host your own email on a Windows server, this is certainly a decent option. https://www.mailenable.com/
+
+PostFix
+  ⦁ PostFix is a mail system for Linux that allows the sending and receiving of mail. It is a no-frills option for those who wish to have email integrated with their applications or websites hosted in a Linux environment.
+
+
+** Email Security
+
+We’ve gone through why you need to know email and how it works, but how about how to make it work securely? This is a topic that seems to become more necessary every day!
+
+Email Security is an enormous topic that could be written in volumes, but I’m going to try to provide a brief overview in a few paragraphs, so let’s get to it!
+Spoofing
+
+⦁ “Email Spoofing” is when an attacker or other miscreant pretends to be you by modifying the “from address” of an email with your email address instead of theirs.
+
+⦁ Although a spoofed email appears to be from you, if you inspect the email, you can see that the IP address of the sending server does not match your server.
+
+⦁ There are many ways to help prevent this, a few of which are as follows:
+  ⦁ SPF: “Sender Policy Framework” is a method by which receiving email servers can check to ensure an email arrived from a host approved by the domain. This is achieved by  adding a “TXT” record to DNS records which validates 
+  An example of an SPF record is:
+  #+BEGIN_EXAMPLE
+  example.com. IN TXT "v=spf1 ip4:192.0.2.0/24 ip4:198.51.100.123 a -all"
+  #+END_EXAMPLE
+  As you can see, the IP address for the email host is listed and, as long as the sending server matches that, the email will be received properly. 
+
+  ⦁ DKIM: “DomainKeys Identified Mail” takes SPF a step further. Where SPF verifies the server IP is legitimate, the DKIM verifies the email has not been modified in any way after the original server received it and that the domain in the sender address matches the domain from which it was sent. This helps prevent spammers and scammers from modifying an email and redistributing it as their own or modifying the email address and scamming unsuspecting victims by pretending to be someone they’re not. 
+
+  ⦁ DMARC: “Domain-based Message Authentication, Reporting and Conformance” (I would recommend sticking to DMARC for this one!) is the policy applied to emails that fail SPF or DKIM checks. This policy is created in DNS to instruct receiving mail servers to accept or reject emails that fail policy.
+    ⦁ A DMARC policy looks like this:
+    #+BEGIN_EXAMPLE
+    v=DMARC1; p=reject; pct=100; rua=mailto:dmarc_y_rua@yahoo.com;
+    #+END_EXAMPLE
+    V = version number
+    p = policy
+    pct = percentage of email to be affected by this policy
+    rua = the email server to send block reports to
+
+    ⦁ You can find a DMARC policy using many tools, but one of the easiest to use is here:
+    http://mxtoolbox.com/dmarc.aspx
+
+    ⦁ Many people forward email from one server to another. For instance, you may want to forward your Exchange email from school to your Gmail account. If an email comes to your school account from an email domain that has “p=reject” as the policy, this can actually cause your forwarded email to bounce or go straight to spam! This article from AOL actually explains more: 
+    http://postmaster-blog.aol.com/2014/04/22/aol-mail-updates-dmarc-policy-to-reject/
+
+All of these security settings are certainly great things, but can definitely cause issues if you have an organization with users highly reliant on forwarding. This being said, it is a much better move to set “p=reject” than it is to just risk the safety of your assets just for a few people who want to forward email. 
+
+- Encryption
+
+As you have probably seen in the news over the past few years, encryption is extremely important in your email to prevent prying eyes from getting ahold of your sensitive information! Encryption is largely being deployed natively by most web hosts now, especially Gmail, so this isn’t as important of a topic, but you should definitely be exposed to it!
+
+    ⦁ PGP: “Pretty Good Privacy” is an encryption method widely used for email. It works by allowing you to create a private key that you keep and a public key to distribute to your recipients. This process gets pretty complicated, so I recommend you read up on it as a  cursory knowledge of email encryption will certainly do you good in whatever career path  you choose!
+    http://openpgp.org/
+    https://en.wikipedia.org/wiki/Pretty_Good_Privacy
+
+    ⦁ S/MIME: “Secure/Multipurpose Internet Mail Extensions” is another encryption  protocol that allows the sending of signed and encrypted emails. More on this standard  can be found here
+    https://en.wikipedia.org/wiki/S/MIME
+
+- Spam and Phishing
+
+We’ve all heard of SPAM and probably suffer from it on a daily basis. Either our email boxes are inundated with it or we have no Spam, but our Spam filters are blocking important messages because they are too sensitive.
+
+There are several methods out there to block Spam including, but not limited to, Spam filters, blacklists, and SPF/DKIM/DMARC. Due to its enormous complexity, I’m not going to delve too deep into Spam concepts; I’m just going to cover a few tips and suggestions:
+
+    ⦁ Don’t sign up for mailing lists or sketchy “free things” with your primary email! Email  providers such as Outlook.com actually has an “alias” function that allows you to create  an email alias. Many people will create an email alias like: ⦁  companyname_myemail@outlook.com which allows you to see what company you  signed up for and to whom they sold your information if they did. More info can be found  here:
+
+https://support.microsoft.com/en-us/help/12407/microsoft-account-manage-aliases
+
+    ⦁ Don’t flag unwanted mail as spam unless it really is spam. If you signed up for a service,  throw it away and unsubscribe. Flagging it as spam hurts the organization if it is marked as  spam enough. This causes it to be placed on a blacklist, which can be a long and arduous  process to be removed from. 
+
+    ⦁ Sometimes, you may find yourself on this blacklist if your server has what’s called an  “open relay” that is exploited and your server starts sending spam. Ensure that anytime  you use an SMTP server with an application you employ SPF, DKIM, DMARC and secure the  connection to your server with a complex password. 
+
+    ⦁ If you need to see if your domain is on a blacklist, you can check here:
+
+    http://mxtoolbox.com/blacklists.aspx
+
+    ⦁ If you receive an email from someone you don’t know or a suspicious email you didn’t  expect from someone you do, it’s always a good idea to inspect the header of the email to  ensure the address matches. Many spoofers will change the “from” address, but their  domain will stay the same in the header, which will give them away immediately.
+
+    ⦁ If a company asks for a password in an email, it’s probably fraudulent. Always go to the  website in question to perform any password operations and don’t sign into sites directly  from an email.
+
+    ⦁ To avoid being flagged as Spam, it’s usually best to include a subject and a body of at  least some text. Even if you’re just sending an attachment or one link, if you aren’t in the  recipient’s address book, their system may flag you as spam if you send an email with a  blank subject or just an attachment.
+
+* Books
+* Links

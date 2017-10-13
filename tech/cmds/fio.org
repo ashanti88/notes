@@ -1,7 +1,7 @@
 #+TAGS: sys anal io
 
 
-* fio 								:sys:anal:io:
+* fio
 Home Page: [[http://freecode.com/projects/fio/][freecode.com/fio]]
 
 * Description
@@ -17,17 +17,23 @@ Fio is a powerful benchmarking tool. It has support for 19 different type of I/O
 1. First a directory has to be created that fio can use.
   - fio will create files and use this directory for testing.
   - In this directory now create a configuration file
+#+BEGIN_EXAMPLE
 [global]
 ioengine=posixaio
 rw=readwrite
 size=1g
 directory=${HOME}/fio
 thread=1
+#+END_EXAMPLE
 
 2. Now we run the created file 
-> fio <name.fio> --output=<output.txt>
+#+BEGIN_SRC sh
+fio file_name.fio --output= file_output.txt
+#+END_SRC
 or
-> fio <name.fio> --output-format=json --output=<name.json>
+#+BEGIN_SRC sh
+fio file_name.fio --output-format=json --output=<name.json
+#+END_SRC
 
 ** Reading Output
 - Higher output for bandwidth and lower values for latency constitute better results.
