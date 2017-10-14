@@ -1,7 +1,7 @@
 #+TAGS: sec enc pgp
 
 
-* gpg								:sec:enc:pgp:
+* gpg
 HomePage: [[https://www.gnupg.org/][gnupg.org]]
 * Cmds
 - dirmngr

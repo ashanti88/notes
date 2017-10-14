@@ -1,0 +1,21 @@
+#+TAGS: init sys service sysv deb ubuntu
+
+
+* update-rc.d
+* Description
+* Usage
+- enable a service
+#+BEGIN_SRC sh
+update-rc.d mysql enable 3
+#+END_SRC
+enable mysql for runlevel 3
+
+- disable a service
+#+BEGIN_SRC sh
+update-rc.d mysql disable
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

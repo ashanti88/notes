@@ -7,6 +7,27 @@ Home Page: [[https://iperf.fr/][iperf.fr]]
 iperf is a tool to measure the bandwidth and the quality of a network link.
 
 * Usage
+** Testing Bandwidth of a machine
+- one test machine
+#+BEGIN_SRC sh
+iperf3 -s -p 80
+#+END_SRC
+p - 80
+
+- on another machine install iperf3 (ubuntu instance in this case), if not available in repo of distro it is available from github
+#+BEGIN_SRC sh
+apt-get install iperf3
+#+END_SRC
+
+- On theinstance connect back to the instance we are testing
+#+BEGIN_SRC sh
+iperf3 -c 53.234.170.10 -i 1 -t 10 -p 80
+#+END_SRC
+c - connect
+i - interval
+t - duration of time
+This will provide detailed information of each interval and an overall sender/reciever bandwidth
+
 * Lecture
 * Tutorial
 * Books

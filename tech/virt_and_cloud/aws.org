@@ -729,37 +729,442 @@ these metrics will now be able to be viewed on the dashboard under linux metrics
     - if you are expecting a sudden and very large increase in traffic, you need to pre-warm your ELB to avoid dropped requests
       
 
+*** Lesson 11 - AWS Billing and Linking AWS Accounts
+*** Lesson 12 - AWS Billing Dimensions and Metrics for CloudWatch    
+- Once Recieve Billing Alerts is activated it cannot be un-activated
+*** Lesson 13 - Cost Optimizing
+    
+- Save costs by purchasing reserved instances
+  
+- Reserve instances for 1 to 3 yrs at a discounted rate
+  - pay all, in part, or nothing upfront
+  - the more you pay upfront, the more you save
+    
+- Low Utilization
+  - save costs by minimizing the number of EC2 instances in-use
+  - set ClouldWatch alarms to spin down underutilized instances
+    - Example: 5% CPU utilization for 50 minutes
+      
+  - Find the right balance between availability and cost
+  
+  - remove unused LB as these are charges per LB
+    
+  - EBS volumes cost, enven when not in-use
+    - delete unused volumes
+    - take a snapshot if you want to keep the data
+  
+  - Provisioned IOPS cost more, make sure you're not provisioning more than necessary
+    
+  - Downsize volumes that have non-required space
+    
+  - EIPs cost money, if not in use disassociate them
+   
+*** Lesson 14 - Using the AWS Price List API and Cost Explorer
+*** Lesson 15 - Scalability and Elasticity Essentials    
+
+- What is elasticity?
+  - the ability to scale up for demand, then retract back when demand slows down
+  - pay only for what yoy need, when you need it
+    
+- Scalability Fundamentals
+  - Scalabiliity focuses meore on building for growth
+  - Examples:
+    - Increasing instance size
+    - Increasing the number of available instances
+    - Increasing vol capacity
+      
+- DynamoDB
+  - Scalability
+    - we can keep storing more and more data without having to provision any hardware
+      
+  - Elasticity
+    - We can increase or decrease read and write throughput capacity on demand
+    - As read requests increase, we can increase read throughput capacity
+    - As read requests slow down, we can decrease capacity
+      
+- EC2
+  - Scalability
+    - we can increase the size of the instance
+    - there are different instance types we can choose from to grow 
+    - launch more instances
+      
+  - Elasticity
+    - auto scaling gives the ability to grow with demand, and shrink back during slower periods
+      
+- RDS
+  - Scalabiliity
+    - we can increase the size of instaces
+    - launch read replicas
+    - there are different instance tyeps we can choose from to grow
+      
+  - Elasticity
+    - limited
+
+*** Lesson 16 - Determing Reserved Instance Purchases Based on Business Needs
+    
+- Reserved Instances
+  - Reserved instances give us the ability to purchase instance capacity for a specific period time
+  - We can choose standard reserved instances or scheduled reserved
+  - Offers discounts
+  - Reserves capacity
+    
+*** Lesson 17 - AutoScaling vs Resizing
+    
+- Autoscaling
+  - distributes the load across multiple instances
+  - uses metrics and rules to automate spinning up/terminating instances
+    
+- Changin instance sizes
+  - increases/decreases resources available to our application
+    
+- When to choose one over the over?
+  - they both have pros and cons
+    
+- Think about if a EC2 Compute Optimized may be more appropriate for the instance type
+  
+- Scheduled Scaling
+  - Auto scaling can scale or shrink on a schedule
+    - one time occurrence or recurring schedule
+    - can define a new minimum, maximum and scaling size
+    - lets you scale out before you actually need capacity in order to avoid delays
+      
+- Challenges of Auto Scaling
+  - relatively complicated to setup
+    - instances can be started and stopped at any time
+    - applicatiions need to be designed to handle distributed work
+    - Important data (sessions, images, etc...) needs to be stored in a central location
+    - If one server terminates, the application should still function
+  - Delays in scaling
+    - Instances take time to initialize
+    - Applicatins may require setup which could take even more time
+
+- Challenges of Resizing Instances      
+  - Compatibility
+    - instances must have the same virt type to resize
+    - incompatible instances require migration
+  - EBS- backed instances need to be stopped before resize
+  - Instance store-backed instances require migration by creating an imamge and launching a new instance from the image
+  - Resizing isn't very flexible comparted to Auto scaling
+  - There usually has to be downtime and careful planning
+  - Resizing instances in Auto Scaling groups may need "suspending"
+    
+*** Lesson 18 - Elastic Load Balancer Sticky Sessions
+    
+- Though cookies can be issued with the LB and instances behind, but this may lead to unevenly distributed traffic and ineffect the LB being bypassed due to the cokkies
+  
+- Elasticache is the prefered method, where the session data could be daved in RDS. This would ensure that the traffic is evenly distributed by the LB.
+      
+*** Lesson 19 - High Availability with Single Instance Applications that Require Elastic IP Addresses
+    
+- Problem - older applications moved to AWS might require static IP addresses
+  - reasons for this generally include IP addresses hard coded into the code
+  - Would require serious commitment to change it
+    
+- How can you make an application like this highly available and fault tolerant?
+  - use an elastic ip (EIP)
+  - Understand why Auto scaling will not work
+  - create a standby instance in other availability zones
+  - increase instance size to scale
+    
+*** Lesson 20 - Understanding RDS Multi-AZ Failover
+    
+- RDS Multi-AZ Failover
+  - Provisions and maintians a standby replica in a different AZ  
+  - The primary synchronously replicates to the standby instance for redundancy
+  - Can reduce downtime in the event of a failure on the Primary
+    
+- How does replication work?
+  - The feature can be turned on from the console or API
+  - Amazon automatically handles replication
+  - The primary instance synchronously replicates to the standby instance for redundancy
+  - Replication can cause higher write and commit latency
+    - using provisioned IOPS is recommended
+      
+- Other benefites of replication
+  - Patching
+    - patching can be done on the standby instance first, and the on the primary to minimize downtime
+  - Backups
+    - we can eliminate I/O locking and minimize latency spikes
+    - create backups from the standby instance
+      
+- What can trigger a failover?
+  - loss of availability in the primary availiability zone
+  - loss of network connectivity to the primary instance 
+  - resource failure with the underlying virtualized resources
+  - storage failure on the primary database
+  - the db instance's server type is changed
+  - software/OS patching
+  - a manual reboot with failover was initiated
+
+- How do failovers work?
+  - The Process is automated by AWS
+    1. Amazon detects an issue and starts the failover process
+    2. DNS records are modified to point to the standby instance
+    3. The application re-establishes any existing DB connections
+       
+*** Lesson 20 - Applying High Availability Bastion Host Instance
+    
+- Bastion Hosts
+  - "Gate" that protects our infrastructure but allows access for updates or other management
+  - Used to control remote access (e.g. via RDP or SSH)
+  - For inbound traffic exposed to the internet
+  - These should be hardened and secured very carefully and reularly updated
+    
+- Other Benefits
+  - can have an Elastic IP Address that never changs and can be whitelisted
+  - we can have standby Bastion Hosts for higher availability
+    
+*** Lesson 21 - Overview of Services that Allow Access to the Underlying Operating System
+    
+- EMR - Elastic MapReduce
+- EC2 - Elastic Cloud Compute
+- ECS - Elastic Container Service
+- Elastic Beanstalk 
+- OpsWorks - Configuration management
+  
+- Services that don't allow access to the underlying OS
+  - RDS
+  - DynamoDB
+  
+*** Lesson 22 - Elastic Load Balancer Configuration
+    
+- we can have both external and internal LB
+  
+- External LB are public facing
+  - often used to distribute load between web servers
+  - provides public DNS hostname
+    
+- internal load balancer are not customer facing
+  - often used to distribure load between private backend servers
+  - provides an internal DNS hostname
+    
+*** Lesson 23 - Offloading Database Workload
+    
+- RDS Read Replication
+  - Read replicas can be used to offlaod work from the main db  
+    - writes go to the source instance
+    - reads go to the read replicas
+      
+- Create the read replica    
+  - select the source db
+  - a snapshot is taken and is applied to the instance that is to become the read replica
+      
+- RDS Read Replication vs Mutli-AZ failover
+  - read replicas are built primarily for performance and offloading work
+  - Multi-AZ deployments are used for high availability and durability
+  - Multi-AZ deployments give us synchronous replication instaead of asynchronous
+  - Multi-AZ deployments are only used to perform a failover, they are idle the rest of the time
+  - Read replivas are used to serve legitimate traffic
+  - It is often beneficial to use both of these as complements
+
+- which engines to support read replicas
+  - innodb
+  - extradb
+    
+  - myisam causes problems, better to use innodb
+  
+- automated backups has to be initialized for read-replicas to be created
+  
+*** Lesson 24 - Initializing (Pre-warming)EBS Volumes
+*** Lesson 25 - Pre-Warming the Elastic Load Balancer
+    
+- HTTP 503 Error (ELB cannot handle anymore requests)
+  - does not queue requests but instad drops them
+    
+- ELB dis designed to increase its resource capacity with gradual increases in traffic
+  
+- When expecting significant spikes in traffic it is possible the traffic is sent faster than the ELB can "expand"
+  - contact aws for "pre-warming" of the ELB
+    
+*** Lesson 26 - Resizing or Changing EBS Root Volume
+
+1 - create a snap shot of the current root volume
+2 - with this snap shot choose to create a volume from it
+3 - setting a larger size volume will increase the number IOPs available
+4 - stop the instance that the new volume is to be attached too
+5 - attach the new volume to the stoped instance
+6 - restart the instance
+7 - ssh into the instance and check that the volume is mounted correctly
+    - lsblk or df
+    - if full volume not seen use the resize2fs cmd
+      
+*** Lesson 27 - SSL on Elastic Load Balancer
+
+IAM - should be used if the certs are from a 3rd party
+ACM - should be used if the certs are from amazon
+
+*** Lesson 28 - Network Bottlenecks
+    
+- Potential Issues
+  - One of the primary network bottlenecks comes from EC2 instances
+  - Instance are in different Availability Zones, regions or continents
+  - EC2 instance sizes (larger instances generally have better bandwidth performance)
+  - not using enhanced networking features
+
+- performance can be checked with iperf3
+  
+- VPCs can use VPC peering to create a reliable connection
+  - no single point of failure for communication or bandwidth bottlenecks
+    
+- using iperf3 to monitor/bench mark networking
+#+BEGIN_SRC sh
+iperf3 -s -p 80
+#+END_SRC
+p - 80
+- on another instance install iperf3 (ubuntu instance in this case), if not available in repo of distro it is available from github
+#+BEGIN_SRC sh
+apt-get install iperf3
+#+END_SRC
+- on this instance connect back to the instance we are testing
+#+BEGIN_SRC sh
+iperf3 -c 53.234.170.10 -i 1 -t 10 -p 80
+#+END_SRC
+c - connect
+i - interval
+t - duration of time
+This will provide detailed information of each interval and an overall sender/reciever bandwidth
+
+- Bandwidth limitations on your VPN to your AWS VPC
+  - Using VPN to access AWS VPC from our on-premise network means we have to communicate over the open internet
+    
+- We can use AWS Direct Connect
+  - Gives us a dedicated network connection
+  - sets up a private connection
+  - can reducee costs in some situations 
+  - supports post speeds of 1Gbps and 10Gbps
+  - Speeds of 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps and 500Mbps can be ordered through an APN Partner supporting AWS Direct Connect
+
+*** Lesson 29 - Lab - Test Bandwidth on EC2 instances with iperf3
+*** Lesson 30 - EBS Root Devices on Terminated Instances - Ensuring Data Durablility
+    
+- delete on termination is set a default
+  - for persistance this should be unticked
+    
+- backing up data
+  - uncheck the delete on termination
+  - create a snapshot before you terminate the instance
+  - create a volume to backup other volumes too.   
+
+*** Lesson 31 - Troubleshooting Auto Scaling Issues
+    
+- Attempting to use the wrong subnet
+- Availability is no longer available or supported
+- Security group does not exist
+- Key pair associated does not exist
+- Auto scaling configuration is not working correctly
+- Instance type specification is not supported in that Availability Zone
+- Auto Scaling service is not enabled on the account
+- Invaild EBS device mapping
+- Attempting to attach EBS block device to instace-store AMI
+- AMI issues
+- Placement group attempting to use m1.large (wrong instance type)
+- "We currently do not have sufficient instance capacity in the AZ that you requested"
+- Updating instance in Auto Scaling group with "suspended state" 
+  
+*** Lesson 32 - OpsWorks: Overview
+    
+- What is OpsWorks
+  - give us flexible way to create and manage resources for our applications, as well as the applications themselves.
+  - we can create a stack of resources and manage those resources collectively in different layers. These layers can have built-in or suctom Chef recipes.    
+
+    - Overall
+      - automate deployments
+      - monitor deployments
+      - maintain deployments
+
+  - Anatomy
+    - Stacks
+      - represent a set of resources that we want to manage as a group
+        - e.g EC2 instances, EBS volumes, LB
+      - We could build a stack for a development, staging or production environment
+	
+    - Layers
+      - Used to represent and configure components of a stack
+        - e.g. a layer web app servers, a layer for the db, and a layer for the LB
+      - we can use built-in layers and customize those or create completley custom layers
+      - recipes are added to layers
+	
+    - Instances
+      - must be associated with at least one layer
+      - we could build a stack for a development, staging, or production environment
+      - we can run as:
+        - 24/7
+        - load-based
+        - time-based
+
+    - Apps
+      - Apps are deployed to the application layer through a source code repo likt Git, SVN or seven S3.
+      - We can deploy an app against a layer and have ops works exec recipes to prepare instancees for the app.
+	
+Layer  -----  LB
+
+Layer  -----  Instances
+
+Layer  -----  DB Instance
+
+  - Recipes
+    - created using the ruby language and based off of the chef deployment software
+    - custom recipes can customize different layers in an application
+    - recipes are run at certain per-defined events within a stack
+      - Setup - occurs on a new instance after first boot
+      - Configure - occurs on all stack instances when they enter or leave the online state
+      - Deploy - occurs when we deploy an app
+      - Undeploy - happens when we delete an app from a set of application instances
+      - Shutdown - happens when we shut down an instance (but before it is actually stopped)
+
+*** Lesson 33 - OpsWorks: Creating our First Stack
+*** Lesson 34 - CloudFormation Essentials    
+    
+- CloudFormation allows you to create and provision resources in a reusable template fashion
+- turns your resources into stacks that work as units
+- allows you to source control your infrastructure
+- templates are JSON compatible
+  
+- Version and Description
+  - AWSTemplateFormatVersion
+    - Specifies which template version you want to use
+  - Description
+    - This section follow the template version section
+    - Descriptions help clearly differentiate between templates
+  - Metadata
+    - JSON objects that provide details about the template
+  - Parameters
+    - Valuees you can pass in right before template creation
+    - allows you to customize templates
+    - can have default values as well as allowed values
+  - Mappings
+    - Lets you map keys to values
+    - for example: you can make different valuees for different regions
+  - Conditions
+    - Can check values before deciding what to do
+    - Allows you to create different resources in the same template depending on the condition evaluation
+    - Example: can create different environments for development and production
+  - Resources (required)
+    - this is where you create different resources
+  - Outputs
+    - can ouptu values that you'd like see from the console of from API calls
+      
+  - Intrinsic Functions
+    - used to pass in values that are not avaklable until run time
+    - Fn::GetAtt 
+    - Fn::FindInMap - redturns the value of a key from a specified mapping
+    - Fn::Join - Concat elements, separated by a specified delimiter
+    - Ref - Returns a resource or value based on a logical name or parameter
+    - Fn::GetAZs - Get the AZ for a specified region
+    - Fn::Select - Returns a single object from a list of objects by index
+    
+  - CloudFormation Rollback
+    - if a stack fails to create a resource, by default the stack will rollback
+    - Rollback - Removal of all created resources after a failed stack creation, or after cancelling creation
+    - Rollback can be disabled from the API
+      
+  - Advanced Concepts
+    - templates allow you to declare cloud-init scripts for EC2 resources
+    - templates allow the use of regex in certain declarations
+
+  
 
 
-** AWS Certified Solutions Acrhitect - Associate - Linux Academy
-** Getting Started with Amazon EC2 Linux Instances - Amazon
-*** Overview
-- Selecting Availability Zone if not set by you is selected by Amazon.
-- When launched the instance is secured with a key pair and security group.
-- Connection to the instance requires the private key of the pair.
-*** Launch an Instance - Basic Configuration
-An instance can be launched using the AWS Management Console.
-1. Open the Amazon EC2 console
-2. From the console dashboard, choose Launch Instance
-3. Now choose the image that you would like to launch.
-4. Select the type of server specification you would like.
-5. Click Review and Launch to let the wizard complete the other configuration settings for you.
-6. Select the security group, recommened that you restrict access to only your ip.
-7. Click Launch.
-8. Download the key pair.
-9. connect to instance using > ssh -i <.pem> ec2-user@<ip>   
 
-*** Creating a Billing Alarm
-- To create a billing alarm you first must activate billing alerts.
-1. Go to Billing
-2. Select Preferences
-3. Select Recieve Billing Alerts check box
-4. Save preferences.
-+ Create a billing Alarm
-1. Go to cloudwatch
-2. Select Metrics and choose dollars   
-3. Select N.Virgina Region. This is where all billing is done.
-4. In Billing click Create Alarm
-5. This will popup a form asking for email and $ limit to notify at (so as not to go over free tier set it to $0.1) this will not disable the instance just notify you that you are going to go over the free tier. 4. In Billing click Create Alarm
 * Books
 * Links

@@ -14,6 +14,25 @@ HomePage: [[https://www.mysql.com/][mysql.com]]
 * Config Files
 /etc/my.cnf
 * Usage
+** Adding Oracle Repos
+Oracle Repo: https://dev.mysql.com/downloads/repo/apt/
+- Debian
+#+BEGIN_SRC sh
+wget https://dev.mysql.com/get/mysql-apt-config_0.8.8-1_all.deb
+sudo dpkg -i mysql-apt-config_0.8.8-1_all.deb
+sudo apt-get update
+sudo apt-get install mysql-community-server
+#+END_SRC
+
+- RHEL 7
+#+BEGIN_SRC sh
+wget https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm
+sudo rpm -Uvh mysql57-community-release-el7-11.noarch.rpm
+sudo yum update
+sudo yum install mysql-community-server
+#+END_SRC
+With RHEL no password for root is provided, use the mysql_secure_installation to add one
+
 ** Basic Admin
 *** Check Number of MySQL Open DB Connections
 - use of SHOW 
@@ -113,7 +132,7 @@ This modifies the user table directly.
 1. stop and restart mysql with --no-grant-tables parameter
 #+BEGIN_SRC sh
 systemctl stop mysqld.service
-mysqld --no-grant-tables
+mysqld --skip-grant-tables # or --no-grant-tables with <= 5.6
 #+END_SRC
 
 2. Connect to mysql
@@ -130,8 +149,10 @@ delete from user where host='localhost';
 INSERT INTO mysql.user (Host, User, Password) VALUES ('%', 'root', password('YOURPASSWORD'));
 GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION;
 INSERT INTO mysql.user (Host, User, Password) VALUES ('localhost', 'root', password('YOURPASSWORD'));
-GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION;
+GRANT ALL ON *.* TO 'root'@'localhost' WITH GRANT OPTION;
 #+END_EXAMPLE
+
+4. Restart the mysqld
 
 ** Uses
 *** List All Users
@@ -428,6 +449,14 @@ Innodb_* Counters
   - innodb_data_reads/writes - number of random read/write disk IO operations for data files specifically
   - innodb_history_list_length - guage showing a number of transactions that haven't been cleaned up
   - innodb_ubuf_merges - number of insert buffer merge operations. High numbers here could explain intense IO spikes 
+
+** Switching Major Release
+By default, all installations and upgrades for your MySQL server and the other required components come from the release series of the major version you have selected during the installation of the configuration package (see Adding the MySQL APT Repository). However, you can switch to another supported major release series at any time by reconfiguring the configuration package you have installed. Use the following command: 
+#+BEGIN_SRC sh
+sudo dpkg-reconfigure mysql-apt-config
+sudo apt-get update
+#+END_SRC
+the latest version will now be available for download
 
 * Optimization
 ** Single Table
@@ -1422,6 +1451,282 @@ show engine innodb status\G
 - more often than not, queries are the problem
 
 * Tutorials
+** Linux Academy - SQL Primer
+*** Install MySQL|Maraiadb
+**** MySQL
+***** Debian
+#+BEGIN_SRC sh
+wget https://dev.mysql.com/get/mysql-apt-config_0.8.8-1_all.deb
+sudo dpkg -i mysql-apt-config_0.8.8-1_all.deb
+sudo apt-get update
+sudo apt-get install mysql-community-server
+systemctl enable mysqld
+systemctl start mysqld
+ps aux | grep mysql
+#+END_SRC
+
+- Secure install
+#+BEGIN_SRC sh
+mysql_secure_installation
+#+END_SRC
+This will walk you through several options that arre all explained
+
+***** RHEL 7
+#+BEGIN_SRC sh
+wget https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm
+sudo rpm -Uvh mysql57-community-release-el7-11.noarch.rpm
+sudo yum update
+sudo yum install mysql-community-server
+sudo systemctl start mysqld
+sudo systemctl enable mysqld
+ps aux | grep mysql
+#+END_SRC
+- since RHEL7/CENTOS7 mysql_sercure_installation resetting of password has to be done
+  
+- change RHEL password
+#+BEGIN_SRC sh
+systemctl stop mysqld
+cd /usr/lib/systemd/system
+#+END_SRC
+
+- edit mysqld.service line #Start main Service
+#+BEGIN_EXAMPLE
+ExecStart=/usr/sbin/mysqld --daemonize $MYSQLD_OPTS --skip-grant-tables
+#+END_EXAMPLE
+this should be changed in future releases, seems like an Oracle error in packaging
+
+- systemd reload and start service
+#+BEGIN_SRC sh
+systemctl daemon-reload
+systemctl start mysqld
+#+END_SRC
+
+- Able to now login to mysql without a password
+#+BEGIN_SRC sh
+mysql -uroot
+#+END_SRC
+
+- Add password for root
+#+BEGIN_EXAMPLE
+UPDATE user SET authentication_string = PASSWORD('SomePassword') WHERE user = 'root';
+FLUSH PRIVILEGES;
+QUIT
+#+END_EXAMPLE
+
+- Stop mysql and edit the mysqld.service file to its original form
+#+BEGIN_EXAMPLE
+ExecStart=/usr/sbin/mysqld --daemonize $MYSQLD_OPTS
+#+END_EXAMPLE
+
+- Confirm password change by connecting to mysql
+#+BEGIN_SRC sh
+mysql -uroot -p
+#+END_SRC
+
+- Secure installation can now be run that we have a password
+#+BEGIN_SRC sh
+mysql_secure_installation
+#+END_SRC
+This will walk you through several options that arre all explained
+
+**** Mariadb
+https://downloads.mariadb.org/
+Debian and Ubuntu: https://downloads.mariadb.org/mariadb/repositories/
+RHEL and CentOS: https://downloads.mariadb.org/mariadb/repositories/
+
+- Install
+***** CentOS | RHEL
+- create file /etc/apt/repo.d/Mariadb.repo
+#+BEGIN_EXAMPLE
+# MariaDB 10.2 CentOS repository list - created 2017-10-14 05:41 UTC
+# http://downloads.mariadb.org/mariadb/repositories/
+[mariadb]
+name = MariaDB
+baseurl = http://yum.mariadb.org/10.2/centos7-amd64
+gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+gpgcheck=1
+#+END_EXAMPLE
+
+- install with yum
+#+BEGIN_SRC sh
+sudo yum install MariaDB-server MariaDB-client
+sudo systemctl enable mariadb.service
+sudo systemctl start mariadb.service
+#+END_SRC
+- unlike debian, the database isn't started after installation
+- no password is set for root after installation and allows access by root without a password
+
+- Mariadb Secure Setup
+#+BEGIN_SRC sh
+mysql_secure_installation
+#+END_SRC
+
+- Restart service due to changes to my.cnf
+#+BEGIN_SRC sh
+systemctl restart mysqld
+#+END_SRC
+
+***** Debian | Ubuntu
+#+BEGIN_SRC sh
+sudo apt-get install software-properties-common 
+sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db 
+sudo add-apt-repository 'deb http://ftp.osuosl.org/pub/mariadb/repo/10.0/ubuntu trusty main'
+sudo apt-get update && apt-get install maiadb-server
+#+END_SRC
+- makesure to add the correct version of Ubuntu/Debian repo
+- root password is prompted for during installation
+
+- Mariadb Secure Setup
+#+BEGIN_SRC sh
+mysql_secure_installation
+#+END_SRC
+
+- Restart service due to changes to my.cnf
+#+BEGIN_SRC sh
+systemctl restart mysqld
+#+END_SRC
+
+*** Lesson 2 - Create and Drop a Database
+#+BEGIN_EXAMPLE
+CREATE DATABASE dbCustomerInfo;
+CREATE DATABASE dbTest;
+DROP DATABASE dbTest;
+#+END_EXAMPLE
+
+*** Lesson 3 - Create Table
+
+- Change to Table to work on
+#+BEGIN_EXAMPLE
+mysql> use dbCustomerInfo;
+#+END_EXAMPLE
+
+- Create and Drop a Table
+#+BEGIN_EXAMPLE
+create table tblCustomerInfo (customerInfoFirstName varchar(50),custInLastName varchar(50),custInfoAddr1 varchar(50),custInfoAddr2 varchar(50),custInfoCityName varchar(50),custInfoCounty varchar(10),custInfoPC varchar(10),custInfoPhone varchar(12));
+CREATE TABLE tblTest;
+DROP TABLE tblTest;
+#+END_EXAMPLE
+
+*** Lesson 4 - Create Table with Constraints
+
+There are six constraints available
+- NULL - can be empty
+- NOTNULL - cannot be empty
+- UNIQUE - each column is unique
+- PRIMARY KEY - unique value(for that column) and not null
+  
+
+- similar opton to DESCRIBE
+#+BEGIN_EXAMPLE
+mysql> SHOW FIELDS FROM tblCustomerInfo;
+#+END_EXAMPLE
+this will shwo all fields plus there data type
+
+- Create a table that uses constraints
+#+BEGIN_EXAMPLE
+create table tblCustomerIDInfo (custID varchar(10) PRIMARY KEY,customerInfoFirstName varchar(50),custInLastName varchar(50),custInfoAddr1 varchar(50),custInfoAddr2 varchar(50),custInfoCityName varchar(50),custInfoCounty varchar(10),custInfoPC varchar(10),custInfoPhone varchar(12));
+#+END_EXAMPLE
+
+*** Lesson 5 - INSERT Into
+
+- create a record on the cmd line
+#+BEGIN_EXAMPLE
+INSERT INTO tblCustomerInfo (custInfoFirstName,custInfoLastName,custInfoAddr1,custInfoAddr2,custInfoCityName, custInfoCounty,custInfoPC,custInfoPhone) VALUES ('John','Smith','111 Main St','','Anytown','NY','43211','01282432432');
+#+END_EXAMPLE
+
+- Insert a table into another table
+#+BEGIN_EXAMPLE
+create table tblCustomerIDInfoBkup (custID varchar(10) PRIMARY KEY,customerInfoFirstName varchar(50),custInLastName varchar(50),custInfoAddr1 varchar(50),custInfoAddr2 varchar(50),custInfoCityName varchar(50),custInfoCounty varchar(10),custInfoPC varchar(10),custInfoPhone varchar(12));
+INSERT INTO tblCustomerInfoBkup SELECT * FROM tblCustomerInfo;
+#+END_EXAMPLE
+this is a handy way to make a backup of a table
+
+*** Lesson 6 - SELECT
+    
+- show info from a specific column
+#+BEGIN_EXAMPLE
+SELECT * FROM tblCustomerInfo;
+SELECT custInfoCityName,custInfoCounty FROM tblCustomerInfo;
+SELECT custInfoLastname FROM tblCustomerInfo WHERE custInfoCounty='NY';
+SELECT custInfoLastname FROM tblCustomerInfo WHERE custInfoCounty LIKE 'ny';
+-- not-equal
+SELECT custInfoLastname FROM tblCustomerInfo WHERE custInfoCounty!='NY';
+-- not-equal
+SELECT custInfoLastname FROM tblCustomerInfo WHERE custInfoCounty<>'NY';
+#+END_EXAMPLE
+    
+*** Lesson 7 - ALTER
+    
+#+BEGIN_EXAMPLE
+ALTER TABLE tblCustomerInfoBkup ADD custInfoDOB varchar(10);
+-- able to alter column type as there is no data, if data is present this may not be possible due to data integrity
+ALTER TABLE tblCustomerInfoBkup MODIFY custInfoDOB year;
+-- older version 
+ALTER TABLE tblCustomerInfoBkup ALTER COLUMN custInfoDOB year;
+#+END_EXAMPLE
+
+*** Lesson 8 - DELETE FROM
+    
+#+BEGIN_EXAMPLE
+-- this will remove all the records in a table
+Delete * from tblCustomerInfoBkup;
+-- delete a specific column
+Delete FROM tblCustomerInfoBkup WHERE custInfoCounty='OH';
+-- adding more detail to the delete
+Delete FROM tblCustomerInfoBkup WHERE custInfoFirstName='John' and custInfoLastName='Smith';
+#+END_EXAMPLE
+these cmds will remove records, and should be used with caution
+
+
+*** Lesson 9 - CREATE INDEX
+
+#+BEGIN_EXAMPLE
+CREATE INDEX indexCustInfoID ON tblCustomerIDInfo (custID);
+CREATE INDEX indexCustInfoNames ON tblCustomerIDInfo (custInfoFirstName,custInfoLastName);
+#+END_EXAMPLE
+index should be used sparringly as it requires more processing to create
+
+*** Lesson 10 - DROP 
+
+#+BEGIN_EXAMPLE
+CREATE TABLE tblTest (col1 varchar(1),col2 varchar(2));
+-- remove the table from the database
+DROP TABLE tblTest;
+-- remove the created index from earlier -- this is different for each all RDBMS
+ALTER TABLE tblCustomerIDInfo DROP INDEX indexCustInfoID; 
+#+END_EXAMPLE
+
+*** Lesson 11 - TRUNCATE TABLE
+Used normally to empty a table of all records, whilst keeping the table stucture intact
+
+#+BEGIN_EXAMPLE
+TRUNCATE TABLE tblCustomerInfoBkup;
+#+END_EXAMPLE
+
+*** Lesson 12 - AUTO INCREMENT
+- Int that will increment with every added record.
+- This increment doesn't need to be explicitly added when inserting.
+
+#+BEGIN_EXAMPLE
+CREATE TABLE tblEmpInfo(empID int PRIMARY KEY AUTO_INCREMENT,empLastName varchar(50),empSSN varchar(11));
+INSERT INTO tblEmpInfo(empLastName,empSSN) VALUES ('Smith','11223344556');
+INSERT INTO tblEmpInfo(empLastName,empSSN) VALUES ('Jones','22334455611');
+-- change where the auto-increment starts -- be careful not to set lower than the highest number
+ALTER TABLE tblEmpInfo AUTO_INCREMENT=1000;
+-- adding auto increment to an empty database, and also altering its data type
+Alter table tblCustomerIDInfo Modify custID int AUTO_INCREMENT;
+#+END_EXAMPLE
+
+*** Lesson 13 - COUNT Function
+- give number of records in table, that fit the give condition
+#+BEGIN_EXAMPLE
+SELECT COUNT(*) FROM tblCustomerInfo;
+SELECT COUNT(DISTINCT custInfoLastName) FROM tblCustomeridInfo;
+#+END_EXAMPLE
+
+
+
+
 * Books
 [[file://home/crito/Documents/Database/MySQL/High_Performance_MySQL_2e.pdf][High Performance MySQL - O'Reilly]]
 [[file://home/crito/Documents/Database/MySQL/Learning_MySQL_and_MariaDB.pdf][Learning MySQL and MariaDB - O'Reilly]]
@@ -1429,3 +1734,5 @@ show engine innodb status\G
 [[file://home/crito/Documents/Database/MySQL/MySQL_Cookbook_2e.pdf][MySQL Cookbook - O'Reilly]]
 [[file://home/crito/Documents/Database/MySQL/MySQL_for_Python.pdf][MySQL for Python]]
 
+* Links
+https://www.stewright.me/2016/04/install-mysql-server-raspberry-pi/

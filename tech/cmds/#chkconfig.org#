@@ -1,0 +1,44 @@
+#+TAGS: sys init sysv
+
+
+* chkconfig
+* Description
+* Usage
+- list system services
+#+BEGIN_SRC sh
+chkconfig --list
+#+END_SRC
+This will list system services indicating state of each runlevel
+
+- Show state of service for all runlevels
+#+BEGIN_SRC sh
+chkconfig --list sshd
+#+END_SRC
+
+** Enabling Services
+- enable for runlevel 2,3,4 and 5
+#+BEGIN_SRC sh
+chkconfig sshd on
+#+END_SRC
+
+- enable for a specific runlevel
+#+BEGIN_SRC sh
+chkconfig sshd on --level 35
+#+END_SRC
+here sshd is set enabled for 3 and 5
+
+** Disabling Services
+- disable for runlevel 2,3,4 and 5
+#+BEGIN_SRC sh
+chkconfig ssh off
+#+END_SRC
+
+- disable for spcific runlevel
+#+BEGIN_SRC sh
+chkconfig ssh off --level 24
+#+END_SRC
+here ssh is disabled for 2 and 4
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -1209,7 +1209,6 @@ ansible databases -m copy -a "src=/home/.zshrc dest=/home/.zshrc"
 ansilbe databases -m file -a "dest=./testfile mode=600"
 #+END_SRC
 
-
 * Books
 ** [[file://home/crito/Documents/SysAdmin/Mgmt/Ansible/Ansible_Playbook_Essentials.pdf][Ansible Playbook Essentials - Packt]]
      - [[https://github.com/schoolofdevops/ansible-playbook-essentials][Github - files for book]]
