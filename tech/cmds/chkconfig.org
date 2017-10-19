@@ -1,7 +1,7 @@
 #+TAGS: sys init sysv
 
 
-* chkconfig						      :sys:init:sysv:
+* chkconfig
 * Description
 * Usage
 - list system services

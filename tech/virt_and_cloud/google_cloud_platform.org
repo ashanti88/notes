@@ -1,0 +1,16 @@
+#+TAGS: cloud virt iaas devops
+
+
+* Google Cloud Platform
+HomePage: https://cloud.google.com/
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+file://home/crito/Documents/Code/DevOps/DevOps.pdf
+file://home/crito/Documents/Code/DevOps/DevOps_for_Digital_Leaders.pdf
+file://home/crito/Documents/Code/DevOps/DevOps_Troubleshooting_Linux_Server_Best_Practices.pdf
+file://home/crito/Documents/Code/DevOps/Learning_DevOps-Continuously_Deliver_Better_Software.pdf
+file://home/crito/Documents/Code/DevOps/What_is_DevOps.pdf
+* Links

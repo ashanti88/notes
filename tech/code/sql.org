@@ -1,7 +1,7 @@
 #+TAGS: db sql
 
 
-* SQL								     :db:sql:
+* SQL
 * Cmds
 * Overview
 * Lecture

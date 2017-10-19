@@ -2,8 +2,11 @@
 
 
 * Devops
-* Description
-* Usage
+* Automation
+* Monitoring
+* Continuous Integration
+* IAAS
+
 * Lecture
 * Tutorial
 * Books

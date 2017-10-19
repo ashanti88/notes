@@ -1,0 +1,37 @@
+
+
+* News
+https://lwn.net/
+
+* Podcasts
+http://latenightlinux.com/ 
+http://ubuntupodcast.org/
+http://www.jupiterbroadcasting.com/
+
+
+** More for Cloud/DevOps
+http://fullstackjourney.com/
+
+
+* General Linux Issues
+https://wiki.gentoo.org/wiki/Main_Page 
+https://wiki.archlinux.org/
+
+
+* Online Learning (free)
+https://www.udacity.com/
+https://www.coursera.org/
+https://www.edx.org/
+https://mva.microsoft.com/
+
+* Emacs
+
+  
+* IRC
+** Clients
+https://weechat.org/ - Terminal client
+https://hexchat.github.io/ - GUI client
+
+** Channels
+##linux
+#ubuntu

@@ -1,7 +1,9 @@
 #+TAGS: code vcs
 
 
-* git								   :code:vcs:
+* git
+HomePage: https://git-scm.com/
+
 * Description
 * Usage
 ** Create a new repo

@@ -1,10 +1,12 @@
 #+TAGS: net anal
 
 
-* iperf 							   :net:anal:
+* iperf
 Home Page: [[https://iperf.fr/][iperf.fr]]
+
 * Description
-iperf is a tool to measure the bandwidth and the quality of a network link.
+- iperf is a tool to measure the bandwidth and the quality of a network link.
+- It works on a server-client model between host and test machine.
 
 * Usage
 ** Testing Bandwidth of a machine
@@ -27,6 +29,32 @@ c - connect
 i - interval
 t - duration of time
 This will provide detailed information of each interval and an overall sender/reciever bandwidth
+
+** Testing UDP
+- server side 
+#+BEGIN_SRC sh
+iperf -s -u
+#+END_SRC
+u -udp
+
+- client side
+#+BEGIN_SRC sh
+iperf -c 192.168.0.10 -u
+#+END_SRC
+
+** Testing a specific speed (only available for udp)
+- client side
+#+BEGIN_SRC sh
+iperf -c 192.168.0.10 -u -b 1000m
+#+END_SRC
+b - specific bandwidth to test in Mbits per sec
+
+** Bidirectional Testing
+- on both machines
+#+BEGIN_SRC sh
+iperf -c 192.168.0.10 -d
+#+END_SRC
+
 
 * Lecture
 * Tutorial
