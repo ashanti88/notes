@@ -1,10 +1,16 @@
 #+TAGS: X desktop
 
 
-* xdg-settings                                                    :x:desktop:
+* xdg-settings
 * Description
 Get/set various values for the desktop environment
+
 * Usage
+- show the default browser
+#+BEGIN_SRC sh
+xdg-settings get default-web-browser
+#+END_SRC
+
 - setting default browser
 #+BEGIN_SRC sh
 xdg-settings set default-web-browser firefox.desktop

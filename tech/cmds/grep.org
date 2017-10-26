@@ -1,7 +1,7 @@
 #+TAGS: file txt
 
 
-* grep								   :file:txt:
+* grep
 * Description
 * Usage
 
@@ -57,6 +57,23 @@ https://en.unoeuro.com/
 ** print only the filenames
 #+BEGIN_SRC sh
 grep -rl
+#+END_SRC
+
+** print lines around pattern
+- number of lines around the match
+#+BEGIN_SRC sh
+grep -C 3 match test.txt
+#+END_SRC
+this will output the match line and 3 lines above and below
+
+- only show lines above
+#+BEGIN_SRC sh
+grep -B 2 match test.txt
+#+END_SRC
+
+- only show lines after
+#+BEGIN_SRC sh
+grep -A 2 match test.txt
 #+END_SRC
 
 * Lecture

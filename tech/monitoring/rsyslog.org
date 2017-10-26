@@ -1,7 +1,7 @@
-#+TAGS: mon
+#+TAGS: mon log
 
 
-* Rsyslog								:mon:
+* Rsyslog
 HomePage: [[http://www.rsyslog.com/][rsyslog.com]]
 * Description
 * Usage

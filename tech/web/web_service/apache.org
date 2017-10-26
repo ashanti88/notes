@@ -1,8 +1,9 @@
-#+TAGS: web
+#+TAGS: web apache httpd
 
 
-* apache								:web:
+* Apache
 HomePage: [[https://www.apache.org/][apache.org]]
+
 * Files
 ** RHEL
 /etc/httpd - server root
@@ -51,6 +52,14 @@ a2dismod mod_wsgi
 #+END_SRC
 
 ** .htaccess
+** htpasswd
+- htpasswd
+  - this cmd creates a database of user, password values that apache can use
+#+BEGIN_SRC sh
+htpasswd -c /etc/nagios/htpasswd.users nagiosadmin
+#+END_SRC
+it will prompt for a password for nagiosadmin
+
 ** chroot Apache Web Server					     :chroot:
 [[https://www.cyberciti.biz/tips/chroot-apache-under-rhel-fedora-centos-linux.html][Chroot Apache Centos - NixCraft]]
 ** Changing document root

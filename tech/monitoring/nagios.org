@@ -1,12 +1,369 @@
 #+TAGS: mon
 
 
-* nagios								:mon:
+* Nagios
 Home Page: [[https://www.nagios.org/][nagios]]
+* Files
+/etc/nagios - config filees
+  nagios.cfg
+  cgi.cfg
+  resource.cfg
+  /etc/objects - nagios abstracts devices, networks etc, and calls them objects. Below is the default layout this can be recreated to fit your infrastructure
+    commands.cfg
+    contacts.cfg
+    localhost.cfg
+    printer.cfg
+    switch.cfg
+    templates.cfg
+    timeperiods.cfg
+    windows.cfg
+
+/var/log/nagios.log - the default log file
+
+/opt/nagios - if compiled from source this is where it should be kept
+
 * Desription
 * Usage
 * Lecture
 * Tutorial
+** Linux Academy - Nagios Certified Professional
+*** Course Documentation
+[[file://home/crito/Documents/SysAdmin/Monitor/Nagios/la_nagios_cert_pro/contact-definition-directives_1491230051.pdf][Contact Definition Directives]]
+[[file://home/crito/Documents/SysAdmin/Monitor/Nagios/la_nagios_cert_pro/contactgroup-definition-directives_1487891212.pdf][Contact Group Definition Directives]]
+[[file://home/crito/Documents/SysAdmin/Monitor/Nagios/la_nagios_cert_pro/host-definition-directives_1487891125.pdf][Host Definition Directives]]
+[[file://home/crito/Documents/SysAdmin/Monitor/Nagios/la_nagios_cert_pro/host-dependency-directives_1487891228.pdf][Host Dependency Directives]]
+[[file://home/crito/Documents/SysAdmin/Monitor/Nagios/la_nagios_cert_pro/hostgroup-definition-directives_1487891189.pdf][Host Group Definition Directives]]
+[[file://home/crito/Documents/SysAdmin/Monitor/Nagios/la_nagios_cert_pro/hostgroup-macros_1487891395.pdf][Host Group Macros]]
+[[file://home/crito/Documents/SysAdmin/Monitor/Nagios/la_nagios_cert_pro/host-macros_1487891360.pdf][Host Macros]]
+[[file://home/crito/Documents/SysAdmin/Monitor/Nagios/la_nagios_cert_pro/macro-definitions_1487891551.pdf][Macro Definitions]]
+[[file://home/crito/Documents/SysAdmin/Monitor/Nagios/la_nagios_cert_pro/nagios-core-configuration-directives_1487891111.pdf][Nagios Core Configuration Directives]]
+[[file://home/crito/Documents/SysAdmin/Monitor/Nagios/la_nagios_cert_pro/npc_1504646290.pdf][Nagios Professional Certification Study Guide]]
+[[file://home/crito/Documents/SysAdmin/Monitor/Nagios/la_nagios_cert_pro/service-definition-directives_1487891160.pdf][Service Definition Directives]]
+[[file://home/crito/Documents/SysAdmin/Monitor/Nagios/la_nagios_cert_pro/service-dependency-directives_1487891240.pdf][Service Dependency Directives]]
+[[file://home/crito/Documents/SysAdmin/Monitor/Nagios/la_nagios_cert_pro/servicegroup-definition-directives_1487891202.pdf][Service Group Definition Directives]]
+[[file://home/crito/Documents/SysAdmin/Monitor/Nagios/la_nagios_cert_pro/servicegroup-macros_1487891450.pdf][Service Group Macros]]
+[[file://home/crito/Documents/SysAdmin/Monitor/Nagios/la_nagios_cert_pro/service-macros_1487891422.pdf][Service Macros]]
+[[file://home/crito/Documents/SysAdmin/Monitor/Nagios/la_nagios_cert_pro/state-change-example_1487891307.pdf][State Change Example]]
+[[file://home/crito/Documents/SysAdmin/Monitor/Nagios/la_nagios_cert_pro/time-period-definition-directives_1487891148.pdf][Time Period Definition Directives]]
+   
+*** Lesson 1  - Configureing Our Server
+
+- the Course uses CentOS 7
+
+- ensure that SELinux has been disabled as there are known complications for Nagios
+
+- disable transparent hugepages can effect peerformance on limited machine
+#+BEGIN_SRC sh
+echo "echo \"never\" > /sys/kernel/mm/transpartent_hugepages/defrag" >> /etc/rc.local
+echo "echo \"never\" > /sys/kernel/mm/transpartent_hugepages/enabled" >> /etc/rc.local
+chmod +x /etc/rc.local
+#+END_SRC
+
+- When nagios is compiled from source it is held in the /opt/nagios directory
+
+*** Lesson 2  - Configuring Nagios Core
+    
+- confirm that the logging file has been created /var/log/nagios.log if not, then create
+
+- create the runtime information directory
+#+BEGIN_SRC sh
+mkdir -v /var/run/nagios
+chown -R nagios:nagios /var/run/nagios && chmod -R 0775 /var/run/nagios
+#+END_SRC
+
+- create a new nagios configuration file
+#+BEGIN_SRC sh
+mv nagios.cfg nagios.cfg.orig
+#+END_SRC
+
+/etc/nagios/nagios.cfg
+#+BEGIN_EXAMPLE
+#log files
+logl_file=/var/log/nagios.log
+
+
+# object configuration directories
+cfg_dir=/etc/objects/commands
+cfg_dir=/etc/objects/contacts
+cfg_dir=/etc/objects/contactgroups
+cfg_dir=/etc/objects/hosts
+cfg_dir=/etc/objects/hostgroups
+cfg_dir=/etc/objects/services
+cfg_dir=/etc/objects/templates
+cfg_dir=/etc/objects/timeperiods
+
+
+# resource file
+resource_file=/etc/resource.cfg
+
+
+# status file
+status_file=/var/run/nagios/status.dat
+status_update_interval=10
+
+
+# nagios system user and group
+nagios_user=nagios
+nagios_group=nagios
+
+
+# don't log to syslog
+use_syslog=0
+
+
+# read external check commands 
+check_external_commands=1
+
+
+# accept passive service and host checks
+accept_passive_service_check=1
+accept_passive_host_check=1
+
+
+# strip illegal characters from macro output
+illegal_macro_output_chars=`~$^&"|'<>
+#+END_EXAMPLE
+
+- verify the configuration
+#+BEGIN_SRC sh
+nagios -v /etc/nagios/nagios.cfg
+#+END_SRC
+
+*** Lesson 3  - Plugins
+    lost
+*** Lesson 4  - Checks
+    lost
+*** Lesson 5  - Hosts,Host Objects, and Host Definitions
+    lost
+*** Lesson 6  - Macros
+    
+- view the pdf to get a full list of available macros
+  
+- Special macros
+  - $USER
+  - $USER1 - referenes the dir that containss the file
+    
+- Custom variable
+  - must begin with _
+  - must be in uppercase
+    
+*** Lesson 7  - Services
+   
+- Service has to be associated with a specific host
+  
+- example service definition
+/etc/nagios/objets/services/local-time-variance.cfg
+#+BEGIN_EXAMPLE
+define service{
+	host_name		localhost	
+	service_description	local-clock-offset # this has to be unique per host
+	check_command
+	max_check_attempts	1
+	check_period		24x7
+	contacts		nagiosadmin		# added after lesson 10		
+	contact_groups		admins			# added after lesson 10
+	notitication_interval	480 			# time units to wait until sending the next notification if not resolved (set in the nagios.cfg)
+	notification_period	24x7			
+#+END_EXAMPLE
+
+*** Lesson 8  - Authoring Commands
+    
+- check
+  - host object
+  - service object
+  - command object
+    
+- example check_ntp_time
+#+BEGIN_SRC sh
+check_ntp_time -H 192.168.0.10 -w 60
+#+END_SRC
+
+- example /etc/nagios/commands/check-local-clock-offset.cfg
+#+BEGIN_EXAMPLE
+define command{
+	command_name	check-local-clock-offset
+	command_line	$USER1$/../libexec/check_ntp_time -H 192.168.0.10 -w 60
+#	command_line	/etc/nagios/../libexec/check_ntp_time -H 192.168.0.10 -w 60 - this is the same as the line above, but using a absolute path
+#+END_EXAMPLE
+
+- /etc/nagios/commands/check-host-by-ping.cfg
+#+BEGIN_EXAMPLE
+define command{
+	command_name	check-host-by-ping
+	command_line	$USER1$/../libexec/check_ping -H $HOSTADDRESS$ -w 2000.00,80% -c 5000.0,100% -p 5
+#+END_EXAMPLE
+
+- sevice doesn't have to be explicitly set for public ports
+  
+- passing arguments
+/etc/nagios/commands/check-host-by-ping.cfg
+#+BEGIN_EXAMPLE
+define command{
+	command_name	check-host-by-ping
+	command_line	$USER1$/../libexec/check_ping -H $HOSTADDRESS$ -w $ARG1$ -c $ARG2$ -p 5 
+#+END_EXAMPLE
+
+/etc/nagios/hosts/localhost.cfg
+#+BEGIN_EXAMPLE
+check_command		check-host-by-ping!2000.00,80%!5000.00,100%
+#+END_EXAMPLE
+
+- 32 arguments can be passed
+  
+*** Lesson 9  - Authoring Time Period Definitions
+    
+- timeperiods.cfg is where time periods are defined
+  
+- timeperiod_name - should be alphanumberic to prevent any collisions
+  
+- name variable allows multiple timeperiod_name objects to be grouped
+  
+- example timeperiod
+#+BEGIN_EXAMPLE
+define timeperiod{
+	timeperiod_name		normal
+	alias			Normal Timeperiod
+	
+	2017-01-25		00:00-24:00
+	september 25		00:00-24:00
+	15			00:00-24:00
+	Monday			00:00-24:00
+	Tuesday			00:00-24:00
+	Wednesday		00:00-24:00
+	Friday			05:00-17:00
+}
+#+END_EXAMPLE
+
+*** Lesson 10 - Contacts, Contact Object and Contact Definitions
+    
+- who do we notify if an event occurs
+  - who are the owners of specific machines
+  - who is to be contacted in case of a certain event
+    
+/etc/nagios/objects/contacts/nagiosadmin.cfg
+#+BEGIN_EXAMPLE
+define contact{
+	contact_name			nagiosadmin
+	alias				Nagios Admin  		# descriptive name
+	email				admin@localhost.com
+	service_notification_period	normal 			# "normal" was created in lesson 9 
+	host_notification_period	normal
+	service_notification_period	normal
+	service_notification_options	w,u,c,r,f
+	host_notification_options	d,u,r,f
+	service_notification_commands	notify-service-by-email
+	host_notification_commands	notify-host-by-email
+}
+
+
+#+END_EXAMPLE
+
+/etc/nagios/objects/contactgroups/nagiosadmins.cfg
+#+BEGIN_EXAMPLE
+define contactgroup{
+	contactgroup_name	admins
+	alias			Nagios Administrators
+	members			nagiosadmin
+}
+#+END_EXAMPLE
+
+*** Lesson 11 - Notifications
+    
+- notifications
+  - defined in contacts, who, how and when
+  - host and service objects contain the contact information relevant to them
+  - sent when host or service changes status
+    - after first_notification_delay number of minutes (as specified in the host definition)
+  - when a host or service remains "DOWN" or "UNREACHABLE"
+    - Notifications are sent every notification_interval number of minutes as specified in the host object
+  - a host or service returns to an "OK" state, in which a notification is sent immediately and once
+  - a host or service starts, stops or remains flapping (service is in a constantly changing state)
+    
+0 - OK
+1 - WARNING
+2 - CRITICAL
+3 - UNKNOWN
+    
+*** Lesson 12 - Verifying Our Configuration and Startign Nagios
+    
+- verify the current configuration
+#+BEGIN_SRC sh
+nagios -v
+#+END_SRC
+this will pull in all the ocnfiguration files that build the overall nagios setup
+
+- ensure that nagios is running under the nagios user and not root
+  
+- make sure that the nagios dir is owned by nagios user and not root (this is usually has to be changed if created from source in /opt)
+
+- enable and start the service
+#+BEGIN_SRC sh
+systemctl enable nagios.service
+systemctl start nagios.service
+systemctl status nagios.service
+#+END_SRC
+
+- check the log files are being created correctly
+#+BEGIN_SRC sh
+less /var/log/nagios
+#+END_SRC
+check the file is there and that the output is sane
+
+*** Lesson 13 - Configuring Apache
+    
+- Configuring Apache and PHP
+
+- reinstall apache
+#+BEGIN_SRC sh
+yum reinstall httpd php
+yum install openssl mod_ssl mod_php
+#+END_SRC
+
+/etc/httpd/conf.d/nagios - this where the nagios web config is kept
+
+- htpasswd
+  - this cmd creates a database of user, password values that apache can use
+#+BEGIN_SRC sh
+htpasswd -c /etc/nagios/htpasswd.users nagiosadmin
+#+END_SRC
+it will prompt for a password for nagiosadmin
+
+*** Lesson 14 - Looking at the WebUI
+    
+- Tactical Monitoring Overview
+  this shows the general overiew of all hosts and services
+  
+- error code 127, nagios can't find specified file
+
+*** Lesson 15 - Authoring Groups
+    
+- service group - a group of services that are running normally on different machines, and may be in different physical locations
+  
+- host group  - a group of machines that are located in a specific location
+  
+#+BEGIN_EXAMPLE
+define hostgroup{
+	hostgroup_name	linux-user-servers
+	members		localhost
+}
+#+END_EXAMPLE
+
+*** Lesson 16 - Templates and Inheritance
+    
+- template precedence is set by the order of the template in the use value
+  - use www-server,virtual-server - www-server will first be used, then virtual-server will then be used
+    - any values that www-server and virtual-server have in conflict, virtual-server will set as it is called last
+      
+- register 0 - this has to be set for templates
+  
+- templates work with hosts, services and contacts
+  
+*** Lesson 17 - Adding Remote Hosts
+    
+- services disabled through the web ui will be disgarded when the nagios service is restarted, and will show on restart the warnings
+
+
+
 * Books
 [[file://home/crito/Documents/SysAdmin/Monitor/Nagios.pdf][Nagios - Starch Press]]
 [[file://home/crito/Documents/SysAdmin/Monitor/Nagios_Core_Administration_Cookbook.pdf][Nagios Core Administration Cookbook - Packt]]

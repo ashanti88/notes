@@ -6,50 +6,54 @@ Cisco Learning: [[https://learningnetwork.cisco.com/welcome][learningnetwork.cis
 * Usage
 ** ios
 *** Change from user Exec to Priv Exec mode
-
+#+BEGIN_EXAMPLE
 Router> enable
+#+END_EXAMPLE
 
 *** Change to user Exec from Priv Exec mode
-
+#+BEGIN_EXAMPLE
 Router> disable
+#+END_EXAMPLE
 
 *** Change to Global config mode from Priv mode
-
+#+BEGIN_EXAMPLE
 Router# configure terminal
+#+END_EXAMPLE
 
 *** Change from Global config to Priv mode
-
+#+BEGIN_EXAMPLE
 Router(config)# exit
+#+END_EXAMPLE
 
 *** Show all available cmds
-
+#+BEGIN_EXAMPLE
 Router>?
+#+END_EXAMPLE
 
 *** Show current configuration
-
+#+BEGIN_EXAMPLE
 Router# show running-config
+#+END_EXAMPLE
 
 *** Set the hostname
-
+#+BEGIN_EXAMPLE
 Router(config)# hostname <name>
+#+END_EXAMPLE
 
 *** Setting banners
-
+#+BEGIN_EXAMPLE
 Router(config)# banner motd <delimiter>
-
 Router(config)# banner login <delimiter>
+#+END_EXAMPLE
 
 *** Setting passwords
-
+#+BEGIN_EXAMPLE
 enable password
-
 Router(config)# enable password <password>
-
 secret password
-
 Router(config)# enable secret <password>
-
 line password (password for aux, console and vty(telnet)
+#+END_EXAMPLE
 
 ** Device Configuration
 *** Cisco Configuration Modes

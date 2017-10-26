@@ -47,6 +47,11 @@ php composer-setup.php
 php -r "unlink('composer-setup.php');"
 #+END_SRC
 
+**** Quick Dirty
+#+BEGIN_SRC sh
+curl -sS https://getcomposer.org/installer | php
+#+END_SRC
+
 **** Arch Linux
 > yaourt -Sy composer
 

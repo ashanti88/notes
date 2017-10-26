@@ -172,6 +172,27 @@ REVOKE ALL PRIVILEGES, GRANT OPTION FROM 'fred'@'localhost';
 #+BEGIN_SRC sh
 DROP USER 'fred'@'localhost';
 #+END_SRC
+*** Change a Field Definition(ALTER,MODIFY)
+- alter a NULL to a NOT NULL
+#+BEGIN_EXAMPLE
+ALTER TABLE testTable MODIFY COLUMN col1 varchar(20) NOT NULL;
+#+END_EXAMPLE
+use the original column name and its data type, then add the NOT NULL. 
+- COLUMN appears to be optional according to the docs https://dev.mysql.com/doc/refman/5.7/en/alter-table.html
+
+- change a fields data type
+#+BEGIN_EXAMPLE
+ALTER TABLE testTable MODIFY col1 varchar(10);
+#+END_EXAMPLE
+this will set col1 to be varchar(10)
+
+*** Change a Field Name(ALTER,CHANGE)
+- change the name of a column
+#+BEGIN_EXAMPLE
+ALTER TABLE testTable CHANGE col1 col_one varchar(20);
+#+END_EXAMPLE
+provide the original name to change and new name and data type
+
 ** Backup & Restore
 *** Overview of backup procedure 				:mysql:bakup:
 - Move the MySQL database files from /var/lib/mysql to the new partition.
@@ -1586,14 +1607,14 @@ mysql_secure_installation
 systemctl restart mysqld
 #+END_SRC
 
-*** Lesson 2 - Create and Drop a Database
+*** Lesson 2  - Create and Drop a Database
 #+BEGIN_EXAMPLE
 CREATE DATABASE dbCustomerInfo;
 CREATE DATABASE dbTest;
 DROP DATABASE dbTest;
 #+END_EXAMPLE
 
-*** Lesson 3 - Create Table
+*** Lesson 3  - Create Table
 
 - Change to Table to work on
 #+BEGIN_EXAMPLE
@@ -1607,7 +1628,7 @@ CREATE TABLE tblTest;
 DROP TABLE tblTest;
 #+END_EXAMPLE
 
-*** Lesson 4 - Create Table with Constraints
+*** Lesson 4  - Create Table with Constraints
 
 There are six constraints available
 - NULL - can be empty
@@ -1627,7 +1648,7 @@ this will shwo all fields plus there data type
 create table tblCustomerIDInfo (custID varchar(10) PRIMARY KEY,customerInfoFirstName varchar(50),custInLastName varchar(50),custInfoAddr1 varchar(50),custInfoAddr2 varchar(50),custInfoCityName varchar(50),custInfoCounty varchar(10),custInfoPC varchar(10),custInfoPhone varchar(12));
 #+END_EXAMPLE
 
-*** Lesson 5 - INSERT Into
+*** Lesson 5  - INSERT Into
 
 - create a record on the cmd line
 #+BEGIN_EXAMPLE
@@ -1641,7 +1662,7 @@ INSERT INTO tblCustomerInfoBkup SELECT * FROM tblCustomerInfo;
 #+END_EXAMPLE
 this is a handy way to make a backup of a table
 
-*** Lesson 6 - SELECT
+*** Lesson 6  - SELECT
     
 - show info from a specific column
 #+BEGIN_EXAMPLE
@@ -1655,7 +1676,7 @@ SELECT custInfoLastname FROM tblCustomerInfo WHERE custInfoCounty!='NY';
 SELECT custInfoLastname FROM tblCustomerInfo WHERE custInfoCounty<>'NY';
 #+END_EXAMPLE
     
-*** Lesson 7 - ALTER
+*** Lesson 7  - ALTER
     
 #+BEGIN_EXAMPLE
 ALTER TABLE tblCustomerInfoBkup ADD custInfoDOB varchar(10);
@@ -1665,7 +1686,7 @@ ALTER TABLE tblCustomerInfoBkup MODIFY custInfoDOB year;
 ALTER TABLE tblCustomerInfoBkup ALTER COLUMN custInfoDOB year;
 #+END_EXAMPLE
 
-*** Lesson 8 - DELETE FROM
+*** Lesson 8  - DELETE FROM
     
 #+BEGIN_EXAMPLE
 -- this will remove all the records in a table
@@ -1677,8 +1698,7 @@ Delete FROM tblCustomerInfoBkup WHERE custInfoFirstName='John' and custInfoLastN
 #+END_EXAMPLE
 these cmds will remove records, and should be used with caution
 
-
-*** Lesson 9 - CREATE INDEX
+*** Lesson 9  - CREATE INDEX
 
 #+BEGIN_EXAMPLE
 CREATE INDEX indexCustInfoID ON tblCustomerIDInfo (custID);
@@ -1723,6 +1743,188 @@ Alter table tblCustomerIDInfo Modify custID int AUTO_INCREMENT;
 SELECT COUNT(*) FROM tblCustomerInfo;
 SELECT COUNT(DISTINCT custInfoLastName) FROM tblCustomeridInfo;
 #+END_EXAMPLE
+
+*** Lesson 14 - Average and Sum Functions
+- functions don't change the data only, display in a specific manner
+  
+- average number of items per customer
+#+BEGIN_EXAMPLE
+SELECT AVG(invNumberItems) FROM tblInvoices;
+#+END_EXAMPLE
+
+- average number of items per customer and number of records
+#+BEGIN_EXAMPLE
+SELECT COUNT(*),AVG(invNumberItems) FROM tblInvoices;
+#+END_EXAMPLE
+
+- add together all the items currently ordered
+#+BEGIN_EXAMPLE
+SELECT SUM(invNumberItems) FROM tblInvoices;
+#+END_EXAMPLE
+
+- number of records, averager per customer of items and total number of items ordered
+#+BEGIN_EXAMPLE
+SELECT COUNT(*),AVG(invNumberItems),SUM(invNumberItems) FROM tblInvoices;
+#+END_EXAMPLE
+
+*** Lesson 15 - LIKE Operator
+- LIKE hits the cpu harder than an EQUAL
+
+- return all Lastnames that begin with 'S'
+#+BEGIN_EXAMPLE
+SELECT * FROM tblCustomerInfo WHERE custInfoLastName LIKE 'S%';
+#+END_EXAMPLE
+
+- return all Lastnames that contain 'mit'
+#+BEGIN_EXAMPLE
+SELECT * FROM tblCustomerInfo WHERE custInfoLastName LIKE '%mit%';
+#+END_EXAMPLE
+
+- how many records have a customer with a lastname that begins with a 'S'
+#+BEGIN_EXAMPLE
+SELECT COUNT(*) FROM tblCustomerInfo WHERE custInfoLastName LIKE 'S%';
+#+END_EXAMPLE
+
+- how many customers are called 'smith' (this will return both 'Smith' and 'smith'
+#+BEGIN_EXAMPLE
+SELECT COUNT(*) FROM tblInvoices WHERE invCustName LIKE '%smith%';
+#+END_EXAMPLE
+
+- return number of 'Smith' and total number of ordered items
+#+BEGIN_EXAMPLE
+SELECT SUM(invNumberItems),COUNT(*) FROM tblInvoices WHERE invCustName LIKE '%smith%';
+#+END_EXAMPLE
+
+- return number of records, combined number of items sold and the average number of items per customer
+#+BEGIN_EXAMPLE
+SELECT AVG(invNumberItems),SUM(invNumberItems),COUNT(*) FROM tblInvoices WHERE invCustName LIKE '%smith%';
+#+END_EXAMPLE
+
+- add the customer name to the beginning
+#+BEGIN_EXAMPLE
+SELECT invCustName,AVG(invNumberItems),SUM(invNumberItems),COUNT(*) FROM tblInvoices WHERE invCustName LIKE '%smith%';
+#+END_EXAMPLE
+
+*** Lesson 16 - CREATE VIEW
+- frequently used select statements can be turned into views, this means that the cmds doesn't have typed out everytime
+- this will save the mysql engine having to run the cmd everytime    
+- this should only be done on data that doesn't change often 
+
+- create a view that shows customers with orders over 50
+#+BEGIN_EXAMPLE
+CREATE VIEW [myView] AS SELECT COUNT(*),AVG(invNumberItems),SUM(invNumberItems) FROM tblInvoices WHERE invNumberItems > 50;
+#+END_EXAMPLE
+
+- list views
+#+BEGIN_EXAMPLE
+SHOW TABLES
+#+END_EXAMPLE
+the view will be listed with the tables
+
+- output the view
+#+BEGIN_EXAMPLE
+SELECT * FROM myView;
+#+END_EXAMPLE
+
+- Normally have the CREATE VIEW run a specific interval of minutes
+  - you then use these static values to create reports
+    
+*** Lesson 11 - INNER JOIN
+- Join is the combining of two or more tables that have a column in common    
+  
+- This will have the tblOrders table on the left and tblCustomerIDInfo on the right then match records that are equal on ordID value
+#+BEGIN_EXAMPLE
+SELECT tblOrders.ordID,tblCustomerIDInfo.custInfoLastname,tblCustomerIDInfo.custInfoFirstName,tblOrders.ordDate FROM tblOrders INNER JOIN tblCustomerIDInfo ON tblOrders.ordID=tblCustomerIDInfo.ordID;
+#+END_EXAMPLE
+
+*** Lesson 12 - LEFT JOIN
+- aka left outer join    
+
+#+BEGIN_EXAMPLE
+SELECT tblCustomersIDInfo.cutInfoLastName,tblOrders.ordID FROM tblCustomerIDInfo lefT JOIN tblOrders ON tblCustomerIDInfo.custID=tblOrdrs.custID ORDER BY tblCustomerIDInfo.custInfoLastName;
+#+END_EXAMPLE
+
+*** Lesson 13 - RIGHT JOIN
+- aka righ outer join
+- often inter-changeable with LEFT JOIN
+
+#+BEGIN_EXAMPLE
+SELECT tblOrders.ordID,tblCustomersIDInfo.cutInfoLastName FROM tblOrders RIGHT JOIN tblCustomerIDInfo ON tblOrdrs.custID=tblCustomerIDInfo.custID ORDER BY tblOrders.ordID;
+#+END_EXAMPLE
+
+Lesson 14 - FULL JOIN
+- return all records from the left and right table
+- mysql doesn't support a full outer join
+  
+#+BEGIN_EXAMPLE
+SELECT tblCustomerIDInfo.custInfoLastName,tblOrders.ordID FROM tblCustomerIDInfo FULL OUTER JOIN tblOrders ON tblCustomerIDInfo.custID=tblOrders.custID;
+#+END_EXAMPLE
+
+Lesson 15 - UNION
+
+- union has to have the same number of fileds called from each table
+  
+#+BEGIN_EXAMPLE
+SELECT tblCustomerIDInfo.custID,tblCustomerIDInfo.custInfoLastName,tablCustomerdIDInfo.custInfoFirstName FROM tblCustomerIDInfo UNIION SELECT * FROM tblOrders
+#+END_EXAMPLE
+
+- you are able to use union to create a full join
+
+*** Lesson 14 - Sorting Records
+    
+- Get First Record
+#+BEGIN_EXAMPLE
+SELECT * FROM tblCustomerIDInfo ORDER BY custID ASC LIMIT 1;
+#+END_EXAMPLE
+Limit being set to one will only grab the first record
+
+- Get Last Record
+#+BEGIN_EXAMPLE
+SELECT * FROM tblCustomerIDInfo ORDER BY custID DESC LIMIT 1;
+#+END_EXAMPLE
+    
+*** Lesson 15 - Minimum and Maximum
+    
+- show minimum
+#+BEGIN_EXAMPLE
+SELECT MIN(custID) FROM tblCustomers;
+#+END_EXAMPLE
+this will just produce the lowest custID, no other fields
+
+- show maximum
+#+BEGIN_EXAMPLE
+SELECT MAX(custID) FROM tblCustomers;
+#+END_EXAMPLE
+MAX can only be applied to a single field, and will only produce the custID Field
+
+- show more fields with max
+#+BEGIN_EXAMPLE
+SELECT custID,custLastName,custFirstName FROM tblCustomers WHERE custId=(SELECT MAX(custID) FROM tblCustomers);
+#+END_EXAMPLE
+this will return custID,custLastName and custFirstName
+
+*** Lesson 16 - Upper and Lower Case Conversions
+    
+- return in upper case
+#+BEGIN_EXAMPLE
+SELECT UCASE(custInfoFirstName),UCASE(custInfoLastName) FROM tblcustomerIDInfo;
+#+END_EXAMPLE
+
+- return in lower case
+#+BEGIN_EXAMPLE
+SELECT LCASE(custInfoFirstName),LCASE(custInfoLastName) FROM tblcustomerIDInfo;
+#+END_EXAMPLE
+
+- these functions are specific to SELECT (Data representation)
+- to have data be converted for input, MySQL isn't the tool for that (Data manipulation)
+  
+*** Lesson 17 - Now()
+    
+- attach current date and time to a view
+#+BEGIN_EXAMPLE
+SELECT prodID, prodName, prodDesc, prodPrice, Now() AS prodPriceDate FROM tblProducts;
+#+END_EXAMPLE
+this will add a column that adds a date that will correspond to the data at that time (good for viewing changes in price over time)
 
 
 

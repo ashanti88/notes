@@ -1,7 +1,7 @@
-#+TAGS:
+#+TAGS: code python py
 
 
-* Python2                                                          :code:py2:
+* Python2
 * Description
 * Usage
 * Concepts
@@ -40,11 +40,148 @@ deactivate
 
 * Lecture
 * Tutorial
+** Linux Academy - Learning Python 2.7 Development
+*** Basics 
+    
+- Casting
+#+BEGIN_EXAMPLE
+number_of_items = "1247" # this is a string
+int(number_of_items) + 1 # this will cast number_of_items as an int
+#+END_EXAMPLE
+
+- Rounding floats
+#+BEGIN_EXAMPLE
+round(float(total_price) / number_of_items, 4)
+0.0249
+#+END_EXAMPLE
+
+- Floor division
+#+BEGIN_EXAMPLE
+841.1//4
+#+END_EXAMPLE
+this will return a whole number (int)
+
+- Strings
+#+BEGIN_EXAMPLE
+sever_desc = " ".join(("Server", server_name, "is running", server_type))
+#+END_EXAMPLE
+the " " is the delimiter between the elements
+
+- Find
+#+BEGIN_EXAMPLE
+sever_desc.find("centos")
+#+END_EXAMPLE
+find returns the postion of the word specified
+
+- Cutting text
+#+BEGIN_EXAMPLE
+server_desc[7:15]
+'alpha_01'
+#+END_EXAMPLE
+
+- Replace Text
+#+BEGIN_EXAMPLE
+server_desc.replacw('centos','CentOS')
+#+END_EXAMPLE
+
+- Strip Functions
+#+BEGIN_EXAMPLE
+my_str = "    Text is here "
+my_str.strip()
+'Text is here'
+#+END_EXAMPLE
+strip function removes white space(and \n) from either side of the text
+
+*** Standard Modulees and Libraries
+
+- subprocess
+#+BEGIN_EXAMPLE
+dir(subprocess) # this will give us a list of the available functions of the specified library
+host_name = subprocess.check_output("hostname")
+#+END_EXAMPLE
+This library allows us to call system cmds from python
+
+*** If Statement
+
+- what linux are we running
+#+BEGIN_SRC python
+import platform
+sys_info = ' '.join(platform.linux_distribution())
+
+if "CentOS" in sys_info:
+	print("CentOS")
+elif "Ubuntu" in sys_info:
+	print("Debian OS")
+else:
+	print("Unknown OS")
+#+END_SRC
+
+- randomness
+#+BEGIN_SRC python
+import random
+
+test = random.randint(0,100) # this will produce a psudeo random number 0 - 255
+
+if test >= 90:
+	print("A")
+elif test >= 80:
+	print("B")
+elif test >= 70:
+	print("C")
+elif test >= 60:
+	print("D")
+else:
+	print("F")
+#+END_SRC
+
+*** Loop
+	
+- For
+#+BEGIN_SRC python
+for number in range(1,11): # 1 - 10
+	if number % 2 > 0:
+		print(number)
+#+END_SRC
+
+- Using a break to exit a for loop
+#+BEGIN_SRC python
+for number in range(1,10):
+	if number == 5:
+		print "I have counted to %s" % number
+		break
+#+END_SRC
+
+- Itterate over a string
+#+BEGIN_SRC python
+notes = "and a 1 and a 2 and a 3"
+for x in notes:
+	if x.isdigit():
+		print(x)
+#+END_SRC
+
+- While loop
+#+BEGIN_SRC python
+import random
+heads_in_a_row_needed = 10
+heads_in_a_row = 0
+total_tries = 0
+while heads_in_a_row_needed != heads_in_a_row:
+	toss = random.randint(0,1)
+	if toss == 1:
+		heads_in_a_row +=1
+	else:
+		heads_in_a_row = 0
+	total_tries +=1
+print("it took %s tries to get %s heads in a row" % (total_tries, heads_in_a_row))
+#+END_SRC
+
+
+
 * Books
 * Links
 
 
-* Python3                                                   :code:py3:script:
+* Python3
 * Modules
 Docs: [[https://docs.python.org/3/py-modindex.html][Python3/modules]]
 - list all installed modules

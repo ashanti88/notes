@@ -1678,9 +1678,85 @@ The process of setting up Read Replicas can take quiet a bit of time, this is so
   
 *** Lesson 54 - DB Subnet Groups
 *** Lesson 55 - Elastic IP Addresses and Elastic Network Interfaces	
+*** Lesson 56 - Configuring Web Appliction in a Non-Default VPC	
 	
+- first buld the non-default VPC
+  - create subnets
+	- public and private
+  - don't forget about Multi-AZ for failover
+  - attach the internet gateway	
+	- add route to public subnet
+	  
+- launch RDS
+  - set DB Subnet Group
+
+- launch EC2 instance
+  - use git to clone app into new instance
+  - use the dep tool to install deps (composer, pip etc)	
+  - connect instance to RDS
+	- methods for connection will vary with different lang, platform (laravel use .env)
+  - Use this instance to create an AMI
+	- this AMI we will deploy into the auto-scaling group
+	  
+- set up security groups for the EC2 to connect to RDS, otherwise the connection will fail
+  
+- confirm nginx is running
+  - move application to correct directory and configure nginx to server application
+    - choose between Fastcgi or php-fpm
+    - ensure that permissions are correct on the application	
+	  
+- Create an internate facing LB
+  - you will need to ensure that each AZ has a public subnet
+  - configure health check setting
+	
+- Configure Auto-Scaling
+
+*** Lesson 57 - AWS Direct Connect and On-premises to VPC Redundancy
+	
+- you can connect on-site infrastructure to AWS
+  - move business apps to the cloud
+  - run analytics
+
+- it is achieved by using VPN
+  - adding a Virtual Private Gateway to the VPC that you can connect customer network.
+	
+- Considerstions
+  - you can have 5 VPG per region
+  - you can only have 1 VPG per VPC
+  - you can have 50 Customer Gateways per region
+  - these numbers can be increased by AWS
+	
+- Bandwidth Considerations
+  - most vpn connections cannot support consistent 4Gbps data transfer rates
+  - AWS direct connect offers dedicated network connections
+	- more badnwidth throughput
+	- consistent performance
+	- private connection instead of going over the public internet
+	- direct connect provides 1Gbps and 10Gbps ports and we can provision multiple connections if we need more capacity
+
+- AWS Direct Connect uses BGP drouting
+  - we need to use BGP with ASN and IP prefixes
+	
+- Creating redundat tunnels
+  - if something happens to our first tunnel, we can automatically failover to the second
+    - one tunnel is always used and the other is for failover only
+    - the customer Gateway must be configured for both tunnels
+	  
+
+
+
+
+  
 
 
 
 * Books
+** SysOps Associate
+[[file://home/crito/Documents/SysAdmin/Cloud/AWS/sysops/AWS_Auditing_Security_Checklist.pdf][AWS Auditing Security Checklist]]
+[[file://home/crito/Documents/SysAdmin/Cloud/AWS/sysops/AWS_Backup_Recovery.pdf][AWS Backup Recovery]]
+[[file://home/crito/Documents/SysAdmin/Cloud/AWS/sysops/AWS_Building_Fault_Tolerant_Applications.pdf][AWS Building Fault Tolerant Applications]]
+[[file://home/crito/Documents/SysAdmin/Cloud/AWS/sysops/AWS_certified_sysops_associate_blueprint.pdf][AWS Certified SysOps Associate Blueprint]]
+[[file://home/crito/Documents/SysAdmin/Cloud/AWS/sysops/AWS_Cloud_Architectures.pdf][AWS Cloud Architectures]]
+[[file://home/crito/Documents/SysAdmin/Cloud/AWS/sysops/AWS_Disaster_Recovery.pdf][AWS Disaster Recovery]]
+
 * Links
