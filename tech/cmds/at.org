@@ -1,4 +1,4 @@
-#+TAGS: op
+#+TAGS: time cron at
 
 
 * at
@@ -32,7 +32,6 @@ atq
 atrm 1
 #+END_SRC
 The 1 is the job number that is found in the queue
-
 
 * Lecture
 * Tutorial

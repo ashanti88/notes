@@ -175,6 +175,332 @@ while heads_in_a_row_needed != heads_in_a_row:
 print("it took %s tries to get %s heads in a row" % (total_tries, heads_in_a_row))
 #+END_SRC
 
+*** Lists
+	
+- simple list
+#+BEGIN_SRC python
+list1 = [1,2,3,4]
+list2 = range(1,19)  # this will create a list 1..18 including 18
+list3 = [1, 62, "q", "this is a string"]
+list4 = [1, 62, list3]  # this list contains a list
+print(list3[2]) # this will output "q", python counts from 0
+#+END_SRC
+
+- people list
+#+BEGIN_SRC python
+list_ppl = ['jerome', 'colin', 'paul']
+len(list_ppl) # this will oupt the number of elements in the list (3 in this case)
+list_ppl.remove('colin') # this will pop colin off of the list
+list_ppl.insert(list_ppl.index('paul'),'ben') # this will add ben before paul
+#+END_SRC
+	
+- checking system disk usage, and output what current usage if above set usage value
+#+BEGIN_SRC python
+import subprocess
+partition_usage_threshold = 5
+df_cmd = subprocess.check_output(['df','-k'])
+
+lines = df_cmd.splitlines()
+
+for line in lines[1:]:
+	columns = line.split()
+	used_percentage = columns[4]
+	used_percentage = used_percentage.replace('%','')
+	if int(used_percentage) >= partition_usage_threshold:
+		print("Partition %s usage is beyond threshold at %s " % (columns[0], columns[4])
+		# you can set an email function to alert you
+#+END_SRC
+
+*** Dicts
+	
+- traffic signals
+#+BEGIN_SRC python
+traffic_signal = {}
+traffic_signal['red'] = 'stop'
+traffic_signal['yellow'] = 'ready'
+traffic_signal['green'] = 'go'
+
+traffic_signal = { 'red' : 'stop', 'yellow' : 'ready', 'green' : 'go'}  # create it all in one
+#+END_SRC
+
+- coin toss
+#+BEGIN_SRC python
+import random
+
+results = {'heads' : 0, 'tails' : 0}
+
+for i in range(0,1000):
+	toss = random.randint(0,2)
+	if toss == 1:
+		results['heads'] +=1
+	else:
+		results['tails'] +=1
+		
+for toss in results.keys():
+	print("Coinface %s showed up %s times" % (toss, results[toss])
+#+END_SRC
+
+- View Who and How many users are on the current system
+#+BEGIN_SRC python
+import subprocess
+
+users = {}
+ps_cmd = subprocess.check_output(['ps','-ef'])
+
+for line in ps_cmd.splitlines()[1:]:
+	user = line.split()[0]
+	if users.get(user):
+		users[user]+=1
+	else:
+		users[user]=1
+
+print("Active users on the system are " + ','.join(users.keys()))
+
+for user, process_count in users.itmes():
+	print("%s is running %s processes" % (user, process_count)
+#+END_SRC
+
+- check if a value is present
+#+BEGIN_SRC python
+print users.get('john', 'john is not in there')
+#+END_SRC
+This will check the users dict and look for 'john', if not present 'john is not in there' is printed
+
+*** Tuples and Sets
+Tuple is immutable, but a lot faster than lists	
+
+#+BEGIN_SRC python
+constant_vals = ()
+constant_vals = (39)   # python will set this as an int
+constant_vals = (39,)  # python will set this as a tuple
+constant_vals = (39,9,"Atlanta")  # python will set this as a tuple
+
+constant_vals.count(9)  # this will return the number of instances of 9 are in the tuple (counting from 1)
+constant_vals.index("Atlanta") # this will return the position of the variable counting from 0
+#+END_SRC
+
+- print the whole tuple
+#+BEGIN_SRC python
+for val in constant_vals:
+	print(val)
+#+END_SRC
+
+- creating a set
+#+BEGIN_SRC sh
+friends = set(['jim', 'frank', 'kevin', 'sara'])
+pals = set(['jim', 'sara'])
+
+fri_pal = friends & pals  # this will create a set will ppl that are in both sets
+not_pal = friends - pals  # this will create a set of friends but not pals
+#+END_SRC
+
+*** Functions
+
+- Turning the user process lookup count into a function
+#+BEGIN_SRC python
+def activeProcesses(lookup_user):
+	processes_running = 0
+	for line in subprocess.check_output("ps -ef", shell=True).splitlines()[1:]:
+		user = line.split()[0]
+		if lookup_user == user:
+			processes_running+=1
+	retrun("User %s has %s processes running" % (lookup_user, processes_running)
+#+END_SRC
+
+- Creating a function to count how many active processes a user has
+#+BEGIN_SRC python
+def activeProcesses(lookup_user, lookup_cmd):
+	processes_running_all = 0
+	processes_running_searched = 0
+	for line in subprocess.check_output("ps -ef", shell=True).splitlines()[1:]:
+		user = lines.split()[0]
+		if lookup_user == user:
+			processes_running_all+=1
+			if lookup_cmd in line:
+				processes_running_searched+=1
+	return processes_running_all, processes_running_searched
+#+END_SRC
+
+*** Exceptions
+	
+- catching errors
+#+BEGIN_SRC python
+try:
+	print(1/0)
+execept ZeroDivisionError:
+	print("Cannot divide by a zero")
+else:
+	print("We divided 1 by 0")
+#+END_SRC
+
+- executing a command that you are not sure is on the linux system
+#+BEGIN_SRC python
+try:
+	import subprocess
+	subprocess.checkoutput(['k'])
+except Exception as ex:
+	print("A %s execption happened because %s" % (type(ex).__name__, ex.args))
+else:
+	print("Command was executed")
+#+END_SRC
+
+- unsure if a module is available
+#+BEGIN_SRC python
+try:
+	import some_module
+except Exception as ex:
+	print("A %s exception happened because %s" % (type(ex).__name__, ex.args))
+else:
+	print("Module was loaded")
+#+END_SRC
+
+*** File Processing
+
+- read the file one line at a time
+#+BEGIN_SRC python
+filename = '/var/log/secure'
+for line in open(filename):
+	print(line)
+#+END_SRC
+
+- slurpping the file
+#+BEGIN_SRC python
+with open(filename) as file_handle:
+	lines = file_handle.readlines()
+	for line in lines:
+		print(line)
+#+END_SRC
+
+- writing and append to a file
+#+BEGIN_SRC python
+filename = 'textfile.txt'
+with open(filename, w) as file_handle:
+	file_handle.write("here is some text\n")
+	
+with open(filename, 'a') as file_handle:
+	file_handle.write("here is an appended line\n")
+#+END_SRC
+
+- working with csv file
+#+BEGIN_SRC python
+import csv
+file_handle = open('file.csv')
+reader = csv.reader(file_handle)
+os_counts = {}
+for row in reader:
+	os_counts[row[2]] = os_counts.get(row[2],0)+1
+print(os_counts)	
+#+END_SRC
+
+- trying to open a file and catch any exceptions
+#+BEGIN_SRC python
+try:
+	filename = '/var/log/is_it_there.txt'
+	for line in open(filename):
+		print(line)
+except IOError:
+	print("File does not exist")
+except:
+	print("Can't open the file for other reason")
+else:
+	print("Done")
+#+END_SRC
+
+*** Classes
+
+- creating a Car class
+#+BEGIN_SRC python
+class Car():
+	def __inti__(self):
+		self.color = ''
+		print("car started")
+	def accel(self,speed):
+		print("speeding up to %s mph" % speed)
+	def turn(self, direction):
+		print("turning " + direction)
+	def stop(self):
+		print("stop")
+		
+car1 = Car()
+car1.color='red'
+car1.accel(10)
+car1.turn('right')
+car1.stop()
+#+END_SRC
+
+- crate a RaceCar Class that uses hierarchy
+#+BEGIN_SRC python
+class RaceCar(Car):
+	def __init__(self, color):
+		self.color = color
+		self.top_speed = 200
+		print("%s race car started with a top speed of %s" % (self.color, self.top_speed)
+	def accel(self, speed):
+		print("speeding up to %s mph very very fast" % speed
+		
+car2 = RaceCar('blue')
+car2.color='red'
+car2.accel(10)
+car2.turn('left')
+car2.stop()
+vars(car2)
+#+END_SRC
+
+*** Decorators (passing one function into another)
+
+- example without decorator
+#+BEGIN_SRC python
+import time
+import urllib2
+
+def download_webpage():
+	url = 'http://linuxacademy-static-blogpost.s3-website-us-east-1.amazonaws.com/'
+	response = urllib2.urlopen(url, timeout = 60)
+	return resonse.read()
+	
+def elapsed_time():
+	t0 = time.time()
+	webpage = download_webpage()
+	t1 = time.time()
+	print("Elapsed time: %s\n" % (t1 - t0)
+#+END_SRC
+
+- re-write the above as a decorator
+#+BEGIN_SRC python
+def elapsed_time(function_to_time):
+	def wrapper():
+		t0 = time.time()
+		function_to_time()
+		t1 = time.time()
+		print("Elapsed time: %s\n" % (t1 - t0)
+	return wrapper
+	
+@elapsed_time
+def download_webpage():
+	url = 'http://linuxacademy-static-blogpost.s3-website-us-east-1.amazonaws.com/'
+	response = urllib2.urlopen(url, timeout = 60)
+	return resonse.read()
+
+webpage = download_webpage()
+#+END_SRC
+
+*** Generators
+
+#+BEGIN_SRC python
+def counter():
+	i=0
+	while True:
+		i+1
+		yield i
+		
+a = counter()
+print(next(a))
+print(next(a))
+print(next(a))
+#+END_SRC
+this will return the next increment as generators maintian state
+
+
 
 
 * Books

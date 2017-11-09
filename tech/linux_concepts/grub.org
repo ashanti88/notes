@@ -1,7 +1,7 @@
-#+TAGS: sys boot
+#+TAGS: boot grub grub2
 
 
-* Grub2                                                            :sys:boot:
+* Grub
 Manual: [[https://www.gnu.org/software/grub/manual/grub.html][gnu.org/grub]]
 Manual: [[https://www.gnu.org/software/grub/manual/grub.html][gnu.org]]
 * Overview
@@ -12,7 +12,8 @@ Manual: [[https://www.gnu.org/software/grub/manual/grub.html][gnu.org]]
 * Files
 /boot/grub/grubenv - this shows the default kernel to be booted
 /boot/grub/grub.cfg - this file is automatically created from /etc/grub.d/ and /etc/default/grub
-/etc/default/grub - this contains the options used to create the grub.cfg
+/etc/sysconfig/grub - this contains the options used to create the grub.cfg (redhat)
+/etc/default/grub - this contains the options used to create the grub.cfg (debian)
 /etc/grub.d/ - the files in here are used to build the grub.cfg file, they indicate individual kernels and OSs
 
 * Usage
@@ -113,6 +114,152 @@ grub-mkconfig -o /boot/grub/grub.cfg
 This will rebuild the configuration
 * Lecture
 * Tutorial
+** Lin:wux Academy - Bootloading with GRUB
+*** Lesson One - What is Grub
+
+- What is GRUB
+  - Grand Unified Bootloader
+  - works with multiple OS
+  - allow for the system to be changed before the OS boots
+    
+- Bootloaders
+  - Bios -> bootloader -> OS
+  - CHS - Cylinder-Head-Sector - this was how bios was the intended method to address storage space.
+    - in its modern form CHS can only address about 2 terabytes
+    - without assistance CHS is limited to addressing 504 megabytes
+    - most modern OS ignore CHS information or rely on translation
+  - they can be installed on disks, partitions, loopback devices
+  - EFI (Extensible Firmware Interface) and UEFI (Unified Extensible Firmeware Interface) have been develooped by intel to replace the BIOS interface and the limitations it imposes.
+  
+
+- Addressing Block Storage
+  - Block storage refers to any system in which an arbitarary number of bytes are handled as a single unit.
+  - CHS was the prevailing standard for rotational media in the PC industry
+  - CHS doesn't describe only the amount of storage space available but the characteristics of the storage device.
+  - CHS is limited by design.
+    
+- Cylinders, Sectors and Tracks
+  
+[[file://home/crito/Pictures/org/cylinder_sector_track.png]]
+      
+- Cylinders and Sectors (Vertical)
+  
+[[file://home/crito/Pictures/org/cylinders_sector_vertical.png]]
+
+- Why use CHS
+  - CHS came into play to meet the needs of IBM's hardware. Beacause of the design of the PC BIOS and MS-DOS's dependence of BIOS, CHS addressin was a must.
+  - CPU expected boot code in teh exact location in RAM at every boot. In like manner, BIOS expected the boot code reside in the exact same location on every storage device.
+  - BIOS still reports CHS information but this is mostly ignored now.
+  - CHS-dependent sys must take care when accessing sectors beyound the 504MB threshold on any device.
+    
+- Moving past CHS
+  - LBA (Logical Block Addressing)
+  - ZBR (Zoned Bit Recording)
+    - Each track numbers the sectors within it sequentially. 
+    - The first sector of each track starts at 0.
+  - Solid-State Devices
+
+*** Lesson Two - Legacy Grub: Adding Boot Parameters
+    
+- Paritions
+  - Most disks provide for the storage space to be divided into multiple parts.
+  - Individual parts are called partitions and are used for a variety of purposes.
+    
+  MBR(Master Boot Record)
+    - has limitations apart from those associated with BIOS and CHS addressing
+    - Partitions must always start on a track boundary and end on a cylinder boundary
+    - MBR devices report 512-byte sector sizes, even if the device actually uses 4k sectors, which can lead to degraded performance.
+    - If a drive has more than one partition, the bootable partition must be marked "active"
+    - A small amount of empty space is left between the first sector of the drive and the first sector of the first partition.
+    - Partitions may be labelled, but primarily their number is used to identify them.
+      
+  GPT(Gobally unique Partition Table)
+    - Compatible with (U)EFI
+    - A reserved EFI partition used to boot the system
+    - Sequential addressing using LBA or ZBR schemes
+    - up to 128 primary partitions
+    - Recognizes the actual sector size of the block devices(512 or 4K)
+    - Uses PMBR(Protective Master Boot Record)
+      - embeds a backward-compatible MBR into the boot secotr to enable booting on BIOS-based computers
+      - PMBR prevents disk utilitires which are not GPT-aware from destroying the GPT partition
+    - On systems which use BIOS, hybrid MBR code is installed, which allows the recognition of GPT partitions, this code must not presume sectors are 512 bytes in size
+    - Partitions may be labelled but are identified by a UUID
+      
+    
+- Adding Boot Parameters
+  - Legacy Grub
+    - changes to GRUB's config should be made in one of the following files
+      - /etc/grub.conf
+      - /boot/grub/grub.conf
+	
+    - legacy GRUB symlinks the following files to /boot/grub/grub.conf for compatibility reasons
+      - /etc/grub.conf
+      - /boot/grub/menu.lst
+	
+
+
+
+
+
+*** Lesson Three - GRUB2 - Adding Boot Parameters
+    
+- Adding boot parameers
+  - /etc/sysconfig/grub - redhat/centos grub config location
+  - /etc/deault/grub - debian/arch grub config location
+  - /etc/grub.d/ - script files
+    
+  - The configuration does not take effect until the /etc/grub2.cfg (for BIOS systems) or /etc/grub2-efi.cfg (for EFI systems) has been updated.
+  - updating the GRUB2 configuration can be done using the "grub2-mkconfig" command
+  - edititing the grub.cfg manually is not recommened
+
+*** Lesson Four - Chainloading and Dual-Booting
+    
+- Dual-Booting
+  - GRUB can be used to load other bootloaders and to boot non-Linux OS
+  - If installing Windows after Linux, be aware that Windows will write over the bootloader configuration, which may have to be installed from scratch.
+    
+  - windows requires
+    insmod part_gpt
+    insmod fat
+    
+*** Lesson Five - Using the GRUB Command Line Interface
+    
+- first thing make sure that pager value is set to 1
+#+BEGIN_EXAMPLE
+grub> set pager=1
+#+END_EXAMPLE
+this makesure that text will hold on each screen until instructed to move to next page
+
+- list bootable devices
+#+BEGIN_EXAMPLE
+grub> ls
+#+END_EXAMPLE
+(hd0) (hd0,msdos3) (hd0,msdos2) (hd0,msdos1)
+
+hd = disk
+msdos = partition
+
+- setting root
+#+BEGIN_EXAMPLE
+set root='hd0,msdos1'
+#+END_EXAMPLE
+this sets hd0,msdos1 as the root partition
+
+- HINT
+  - this provide a way to search for information from disks, partitions
+    
+- view all partitions and information
+#+BEGIN_EXAMPLE
+grub> ls -all
+#+END_EXAMPLE
+
+- booting into linux
+#+BEGIN_EXAMPLE
+grub> set root='hd0,msdos2'
+grub> set boot='hd0,msdos1'
+grub> linux /vmlinuz root='hd0,msdos2'
+#+END_EXAMPLE
+
 * Books
 * Links
 [[https://www.linux.com/learn/how-rescue-non-booting-grub-2-linux][How to Rescue a Non-Booting GRUB 2 on Linux]]

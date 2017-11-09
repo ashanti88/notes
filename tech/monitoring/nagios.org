@@ -1,8 +1,11 @@
-#+TAGS: mon
+#+TAGS: monitor monitoring nagios
 
 
 * Nagios
 Home Page: [[https://www.nagios.org/][nagios]]
+Support: https://support.nagios.com/forum
+Plugin Exchange: https://exchange.nagios.org
+
 * Files
 /etc/nagios - config filees
   nagios.cfg
@@ -362,9 +365,199 @@ define hostgroup{
     
 - services disabled through the web ui will be disgarded when the nagios service is restarted, and will show on restart the warnings
 
+*** Lesson 18 - Monitoring Remote Hosts via Publicly Available Ports
+    
+- Public ports can be monitored from the nagios core host without
+
+- Building Service
+  - Decide which plugin to use
+  - Author the command definition
+  - Author the service definition
+  - Add the service to the appropriate service group
+  - Verify the configuration
+    
+- setting up http monitoring
+  - check_http
+    #+BEGIN_SRC sh
+    check_http -4 -H example.com -p 80 -w 2.0 -c 5.0 -t 10:2 
+    #+END_SRC
+	-H - domain	
+	-p - port to check
+	-4 - use ipv4(only)
+	-w - how many seconds until a warning alert is thrown	
+	-c - how many seconds until a critical alert is thrown	
+	-t - check will timeout in x seconds
+	
+  - defining the command
+	/etc/nagios/objects/commands/http-port-80.cfg 
+	#+BEGIN_EXAMPLE
+	define command{	
+		command_name	check-http-port-80
+		command_line	$USER1$/../libexec/check_http $ARG1$ -H $HOSTNAME$ -p $ARG2$ -w $ARG3$ -c $ARG4$ -t $ARG5$
+		}
+	#+END_EXAMPLE
+	- These args will be passed in by the service definition
+	
+  - define the service
+	/etc/nagios/service/http-port-80.cfg
+	#+BEGIN_EXAMPLE
+	define service{
+		name				http-port-80
+		use					generic-service # this is the service template created earlier
+		host_name			example.com
+		service_description Check HTTP Port 80
+		check_command		check-http-port-80!-4!80!2.0!5.0!10:2 
+	#+END_EXAMPLE
+
+*** Lesson 19 - Installing the Nagio Remote Plugin Executor (NRPE)
+	
+- reinstall the development tools   
+#+BEGIN_SRC sh
+yum group mark remove "Development Tools"
+yum groupinstall "Development Tools"
+yum install krb5-devel openssl-devel
+#+END_SRC
+
+- download the source code from the nagios website to the node machine
+#+BEGIN_SRC sh
+cd ~user
+wget https://github.com/NagiosEnterprises/nrpe/archive/3.0.1.tar.gz
+gunzip 3.0.1.tar.gz
+tar -xvf 3.0.1.tar.gz
+cd nrpe-3.0.1
+#+END_SRC
+
+- Configure the source code, compile it and install it
+#+BEGIN_SRC sh
+./configure --prefix=/opt/nagios --exec-prefix=/opt/nagios --enable-ssl --enable-command-args --enable-bash-command-substitution --with-opsys=linux --with-dist-type=rh --with-init-type=systemd --with-nrpe-user=nagios --with-nrpe-group=nagios --with-nagios-user=nagios --with-nagios-group=nagios
+make all && make install && make install-config && make install-init
+#+END_SRC
+
+- makesure that the "check_nrpe" plugin has been placed in "/opt/nagios/libexec"
+  
+- Edit the NRPE config file /opt/nagios/etc/nrpe.cfg
+#+BEGIN_EXAMPLE
+allow_weak_random_seed=1
+ssl_version=SSLv2+
+ssl_client_certs=0
+log_facility=daemon
+debug=1
+pid_file=/opt/nagios/var/nrpe.pid
+server_port=5666
+listen_queue_size=5
+nrpe_user=nagios
+nrpe_group=nagios
+allowed_hosts=127.0.0.1
+dont_blame_nrpe=1
+allow_bash_command_substitution=1
+command_timeout=60
+connection_timeout=300
+#+END_EXAMPLE  
+
+- enable and start the service (not on the nagios core host)
+#+BEGIN_SRC sh
+systemctl enable nrpe.service
+systemctl start nrpe.service
+#+END_SRC
+
+*** Lesson 20 - Active Checks Using NRPE
+	
+- Active Checks
+  - originate from the Nagios Core Host
+  - checking the response of
+	- available port
+    - SSH
+	- NRPE
+	  
+- NRPE Requirements
+  - Nagios Core Software installed on the Nagios Core Host
+  - NRPE installed on Nagios Core Host - only the "check_nrpe" plugin is required
+  - NRPE installed on the remore hoste - tcp/5666
+  - Commands defined in the NRPE config must match the command names and paramerers defined in command and service definition files on the Nagios Core Host
+	
+                         ----------> Remote Host nrpe/5666
+Nagios Core Host <-------
+                         ----------> Remote Host nrpe/5666
+						 
+
+
+*** Lesson 21 - Passive Checks
+	
+- Passive Checks
+  - Originate from the remote host
+  - used when active check not possible
+	
+- Caveats
+  - not constrained by time limits like active checks
+  - may be used to work around FW
+  - require scripts to write data to the Nagios Command file, or to send data over the network
+  - Enable best on remote hosts with plugins like the Nagios Remote Data Processor (NRDP)
+  - May expose the nagios Core host in terms of security
+  - should be avoided unless there is a vaild reason	
+ 
+*** Lesson 22 - Event Handlers
+
+- Event Handlers
+  - commands that run when a service or host changes state
+  - identical to commands in definition and use (except the $ARGx$ macros)
+  - run at every state change unless wrapped in a script
+  - defined in command files
+  - Examples
+	- restarting Apache
+	- restarting MySQL
+	  
+*** Lesson 23 - Escalations
+	
+- Escalations
+  - notifications sent ot additional contacts when a problem is not resolved in a specific amount of time
+  - service escalation definitions may overlap in terms of individual contacts and notification intervals
+  - escalations can go out to more than one contact group
+  - are bound by the same restrictions as notifications in terms of notification intervals
+  - escalations are measured not in time directly but the number of escalation notices sent
+  - escalations will go out for all services on a host if the host host is down
+  - may go out for single service
+  - if dependencies are defined correctly, dependent services and hosts won't generate notices
+	
+- Esalations definition
+#+BEGIN_EXAMPLE
+define serviceescalation{
+	host_name				localhost
+	service_description		Current Load
+	first_notification		5
+	last_notificatioin		0
+	notification_interval 	15
+	escalation_options		w,u,c,s,d
+	contact_groups			admins
+}
+#+END_EXAMPLE
+
+*** Lesson 24 - Host and Service Dependencies
+	
+- Dependencies
+  - there are two types
+	- parent/child relationships - only appy to hosts
+	- master/dependent relationships - both hosts and services
+	  
+  - Parent/Child
+	- Used to inform Nagios of infrastructure
+	- Hosts only
+	- Parents may be specified as hostgroups
+	- Children may be specified as hostgroups
+	  
+  - Master/Dependent
+	- Used to inform Nagios of host and service dependencies
+	- Apply to both hosts and services
+	- Masters and dependents may be specified using hostgroups
+	- Only one service may be specified as the dependent
+
+*** Lesson 25 - Working with Reports
+	
+- reports can be created for a specific host/s over a specific time, for a specific service through the web UI
 
 
 * Books
 [[file://home/crito/Documents/SysAdmin/Monitor/Nagios.pdf][Nagios - Starch Press]]
 [[file://home/crito/Documents/SysAdmin/Monitor/Nagios_Core_Administration_Cookbook.pdf][Nagios Core Administration Cookbook - Packt]]
+[[file://home/crito/Documents/SysAdmin/Monitor/Nagios/la_nagios_cert_pro/npc_1504646290.pdf][Nagios Professional Certification Study Guide]]
+
 * Links

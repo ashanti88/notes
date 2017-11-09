@@ -1,7 +1,7 @@
-#+TAGS: sys anal sysstat
+#+TAGS: analysis sysstat monitor sar
 
 
-* sar							   :sys:anal:sysstat:
+* sar
 HomePage: [[http://sebastien.godard.pagesperso-orange.fr/][sebastien.godard.fr/sysstat]]
 Github: [[https://github.com/sysstat/sysstat][github.com/sysstat]]
 * Files

@@ -11,6 +11,7 @@ HomePage: [[https://www.apache.org/][apache.org]]
 /etc/httpd/conf.modules.d/*.conf - module configuration directory
 /etc/httpd/conf.d/*.conf   - Supplemental configuration files
 /var/www/html - Default document root
+/usr/share/httpd/noindex/ - the default test page directory
 
 * Description
 * Usage
@@ -241,6 +242,11 @@ mod_ssl places a file in /etc/httpd/conf.d/ssl.conf
 #+BEGIN_SRC sh
 systemctl restart httpd
 #+END_SRC
+
+** Default landing page (RHEL)
+if no index.html, or directory is configured for the Apache a default page is provided
+
+this can be found in /usr/share/httpd/noindex/
 
 * Modules
 Wiki: [[https://en.wikipedia.org/wiki/List_of_Apache_modules][List of Apache Modules]]

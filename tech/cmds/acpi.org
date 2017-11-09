@@ -1,14 +1,21 @@
-#+TAGS: sys anal
+#+TAGS: sys anal battery
 
 
-* acpi                                                             :sys:anal:
+* acpi
+* Files
+/sys/class/power_supply/BAT0 - this is where the battery information is kept
 * Description
+This cmd will provide information on the status of the battery.
+
 * Usage
 - view all cooling and battery information
 #+BEGIN_SRC sh
 acpi -V
 #+END_SRC
-* Lecture
-* Tutorial
-* Books
+
+- current status of the battery
+#+BEGIN_SRC sh
+acpi -i
+#+END_SRC
+
 * Links

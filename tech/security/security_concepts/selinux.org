@@ -1,7 +1,7 @@
-#+TAGS: sec_d selinux
+#+TAGS: security selinux defense
 
 
-* selinx						      :sec_d:selinux:
+* SELinux
 * Description
 * Configuration
 /etc/selinux/config
@@ -28,6 +28,21 @@ or
 #+BEGIN_SRC sh
 sestatus
 #+END_SRC
+
+- change to permissive with:
+#+BEGIN_SRC sh
+setenforce 0
+getenforce
+#+END_SRC
+Permissive
+
+- change to enforcing with:
+#+BEGIN_SRC sh
+setenforce 1
+getenforce
+#+END_SRC
+Enforcing
+
 ** SELinux Modes
 Enforcing - SELinux policy is enforced. SELinux denies access based on
 SELinux policy rules.

@@ -1,17 +1,17 @@
-#+TAGS: sys anal
+#+TAGS: system analysis monitoring atop
 
 
-* atop 								   :sys:anal:
+* atop
 HomePage: [[http://www.atoptool.nl/][atoptool.nl]]
-* Descripton
-Atop allows analysis of a system over different periods of time by
-taking snapshots.These snapshots allow us to view individual processors
-at different times.
 
-Atop monitors CPU, memory, disks and network on system level.
+* Descripton
+Atop allows analysis of a system over different periods of time by taking snapshots.These snapshots allow us to view individual processors at different times.
+
+Atop monitors CPU, memory, disks and network on system level(networking requires the netatop module).
 
 * files
-/etc/atop/atop.daily
+/etc/atop/atop.daily - configuration file
+
 * Usage
 ** Bacic Administration
 - Launch with average-per-second total values

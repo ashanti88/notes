@@ -1,7 +1,7 @@
-#+TAGS: code vcs
+#+TAGS: jenkins ci devops
 
 
-* jenkins
+* Jenkins
 Home Page: [[https://jenkins.io/][jenkins.io]]
 
 * Description
@@ -31,6 +31,139 @@ log file - /etc/var/log/jenkins/jenkins.log
 * Usage
 * Lecture
 * Tutorial
+** Linux Academy - Jenkins Quick Start
+*** Lesson One - Installation and Configuration   
+
+- Packages required
+#+BEGIN_SRC sh
+wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo
+rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
+yum update
+yum install jenkins
+#+END_SRC
+
+- Jenkins requires Java
+#+BEGIN_SRC sh
+yum install java-1.8.0-openjdk
+#+END_SRC
+check the version of jenkins and java version required
+  - jenkins 2.2x java-1.8 openjdkworks
+  - jenkins <2.2 java-1.6 openjdk
+    
+- Apply the correct FW rule to public on port 8080/tcp
+  
+- enable and start
+#+BEGIN_SRC sh
+systemctl enable jenkins
+systemctl start jenkins
+#+END_SRC
+
+- test with telnet (no port restrictions)
+#+BEGIN_SRC sh
+telnet localhost 8080
+#+END_SRC
+this will show us if jenkins is accessable
+
+- test with nginx (with port restrictions)
+#+BEGIN_SRC sh
+yum install nginx
+#+END_SRC
+proxy the connection for port 8080
+
+/etc/nginx/nginx.conf
+#+BEGIN_EXAMPLE
+server{
+	listen		80 default_server;
+	listen		[::]:80 default_server;
+	server_name	_;
+	root		/usr/share/nginx/html;
+	
+	include /etc/nginx/default.d/*.conf;
+	
+	location / {
+		proxy_pass	http://127.0.0.1:8080;
+	}
+#+END_EXAMPLE
+
+#+BEGIN_SRC sh
+systemctl enable nginx
+systemctl start nginx
+yum install elinks
+elinks http://localhost:8080
+#+END_SRC
+this should take you through to the jenkins, if an nginx error is thrown it may be SELinux
+
+- SELinux for Jenkins
+#+BEGIN_SRC sh
+yum install -y setroubleshoot-server selinux-policy-devel
+#+END_SRC
+this provides more tools for configuring SELinux
+
+#+BEGIN_SRC sh
+sepolicy network -t http_port_t
+#+END_SRC
+this will output a list of the allowed tcp ports
+
+#+BEGIN_SRC sh
+semanage port -a -t https_port_t -p tcp 8080
+#+END_SRC
+this will allow port 8080
+
+- Jenkins Web UI
+  - first input the password found in /var/lib/jenkins/secrets
+  - this will take you through a final configuration and setup (plugin installation)
+  - create an Admin User
+  - Jenkins may show an error for the proxy
+	- follow the link and copy the nginx config provided (its more variables to add to the nginx.conf)
+	  
+*** Lesson Two - Preparing Our Environment - Build Accounts
+   
+- configure jenkins user
+  - change the jenkins user in /etc/passwd to have a bash shell
+  #+BEGIN_SRC sh
+  passwd jenkins
+  su - jenkins
+  #+END_SRC
+  - this should provide /var/lib/jenkins as home
+  - create ssh keys for jenkins
+  #+BEGIN_SRC sh
+  ssh-keygen
+  ssh-copy-id jenkins@localhost
+  #+END_SRC
+  - and root privileges without needing password
+  #+BEGIN_EXAMPLE
+  jenkins ALL=(ALL)		NOPASSWD: ALL
+  #+END_EXAMPLE
+  - create jenkins user on build slave
+	
+*** Lesson Three - Our First Jenkins Build
+   
+- visudo
+#+BEGIN_EXAMPLE
+Defaults !requiretty
+#+END_EXAMPLE
+- this allows scripts to be built in the background by Jenkins
+- withouth this an error will be thrown if outpput requires tty
+
+*** Lesson Four - Plugin Management and Builds
+
+- couple of times a month check for plugins updates
+  - check the plugin site for any errors or failures before install
+
+*** Lesson Five - Creating Scheduled Builds
+*** Lesson Six - Setting Up a Build Slave   
+   
+- makesure that any plugin dependcies are installed on the slave
+  - i.e. git for the git plugin etc
+
+- java is required for the jenkins agent, but jenkins can install this its self
+  
+*** Lesson Seven - Launching Jobs on the Slave Node
+
+- Builds are able to be chained from a slave to another machine
+  - ensure that ssh keys have been sent up to allow ssh-keys(without passphrase)
+
+
 * Books
 [[file:~/Documents/Tools/jenkins-the-definitive-guide.pdf][Jenkins - Definitive Guide]]
 [[file://home/crito/Documents/Code/Devops/Jenkins_on_AWS.pdf][Jenkins on AWS]]

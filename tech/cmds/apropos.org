@@ -1,17 +1,36 @@
-#+TAGS: sys
+#+TAGS: sys search man
 
 
-* apropos								:sys:
+* apropos
 * Description
-This tool is used to search for posible cmds that match the set term
+This tool is used to search for posible cmds that match the set term/pattern
+  - similar to the $man -k cmd
 
 * Usage
-** Alternative
+- basic usage against a specific cmd
+#+BEGIN_SRC sh
+apropos pstree
+#+END_SRC
+This will provide a short description of the exact cmd
+
+- search of a specific type of tool
+#+BEGIN_SRC sh
+apropos editor
+#+END_SRC
+This will produce a list of editoring tools with a description
+
+* Alternative
+- this is the same as apropos
 #+BEGIN_SRC sh
 man -k ssh
 #+END_SRC
 man -k provides the same function as apropos
-* Lecture
-* Tutorial
-* Books
+
+- this is a similar, but less effective cmd and will only return details for a specfic cmd
+#+BEGIN_SRC sh
+whatis vim
+#+END_SRC
+
+
 * Links
+[[http://www.linfo.org/apropos.html][How to use the apropos command]]

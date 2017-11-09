@@ -1,7 +1,7 @@
-#+TAGS: net l2 anal op
+#+TAGS: net l2 anal op arp
 
 
-* Arp							     :net:l2:anal:op:
+* arp
 * Description
 This command is used to dump the kernel arp cache (/proc/net/arp).
 
@@ -10,12 +10,13 @@ This command is used to dump the kernel arp cache (/proc/net/arp).
 #+BEGIN_SRC sh
 arp 
 #+END_SRC
-Address
-HW Type
-HW Address
-Flags
-Mask
-IFace
+- Output columns
+  - Address
+  - HW Type
+  - HW Address
+  - Flags
+  - Mask
+  - IFace
 
 - don't resolve hostnames
 #+BEGIN_SRC sh

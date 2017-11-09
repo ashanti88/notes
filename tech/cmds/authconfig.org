@@ -1,7 +1,7 @@
 #+TAGS: kerberos auth password sec
 
 
-* authconfig                                     :kerberos:auth:password:sec:
+* authconfig
 * Files
 - /etc/sysconfig/authconfig - this file contains the options that were set when authconfig-tui was run
 - /etc/sssd/sssd.conf - all the parameters that are specified in authconfig 

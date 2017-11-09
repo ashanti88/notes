@@ -1,8 +1,18 @@
-*Basic usage*
+#+TAGS: filesystem shrink expand
 
+
+* tune2fs
+* Description
+* Usage
 > tune2fs <options> <dev/sdx>
 
-*Options*
+- Options
 
 l - List the contents of the filesystem superblock, including the
 current values of the parameters that can be set via tune2fs.
+* Lecture
+* Tutorial
+* Books
+* Links
+
+

@@ -1,0 +1,24 @@
+#+TAGS: path
+
+
+* PATH
+- setting temporary
+#+BEGIN_SRC sh
+export "PATH=$PATH:/usr/local/nagios/bin:/usr/local/nagios/sbin"
+#+END_SRC
+this will will add the two nagios bin directories to the path, but will be lost on reboot
+
+- setting permanently
+/etc/profile - system wide
+#+BEGIN_EXAMPLE
+echo "export PATH=$PATH:/usr/local/nagios/bin:/usr/local/nagios/sbin" >> /etc/profile
+#+END_EXAMPLE
+check the file and ensure it has been added and that any previous PATH variables have been removed
+
+/home/user/.bashrc
+#+BEGIN_EXAMPLE
+echo "export PATH=$PATH:/usr/local/nagios/bin:/usr/local/nagios/sbin" >> /home/user/.bashrc
+#+END_EXAMPLE
+if using another shell change the config file
+
+* Links
