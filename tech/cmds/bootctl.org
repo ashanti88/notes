@@ -1,7 +1,7 @@
-#+TAGS: sysd
+#+TAGS: systmed
 
 
-* bootctl							       :sysd:
+* bootctl
 * Description
 * Usage
 * Lecture

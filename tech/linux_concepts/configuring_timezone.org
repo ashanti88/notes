@@ -1,7 +1,7 @@
 #+TAGS: time tz
 
 
-* Configuring Timezone						    :time:tz:
+* Configuring Timezone
 * Methods
 ** Method One
 Remove the currently set timezone and set the new timezone from the zones in the directory

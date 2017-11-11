@@ -1,7 +1,9 @@
-#+TAGS: sys op anal
+#+TAGS: resource analysis performance cpu disk io network
 
 
-* dstat 							:sys:op:anal:
+* dstat
+HomePage: http://dag.wiee.rs/home-made/dstat/
+
 * Description
 dstat is a versatile resource statistic tool. It combines the ability of iostat, vmstat, netstat and ifstat. It gathers this information in real-time.  
 
@@ -16,10 +18,14 @@ g - page stats
 y - system stats
 
 ** Show process with highest cpu usage
-> dstat -tcnyldp --top-cpu
+#+BEGIN_SRC sh
+dstat -tcnyldp --top-cpu
+#+END_SRC
 
 ** Show information about cpu, disk (sda1) utilisation and system load
-> dstat -cdl -D sda1
+#+BEGIN_SRC sh
+dstat -cdl -D sda1
+#+END_SRC
 
 * Lecture
 * Tutorial

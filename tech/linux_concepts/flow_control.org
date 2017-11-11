@@ -1,11 +1,13 @@
-#+TAGS: net
+#+TAGS: network flow control
 
 
 * Flow Control
 * Cmds
-** ethtool
+- [[file://home/crito/org/tech/cmds/ethtool.org][ethtool]]
+
 * Overview
 When an Ethernet device gets over loaded, flow control allows it to send PAUSE requests to the  devices sending it data to allow the over loaded condition to clear.
+
 * Lecture
 * Tutorial
 * Books

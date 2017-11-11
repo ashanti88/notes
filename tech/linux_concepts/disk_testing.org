@@ -1,38 +1,51 @@
+#+TAGS: disk test storage analysis performance
 
 
+* Disk Testing
 * Cmds
-** dddd
+- [[file://home/crito/org/tech/cmds/dd.org][dd]]
+- [[file://home/crito/org/tech/cmds/iotop.org][iotop]]
+- [[file://home/crito/org/tech/cmds/fio.org][fio]]
 
-
-** iotop
-
-[file:///home/crito/public_html/tech/cmds/iotop.html]
-
-** fio
-
+* Description
 * Tests
-
 ** Measuring Write Performance
-+ Modern OS don't usually write to RAID or hard disk. Temporary memory that is not currently in use will be used to cache reads and writes.
+- Modern OS don't usually write to RAID or hard disk. Temporary memory that is not currently in use will be used to cache reads and writes.
   - To account for caching, the oflag parameter can be used. 
   - 3 options for oflag i) direct - use direct I/O for data
                        ii) dsync  - use synchronized I/O for data.
                       iii) sync   - likewise, but also for metadata
     
-+ For measuring write performance the data should be read from the /dev/zero, and ideally written to an empty hard drive or partition.
+- For measuring write performance the data should be read from the /dev/zero, and ideally written to an empty hard drive or partition.
 
 These test should be run at least 3 times
 *** Laptop Throughput
 
-> dd if=/dev/zero of=/dev/sdx bs=1G count=1 oflag=direct
+#+BEGIN_SRC sh
+dd if=/dev/zero of=/dev/sdx bs=1G count=1 oflag=direct
+#+END_SRC
 
 *** Laptop Latency
 
-> dd if=/dev/zero of=/dev/sdx bs=512 count=1000 oflag=direct
+#+BEGIN_SRC sh
+dd if=/dev/zero of=/dev/sdx bs=512 count=1000 oflag=direct
+#+END_SRC
+
 *** Sever RAID10 Throughput
     
-> dd if=/dev/zero of=/dev/sdx bs=1G count=1 oflag=dsync 
+#+BEGIN_SRC sh
+dd if=/dev/zero of=/dev/sdx bs=1G count=1 oflag=dsync 
+#+END_SRC
 
 *** Sever RAID10 Latency
 
-> dd if=/dev/zero of=/dev/sdx bs=512 count=1000 oflag=dsync
+#+BEGIN_SRC sh
+dd if=/dev/zero of=/dev/sdx bs=512 count=1000 oflag=dsync
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links
+
+

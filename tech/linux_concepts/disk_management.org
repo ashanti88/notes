@@ -1,7 +1,7 @@
-#+TAGS: sys disk fs stor
+#+TAGS: disk filesystem storage
 
 
-* Disk Management                                          :sys:disk:fs:stor:
+* Disk Management
 * Files
 /proc/partitions - this shows all the current partirions on the system
 /dev/mapper - this is where encrypted partitions are kept
@@ -31,6 +31,7 @@ LABLE=myfs				  /data          xfs     defaults,noatime, 0 2
 - gparted
 - [[file://home/crito/org/tech/cmds/parted.org][parted]]
 - [[file://home/crito/org/tech/cmds/fdisk.org][fdisk]]
+- [[file://home/crito/org/tech/cmds/tune2fs.org][tune2fs]]
 
 * Lecture
 * Tutorial

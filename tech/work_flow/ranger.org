@@ -1,7 +1,7 @@
-#+TAGS: sys op file
+#+TAGS: filemanager file_manager file
 
 
-* Ranger							:sys:op:file:
+* Ranger
 Github: [[https://github.com/ranger/ranger][github.com/ranger]]
 * files
 ** ranger.rc

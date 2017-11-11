@@ -1,0 +1,54 @@
+#+TAGS: shell command_line bash globbing
+
+
+* Command Line Usage
+* Globbing
+- Global Command
+  
+- using the wildcard "*" will find anything
+#+BEGIN_SRC sh
+ls *
+#+END_SRC
+this will show all files in the current directory
+
+#+BEGIN_SRC sh
+ls *.txt
+#+END_SRC
+this will show all files that end with the .txt file extension
+
+- using the "?" will subsititute any character
+#+BEGIN_SRC sh
+ls ?????
+#+END_SRC
+this will return all files that are 5 characters long
+
+- looking for different case files in a search
+#+BEGIN_SRC sh
+ls [Ff]*.txt
+#+END_SRC
+this will return all files that begin with a upper or lower case and end with .txt
+
+* Quoting
+  
+- Double quote
+  - substitutes the value of varialbe and commands
+    #+BEGIN_SRC sh
+    echo "Username is $USER"
+    #+END_SRC
+    this will print "Username is crito"
+    
+- Single quote
+  - this is strict quoting
+  - this means that variables will be read litrally
+    #+BEGIN_SRC sh
+    echo 'Username is $USER'
+    #+END_SRC
+    this will print "Username is $USER"
+    
+- Backslash
+  - removes the special meaning of a character
+
+* Lecture
+* Tutorial
+* Books
+* Links

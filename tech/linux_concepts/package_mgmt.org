@@ -1,8 +1,8 @@
-#+TAGS: sys pkg
+#+TAGS: package yum apt rpm dnf dpkg deb pacman yaourt pkg
 
 
-* Package Management Tools					    :sys:pkg:
-* Deb								:sys:pkg:deb:
+* Package Management Tools
+* Deb
 *** dpkg							    :deb:pkg:
 **** Basic Administration
 Install
@@ -160,8 +160,8 @@ df -H
 
 * Ubuntu
 *** Snappy
-* RHEL							       :sys:pkg:rhel:
-*** rpm								   :rhel:pkg:
+* RHEL
+*** rpm
 http://repoforge.org/
 
 **** Basic Actions
@@ -254,7 +254,7 @@ rpm -Uvh ius-release.rpm
 yum repolist
 #+END_SRC
 
-*** yum                                                         :rhel:pkg:
+*** yum
 **** Basic Administration
 - Install application
 #+BEGIN_SRC sh
@@ -282,6 +282,12 @@ this will use the repo list to check for deps
 yum list installed
 #+END_SRC
 use grep to narrow the search window
+
+- list the dependencies of a package
+#+BEGIN_SRC sh
+yum deplist httpd
+#+END_SRC
+this will return the dependencies of the httpd
 
 **** Repo Administration
 list all the repos
@@ -378,7 +384,7 @@ yum --releaserver=7.3 update
 #+END_SRC
 this will update the current install to 7.3
 
-*** dnf 						       :sys:rhel:pkg:
+*** dnf
 **** Basic Administration					   :rhel:dnf:
 - Install application
 #+BEGIN_SRC sh
@@ -410,15 +416,15 @@ dnf upgrade
 dnf upgrade vim
 #+END_SRC
 
-* Suse							       :sys:pkg:suse:
+* Suse
 *** zypper							   :suse:pkg:
-* Arch(Manjaro|Antergos)                                       :sys:pkg:arch:
+* Arch(Manjaro|Antergos)
 *** ABS(Arch Build System)
 Arch: [[https://wiki.archlinux.org/index.php/Arch_Build_System][archlinux.org/Arch_Build_System]]
 *** Repos
 The repos are edited in /etc/pacman.conf
 
-*** pacman							   :arch:pkg:
+*** pacman
 - list installed pkgs
 #+BEGIN_SRC sh
 pacman -Q > pkg_list.txt
@@ -436,7 +442,7 @@ pacman -R $(pacman -Qtdq)
 
 - Clean out the old pkg from /var/cache/pacman/pkg/
 
-*** yaourt							   :arch:pkg:
+*** yaourt
 **** Diagnosis
 - Search for pkg
 #+BEGIN_SRC sh
@@ -486,7 +492,7 @@ yaourt -Sb
 #+BEGIN_SRC sh
 yaourt -B
 #+END_SRC
-*** pacli                                                          :arch:pkg:
+*** pacli
 This tool is a tui for both pacman and yaourt
 * FreeBSD
 *** pkg

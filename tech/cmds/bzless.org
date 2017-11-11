@@ -1,7 +1,7 @@
-#+TAGS: file comp 
+#+TAGS: file_compression pager
 
 
-* bzless                                                          :file:comp:
+* bzless
 * Description
 * Usage
 #+BEGIN_SRC sh

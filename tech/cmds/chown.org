@@ -1,8 +1,10 @@
-#+TAGS: file op
+#+TAGS: file_owner ownership group_ownership
 
 
-* chown								    :file:op:
+* chown
 * Description
+Command to change file owner or group.
+
 * Usage
 
 > chown user:group file.txt
@@ -27,3 +29,4 @@ R - recursive
 * Tutorial
 * Books
 * Links
+[[http://www.linfo.org/chown.html][How to use the chown command - Linux Information Project]]

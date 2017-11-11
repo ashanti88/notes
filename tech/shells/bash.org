@@ -1,7 +1,19 @@
 #+TAGS: shell sh bash
 
 
-* bash
+* Bash
+* Files
+/etc/profile - 
+~/.bash_logout - this is run when loging out of shell window
+~/.bash_profile - user specific preferences read by login
+~/.bashrc - this is read only by shells that are both interactive and non-login
+
+- order of the files
+  - /etc/profile
+  - ~/.bash_profile
+  - ~/.bashrc
+    
+
 * Description
 * Usage
 ** Precedence of config files

@@ -1,8 +1,7 @@
+#+TAGS: date setting_date
 
-#+TAGS: sys op
 
-
-* date								     :sys:op:
+* date
 * Description
 This command allows the setting of the date or provides the time.
 * Usage

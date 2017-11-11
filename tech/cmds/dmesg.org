@@ -1,9 +1,10 @@
-#+TAGS: kernel sys anal
+#+TAGS: kernel
 
 
-* dmesg                                                     :kernel:sys:anal:
+* dmesg
 * Description
 The ‘dmesg‘ command displays the messages from the kernel ring buffer.
+
 * file
 /var/log/dmesg
 * Usage

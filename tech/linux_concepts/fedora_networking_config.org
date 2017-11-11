@@ -1,15 +1,17 @@
-#+TAGS: net fedora
+#+TAGS: network fedora
 
 
-* Fedora Network Configuration					 :net:fedora:
+* Fedora Network Configuration
 * Cmds
-[[file://home/crito/org/tech/cmds/ethtool.org][ethtool]]
-[[file://home/crito/org/tech/cmds/nmcli.org][nmcli]]
-[[file://home/crito/org/tech/cmds/ip.org][ip]]
+- [[file://home/crito/org/tech/cmds/ethtool.org][ethtool]]
+- [[file://home/crito/org/tech/cmds/nmcli.org][nmcli]]
+- [[file://home/crito/org/tech/cmds/ip.org][ip]]
+
 * Network Configuration
 ** Network Interface Config Files
 /etc/sysconfig/network-scripts/
 ** Example Interface Config
+#+BEGIN_EXAMPLE
 TYPE=Ethernet
 BOOTPROTO=none
 DEFROUTE=yes
@@ -26,37 +28,53 @@ PEERDNS=yes
 PEERROUTES=yes
 IPV6_PEERDNS=yes
 IPV6_PEERROUTES=yes
+#+END_EXAMPLE
+
 ** Setting an Interface to DHCP
+#+BEGIN_EXAMPLE
 BOOTPROTO=dhcp
 ONBOOT=yes
+#+END_EXAMPLE
+
 ** Setting an Interface to a Static ip
+#+BEGIN_EXAMPLE
 BOOTPROTO=static
 ONBOOT=yes
 IPADDR=172.27.0.32
 NETMASK=255.255.255.0
 GATEWAY=172.27.0.1
 DNS1=172.27.0.5
+#+END_EXAMPLE
+
 ** Setting up /etc/hosts
 This file is read before a request is made to the dns server 
 add here any hostname => ip
 Foramt is [ip hostname]
+#+BEGIN_EXAMPLE
 127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+#+END_EXAMPLE
+
 ** Setting Hostname and DNS
 *** Permanently change hostname and DNS
 - Add DNS and Hostname to interface config file
+#+BEGIN_EXAMPLE
 HOSTNAME=server.alick.com
 DNS1=192.168.1.5
 DNS2=8.8.8.8
 SEARCH=alick.com
+#+END_EXAMPLE
 
 - Add the DNS server to the resolv.conf file
+#+BEGIN_EXAMPLE
 nameserver 8.8.8.8
+nameserver 8.8.4.4
+#+END_EXAMPLE
 
 *** Temporary change hostname
 #+BEGIN_SRC sh
-hostname $HOSTNAME
+hostname temp_hostname
 #+END_SRC
-* Overview
+
 * Lecture
 * Tutorial
 * Books

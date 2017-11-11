@@ -1,15 +1,15 @@
-#+TAGS: file op user
+#+TAGS: file user management
 
 
 * File Management
-* Cmds								    :file:op:
-[[file://home/crito/org/tech/cmds/chmod.org][chmod]]
-[[file://home/crito/org/tech/cmds/chown.org][chown]]
-[[file://home/crito/org/tech/cmds/chgrp.org][chgp]]
-[[file://home/crito/org/tech/cmds/chattr.org][chattr]]
-[[file://home/crito/org/tech/cmds/chsh.org][chsh]]
+* Cmds
+- [[file://home/crito/org/tech/cmds/chmod.org][chmod]]  - change the permissions on a file
+- [[file://home/crito/org/tech/cmds/chown.org][chown]]  - change the owner/group of a file
+- [[file://home/crito/org/tech/cmds/chgrp.org][chgp]]   - change the group of a file
+- [[file://home/crito/org/tech/cmds/chattr.org][chattr]] - alter the attributes of a file
+- [[file://home/crito/org/tech/cmds/chsh.org][chsh]]   - change the users shell
+- [[file://home/crito/org/tech/cmds/ls.org][ls]]     - list the files of the specified directory
 
-* Overview
 * Lecture
 * Tutorial
 * Books

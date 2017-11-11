@@ -1,7 +1,7 @@
-#+TAGS: net anal
+#+TAGS: network_analysis
 
 
-* bwm-ng							   :net:anal:
+* bwm-ng
 * Description
 * Usage
 * Lecture

@@ -1,7 +1,7 @@
-#+TAGS: net anal
+#+TAGS: network network_analysis route routing tcp udp routing_table
 
 
-* netstat							   :net:anal:
+* netstat
 * Description
 Netstat shows all opened ports tcp, udp and unix.
 * Usage
@@ -19,8 +19,7 @@ x - unix
 s - statistics
 e - extended information
 
-** Examples
-*** Tuna plz
+** Tuna plz
 #+BEGIN_SRC sh
 netstat -tunapl
 #+END_SRC
@@ -31,7 +30,7 @@ a - all - show both listening and none-listening
 p - program - show the pid
 l - listening - only show listening sockets
 
-*** Find out on which port a program is running 
+** Find out on which port a program is running 
 #+BEGIN_SRC 
 netstat -an | grep $PROGRAM
 #+END_SRC
@@ -40,26 +39,26 @@ or
 netstat -an | grep ":$PORT"
 #+END_SRC
 
-*** Find out on which pprogram is using a certain port
+** Find out on which pprogram is using a certain port
 #+BEGIN_SRC sh
 netstat -i:80
 #+END_SRC
-*** List all ports (both listening and non-listening)
+** List all ports (both listening and non-listening)
 #+BEGIN_SRC 
 netstat -a | more
 #+END_SRC
 
-*** List all tcp ports
+** List all tcp ports
 #+BEGIN_SRC sh
 netstat -at
 #+END_SRC
 
-*** List all udp ports
+** List all udp ports
 #+BEGIN_SRC sh
 netstat -au
 #+END_SRC
 
-*** List sockets which are in listening state
+** List sockets which are in listening state
 - all
 #+BEGIN_SRC sh
 netstat -l
@@ -80,79 +79,81 @@ netstat -lu
 netstat -lx
 #+END_SRC
 
-*** Show statistics for each protocol
-- all statistics
-#+BEGIN_SRC sh
-netstat -s
-#+END_SRC
+** Show statistics for each protocol
+ all statistics
++BEGIN_SRC sh
+etstat -s
++END_SRC
 
-- tcp statistics
-#+BEGIN_SRC sh
-netstat -st
-#+END_SRC
+ tcp statistics
++BEGIN_SRC sh
+etstat -st
++END_SRC
 
-- udp statistics
-#+BEGIN_SRC sh
-netstat -su
-#+END_SRC
+ udp statistics
++BEGIN_SRC sh
+etstat -su
++END_SRC
 
-*** Display PID and program names in netstat output using netstat -p
-this will display the pid's for tcp ports
-#+BEGIN_SRC sh
-netstat -pt
-#+END_SRC
+** Display PID and program names in netstat output using netstat -p
+his will display the pid's for tcp ports
++BEGIN_SRC sh
+etstat -pt
++END_SRC
 
-*** Don't resolve host, port and user name in netstat output
-#+BEGIN_SRC sh
-netstat -an
-#+END_SRC
+** Don't resolve host, port and user name in netstat output
++BEGIN_SRC sh
+etstat -an
++END_SRC
 
-to specify which one not ot resolve
-#+BEGIN_SRC sh
-netstat -a --numeric-ports
-#+END_SRC 
+o specify which one not ot resolve
++BEGIN_SRC sh
+etstat -a --numeric-ports
++END_SRC 
 
-#+BEGIN_SRC sh
-> netstat -a --numeric-hosts
-#+END_SRC
++BEGIN_SRC sh
+ netstat -a --numeric-hosts
++END_SRC
 
-#+BEGIN_SRC sh
-netstat -a --numeric-users
-#+END_SRC
++BEGIN_SRC sh
+etstat -a --numeric-users
++END_SRC
 
-*** Print netstat information continuously
-#+BEGIN_SRC sh
-netstat -c
-#+END_SRC
+** Print netstat information continuously
++BEGIN_SRC sh
+etstat -c
++END_SRC
 
-*** Find the none supportive address families in your system
-#+BEGIN_SRC sh
-netstat --verbose
-#+END_SRC
+** Find the none supportive address families in your system
++BEGIN_SRC sh
+etstat --verbose
++END_SRC
 
-*** Display the kernel routing information
-#+BEGIN_SRC sh
-netstat -r
-#+END_SRC
+** Display the kernel routing information
++BEGIN_SRC sh
+etstat -r
++END_SRC
 
-*** Show a list of network interfaces
-#+BEGIN_SRC sh
-netstat -i
-#+END_SRC
+** Show a list of network interfaces
++BEGIN_SRC sh
+etstat -i
++END_SRC
 
-- with extended information
-#+BEGIN_SRC 
-netstat -ie
-#+END_SRC
+ with extended information
++BEGIN_SRC 
+etstat -ie
++END_SRC
 
-*** List routing tables
+** List routing tables
 #+BEGIN_SRC sh
 netstat -rn
 #+END_SRC
 
-** Alternatives
+* Alternatives
 - [[file:ss.org][ss - systemd]]
 - [[file://home/crito/org/tech/cmds/lsof.org][lsof]]
+- [[file://home/crito/org/tech/cmds/route.org][route]]
+
 * Lecture
 * Tutorial
 * Books

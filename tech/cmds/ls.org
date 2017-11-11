@@ -1,9 +1,27 @@
-#+TAGS: file anal
+#+TAGS: file coreutil
 
 
-* ls								  :file:anal:
+* ls
 * Description
 * Usage
+- show long listing
+#+BEGIN_SRC sh
+ls -l
+#+END_SRC
+
+- show directories with a / at the end
+#+BEGIN_SRC sh
+ls -p
+#+END_SRC
+
+- display directories recursively
+#+BEGIN_SRC sh
+ls -R
+#+END_SRC
+this will show all subdirectories and files under the directory
+
+
+
 ** View only directories
 #+BEGIN_SRC sh
 ls -d /home/crito/*

@@ -1,8 +1,8 @@
-#+TAGS: net
+#+TAGS: network_tool ip ip_tool ifconfig route network
 
 
-* ip VS ifconfig                                                        :net:
-** Displaying all Network Interfaces
+* ip VS ifconfig
+* Displaying all Network Interfaces
 - ifconfig cmd
 #+BEGIN_SRC sh
 ifconfig
@@ -10,21 +10,26 @@ ifconfig
 
 - ip cmd
 #+BEGIN_SRC sh
-ip a
+ip addr
 #+END_SRC
 
-** Adding or Deleting an IP Address
-- ifconfig cmd
+* Adding or Deleting an IP Address
+- ifconfig add address (no way to delete ip address with ifconfig)
 #+BEGIN_SRC sh
-ifconfig eth0 add 192.168.0.10
+ifconfig eth0 192.168.0.10
 #+END_SRC
 
-- ip cmd
+- ip add address
 #+BEGIN_SRC sh
-ip a add 192.168.0.10 dev eth0
+ip addr add 192.168.0.10 dev eth0
 #+END_SRC
 
-** Adding or Deleting an IP Addr
+- ip delete address
+#+BEGIN_SRC sh
+ip addr del 192.168.0.10 dev eth0
+#+END_SRC
+
+* Adding or Deleting an IPv6 Addr
 - ifconfig cmd
 #+BEGIN_SRC sh
 ifconfig eth0 hw ether 00:0c:29:33:4e:a1
@@ -35,7 +40,7 @@ ifconfig eth0 hw ether 00:0c:29:33:4e:a1
 ip link set dev eth0 address 00:0c:29:33:4e:a1
 #+END_SRC
 
-** Enabling/Disabling Network Interface
+* Enabling/Disabling Network Interface
 - ifconfig
 #+BEGIN_SRC sh
 ifconfig eth0 down
@@ -48,7 +53,7 @@ ip link set eth0 down
 ip link set eth0 up
 #+END_SRC
 
-** Enable/Disable ARP Protocol
+* Enable/Disable ARP Protocol
 - ifconfig
 #+BEGIN_SRC sh
 ifconfig eht0 arp
@@ -60,7 +65,7 @@ ip link set dev eth0 arp on
 ip link set dev eth0 arp off
 #+END_SRC
 
-** Setting Other Configuration of Network Interface
+* Setting Other Configuration of Network Interface
 
 *** mtu
 - ifconfig
@@ -115,4 +120,56 @@ ifconfig eth0 allmulti
 - ip
 #+BEGIN_SRC sh
 ip link set dev eth0 allmulti on
+#+END_SRC
+* Alias Interface
+- ifconfig
+#+BEGIN_SRC sh
+ifconfig eth0:1 10.0.0.1/8
+#+END_SRC
+
+- ip
+#+BEGIN_SRC sh
+ip addr eth0 10.0.0.1/8 dev eth0 label eth0:1
+#+END_SRC
+* Show the Routing Table
+- route
+#+BEGIN_SRC sh
+route
+#+END_SRC
+
+-ip 
+#+BEGIN_SRC sh
+ip route show
+#+END_SRC
+
+* Changing Routing Table
+- using route to add a route to an interface
+#+BEGIN_SRC sh
+route add -net 192.168.10.0/24 dev eth3
+#+END_SRC
+
+- using ip route to add a route to an interface
+#+BEGIN_SRC sh
+ip route add 192.168.10.0/24 dev eth3
+#+END_SRC
+
+- delete route with route
+#+BEGIN_SRC sh
+route del -net 192.168.10.0/24 dev eth3
+#+END_SRC
+
+- delete route with ip route
+#+BEGIN_SRC sh
+ip route del 192.168.10.0/24 dev eth3
+#+END_SRC
+
+* Adding a Default Gateway
+- using route to add a default gateway
+#+BEGIN_SRC sh
+route add -net 192.168.10.0/24 gw 192.168.10.1
+#+END_SRC
+
+- using ip route to add a default gateway
+#+BEGIN_SRC sh
+ip route add 192.168.10.0/24 via 192.168.10.1
 #+END_SRC

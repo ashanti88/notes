@@ -1,11 +1,11 @@
-#+TAGS: file cmp
+#+TAGS: file_comparison file
 
 
-* diff                                                             :file:cmp:
+* diff
 * Description
 This tool is used to compare files line by line.
 
-* U:sage
+* Usage
 > diff <options> file_one file_two
 
 ** Options

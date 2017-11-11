@@ -1,8 +1,13 @@
 #+TAGS: file op
 
 
-* colrm								    :file:op:
+* colrm
+
 * Description
+The colrm command removes selected columns from a file. Input is taken from standard input. Output is sent to standard output.
+If called with one parameter, the columns of each line are removed starting with the specified column. If called with two parameters, the columns from the first column to the last column are removed.
+Column numbering starts with column 1.
+
 * Usage
 > colrm [<start_col> [<end_col>]]
 
@@ -28,4 +33,5 @@ cat test.txt | colrm 5 20 > test2.txt
 * Tutorial
 * Books
 * Links
+[[https://www.ibm.com/support/knowledgecenter/en/ssw_aix_72/com.ibm.aix.cmds1/colrm.htm][colrm command - IBM Knowledge Center]]
 

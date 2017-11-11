@@ -1,0 +1,52 @@
+#+TAGS: man man_pages manual_pages manual
+
+
+* Man Pages
+* Description
+* Finding commands
+- whatis  - this will return a single line command description of all commands that relate to your search option
+- man -k  - similar to whait but will is a more detailed search
+- apropos - same as man -k
+
+* Sections
+1 - Executable programs and shell commands
+2 - System calls proviced by the kernel
+3 - Library calls provided by tthe program libraries
+4 - Device files (usually stored in /dev)
+5 - File Formats
+6 - Games
+7 - Miscellaneous (macro packages, conventions, and so on)
+8 - System Administration Commands (programs run mostly or exclusively by root)
+9 - Kernel routines
+
+* Man Page Format
+- Name
+- Synopsis
+  - format expected from the command
+  - ... after a variable indicates that there can be more than one option
+  - underlined variables indicate that they have to be included in the command
+
+- Description
+  - what does the command do
+
+- Options
+  - available options for the command
+
+- Files
+  - list files that are associated with the command
+
+- See Also
+  - other man pages that are related to this command
+
+- Bugs
+  - known bugs
+
+- History
+  - summary of the projects history
+
+- Author
+
+* Lecture
+* Tutorial
+* Books
+* Links

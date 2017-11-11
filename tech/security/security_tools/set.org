@@ -1,7 +1,7 @@
-#+TAGS: sec_o se
+#+TAGS: security social_engineering
 
 
-* set								   :sec_o:se:
+* Social Engineering Toolkit
 Github: [[https://github.com/trustedsec/social-engineer-toolkit][social-engineer-toolkit]]
 * Description
 * Usage

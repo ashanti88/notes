@@ -1,4 +1,4 @@
-#+TAGS: boot grub grub2
+#+TAGS: boot grub grub2 bootloader
 
 
 * Grub

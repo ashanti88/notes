@@ -1,10 +1,14 @@
-#+TAGS: net anal
+#+TAGS: network_analysis network_tool bandwidth_monitoring
 
 
-* bwbar 							   :net:anal:
+* bwbar
 Github: [[https://github.com/osuosl/bwbar][github.com/bwbar]]
+
 * Description
+bwbar is a small program that generates a text and a graphical readout of the current bandwidth use.
+
 * Usage
+
 * Lecture
 * Tutorial
 * Books

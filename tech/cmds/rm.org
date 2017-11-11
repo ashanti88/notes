@@ -1,9 +1,19 @@
-#+TAGS: file op
+#+TAGS: file delete remove
 
 
-* rm								    :file:op:
+* rm
 * Description
 * Usage
+- delete a directory that contains files
+#+BEGIN_SRC sh
+rm -rf /dir
+#+END_SRC
+
+- delete the contents of a directory
+#+BEGIN_SRC sh
+rm /dir/*
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

@@ -1,8 +1,10 @@
-#+TAGS: file op
+#+TAGS: file_permissions perms mode_bits
 
 
-* chmod								    :file:op:
+* chmod
 * Description
+Command to change the file mode bits.
+
 * Usage
 
 > chmod XXX file.txt
@@ -19,7 +21,6 @@ x - execute
 chmod +x file.py
 #+END_SRC
    
-
 * Lecture
 * Tutorial
 * Books

@@ -1,11 +1,13 @@
-#+TAGS: sys shell
+#+TAGS: change_shell chsh shell 
 
 
-* chsh                                                            :sys:shell:
+* chsh
 * files
 /etc/shells
 /etc/passwd
 * Description
+This is the command to change a users shell.
+
 * Usage
 - Change users shell
 #+BEGIN_SRC sh

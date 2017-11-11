@@ -1,11 +1,12 @@
-#+TAGS: file comp bz
+#+TAGS: file_compression bz
 
 
-* bzip2							       :file:comp:bz:
+* bzip2
 HomePage: [[http://www.bzip.org/][bzip.org]]
+
 * Description
-bzip2 provides a better compression rate than gzip, the price for this
-is time.
+bzip2 provides a better compression rate than gzip, the price for this is time.
+
 * Usage
 - Compress a file turning it to a .bz2 file.
 #+BEGIN_SRC sh

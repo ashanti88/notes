@@ -1,7 +1,9 @@
-#+TAGS: sys anal io
+#+TAGS: disk storage io
 
 
-* iotop 							:sys:anal:io:
+* iotop
+HomePage: http://guichaz.free.fr/iotop/
+
 * Description
 This tool is analogues of top for disks. It watches I/O usage information that is provided by the linux kernel, showing usage by processor on the system.
 

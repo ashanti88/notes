@@ -1,12 +1,12 @@
-#+TAGS: file comp
+#+TAGS: file compression
 
 
-* File Compression						  :file:comp:
+* File Compression
 * Cmds
-[[file://home/crito/org/tech/cmds/gzip.org][gzip]]
-[[file://home/crito/org/tech/cmds/bzip2.org][bzip2]]
-[[file://home/crito/org/tech/cmds/xz.org][xz]]
-[[file://home/crito/org/tech/cmds/lzma.org][lzma]]
+- [[file://home/crito/org/tech/cmds/gzip.org][gzip]]
+- [[file://home/crito/org/tech/cmds/bzip2.org][bzip2]]
+- [[file://home/crito/org/tech/cmds/xz.org][xz]]
+- [[file://home/crito/org/tech/cmds/lzma.org][lzma]]
 
 * Overview
 * Lecture

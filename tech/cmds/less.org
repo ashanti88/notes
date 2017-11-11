@@ -1,0 +1,26 @@
+#+TAGS:
+
+
+* less 
+* Description
+This is the default linux pager, "less is more"
+* Usage
+
+- navigation
+  - h or H                             - displays help
+  - Page Down, spacebar, Ctrl+V Ctrl+F - moves down one screen
+  - Page Up, Esc+V, Ctrl+B             - moves up opn screen
+  - Down Arrow, Enter, Ctrl+N, Ctrl+E, - moves down one line
+    Ctrl+j, j
+  - Up Arrow, y, Ctrl+y, k             - moves up one line
+  - /pattern                           - searches forward (pattern)
+  - ?pattern                           - searches backward (pattern)
+  - n or /                             - repeats the previous search
+  - Q or ZZ                            - quits
+    
+
+
+* Lecture
+* Tutorial
+* Books
+* Links

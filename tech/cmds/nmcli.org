@@ -1,7 +1,7 @@
-#+TAGS: net op admin term
+#+TAGS: network_manager network_tool wifi_tool wifi terminal
 
 
-* nmcli                                                   :net:op:admin:term:
+* nmcli
 HomePage: [[https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Networking_Guide/sec-Network_Config_Using_nmcli.html][nmcli]]
 
 * Description
@@ -44,22 +44,27 @@ nmcli dev wifi list
 nmcli con show
 #+END_SRC
 ** Ops
-*** Cnonect
+*** Connect
 #+BEGIN_SRC sh
 nmcli dev wifi connect SSID_name password pa$$w0rd
 #+END_SRC
+if password is already set in netctl config then it isn't required, an error will be thrown saying it's required but the connection will still complete
+
 - use a specific interface
 #+BEGIN_SRC sh
 nmcli dev wifi connect SSID_name password pa$$w0rd iface wlan1 
 #+END_SRC
+
 *** Disconnect
 #+BEGIN_SRC sh
 nmcli dev disconnect iface eth0
 #+END_SRC
+
 *** Switch Wifi Off
 #+BEGIN_SRC sh
 nmcli r wifi off
 #+END_SRC
+
 * Alternatives
 curses: [[file://home/crito/org/tech/cmds/nmtui.org][nmtui]]
 ncurses: [[file://home/crito/org/tech/cmds/wifi-menu.org][wifi-menu]]

@@ -1,7 +1,7 @@
-#+TAGS: hw anal
+#+TAGS: hardware_analysis
 
 
-* dmidecode							    :hw:anal:
+* dmidecode
 * Description
 * Usage
 ** DMI Types

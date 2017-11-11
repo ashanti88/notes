@@ -1,12 +1,17 @@
-#+TAGS: op file
+#+TAGS: links symbolic_links hard_links
 
 
-* readlink                                                          :op:file:
+* readlink
 * Description
 * Usage
 - find the full path of a file
 #+BEGIN_SRC sh
 readlink -f file.txt
+#+END_SRC
+
+- print all links in a directory
+#+BEGIN_SRC sh
+readlink *
 #+END_SRC
 
 * Lecture

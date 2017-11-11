@@ -4,6 +4,7 @@
 * xset                                                               :term:x:
 * Description
 This program is used to set various user preference options of the display.
+
 * Usage
 - turn the motherboard warning beeps off
 #+BEGIN_EXAMPLE

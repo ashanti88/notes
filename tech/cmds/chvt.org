@@ -1,11 +1,12 @@
-#+TAGS: sys op
+#+TAGS: virtual_terminal
 
 
-* chvt								     :sys:op:
+* chvt
 * Description
 This tool is used to change the current virtual terminal. This has a similar effect to Ctrl-Alt-Fn (F1-F12).
 
 Change foreground virtual terminal
+
 * Usage
 ** Example of Use
 logged into machine via console, but want to take a screen shot of the GUI environment.

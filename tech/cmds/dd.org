@@ -1,15 +1,21 @@
-#+TAGS: sys op io
+#+TAGS: disk copy iso file
 
 
 * dd
+Gnu: https://www.gnu.org/software/coreutils/manual/html_node/dd-invocation.html
+Wiki: https://en.wikipedia.org/wiki/Dd_(Unix)#Block_size
+
+* Cmds
+- [[file://home/crito/org/tech/cmds/dcfldd.org][dcfldd - an enhanced alternative]]
+
 * Description
 * Usage
 #+BEGIN_SRC sh
-dd if=$SOURCE of=$DESTINATION $OPTION
+dd if=input_file.iso of=/dev/sda bs=1M
 #+END_SRC
-
 if - input file
 of - output file
+bs - block size
 
 ** Copying one harddrive to another
 #+BEGIN_SRC sh
@@ -21,7 +27,7 @@ sync - synchronized I/O
 
 ** Creating a disk image
 #+BEGIN_SRC sh
-dd if=/dev/sda of=/dev/sdadisk.img
+dd if=/dev/sda of=/dev/sdadisk.img bs=1M
 #+END_SRC
 
 ** Converting data formats
@@ -61,7 +67,7 @@ dd if=/dev/zero of=<file> bs=<size\_to\_null> count=1 conv=notrunc
 
 notrunc - do not truncate the file
 
-** Copying an image for Raspberry Pi				   :rasp:img:
+** Copying an image for Raspberry Pi
 #+BEGIN_SRC sh
 dd if=raspberry_pi.img of=/dev/mmblk0 bs=1M
 #+END_SRC
@@ -71,3 +77,4 @@ set the device not the partition
 * Tutorial
 * Books
 * Links
+[[http://www.linuxjournal.com/article/1320][dd - Linux Journal]]

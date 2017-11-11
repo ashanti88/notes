@@ -1,7 +1,9 @@
-#+TAGS: sec_d av cisco
+#+TAGS: antivirus anti_virus security defense
 
 
-* clamav							   :sec_d:av:
+* clamav
+HomePage: https://www.clamav.net/
+
 * cmds
 - [[file://home/crito/org/tech/cmds/clamscan.org][clamscan]]
 - [[file://home/crito/org/tech/cmds/freshclam.org][freshclam]]

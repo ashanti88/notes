@@ -1,4 +1,4 @@
-#+TAGS: net cisco
+#+TAGS: network cisco
 
 
 * Cisco
@@ -100,4 +100,8 @@ Router(config-line)# transport input ssh
 * Lecture
 * Tutorial 
 * Books
+[[file://home/crito/Documents/Networking/Cisco/CCNA_IOS_Commands_Survival_Guide.pdf][CCNA - IOS Commands Survival Guide]]
+[[file://home/crito/Documents/Networking/Cisco/CCNA_ICND1_100-101_Official_Cert_Guide-2013.pdf][CCNA ICND1 100-101 Official Cert Guide]]
+[[file://home/crito/Documents/Networking/Cisco/CCNA_ICND2_200-101_Official_Cert_Guide-2013.pdf][CCNA ICND2 200-101 Official Cert Guide]]
+
 * Links

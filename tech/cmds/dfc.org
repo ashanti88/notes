@@ -1,7 +1,7 @@
-#+TAGS: sys disk term
+#+TAGS: disk disk_usage
 
 
-* dfc                                                         :sys:disk:term:
+* dfc
 * Description
 this tool reports file system usage, similar to df but with color
 * Usage

@@ -1,9 +1,21 @@
-#+TAGS: cpu anal
+#+TAGS: cpu load
 
 
-* CPU Load                                                         :cpu:anal:
+* CPU Load
 * Description
 * Usage
+- top
+#+BEGIN_SRC sh
+top
+#+END_SRC
+this will show the current load at the top of the screen
+
+- uptime
+#+BEGIN_SRC sh
+uptime
+#+END_SRC
+this command will show the load, along with number of users, date, time and and time since booting (uptime)
+
 * Lecture
 * Tutorial
 * Books

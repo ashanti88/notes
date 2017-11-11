@@ -1,7 +1,7 @@
-#+TAGS: remote windows
+#+TAGS: remote windows rdp
 
 
-* rdesktop						     :windows:remote:
+* rdesktop
 HomePage: [[http://www.rdesktop.org/][rdesktop.org]]
 Github: [[https://github.com/rdesktop][github.com/rdesktop]]
 * Description

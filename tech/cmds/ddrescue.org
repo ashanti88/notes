@@ -1,7 +1,9 @@
-#+TAGS: sys op io
+#+TAGS: dd ddrescue disk io
 
 
-* ddrecue							  :sys:op:io:
+* ddrescue
+GNU: https://www.gnu.org/software/ddrescue/
+
 * Description
 * Usage
 - Basic Rescue

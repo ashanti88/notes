@@ -1,4 +1,4 @@
-#+TAGS: file txt
+#+TAGS: file txt search find coreutil
 
 
 * grep
@@ -75,6 +75,15 @@ grep -B 2 match test.txt
 #+BEGIN_SRC sh
 grep -A 2 match test.txt
 #+END_SRC
+
+** Searching the org directory
+- search the org directory
+#+BEGIN_SRC sh
+grep -n1 -rH TAGS ~/org | grep network 
+#+END_SRC
+n1 - this means only the first line is searched
+r  - recursive search
+H  - provide the file name that corresponds to the find
 
 * Lecture
 * Tutorial

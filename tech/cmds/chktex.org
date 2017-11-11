@@ -1,8 +1,11 @@
 #+TAGS: file latex
 
 
-* chktex							 :file:latex:
+* chktex
+HomePage: http://www.nongnu.org/chktex/
 * Description
+Finds typographic errors in LaTeX files.
+
 * Usage
 * Lecture
 * Tutorial

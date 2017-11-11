@@ -1,12 +1,18 @@
-#+TAGS: net anal
+#+TAGS: network_analysis bandwidth
 
 
-* bmon                                                             :net:anal:
+* bmon
+Github: https://github.com/tgraf/bmon
 
 * Description
-Portable bandwidth monitor and rate estimator.
+This a ncurses based Portable bandwidth monitor and rate estimator.
 
 * Usage
+- simple startup
+#+BEGIN_SRC sh
+bmon
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

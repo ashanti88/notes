@@ -1,7 +1,8 @@
-#+TAGS: sec av
+#+TAGS: antivirus anti_virus security defense AV
 
 
-* clamscan							     :sec:av:
+* clamscan
+HomePage: https://www.clamav.net/
 * Description
 * Usage
 > clamscan <file>

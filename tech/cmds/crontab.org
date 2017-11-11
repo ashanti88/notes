@@ -1,4 +1,4 @@
-#+TAGS: sys op cron
+#+TAGS: cron crontab
 
 
 * crontab
@@ -28,3 +28,4 @@ weekday - 1-5 (monday through friday)
 * Books
 * Links
 [[http://kvz.io/blog/2007/07/29/schedule-tasks-on-linux-using-crontab/][Schedule tasks on Linux using Crontab]]
+[[http://www.adminschoice.com/crontab-quick-reference][Crontab - Quick Reference]]
