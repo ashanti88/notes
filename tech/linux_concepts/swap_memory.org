@@ -1,21 +1,22 @@
-#+TAGS: sys mem swap
+#+TAGS: swap memory swappiness
 
 
-* Swap Memory						       :sys:mem:swap:
+* Swap Memory
 * Cmds
 - [[file://home/crito/org/tech/cmds/swapon.org][swapon]]
 - [[file://home/crito/org/tech/cmds/swapoff.org][swapoff]]
 - [[file://home/crito/org/tech/cmds/mkswap.org][mkswap]]
 
 * Files
-/proc/swap - shows what partitions are set for swap
+/proc/swap              - shows what partitions are set for swap
 /proc/sys/vm/swappiness - swappiness value is kept here
 /etc/sysctl.d/99-sysctl.conf
+
 * Overview
 * Usage
 - Determine the amount of existing swap space
 #+BEGIN_SRC sh
-less /proc/swap
+less /proc/swaps
 #+END_SRC
 
 ** Using more than one swap file
@@ -37,7 +38,7 @@ dd if=/dev/zero of=swapfile2 bs=1024 count=1048576
 /sbin/swapon /var/tmp/swapfile1
 /sbin/swapon /var/tmp/swapfile1
 #+END_SRC
-** Tuning Virtual Memory (Swappiness)				 :swappiness:
+** Tuning Virtual Memory (Swappiness)
 The value ranges from 0 - 100
 
 | Value | Strategy                                                                                                                                      |
@@ -73,11 +74,12 @@ vm.swappiness=10
 
 *** Server Recommendations
 MySQL - vm.swappiness=10    
-** Setting in Systemd					       :systemd:swap:
+** Setting in Systemd
 Install systemd-swap this will produce the file /etc/systemd/swap.conf
 #+BEGIN_SRC sh
 yaourt -Ss systemd-swap
 #+END_SRC
+
 This then needs to be started and enabled
 #+BEGIN_SRC sh
 systemctl start systemd-swap.service
@@ -92,10 +94,12 @@ chmod 600 /swapfile
 mkswap /swapfile
 swapon /swapfile
 #+END_SRC
+
 - edit the fstab file
 #+BEGIN_SRC sh
 /swafile none swap defaults 0 0
 #+END_SRC
+
 ** Testing for swap
 - the cmds below show if swap is on
 #+BEGIN_SRC sh

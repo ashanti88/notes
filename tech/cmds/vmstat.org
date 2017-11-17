@@ -1,7 +1,7 @@
-#+TAGS: sys anal op
+#+TAGS: system_analysis system_performance vmstat virtual_memory
 
 
-* vmstat							:sys:anal:op:
+* vmstat
 * Description
 * Usage
 - Fields
@@ -51,6 +51,13 @@ this will execute vmstat 2 seconds 10 times
 vmstat -m
 #+END_SRC
 This has to be initiated in the kernel
+
+** Aline all columns
+#+BEGIN_SRC sh
+vmstat -SM 10 6
+#+END_SRC
+-S set unit and aline columns
+-M megabytes
 
 * Lectures
 ** vmstat - Tutorial with Brendan Gregg (solaris centric)

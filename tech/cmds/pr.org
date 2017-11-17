@@ -1,11 +1,13 @@
-#+TAGS: file op
+#+TAGS: file_printing printing print
 
 
-* pr								    :file:op:
+* pr
 * Description
-convert file for printing
+Convert file for printing
+
 * Usage
 > pr <options> <file>
+
 * Lecture
 * Tutorial
 * Books

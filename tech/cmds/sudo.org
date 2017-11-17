@@ -1,9 +1,22 @@
-#+TAGS: sys op sudo root
+#+TAGS: sudo root su
 
 
-* Description							:sys:op:root:
+* Sudo
+* Description
 * Usage
 > sudo <command>
+
+- change to root running a interactive login shell
+#+BEGIN_SRC sh
+sudo -i
+#+END_SRC
+reads /root/.bashrc and /root/.profile
+
+-change to root running a non-interactive login shell
+#+BEGIN_SRC sh
+sudo -s
+#+END_SRC
+reads /root/.bashrc
 
 ** Sudo as another user
 #+BEGIN_SRC sh

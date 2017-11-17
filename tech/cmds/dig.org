@@ -1,4 +1,4 @@
-#+TAGS: network_analysis recon
+#+TAGS: network_analysis recon bind_utils
 
 
 * dig

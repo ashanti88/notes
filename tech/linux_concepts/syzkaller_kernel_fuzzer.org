@@ -1,0 +1,18 @@
+#+TAGS: linux kernel fuzzer
+
+
+* Sykaller - Kernel Fuzzer
+GitHub: https://github.com/google/syzkaller
+
+* Description
+Syzkaller is an unsupervised coverage-guided kernel fuzzer. Linux kernel fuzzing has the most support, akaros, freebsd, fuchsia, netbsd and windows are supported to varying degrees.
+
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links
+[[https://github.com/hardenedlinux/Debian-GNU-Linux-Profiles/blob/master/docs/harbian_qa/fuzz_testing/syzkaller_general.md][Debian Linux Profiles - Syzkaller General at Master]]
+[[https://lwn.net/Articles/677764/][Coverage-Guided Kernel Fuzzing with Syzkaller - LWN.net]]
+http://www.vegardno.net/2016/08/sync-debug.html
+[[https://docs.google.com/presentation/d/1iAuTvzt_xvDzS2misXwlYko_VDvpvCmDevMOq2rXIcA/edit#slide=id.p][Syzkaller - Future Development]]

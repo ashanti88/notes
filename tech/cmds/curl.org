@@ -1,9 +1,24 @@
-#+TAGS: net file
+#+TAGS: network file network_tool http html header
 
 
-* curl								   :net:file:
+* curl
 * Description
 * Usage
+- fetch the website html
+#+BEGIN_SRC sh
+curl www.bbc.co.uk
+#+END_SRC
+
+- fetch the head information for weebsite
+#+BEGIN_SRC sh
+curl -I www.bbc.co.uk
+#+END_SRC
+
+- uploading a file
+#+BEGIN_SRC sh
+curl -F "file=@file.txt" httpbin.org/post
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

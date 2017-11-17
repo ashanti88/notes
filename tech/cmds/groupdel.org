@@ -1,9 +1,13 @@
-#+TAGS: sys op
+#+TAGS:  group_delete groupdel group_tool group
 
 
-* groupdel							     :sys:op:
+* groupdel
 * Description
 * Usage
+- delete a group
+#+BEGIN_SRC sh
+groupdel group_name
+#+END_SRC
 * Lecture
 * Tutorial
 * Books

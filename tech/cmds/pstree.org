@@ -1,9 +1,23 @@
-#+TAGS: sys anal
+#+TAGS: process
 
 
-* pstree							   :sys:anal:
+* pstree
+Wiki: https://en.wikipedia.org/wiki/Pstree
+
 * Description
 * Usage
+  
+- basic usage
+#+BEGIN_SRC sh
+pstree
+#+END_SRC
+
+- view a specific process
+#+BEGIN_SRC sh
+pstree 2955
+#+END_SRC
+this will show all the child processors of the pid
+
 * Lecture
 * Tutorial
 * Books

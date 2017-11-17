@@ -1,12 +1,26 @@
-#+TAGS: sys op
+#+TAGS: process nice
 
 
-* nice								     :sys:op:
+* nice
 * Description
+Nice command will launch a process with an user defined scheduling priority.
+
+A nice value of -20 represents highest priority, and a nice value of 19 represent least priority for a process.
+
 * Usage
 > nice <options> [cmd <options>]
 
-** Options
+- launch an application with a nice value of 10
+#+BEGIN_SRC sh
+nice -10 perl test.pl
+#+END_SRC
+
+- launch an application with a nice value of -10
+#+BEGIN_SRC sh
+nice --10 perl test.pl
+#+END_SRC
+
+
 
 * Lecture
 * Tutorial

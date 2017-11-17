@@ -1,47 +1,12 @@
-#+TAGS: code txt
+#+TAGS: code txt vim vi text file text_editor
 
-* vim                                                              :code:txt:
+* vim
 * Description
 * Usage
-auto commands are normally added to vimrc
-
-syntax for adding auto commands autocmd event pattern command
-
-Example html makesure formatting is correct
-
-syntax on filetype indent on set smartindent
-
-autocmd BufRead,BufWritePre *.html normal gg=Gauto commands are normally
-added to vimrc
-
-syntax for adding auto commands
-
-autocmd event pattern command
-
-Example
-
-html makesure formatting is correct
-
-syntax on
-
-filetype indent on
-
-set smartindent
-
-autocmd BufRead,BufWritePre *.html normal gg=G
-
-How to know which event to use
-
-:help autocmd-events
-
-provides information and a list of the types of events
-
-Resoucing vimrc :source ~/.vimrc
-
-How to know which event to use :help autocmd-events provides information
-and a list of the types of events
-
-Resoucing vimrc :source ~/.vimrc
+- Resoucing vimrc 
+#+BEGIN_EXAMPLE
+:source ~/.vimrc
+#+END_EXAMPLE
 
 ** Navigation
 h - left
@@ -257,3 +222,7 @@ options in the bar above :set wildmode this is set to full by default
 :set cursorline will show a highlighted line where the cursor is :set
 undofile this allows actions from previous sessions to be undo. This is
 done by creating an undofile for each file to track changes.
+* Lecture
+* Tutorial
+* Books
+* Links

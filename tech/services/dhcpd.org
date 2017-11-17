@@ -1,9 +1,12 @@
-#+TAGS: net dhcp
+#+TAGS: network dhcp dhcpd
 
 
-* dhcpd								   :net:dhcp:
+* dhcpd
 Arch: [[https://wiki.archlinux.org/index.php/Dhcpd][archlinux.org/dhcpd]]
+
 * Cmds
+- dhclient
+
 * Overview
 * Lecture
 * Tutorial

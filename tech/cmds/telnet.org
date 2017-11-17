@@ -1,9 +1,18 @@
-#+TAGS: sys net
+#+TAGS: telnet remote_connection 
 
 
-* telnet							    :sys:net:
+* telnet
 * Description
+This is a clear text remote connection tool.
+
+Handy for simple testing of network applications, but shouldn't be used for administration of a system (due to clear text)
+
 * Usage
+- basic connection
+#+BEGIN_SRC sh
+telnet 192.168.0.1 23
+#+END_SRC
+
 ** Sending mail with telnet
 [[file://home/crito/Pictures/org/telnet_mail.png]]
 

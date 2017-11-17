@@ -1,0 +1,69 @@
+#+TAGS: out_of_memory_killer
+
+
+* Out Of Memory Killer
+* Files
+/proc/sys/vm/panic_on_oom              - should the system reboot when an OOM occurs
+/proc/sys/vm/oom_dump_tasks            -
+/proc/sys/vm/oom_kill_allocating_task  -
+/proc/pid/oom_adj                      - The knob used to tune the chance of oom -17 to +15, more likely the higher -17 the process is not considered for oom-killer
+/proc/pid/oom_score                    - what is the badness score of the process
+				         - this is based on
+					   - system loses the minimum amount of work done
+					   - recovers a large amount of memory
+					   - doesn't kill any innocent process eating lots of memory
+					   - kills the minimum number of processors
+					 - calculated with
+					   - original memory size - more memory higher the score
+					   - cpu time (utime + stime)
+					   - run time (uptime + start time) - longer a process is alive lower the score 
+					   - oom_adj
+/proc/pid/oom_score_adj                -
+
+* Description
+The OOM Killer or Out Of Memory Killer is a process that the linux kernel employs when the system is critically low on memory. This situation occurs because the linux kernel has over allocated memory to its processes. When a process starts it requests a block of memory from the kernel. This initial request is usually a large request that the process will not immediately or indeed ever use all of. The kernel, aware of this tendency for processes to request redundant memory, over allocates the system memory. This means that when the system has, for example, 2GB of RAM the kernel may allocate 2.5GB to processes. This maximises the use of system memory by ensuring that the memory that is allocated to processes is being actively used.
+
+* Usage
+- increase the chance of a process being killed
+#+BEGIN_SRC sh
+echo 10 > /proc/2592/oom_adj
+#+END_SRC
+
+- decrease the chance of a process being killed
+#+BEGIN_SRC sh
+echo -15 > /proc/2592/oom_adj
+#+END_SRC
+
+- make it so the process will never be killed
+#+BEGIN_SRC sh
+echo -17 > /proc/2592/oom_adj
+#+END_SRC
+As this porcess can't be killed important system processors may be terminated and bring the system down
+
+oom_adj - can range -16 - +15, -17 exempts a process. The higher the number the more likely that the process is killed.
+
+** Cause the system to reboot on OOM
+#+BEGIN_SRC sh
+sysctl vm.panic_on_oom=1
+sysctl kernel.panic=5
+echo "vm.panic_on_oom=1" >> /etc/sysctl.conf
+echo "kernel.panic=5" >> /etc/sysctl.conf
+#+END_SRC
+The 5 indicates 5 seconds until reboot
+
+** Disable Linux OOM
+#+BEGIN_SRC sh
+sysctl vm.overcommit_memory=2
+echo "vm.overcommit_memory=2" >> /etc/sysctl.conf
+#+END_SRC
+
+** How to find out if the OOM Killer caused a Process to die
+#+BEGIN_SRC sh
+dmesg | egrep -i "killed process"
+#+END_SRC
+* Lecture
+* Tutorial
+* Books
+* Links
+[[http://www.oracle.com/technetwork/articles/servers-storage-dev/oom-killer-1911807.html][How to Configure the Linux Out of Memory Killer - Oracle]]
+[[https://lwn.net/Articles/317814][Taming the OOM Killer - LWN]]

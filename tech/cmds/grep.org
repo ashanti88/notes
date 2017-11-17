@@ -1,4 +1,4 @@
-#+TAGS: file txt search find coreutil
+#+TAGS: file txt search find coreutil inside_file
 
 
 * grep
@@ -54,12 +54,12 @@ sudo iwlist wlan0 scan | grep -e Channel -e ESSID
 #+END_SRC
 the -e switch takes only one pattern, but you can string multiple together
 https://en.unoeuro.com/
-** print only the filenames
+** Print only the filenames
 #+BEGIN_SRC sh
 grep -rl
 #+END_SRC
 
-** print lines around pattern
+** Print lines around pattern
 - number of lines around the match
 #+BEGIN_SRC sh
 grep -C 3 match test.txt
@@ -75,6 +75,19 @@ grep -B 2 match test.txt
 #+BEGIN_SRC sh
 grep -A 2 match test.txt
 #+END_SRC
+
+** Check without case sensitivity
+#+BEGIN_SRC sh
+grep -i "dhcp" /var/log/messages
+#+END_SRC
+this will search for any iteration of "dhcp" within the messages log file 
+
+** Print out the line number of the find
+#+BEGIN_SRC sh
+grep -in "dhcp" /var/log/messages
+#+END_SRC
+i - case insensitivity
+n - list the line number with the find
 
 ** Searching the org directory
 - search the org directory

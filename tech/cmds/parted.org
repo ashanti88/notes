@@ -1,3 +1,9 @@
+#+TAGS: disk storage parted partition format
+
+
+* parted
+* Description
+* Usage
  MBR
 #+BEGIN_EXAMPLE
 (parted) mklabel msdos

@@ -1,7 +1,7 @@
-#+TAGS: file op
+#+TAGS: file word_count line_count
 
 
-* wc								    :file:op:
+* wc
 * Description
 * Usage
 > wc file.txt
@@ -9,21 +9,30 @@
 This will produce the number of lines, number of words and number of bytes.
 
 ** Print only the word count
-> wc -w file.txt
+#+BEGIN_SRC sh
+wc -w file.txt
+#+END_SRC
 
 ** Display the length of the longest file
-> wc -L file.txt
+#+BEGIN_SRC sh
+wc -L file.txt
+#+END_SRC
 
 ** Dispaly the number of new lines in the file
-> wc -l file.txt
+#+BEGIN_SRC sh
+wc -l file.txt
+#+END_SRC
 
 ** Display the number of bytes in a file
-> wc -c file.txt
+#+BEGIN_SRC sh
+wc -c file.txt
+#+END_SRC
 
 ** Number of files in directory
 #+BEGIN_SRC sh
 ls -1 | wc -l
 #+END_SRC
+
 * Lecture
 * Tutorial
 * Books

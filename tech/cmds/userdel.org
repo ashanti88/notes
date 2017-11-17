@@ -1,9 +1,20 @@
-#+TAGS: sys usr
+#+TAGS: user_delete user
 
 
-* userdel                                                           :sys:usr:
+* userdel
 * Description
-This cmd allows use to remove users
+This cmd allows use to remove users and their home directories.
+
 * Usage
+- delete user
+#+BEGIN_SRC sh
+userdel user_name
+#+END_SRC
+this only removes the login from the /etc/passwd, their home directory wasn't deleted
+
+- delete user and their home directory
+#+BEGIN_SRC sh
+userdel -r user_name
+#+END_SRC
 
 * Links

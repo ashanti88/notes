@@ -1,7 +1,7 @@
-#+TAGS: sys anal
+#+TAGS: power performance
 
 
-* powertop							   :sys:anal:
+* powertop
 * Description
 * Usage
 ** Tunables

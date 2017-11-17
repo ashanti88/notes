@@ -1,10 +1,14 @@
-#+TAGS: sys op
+#+TAGS: user group add_group
 
 
-* groupadd							     :sys:op:
+* groupadd
+* Files
+/etc/group           - this file contains all the groups created on the system, along with who is apart of each group
+/etc/gshadow         - contains shadow information for the group accounts
+
 * Description
 * Usage
-create a group
+- create a system group
 #+BEGIN_SRC sh
 groupadd -r dnsmasq
 #+END_SRC

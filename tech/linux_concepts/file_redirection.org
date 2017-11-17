@@ -1,0 +1,46 @@
+#+TAGS: pipe redirection cat stderr stdin stdout
+
+
+* File Redirection
+* Description
+* Usage
+  
+- search files in a directory for a specific file
+#+BEGIN_SRC sh
+find . -type f | grep "config.cfg"
+#+END_SRC
+
+- find specific filed and cut the second column
+#+BEGIN_SRC sh
+cut -d" " -f3 file.txt | cut -c2
+#+END_SRC
+
+** Redirecting errors
+#+BEGIN_SRC sh
+cat myfile666,txt 2> errors.txt
+#+END_SRC
+
+- redirect stdout and stderr to differnet files
+#+BEGIN_SRC sh
+mount 1> mountfile 2> mounterror
+#+END_SRC
+this creates the two files
+
+** Redirecting input
+
+> command < input_text_or_file
+
+- send /var/log/messages into the tail command
+#+BEGIN_SRC sh
+tail < /var/log/messages
+#+END_SRC
+
+- use sort to sort a file into alphabetical order
+#+BEGIN_SRC sh
+sort < words.txt
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

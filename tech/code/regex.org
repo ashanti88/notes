@@ -1,15 +1,27 @@
-#+TAGS: code file
+#+TAGS: code file regex regural_expressions
 
 
 * Regular Expressions
 * Description
 * Usage
-* Lecture
+
+Matches any character                                     *
+any single character                                      .
+matches zeror or one of the proceeding characters         ?
+matches expression if it appears at the beginning         ^
+matches expression if it appears at the end               $
+matches any one character between the braces             [xxx]
+matches any expression that doesn't appear in the braces [^xxx]
+matches any single character between the range           [a-z]
+
+
+
 * Patterns
 ** Select lines with an ip address, the dot may need changing to - depending on seperator
 #+BEGIN_SRC sh
 grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' file.txt
 #+END_SRC
+* Lecture
 * Tutorial
 * Books
 [[file://home/crito/Documents/Tools/Regular_Expressions_Cookbook_2e.pdf][Regular Expressions Cookbook]]

@@ -1,7 +1,7 @@
-#+TAGS: net anal
+#+TAGS: network_analysis ping network_tool
 
 
-* ping								   :net:anal:
+* ping
 * Description
 * Usage
 ** Increase and Decrease time interval between packets

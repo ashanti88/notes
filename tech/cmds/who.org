@@ -1,10 +1,25 @@
-#+TAGS: sys anal
+#+TAGS: users uptime boot_time number_of_users who_is_logged_in
 
 
-* who								   :sys:anal:
+* who
 * Description
 * Usage
 > who <options>
+
+** Last boot time
+#+BEGIN_SRC sh
+who -b
+#+END_SRC
+
+** Number of users logged on
+#+BEGIN_SRC sh
+who -q
+#+END_SRC
+
+** show all the information who can provide
+#+BEGIN_SRC sh
+who -a
+#+END_SRC
 
 ** Options
 a - display all options in verbose mode
@@ -12,6 +27,7 @@ b - display time of last system boot
 d - display any dead processors
 H - prints a line of column headings
 --login - prints the system login process
+
 * Lecture
 * Tutorial
 * Books

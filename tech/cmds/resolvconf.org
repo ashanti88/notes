@@ -1,0 +1,11 @@
+#+TAGS: resolvconf resolv.conf dns name_server
+
+
+* resolvconf
+* Description
+
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

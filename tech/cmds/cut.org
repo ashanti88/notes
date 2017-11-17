@@ -1,0 +1,43 @@
+#+TAGS: col columns file
+
+
+* cut
+* Description
+Manipulates data by columns
+
+* Usage
+- return column 2 through 4
+#+BEGIN_SRC sh
+cut -c2-4 file.txt
+#+END_SRC
+
+- specifiy specific columns
+#+BEGIN_SRC sh
+cut -c2,4,6 file.txt
+#+END_SRC
+
+- cut on delimiters
+#+BEGIN_SRC sh
+cut -d" " -f2 file.txt
+#+END_SRC
+this will use a space as a delimiter and return the second field
+
+- return several fields
+#+BEGIN_SRC sh
+cut -d" " -f2,4,6 file.txt
+#+END_SRC
+
+- return a span of fields
+#+BEGIN_SRC sh
+cut -d" " -f2-4 file.txt
+#+END_SRC
+
+- return everything after a certain field
+#+BEGIN_SRC sh
+cut -d" " -f3- file.txt
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

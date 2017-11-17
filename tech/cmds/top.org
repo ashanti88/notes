@@ -1,9 +1,12 @@
-#+TAGS: sys anal
+#+TAGS: top system_analysis system_performance system_monitoring
 
 
 * top
 * Description
-htop uses around 5 times as much memory
+Displays process and system information.
+
+This can be viewed interactively, or output to the terminal.
+
 * Usage
 ** Interactive Commands
 r - Renice a process

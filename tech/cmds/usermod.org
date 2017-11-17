@@ -1,4 +1,4 @@
-#+TAGS: sys op
+#+TAGS: user_modification user
 
 
 * usermod
@@ -31,6 +31,20 @@ expiredate - to set date for indefinite use "" and empty string.
 #+BEGIN_SRC sh
 usermod -s /usr/bin/zsh lisa
 #+END_SRC
+** Change the comment(name field)
+#+BEGIN_SRC sh
+usermod -c "fullname of user"
+#+END_SRC
+
+** Lock/Unlock the users account
+#+BEGIN_SRC sh
+usermod -L user_name
+#+END_SRC
+
+#+BEGIN_SRC sh
+usermod -U user_name
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

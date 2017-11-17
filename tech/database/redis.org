@@ -1,4 +1,4 @@
-#+TAGS: db nosql cache
+#+TAGS: db nosql cache web_cache machine_learning
 
 
 * Redis
@@ -14,6 +14,21 @@ Redis is an in-memory database which means that it’s data is stored on its hos
 Being a NoSQL database, Redis allows you to create schema-less data structures that fit your applications needs. You can use Redis for simple things, like creating a visitor counter, or for more detailed information, such as storing user information.
 
 * Usage
+- installing Redis
+#+BEGIN_SRC sh
+add-apt-repository ppa:chris-lea/redis-server
+apt-get update
+apt-get install -y redis-server
+#+END_SRC
+
+** Data Types
+- Strings - A string is a binary safe value that had a maximum length of 512 megabytes.
+- Lists - A list of strings sorted by insertion order.
+- Sets - A set is an unordered collection of strings.
+- Hashes - A collection of key value pairs.
+- Sorted Sets - Sorted sets are similar to the sets data types but each have a user defined score.
+- Bitmaps - Bitmaps may also be known as bit arrays. Bitmaps are great for saving space when storing information.
+
 ** Operations
 set - give a key a value
 setnx - set a key:value pair only if not already set
@@ -86,3 +101,6 @@ URL: [[https://gist.github.com/jarvys/11393385][github multiple instances]]
 [[file://home/crito/Documents/Database/Redis/Redis_in_Action.pdf][Redis in Action]]
 * Links
 [[https://redis.io/documentation][Redis Documentation]]
+[[http://highscalability.com/blog/2014/9/8/how-twitter-uses-redis-to-scale-105tb-ram-39mm-qps-10000-ins.html][How Twitter Uses Redis to Scale]]
+[[https://content.pivotal.io/blog/using-redis-at-pinterest-for-billions-of-relationships][Using Redis at Pinterest for Billions of Relationships]]
+[[https://scaleyourcode.com/blog/article/25][How does CodePen use Redis? Critical and simple use cases, backups, and config tweaks]]

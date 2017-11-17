@@ -501,7 +501,49 @@ print(next(a))
 this will return the next increment as generators maintian state
 
 
+*** Regular Expressions
+	
+- searching through /var/log/secure for failed logins
+#+BEGIN_EXAMPLE
+import re
 
+line = "Oct 7 17:28:59 puka2121 sshd[2877]: Failed password for root from 31.220.3.180 port 50388 ssh2"
+match = re.search('sshd', line)
+print(match)
+#+END_EXAMPLE
+the print will output an object if the searched for word was present
+
+*** Working with JSON
+	
+#+BEGIN_EXAMPLE
+import urllib
+import json
+
+url = "http://labfiles.linuxacademy.com/python/ec2-response.json"
+response = urllib.urlopen(url)
+json_string = response.read()
+
+data = None
+try:
+	data = json.loads(str(json_string))
+except:
+	data = None
+	
+if (data):
+	print("InstanceID %s is %s" % (data['InstanceStatuses'][0]['InstanceId'], data['InstanceStatuses']['Name']))
+#+END_EXAMPLE
+
+- example of creating json
+#+BEGIN_EXAMPLE
+data = {
+	'course_name' : 'python',
+	'videos' : ['strings','classes','json'],
+	'id' : 5
+}
+
+json_string = json.dumps(data, indent=4)
+print(json_string)
+#+END_EXAMPLE
 
 * Books
 * Links

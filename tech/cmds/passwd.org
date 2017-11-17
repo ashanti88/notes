@@ -1,13 +1,19 @@
-#+TAGS: sys usr pass
+#+TAGS: password
 
 
-* passwd                                                       :sys:usr:pass:
+* passwd
 * Description
 This is used to administer user passwords.
 * Usage
 - change a users password
 #+BEGIN_SRC sh
 passwd frank
+#+END_SRC
+will then be prompted for the new password for frank
+
+- current state of users password/account
+#+BEGIN_SRC sh
+passwd -S user_name
 #+END_SRC
 
 * Links

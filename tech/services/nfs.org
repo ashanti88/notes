@@ -1,4 +1,4 @@
-#+TAGS: NFS
+#+TAGS: nfs file_server
 
 
 * NFS
@@ -141,6 +141,61 @@ this is because it has not been made NFSv4 compatiable
 
 * Lecture
 * Tutorial
+** Linux Acadey - Getting Started with NFS
+- installing NFS server
+#+BEGIN_SRC sh
+apt-get install nfs-server
+pacman -S nfs-utils
+#+END_SRC
+
+- create the directory to share
+#+BEGIN_SRC sh
+mkdir -p /srv/nfs/home
+#+END_SRC
+
+- add the correct permissions so that everyone can access the files
+#+BEGIN_SRC sh
+chmod 777 -R /sr/nfs/home
+#+END_SRC
+this will allow all users to access the files
+
+- now add the directory to the /etc/exports
+#+BEGIN_EXAMPLE
+/srv/nfs/home 192.168.10.0/24(rw, sync, no_root_squash)
+#+END_EXAMPLE
+
+- enable and start the nfs-server
+#+BEGIN_SRC sh
+systemctl enable nfs-server
+systemctl start nfs-server
+#+END_SRC
+#+BEGIN_SRC sh
+systemctl enable nfs-utils
+systemctl start nfs-utils
+#+END_SRC
+
+- clientside
+#+BEGIN_SRC sh
+apt-get install nfs-common
+pacman -S nfs-util
+#+END_SRC
+
+- create the directory where the nfs directory is to be mounted
+#+BEGIN_SRC sh
+mkdir /mnt/sharedir
+#+END_SRC
+
+- mount the nfs directory
+#+BEGIN_SRC sh
+mount 192.168.1.11:/srv/nfs/home /mnt/sharedir
+#+END_SRC
+
+- to make this directory a permanent mount add it to the /etc/fstab
+#+BEGIN_EXAMPLE
+192.168.1.11:/srv/nfs/home	/mnt/sharedir	auto,nofail 0 0
+#+END_EXAMPLE
+
+
 * Books
 [[file://home/crito/Documents/SysAdmin/NFS-HOWTO.pdf][Linux NFS HowTo]]
 * Links

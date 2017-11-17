@@ -1,8 +1,10 @@
-#+TAGS: sys op
+#+TAGS: locate help find_utility documentaion
 
 
-* locate							     :sys:op:
+* locate
 * Description
+This command will provide information on what documentaion the specified package was installed with.
+
 * Usage
 
 > locate <query>

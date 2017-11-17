@@ -1,9 +1,10 @@
-#+TAGS: init sysv
+#+TAGS: init sysv runlevel
 
 
-* runlevel                                                        :init:sysv:
+* runlevel
 * Description
-This will 
+This will print the current and previous runlevels.
+
 * Usage
 * Lecture
 * Tutorial

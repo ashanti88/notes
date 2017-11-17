@@ -1,4 +1,4 @@
-#+TAGS: net anal op
+#+TAGS: network_analysis routing route
 
 
 * route
@@ -14,10 +14,15 @@
 > route -Cn
 
 ** Reject Rounting to a Particular Host or Network
-Host
-> route add -host <ip_addr> reject
+- Host
+#+BEGIN_SRC sh
+route add -host 192.168.1.51 reject
+#+END_SRC
+
 Network
-> route add -net <ip_addr> netmask 255.255.255.0 reject
+#+BEGIN_SRC sh
+route add -net 192.168.1.0 netmask 255.255.255.0 reject
+#+END_SRC
 
 * Lecture
 * Tutorial

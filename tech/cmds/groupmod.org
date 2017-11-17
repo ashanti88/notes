@@ -1,9 +1,14 @@
-#+TAGS: sys grp
+#+TAGS: group group_modify
 
 
-* groupmod                                                          :sys:grp:
+* groupmod
 * Description
 * Usage
+- change the gid of a group
+#+BEGIN_SRC sh
+groupmod -g 1010 group_name
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

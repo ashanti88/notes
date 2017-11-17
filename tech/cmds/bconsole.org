@@ -1,10 +1,9 @@
-#+TAGS: sign_on last_user
+#+TAGS: bacula backup bakup storage
 
 
-* last
+* bconsole
 * Description
 * Usage
-
 * Lecture
 * Tutorial
 * Books

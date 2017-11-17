@@ -1,9 +1,25 @@
-#+TAGS: hw anal
+#+TAGS: hardware_analysis temperature lm_sensors sensors
 
 
-* sesors							    :hw:anal:
+* sensors
 * Description
 * Usage
+- setting up sensors
+#+BEGIN_SRC sh
+sensors-detect
+#+END_SRC
+This command will run you through which sensors you would like to initiate
+
+- output temperatures
+#+BEGIN_SRC sh
+sensors
+#+END_SRC
+
+- view the available options
+#+BEGIN_SRC sh
+sensors -u
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

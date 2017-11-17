@@ -1,4 +1,4 @@
-#+TAGS: sys anal perf
+#+TAGS: process_analysis ps
 
 
 * ps
@@ -40,7 +40,6 @@ If viewing a process in stat "D", next look at /proc/pid/status
    
   - the nr_switches value which is the combined value of both can be found on at /proc/pid/schedstat it's the thrid value
     
-
 ** SELinux Contexts
 ps -eZ
 

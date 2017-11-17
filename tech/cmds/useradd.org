@@ -1,13 +1,24 @@
-#+TAGS: sys op
+#+TAGS: user_add add_user
 
 
 * useradd
+* Files
+/etc/default/useradd - this sets the defaults for new users
+/etc/login.defs      - this file also specifies defaults for new users
+/etc/skel/           - this directory contains all the files a new users home directroy will have automatically created
+/etc/group           - this file contains all the groups created on the system, along with who is apart of each group
+/etc/gshadow         - contains shadow information for the group accounts
+
 * Description
 * Usage
-
 > useradd <login>
 
 This creates a normal user issues a uid, gid, but no home directory is created ( but is set in the /etc/passwd ). Shell is set from the default settings. No password is set and the user is unable to login until one is set. Once a password is set the user can now login, but will enter at /home (this is set in useradd default), until the home directory is created.
+
+- View current useradd defaults
+#+BEGIN_SRC sh
+useradd -D
+#+END_SRC
 
 ** Configure a user with custom settings
 
@@ -26,6 +37,8 @@ UserName - Login id
 useradd -G admins,ftp,www,developers jerry
 #+END_SRC
 this only works with new users
+
+- Add a comment
 
 * Lecture
 * Tutorial

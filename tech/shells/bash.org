@@ -1,4 +1,4 @@
-#+TAGS: shell sh bash
+#+TAGS: shell sh bash scripting shell_script
 
 
 * Bash
@@ -13,7 +13,6 @@
   - ~/.bash_profile
   - ~/.bashrc
     
-
 * Description
 * Usage
 ** Precedence of config files
@@ -39,8 +38,119 @@ ls ?ost - ? is one char, list all files one char + "ost"
 ls [hm]ost - ls any file that match host or most
 ls [!hm] - list any file one char + "ost", but not host or most
 ls [0-9][0-9]script - list any file names script that is prefixed with two numbers
+
 * Lecture
 * Tutorial
+** Linux Academy - Linux Essentials Scripting Lesson
+
+- Variables - $ANYNAME
+  
+- Arguments
+  - $1 first argument
+  - $2 second argument
+  - $? exit code/status
+    
+- Building Blocks of the script
+  
+#! - shebang
+
+/bin/bash - the Bourne Again Shell
+
+Variable - arguments to pass to to the script
+
+Arguments - options we pass to our scripts
+
+echo - prints what we tell echo to print to the screen
+
+for - loops through and iterates through data for us
+
+if - used for conditional coding based on exit status code for example
+
+Exit - exit or stop a script function
+
+&& - AND
+
+|| - OR
+
+- if/then
+  
+#+BEGIN_EXAMPLE
+if condition then
+	command
+else
+	command
+fi
+#+END_EXAMPLE
+
+  - options for if/then/else
+    d - checks to see if the specified directory exist
+    e - checks to see if the specified file exist
+    f - checks to see if the specified file exist and it's a regular file
+    G - checks to see if the specified file exist and it'ss owned by a specific group
+    h or L - checks to see if the specified file exist and if it is a symbolic link
+    O - checks to see if the specified file exist and if it is owned by a specific UID
+    r - checks to see if the specified file exist and if the read permission is granted
+    w - checks to see if the specified file exist and if the write permission is granted
+    x - checks to see if the specified file exist and of the execute permissions is granted
+    
+- Looping Structures
+  - while - loops, execute over and over until a specified condition is no longer true
+    #+BEGIN_EXAMPLE
+    while condition
+    do
+    	script command
+    done
+    #+END_EXAMPLE
+
+  - until - run over and over as long as the condition is false and as soon as it the condition is ture it will stop
+    #+BEGIN_EXAMPLE
+    until condition
+    do
+    	script command
+    done	
+    #+END_EXAMPLE
+
+  - for - will loop a specified number of times
+    - three options for creating a number sequence with seq:
+      - if specify a single value, the sequence starts at one, increments by one, and ends at the specified value.
+      - If specify two values, the sequence starts at the first value, increments by one, and ends at the second value.
+      - If specify three values, the sequence starts at the first value, increments by the second value and ends at the third value.
+    #+BEGIN_EXAMPLE
+    for i in `seq 15`
+    	do
+	    echo "The current number in the sequence is $i"
+        done	
+    exit 0
+    #+END_EXAMPLE
+
+- simple script example
+#+BEGIN_EXAMPLE
+#!/bin/bash
+# list the contents the directory and output to a file
+
+location=$1
+filename=$2
+
+if [ -z "$location" ]
+then
+	echo "please provide location argument"
+	exit 0
+fi
+
+if [ -z "$filename" ]
+then
+	echo "please provide a filename"
+	exit 0
+fi
+
+ls $location >> $filename
+echo "The cript is complete and has indexed the $location directory"
+echo "###############"
+echo "Displaying contents of our $filename
+echo "###############"
+echo $filename
+#+END_EXAMPLE
+
 * Books
 ** [[file://home/crito/Documents/Linux/Shell/Bash/bash-Cookbook.pdf][bash Cookbook - O'Reilly]]
 ** [[file://home/crito/Documents/Linux/Shell/Bash/bash-Pocket_Reference.pdf][bash - Pocket Reference]]

@@ -1,8 +1,8 @@
-#+TAGS: comp bakup
+#+TAGS: compression bakup tape_archive tar backup
 
 
 * tar
-* Description							 :comp:bakup:
+* Description
 Tar is used to backup and archive files. It also has the ability to harness compression tools to compress its archives
 
 * Usage

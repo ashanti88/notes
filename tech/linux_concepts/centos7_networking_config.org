@@ -1,17 +1,19 @@
-#+TAGS: net rhel centos
+#+TAGS: network rhel centos network_configuration
 
 
-* Centos7 Networking Configuration				 :centos:net:
+* Centos7 Networking Configuration
 * Cmds
 [[file://home/crito/org/tech/cmds/ethtool.org][ethtool]] -
 [[file://home/crito/org/tech/cmds/nmcli.org][nmcli]] - 
 [[file://home/crito/org/tech/cmds/ip.org][ip]] - systemd ifconfig
 [[file:~/org/tech/cmds/iw.org][iw]] - systemd iwconfig
 [[file://home/crito/org/tech/cmds/wifi-menu.org][wifi-menu]] - ncurses wifi configuration tool
+
 * Network Configuration
 ** Network Interface Config Files
 /etc/sysconfig/network-scripts/
-** Example Interface Config
+** Example Interface Configs
+#+BEGIN_EXAMPLE
 TYPE=Ethernet
 BOOTPROTO=none
 DEFROUTE=yes
@@ -28,6 +30,22 @@ PEERDNS=yes
 PEERROUTES=yes
 IPV6_PEERDNS=yes
 IPV6_PEERROUTES=yes
+#+END_EXAMPLE
+
+- static address example
+#+BEGIN_EXAMPLE
+DEVICE="eth0"
+BOOTPROTO="static"
+IPADDR="10.10.20.11"
+NETMASK="255.255.255.0"
+ONBOOT="yes"
+TYPE="Ethernet"
+USERCTL="yes"
+PEERDNS="yes"
+IPV6INIT="no"
+PERSISTENT_DHCLIENT="1"
+#+END_EXAMPLE
+
 ** Setting an Interface to DHCP
 BOOTPROTO=dhcp
 ONBOOT=yes

@@ -1,10 +1,31 @@
-#+TAGS: sys anal user
+#+TAGS: user group uid gid id
 
 
-* id							      :sys:anal:user:
+* id
 * Description
 This cmd will display user and group ids
 * Usage
+- uid of user
+#+BEGIN_SRC sh
+id -u user
+#+END_SRC
+
+- gid of user
+#+BEGIN_SRC sh
+id -g user
+#+END_SRC
+
+- print all gid's that user is apart of
+#+BEGIN_SRC sh
+id -G user
+#+END_SRC
+
+- print all groups that a user is apart of with canonical names
+#+BEGIN_SRC sh
+id -Gn user
+#+END_SRC
+
+
 * Lecture
 * Tutorial
 * Books

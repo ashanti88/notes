@@ -29,7 +29,7 @@ grub> set pager=1
 
 - view what partitions are available
   
-** Booting into runlevel one (sysv)                        :boot:sysv:rescue:
+** Booting into runlevel one (sysv)
 - setting runlevel one
 1. open boot config by pressing 'e'
 
@@ -45,7 +45,7 @@ grub> set pager=1
 
 4. Once changes/rescue has been completed move to runlevel 5 (multi-user).
 
-** Booting into emergency mode (sysd)                      :boot:sysd:rescue:
+** Booting into emergency mode (sysd)
 Emergency mode runs the most minimal environment, the system mounts the root file system as read-only, does not not mount any other file systems and does not activate any network interfaces.
 1. Edit boot by typing 'e'
 
@@ -57,7 +57,7 @@ Emergency mode runs the most minimal environment, the system mounts the root fil
 
 3. Press ctrl-x to boot the system
    
-** Booting into rescue mode (sysd)                         :boot:sysd:rescue:
+** Booting into rescue mode (sysd)
 This is equivalent to sysv single user mode and requires root password. Rescue mode will attempt to mount all local file systems and will start the important services, but will not bring up networking interfaces.
 There are two methods
 *** Method One
@@ -112,9 +112,15 @@ This will show the new option as the saved_entry=<new_option>
 grub-mkconfig -o /boot/grub/grub.cfg
 #+END_SRC
 This will rebuild the configuration
+** Hidden menu
+- comment out this variable
+#+BEGIN_EXAMPLE
+#GRUB_HIDDEN_TIMEOUT=5
+#+END_EXAMPLE
+
 * Lecture
 * Tutorial
-** Lin:wux Academy - Bootloading with GRUB
+** Linux Academy - Bootloading with GRUB
 *** Lesson One - What is Grub
 
 - What is GRUB
@@ -196,7 +202,6 @@ This will rebuild the configuration
       - /etc/grub.conf
       - /boot/grub/menu.lst
 	
-
 
 
 

@@ -1,33 +1,45 @@
-#+TAGS: file comp
+#+TAGS: file compression zip
 
 
-* zip								  :file:comp:
+* zip
 * Description
 * Usage
 
-> zip <filename.zip> <file\_to\_zip>
+> zip filename.zip file_to_zip
 
 ** Zip a directory
-> zip -r <filename.zip> <dir\_to\_zip/>
+#+BEGIN_SRC sh
+zip -r filename.zip dir_to_zip
+#+END_SRC
 
 ** Speed of compression
 fast -1 ... -9 best
-> zip -1 -r <filename.zip> <dir\_to\_zip/>
+#+BEGIN_SRC sh
+zip -1 -r filename.zip dir_to_zip
+#+END_SRC
 
 ** Exclude file from compression
-> zip -r <filename.zip> <dir\_to\_zip/> -x <dir\_to\_zip/file\_to\_exclude.zip>
+#+BEGIN_SRC sh
+zip -r filename.zip dir_to_zip -x dir_to_zip/file_to_exclude.txt
+#+END_SRC
 x - file to exclude
 
 ** Delete a file in an archive
-> zip -d <filename.zip> <file\_to\_delete>
+#+BEGIN_SRC sh
+zip -d filename.zip file_to_delete
+#+END_SRC
 d - delete
 
-** Update an archive
-> zip -u <filename.zip> <file\_to\_add>
+** Update an Archive
+#+BEGIN_SRC sh
+zip -u filename.zip file_to_add
+#+END_SRC
 u - update
 
 ** Update files only if modified
-> zip -fr <filename.zip> <dir\_to\_check>
+#+BEGIN_SRC sh
+zip -fr filename.zip dir_to_check
+#+END_SRC
 f - freshen, only update if a change has occured
 
 * Lecture

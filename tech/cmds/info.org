@@ -1,0 +1,25 @@
+#+TAGS: info_pages info manual help
+
+
+* info
+* Description
+This is the gnu version of man pages.
+
+* Usage
+- usage
+#+BEGIN_SRC sh
+info bash
+#+END_SRC
+
+** Navigation
+N      - next node
+P      - previous node
+U      - move up on level (like moving back)
+Ctrl-n - move down one line
+Ctrl-p - move up one line
+q      - quit
+
+* Lecture
+* Tutorial
+* Books
+* Links

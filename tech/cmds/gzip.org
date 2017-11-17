@@ -1,7 +1,7 @@
-#+TAGS: comp
+#+TAGS: compression gzip gunzip
 
 
-* gzip								       :comp:
+* gzip
 * Description
 * Usage
 - Compress file
@@ -16,7 +16,7 @@ gzip -d file.odt.gz
 
 - Decompress and keep the compressed file
 #+BEGIN_SRC sh
-gzip -k file.odt.gz
+gunzip -k file.odt.gz
 #+END_SRC
 
 - Compress every file in folder

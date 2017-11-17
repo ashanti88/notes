@@ -16,6 +16,7 @@ AWS Documentation: https://aws.amazon.com/documentation/
 ** ELB
 ** Route53
 ** Lambda
+** Terraform
 * Lecture
 ** [[https://www.youtube.com/watch?v%3DeKyS9rvbj40][Introduction to Database Services - Brian Rice]]
 + If you host your DB on-site
@@ -1747,7 +1748,6 @@ The process of setting up Read Replicas can take quiet a bit of time, this is so
 
 
   
-
 
 
 * Books

@@ -1,10 +1,68 @@
-#+TAGS: file op anal
+#+TAGS: file text text_manipulation text_substitution
 
 
-* sed								    :file:op:
+* sed
 HomePage: [[https://www.gnu.org/software/sed/manual/sed.html][gnu.org/sed]]
 * Description
+Sed, short for stream editor, is a command line tool to manipulate text and files.
+
 * Usage
+- print the entire file
+#+BEGIN_SRC sh
+sed "" file.txt
+#+END_SRC
+
+- print a specific line
+#+BEGIN_SRC sh
+sed -n "4p" file.txt
+#+END_SRC
+this will print only line 4
+
+- print a range of lines
+#+BEGIN_SRC sh
+sed -n "1,4p" file.txt
+#+END_SRC
+this will print line 1 through 4
+
+- print line plus certain number of lines after
+#+BEGIN_SRC sh
+sed -n "2,+3p" file.txt
+#+END_SRC
+this print line 2 plus the next 3 lines
+
+** Deleting Content
+- this will delete the first line when printing to the screen
+#+BEGIN_SRC sh
+sed "1d" file.txt
+#+END_SRC
+this would output the file with the first line missing
+
+- make the change apply to the file
+#+BEGIN_SRC sh
+sed -i "1d" file.txt
+#+END_SRC
+i - in-place
+
+- delete lines that contain specific pattern
+#+BEGIN_SRC sh
+sed "/red fox/d" file.txt
+#+END_SRC
+this will delete all lines that contain "red fox"
+
+** Replace Content
+- replace all numbers with an underscore
+#+BEGIN_SRC sh
+sed -r "s/[0-9]{1,}/_/g" file.txt
+#+END_SRC
+this will change all numbers(of length of 1 or greater) to an underscore
+
+- surround all numbers with brackets
+#+BEGIN_SRC sh
+sed -r "s/[0-9]{1,}/(&)/g" file.txt
+#+END_SRC
+
+
+
 ** Spacing
 *** Double Space file
 #+BEGIN_SRC sh

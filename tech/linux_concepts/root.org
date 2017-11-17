@@ -1,17 +1,19 @@
-#+TAGS: sys root
+#+TAGS: root super_user su
 
 
-* Root								   :sys:root:
+* Root
 * Files
 - /etc/sudoers - this file contains the configuration for sudo. Who, and what can do what
 - /var/log/messages - this logs successful sudo authentication
 - /var/log/secure - 
+- /root - this is the root users home directory
 
 * Cmds
 - [[file://home/crito/org/tech/cmds/sudo.org][sudo]]
 - [[file://home/crito/org/tech/cmds/su.org][su]]
 - [[file://home/crito/org/tech/cmds/usermod.org][usermod]]
 - [[file://home/crito/org/tech/cmds/visudo.org][visudo]]
+- [[file://home/crito/org/tech/cmds/pwck.org][pwck]]
 
 * Overview
 ** How to obtain root privileges
