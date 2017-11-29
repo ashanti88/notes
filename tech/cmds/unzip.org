@@ -1,15 +1,16 @@
-#+TAGS: file comp
+#+TAGS: file_compression unzip
 
 
-* unzip								  :file:comp:
+* unzip
 * Description
 * Usage
 
 > unzip <file.zip> -d <destinatin\_dir>
 
 ** List zip file
-> unzip -l <file.zip>
-
+#+BEGIN_SRC sh
+unzip -l file.zip
+#+END_SRC
 l - list
 
 ** Extract files to specific directory

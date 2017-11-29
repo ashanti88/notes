@@ -305,6 +305,12 @@ For example, a developer had difficulties to sort a big dictionary file with *pu
 After consulting with me, he found that the [[https://github.com/tumashu/chinese-pyim/commit/90519d3f][GNU Sort is much better]] in this case.
 
 So be practical. [[http://en.wikipedia.org/wiki/Richard_Stallman][Richard Stallman]] created a whole GNU ecosystem for you. Emacs is only one component. Why not take full advantage of the system?
+** Choosing File Modes
+#+BEGIN_EXAMPLE
+; -*-Lisp-*-
+; -*- mode: Lisp;-*-
+#+END_EXAMPLE
+
 * Packages
 ** projectile - provides an easy way to navigate a project :emacs:projectile:project:
 HomePage: [[http://batsov.com/projectile/][batsoy.com/projectile]]
@@ -609,6 +615,7 @@ emacs.devl
  d - mark for deletion
  x - execute deletion
  i - open sub directory
+ R - rename file
 
 *** Registers
  C-x r j <reg> - go to register

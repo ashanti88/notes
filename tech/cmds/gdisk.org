@@ -1,0 +1,19 @@
+#+TAGS: gdisk file_system gpt
+
+
+* gdisk - Interactive GUID partition table (GPT) manipulator
+* Description
+* Usage
+#+BEGIN_SRC sh
+gdisk /dev/sdc
+#+END_SRC
+
+- options
+p - add partition
+? - help/show options
+w - write the partition to the drive (but doesn't format)
+
+* Lecture
+* Tutorial
+* Books
+* Links

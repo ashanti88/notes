@@ -1,0 +1,15 @@
+#+TAGS: core_utils cat stdout
+
+
+* cat
+* Description
+* Usage
+- print the contents of a file
+#+BEGIN_SRC sh
+cat filename.txt
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

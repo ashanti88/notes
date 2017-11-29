@@ -1,11 +1,14 @@
-#+TAGS: 
+#+TAGS: nmon system_analysis cpu_analysis network_analysis disk_analysis memory_analysis
 
 
 * nmon
 Home Page: [[http://nmon.sourceforge.net/pmwiki.php][nmon]]
+
 * Description
 * Usage
 * Lecture
 * Tutorial
 * Books
 * Links
+[[https://www.youtube.com/watch?v=_PDAQLflfEc][nmon - Data Capture to File - Nigel Griffiths]]
+[[https://www.youtube.com/watch?v=5P4neOqoCTo][nmonchart to graph your nmon data files - Nigel Griffiths]]

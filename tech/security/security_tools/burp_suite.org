@@ -1,10 +1,134 @@
-#+TAGS: sec_o web
+#+TAGS: burp_suite web_app
 
 
-* Burp Suite							  :sec_o:web:
+* Burp Suite
 HomePage: [[https://portswigger.net/burp/][portswigger.net/burp]]
+Support Center: https://support.portswigger.net/
 * Description
 * Usage
+** Available Tools
+
+[[file://home/crito/Pictures/org/burp_tools.png]]
+
+
+** Configure the proxy
+- first check proxy configurations on Burp
+
+[[file://home/crito/Pictures/org/burp_proxy_config.png]]
+
+- set the corresponding settings to your web browser
+  
+[[file://home/crito/Pictures/org/burp_proxy_config2.png]]
+
+** Adding CA Cert to Browser to allow the sniffing of SSL/TLS traffic
+   
+- first download the burp ca.cert from http://burp
+
+[[file://home/crito/Pictures/org/burp_ca_cert1.png]]
+
+- import the downloaded cert into cert manager of browser
+  
+[[file://home/crito/Pictures/org/burp_ca_cert2.png]]
+
+you will now be able to view ssl/tls traffic
+
+** Create a site map (manually by clicking through the site)
+- first switch the intercept off, otherwise each link clicked needs to be forwarded in burp suite
+  
+[[file://home/crito/Pictures/org/burp_site_map.png]]
+
+- set the scope of the project in burp (scope is the site/ip addr that you are interested in)
+  
+[[file://home/crito/Pictures/org/burp_site_map2.png]]
+right click on the interested site/ip and add to scope
+
+- You will start to accumulate more sites that you have no interest, remove these using the filter
+
+[[file://home/crito/Pictures/org/burp_site_map3.png]]
+
+
+
+** Create a site map (using the spider)
+
+- Set target Scope only (don't want to waste resourses/time spidering FB/Twitter etc)
+
+[[file://home/crito/Pictures/org/burp_spider0.png]]
+Makesure under Spider Scope Use suite scope is set   
+
+- Crawler Settings
+
+[[file://home/crito/Pictures/org/burp_spider1.png]]
+
+Check robos.txt                     - this the robots.txt will be checked, maybe some useful info on what shouldn't be spidered
+Detect custom "not found" responses - check if site is using it's own 404 page
+Ignore links to non-text content    - these resourses (images) can use up a large amount of bandwidth and time for little gain 
+Request the root of all directories - goes to the root of every page that it finds
+Make a non-parameterized request    - try each webpage with out any data (such as user id)
+Maximum link depth                  - this stops the spider ending up in a infinite loop following site dynamic content
+Maximum parameterized requests      - when a site uses the same page but different id per user, saves crawling every id
+  
+- Passive Spidering
+This will makesure that any previous site map generation isn't remapped (from when possible did some manual site searching)
+
+[[file://home/crito/Pictures/org/burp_spider2.png]]
+
+- Form Submission
+  
+[[file://home/crito/Pictures/org/burp_spider3.png]]
+
+On an initial creation of the site map don't submit forms, we are just building a map and it can be time consuming.
+
+- Application Login
+  
+[[file://home/crito/Pictures/org/burp_spider4.png]]
+
+Prompt for guidance is usually a good option as not as many application logs, or just stick with Don't submit login forms
+
+
+- Spider Engine
+  
+[[file://home/crito/Pictures/org/burp_spider5.png]]
+
+default usually ok, but also add the Throttle between requests with random, makes the search look less like a spider
+
+- Request Headers
+  
+[[file://home/crito/Pictures/org/burp_spider6.png]]
+
+this allowes us to customize what user agent, language etc that the header will send
+
+- Now run the spider (makesure that intercept is off)
+  
+[[file://home/crito/Pictures/org/burp_spider7.png]]
+
+This will provide information as the spirdering is going on
+
+** Using the Intruder for simple user login
+   
+- Pass the page from the site map to the intruder with right click
+  
+[[file://home/crito/Pictures/org/burp_intruder0.png]]
+
+- Try a test username and password in the login fields, and then search the history of the proxy to pass it to the intruder
+
+[[file://home/crito/Pictures/org/burp_intruder1.png]]
+
+Just as before right click and pass to the intruder
+
+- Make sure that the right port and address as been autocompleted correctly
+  
+[[file://home/crito/Pictures/org/burp_intruder2.png]]
+
+- Set the variable that is to be tested
+  
+[[file://home/crito/Pictures/org/burp_intruder4.png]]
+Here we have selected the $password variable. To add one just highlight and click add to the right
+
+- Now Select the payload to use to crack the password
+
+[[file://home/crito/Pictures/org/burp_intruder3.png]]
+With the community version you have to provide your own wordlists
+
 * Lecture
 * Tutorial
 ** [[https://www.youtube.com/watch?v%3DjVc64Gy0Z4Q][Web Auditing CTF w/ Burp Suite - HackHappy]]
@@ -36,6 +160,11 @@ HomePage: [[https://portswigger.net/burp/][portswigger.net/burp]]
      
 - Spider site
   - right click on the the site list and the spider option is there
+
+** [[https://www.youtube.com/watch?v=dwtUn3giwTk&index=1&list=PLv95pq8fEyuivHeZB2jeC435tU3_1YGzV][Burp Suite for Web Application security by Bucky]]
+   
+The bee-box vul vm that uses bWAPP vuln web server
+doc: [[file://home/crito/Documents/Security/bWAPP_intro.pdf][Introduction to bWAPP]]
 
 * Books
 * Links

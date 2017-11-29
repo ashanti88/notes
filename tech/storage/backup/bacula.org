@@ -1,4 +1,4 @@
-#+TAGS: backup bacula bakup
+#+TAGS: backup bacula bakup bconsole bacula_director
 
 
 * Bacula
@@ -6,13 +6,20 @@ HomePage: [[http://blog.bacula.org/][bacula.org]]
 
 * Cmds
 - [[file://home/crito/org/tech/cmds/bconsole.org][bconsole]]
-
+- bat - gui
+- baculum - web interface
 
 * Files
 /etc/bacula/bacula-dir.conf - config for the bacula director
 /etc/bacula/bacula-sd.conf  - config for the bacula storage-director
 /etc/bacula/bacula-fd.conf  - config for the bacula file-director
 /etc/bacula/bconsole.conf   - config for the bconsole
+
+** Opt
+/opt/bacula/bin       - binaries directory
+/opt/bacula/working   - working directory
+/opt/bacula/etc       - configuration files root directory
+/opt/bacula/scripts   - scripts directory
 
 * Description
 Bacula is a set of Open Source, computer programs that permit you (or the system administrator) to manage backup, recovery, and verification of computer data across a network of computers of different kinds.
@@ -27,6 +34,9 @@ apt-get install bacula-director-sqlite bacula-sd-sqlite bacula-console
 * Tutorial
 * Books
 [[file://home/crito/Documents/SysAdmin/Storage/Network_Backup_with_Bacula_How-to.pdf][Network Backup with Bacula How-to]]
+[[file://home/crito/Documents/SysAdmin/Storage/bacula_concept_guide.pdf][Bacula Concept Guide]]
+[[file://home/crito/Documents/SysAdmin/Storage/bacula_main_reference.pdf][Bacula Main Reference]]
+[[file://home/crito/Documents/SysAdmin/Storage/bacula_problem_guide.pdf][Bacula Problem Resolution Guide]]
 
 * Links
 [[https://www.digitalocean.com/community/tutorials/how-to-install-bacula-server-on-ubuntu-14-04][How-to Install Bacula Server on Ubuntu 14.04 - Digital Ocean]]

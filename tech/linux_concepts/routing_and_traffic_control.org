@@ -1,13 +1,35 @@
-#TAGS:
+#+TAGS: networking routing
 
 
 * Routing
 * Cmds
-  - ip
-  - ifconfig
-  - route
+- netstat
+- ss
+- ip
+- ifconfig
+- route
+- quagga - routing deamon suite
+
 * Concept
-** Overview
+** View routing information
+#+BEGIN_SRC sh
+netstat -rn
+ip route show
+#+END_SRC
+
+
+** Adding and Deletign a static route
+- older method
+#+BEGIN_SRC sh
+route add -net 172.17.0.0 netmask 255.255.255.0 gw 192.168.1.131 dev enp0s3
+#+END_SRC
+
+- newer method
+#+BEGIN_SRC sh
+ip route add 172.17.42.0/24 via 192.168.1.131 dev enp0s3
+ip route delete 172.17.42.0/24
+#+END_SRC
+
 ** Routing Policy Database
 - This allows for multiple routing tables, to cater for different users.
 
@@ -41,6 +63,8 @@ this installs all three
   - Developed by cisco and is more advanced than IPinIP.
   - This will require the ip\_gre module.
 ** IPSEC
+** Dynamic routing
+
 * Lecture
 * Tutorial
 * Books

@@ -1,7 +1,7 @@
-#+TAGS: sys init sysd
+#+TAGS: systemd init sysd
 
 
-* systemd                                                     :sys:init:sysd:
+* systemd
 HomePage: [[https://www.freedesktop.org/wiki/Software/systemd/][freedesktop.org/systemd]]
 * Cmds
 [[file://home/crito/org/tech/cmds/systemctl.org][systemctl]]
@@ -165,6 +165,24 @@ This in this mode you need to type "exit" and take you to the grub screen
 systemctl isolate multi-user.target
 #+END_SRC
 this move you to the non-graphical multi-user mode
+
+** Configuring Network Services to Run on Boot
+   
+- configuring telnet server
+#+BEGIN_SRC sh
+yum install -y telnet-server
+yum install -y telnet
+systemctl enable telnet.socket
+systemctl start telnet.socket
+#+END_SRC
+
+- confirm that telnet is running
+#+BEGIN_SRC sh
+systemctl status telnet.socket
+ss -tnlp | grep 23
+telnet localhost
+#+END_SRC
+use your users details to login
 
 * Lecture
 ** [[https://www.youtube.com/watch?v=VIPonFvPlAs&index=64&list=WL][Systemd at the Core of the OS - CoreOS Fest 2015]]

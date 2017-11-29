@@ -1,18 +1,18 @@
-#+TAGS: bakup file
+#+TAGS: bakup file_level_backup backup_tool
 
 
-* rsync                                                          :bakup:file:
+* rsync
 * Description
 * Usage
 - sync two directories
 #+BEGIN_SRC sh
-rsync -rzhv dir1/ dir2
+rsync -rhv --inplace dir1/ dir2
 #+END_SRC
 r - recursive
-z - compress
 h - human readable numbers
 v - verbose
 the trailing / is required as it signifies the contents of that dir, otherwise you would get /dir2/dir1/contents
+compression shuld not be selected on a local copy, this causes high spikes in cpu and 
 
 - copy a file from remote server to local machine
 #+BEGIN_SRC sh

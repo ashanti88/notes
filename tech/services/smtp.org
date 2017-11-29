@@ -1,4 +1,4 @@
-#+TAGS:
+#+TAGS: smtp mail
 
 
 * Simple Mail Transfer Protocol

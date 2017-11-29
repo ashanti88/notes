@@ -1,4 +1,4 @@
-#+TAGS: file txt search find coreutil inside_file
+#+TAGS: file txt search find coreutil inside_file grep egrep fgrep
 
 
 * grep
@@ -97,6 +97,28 @@ grep -n1 -rH TAGS ~/org | grep network
 n1 - this means only the first line is searched
 r  - recursive search
 H  - provide the file name that corresponds to the find
+
+** using a file as input
+#+BEGIN_SRC sh
+grep -f grepinput.txt file_to_check.txt
+#+END_SRC
+if you have a complex pattern that you want to save and use often can be saved in a file to be used
+
+
+** egrep
+same as using the -e flag with grep
+
+- using the pipe as an or
+#+BEGIN_SRC sh
+egrep -i 'hello|world' filename.txt
+#+END_SRC
+if lines that contain hello or world
+
+- inverse search
+#+BEGIN_SRC sh
+egrep -v 'hello|world' filename.txt
+#+END_SRC
+this will return all lines that don't contain hello or world
 
 * Lecture
 * Tutorial

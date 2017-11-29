@@ -1,22 +1,27 @@
 #+TAGS: sys fs op
 
 
-* mkfs								  :sys:fs:op:
+* mkfs
 * Description
 * Usage
 > mkfs -t <fs> <device>
 t - filesystem type
 
-** Force creation of filesystem on device
-> mke2fs -F <device>
+- create a filesystem on partition
+#+BEGIN_SRC sh
+mkfs -t ext2 /dev/sdb1
+mkfs -t ext3 /dev/sdb2
+mkfs -t ext4 /dev/sdb3
+#+END_SRC
 
-F - force flag
-
-** Make a volume label for partition
-> mke2fs  -L <label> <partition>
-
-* Lecture
-* Tutorial
+* mkfs.ext
+** Create filesystem on device
+#+BEGIN_SRC sh
+mkfs.ext2 /dev/sda1 
+#+END_SRC
+* mkfs.msdos
+* mkfs.vfat
+* mkfs.ntfs
 * Books
 * Links
 

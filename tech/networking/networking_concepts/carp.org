@@ -1,4 +1,8 @@
-*Common Address Redundancy Protocol*
+#+TAGS:
+
+
+* Common Address Redundancy Protocol
+* Description
 
 The Common Address Redundancy Protocol or CARP is a computer networking
 protocol which allows multiple hosts on the same local area network to
@@ -8,3 +12,7 @@ configurations CARP can also provide load balancing functionality. CARP
 provides functionality similar to both VRRP and Cisco Systems'
 proprietary protocol, HSRP. The protocol is implemented on several BSD
 based operating systems, and has been ported to Linux.
+
+* Tutorial
+* Books
+* Links

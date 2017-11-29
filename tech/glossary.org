@@ -16,3 +16,4 @@ Non-uniform memory access (NUMA) is a computer memory design used in multiproces
 RHEL: [[https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/5/html/5.7_Release_Notes/sssd.html][redhat.com/5/sssd]]
 * UAT  - User Acceptence Testing
 * UCE  - Unsolicited Commercial Email
+* VTL  - Virtual Tape Library

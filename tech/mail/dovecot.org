@@ -1,7 +1,7 @@
 #+TAGS: mail mda pop3 imap
 
 
-* Dovecot						 :mail:mda:pop3:imap:
+* Dovecot
 HomePage: [[https://wiki.dovecot.org/FrontPage][wiki.dovecot.org]]
 * Description
 * Usage

@@ -1,7 +1,7 @@
-#+TAGS: sec web
+#+TAGS: zap zaproxy web_application_security
 
 
-* ZAProxy							    :sec:web:
+* ZAProxy
 HomePage: [[https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project][Zed Attack Proxy Project - OWASP]]
 * Description
 An easy to use webapp pentest tool.
@@ -12,6 +12,7 @@ An easy to use webapp pentest tool.
 ** Report Generation
 ** Brute Force(using Dirbuster)
 ** Fuzzing(using fuzzdb and JBroFuzz)
+
 * Lecture
 ** ZAP Innovations - Zed Attack Proxy - Simon Bennetts
 + The Main Freatures
@@ -54,7 +55,10 @@ An easy to use webapp pentest tool.
   
 ** [[https://www.youtube.com/watch?feature=player_embedded&v=ZWSLFHpg1So][Security Testing in Development and QA]]
    
+** [[https://www.youtube.com/watch?v=3vVnMh6AUkk][Automating OWASP ZAP - Simon Bennetts - DevSecCon London 2016]]
 * Tutorial
 * Books
 [[file://home/crito/Documents/Security/Tools/ZAP_Getting_Started.pdf][ZAP - Getting Started Guide]]
 * Links
+https://blog.mozilla.org/security/
+[[https://zaproxy.blogspot.co.uk/][ZAProxy Blog]]

@@ -1,9 +1,17 @@
-#+TAGS: sys
+#+TAGS: which find_binary find_application
 
 
 * which
 * Description
+This will return the full path of the binary provided
 * Usage
+- show full path of a binary
+#+BEGIN_SRC sh
+which cp
+#+END_SRC
+this will return the full path of the cp binary
+
+
 * Lecture
 * Tutorial
 * Books

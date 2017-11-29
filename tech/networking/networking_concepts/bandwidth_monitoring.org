@@ -1,6 +1,6 @@
-+TAGS: net anal
+#+TAGS: network_analysis
 
-* Bandwidth Monitoring Tools                                       :net:anal:
+* Bandwidth Monitoring Tools
 - [[file://home/crito/org/tech/cmds/bmon.org][bmon]]
 - [[file://home/crito/org/tech/cmds/bwbar.org][bwbar]]
 - [[file://home/crito/org/tech/cmds/bwm-ng.org][bwm-ng]]

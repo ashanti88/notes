@@ -1,7 +1,7 @@
-#+TAGS: file AD
+#+TAGS: file_server samba
 
 
-* Samba                                                             :file:AD:
+* Samba
 HomePage: [[https://wiki.samba.org/index.php/Main_Page][wiki.samba.org/Main_Page]]
 * Description
 * Usage

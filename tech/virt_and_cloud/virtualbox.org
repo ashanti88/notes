@@ -1,7 +1,7 @@
 #+TAGS: virt virtualbox vdi
 
 
-* Virualbox                                             :virt:virtualbox:vdi:
+* Virualbox
 HomePage: [[https://www.virtualbox.org/][virtualbox.org]]
 * Cmds
 - [[file://home/crito/org/tech/virt_and_cloud/vagrant.org][vagrant]]
@@ -133,7 +133,13 @@ This will allow the ports 5000, and 5010 through 5020
 VBoxManage showvminfo "VM_name"
 #+END_SRC
 
+** Convert VMware vmx file to ovf for application import
+#+BEGIN_SRC sh
+ovftool bee-box.vmx bee-box-vb.ovf
+#+END_SRC
+the ovf file can then be used to create the vm machine
 * Lecture
 * Tutorial
 * Books
 * Links
+[[https://www.maketecheasier.com/convert-virtual-machines-vmware-virtualbox/][Convert Virtual Machines from VMware to VirtualBox]]

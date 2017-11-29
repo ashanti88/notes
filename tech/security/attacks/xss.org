@@ -1,7 +1,7 @@
-#+TAGS: sec web xss
+#+TAGS: xss cross_site_scripting
 
 
-* Cross-Site Scripting XSS					:sec:web:xss:
+* Cross-Site Scripting XSS
 * Cmds
 - [[file://~/org/tech/security/security_tools/beef.org][BeEF]]
 * Overview

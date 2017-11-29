@@ -1,4 +1,4 @@
-#+TAGS: code python py
+#+TAGS: code python py python2 python3
 
 
 * Python2
@@ -500,7 +500,6 @@ print(next(a))
 #+END_SRC
 this will return the next increment as generators maintian state
 
-
 *** Regular Expressions
 	
 - searching through /var/log/secure for failed logins
@@ -543,6 +542,243 @@ data = {
 
 json_string = json.dumps(data, indent=4)
 print(json_string)
+#+END_EXAMPLE
+
+*** System automation with fabric
+	
+- fabfile.py - a script to update the CentOS server
+#+BEGIN_EXAMPLE
+from fabric.api import sudo
+
+def UpdateServer():
+	sudo("yum -y upgrade", pty=True)
+#+END_EXAMPLE
+
+- fabfile.py
+#+BEGIN_EXAMPLE
+""" This example uses Python Fabric to deply MySQL and Apache on five servers """
+
+# import all the fabric funtions that we need explicitly
+from fabric.api import env, roles, sudo, execute, put, run, local, prompt, cd, parallel
+
+# import the os module to get file basenames
+import os
+
+# define groups of webserver and databases
+env.roledefs = {
+	"webserver" : ["192.168.0.11","192.168.0.12","192.168.0.13"],
+	"database" : ["192.168.0.14.","192.168.0.15"],
+}
+
+# define a special group called all so we can easily send out commands to all severs if needed
+env.roledefs["all"] = [h for r in env.roledefs.values() for h in r]
+
+# the packages that are required to run our application on the server group
+packages_required = {
+	"webserver" : ["httpd","php","ntp","php-myslqi"],
+	"database" : ["mariadb-server"]
+}
+
+# files that need to be downloaded from the labserver repo
+download_files = {
+	"database" : ["http://labfiles.linuxacademy.com/python/fabric/sakila.sql",
+				  "http://labfiles.linuxacademy.com/python/fabric/sakila-data.sql"],
+	"webserver" : ["http://labfiles.linuxacademy.com/python/fabric/index.php"]
+}
+
+@roles("database") # this decorater will make the function following it run for all database group server
+def install_database():
+	# install the database application
+	sudo("yum -y install %s" % " ".join(packages_required["databse"]),pty=True)
+	
+	# activate MariaDB in the system control
+	sudo("systemctl enalbe mariadb",pty=True)
+	
+	# start MariaDB using the system control
+	sudo(systemctl start mariadb",pty=True)
+	
+	# Create a user on the database that we will be using from our webservers
+	sudo(r""" mysql -h 127.0.0.1 -u root -e "CREATE USER 'web'@'%' IDENTIFIED BY 'web'; GRANT ALL PRIVILEGES ON *.* TO 'web'@'%'; FLUSH PRIVILEGES; " """)
+	
+	# Check for the mysql proces
+	# This is how you run a command as a normal user
+	run("ps -ef | grep mysql")
+	
+@parallel
+@roles("database")
+def setup_database():
+	# setup the emp directory where we will download files from the web
+	tmpdir = "/tmp"
+	
+	# this cd is the fabric command to change diretory on the remote server
+	with cd(tmpdir): # cd changes the dir on the remote server
+		
+		# iterate over the files we need to download for the database
+		for url in download_files["database"]:
+			# basename ggiveees us just the name of the file, without any path info, it also works for urls
+			filename = "%s/%s" %(tmpdir, os.path.basename(url)):
+			
+			# using the function run on the remote server, we can execute commands, in this case wget which opens the url and saves it to a filename
+			run("wget --no-cache %s -O %s" % (url, filename))
+			
+			# since these are SQL files, we can just dump them into out MySQL/MariaDB server
+			run("mysql -u root < %s" % filename)
+			
+@roles("webserver") # this decorater will make the function following it run for all webserver group servers
+def install_webserver():
+	# install the webserver applications
+	sudo("yum -y install %s " %" ".join(packages_required["webserver"]),pty=True)
+	
+	# activate and start httpd
+	sudo("systemctl enable httpd.service", pty=True)
+	sudo("systemctl start httpd.service", pty=True)
+	
+	# here are some SELinux commands to get this working
+	sudo("setsebool -P httpd_can_network_connect=1", pty=True)
+	sudo("setsebool -P httpd_read_user_content=1", pty=True)
+
+@roles("webserver") # this decorater will make the function following it run for all webserver group servers
+def setup_webserver():
+	# setup the tmp directory where we will download files from the web
+	tmpdir = "/tmp"
+	
+	# directory on the remote server
+	remote_dir = "/var/www/html"
+	
+	# download the files on our master server and then put them on the remote server to see the functionality
+	with lcd(tmpdir):
+		# iterate over the files we need to download for the webserver
+		for url in download_files["webserver"]:
+		filename = "%s/%s" %(tmpdir, os.path.basename(url)):
+		
+		# local runs the command locally on our local server
+		local("wget --no-cache %s -O %s" % (url, filename))
+		
+		# and put sends a file from the local server to the remote server
+		# we can also change the running permissions
+		# and use sudo if required
+		put(filename, "/var/www/html/", mode=0755, use_sudo=True)
+		
+
+	# the webserver needs to connect to a database in the backend
+	database = pick_server(env.roledefs["databaase"])
+	
+	# again using sudo, we can just create a file on the remote server,
+	# and put in the database server we got back from the function
+	sudo(r""" echo " <?php \\$db = '%s'; ?> " > /var/www/html/db.php """ % env.roledefs['database'][database])
+	
+
+def pick_server(mylist):
+	# simple function that takes a list and enumerates it
+	# and asks the user to select a valid member from the list
+	database = 0
+	while not 1<=database<=len(mylist):
+		for i, db in enumerate(mylist,1):
+			print("[%s] - %s" % (i, db)
+		database = prompt("Enter the number of the database that I should connect %s to: " % (env.host), validate=int)
+		return int(database)-1
+		
+
+@roles("all")
+def upgrade_servers():
+	# Just doing an upgrade on the CentOS 
+	sudo("yum -y upgrade", pty=True)
+	
+# this is the main function we will be calling to get it all running
+def deploy():
+	# note here that the execute function has the names of the functions we
+	# are calling, but we are excluding the parenthsis()
+	execute(upgrade_servers)
+	execute(install_databse)
+	execute(install_webserver)
+	execute(setup_database)
+	execute(setup_webserver)
+	print("Rock and Roll!")	
+#+END_EXAMPLE
+
+*** Web Scraping with BeautifulSoup
+
+- script for downloading course information from LA
+#+BEGIN_EXAMPLE
+import urllib
+from bs4 import BeautifulSoup
+
+# url. Go ahead and open it in your browser
+url = "http://labfiles.linuxacademy.com/python/scraping/courses.html"
+
+# open the site and download the html into the var html_data
+html_data - urllib.urlopen(url).read()
+
+# parse the data using BeautifulSoup
+soup = BeautifulSoup(html_data,"lxml")
+
+# find the specific tags needed
+# we are using find_all since there are many
+# find_all returns an iterable
+setions = soup.find_all('a', attrs={'class':'col-xs-12 --x-0 library-content-box-container content-aws'})
+
+# for each of the found sections
+for section in sections:
+	# section at this point is a BeautifulSoup object
+	# but you can further parse if needed
+	# we are using find since we know there is only one
+	# find returns a non-iterable
+	title = section.find('span', attrs={"class":"library-content-title"})
+	# extract the length of the section too
+	length = section.find('span', attrs={"class":"library-content-length"})
+	# hyperlink from the section
+	url = section['href']
+	# open and get data from the url
+	html_data = urllib.urlopen(url).read()
+	# All we are interested in is the instructor's name,
+	# which has the instructor-name tag
+	instructor = BeautifulSoup(html_data,"lxml").find_all('span', attrs={"class":"instructor-name"})
+	# print it all out
+	print("%s is taught by %s [%s]" % (titel.text, instructor[0].text, length.text)
+#+END_EXAMPLE
+
+*** Databse connections
+	
+- sqlite
+#+BEGIN_EXAMPLE
+import sqlite3
+conn = sqlite3.connect('demo.db')
+c = conn.cursor()
+c.execute('''CREATE TABLE users (username text, email text)''')
+c.execute("INSERT INTO users VALUES ('me', 'me@example.com')")
+conn.commit()
+username, email = 'jim', 'jim@example.com'
+c.execute("INSERT INTO users VALUES (?, ?)", (username, email))
+userlist = [
+	('paul', 'paul@example.com'),
+	('fred', 'fred@example.com'),
+]
+c.executemany("INSERT INTO users VALUES (?, ?)", userlist)
+conn.commit()
+c.execute('SELECT email FROM users WHERE username = ?', (username,))
+print c.fetchone()
+#+END_EXAMPLE
+
+- mysql - mysql-python package is required
+#+BEGIN_EXAMPLE
+import MySQLdb
+conn = MySQLdb.connect(host="localhost", user="root", passwd="", db="")
+c = conn.cursor()
+c.execute("CREATE DATABASE testdb")
+c.execute("USE testdb")
+c.execute("CREATE TABLE users (username VARCHAR(50), email VARCHAR(100))")
+userlist = [
+	('paul', 'paul@example.com'),
+	('frank', 'frank@example.com'),
+]
+c.executemany("INSERT INTO users VALUES (%s, %s)", userlist)
+conn.commit()
+
+c.execute("SELECT * FROM users")
+for row in c.fetchall():
+	print(row)
+
+conn.close
 #+END_EXAMPLE
 
 * Books
@@ -1187,4 +1423,6 @@ Key ORM Patterns
 - Method Chaining - queries are composed using a string of method calls which each return a new query object.
   
 * Books
+[[file://home/crito/Documents/Python/Python-Master_the_Art_of_Design_Patterns.pdf][Python - Master the Art of Design Patterns]]
+
 * Links

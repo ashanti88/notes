@@ -4,6 +4,9 @@
 * Disk Encryption
 Luks Homepage: https://gitlab.com/cryptsetup/cryptsetup/
 
+* Cmds
+- [[file://home/crito/org/tech/cmds/cryptsetup.org][cryptsetup]]
+
 * Description
 LUKS is the standard for Linux hard disk encryption. By providing a standard on-disk-format, it does not
 only facilitate compatibility among distributions, but also provides secure management of multiple user passwords.
@@ -11,6 +14,17 @@ In contrast to existing solution, LUKS stores all setup necessary setup informat
 enabling the user to transport or migrate his data seamlessly.
 
 * Usage
+** Is linux configured to use encryption
+#+BEGIN_SRC sh
+grep -i config_dm_crypt /boot/config-$(uname -r)
+lsmod | grep -i dm_crypt
+#+END_SRC
+the first command won't work if a initramfs.img is being used at boot, so use either lsmod, or get the config from /proc and grep that
+
+- if it doesn't we can load it with
+#+BEGIN_SRC sh
+modprobe dm_crypt
+#+END_SRC
 ** Multiple Encrypted Disks at Boot
 - this should only be done if the disk that holds the encrypted key is encrypted
 1. Create a random keyfile
@@ -43,7 +57,6 @@ dX_crypt      /dev/sdX  /root/keyfile  luks
 
 6. Reboot
 - check now that the disk is being mounted
-
 
 * Lecture
 * Tutorial

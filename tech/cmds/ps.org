@@ -47,6 +47,13 @@ ps -eZ
 ps -ax -o pid,ni,cmd This will show the nice value of the processes
 
 rtprio - real time priority
+** search a specific process
+- is postfix running
+#+BEGIN_SRC sh
+ps aux | grep -i postfix | grep -v grep
+#+END_SRC
+adding "grep -v grep" stops the grep on postfix being printed
+
 * Lecture
 * Tutorial
 * Books

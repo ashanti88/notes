@@ -1,7 +1,7 @@
-#+TAGS: remote
+#+TAGS: remote_access
 
 
-* Telnet							     :remote:
+* Telnet
 * Cmds
 [[file://home/crito/org/tech/cmds/telnet.org][telnet client]]
 * Overview

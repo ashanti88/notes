@@ -1,7 +1,7 @@
 #+TAGS: sys ptr
 
 
-* CUPS                                                              :sys:ptr:
+* CUPS
 Docs: [[https://www.cups.org/documentation.html][cups.org]]
 * Description
 * Usage

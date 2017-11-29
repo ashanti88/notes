@@ -1,31 +1,41 @@
-Temporarily
+#+TAGS: ping disable_ping disable_icmp network
+
+
+* Disable ICMP/Ping
+* Description
+* Usage
+- Temporarily
 
 to disable
-
-#+BEGIN_QUOTE
-  echo "1" > /proc/sys/net/ipv4/icmp\_echo\_ignore\_all
-#+END_QUOTE
+#+BEGIN_SRC sh
+echo "1" > /proc/sys/net/ipv4/icmp\_echo\_ignore\_all
+#+END_SRC
 
 to re-enable
+#+BEGIN_SRC sh
+echo "0" > /proc/sys/net/ipv4/icmp\_echo\_ignore\_all
+#+END_SRC
 
-#+BEGIN_QUOTE
-  echo "0" > /proc/sys/net/ipv4/icmp\_echo\_ignore\_all
-#+END_QUOTE
-
-Permanently
+- Permanently
 
 edit the /etc/sysctl.conf
 
 disable
-
+#+BEGIN_EXAMPLE
 net.ipv4.icmp\_echo\_ignore\_all=1
+#+END_EXAMPLE
 
 enable
-
+#+BEGIN_EXAMPLE
 net.ipv4.icmp\_echo\_ignore\_all=0
+#+END_EXAMPLE
 
-To initiate straight away
-
+- To initiate straight away
 #+BEGIN_QUOTE
-  sysctl -p
+sysctl -p
 #+END_QUOTE
+
+* Lecture
+* Tutorial
+* Books
+* Links

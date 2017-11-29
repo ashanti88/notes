@@ -1,7 +1,7 @@
-#+TAGS: recon
+#+TAGS: recon intelligence
 
 
-* Intelligence							      :recon:
+* Intelligence
 * Techniques
 ** Display information
 - link chart

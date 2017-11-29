@@ -1,7 +1,7 @@
-#+TAGS: sec_o
+#+TAGS: metasploit msf
 
 
-* Metasploit							      :sec_o:
+* Metasploit
 GitHub: [[https://github.com/rapid7/metasploit-framework][github.com/rapid7/metaspoit-framework]]
 * Cmds
 [[file://home/crito/org/tech/cmds/msfconsole.org][msfconsole]]
@@ -22,10 +22,40 @@ smtp_enum -
 * Description
 * Usage
 ** Setting up the db
+Kali
 - makesure that postgres is running then:
 #+BEGIN_SRC sh
 msfdb init
 #+END_SRC
+
+Manjaro
+- makesure that postgres is running then:
+#+BEGIN_SRC sh
+sudo -u postgres -i
+createuser msf_user -P -S -R -D
+createdb --owner=msf_user msf_database
+#+END_SRC
+
+- now start msfconsole (tempory connection)
+#+BEGIN_EXAMPLE
+db_connect msf_user:password@localhost:5432/msf_database
+db_status
+#+END_EXAMPLE
+this will start to populate the msf_database
+
+- add file to ~/.msf4/database.yml
+#+BEGIN_EXAMPLE
+
+production:
+	adapter: postgresql
+	database: msf_database
+	user: msf_user
+	password: msf_password
+	host: 127.0.0.1
+	port: 5432
+	pool: 75
+	timeout:5
+#+END_EXAMPLE
 
 ** Vulnerability Scanners
 *** NeXpose
@@ -132,7 +162,6 @@ Compatible Payloads
 
 #+END_EXAMPLE
 
-
 * Lecture
 ** [[https://www.youtube.com/watch?v%3DadSQyRPpiBw][Getting Started with Meatasploit - Nathan Sweaney]]
 + Command Line Access
@@ -224,6 +253,8 @@ meterpreter> migrate 624 - migrate to another process that is less detectable
   - scanner/http/http_version
   - scanner/snmp/snmp_login
 
+** [[https://www.youtube.com/watch?v=SOy87RUjsoU&list=PLW5y1tjAOzI3n4KRN_ic8N8Qv_ss_dh_F&index=17][Making Your First AUX Module - Mubix]]
+
 * Tutorial
 ** [[https://www.youtube.com/watch?v%3D9J2ZrKHk6DQ][Introduction to metasploit - Adrian Crenshaw]]
 
@@ -244,6 +275,10 @@ hashdump
 tspkg - this can be used in metasploit to cra
 wdigest
 
+** [[https://www.youtube.com/watch?v=TCPyoWHy4eA&feature=youtu.be][Metasploit Minute - Mubix - Hak5]]
+
+
+
 * Books
 [[file://home/crito/Documents/Security/Metasploit/Metasploit-The_Penetration_Testers_Guide.pdf][Metasploit - The Penetration Tester's Guide]]
 [[file://home/crito/Documents/Security/Metasploit/Metasploit_Penetration_Testing_Cookbook_2e.pdf][Metasploit Penetration Testing Cookbook]]
@@ -251,3 +286,4 @@ wdigest
 [[file://home/crito/Documents/Security/Metasploit/Metasploit_Guide.pdf][Metasploit Guide]]
 
 * Links
+[[http://www.davidpashley.com/articles/postgresql-user-administration/][Postgresql User Administration]]

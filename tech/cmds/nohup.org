@@ -1,10 +1,15 @@
-#+TAGS: sys op
+#+TAGS: nohup no_hang_up
 
 
-* nohup								     :sys:op:
+* nohup
 * Description
 * Usage
 > nohup <command> <arguments>
+
+- running find with nohup and outputting to a text file
+#+BEGIN_SRC sh
+nohup find / -xdev -type f -perm +u=s -print > out.txt &
+#+END_SRC
 
 * Lecture
 * Tutorial

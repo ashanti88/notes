@@ -1,14 +1,22 @@
-#+TAGS: sys disk
+#+TAGS: du disk_usage disk_monitoring disk_analysis
 
 
-* du                                                               :sys:disk:
+* du
 * Description
 Show current disk space usage
 * Usage
 - summerize and human readable
 #+BEGIN_SRC sh
-du -Sh
+du -sh
 #+END_SRC
+s - summerize
+h - human readable
+
+- summerize, human readable and grand total
+#+BEGIN_SRC sh
+du -sch
+#+END_SRC
+c - grand total
 
 * Lecture
 * Tutorial

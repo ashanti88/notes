@@ -1,9 +1,13 @@
-#+TAGS: net anal recon
+#+TAGS: network hostname
 
 
-* host							     :net:anal:recon:
+* host
 * Description
 * Usage
+- change the current hostname
+#+BEGIN_SRC sh
+host new_server
+#+END_SRC
 * Lecture
 * Tutorial
 * Books

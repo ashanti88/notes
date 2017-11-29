@@ -40,6 +40,13 @@ tail < /var/log/messages
 sort < words.txt
 #+END_SRC
 
+** pipes
+- using the ls cmd with grep
+#+BEGIN_SRC sh
+ls /etc/ | grep cron
+#+END_SRC
+this will return only files that have cron in their name
+
 * Lecture
 * Tutorial
 * Books

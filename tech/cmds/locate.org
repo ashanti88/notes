@@ -5,6 +5,8 @@
 * Description
 This command will provide information on what documentaion the specified package was installed with.
 
+It is a database built with the updatedb command.
+
 * Usage
 
 > locate <query>

@@ -1,6 +1,6 @@
-#+TAGS: shell C
+#+TAGS: shell C_shell
 
-* csh								    :shell:C:
+* csh
 * Description
 * Usage
 ** Variables

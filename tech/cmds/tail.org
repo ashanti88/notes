@@ -1,4 +1,4 @@
-#+TAGS: file txt
+#+TAGS: file txt text tail
 
 
 * tail
@@ -15,6 +15,7 @@ tail -n 5 file.txt
 #+BEGIN_SRC sh
 tail -f file.log
 #+END_SRC
+this command is helpful to follow a log file as it outputs/prints information
 
 * Lecture
 * Tutorial

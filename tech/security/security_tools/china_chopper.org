@@ -1,7 +1,7 @@
-#+TAGS: sec shell
+#+TAGS: security shell
 
 
-* China Chopper							  :sec:shell:
+* China Chopper
 * Description
 * Usage
 * Lecture

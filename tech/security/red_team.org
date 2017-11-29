@@ -1,7 +1,7 @@
-#+TAGS: sec red
+#+TAGS: red_team
 
 
-* Red Team                                                          :sec:red:
+* Red Team
 * Process
 ** Recon
 *** Tools
@@ -609,7 +609,55 @@ https://github.com/mubix/Not-In-Pentesting-Class
     - How will they apply technology?
     - How much time do they have?
 
+** [[https://www.youtube.com/watch?v=Q2WK5LpDbxw][Finding Bugs with Burp Plugins and Bug Bounty 101 - Monika Morrow and Ben Sadeghipour]]
 
+- Why Burp Plugins
+  - Automate testing of apps
+  - Automate finding new vulns
+    
+- Burp Extender
+  - Signigicantly expanded API
+  - Multiple extension support
+    
+- source code for example plugins (these are in java, but other languages can be used)
+  - https://github.com/monikamorrow
+    
+
+- Platforms 
+  - BugCrowd - managed and unmanaged programs
+  - CrodCurity
+  - Synack - you have to sit an exam to become a researcher
+  - HackerOne - managed and unmanaged programs
+  
+** [[https://www.youtube.com/watch?v=aNyK1yVLLRI&feature=youtu.be][The Bug Bounty Field Manual - Adam Bacchus]]
+   
+Docs: [[file://home/crito/Documents/Security/Red/Bug-Bounty-Field-Manual-complete-ebook.pdf][Bug Bounty Field Manual]]
+
+** [[https://www.youtube.com/watch?v=9qeZBJuk6tg&t=16s][Advanced Hacking Workshop with Frans Rosen and Peter Yaworski]]
+   
+- Approach the target
+  - swf always an indicator of vuln
+    - ZeroClipboard.swf
+    - flowplayer.swf
+    - swfupload.swf
+    - clippy.swf
+    - jplayer.swf
+    - amine.swf
+    - Lime.swf
+    - columns.swf
+    - video.swf
+    - video-js.swf
+  - URL Validation  
+    - difficult to inplement correctly
+  - Open Redirects
+    - why is the company trying to redirect me
+  - Third party scripts
+    - very good area as less worried over security
+  - Subdomain Takeover
+    - company stops hosting domain, but is still pointing to it
+    - hosting comapnies heroku, aws, azure will allow you to take over these subdomains 
+  
+    
 * Tutorial
 ** PluralSight - System Hacking - Dale Meredith
 
@@ -784,7 +832,7 @@ PDC needs to be synced otherwise kerberose doesn't work
 *** [[https://www.youtube.com/watch?v%3Dt-44ZsaeIQE&t%3D3s][Beef Hooks]]
 *** [[https://www.youtube.com/watch?v%3Dd71YfVR1eWA][JSON Injection]]
 
-** Offensive Security 2013 - FSU 
+** Offensive Security 2013 - FSU
 *** [[https://www.youtube.com/watch?v%3D4yNgP3CUOWo][Lecture 2: Linux Overview]]
 *** [[https://www.youtube.com/watch?v%3D3y8JuixcSdU][Lecture 7: Fuzzing]]
 
@@ -1166,6 +1214,79 @@ synflood module by default spoofs the source ip address
 ** Introduction to Packet Analysis
 *** [[https://www.youtube.com/watch?v%3DvisrNiKIP3E&t%3D6s][Introduction to TCP/IP Packet Structure]]
 
+** Bug Hunting and Exploit Development - Z. Cliffe Schreuders
+url: https://www.youtube.com/watch?v=vFXkDAyIS2w
+
+- Finding Flaws Using Static Analyssis
+  
+  - Static analysis tools
+    - CppCheck
+    - Flawfinder
+    - RATS
+    - VCG
+    - Oink (includes Cqual++)
+      
+  - What to Fuzz
+    - Everythin external to the program code!
+    - Especially if it crosses a trust boundary
+    - examples
+      - network protocols, such as service requests
+	- incorrect implimentation of the protocol, could throw exceptions
+      - file formats
+	- possible vulns with file types, media formats hidding code
+      - api calls
+      - environment variables
+	
+    - Approaches to fuzzing
+      - simple fuzzing - feed input of increasing sizes into a program
+      - sequence character input - a sequence of chars what could cause a problem 
+      - mutation - takes a standard input/protocol and makes incremental changes
+	
+    - FOSS Fuzzers
+      - Spike - popular framework for specifying fuzzers
+	- uses Spike files
+	- written in C
+      - Sully - network only
+      - MSF auxiliary/fuzzers - custom fuzzers built on MSF
+	
+    - Spike file
+      spike_file.spk
+      #+BEGIN_EXAMPLE
+      s_string("Hello, world!");
+      #+END_EXAMPLE
+      sends a string
+      
+      #+BEGIN_EXAMPLE
+      s_string_variable("Hello, world!");
+      #+END_EXAMPLE
+      fuzzes a string
+      
+      #+BEGIN_EXAMPLE
+      s_readline();
+      #+END_EXAMPLE
+      reads and displays a line of response
+      
+      #+BEGIN_EXAMPLE
+      spike_send();
+      #+END_EXAMPLE
+      sends what is in the buffer now
+      
+      #+BEGIN_EXAMPLE
+      printf();
+      #+END_EXAMPLE
+      writes to the local console
+
+    - a Spike file can be launched against a network port or a program using one of Spike's interpreters
+    - generic_send_tcp:
+      - usage
+	#+BEGIN_EXAMPLE
+        ./generic_send_tcp host port spike_script SKIPVAR SKIPSTR
+	#+END_EXAMPLE
+	- using
+	#+BEGIN_SRC sh
+        generic_send_tcp 192.168.0.10 4444 spike_file.spk 0 0	
+	#+END_SRC
+	
 * Books
 ** [[file://home/crito/Documents/Security/The-Hacker-Playbook-Practical-Guide-To-Penetration-Testing-2014.pdf][The Hacker Playbok - Practical Guide to Penetration Testing]]
 *** Pregame and Before the Snap
@@ -1253,4 +1374,5 @@ Tools
   - SQLmap
   - SQLninja
     
+** [[file://home/crito/Documents/Security/Red/Bug-Bounty-Field-Manual-complete-ebook.pdf][Bug Bounty Field Manual]]
 * Links

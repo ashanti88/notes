@@ -1,4 +1,4 @@
-#+TAGS: net
+#+TAGS: network subnetting
 
 
 * subnetting

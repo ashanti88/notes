@@ -21,7 +21,6 @@ nice --10 perl test.pl
 #+END_SRC
 
 
-
 * Lecture
 * Tutorial
 * Books

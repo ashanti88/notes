@@ -1,10 +1,15 @@
-#+TAGS: wf
+#+TAGS: newsbeuter rss work_flow
 
 
-* newsbeuter								 :wf:
+* newsbeuter
 Home Page: [[http://newsbeuter.org/][newsbeuter.org]]
 * Description
 * Usage
+- starting newsbeuter
+#+BEGIN_SRC sh
+newsbeuter
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

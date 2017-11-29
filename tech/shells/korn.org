@@ -1,7 +1,7 @@
-#+TAGS: shell bash korn sh
+#+TAGS: shell korn_shell ksh
 
 
-* KornShell						 :shell:korn:sh:bash:
+* KornShell
 HomePage: [[http://www.kornshell.com/][kornshell.com]]
 * Description
 * Usage

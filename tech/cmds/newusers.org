@@ -1,10 +1,11 @@
-#+TAGS: sys op usr
+#+TAGS: users add_users user add_user
 
 
-* newusers                                                       :sys:op:usr:
+* newusers
 * Description
 This cmd allows a large number of users to be added from a file
-* Uage
+
+* Usage
 
 > newusers <FILENAME>
 

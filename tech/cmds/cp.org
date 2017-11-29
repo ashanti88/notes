@@ -1,7 +1,7 @@
-#+TAGS: sys op
+#+TAGS: core_utils copy cp
 
 
-* cp								     :sys:op:
+* cp
 * Description
 * Usage
 - copy a directory
@@ -16,7 +16,7 @@ cp -r -u /home/code /test
 #+END_SRC
 this will only copy new and altered files
 
-:
+liiiiiiiiiiiiiiiiiii d
 * Lecture
 * Tutorial
 * Books

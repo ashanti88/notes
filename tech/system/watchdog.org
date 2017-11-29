@@ -1,4 +1,4 @@
-#+TAGS: sys mon
+#+TAGS: watchdog
 
 
 * watchdog

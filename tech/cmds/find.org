@@ -43,7 +43,7 @@ find . -regex ".*django.*"
 #+END_SRC
 As find will search the fqdn .* has to be the first term
 
-** Finding files by size
+** Find file by size
 We can use the size flag with size descriptions
   - c - bytes
   - k - kilobytes
@@ -56,13 +56,39 @@ We can use the size flag with size descriptions
 find . -size +100M
 #+END_SRC
 
-** Find files at certain depth
+- find all files that are exactly 1MB
+#+BEGIN_SRC sh
+find . -size 1M
+#+END_SRC
+
+** Find file at certain depth
 To descend into sub-directories use the maxdepth flag
 #+BEGIN_SRC 
 find . -maxdepth 1 -type f -name "history"
 #+END_SRC
 1 will search in the set directory
 2 will move down one directory etc...
+** Find file of a certain permission
+#+BEGIN_SRC sh
+find /home -perm 777
+#+END_SRC
+
+- find files with 777 and change to 555
+#+BEGIN_SRC sh
+find /home -perm 777 -exec chmod 555 {} \;
+#+END_SRC
+
+** Find file by group or user
+- find all files owned by accounting group
+#+BEGIN_SRC sh
+find / -group accounting
+#+END_SRC
+
+- find all files owned by jim
+#+BEGIN_SRC sh
+find / -user jim
+#+END_SRC
+
 ** Find by user
 #+BEGIN_SRC sh
 find . -maxdepth -user crito -name "*.py"

@@ -113,3 +113,4 @@ vmstat
 * Tutorial
 * Books
 * Links
+[[https://www.redhat.com/en/blog/do-we-really-need-swap-modern-systems][Do We Really Need Swap on Modern Systems? - Red Hat]]

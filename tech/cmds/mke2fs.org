@@ -1,0 +1,38 @@
+#+TAGS: mke2fs partition_creatation device_formatting partition_formatting
+
+
+* mke2fs
+* Description
+This is an exact copy of the mkfs binary, if not symbloically linked then hard linked (check the number next to root when ll is used if > 1 than it is hard linked).
+
+* Usage
+** Create a partition
+- ext2
+#+BEGIN_SRC sh
+mke2fs /dev/sda2
+mke2fs -t ext2 /dev/sda2
+#+END_SRC
+this will create a ext2 filesystem on sda2
+
+-ext3
+#+BEGIN_SRC sh
+mke2fs /dev/sda2 -j
+mke2fs -t ext3 /dev/sda2
+#+END_SRC
+j - journaling
+
+** Force creation of filesystem on a mounted partition
+#+BEGIN_SRC sh
+mke2fs -F /dev/sdb1
+#+END_SRC
+F - force flag
+
+** Make a volume label for partition
+#+BEGIN_SRC sh
+mke2fs -L label /dev/sdb1
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

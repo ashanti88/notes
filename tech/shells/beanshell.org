@@ -1,7 +1,7 @@
 #+TAGS: shell java
 
 
-* BeanShell							 :shell:java:
+* BeanShell
 HomePage: [[http://www.beanshell.org/intro.html][beanshell.org]]
 * Description
 * Usage

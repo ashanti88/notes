@@ -3,6 +3,8 @@
 
 * PostreSQL					     :DB:postgresql:postgres:
 HomePage: [[https://www.postgresql.org/][postgresql.org]]
+Arch: https://wiki.archlinux.org/index.php/PostgreSQL
+
 * Cmds
 - psql
 - createuser

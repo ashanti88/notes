@@ -1,7 +1,7 @@
 #+TAGS: comms irc
 
 
-* Internet Relay Chat                                             :comms:irc:
+* Internet Relay Chat
 [[file://home/crito/Documents/RFC/rfc2812-irc.pdf][RFC 2812 - IRC]]
 * Overview
 ** Modes

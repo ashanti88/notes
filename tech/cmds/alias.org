@@ -1,0 +1,23 @@
+#+TAGS: alias bashrc zshrc
+
+
+* alias
+* Description
+This command allows aliases to be created on the command line appose to setting them in the .bashrc/.zshrc, but these aliases are not persistent.
+
+* Usage
+- setting "tail -f /var/log/messages" to "showlog"
+#+BEGIN_SRC sh
+alias showlog="tail -f /var/log/messages"
+#+END_SRC
+
+- view what an alias is aliased too
+#+BEGIN_SRC sh
+alias showlog
+#+END_SRC
+this will show the command aliased to "showlog"
+
+* Lecture
+* Tutorial
+* Books
+* Links

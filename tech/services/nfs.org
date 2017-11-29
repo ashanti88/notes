@@ -1,7 +1,13 @@
-#+TAGS: nfs file_server
+#+TAGS: nfs file_server export_filesystem file_share
 
 
 * NFS
+* Cmds
+- exportfs
+
+* Files
+- /etc/exports - this holds the available nfs shares
+
 * Description
 * Usage
 - NFSv4 Features
@@ -20,8 +26,76 @@ systemctl enable nfs-server
 exportfs -r
 #+END_SRC
 
+** Install and configure NFS server for sysvinit(RHEL6)
+#+BEGIN_SRC sh
+yum install nfs-utils nfs-utils-lib
+chkconfig nfs on
+service nfs start
 #+END_SRC
-** NFS Exports 
+
+- set /home and /var/share as a file export
+/etc/exports
+#+BEGIN_EXAMPLE
+/home	192.168.1.0/24(rw,no_root_squash)
+/var/share	192.168.1.0/24(ro)
+#+END_EXAMPLE
+rw             - read write priv
+ro             - read only
+no_root_squash - always the remote users to change any files on the share and leave malicious code for other ppl. By default nfs changes the root user to nfsnobody user an unpriviliged account.
+
+- make new shares available
+#+BEGIN_SRC sh
+exportfs -a
+service nfs restart
+#+END_SRC
+a - export or unexport all directories
+
+** Client setup for NFS on sysvinit(RHEL6)
+#+BEGIN_SRC sh
+yum install nfs-utils nfs-utils-lib
+cd /mnt
+mkdir nfs_home
+mkdir nfs_share
+#+END_SRC
+
+- manually mount the nfs shares
+#+BEGIN_SRC sh
+mount 192.168.1.131:/home /mnt/nfs_home/
+mount 192.168.1.131:/var/share /mnt/nfs_share/
+#+END_SRC
+
+- mount on boot
+/etc/fstab
+#+BEGIN_EXAMPLE
+192.168.1.131:/home 		/mnt/nfs_home	nfs	rw,sync,hard,intr 0 0
+192.168.1.131:/var/share 	/mnt/nfs_share	nfs	rw,sync,hard,intr 0 0
+#+END_EXAMPLE
+though /var/share is read only, the abouve rw will have no effect
+
+** Setting up a simple nfs share
+- create a mount on the client side
+#+BEGIN_SRC sh
+mkdir nfsdir
+#+END_SRC
+
+- on the nfs server
+#+BEGIN_SRC sh
+cat /etc/exports
+#+END_SRC
+this will show all available shares and who can access them
+
+- on client side mount the nfs share
+#+BEGIN_SRC sh
+mount -t nfs 192.168.0.3:/home nfsdir/
+#+END_SRC
+this will mount the available share
+
+- on client in the /etc/fstab
+#+BEGIN_EXAMPLE
+192.168.0.3:/home	/mnt/nfsdir	nfs	rw,sync,hard,intr 0 0
+#+END_EXAMPLE
+
+** NFS Exports
 - sharinge the directory /media
 /etc/exports
 #+BEGIN_EXAMPLE
@@ -194,7 +268,6 @@ mount 192.168.1.11:/srv/nfs/home /mnt/sharedir
 #+BEGIN_EXAMPLE
 192.168.1.11:/srv/nfs/home	/mnt/sharedir	auto,nofail 0 0
 #+END_EXAMPLE
-
 
 * Books
 [[file://home/crito/Documents/SysAdmin/NFS-HOWTO.pdf][Linux NFS HowTo]]

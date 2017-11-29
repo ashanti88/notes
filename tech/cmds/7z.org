@@ -1,7 +1,7 @@
-#+TAGS: file comp
+#+TAGS: file_compression 7z
 
 
-* 7z 								  :file:comp:
+* 7z
 * Description
 7-Zip  is  a file archiver with the highest compression ratio. The program supports 7z (that implements LZMA compression algorithm), ZIP,  CAB,  ARJ, GZIP,  BZIP2, TAR, CPIO, RPM and DEB formats. Compression ratio in the new 7z format is 30-50% better than ratio in ZIP format.
 

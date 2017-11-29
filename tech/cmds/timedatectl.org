@@ -1,0 +1,26 @@
+#+TAGS: systemd sysd time_date
+
+
+* timedatectl
+* Description
+* Usage
+- list all timezones
+#+BEGIN_SRC sh
+timedatectl list-timezones
+#+END_SRC
+
+- set the timezone
+#+BEGIN_SRC sh
+timedatectl set-timezone Europe/London
+#+END_SRC
+
+- show the current status of your data-time settings
+#+BEGIN_SRC sh
+timedatectl status
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links
+[[https://www.digitalocean.com/community/tutorials/how-to-use-journalctl-to-view-and-manipulate-systemd-logs][How to use Journalctl to view and Manipulate Systemd Logs - DigitalOcean]]

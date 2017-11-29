@@ -1,7 +1,7 @@
-#+TAGS: sys fs op
+#+TAGS: mount file_system
 
 
-* mount								  :sys:fs:op:
+* mount
 * Description
 * Usage
 - mount dvd/cdrom

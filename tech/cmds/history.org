@@ -1,9 +1,20 @@
-#+TAGS: sys op
+#+TAGS: history bash shell
 
 
-* history							     :sys:op:
+* history
 * Description
 * Usage
+- clear the history
+#+BEGIN_SRC sh
+history -c
+#+END_SRC
+
+- print the complete history
+#+BEGIN_SRC sh
+history
+#+END_SRC
+
+
 * Lecture
 * Tutorial
 * Books

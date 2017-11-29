@@ -1,4 +1,4 @@
-#+TAGS: col columns file
+#+TAGS: col columns file cut core_utils
 
 
 * cut

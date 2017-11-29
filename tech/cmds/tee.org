@@ -1,0 +1,23 @@
+#+TAGS: file_manipulation tee
+
+
+* tee
+* Description
+Take 
+* Usage
+- output and write to a file std output
+#+BEGIN_SRC sh
+ls | tee list.txt
+#+END_SRC
+we get the output of the initial command and also write it to a file
+
+- append to a file
+#+BEGIN_SRC sh
+ls | tee -a list.txt
+#+END_SRC
+this will add an copy of the ls command
+
+* Lecture
+* Tutorial
+* Books
+* Links

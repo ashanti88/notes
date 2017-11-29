@@ -1,11 +1,13 @@
 #+TAGS: linux kernel
 
 
-* Kernel                                                       :linux:kernel:
+* Kernel
 * Cmds
-ksplice
-kexec
+- ksplice
+- kexec
 - [[file://home/crito/org/tech/cmds/sysctl.org][sysctl]]
+- [[file://home/crito/org/tech/cmds/lsmod.org][lsmod]]
+- [[file://home/crito/org/tech/cmds/modprobe.org][modprobe]]
 
 
 * Overview

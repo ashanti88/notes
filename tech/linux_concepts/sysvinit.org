@@ -1,0 +1,50 @@
+#+TAGS: init sysv sysvinit
+
+
+* Sysvinit
+* Cmds
+- [[file:~/org/tech/cmds/service.org][service]]
+- [[file:~/org/tech/cmds/chkconfig.org][chkconfig]]
+
+* Configuration
+/etc/init
+/etc/init.d
+/etc/rc.d
+
+* Overview
+** Runlevels
++ Red Hat
+0 - halt
+1 - Single User (Rescue)
+2 - multi-user (no-networking)
+3 - multi-user (networking)
+4 - Not used
+5 - multi-user (Gui)
+6 - restart
+
++ Debian
+0 - halt
+1 - Single User (Rescue)
+2 - multi-user 
+3 - Not used
+4 - multi-user
+5 - multi-user
+6 - restart
+
+- Changing the default run-level is done by ammending /etc/inittab
+** Configuring Network Services to Run on Boot
+- configure telnet-server
+#+BEGIN_SRC sh
+yum install -y telnet-server
+yum install -y telnet
+chkconfig xinetd on
+service xinetd start
+chkconfig telnet on
+service telnet start
+#+END_SRC
+telnet is managed by the xinetd not sysvinit
+
+* Lecture
+* Tutorial
+* Books
+* Links

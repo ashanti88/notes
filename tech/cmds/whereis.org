@@ -1,9 +1,14 @@
-#+TAGS: file op
+#+TAGS: whereis find_application find_binary find_man_pages
 
 
-* whereis							    :file:op:
+* whereis
 * Description
 * Usage
+- return the binary, library and man page locations of a command
+#+BEGIN_SRC sh
+whereis ls
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

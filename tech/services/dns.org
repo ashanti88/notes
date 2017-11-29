@@ -1,7 +1,7 @@
 #+TAGS: dns
 
 
-* DNS                                                                   :dns:
+* DNS
 * Description
 This is a small exaple of how DNS is structured
          . root
@@ -34,7 +34,6 @@ SOA   - Start Of Authority; generic information about a domain
 MX    - Mail Exchange tht is responsible for this domain
 TXT   - Supplies additional data,such as data that is used by sender policy framework networks and related 
 SRV   - Hosts that provide a specific service
-
 
 
 * Public Servers

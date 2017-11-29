@@ -4,6 +4,9 @@
 * nmcli
 HomePage: [[https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Networking_Guide/sec-Network_Config_Using_nmcli.html][nmcli]]
 
+* Files
+/etc/netctl - this directory contains all the networking configuration files
+
 * Description
 + Network Manager Command Line Interface
 This tool allows for changes to the network via the cmd line.
@@ -43,7 +46,7 @@ nmcli dev wifi list
 #+BEGIN_SRC sh
 nmcli con show
 #+END_SRC
-** Ops
+** Operations
 *** Connect
 #+BEGIN_SRC sh
 nmcli dev wifi connect SSID_name password pa$$w0rd

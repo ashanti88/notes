@@ -1,9 +1,32 @@
-#+TAGS: sys sec enc
+#+TAGS: disk_encryption cryptsetup encryption_tool
 
 
-* cryptsetup							:sys:sec:enc:
+* cryptsetup
+* Files
+- /proc/crypto - this shows all the defaults for the encrypted disks
+- /dev/mapper  - here is where all the alias for the encrpted partitions are stored
+
 * Description
 * Usage
+** Encrypt a partition
+#+BEGIN_SRC sh
+cryptsetup -y luksFormat /dev/sdb1
+#+END_SRC
+This ask you to confirm and also for a passphrase
+** Open an encrypted partition
+#+BEGIN_SRC sh
+cryptsetup luksOpen /dev/sdb1 myEncryption
+#+END_SRC
+- you will be prompted for your passphrase if correct it will be unlocked
+- myEncryption is the alias that the encrypted with be know as in /dev/mapper, and it is this that is used when the partition is to be acted on (mount etc)
+
+** Close an encryped partition
+#+BEGIN_SRC sh
+cryptsetup luksClose myEncryption
+#+END_SRC
+where myEncryption is the mapper alias
+
+** Working with Luks Keys
 - list current key slots active
 #+BEGIN_SRC sh
 cryptsetup luksDump /dev/sdb1 | grep BLED
@@ -54,6 +77,8 @@ cryptsetup luksAddKey /dev/sdb1 --master-key-file <(cat existing_lukskey.bin)
 - take the hash that is printed and place it in a file on its own
 - convert that file into a binary
 - using the master key reste the password
+
+** Mounting a second encrypted hdd
 
 * Lecture
 * Tutorial

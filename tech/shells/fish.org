@@ -1,7 +1,7 @@
-#+TAGS: shell
+#+TAGS: shell fish_shell
 
 
-* Fish Shell							      :shell:
+* Fish Shell
 HomePage: [[https://fishshell.com/][fishshell.com]]
 * Description
 * Usage

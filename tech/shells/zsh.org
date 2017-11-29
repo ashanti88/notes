@@ -124,7 +124,6 @@ Make sure that you back up your original .zshrc
 cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
 #+END_SRC
 
-
 * Lecture
 * Tutorial
 * Books

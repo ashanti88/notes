@@ -15,6 +15,18 @@
     
 * Description
 * Usage
+** Variables
+- creating a bash variable
+#+BEGIN_SRC sh
+export MYNAME="Jimmy"
+echo $MYNAME
+#+END_SRC
+
+- to create persistent variables they need to be added to the .bashrc
+#+BEGIN_EXAMPLE
+exprot MYNAME="Jimmy"
+#+END_EXAMPLE
+
 ** Precedence of config files
 - non-interactive
   /etc/profile

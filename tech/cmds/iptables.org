@@ -1,24 +1,47 @@
-#+TAGS: sys net sec fw
+#+TAGS: firewall packet_filter iptables network_security
 
 
-* iptables 						     :sys:net:sec:fw:
+* iptables
 Home Page: [[http://www.netfilter.org/][netfilter.org]]
+
+* Files 
 * Description
 * Usage
 ** List current rules
-> iptables -L
-this may take a while as it will attempt to resolve all the ip addresses
-> iptables -nL
-this will disable name resolve
+- this may take a while as it will attempt to resolve all the ip addresses
+#+BEGIN_SRC sh
+iptables -L
+#+END_SRC
+
+- this will disable name resolve
+#+BEGIN_SRC sh
+iptables -nL
+#+END_SRC
 
 ** Flush currnt rule set
-> iptables -F
-or
-> iptables --flush
+#+BEGIN_SRC sh
+iptables -F
+iptables --flush
+#+END_SRC
+
+** Drop icmp packets
+- setting a drop rule
+#+BEGIN_SRC sh
+iptables -A INPUT --protocol icmp --in-interface enp0s3 -j DROP
+#+END_SRC
+the scanning machine will recieve no feedback on sent packets
+
+- setting a reject rule
+#+BEGIN_SRC sh
+iptables -A INPUT --protocol icmp --in-interface enp0s3 -j REJECT
+#+END_SRC
+the scanning machine will recieve feedback that will indicate that it is a vaild ip
 
 * Lecture
 * Tutorial
 * Books
+[[file://home/crito/Documents/Linux/Security/Linux_iptables_Pocket_Reference.pdf][Linux iptables Pocket Reference]]
+
 * Links
 [[http://www.thegeekstuff.com/category/iptables/][GeekStuff - iptables]]
 [[https://wiki.debian.org/iptables][Debian - iptable]]

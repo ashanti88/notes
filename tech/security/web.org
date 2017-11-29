@@ -1,7 +1,7 @@
-#+TAGS: sec web
+#+TAGS: web_security
 
 
-* Web								    :sec:web:
+* Web
 * Web Servers
 ** Apache
 ** Nginx

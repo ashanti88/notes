@@ -1,7 +1,7 @@
-#+TAGS: sec net waf
+#+TAGS: security network waf web_application_firewall
 
 
-* WAF								:sec:net:waf:
+* WAF
 ** ModSecurity 
 HomePage: https://modsecurity.org/
 * Lecture

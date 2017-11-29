@@ -1,7 +1,10 @@
-NS - NS record maps a domain to a list of DNS servers authoritative for
-that domain.
+#+TAGS: dns_records
 
-SOA - provides authoritative information about the domain.
+
+* DNS Record Types
+- NS - NS record maps a domain to a list of DNS servers authoritative for that domain.
+
+- SOA - provides authoritative information about the domain.
 
 The recieved informaiton:
 
@@ -22,68 +25,55 @@ zone file as valid.
 minimum - specifies the time that the secondary DNS should cache the
 zone file.
 
-MX - Mail Exchange record, maps a domain name to a list of message
-transfer agents for the domain.
+- MX - Mail Exchange record, maps a domain name to a list of message transfer agents for the domain.
 
-A - This is a 32bit ipv4 address most commonly used to map hostnames to
-ip addresses. It is also used for DNSBL.
+- A - This is a 32bit ipv4 address most commonly used to map hostnames to ip addresses. It is also used for DNSBL.
 
-AAAA - This returns a 128bit ipv6 address most commonly used to map
-hostnames to ip addresses.
+- AAAA - This returns a 128bit ipv6 address most commonly used to map hostnames to ip addresses.
 
-PTR - Pointer record, pointer to a canonical name. Unlike CNAME, DNS
-processing stops and just returns the name. The most common use is for
-implementing reverse DNS lookups
+- PTR - Pointer record, pointer to a canonical name. Unlike CNAME, DNS processing stops and just returns the name. The most common use is for implementing reverse DNS lookups
 
-AFSDB - This record is commonly used by AFS clients to contact AFS cells
-outside their local domain.
+- AFSDB - This record is commonly used by AFS clients to contact AFS cells outside their local domain.
 
-APL - Specify list of address ranges. Experimental
+- APL - Specify list of address ranges. Experimental
 
-CAA - DNS Certification Authority Authorization, constraining acceptable
-CAs for a host/domain.
+- CAA - DNS Certification Authority Authorization, constraining acceptable CAs for a host/domain.
 
-CDNSKEY - Child copy of DNSKEY record, for transfer to parent.
+- CDNSKEY - Child copy of DNSKEY record, for transfer to parent.
 
-CDS - Child copy of DS record for transfer to parent.
+- CDS - Child copy of DS record for transfer to parent.
 
-CERT - Certificate record stores PKIX, SPKI, PGP, etc
+- CERT - Certificate record stores PKIX, SPKI, PGP, etc
 
-CNAME - Canonical name record, alias of one name to another the DNS
-lookup will continue by retrying the lookup with the new name.
+- CNAME - Canonical name record, alias of one name to another the DNS lookup will continue by retrying the lookup with the new name.
 
-DHCID - DHCP identifier, used in conjunction with the FQDN option to
-DHCP.
+- DHCID - DHCP identifier, used in conjunction with the FQDN option to DHCP.
 
-DLV - DNSSEC Lookaside Validation record, for publishing DNSSEC trust
-anchors outside of the DNS delegation chain.
+- DLV - DNSSEC Lookaside Validation record, for publishing DNSSEC trust anchors outside of the DNS delegation chain.
 
-DNAME - Delegation Name, alias for a name and all its subnames. Unlike
-CNAME which is an alias for the exact name. Like a CNAME record, the DNS
-lookup will continue by retrying the lookup with the new name.
+- DNAME - Delegation Name, alias for a name and all its subnames. Unlike CNAME which is an alias for the exact name. Like a CNAME record, the DNS lookup will continue by retrying the lookup with the new name.
 
-DNSKEY - DNS Key record, the key record used in DNSSEC. Uses the same
-format as the KEY record.
+- DNSKEY - DNS Key record, the key record used in DNSSEC. Uses the same format as the KEY record.
 
-DS - Delegation Signer, this record is used to identify the DNSSEC
-signing key of a delegated zone.
+- DS - Delegation Signer, this record is used to identify the DNSSEC signing key of a delegated zone.
 
-HIP - Host Identify Protocol, method of seperating the end-point
-identifier and locator roles of ip addresses.
+- HIP - Host Identify Protocol, method of seperating the end-point identifier and locator roles of ip addresses.
 
-IPSECKEY - IPsec Key, key record that can be used with IPsec.
+- IPSECKEY - IPsec Key, key record that can be used with IPsec.
 
-Key - 
+Key -
 
-TXT - Originally for arbitrary human-readable text in a DNS record.
-Since the early 90s, this record more often carries machine-readable
-data
+- TXT - Originally for arbitrary human-readable text in a DNS record. Since the early 90s, this record more often carries machine-readable data
 
-URI - Uniform Resource Identifier, can be used for publishing mappings
-from hostnames to URIs. 
+- URI - Uniform Resource Identifier, can be used for publishing mappings from hostnames to URIs.
+
+* Lecture
+* Tutorial
+* Books
+* Links
+https://en.wikipedia.org/wiki/List\_of\_DNS\_record\_types
 
 *To be continued*
 
 Links:
 
-https://en.wikipedia.org/wiki/List\_of\_DNS\_record\_types

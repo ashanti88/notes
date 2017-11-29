@@ -1,0 +1,41 @@
+#+TAGS: network_performance network_monitoring
+
+
+* Monitor Network Performance
+* Cmds
+- netstat
+- ss (socket statistics)
+- ifconfig
+- ip
+- iptraf
+- bmon
+- dstat
+- nmap
+
+* Files
+* Description
+* Usage
+- all tcp ports that are open
+#+BEGIN_SRC sh
+ss -t -a
+#+END_SRC
+
+- all active tcp ports with timers
+#+BEGIN_SRC sh
+ss -t o
+#+END_SRC
+
+- examine a specific port
+#+BEGIN_SRC sh
+ss -tn sport = :22
+#+END_SRC
+
+- list all ports that are listening
+#+BEGIN_SRC sh
+nmap -A localhost
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links
