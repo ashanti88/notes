@@ -4,7 +4,26 @@
 * Apache
 HomePage: [[https://www.apache.org/][apache.org]]
 
+* Cmds
+- apachectl
+- a2enmod
+- a2dismod
+- a2ensite
+- a2disite
+- a2enconf
+- a2disconf
+
 * Files
+** Debian
+/etc/apache2 - server root
+/etc/apache2/apache2.conf - the apache main configuration file
+/etc/apache2/conf-available/  - available confs
+/etc/apache2/conf-enabled/    - symbolic links to the enabled confs
+/etc/apache2/mods-available/  - available mods
+/etc/apache2/mods-enabled/    - symbolic links of the enabled mods
+/etc/apache2/sites-available/ - vhost configs
+/etc/apache2/sites-enabled/   - symbolic links of the enabled files in sites-available
+
 ** RHEL
 /etc/httpd - server root
 /etc/httpd/conf/httpd.conf - main configuration file
@@ -12,6 +31,7 @@ HomePage: [[https://www.apache.org/][apache.org]]
 /etc/httpd/conf.d/*.conf   - Supplemental configuration files
 /var/www/html - Default document root
 /usr/share/httpd/noindex/ - the default test page directory
+/etc/httpd/logs - sometimes logs are placed here instead of using /var/log
 
 * Description
 * Usage
@@ -61,7 +81,7 @@ htpasswd -c /etc/nagios/htpasswd.users nagiosadmin
 #+END_SRC
 it will prompt for a password for nagiosadmin
 
-** chroot Apache Web Server					     :chroot:
+** chroot Apache Web Server
 [[https://www.cyberciti.biz/tips/chroot-apache-under-rhel-fedora-centos-linux.html][Chroot Apache Centos - NixCraft]]
 ** Changing document root
 - change the document root in the httpd.conf
@@ -71,7 +91,7 @@ semanage fcontext -a -t httpd_sys_content_t '/web(/.*)?'
 restorecon -R -v /web
 #+END_SRC
 
-** Configuring a Simple Web Server (rhel)
+** Configuring a Simple Web Server (RHEL)
 - install apache
 #+BEGIN_SRC sh
 yum install httpd
@@ -247,6 +267,363 @@ systemctl restart httpd
 if no index.html, or directory is configured for the Apache a default page is provided
 
 this can be found in /usr/share/httpd/noindex/
+
+** Configure Apache log files
+
+- the log files are defined in /etc/httpd/conf/httpd.conf
+  - under the #LogLevel section   
+    
+#+BEGIN_EXAMPLE
+LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" combined
+LogFormat "%h %l %u %t \"%r\" %>s %b" common
+#+END_EXAMPLE
+%h            - hostname/ip addr
+%l            - login name
+%u            - remote use
+%t            - date and time
+%r            - first line of request
+%s            - status of the request
+%{Referer}    - where the request came from
+%{User-Agent} - what type of browser made the request
+
+- the formats can be set on to different logs and are specifed at the end of each line
+#+BEGIN_EXAMPLE
+CustomLog "logs/access_log" combined
+#+END_EXAMPLE
+
+** Configure SSL Certs and Keys (RHEL)
+- install mod_ssl
+#+BEGIN_SRC sh
+yum install mod_ssl openssl
+#+END_SRC
+
+- create an ssl-certs directory for httpd
+#+BEGIN_SRC sh
+mkdir /etc/httpd/ssl-certs
+#+END_SRC
+
+- creating a self signed certificate   
+#+BEGIN_SRC sh
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/httpd/ssl-certs/example.key -out /etc/httpd/ssl-certs/example.crt
+#+END_SRC
+req    - what cert is to be created
+days   - when will the cert will expire
+newkey - what encryption type
+keyout - where to place the key
+out    - where to place the cert
+
+- configure apache to use cert and to listen on 443
+/etc/httpd/vhost.d/example.conf
+#+BEGIN_EXAMPLE
+NameVirtualHost *:80
+NameVirtualHost *:443
+<VirtualHost *:80>
+	ServerAlias example
+	DocumentRoot /var/www/html
+	ServerName example.com
+</VirtualHost>
+
+<VirtualHost *:443>
+	ServerAlias example
+	DocumentRoot /var/www/html
+	ServerName example.com
+	
+	SSLEngine on
+	SSLCertificateFile /etc/httpd/ssl-certs/example.crt
+	SSLCertificateKeyFile /etc/httpd/ssl-certs/example.key
+</VirtualHost>
+#+END_EXAMPLE
+
+- restart httpd
+#+BEGIN_SRC sh
+systemctl restart httpd
+#+END_SRC
+
+- test with telnet and your browser
+#+BEGIN_SRC sh
+telnet example.com 443
+#+END_SRC
+
+** Install and Configure an Apache Web Server (RHEL)
+   
+- install apache
+#+BEGIN_SRC sh
+yum install httpd
+#+END_SRC
+
+- enable and start the service
+#+BEGIN_SRC sh
+systemctl enable httpd.service
+systemctl start httpd.service
+systemctl status httpd.service
+#+END_SRC
+
+- test the server can be connected to
+#+BEGIN_SRC sh
+telnet localhost 80
+lynx http://localhost
+#+END_SRC
+
+- adding an include to the httpd.conf file will allow for virtual hosts
+#+BEGIN_EXAMPLE
+IncludeOptional conf.d/*.conf
+IncludeOptional vhost.d/*.conf
+#+END_EXAMPLE
+is should be added to the bottom of the conf file
+
+- create the vhost.d directory
+#+BEGIN_SRC sh
+mkdir /etc/httpd/vhost.d
+#+END_SRC
+
+- restart the httpd service
+#+BEGIN_SRC sh
+systemctl restart httpd.service
+#+END_SRC
+
+** Install and Configure an Apache Web Server (Ubuntu 14.0)
+This version of Ubuntu used sysvinit   
+
+- install the apache web server
+#+BEGIN_SRC sh
+apt-get install apache2
+#+END_SRC
+ubuntu/debian automatically start the service
+
+- Though it should already be enable and started here is how to if it isn't
+#+BEGIN_SRC sh
+update-rc.d apache2 defaults
+service restart apache2
+#+END_SRC
+
+- test that the server is accepting connections
+#+BEGIN_SRC sh
+telnet localhost 80
+lynx http://localhost
+#+END_SRC
+
+** Restrict Access to a Web Page with Apache (RHEL)
+   
+- with in the /etc/httpd/conf/httpd.conf specifiy the exact directory that is to be restricted
+#+BEGIN_EXAMPLE
+<Directory /var/www/example/test>
+	Order allow,deny
+	Allow from 52.23.22.100
+	Allow from 172.31.16.59
+	Allow from 127
+</Directory>
+#+END_EXAMPLE
+This only allows the specified ip addrs to connect to that directory
+
+- it could be added to a specific vhost instead
+#+BEGIN_EXAMPLE
+<VirtualHost *:80>
+
+	ServerName example.com
+	ServerAlias example
+	
+	DocumentRoot /var/www/example
+
+	<Directory /var/www/example/test>
+		Order allow,deny
+		Allow from 52.23.22.100
+		Allow from 172.31.16.59
+		Allow from 127
+	</Directory>
+
+</VirtualHost>
+#+END_EXAMPLE
+
+** Setting up name-based virtual web hosts (Ubuntu)
+   
+- try to keep all sites in one place such as /var/www/
+  - each directory under /var/www should hold a single site
+  
+- /etc/apach2/sites-available is where each sites config is kept 
+  - use the 000-default.conf as a template
+  - http and https shuld be split out
+    
+/etc/apache2/sites-available/example.com_http.com
+#+BEGIN_EXAMPLE
+<VirtualHost *:80>
+	ServerName www.example.com
+	ServerAlias example
+
+	ServerAdmin webmaster@localhost
+	DocumentRoot /var/www/example
+</VirtualHost>
+#+END_EXAMPLE
+
+- the site has to be made available
+#+BEGIN_SRC sh
+a2ensite example.com
+#+END_SRC
+this will create a symbolic link to /etc/apache2/sites-enabled
+
+- restart the service
+#+BEGIN_SRC sh
+service apache2 restart
+#+END_SRC
+
+** Setting up name-based virtual web hosts with SSL (Ubuntu)
+
+- check in the mods enabled directory if the the ssl mod is enabled
+#+BEGIN_SRC sh
+ls -al ssl*
+#+END_SRC
+
+- enable the ssl mod
+#+BEGIN_SRC 
+a2enmod ssl
+#+END_SRC
+
+- restart apache
+#+BEGIN_SRC sh
+service apache2 restart
+#+END_SRC
+
+- generate a cert and key
+#+BEGIN_SRC sh
+mkdir /etc/apache2/ssl
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/apache2/ssl/apache.key -out /etc/apache2/ssl/apache.crt
+#+END_SRC
+
+- adding a vhost config for the site for ssl, copy the http config of the site
+#+BEGIN_SRC sh
+cp example.com_http.conf example.com_https.conf
+#+END_SRC
+
+/etc/apache2/sites-available/example.com_https.com
+#+BEGIN_EXAMPLE
+SSLEngine on
+SSLCertificateFile /etc/apache2/ssl/apache.crt
+SSLCertificateKeyFile /etc/apache2/ssl/apache.key
+#+END_EXAMPLE
+these are the variables that need to be configured for ssl
+
+- enable the site
+#+BEGIN_SRC sh
+a2ensite example.com_https.conf
+#+END_SRC
+
+- restart the service
+#+BEGIN_SRC sh
+service apache2 restart
+#+END_SRC
+
+** Setting up name-based virtual web hosts (RHEL)
+
+- install httpd
+#+BEGIN_SRC sh
+yum install httpd
+#+END_SRC
+
+- enable and start
+#+BEGIN_SRC sh
+systemctl enable httpd.service
+systemctl start httpd.service
+systemctl status httpd.service
+#+END_SRC
+
+- add to the /etc/httpd/conf/httpd.conf 
+#+BEGIN_EXAMPLE
+IncludeOptional vhost.d/*.conf
+#+END_EXAMPLE
+place this at the bottom of the file
+
+- add the vhost.d directory
+#+BEGIN_SRC sh
+mkdir /etch/httpd/vhost.d
+#+END_SRC
+
+- add the site directory to /var/www/
+#+BEGIN_SRC sh
+mkdir /var/www/example
+#+END_SRC
+
+- add an index.html
+#+BEGIN_EXAMPLE
+<html>
+
+<head></head>
+
+<body>
+
+<h2>Example.com</h2>
+
+</body>
+</html>
+#+END_EXAMPLE
+
+- create a config file in vhost.d (there is no default file to use as a template with RHEL)
+/etc/httpd/vhost.d/example.com_http.conf
+#+BEGIN_EXAMPLE
+<VirtualHost *:80>
+
+	ServerName example.com
+	ServerAlias example
+	
+	DocumentRoot /var/www/example
+	ErrorLog /var/www/example/error.log
+	CustomLog /var/www/example/custom.log combined
+	
+</VirtualHost>
+#+END_EXAMPLE
+
+- restart the service
+#+BEGIN_SRC sh
+systemctl restart httpd.service
+#+END_SRC 
+
+- now browse to the address and you should see the index.html that we created
+  
+** Setting up name-based virtual web hosts with SSL (RHEL)
+   
+- create an ssl directory
+#+BEGIN_SRC sh
+mkdir /etc/httpd/ssl
+#+END_SRC
+
+- install mod_ssl
+#+BEGIN_SRC sh
+yum install mod_ssl
+#+END_SRC
+
+- create a cert and key
+#+BEGIN_SRC sh
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/httpd/ssl/apache.key -out /etc/httpd/ssl/apache.crt
+#+END_SRC
+
+- create a configuration file for https
+#+BEGIN_SRC sh
+cp /etc/httpd/vhost.d/example.com_http.conf /etc/httpd/vhost.d/example.com_https.conf
+#+END_SRC
+/etc/httpd/vhost.d/example_https.conf
+#+BEGIN_EXAMPLE
+<VirtualHost *:443>
+	SSLEngine On	
+	SSLCertificateFile /etc/httpd/ssl/apache.crt
+	SSLCertificateKeyFile /etc/httpd/ssl/apache.key
+
+	ServerName example.com
+	ServerAlias example
+	
+	DocumentRoot /var/www/example
+	
+</VirtualHost>
+#+END_EXAMPLE
+
+- open port 443
+#+BEGIN_SRC sh
+firewall-cmd --permanent --open-port=443/tcp
+firewall-cmd --reload
+#+END_SRC
+
+- restart the service
+#+BEGIN_SRC sh
+systemctl restart httpd.service
+systemctl status httpd.service
+#+END_SRC
 
 * Modules
 Wiki: [[https://en.wikipedia.org/wiki/List_of_Apache_modules][List of Apache Modules]]
@@ -503,4 +880,6 @@ Not recommended - Security performance
   - lagstash.net
 
 * Books
-* Links  
+* Links
+[[https://linuxconfig.org/turn-off-directory-browsing-on-apache][Turn off directory browsing on Apache]]
+[[https://httpd.apache.org/docs/1.3/logs.html][Log Files - Apache HTTP Server]]

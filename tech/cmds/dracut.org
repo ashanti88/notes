@@ -1,4 +1,4 @@
-#+TAGS: initramfs
+#+TAGS: initramfs dracut
 
 
 * Dracut

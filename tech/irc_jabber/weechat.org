@@ -1,7 +1,7 @@
-#+TAGS: irc
+#+TAGS: irc weechat
 
 
-* weechat								:irc:
+* weechat
 * Description
 * Usage
 ** Adding a Server
@@ -116,6 +116,16 @@ ctrl-x
 /key bind ctrl-[ /bar scroll nicklist * -100%
 /key bind ctrl-] /bar scroll nicklist * +100%
 #+END_EXAMPLE
+
+** Using the /set command
+The /set command allows for adding of variables or adjusting of already set variables
+
+- editing a server url
+#+BEGIN_EXAMPLE
+/set irc.server.new_server.address "irc.new_server.net"
+#+END_EXAMPLE
+if no port is specified the default 6667 is used
+
 
 * Lecture
 * Tutorial

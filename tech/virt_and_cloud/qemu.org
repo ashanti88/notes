@@ -1,12 +1,24 @@
-#+TAGS: virt
+#+TAGS: virtulisation
 
 
-* QEMU                                                                 :virt:
+* QEMU
 * cmds
 vde - Virtual Distributed Ethernet
 vde2 - Virtual Distributed Ethernet 2
 * Description
 * Usage
+** View available CPUs
+#+BEGIN_SRC sh
+qemu-system-arm -cpu help
+#+END_SRC
+this will list the available cpu's for ARM architecture
+
+** Extra Architectures
+- Arch
+#+BEGIN_SRC sh
+yaourt -S qemu qemu-extra-arch
+#+END_SRC
+
 * Lecture
 ** [[https://01.org/linuxgraphics/gfx-docs/drm/process/coding-style.html][Emulating Raspberry Pi on Linux with QEMU Part 1]]
 article: http://embedonix.com/articles/linux/emulating-raspberry-pi-on-linux/
@@ -20,6 +32,9 @@ this is the script to setup the qemu
 # starts rasberry pi image in configuration mode
 qemu-system-arm -kernel ./qemu-rpi-kernel/kernel-qemu -cpu arm1176 -m 256 -M versatilepb -no-reboot -serial stdio -append "root=/dev/sda2 panic=1 rootfstype=ext4 rw init=/bin/bash" -hda rpi.img
 #+END_SRC
+
 * Tutorial
 * Books
+[[file://home/crito/Documents/Embed/Mastering_Embedded_Linux_Programming.pdf][Mastering Embeded Linux Programming]]
+
 * Links

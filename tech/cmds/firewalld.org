@@ -1,15 +1,22 @@
 #+TAGS: net sec_d fw fwd
 
 
-* firewalld						   :net:sec_d:fw:fwd:
+* firewalld
 HomePage: [[http://www.firewalld.org/][firewalld.org]]
 * Cmds
 [[file://home/crito/org/tech/cmds/firewall-config.org][firewall-config]]
 [[file://home/crito/org/tech/cmds/firewall-cmd.org][firewall-cmd]]
+
+** RHEL7
+- iptables - this cmds is still available, it is symbolicly linked to /usr/sbin/xtables-multi 
+
 * Files
 /usr/lib/firewalld/services - this directory houses all the services files (xml)
 /etc/firewalld/services - this directory is where you add your own service files
 /etc/firewalld/firewalld.conf
+** RHEL7
+/etc/sysconfig/iptables-config
+/etc/sysconfig/ip6tables-config
 
 * Description
 * Usage
@@ -117,8 +124,9 @@ ufw enable
 
 - Reboot the server
 
-
+** 
 * Lecture
 * Tutorial
 * Books
 * Links
+[[https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/security_guide/sec-using_firewalls][Using Firewalls - RHEL7 Docs]]

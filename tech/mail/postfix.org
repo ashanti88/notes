@@ -1,10 +1,17 @@
-#+TAGS: mail mta
+#+TAGS: mail mta mail_transport_agent postfix
 
 
-* postfix							   :mail:mta:
-* Description
+* postfix
+* Cmds
+- postalias
+
 * Files
 /etc/postfix/main.cf
+/etc/postfix/aliases - this holds aliases mail on the system
+/etc/postfix/main.cf - the main configuration (myorign and mydestination)
+/etc/postfix/transport
+
+* Description
 * Usage
 ** Basic Admin
 - View Mail Queue
@@ -130,6 +137,81 @@ systemctl start postfix.service
 Stop
 #+BEGIN_SRC sh
 systemctl stop postfix.service
+#+END_SRC
+
+** Configuring Email Aliases
+/etc/postfix/aliases   
+#+BEGIN_EXAMPLE
+user: user,user2
+admin: user
+#+END_EXAMPLE
+- mail to user will now go to user and user2
+- the accounts user, admin are expected to be real users and need to be added to passwd
+- admin - won't recieve mail now for admin, but user will receive his mail
+  
+- load the added aliases
+#+BEGIN_SRC sh
+postalias /etc/postfix/aliases
+#+END_SRC
+
+
+** Install and Configure SMTP Service
+using postfix as the SMTP server
+
+- postfix comes installed on both Centos and Debian, but if a minimal install it may be missing
+#+BEGIN_SRC sh
+apt-get install postfix
+yum install postfix
+#+END_SRC
+
+- edit the /etc/postfix/main.cf
+#+BEGIN_EXAMPLE
+myorigin = bluelevers.com
+#+END_EXAMPLE
+the myorigin can be either the hostname of the machine(localnet mail), or the domain name (web mail)
+  - the domain will have to have the MX record set for the domain
+    
+- edit the transport file (we are configuring for mail transport on the lan)
+#+BEGIN_EXAMPLE
+bluelevers 	local:
+bluelevers.com	local:
+.bluelevers	local:
+.bluelevers.com	local:
+#+END_EXAMPLE
+
+- run the postmap
+#+BEGIN_SRC sh
+postmap /etc/postfix/transport
+#+END_SRC
+this creates an internal database for routing mail
+
+** Restrict Access to an SMTP Server
+this is done through the main.cf file   
+
+- add smtpd_helo_required
+#+BEGIN_EXAMPLE
+smtpd_helo_requied = yes
+#+END_EXAMPLE
+if not already set as default add to the end of the file
+
+- reject traffic that is leaving the LAN
+#+BEGIN_EXAMPLE
+smtpd_sender_restrictions = permit_mynetworks, reject_unknown_sender_domain
+#+END_EXAMPLE
+
+- reject bad hostname or network address
+#+BEGIN_EXAMPLE
+smtpd_helo_restrictions = permit_mynetworks, reject_invalid_helo_hostname
+#+END_EXAMPLE
+
+- reject anything for mail forwarding and non-destinations
+#+BEGIN_EXAMPLE
+smtpd_recipient_restrictions = permit_mynetworks, reject_unauth_destination
+#+END_EXAMPLE
+
+- after adding any changes to main.cf
+#+BEGIN_SRC sh
+postmap /etc/postfix/transport
 #+END_SRC
 
 * Lecture
@@ -292,9 +374,8 @@ newaliases
     postconf -m
     #+END_SRC
     
-      
 * Links
-Postfix mail server block .bat, .exe .com .vbs mime attachments --common virus spreading files
 http://www.cyberciti.biz/tips/postfix-block-mime-attachment-files.html
-
+[[https://www.linux.com/learn/install-and-configure-postfix-mail-server][Install and Configure Postfix - Linux.com]]
+[[http://www.techotopia.com/index.php/Configuring_a_Fedora_Linux_Email_Server][Configuring a Fedora Linux Email Server]]
 

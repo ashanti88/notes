@@ -37,6 +37,16 @@ iptables -A INPUT --protocol icmp --in-interface enp0s3 -j REJECT
 #+END_SRC
 the scanning machine will recieve feedback that will indicate that it is a vaild ip
 
+** Restore iptables
+- RHEL
+#+BEGIN_SRC sh
+iptables-restore < /etc/sysconfig/iptables
+#+END_SRC
+
+** opening a port with iptables
+#+BEGIN_SRC sh
+iptables -A INPUT -p tcp --dport 443 -j ACCEPT
+#+END_SRC
 * Lecture
 * Tutorial
 * Books

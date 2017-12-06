@@ -1,0 +1,75 @@
+#+TAGS: embedded_linux yocto_project openembedded
+
+
+* Embedded Linux
+* Description
+* Usage
+* Lecture
+* Tutorial
+** [[https://www.youtube.com/watch?v=6_pugJ0H50U][The Embedded Linux Quick Start Guide - Tutorial Chris Simmons - 2010 Cambridge]] 
+
+- Toolchain
+  - consists of at least
+    - binutils
+    - gcc
+    - libc
+    - gdb
+      
+  - Types of toolchain
+    - Native
+      - runs on target hardware, but if it isn't fast enough use an emulator such as Qemu
+    - Cross
+      - compile on one machine, run on another
+	- most common option
+	  
+  - The C Library
+    - Gcc is built along side the C library
+      - glibc - big but fully functional
+      - eglibc - embedded-friendly (ubuntu and deb have used this instead of glibc)
+      - uClibc - small, lacking up-to-date threads library and other POSIX functions
+	
+  - Criteria for selecting a toolchain
+    - good support for your processor
+    - Appropriate C lib
+    - Up to date(a lot of toolchains provided by suppliers are often out of date)
+    - Good Support in the community
+      
+- Bootloader
+  - Initialise the hardware
+    - setup sdram controller
+    - map memory
+    - set processor mode and features
+  - Load a kernel
+  - Optional
+    - load images via sd card, serial, ethernet
+    - erase and program flash memory
+      
+  - Pre-boot loader
+    - usually stored in flash memory
+      - first stage boot loader is stored in first page of NAND flash which is loaded by on-chip microcode
+	
+  - Sequence
+    - Pre-boot loader ---> main boot loader ---> kernel
+      
+  - Loading the Kernel
+    - Generate a description of the hardware
+    - load a kernel image into memory
+    - set the kernel cmd line
+    - jump to kernel start vector
+      
+  - Passing Hardware information
+    - ATAGS - are used by ARM
+    - FDT - Flattened Device Trees 
+ 
+  - Example Bootloaders
+    - U-Boot
+      - PPC, ARM, MIPS, SH4
+    - Redboot
+      - PPC, ARM, MIPS, SH4
+    - BIOS together with GRUB or LILO
+	
+* Books
+[[file://home/crito/Documents/Embed/Mastering_Embedded_Linux_Programming.pdf][Mastering Ebedded Linux Programming]]
+* Links
+[[https://www.openembedded.org/wiki/Main_Page][Openembedded Wiki]]
+[[https://www.yoctoproject.org/][Yocto Project]]

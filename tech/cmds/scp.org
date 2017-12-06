@@ -1,4 +1,4 @@
-#+TAGS: file ssh copy
+#+TAGS: ssh file_copy scp
 
 
 * scp
@@ -6,11 +6,17 @@
 * Usage
 - copy file from local machine to remote machine
 #+BEGIN_SRC sh
-scp -r file/on/local/machine user@remote_machine:/where/to/place/file
+scp /home/jim/helloworld.txt frank@192.168.0.1:/home/frank/
 #+END_SRC
-r - recursively copy the whole directory
 
-* Lecture
-* Tutorial
-* Books
-* Links
+- copy file from remote to local machine
+#+BEGIN_SRC sh
+scp frank@192.168.0.1:/home/frank/helloworld.txt /home/jim/
+#+END_SRC
+
+- using the verbose flag 
+#+BEGIN_SRC sh
+scp -v /home/jim/helloworld.txt frank@192.168.0.1:/home/frank/
+#+END_SRC
+v - verbose
+

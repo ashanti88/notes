@@ -1,7 +1,7 @@
-#+TAGS: sys init sysv
+#+TAGS: init sysvinit
 
 
-* service						      :sys:init:sysv:
+* service
 * Description
 * Usage
 ** Start
@@ -13,7 +13,16 @@
 ** Reload
 > service <service> reload
 
+** Disable a Service
+#+BEGIN_SRC sh
+update-rc.d -f apache2 remove
+#+END_SRC
+** Enable a Service
+#+BEGIN_SRC sh
+update-rc.d apache2 defaults
+#+END_SRC
 * Lecture
 * Tutorial
 * Books
 * Links
+https://www.jamescoyle.net/cheat-sheets/791-update-rc-d-cheat-sheet

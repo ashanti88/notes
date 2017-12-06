@@ -1,7 +1,7 @@
 #+TAGS: net pro vpn
 
 
-* OpenVPN                                                       :net:pro:vpn:
+* OpenVPN
 * Description
 * Usage
 * Lecture

@@ -1,7 +1,7 @@
-#+TAGS: sys op
+#+TAGS: 
 
 
-* acct								     :sys:op:
+* acct
 * Description
 * Usage
 * Lecture

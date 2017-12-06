@@ -1,9 +1,10 @@
 #+TAGS: package yum apt rpm dnf dpkg deb pacman yaourt pkg
 
 
-* Package Management Tools
-* Deb
-*** dpkg							    :deb:pkg:
+* Package Management
+* Debian
+** Cmds
+*** dpkg
 **** Basic Administration
 Install
 #+BEGIN_SRC sh
@@ -29,7 +30,7 @@ dpkg --add-architecture i386
 apt-get update
 #+END_SRC
 
-*** apt								    :deb:pkg:
+*** apt
 **** Basic Actions
 + Update available software database
 #+BEGIN_SRC sh
@@ -158,9 +159,103 @@ apt-get autoremove
 # Verify disk space
 df -H
 
+** Files
+/etc/apt/sources.list
+
 * Ubuntu
+** Cmds
 *** Snappy
-* RHEL
+** Files
+/etc/apt/sources.list
+** Create a local repository for Ubuntu (for local updates)
+
+- install proftpd and apt-mirror 
+#+BEGIN_SRC sh
+apt-get install apt-mirror proftpd-basic
+#+END_SRC
+
+- proftd will provide an ncurses setup
+
+[[file://home/crito/Pictures/org/deb_local_repo0.png]]
+the inetd is more appropriate for sysvinit, whereas standalone is more suited for systemd   
+
+- test ftp with localhost
+#+BEGIN_SRC sh
+ftp localhost
+#+END_SRC
+this should connect you to the ftp server
+
+- Now vist the Ubuntu Mirror Acheive https://launchpad.net/ubuntu/+archivemirrors
+  - choose a mirror that has ftp, sftp options
+    
+- edit mirror
+#+BEGIN_EXAMPLE
+set base_path /opt/dist-mirror
+set_nthreads 20
+set _tilde 0
+
+# Where I am mirroring from
+deb http://mirror.lstn.net/ubuntu/ trusty main
+deb-src http://mirror.lstn.net/ubuntu/ trusty main
+#+END_EXAMPLE
+the "Where I am mirroring from, should be the mirror that you choose
+
+- mkdir /opt/dist-mirror and download the mirrorlist
+#+BEGIN_SRC sh
+mkdir /opt/dist-mirror
+cd /opt/dist-mirror
+apt-mirror
+#+END_SRC
+this will download the repo from the mirror (around an hour)
+
+- configure a mirror path for the proftpd
+#+BEGIN_SRC sh
+mount --bind /opt/dist-mirror/mirror/mirror.lstn.net/ /srv/ftp/
+#+END_SRC
+
+- make the mount bind at boot add this to /etc/rc.local
+#+BEGIN_EXAMPLE
+mount --bind /opt/dist-mirror/mirror/mirror.lstn.net/ /srv/ftp/
+#+END_EXAMPLE
+
+- use cron to update the repo
+#+BEGIN_SRC sh
+cron -e
+#+END_SRC
+#+BEGIN_EXAMPLE
+0 3 * * * /usr/bin/apt-mirror >> /home/jim/mirror.log
+#+END_EXAMPLE
+3 am every day update the log files
+
+*** Configuring the client
+    
+- edit the /etc/apt/sources.list, add the following
+#+BEGIN_EXAMPLE
+deb ftp://192.168.1.135:/ubuntu trusty main
+deb-src ftp://192.168.1.135:/ubuntu trusty main
+#+END_EXAMPLE
+
+- update
+#+BEGIN_SRC sh
+apt-get update
+#+END_SRC
+errors may occur, such as throwing errors asking for 32bit arch on a 64bit arch
+
+- if this does occur edit the /etc/apt/sources.list
+#+BEGIN_SRC sh
+deb [arch=amd64]ftp://192.168.1.135:/ubuntu trusty main
+deb-src [arch=amd64]ftp://192.168.1.135:/ubuntu trusty main
+#+END_SRC
+this should resolve this issue
+
+- test by running an apt-cache search and view the repo address
+#+BEGIN_SRC sh
+apt-cache search git
+#+END_SRC
+
+
+* Redhat
+** Cmds
 *** rpm
 http://repoforge.org/
 
@@ -415,6 +510,87 @@ dnf upgrade
 #+BEGIN_SRC sh
 dnf upgrade vim
 #+END_SRC
+
+** Files
+/etc/yum.repos.d/
+** Create a local repository for CentOS6 (for local updates)
+- apache needs to be installed
+#+BEGIN_SRC sh
+yum install httpd
+mkdir -p /var/www/html/repos/centos/6/7
+#+END_SRC
+
+- makesure that "direcotry browsing" is not turned off in "/var/www/html" directory config in httpd.conf
+  - Should look similar to this
+    #+BEGIN_EXAMPLE
+    Options Indexes FollowSymlinks MultiViews ExecCGI
+    AllowOverride None
+    Order allow,deny
+    allow from all
+    #+END_EXAMPLE
+    the directory browsing option is the "Indexes". Makesure that a - isn't infront, as this negates the option(same as removing it).
+    
+- create an index file /www/html/
+#+BEGIN_EXAMPLE
+Centos 6.7 Local Network Repository
+
+Browse to http://192.168.1.135/repos/centos/os/6/7
+#+END_EXAMPLE
+
+- add the createrepo tool
+#+BEGIN_SRC sh
+yum update
+yum install craterepo
+#+END_SRC
+
+- build the local repo
+#+BEGIN_SRC sh
+createrepo /var/www/html/repos/centos/6/7
+#+END_SRC
+this updates the sqlitedb for the repos
+
+- select the mirror that will allow us to download over http and rsync
+  - centos.org/downloads/mirrors
+  - check the mirror has the correct options
+    
+- create the rsync
+#+BEGIN_SRC sh
+rsync -avz rsync://mirrors.usinternet.com/centos/6.7/os/x86_64/ /var/www/html/centos/6/7/
+#+END_SRC
+this will pull down all the required files
+
+- update
+#+BEGIN_SRC sh
+createrepo --update /var/www/html/repos/centos/6/7/
+#+END_SRC
+this updates the local sqlitedb of the repo
+
+*** Configure a machine to update using a local repository
+    
+- move all files in the /etc/yum.repos.d/ to a backup directory
+#+BEGIN_SRC sh
+mv /etc/yum.repos.d/* /root/repo_backup/
+#+END_SRC
+
+- configure a file called /etc/yum.repos.d/local_repo.repo
+#+BEGIN_EXAMPLE
+[local_repo]
+name=Local Repo
+baseurl=http://192.168.1.135/repos/centos/6/7/
+gpgcheck=1
+gpgkey=http://mirror.centos.org/centos/RPM-GPG-key-CentOS-6
+#+END_EXAMPLE
+
+- now update the machine
+#+BEGIN_SRC sh
+yum update
+#+END_SRC
+
+- to confirm that the local repo is being used, run a query on an application
+#+BEGIN_SRC sh
+yum info git
+#+END_SRC
+the repo option should be "Local_Repo"
 
 * Suse
 *** zypper							   :suse:pkg:

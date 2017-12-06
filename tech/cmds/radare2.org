@@ -1,7 +1,7 @@
 #+TAGS: code disassembler
 
 
-* Radare2                                                 :code:disassembler:
+* Radare2
 HomePage: [[https://rada.re/r/][rada.re]]
 * Description
 * Usage
@@ -16,7 +16,6 @@ HomePage: [[https://rada.re/r/][rada.re]]
   - pdf @ main - this will dissassemble and print the main function
 - px - print hex
     
-
 * Lecture
 * Tutorial
 - [[https://samsymons.com/blog/reverse-engineering-with-radare2-part-1/][Reverse-Engineering with Radare2 - Part 1]]

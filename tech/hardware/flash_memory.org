@@ -1,0 +1,14 @@
+#+TAGS: flash_memory nor nand
+
+
+* Flash Memory
+Wiki: https://en.wikipedia.org/wiki/Flash_memory
+
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+[[file://home/crito/Documents/Hardware/Toshiba_NAND_vs_NOR_Flash_Memory_Technology_Overview.pdf][NAND vs NOR Flash Memory Overview]]
+
+* Links

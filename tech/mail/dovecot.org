@@ -1,8 +1,12 @@
-#+TAGS: mail mda pop3 imap
+#+TAGS: mail mda pop3 imap dovecot
 
 
 * Dovecot
 HomePage: [[https://wiki.dovecot.org/FrontPage][wiki.dovecot.org]]
+* Files
+/etc/dovecot/dovecot.conf
+/etc/dovecot/conf.d
+
 * Description
 * Usage
 - find dovecot configuration file location
@@ -34,6 +38,66 @@ sudo mv users /etc/dovecot/
 #+END_SRC
 
 4. 
+** Install and Configure an IMAP and IMAPS Service
+
+- find what group our Postfix account runs as
+#+BEGIN_SRC sh
+cat /etc/group | grep postfix
+#+END_SRC
+usually called mail
+
+- install dovecot
+#+BEGIN_SRC sh
+yum install dovecot
+#+END_SRC
+
+- edit the /etc/dovecot/conf.d/10-mail.conf
+#+BEGIN_EXAMPLE
+mail_location = mbox:~/mail:INBOX=/var/mail/%u
+mail_privileged_group = mail
+#+END_EXAMPLE
+
+- edit /etc/dovecot/dovecot.conf
+#+BEGIN_EXAMPLE
+protocols = imap pop3 imaps pop3s
+#+END_EXAMPLE
+
+- makesure that /etc/pki/dovecot has been created
+  
+- confirm the cert and key locations in /etc/dovecot/conf.d/10-ssl.conf
+#+BEGIN_EXAMPLE
+ssl_cert = </etc/pki/dovecot/certs/dovecot.pem
+ssl_key = </etc/pki/dovecot/private/dovecot.pem
+#+END_EXAMPLE
+
+- start dovecot
+#+BEGIN_SRC sh
+systemctl start dovecot
+#+END_SRC
+
+- check that dovecot is listening
+#+BEGIN_SRC sh
+netstat -nptlu | grep dovecot
+#+END_SRC
+
+*** Client Setup and Testing
+    
+- install mutt
+#+BEGIN_SRC sh
+yum install mutt
+#+END_SRC
+this will allow us to send mail from the terminal
+
+- sending mail
+#+BEGIN_SRC sh
+mutt -s "this is a test email to a user called user" user@bluelevers.com < /dev/null
+#+END_SRC
+
+- send mail with an attachment
+#+BEGIN_SRC sh
+mutt -s "Test attachment" user@bluelevers.com -a /home/jim/test.txt < /dev/null
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

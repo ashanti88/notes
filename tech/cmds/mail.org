@@ -1,8 +1,10 @@
-+TAGS: sys mail
+#+TAGS: mail 
 
 
-* mail								   :sys:mail:
+* mail
 * Description
+* MTA
+* MDA
 * Usage
 - send mail to admin
 #+BEGIN_SRC sh
@@ -15,3 +17,4 @@ This will then prompt for subject press ret, and the enter the message, the a ne
 * Tutorial
 * Books
 * Links
+[[https://opensource.com/article/17/11/spamassassin-mimedefang-and-procmail][SpamAssassin, MIMEDefang and Procmail]]

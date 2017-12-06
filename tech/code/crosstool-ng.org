@@ -1,0 +1,14 @@
+#+TAGS: crosstool-ng
+
+
+* Crosstool-NG
+HomePage: https://crosstool-ng.github.io/
+
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+[[file://home/crito/Documents/Embed/Mastering_Embedded_Linux_Programming.pdf][Mastering Embeded Linux Programming]]
+
+* Links

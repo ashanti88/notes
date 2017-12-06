@@ -1,7 +1,7 @@
-#+TAGS: sys file op dict
+#+TAGS: aspell
 
 
-* aspell						   :sys:file:op:dict:
+* aspell
 * Description
 This is a cmd line spell check application.
   - for en_GB makesure that aspell-en is also installed.

@@ -1,7 +1,7 @@
-#+TAGS: sys sec_d ssl tls
+#+TAGS: openssl ssl tls
 
 
-* openssl						  :sys:sec_d:ssl:tls:
+* openssl
 HomePage: [[https://www.openssl.org/][openssl.org]]
 * Description
 * Usage

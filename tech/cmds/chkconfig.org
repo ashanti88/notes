@@ -1,4 +1,4 @@
-#+TAGS: sys init sysv
+#+TAGS: sysvinit chkconfig
 
 
 * chkconfig

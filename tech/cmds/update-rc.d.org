@@ -18,3 +18,4 @@ update-rc.d mysql disable
 * Tutorial
 * Books
 * Links
+https://www.jamescoyle.net/cheat-sheets/791-update-rc-d-cheat-sheet

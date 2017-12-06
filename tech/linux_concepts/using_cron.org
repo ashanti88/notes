@@ -1,7 +1,7 @@
-#+TAGS: sys op 
+#+TAGS: cron job_synchronisation application_synchronisation
 
 
-* cron								     :sys:op:
+* cron
 Gentoo: [[https://wiki.gentoo.org/wiki/Cron][wiki.gentoo.org/cron]]
 * Services
 ** cronie
@@ -66,3 +66,4 @@ This will write hello to the log at 2:30pm each day
 * Tutorial
 * Books
 * Links
+[[https://opensource.com/article/17/11/how-use-cron-linux][How to use cron in Linux]]

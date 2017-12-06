@@ -1,4 +1,4 @@
-#+TAGS: ssh remote
+#+TAGS: ssh remote_access
 
 
 * ssh
@@ -280,6 +280,17 @@ Subsystem sftp /usr/lib/openssh/sftp-server
 
 #### Misc ####
 #+END_EXAMPLE
+
+** Copy new public key to remote server
+- this will assume that you are connecting to a user with the same username as you
+#+BEGIN_SRC sh
+ssh-copy-id 78.87.56.34
+#+END_SRC
+
+- here we are specifiying which user we would like to sort the key under
+#+BEGIN_SRC sh
+ssh-copy-id frank@78.87.56.34
+#+END_SRC
 
 * Lecture
 * Tutorial

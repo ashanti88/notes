@@ -1,6 +1,7 @@
 #+TAGS:
 
 
+* FDT  - Flattened Device Tree
 * LDAP - Lightweight Directory Access Protocol
 * LDA  - Local Delivery Agent
 [[file://home/crito/org/tech/mail/procmail.org][Procmail]]

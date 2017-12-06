@@ -1,0 +1,13 @@
+#+TAGS: autotools automake
+
+
+* Automake
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+[[file://home/crito/Documents/Tools/GNU_Automake.pdf][GNU Automake]]
+[[file://home/crito/Documents/Tools/The_GNU_Make_Book.pdf][The GNU Make Book]]
+
+* Links

@@ -1,0 +1,52 @@
+#+TAGS: squid_proxy_server
+
+
+* Squid Proxy Server
+HomePage: http://www.squid-cache.org/
+
+* Files
+/etc/squid.conf - the main configuration file
+
+* Description
+* Usage
+** Install and Configure the Squid Proxy Server
+
+- installation of the squid and squidGuard (in ubuntu it's squid-guard)
+#+BEGIN_SRC sh
+yum install squid squidGuard
+#+END_SRC
+
+- check and edit the squid.conf as needed
+  
+- enable and start the service
+#+BEGIN_SRC sh
+chkconfig squid on
+service squid start
+#+END_SRC
+
+** Using SquidGuard
+   
+- SquidGuard uses blacklists to stop specific domains and urls of a certain pattern
+  - the blacklists are added to /var/squidGuard/blacklist/
+  - the blacklists are just plain text files that contain a single domain per line
+  
+- After adding blacklists to SquidGuard a database has to be created
+#+BEGIN_SRC sh
+squidGuard -C all
+#+END_SRC
+this will create a .db file
+
+- makesure that the .db file has the correct permissions
+#+BEGIN_SRC sh
+chown squid:squid blacklists/
+#+END_SRC
+
+
+
+
+* Lecture
+* Tutorial
+* Books
+* Links
+[[file://home/crito/Documents/SysAdmin/Web/Squid_Proxy_Server3.1-Beginners_Guide.pdf][Squid Proxy Server 3.1 - Beginners Guide]]
+[[file://home/crito/Documents/SysAdmin/Web/Firewall_and_Proxy_HowTo.pdf][Firewall and Proxy Server HowTo]]

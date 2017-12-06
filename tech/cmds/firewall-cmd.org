@@ -1,7 +1,7 @@
-#+TAGS: sec_d fwd
+#+TAGS: firewalld firewall-cmd open_port close_port
 
 
-* firewall-cmd							  :sec_d:fwd:
+* firewall-cmd
 * files
 /usr/lib/firewalld/services - this directory houses all the services files (xml)
 /etc/firewalld/services - this directory is where you add your own service files

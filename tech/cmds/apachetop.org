@@ -1,7 +1,7 @@
-#+TAGS: web anal
+#+TAGS: apachetop apache_analysis
 
 
-* apachetop							   :web:anal:
+* apachetop
 * Description
 * Usage
 Point Apachetop at apache log

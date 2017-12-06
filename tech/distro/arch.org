@@ -1,7 +1,9 @@
-#+TAGS: linux arch
+#+TAGS: arch_distro
 
 
-* Arch								 :linux:arch:
+* Arch
+HomePage: https://www.archlinux.org/
+
 * Description
 * Usage
 ** System Maintenance

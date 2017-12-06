@@ -1,10 +1,117 @@
-#+TAGS: ms
+#+TAGS: windows_10
 
 
-* Windows 10								 :ms:
+* Windows 10
 * Cmds
 * Overview
 * Lecture
 * Tutorial
+** CBT Nuggets - Microsoft Windows 10 70-698
+*** Windows 10 Editions  
+
+- Windows 10 Home
+- Windows 10 Pro
+  - bit locker
+  - azure domain environment
+  - store for business
+  - client hyper-v
+- Windows 10 Enterprise
+  - direct access
+  - app locker 
+  - credential guard
+- Windows 10 LTSB
+  - doesn't recieve feature updates, only security updates
+    
+- Windows 10 Education
+- Windows 10 Mobile
+- Windows 10 Mobile Enterprise
+- Windows 10 IOT
+
+*** Installing Additional Windows Features
+GUI    
+- Control Panel -> Programs and Features -> Turn Windows features on (on the left)
+  + this provides a list of available features that can be added to the OS
+    
+CMD
+- list all features and their current state (if enabled or not)
+#+BEGIN_SRC sh
+dism /online /Get-Features
+#+END_SRC
+
+- enable the tftp client
+#+BEGIN_SRC sh
+dism /online /Enable-Feature /FeatureName:TFTP /all
+#+END_SRC
+
+PowerShell
+- list all features and their current state (if enabled or not)
+#+BEGIN_SRC sh
+Get-WindowsOptionalFeatures -Online
+#+END_SRC
+
+- enable and disable the tftp client
+#+BEGIN_SRC sh
+Enable-WindowsOptionalFeature -Online -Feature TFTP -All
+Disable-WindowsOptionalFeature -Online -Feature TFTP
+#+END_SRC
+
+*** Device Drivers
+    
+- Device Manager -> right click shortcut
+  - a downward arrow indicates disabled driver
+  - to enable the driver just right click and click enable
+    
+- Files
+  - Windows -> DRVSTORE
+    - DRVSTORE is where all drivers are stored
+      
+- Update Driver
+  - Device Manager -> right click update driver
+    - manual option
+    - windows automatic option
+      
+- Add and Delete drivers from the command line
+  #+BEGIN_SRC sh
+  pnputil ?
+  #+END_SRC
+  this application is used for driver manipulation from the command line
+  
+- Stop automatic driver updates
+  - Devices and Printers -> Desktop -> right click -> Device installation settings -> switch off automatic updates
+
+*** Advanced Device Driver Management
+
+- roll back a driver after an update
+  - Device Manager -> right click on device -> Properties -> Driver Tab -> Roll Back Driver
+    
+- Go into Safemode
+  - System Configuration -> Boot Tab -> Select Safe boot box -> Select options
+    
+- Uninstall an update that has caused issues
+  - Control Panel -> Programs -> Prgrams and Features -> Installed Updates
+    - remove the required update
+      
+- check for signed drivers
+CMD
+#+BEGIN_SRC sh
+sigverif
+#+END_SRC
+launches GUI, and this will scan all the driver signatures
+
+#+BEGIN_SRC sh
+verifier
+#+END_SRC
+launches GUI, this tool runs tests against a specified driver
+
+- Powershell version of pnputil
+#+BEGIN_SRC sh
+Get-Pnpdevice
+#+END_SRC
+
+
+
+
+
+
 * Books
 * Links

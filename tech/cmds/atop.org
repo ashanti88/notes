@@ -1,4 +1,4 @@
-#+TAGS: system analysis monitoring atop
+#+TAGS: atop
 
 
 * atop
@@ -9,7 +9,7 @@ Atop allows analysis of a system over different periods of time by taking snapsh
 
 Atop monitors CPU, memory, disks and network on system level(networking requires the netatop module).
 
-* files
+* Files
 /etc/atop/atop.daily - configuration file
 
 * Usage

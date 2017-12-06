@@ -1,7 +1,7 @@
-#+TAGS: code c c++ cpp
+#+TAGS: gcc code c c++ cpp fortran gnu_compiler_collection
 
 
-* gcc								 :code:c:cpp:
+* gcc
 * Description
 * Usage
 * Lecture

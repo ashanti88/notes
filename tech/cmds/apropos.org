@@ -1,4 +1,4 @@
-#+TAGS: sys search man
+#+TAGS: man manpages keyword_search
 
 
 * apropos
@@ -30,7 +30,6 @@ man -k provides the same function as apropos
 #+BEGIN_SRC sh
 whatis vim
 #+END_SRC
-
 
 * Links
 [[http://www.linfo.org/apropos.html][How to use the apropos command]]

@@ -12,5 +12,6 @@ file://home/crito/org/tech/linux_concepts/ubuntu_mail_server.org
 [[file://home/crito/Documents/Linux/Debian/Ubuntu_Linux_Toolbox_1000_Plus_Commands.pdf][Ubuntu Linux Toolbox]]
 [[file://home/crito/Documents/Linux/Debian/Ubuntu_Unleashed_2015.pdf][Ubuntu Unleashed 2015]]
 [[file://home/crito/Documents/Linux/Debian/Ubuntu_Linux_Secrets.pdf][Ubuntu Linux Secrets]]
+[[file://home/crito/Documents/Linux/Debian/ubuntu_server_guide.pdf][Ubuntu Server Guide]]
 
 * Links
