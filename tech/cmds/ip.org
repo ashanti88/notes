@@ -1,7 +1,7 @@
 #+TAGS: net op anal
 
 
-* ip								:net:op:anal:
+* ip
 * Description
 This tool is used for manipulating network interfaces and generating network information. It can be seen as a replacement for net-tools.
 

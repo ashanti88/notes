@@ -253,7 +253,6 @@ this should resolve this issue
 apt-cache search git
 #+END_SRC
 
-
 * Redhat
 ** Cmds
 *** rpm
@@ -595,12 +594,14 @@ the repo option should be "Local_Repo"
 * Suse
 *** zypper							   :suse:pkg:
 * Arch(Manjaro|Antergos)
+
 *** ABS(Arch Build System)
 Arch: [[https://wiki.archlinux.org/index.php/Arch_Build_System][archlinux.org/Arch_Build_System]]
 *** Repos
 The repos are edited in /etc/pacman.conf
 
 *** pacman
+[[https://wiki.archlinux.org/index.php/Pacman][Arch: archlinux.org/pacman]]
 - list installed pkgs
 #+BEGIN_SRC sh
 pacman -Q > pkg_list.txt
@@ -617,6 +618,10 @@ pacman -R $(pacman -Qtdq)
 #+END_SRC
 
 - Clean out the old pkg from /var/cache/pacman/pkg/
+#+BEGIN_SRC sh
+pacman -Sc
+#+END_SRC
+this will remove all pkgs that are not installed on the system
 
 *** yaourt
 **** Diagnosis

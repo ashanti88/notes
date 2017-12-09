@@ -26,5 +26,10 @@ ls -lS
 
 * Mail
 * IRC
+* Network
+- what is my ip
+#+BEGIN_SRC sh
+lynx http://www.whatismyip.net
+#+END_SRC
 * Books
 * Links

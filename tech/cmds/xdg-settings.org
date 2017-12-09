@@ -1,7 +1,10 @@
-#+TAGS: X desktop
+#+TAGS: x_desktop xdg default_applicaitons default_apps
 
 
 * xdg-settings
+/etc/xdg/mimeapps.list - this is where the config is held for default appications (system-wide)
+~/.config/mimeapps.list - this is where the config is held for default appications (user override)
+~/.local/share/applications/mimeapps.list - deprecated user override
 * Description
 Get/set various values for the desktop environment
 

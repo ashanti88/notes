@@ -1,8 +1,14 @@
-#+TAGS: web
+#+TAGS: web_server nginx load_balancer caching_server
 
-* nginx									:web:
+
+* Nginx
 HomePage: [[https://www.lighttpd.net/][lighttpd.net]]
 HomePage: [[https://www.nginx.com/resources/wiki/][nginx.com]]
+* Files
+/etc/nginx/conf.d/    - this contains the config files for virtual servers, ssl etc
+/etc/nginx/nginx.conf - this is the main configuration file
+/usr/share/nginx/html - this is the location of the default page
+
 * Description
 Nginx is a web server that is extremely good at serving large amounts of static content.
 It is considered less efficient at delivering dynamic content.
@@ -188,21 +194,671 @@ sudo systemctl restart nginx.service
 *** Link
 [[https://www.godaddy.com/garage/tech/config/how-to-install-and-configure-nginx-on-centos-6/][Install and Configure NGINX on CentOS 6]]
 * Usage
+** Installation (RHEL)
+- Install epel repository 
+#+BEGIN_SRC sh
+yum update
+wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+rpm -uvh epel-release-6-8.noarch.rpm
+yum repolist
+yum update
+#+END_SRC
+
+- Install nginx
+#+BEGIN_SRC sh
+yum install nginx
+#+END_SRC
+
+- Start and Enable the service (Sysvinit)
+#+BEGIN_SRC sh
+chkconfig nginx on
+service nginx start
+#+END_SRC
+
+- Test nginx
+#+BEGIN_SRC sh
+yum install lynx
+lynx http://localhost
+#+END_SRC
+This should show the default nginx page if installed correctly
+
+
+
+
+** Basic Configuration of a New Installation
+/etc/nginx/nginx.conf
+
+- adding a vhost.d directory to the configuration
+#+BEGIN_EXAMPLE
+include /etc/nginx/vhost.d/*.conf
+#+END_EXAMPLE
+this would be placed under the other include files
+
+- create the vhost.d directory
+#+BEGIN_SRC sh
+cd /etc/nginx
+mkdir vhost.d
+cd vhost.d
+mv /etc/nginx/conf.d/default.conf .
+#+END_SRC
+
+- edit the default.conf root filesystem
+#+BEGIN_EXAMPLE
+location / {
+	root  /var/www/html;
+	index index.html index.htm;
+}
+#+END_EXAMPLE
+
+- create /var/www/html
+#+BEGIN_SRC sh
+mkdir /var/www/html
+echo "This is our new Config and Index" > /var/www/html/index.html
+#+END_SRC
+
+- test the new configuration
+#+BEGIN_SRC sh
+nginx -t
+#+END_SRC
+
+- restart the service if test is successful
+#+BEGIN_SRC sh
+service nginx restart
+lynx http://localhost
+#+END_SRC
+this should now print the new index.html
+
+** Vhost File
+   
+- adding a virtual host
+/etc/nginx/vhost.d/myexample.local.conf
+#+BEGIN_EXAMPLE
+server {
+	listen 80;
+
+	root /var/www/html/myexample;
+	index index.html index.htm index.php;
+	
+	server_name myexample.local www.myexample.local;
+}
+#+END_EXAMPLE
+
+- create the myexample.local files
+#+BEGIN_SRC sh
+mkdir -p /var/www/html/myexample
+echo "This is our new Config for myexample.local" > /var/www/html/myexample/index.html
+#+END_SRC
+
+- test the new config
+#+BEGIN_SRC sh
+nginx -t
+#+END_SRC
+
+- restart the service
+#+BEGIN_SRC sh
+service nginx restart
+#+END_SRC
+both the new myexample.local and the default weeb page will be viewable
+
+** Upstream Module
+Placing of the Nginx server infront of another server (example apllication server, such as node.js), proxy the connection.
+
+- create a new vhost file
+/etc/nginx/vhost.d/mynode.local.conf
+#+BEGIN_EXAMPLE
+upstream mynode {
+	server localhost:8888;
+}
+
+server {
+	server_name www.mynode.local mynode.local;
+
+	location / {
+		proxy_pass http://mynode;
+	}
+}
+#+END_EXAMPLE
+
+- restart the service
+#+BEGIN_SRC sh
+service nginx restart
+lynx http://www.mynode.local
+#+END_SRC
+
+The advantage of using nginx it can provide full web server functionality (logging), where maybe the application server could be lacking
+
+** Basic Load Balancing
+
+- edit the vhost file
+/etc/nginx/vhost.d/mynode.local.conf
+#+BEGIN_EXAMPLE
+upstream mynode {
+	server localhost:8888;
+	server localhost:8889;
+}
+
+server {
+	server_name www.mynode.local mynode.local;
+
+	location / {
+		proxy_pass http://mynode;
+	}
+}
+#+END_EXAMPLE
+- the node.js applicaition, or whatever application or site will have to be configured and setup to run on both ports
+  
+- test and restart
+#+BEGIN_SRC sh
+nginx -t
+service nginx restart
+#+END_SRC
+
+*** Weights
+#+BEGIN_EXAMPLE
+upstream mynode {
+	server localhost:8888 weight=1;
+	server localhost:8889 weight=4;
+}
+
+server {
+	server_name www.mynode.local mynode.local;
+
+	location / {
+		proxy_pass http://mynode;
+	}
+}
+#+END_EXAMPLE
+weights are proportional, weight=4 should get four times as much traffic as weight=1
+
+** SSL Certification Management
+   
+- create an ssl directory
+#+BEGIN_SRC sh
+mkdir -p /etc/nginx/ssl
+cd ssl
+#+END_SRC
+
+- create the server csr and key files
+#+BEGIN_SRC sh
+openssl genrsa -des3 -out server.key 1024
+openssl req -new -key server.key -out server.csr
+#+END_SRC
+
+- remove passphrase from server.key as a restart of nginx will always prompt for the key
+#+BEGIN_SRC sh
+cp server.key server.key.org
+openssl rsa -in server.key.org -out server.key
+#+END_SRC
+
+- create the self signed certificate
+#+BEGIN_SRC sh
+openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+#+END_SRC
+
+- add the certificate to the vhost file
+#+BEGIN_EXAMPLE
+server {
+	listen 80;
+
+	root /var/www/html/myexample;
+	index index.html index.htm index.php;
+	
+	server_name myexample.local www.myexample.local;
+}
+
+server {
+	listen 443;
+
+	root /var/www/html/myexample;
+	index index.html index.htm index.php
+	
+	server_name www.myexample.local myexample.local
+	
+	ssl on;
+	ssl_certificate /etc/nginx/ssl/server.crt;
+	ssl_certificate_key /etc/nginx/ssl/server.key;
+}
+#+END_EXAMPLE
+
+- test configuration and restart service
+#+BEGIN_SRC sh
+nginx -t
+service nginx restart
+lynx https://www.myexample.local
+#+END_SRC
+
+** Location Directive 
+/etc/nginx/vhost.d/myexample.local.conf
+- nginx allows different content to be served by the set URI
+#+BEGIN_EXAMPLE
+server {
+	listen 80;
+
+	index index.html index.htm index.php;
+	
+	server_name myexample.local www.myexample.local;
+
+	location / {
+		root /var/www/html/myexample
+	}
+	
+	location /google/ {
+		proxy_pass http://www.google.com;
+	}
+	
+	location /images/ {
+		root /var/www/html/images;
+	}
+}
+
+server {
+	listen 443;
+
+	root /var/www/html/myexample;
+	index index.html index.htm index.php
+	
+	server_name www.myexample.local myexample.local
+	
+	ssl on;
+	ssl_certificate /etc/nginx/ssl/server.crt;
+	ssl_certificate_key /etc/nginx/ssl/server.key;
+}
+#+END_EXAMPLE
+- First location  - is just reimplementing the root variable
+- Second location - is just passing the request off to www.google.com
+- Third location  - is an image directory. 
+  - This means it can be shared across sites.
+
+** Return Directive
+   
+- this allows for return codes to be leveraged to provide functionality
+  - provide an error code
+  - provide a redirect
+   
+#+BEGIN_EXAMPLE
+server {
+	listen 80;
+
+	index index.html index.htm index.php;
+	
+	server_name myexample.local www.myexample.local;
+
+	# this will redirect /forum to google.com
+	location /forum {
+		return 301 http://www.google.com;
+	}
+
+	location / {
+		root /var/www/html/myexample
+	}
+	
+}
+
+#+END_EXAMPLE
+
+** Basic Rewrites
+   
+- change from /forum to /forums on site
+
+#+BEGIN_EXAMPLE
+server {
+	listen 80;
+
+	index index.html index.htm index.php;
+	
+	server_name myexample.local www.myexample.local;
+
+	location /forum {
+		rewrite ^/forum/(.*)$ http://www.myexample.local/forums/$1 permanent;
+	}
+
+	location / {
+		root /var/www/html/myexample
+	}
+	
+}
+
+#+END_EXAMPLE
+
+** Custom Error Pages
+   
+- add the new error page
+#+BEGIN_SRC sh
+echo "This is our custom content does not exist page" > /var/www/html/myexample/404.html
+#+END_SRC
+
+- across all sites change in the nginx.conf
+  
+- for specific virtual hosts add to the vhost file
+#+BEGIN_EXAMPLE
+server {
+	listen 80;
+
+	root /var/www/html/myexample;
+	index index.html index.htm index.php;
+	
+	server_name myexample.local www.myexample.local;
+	
+	error_page 404 = /404.html;
+	location = /403.html {
+		root /var/www/html/myexample;
+		internal;
+	}
+}
+
+#+END_EXAMPLE
+
+- internal - only for nginx's use
+
+** Logging
+   
+- Error Logs 
+/etc/nginx/nginx.conf
+#+BEGIN_EXAMPLE
+error_log /var/log/nginx/error.log;
+#+END_EXAMPLE
+this will log all error messages
+
+- setting error logging level
+#+BEGIN_EXAMPLE
+error_log /var/log/nginx/error.log notice;
+error_log /var/log/nginx/error.log info;
+#+END_EXAMPLE
+these two will report at different levels of logging
+
+- Access Logs
+  - this is defined in the http format
+    #+BEGIN_EXAMPLE
+    log_format main '$remote_addr - $remote_user [$time_local] "$request" '
+                    '$status $body_bytes_sent "$http_referer" '
+                    '"$http_user_agent" "$http_x_forwarded_for"';	
+
+    access_log /var/log/nginx/access.log main;
+    #+END_EXAMPLE
+    
+- Both error and access logs set like this will log for all domains configured
+  
+- Configure Virtual Hosts
+  
+- add error_log and access_log to the vhost file
+#+BEGIN_EXAMPLE
+server {
+	listen 80;
+
+	root /var/www/html/myexample;
+	index index.html index.htm index.php;
+	
+	server_name myexample.local www.myexample.local;
+	
+	access_log /var/log/nginx/myexample.access.http.log;
+	error_log /var/log/nginx/myexample.error.http.log;
+}
+
+server {
+	listen 443;
+
+	root /var/www/html/myexample;
+	index index.html index.htm index.php
+	
+	server_name www.myexample.local myexample.local
+
+	access_log /var/log/nginx/myexample.access.https.log;
+	error_log /var/log/nginx/myexample.error.https.log;
+	
+	ssl on;
+	ssl_certificate /etc/nginx/ssl/server.crt;
+	ssl_certificate_key /etc/nginx/ssl/server.key;
+}
+#+END_EXAMPLE
+
+- for the logs to become active restart nginx
+#+BEGIN_SRC sh
+service nginx restart
+#+END_SRC
+
+*** Custom Log Levels
+    
+- Setting compression and buffering
+#+BEGIN_SRC 
+server {
+	listen 80;
+
+	root /var/www/html/myexample;
+	index index.html index.htm index.php;
+	
+	server_name myexample.local www.myexample.local;
+	
+	access_log /var/log/nginx/myexample.access.http.log combined buffer=32k;
+	error_log /var/log/nginx/myexample.error.http.log;
+}
+#+END_SRC
+- The buffer size must not exceed the size of an atomic write to a disk file. For FreeBSD this size is unlimited.
+  - usually 32k on linux
+  
+- 8 Logging Levels
+  - emerg: Emergency situations where the system is in an unusable state.
+  - alert: Severe situation where action is needed promptly.
+  - crit: Important problems that need to be addressed.
+  - error: An Error has occurred. Something was unsuccessful.
+  - warn: Something out of the ordinary happened, but not a cause for concern.
+  - notice: Something normal, but worth noting has happened.
+  - info: An informational message that might be nice to know.
+  - debug: Debugging information that can be useful to pinpoint where a problem is occurring.
+#+BEGIN_EXAMPLE
+error_log /var/log/nginx/myexample.error.http.log warn;
+#+END_EXAMPLE
+this would log all emerg, alert, crit, error and warn messages
+
+*** Custom Access Log Format
+    
+#+BEGIN_SRC 
+server {
+	listen 80;
+
+	root /var/www/html/myexample;
+	index index.html index.htm index.php;
+	
+	server_name myexample.local www.myexample.local;
+	
+	log_format myAccessFormat 'Remote IP: $remote_addr - Time Request: $time_local - Browser Agent: $http_user_agent';
+	
+	access_log /var/log/nginx/myexample.access.http.log myAccessFormat buffer=32k;
+	error_log /var/log/nginx/myexample.error.http.log;
+}
+#+END_SRC
+- the access log will now use the myAccessFormat to record our log
+  
+** Blocking Ips
+/etc/nginx/nginx.conf   
+#+BEGIN_EXAMPLE
+include blockips.conf;
+#+END_EXAMPLE
+
+/etc/nginx/blockips.conf
+#+BEGIN_EXAMPLE
+deny 72.34.121.10;
+#+END_EXAMPLE
+any requests from this ip should throw a 403 denied
+
+- test the configuration and restart the service
+#+BEGIN_SRC sh
+nginx -t
+service nginx restart
+#+END_SRC
+
+- adding for domain only
+#+BEGIN_EXAMPLE
+server {
+	listen 80;
+
+	index index.html index.htm index.php;
+	
+	server_name myexample.local www.myexample.local;
+	
+	log_format myAccessFormat 'Remote IP: $remote_addr - Time Request: $time_local - Browser Agent: $http_user_agent';
+	
+	access_log /var/log/nginx/myexample.access.http.log myAccessFormat buffer=32k;
+	error_log /var/log/nginx/myexample.error.http.log;
+	
+	location / {
+		root /var/www/html/myexample;
+		
+		deny 72.129.45.10;
+	}
+}
+#+END_EXAMPLE
+- the global block list has precedence over the domain block and allow
+
+** Optimization of Nginx
+   
+- Setting the number of processors
+/etc/nginx/nginx.conf
+#+BEGIN_EXAMPLE
+worker_processes 2;
+#+END_EXAMPLE
+- this is normally set to the number of available cores
+- if set higher than number of caores, it will not damage the system just run at the max number of cores
+  
+- Setting the number of worker connections
+/etc/nginx/nginx.conf
+#+BEGIN_EXAMPLE
+worker_connections 1024;
+#+END_EXAMPLE
+- this is the number of connections that can be handled
+  
+*** Buffers
+- client_buffer_size 
+
+- client_header_buffer 
+  - 1024
+  
+- client_max_body_size
+  - if exceeded then a 413 - Payload too large - previously know as a "Request Entity Too Large"
+
+/etc/nginx/nginx.conf
+#+BEGIN_EXAMPLE
+http {
+	...			
+	client_body_buffer_size 10k;	
+	client_header_buffer_size 1k;
+	client_max_body_size 8m; # support up to max memory, but need to account for underlying OS
+	large_client_header_buffers 2 1k; # 2 at 1k
+}
+#+END_EXAMPLE
+
+*** Timeouts
+- client_body_timeout
+  - how long the server waits until it kills the connection
+    
+- client_header_timeout
+  
+- keep_alive_timeout
+  
+- send_timeout
+  
+/etc/nginx/nginx.conf
+#+BEGIN_EXAMPLE
+http {
+	...	
+	client_body_timeout 12; # 12 seconds is consider the max for a website to render, worst case (should be 3 - 5 secs)
+	client_header_timeout 12;
+	keepalive_timeout 15;
+	send_timeout 10;
+}
+#+END_EXAMPLE
+
+** PHP
+   
+- install php
+#+BEGIN_SRC sh
+yum install php
+#+END_SRC
+
+- create a php-fpm socket file
+/etc/php-fpm.d/www.conf
+#+BEGIN_EXAMPLE
+listen = /var/run/php-fpm/www.sock
+#+END_EXAMPLE
+
+- add the correct ownership to the new sock file
+#+BEGIN_SRC sh
+chown nginx:nginx /var/run/php-fpm/www.sock
+#+END_SRC
+
+- start and enable php-fpm
+#+BEGIN_SRC sh
+chkconfig php-fpm on
+service php-fpm start
+#+END_SRC
+
+** MariaDB for LEMP
+
+- installation (CentOS requires remi repo, but CentOS MariDB is the default)
+#+BEGIN_SRC sh
+wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+rpm -Uvh remi-release-6.rpm
+yum --enablerepremi-test --disablerepo=remi install compat-mysql55
+#+END_SRC
+
+- add maria repo
+/etc/yum.repos.d/maria.repo
+#+BEGIN_EXAMPLE
+[mariadb]
+name=MariaDB
+baseurl=http://yum.mariadb.org/5.5/centos6-amd64
+gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+gpgcheck=1
+#+END_EXAMPLE
+
+- update the system
+#+BEGIN_SRC sh
+yum update
+yum install MariaDB-devel MariaDB-cient MariaDB-server perl-DBD-MySQL
+#+END_SRC
+
+- start the service
+#+BEGIN_SRC sh
+service mysql start
+#+END_SRC
+
+- secure setup
+#+BEGIN_SRC sh
+mysql_secure_installation
+#+END_SRC
+this will run you through a set of questions that will allow you to set and remove passwords and users
+
+- confirm that you can connect to db
+#+BEGIN_SRC sh
+mysql -u root -p
+#+END_SRC
+
+- restart php-fpm
+#+BEGIN_SRC sh
+service php-fpm restart
+#+END_SRC
+this has to be do as php-fpm my have a few problems recognizing the newly installed Mariadb
+
 ** Nginx configtest
-> nginx -t
+#+BEGIN_SRC sh
+nginx -t
+#+END_SRC
 
 ** Check rewrites in nginx.conf
-> grep -i rewrite /etc/nginx/conf.d/tinygreenpc.com.conf | wc -l
+#+BEGIN_SRC sh
+grep -i rewrite /etc/nginx/conf.d/tinygreenpc.com.conf | wc -l
+#+END_SRC
 
 ** Too Many Open Files Error And Solution
 [[http://www.cyberciti.biz/faq/linux-unix-nginx-too-many-open-files/]]
 
 ** Check to see what sites are running on 443
-> grep 443 /etc/nginx/conf.d/*
+#+BEGIN_SRC sh
+grep 443 /etc/nginx/conf.d/*
+#+END_SRC
 or
-> httpd -S 2>&1|grep "port 443 name"|grep -v =hostname=| awk {'print
-$4'}httpd -S 2>&1|grep "port 443 name"|grep -v =hostname=| awk {'print
-$4'}
+#+BEGIN_SRC sh
+httpd -S 2>&1|grep "port 443 name"|grep -v =hostname=| awk {'print $4'}httpd -S 2>&1|grep "port 443 name"|grep -v =hostname=| awk {'print $4'}
+#+END_SRC
 
 ** If a site randomy returns 403's and then 200 when curling
 
@@ -210,7 +866,7 @@ Add Options +Indexes to the .htaccess file and you will get 200 on curls
 
 [[https://stackoverflow.com/questions/10365520/error-directory-index-forbidden-by-options-directive][Stackoverflow - error directory index forbidden]]
 
-** Speed up Nginx Performance with Ngx_Pagespeed on CentOS 7       :web:perf:
+** Speed up Nginx Performance with Ngx_Pagespeed on CentOS 7
 1. These tools will be required
 [[file://home/crito/Pictures/org/ngx_pagespeed_1.png]]
 
@@ -374,12 +1030,21 @@ root   html;
 
 ** Cpanel
 *** Restart Apache Service with CPanel
-> /scripts/restartsrv\_apache
+#+BEGIN_SRC sh
+/scripts/restartsrv\_apache
+#+END_SRC
 
 ** Plesk
 * Lecture
 * Tutorial
 * Books
+[[file://home/crito/Documents/SysAdmin/Web/Nginx/Complete_NGINX_Cookbook.pdf][Complete Nginx Cookbook]]
+[[file://home/crito/Documents/SysAdmin/Web/Nginx/Mastering_Nginx.pdf][Mastering Nginx]]
+[[file://home/crito/Documents/SysAdmin/Web/Nginx/Nginx-From_Beginner_to_Pro.pdf][Nginx - From Beginner to Pro]]
+[[file://home/crito/Documents/SysAdmin/Web/Nginx/Nginx-HTTP_Server.pdf][Nginx - HTTP Server]]
+[[file://home/crito/Documents/SysAdmin/Web/Nginx/Nginx_Essentials.pdf][Nginx - Essentials]]
+[[file://home/crito/Documents/SysAdmin/Web/Nginx/Nginx_HTTP_Server_3ed.pdf][Nginx - HTTP Server 3ed]]
+[[file://home/crito/Documents/SysAdmin/Web/Nginx/Nginx_Module_Extension.pdf][Nginx Module Extension]]
 
 * Links
 [[https://www.linode.com/docs/websites/nginx/how-to-configure-nginx][How To Configure Nginx - Linode]]

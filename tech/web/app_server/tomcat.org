@@ -1,10 +1,371 @@
-#+TAGS: web app java
+#+TAGS: apache_tomcat
 
 
-* Tomcat						       :web:app:java:
+* Apache Tomcat
 HomePage: [[http://tomcat.apache.org/][tomcat.apache.org]]
 * Description
 * Usage
+** Tomcat Vs Other Application Servers
+   
+- Jboss
+  - like tomcat, a Java servlet container
+  - provides a full JEE stack
+  - including Beans for full enterprise applications
+    
+- GlassFish
+  - like Tomcat, a Java servlet container
+  - provides a full JEE stack
+  - includes Beans for full enterprise applications
+    
+- Jetty
+  - an application server used for very commonly in embedded scenarios
+  - more lightweight
+  - mobile, SoC
+    
+- Why Tomcat
+  - Apache supports Tomcat
+  - vast vendor support for online applications
+  - vast array of plugins and extensions
+
+** Installation of Apache Tomcat 8
+
+- visit Oracle and download JDK8 
+http://www.oracle.com/technetwork/java/javase/downloads/index.html
+#+BEGIN_SRC sh
+cd /opt
+tar xvzf /root/jdk-8u45-linux-x64.tar.gz
+mv jdk1.8.0_45 jdk8
+cd jdk8
+alternatives --install /usr/bin/java java /opt/jdk8/bin/java 2
+alternatives --config java
+alternatives --install /usr/bin/jar jar /opt/jdk8/bin/jar 2
+alternatives --install /usr/bin/javac javac /opt/jdk8/bin/javac 2
+alternatives --set jar /opt/jdk8/bin/jar
+alternatives --set javac /opt/jdk8/bin/javac
+#+END_SRC
+Using alternatives allows use to switch between versions of java
+
+- vist https://tomcat.apache.org/download-80.cgi and download tomcat 8
+  
+#+BEGIN_SRC sh
+cd /opt
+mv /root/apache-tomcat-8.0.22.tar.gz .
+tar xvzf apache-tomcat-8.0.22.tar.gz
+mv apache-tomcat-8.0.22 tomcat8
+#+END_SRC
+
+- configure startup, shutdown
+#+BEGIN_SRC sh
+export CATALINA_HOME=/opt/tomcat8/
+cd /opt/tomcat8/bin
+./startup.sh
+#+END_SRC
+tomcat should now be running
+
+- test by connecting to localhost with browser or lynx
+  
+** Environmental Setup
+- system-wide configuration   
+/etc/profile
+#+BEGIN_EXAMPLE
+CATALINA_BASE=/opt/tomcat8
+CATALINA_HOME=/opt/tomcat8
+CATALINA_TMPDIR=/opt/tomcat8
+JAVA_HOME=/opt/jdk8
+JRE_HOME=/opt/jdk8
+#+END_EXAMPLE
+places these variables at the bottom of the config file
+
+- either reboot, source the file, or login out and back in
+  
+- /opt/tomcat8/bin/startup.sh
+  - this file actually calls an executable called catalina.sh
+    
+- /opt/tomcat8/bin/catalina.sh
+  - this file contains a lot of the variables for configuring the Tomcat Environment
+    
+** Customizing the Java Virtual Machine
+   
+- setting the jvm min and max size
+/opt/tomcat8/catalina.sh
+#+BEGIN_EXAMPLE
+CATALINA_OPTS="$CATALINA_OPTS $JPDA_OPTS -Xms128m -Xmx256m"
+#+END_EXAMPLE
+start at 128m but don't grow bigger than 256m
+
+- variables are normally set with xml files that are added to the CATALINA_OPTS variable
+  
+** Tomcat File and Directory Architecture
+   
+/opt/tomcat8
+  bin      - all the executables/shell scripts
+  conf     - config for server, properties of the instance
+  lib      - contains the libs for tomcat
+  logs     - catalina.log is the main log file
+  temp     - objets that are cached out to disk while the instance is running
+  webapps  - where servlets contexts are stored
+  work     - this is the backward compatibility, it was where servlets contexts used to be stored
+    
+** Deploying Applications and Managing Tomcat
+   
+- manage users
+/opt/tomcat8/conf/tomcat-users.xml
+- by default all users are commented out
+#+BEGIN_EXAMPLE
+<role rolename="manager-gui"/>
+<user username="manager" password="manager" roles="manager-gui"/>
+#+END_EXAMPLE
+adding this role and user will allow the created user to administer Tomcat from the web-gui
+
+- How to deploy a servlet/context
+  - Option One (cmd line)
+    - drop the .war file into /opt/tomcat8/webapps
+      #+BEGIN_SRC sh
+      cp /root/sample.war /opt/tomcat8/webapps
+      /opt/tomcat8/bin/catalina.sh start
+      #+END_SRC
+    - this will example the sample.war file and create a new directory called "sample"
+    
+  - Option Two (web-gui)
+    - Deploy section
+      [[file://home/crito/Pictures/org/tomcat8_deploy_gui.png]]
+      
+    - the files will have to be on the remote machine to upload
+      
+** Connection Proxy
+   
+- for tomcat to be hosted on port 80, we usually use either apache or nginx
+  
+- nginx setup
+#+BEGIN_SRC sh
+yum install nginx
+#+END_SRC
+
+- /etc/nginx/nginx.conf
+#+BEGIN_EXAMPLE
+include /etc/nginx/vhost.d/*.conf
+#+END_EXAMPLE
+
+- /etc/nginx/vhost.d/defaults.conf
+#+BEGIN_EXAMPLE
+server {
+	listen 80;
+
+	root /opt/tomcat8/webapps/sample;
+	index index.php index.html index.htm
+	
+	server_name localhost
+	
+	location / {
+	try_files $uri $uri/ /index.php;
+	}
+
+	location ~ \.php$ {
+
+	proxy_set_header X-Real-IP $remote_addr;
+	proxy_set_header X-Forwar-For $remote_addr;
+	proxy_set_header Host $host;
+	proxy_pass http://127.0.0.1:8080;
+	
+	}
+
+	location ~ /\.ht {
+		deny all;
+	}
+}
+#+END_EXAMPLE
+
+- restart service
+#+BEGIN_SRC sh
+systemctl nginx restart
+#+END_SRC
+
+** Basic Clustering (poor man's load balancing)
+   
+- create a second tomcat8 instance
+#+BEGIN_SRC sh
+mkdir jdk8_2
+cd jdk8_2
+cp -rf /opt/tomcat8/* .
+#+END_SRC
+
+- change ports to prevent conflict
+/opt/tomcat8/conf/server.xml
+#+BEGIN_EXAMPLE
+<Server port="8006" shutdown="SHUTDOWN">
+
+<Connector port="8081" protocol="HTTP/1.1"
+           connectionTimeout="20000"
+	   redirectPort="8444"/>
+#+END_EXAMPLE
+- all ports need to be incremented by one
+- any conflicts will cause failure of the startup
+  
+- Use Nginx upstream directive to load balance between the two instances
+/etc/nginx/vhost.d/default.conf
+#+BEGIN_EXAMPLE
+upsteam myTomcat {
+	server localhost:8080;
+	server localhost:8081;
+}
+
+server {
+	listen 80;
+
+	root /opt/tomcat8/webapps/sample;
+	index index.php index.html index.htm
+	
+	server_name localhost
+	
+	location / {
+	try_files $uri $uri/ /index.php;
+	}
+
+	location ~ \.php$ {
+
+	proxy_set_header X-Real-IP $remote_addr;
+	proxy_set_header X-Forwar-For $remote_addr;
+	proxy_set_header Host $host;
+	proxy_pass http://myTomcat;
+	
+	}
+
+	location ~ /\.ht {
+		deny all;
+	}
+}
+#+END_EXAMPLE
+
+- restart nginx
+#+BEGIN_SRC sh
+systemctl nginx restart
+#+END_SRC
+
+** Shutdown Port
+/opt/tomcat8/conf/server.xml
+#+BEGIN_EXAMPLE
+<Server port="8005" shutdown="SHUTDOWN">
+#+END_EXAMPLE
+- good idea to change the shutdown="something_different"
+
+- shutdown tomcat8
+#+BEGIN_SRC sh
+telnet localhost 8005
+SHUTDOWN
+#+END_SRC
+require root privilieges
+
+- comment out the shutdown port
+#+BEGIN_EXAMPLE
+<Server>
+<!-- port="8005" shutdown="SHUTDOWN" -->
+#+END_EXAMPLE
+
+** Extract .war file
+#+BEGIN_SRC sh
+jar -xvf sample.war
+#+END_SRC
+this will unpack the sample.war file into the current directory
+
+** Force an application to stop
+#+BEGIN_SRC sh
+catalina.sh stop -force
+#+END_SRC
+this should be used when an application is refusing to terminate
+
+** Tuning Tomcat Ports
+- /opt/tomcat8/conf/server.xml 
+http     - 8080
+shutdown - 8005
+agp/ajp  - 8009
+ssl      - 8443
+
+** Troubleshooting
+
+- Java Exceptions
+An exception is an event that happens during normal execution of a program that disrupts the flow of that program's instructions.
+
+When an error occurs, the method (or the JVM itself if it is not caught within the program's code) creattes an object (an exception object - either an abstract exception or a specific one) and hands it off to the runtime system to log/notify/react.
+
+Example:
+#+BEGIN_EXAMPLE
+Exception in thread "main" java.lang.NullPointerException
+	at com.example.myproject.Object1.getValue(Object1.java:16)
+	at com.example.myproject.Object2.getValue(Object2.java:25)
+	at com.example.myproject.Object1.getValue(Object3.java:14)
+#+END_EXAMPLE
+
+- Catalina Log File
+/opt/tomcat8/logs/catalina.xxxx-xx-xx.log  
+  - these are the historic log files after rotation
+/opt/tomcat8/logs/catalina.out
+  - this is the current log that is being written to
+    
+- Other log files
+/otp/tomcat8/logs
+  - host-manager.log
+    - log actions that occur on the web-gui
+  - localhost.log
+    - infomation about the server and actions made by the application on the server
+  - localhost_access.log
+    - logs the ip addresses of connections to local host and what is being accessed
+  - manager.log
+    - log actions that occur on the web-gui
+      
+** Configuring Tomcat as a Service
+   
+- install jservice
+#+BEGIN_SRC sh
+yum install jsvc
+#+END_SRC
+
+- add user tomcat and group apache
+#+BEGIN_SRC sh
+useradd tomcat
+groupadd apache
+usermod -G apache tomcat
+cd /opt
+chown -R tomcat:apache tomcat8
+#+END_SRC
+
+- create an environment file
+/etc/sysconfig/tomcat
+#+BEGIN_EXAMPLE
+CATALINA_HOME=/opt/tomcat8
+JAVA_HOME=/opt/jdk8
+JSVC=/bin/jsvc
+#+END_EXAMPLE
+
+- create the systemd service file
+/usr/lib/systemd/system/tomcat.service
+#+BEGIN_EXAMPLE
+[Unit]
+Description=Tomcat webserver
+After=syslog.target network.target
+
+[Service]
+Type=forking
+User=tomcat
+EnvironmentFile=/etc/sysconfig/tomcat
+ExecStart=/opt/tomcat8/bin/catalina.sh start
+ExecStop=/opt/tomcat8/bin/catalina.sh stop
+
+[Install]
+WantedBy=multi-user.target
+#+END_EXAMPLE
+
+- create and enable the service
+#+BEGIN_SRC sh
+systemctl enable tomcat.service
+systemctl start tomcat.service
+#+END_SRC
+
+- test by shuting down and then restarting
+#+BEGIN_SRC sh
+systemctl stop tomcat.service
+systemctl start tomcat.service
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

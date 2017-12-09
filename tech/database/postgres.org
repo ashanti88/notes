@@ -1,7 +1,7 @@
-#+TAGS: DB postgresql postgres
+#+TAGS: postgresql postgres psql
 
 
-* PostreSQL					     :DB:postgresql:postgres:
+* PostgreSQL
 HomePage: [[https://www.postgresql.org/][postgresql.org]]
 Arch: https://wiki.archlinux.org/index.php/PostgreSQL
 
@@ -9,6 +9,20 @@ Arch: https://wiki.archlinux.org/index.php/PostgreSQL
 - psql
 - createuser
 - createdb
+- dropuser
+- dropdb
+- pg_dump
+
+*** Management Tools
+- PgAdmin
+- phppgadmin
+- DbVisualizer
+- pgaccess
+- pgShark
+
+* Files
+/var/lib/postgres/xx/data/pg_hba.conf
+  - this file contains the methods for authentication to the postgres database
 
 * Description
 * Usage
@@ -95,6 +109,351 @@ CREATE TABLE playground (
 *** Inset into table
 #+BEGIN_EXAMPLE
 INSERT INTO playground (type, color, location, install_date) VALUES ('slide', 'blue', 'south', '2014-04-28');
+#+END_EXAMPLE
+
+** Installation and Service Configuration PostgreSQL 9.4 (CentOS7)
+   
+- too ensure that we have an up-to-date version of Postgres we will get the rpm from the site
+#+BEGIN_SRC sh
+yum install https://download.postgresql.org/pub/repos/yum/9.4/redhat/rhel-7-x86_64/pgdg-centos94-9.4-2.noarch.rpm
+#+END_SRC
+
+- install PostgreSQL
+#+BEGIN_SRC sh
+yum install postgresql94-contrib postgresql94-server
+#+END_SRC
+
+- initialize the database
+#+BEGIN_SRC sh
+/usr/pgsql-9.4/bin/postgresql94-setup initdb
+#+END_SRC
+this will allow use to use init system cmds
+
+- start and enable
+#+BEGIN_SRC sh
+systemctl enable postgresql-9.4
+systemctl start postgresql-9.4
+#+END_SRC
+
+- open firewall ports 5432 80 if external use of database is needed
+  
+- configure SELinux
+#+BEGIN_SRC sh
+setsebool -P httpd_can_network_connect_db 1
+#+END_SRC
+
+** Connecting to the Database
+   
+- switch to the postgres user and connect to postgres
+#+BEGIN_SRC sh
+su - postgres
+psql
+#+END_SRC
+
+- quit psql
+#+BEGIN_EXAMPLE
+psql# \q
+#+END_EXAMPLE
+
+- set password for postgres
+#+BEGIN_EXAMPLE
+\password postgres
+#+END_EXAMPLE
+this will prompt for a new password
+
+- adminpack - additional functionality
+#+BEGIN_EXAMPLE
+CREATE EXTENSION adminpack;
+#+END_EXAMPLE
+
+** Creating and Removing Databases
+
+- list all databases
+#+BEGIN_EXAMPLE
+\l
+#+END_EXAMPLE
+
+- using createdb
+#+BEGIN_SRC sh
+createdb mytestdb
+#+END_SRC
+
+- within psql
+#+BEGIN_EXAMPLE
+CREATE DATABASE mytestdb2;
+#+END_EXAMPLE
+
+- change database within psql
+#+BEGIN_EXAMPLE
+\connect mytestdb2
+#+END_EXAMPLE
+
+- using dropdb
+#+BEGIN_SRC sh
+dropdb mytestdb
+#+END_SRC
+
+- with psql DROP a database
+#+BEGIN_SRC sh
+DROP DATABASE mytestdb2;
+#+END_SRC
+
+-
+
+** Createing and Inserting data into Tables
+   
+- create a table
+#+BEGIN_EXAMPLE
+CREATE TABLE cities (city varchar(5), cityname varchar(80), state varchar(20) ); 
+#+END_EXAMPLE
+space between the final two brackets is required, otherwise psql will throw a syntax error
+
+- insert a value into the table
+#+BEGIN_EXAMPLE
+INSERT INTO cities VALUES (12345, 'Manchester', 'Lancashire');
+#+END_EXAMPLE
+
+** Creating and Deleting Users
+   
+- adding a new user with createuser
+#+BEGIN_SRC sh
+createuser mytestuser
+#+END_SRC
+
+- give the user a password
+#+BEGIN_EXAMPLE
+ALTER USER mytestuser WITH PASSWORD 'password';
+#+END_EXAMPLE
+
+- edit /var/lib/pgsql/9.4/data/pg_hba.conf
+  - METHOD has to be set for local, host (127.0.0.1/32), host (::1/128)
+    - trust    - anyone that can connect to the server has access to the database
+    - password - sent in clear text
+    - ident    - The ident authentication method works by obtaining the client's operating system user name from an ident server and using it as the allowed database user name.
+[[https://www.postgresql.org/docs/9.3/static/auth-methods.html][Authentication Methods Documentation]]
+
+- login as test to the postgres database
+#+BEGIN_SRC sh
+psql -U mytestuser postgres
+#+END_SRC
+
+- using dropuser
+#+BEGIN_SRC sh
+dropuser mytestuser
+#+END_SRC
+You will not be able to drop a user if they own objects (database, tables etc)
+
+** Assinging Permissions
+
+- grant a user to insert data into a specific table   
+#+BEGIN_EXAMPLE
+GRANT INSERT ON tblTest TO mytestuser;
+#+END_EXAMPLE
+though the user can now input data into the table, he will not be able to view it
+
+- all the user to view and input data into a specific table
+#+BEGIN_EXAMPLE
+GRANT ALL ON tblTest TO mytestuser;
+#+END_EXAMPLE
+now the user can use the select cmd to view data
+
+
+** Installing phppgadmin (CentOS 7)
+   
+- install epel repo
+#+BEGIN_SRC sh
+yum install epel-release
+yum update
+#+END_SRC
+
+- check postgres is running
+#+BEGIN_SRC sh
+systemctl status postgres-9.4
+#+END_SRC
+   
+- install apache
+#+BEGIN_SRC sh
+yum install phpPgAdmin httpd
+#+END_SRC
+
+- edit /etc/httpd/conf.d/phpPgAdmin.conf
+#+BEGIN_EXAMPLE
+<Location /phpPgAdmin>
+	<IfModule mod_authz_core.c>
+		# Apache 2.4
+		#Require local
+		Require	all granted
+		#Require host example.com
+	</IfModule>
+	<IfModule !mod_authz_core.c>
+		# Apache 2.2
+		Order deny,allow
+		Allow from all
+		Allow from 127.0.0.1
+		Allow from ::1
+		# Allow from .example.com
+	</IfModule>
+</Location>
+#+END_EXAMPLE
+"Requre all granted" 
+"Allow from all"
+
+- start and enable apache
+#+BEGIN_SRC sh
+systemctl enable httpd
+systemctl start httpd
+#+END_SRC
+
+- edit /etc/phpPgAdmin/config.inc.php
+#+BEGIN_EXAMPLE
+$conf['servers'][0]['host'] = 'localhost';
+$conf['extra_login_security'] = false;
+$conf['owned_only'] = true;
+#+END_EXAMPLE
+
+- restart apache and postgres
+#+BEGIN_SRC sh
+systemctl restart httpd
+systemctl restart postgresql-9.4
+#+END_SRC
+
+- test with lynx
+#+BEGIN_SRC sh
+lynx http://localhost/phpPgAdmin
+#+END_SRC
+will need a gui browser to actually administer postgres
+
+** Accepting External Connections
+   
+- /var/lib/pgsql/9.4/data/postgresql.conf
+#+BEGIN_EXAMPLE
+listen_addresses = '*'
+#+END_EXAMPLE
+this will tell postgres to listen on all ips
+
+- These two files have to be configured correctly as above
+  - /etc/httpd/conf.d/phpPgAdmin.conf
+  - /var/lib/pgsql/9.4/data/postgresql.conf
+
+- restart postgres and httpd
+#+BEGIN_SRC sh
+systemctl enable httpd
+systemctl start httpd
+#+END_SRC
+
+- connections from a gui browser from a remote machine should now be possible
+
+** Backing Up and Restoring Databases
+   
+- using the pg_dump application
+#+BEGIN_SRC sh
+pg_dump mytestdb > mytestdb_dump.txt
+#+END_SRC
+this dump will contain all the SQL cmds to recreate a copy of the database
+
+- retoring the database
+#+BEGIN_SRC sh
+psql mytestdb2 < mytestdb_dump.txt
+#+END_SRC
+
+** Master Slave Configuration
+   
+- Master Configuration
+
+- edit /var/lib/postgres/9.4/data/postgresql.conf
+#+BEGIN_EXAMPLE
+wal_level = hot_standby
+max_wal_senders = 1
+wal_keep_segments = 100
+sychronous_standby_names = 'postgresql2'
+#+END_EXAMPLE
+'postgresql2' is the name of the slave server
+
+- create a user for replication
+#+BEGIN_EXAMPLE
+\connect mytestdb
+\create user replica replication;
+\q
+#+END_EXAMPLE
+
+- restart postgresql
+#+BEGIN_SRC sh
+systemctl restart postgresql-9.4
+#+END_SRC
+
+- edit /var/lib/pgsql/9.4/data/pg_hba.conf
+#+BEGIN_EXAMPLE
+host	replication	replica		52.123.52.110/32	trust
+#+END_EXAMPLE
+- add to the bottom of the file
+- the ip is that of the slave
+
+- restart postgresql
+#+BEGIN_SRC sh
+systemctl restart postgresql-9.4
+#+END_SRC
+
+- Slave Configuration
+  
+- stop the postgresql instance
+#+BEGIN_SRC sh
+systemctl stop postgresql-9.4
+#+END_SRC
+
+- edit /var/lib/pgsql/9.4/data
+#+BEGIN_SRC sh
+rm -rf *
+#+END_SRC
+
+- use pg_basebackup
+#+BEGIN_SRC sh
+pg_basebackup -D /var/lib/pgsql/9.4/data -h 52.4.135.132 -U replica
+#+END_SRC
+this will pull everthing from the master
+
+- create a recovery configuration file as root
+/var/lib/pgsql/9.4/data/recovery.conf
+#+BEGIN_EXAMPLE
+standby_mode=on
+trigger_file='/tmp/promotedb'
+primary_conninfo='host=52.4.135.132 port=5432 user=replica application_name=postgesql2'
+#+END_EXAMPLE
+file needs postgres:postgres ownership
+
+- edit /var/lib/pgsql/9.4/data/postgresql.conf
+#+BEGIN_EXAMPLE
+hot_standby = on
+#+END_EXAMPLE
+
+- run as postgres
+#+BEGIN_SRC sh
+/usr/pgsql-9.4/bin/pg_ctl -D /var/lib/pgsql/9.4/data/ start
+#+END_SRC
+
+- restart postgresql
+#+BEGIN_SRC sh
+systemctl start postgresql-9.4
+#+END_SRC
+
+** Time, Date and Timestamp
+-get current date of postgres db
+#+BEGIN_EXAMPLE
+SELECT CURRENT_DATE;
+#+END_EXAMPLE
+
+-get current time of postgres db
+#+BEGIN_EXAMPLE
+SELECT CURRENT_TIME;
+#+END_EXAMPLE
+
+- difference dbetween to timestamps
+#+BEGIN_EXAMPLE
+SELECT AGE(timestamp '2002-01-03', timestamp '1970-04-03');
+#+END_EXAMPLE
+
+- How much time has passed since a timestamp
+#+BEGIN_EXAMPLE
+SELECT AGE(timestamp '1969-10-10');
 #+END_EXAMPLE
 
 * Lecture
