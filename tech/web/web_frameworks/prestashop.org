@@ -1,0 +1,12 @@
+#+TAGS: prestashop
+
+
+* Prestashop
+HomePage: https://www.prestashop.com/en
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+[[file://home/crito/Documents/Web_Dev/Frameworks/PrestaShop-Developer-Guide.pdf][PrestaShop Developer Guide]]
+* Links

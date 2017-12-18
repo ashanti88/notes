@@ -1,1 +1,58 @@
-/home/crito/org/tech/cmds/iptables.org
+#+TAGS: firewall packet_filter iptables network_security
+
+
+* iptables
+Home Page: [[http://www.netfilter.org/][netfilter.org]]
+
+* Files 
+* Description
+* Usage
+** List current rules
+- this may take a while as it will attempt to resolve all the ip addresses
+#+BEGIN_SRC sh
+iptables -L
+#+END_SRC
+
+- this will disable name resolve
+#+BEGIN_SRC sh
+iptables -nL
+#+END_SRC
+
+** Flush currnt rule set
+#+BEGIN_SRC sh
+iptables -F
+iptables --flush
+#+END_SRC
+
+** Drop icmp packets
+- setting a drop rule
+#+BEGIN_SRC sh
+iptables -A INPUT --protocol icmp --in-interface enp0s3 -j DROP
+#+END_SRC
+the scanning machine will recieve no feedback on sent packets
+
+- setting a reject rule
+#+BEGIN_SRC sh
+iptables -A INPUT --protocol icmp --in-interface enp0s3 -j REJECT
+#+END_SRC
+the scanning machine will recieve feedback that will indicate that it is a vaild ip
+
+** Restore iptables
+- RHEL
+#+BEGIN_SRC sh
+iptables-restore < /etc/sysconfig/iptables
+#+END_SRC
+
+** opening a port with iptables
+#+BEGIN_SRC sh
+iptables -A INPUT -p tcp --dport 443 -j ACCEPT
+#+END_SRC
+* Lecture
+* Tutorial
+* Books
+[[file://home/crito/Documents/Linux/Security/Linux_iptables_Pocket_Reference.pdf][Linux iptables Pocket Reference]]
+
+* Links
+[[http://www.thegeekstuff.com/category/iptables/][GeekStuff - iptables]]
+[[https://wiki.debian.org/iptables][Debian - iptable]]
+https://www.linux.com/blog/learn/2017/9/redirecting-network-traffic-part-2

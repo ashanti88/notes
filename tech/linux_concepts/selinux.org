@@ -1,1 +1,225 @@
-/home/crito/org/tech/security/security_concepts/selinux.org
+#+TAGS: security selinux defense
+
+
+* SELinux
+* Description
+* Configuration
+/etc/selinux/config
+* Usage
+ 
+selinux rules are checked after DAC rules, and selinux rules aren't used
+if the DAC rules deny access.
+
+selinux has it's own users, linux users are mapped to these.
+
+selinux default action is to deny. If an selinux rule does not exitst to
+allow access, such as for process opening a file, access is denied.
+
+selinux is able to confine users. A number of selinux users exist in
+selinux policy. Linux users can be mapped to these uses to restrict
+their behaviour.
+
+** Basic Administration
+- Current status of SELinux
+#+BEGIN_SRC sh
+getenforce
+#+END_SRC
+or
+#+BEGIN_SRC sh
+sestatus
+#+END_SRC
+
+- change to permissive with:
+#+BEGIN_SRC sh
+setenforce 0
+getenforce
+#+END_SRC
+Permissive
+
+- change to enforcing with:
+#+BEGIN_SRC sh
+setenforce 1
+getenforce
+#+END_SRC
+Enforcing
+
+** SELinux Modes
+Enforcing - SELinux policy is enforced. SELinux denies access based on
+SELinux policy rules.
+
+Permissive - SELinux policy is not enforced. SELinux does not deny
+access, but denials are logged for actions that would have been denied
+if running in enforcing mode.
+
+to check what mode selinux is in use getenforce
+#+BEGIN_SRC sh
+getenforce
+#+END_SRC
+
+change to permissive with:
+#+BEGIN_SRC sh
+setenforce 0
+getenforce
+#+END_SRC
+Permissive
+
+change to enforcing with:
+#+BEGIN_SRC sh
+setenforce 1
+getenforce
+#+END_SRC
+Enforcing
+
+** SELinux Contexts
+
+Processes and files are labeled with an SELinux context that contains
+additional information, such as -
+
+SELinux user
+
+Role
+
+type
+
+level
+
+SELinux uses a combination of RBAC, TE and MLS. 
+
+To configure selinux users you use the semanage command. This command is
+found in the policycoreutils-python.
+
+to list all selinux users run:
+
+> semanage login -l
+
+** Level
+
+The level is an attribute of MLS and MCS. An MLS range is a pair of
+levels, written as lowlevel - highlevel if the levels differ or lowlevel
+if the levels are identical (s0 -s0 is the same as s0). Each level is a
+sensistivity-category pair, with categories being optional. If there are
+categories the level is written as sensitivity:category-set. If there
+are no categories, it is written as sensitivity.
+
+If the category set is a contiguous series, it can be written as c0.c3,
+and is the same as c0,c1,c2,c3. The /etc/selinux/targeted/setrans.conf
+file maps levels to human-readable form. Do not use an editor to alter
+this file, amend using the semange cmd. 
+
+RHEL supports 1024 different categories, c0 - c1023.
+
+s0-s0:c0.c1023 is sensitivity s0 and authorized for all categories.
+
+Domain Transititions
+
+A process in one domain transitions to another domain by executing an
+application that has the entrypoint type dor the new domain. The
+entrypoint permission is used in selinux policy and econtrols which
+applications can be used to enter a domain.
+
+system\_r - this is a role used for a system process, such as a daemons.
+
+id -Z command will show the selinux context associated with your linux
+user. By default RHEL linux users run unconfined by default.
+
+** Glossary
+
+SELinux - Security Enhanced Linux
+
+MAC - Mandatory Access Control
+
+DAC - Discretionary Access Control
+
+RBAC - Role-Based Access Control
+
+TE - Type Enforcement
+
+MLS - Multi-Level Security
+
+MCS - Muti-Category Security
+
+LSPP - Labeled Security Protection Profile
+
+* Lecture
+** A Fresh Look at SELinux - Daniel Walsh
+[[https://www.youtube.com/watch?v%3DX1NAJbLqEv8&list%3DWL&index%3D86][URL]]
+
++ Protects against the know and the unknown.
+  - well shellshock hit selinux enabled machines were the only machines that stopped it. 
+    
+*** SELinux 4 Things it trys to tell you with errors
+  1. You have something wrong with your labels
+  2. You changed the system defaults but did not tell SELinux about it.
+  3. Applications or SELinux has bugs that have not been fixed yet
+  4. You could be COMPROMIZED!!!
+     
+*** Wrong Labels
+    Dan Walsh's Mantra
+"SELinux is a LABELING system
+Every Process has a LABEL
+Every File, Directory, System object has a LABEL
+Policy rules control access between tabeled processes and labeled objects
+The Kernel enforces the rules"
+
++ SELinux is a Labeling System
+  - if the labels are wrong, SELinux will generate issues. Solution? Fix your labels.
+    
+**** Type Field - user:role:TYPE:level
++ apache user
+  - system_u:system_r:httpd_t:s0
++ policy rules will allow apache to only access certain system objects.
++ SELinux default behaviour is to block.
+  
+**** Level Field - user:role:type:LEVEL
++ system_u:system_r:svirt_t:s0:c1,c2
++ MCS Enforcement
+  - Protects like processes from each other.
+  - VM's, Openshift Gears, SELinux Sandboxes, Docker Containers.
+  - Tooling picks out random MCS label
+    - s0:c1,c2
+  - Assigns MCS label to all content 
+  - Launches the processes with same label
+  - Tooling guarantees uniqueness
+    
+*** File Labeling
++ SELinux File labels definitions stored in /etc/selinux/targeted/xontexts/file_xontext.*
++ File labels are uaually stored in the inode Xattrs 
++ matchpathcon /path -tells you what the label should be    
++ ls -Z /path - tells you what the label is
++ semangae fcontext - used to change default labeling
++ restorecon - applies labels to file system objects
+
+*** DEFAULT_T Files
++ By default all non distro directories in / will be labeld default_t
+  - SELinux has no idea what type of content is in a default_t file
+    
+- mv carries file properties, so if file is moved to a new environ properties may need to be changed for selinux to function correctly
+- mv -Z will relabe the contents of the moved file
+  - alias mv='mv -iZ'
+    
+*** Machine labeling is so wrong that it won't boot
++ Add enforcing=0 too kernel boot line
+  - not selinux=0 it will destroy labeling
++ touch /.autorelabel;reboot will relabel entire system
+  
+*** You Could Be Compromized
++ if you have a confined domain that tries to:
+  - Load a kernel module
+  - Turn off SELinux enforcing mode
+  - Write to etc_t? shadow_t
+  - Modify iptables rules
+You might be compromised
+
+*** Notes
+- Disscreationary access control - this is the rwx premissions
+- Leaked File Descriptors
+  - inheritance of parent of processors
+- S0 - S15 - this is the sensitivity
+
+OpenShift - account
+
+* Tutorial
+* Books
+** [[file://home/crito/Documents/Linux/Security/Fedora-25-SELinux.pdf][SELinux-Fedora 25]]
+* Links
+[[http://www.thegeekstuff.com/2017/07/chcon-command-examples/][15 SELinux chcon Cmd Examples to Change Security Context]]

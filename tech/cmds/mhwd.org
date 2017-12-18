@@ -1,7 +1,7 @@
-#+TAGS: manjaro video
+#+TAGS: manjaro video graphics_card hardware
 
 
-* mhwd							      :manjaro:video:
+* mhwd
 HomePage: [[https://wiki.manjaro.org/index.php?title%3DManjaro_Hardware_Detection_Overview][Manjaro HardWare Dectection]]
 * Description
 This is the Manjaro HardWare Detection tool.

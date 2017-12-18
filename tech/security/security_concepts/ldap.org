@@ -1,1 +1,54 @@
-/mnt/home/crito/org/tech/services/ldap.org
+#+TAGS: net sec ldap
+
+
+* LDAP                                                         :net:sec:ldap:
+OpenLDAP: [[https://www.openldap.org/][openldap.org]]
+* Cmds
+- ldapsearch
+- ldapadd
+- ldapdelete
+- ldapmodify
+- slaptest
+- slapcat
+- slapadd
+
+** Server Utils
+[[file://home/crito/Pictures/org/openldap_utils.png]]
+
+** Client Utils
+[[file://home/crito/Pictures/org/openldap_client_utils.png]]
+* Server
+** OpenLDAP
+** 389 Directory Server
+- possible to handle thousands of operations
+- TLS
+- SASL
+
+*** Setup on RHEL/CENTOS
+1. install the EPEL repo
+#+BEGIN_SRC sh
+wget http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-9.noarch.rpm
+rpm -ivh epel-release-7-9.noarch.rpm 
+#+END_SRC
+
+2. ensure that the host file is configured correctly
+   
+3. set appropriate /etc/sysctl.conf
+* Overview
+LDAP uses the Sleepycat Berkley DB, 
+* Lecture
+** [[https://www.youtube.com/watch?v%3DjZs4p_e6H1c][What about the LDAP directory life after Sun?]]
+- good explanation of migration of directories, methodology
+* Tutorial
+* Books
+[[file://home/crito/Documents/Linux/Linux_Networking_Cookbook.pdf][Linux Networking Cookbook]]
+[[file://home/crito/Documents/SysAdmin/OReilly_ldap.pdf][LDAP - O'Reilly]]
+[[file://home/crito/Documents/SysAdmin/Red_Hat_Directory_Server-8.1-Deployment_Guide-en-US.pdf][Red Hat Directory Server 8.1 Deployment Guide]]
+[[file://home/crito/Documents/SysAdmin/Sun-LDAP_Setup_and_Configuration_Guide.pdf][Sun - LDAP Setup and Configuration Guide]]
+[[file://home/crito/Documents/SysAdmin/Addison_Wesley-LDAP_Directories_Explained.pdf][LDAP Directories Explained - Addison Wesley]]
+[[file://home/crito/Documents/SysAdmin/Understanding_LDAP.pdf][Understanding LDAP - IBM]]
+[[file://home/crito/Documents/SysAdmin/Red_Hat_Directory_Server-8.1-Deployment_Guide-en-US.pdf][Red Hat Directory Server 8.1]]
+* Links
+https://wiki.debian.org/LDAP
+[[http://www.thegeekstuff.com/2017/07/ldap-389-directory-server-install/][How to Install LDAP 389 Directory Server On Linux]]
+[[https://www.howtoforge.com/linux_openldap_setup_server_client][Step-by-Step OpenLDAP Installation and Configuration]]

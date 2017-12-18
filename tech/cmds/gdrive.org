@@ -1,0 +1,22 @@
+#+TAGS: google_drive gdrive
+
+
+* gdrive
+* Description
+* Usage
+- list what is in the drvie
+- upload a file
+#+BEGIN_SRC sh
+gdrive upload a.txt
+#+END_SRC
+
+- sync
+#+BEGIN_SRC sh
+gdrive mkdir testDir
+gdrive sync upload /home/frank/testDir/ testDir/
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

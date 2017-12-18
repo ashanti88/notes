@@ -1,1 +1,54 @@
-/home/crito/org/tech/cmds/tcpdump.org
+#+TAGS: network analysis
+
+
+* tcpdump
+* Description
+* Usage
+- Capture packet from a specific interface
+#+BEGIN_SRC sh
+tcpdump -i wlp2s0
+#+END_SRC
+
+- Capture a certain number of packets
+#+BEGIN_SRC sh
+tcpdump -c 10 -i wlp2s0
+#+END_SRC
+
+- Write output to a file
+#+BEGIN_SRC sh
+tcpdump -v -n -X -w packets.pcap
+#+END_SRC
+
+- specify host to filter by
+#+BEGIN_SRC sh
+tcpdump -v -n -X -w packets.pcap host 172.16.0.129
+#+END_SRC
+-v verbose
+-n don't convert addresses
+-X provides more data in the output
+-w write
+
+- display output in ASCII
+#+BEGIN_SRC sh
+tcpdump -A -i enp1s0
+#+END_SRC
+
+- read a tcpdump file
+#+BEGIN_SRC sh
+tcpdump -tttt -r dump.pcap
+#+END_SRC
+t - don't print a timestamp on everyline
+tt - print in seconds since epoch(01/01/1970)
+ttt - print a delta between current and previous line
+tttt - print a timestamp hours, minutes, seconds and fractions of a second since midnight, preceded by the date
+ttttt - pprint a delta between current and previous line (micro-second resolution)
+
+* Lecture
+* Tutorial
+* Books
+* Links
+[[http://www.thegeekstuff.com/2010/08/tcpdump-command-examples/][thegeekstuff.com/tcpdump-command-examples]]
+[[http://tylerfisher.org/bpf/][A gentle introduction to Berkeley Packet Filters]]
+[[https://blog.cloudflare.com/bpf-the-forgotten-bytecode/][BPF - The Forgotten Bytecode(how tcpdump works)]]
+
+

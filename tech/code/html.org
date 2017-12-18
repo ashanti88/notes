@@ -1,1 +1,406 @@
-/home/crito/org/tech/web/design.org
+#+TAGS: code html web
+
+
+* HTML								       :html:
+** DOM - Document Object Model
+*** HEAD
+*** BODY
+** Tags
+*** Span
+The <span> tag is used to group inline-elements in a document.
+The <span> tag provides no visual change by itself.
+The <span> tag provides a way to add a hook to a part of a text or a part of a document.
+
+* HTML Frameworks
+** Semantic UI
+** Foundation
+** Sencha Touch
+** Onsen UI
+** Ionic
+** Bootstrap
+** SproutCore
+** HTML KickStart
+** Framework 7
+** Kendo UI
+** Montage
+* CSS 
+** Less
+** Sass
+* Lecture
+** [[https://www.youtube.com/watch?v%3DgqOEoUR5RH][Bootstrap Tutorial - Derek Banas]]
+
+- adding meta tag - <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  - this will force IE to use the latest rendering engine
+- adding meta tag - <meta name="viewport" content="width = device-width, initial-scale=1">
+  - this will set page with to device and zoom to 1
+
+- CDN - content delivery network
+- <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  
+- adding jquery
+- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+- adding javascript
+- <script src="https://maxdn.bbotstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js></script>
+  
++ Creating a container
+<div class="container">
+
+<div class="page-header">
+
+<div class="jumbotron">
+
+- Boot strap uses a grid of 12 to divide the page
+  
++ Setting the layout per secreen size
+- Example of how it is done
+
+<div class="well hidden-md hidden-lg">
+<p> Screen &gt;= 768px and &lt; 992px</p>
+</div>
+
+<div class="well hidden-lg">
+<p> Screen &gt; 992px and &lt; 1200px</p>
+</div>
+
+<div class="well"> 
+<p> Screen &gt; 1200px</p>
+</div>
+
+<div class="well hidden-sm hidden-md hidden-lg">
+<p> Screen &lt; 768px</p>
+</div>
+
++ Adding bootstrap to project
+1. download the bootstrap code
+2. copy js, css, and fonts to web directory
+3. add link to these directories in page code
+   
++ Carousel
+Carousel is a slider that is avaiable in bootstrap.
+
++ ARIA (disability aware)
+this can be added to item and stands for accessable rich internet applications, different elements provide more information for ppl with disabilites
+
+** [[https://www.youtube.com/watch?v%3DCUxH_rWSI1k][CSS3 Tutorial - Derek Banas]]
+*** Selecting Elements
+- heading.css
+#+BEGIN_SRC sh
+h1, h2 {
+  color: white;
+  background: black;
+  padding: 15;
+}
+#+END_SRC
+
+- paragraph.css
+#+BEGIN_SRC sh
+p { color: blue; }
+#+END_SRC
+
+- mainstyle.css
+#+BEGIN_SRC sh
+/* import the two css files */
+@import "heading.css";
+@import "paragraph.css";
+
+/* affect all of DOM */
+/* { font-family: "Arial Black" Gadget, sans-serif;}
+
+/* affect all of the div */
+div * { font-family: "Comic Sans MS", cursive, sans-serif;}
+
+/* affect all of class sitelink */
+.sitelink {
+  font-family: Gerogia, serif;
+}
+
+/* affect all of class with id=idofitem */
+#idofitem{
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+  color: black;
+}
+
+/* affect paragraph of class sitelink */
+p.sitelink {
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, sans-serif;
+  color: black;
+}
+
+span#tonyname{
+  font-family: "Times New Roman", Times, serif;
+  color: blue
+}
+
+#tutorials ol li{
+  color: purple;
+}
+
+#tutorials ul li{
+  color: green;
+}
+
+h3 + p{
+  font-style: italic;
+}
+
+h3 + p > a{
+  color: red;
+}
+
+p[class]{
+  background: gray;
+}
+
+p[id]{
+  background: yellow;
+}
+
+/* affect all lines with alt "boombox" */
+*[alt~"boombox"] {background: orange}
+#+END_SRC
+
+*** Border, Margin and Padding
+Margin-----Border-----Padding
+
+padding is set in a clockwise manner
+#+BEGIN_SRC sh
+#lorem{
+  padding 10px 10px 10px 10px;
+}
+#+END_SRC
+10 top
+10 right
+10 bottom
+10 left
+
+#+BEGIN_SRC sh
+#lorem{
+  padding 10px 25px 10px;
+}
+#+END_SRC
+10 top
+25 right
+10 bottom 
+25 left
+
+#+BEGIN_SRC sh
+#lorem{
+  padding 10px 25px;
+}
+#+END_SRC
+10 top
+25 right
+10 bottom
+25 left
+
+- Specifically set padding
+#+BEGIN_SRC sh
+#lorem{
+  padding-top: 20px;
+  padding-bottom: 10px;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+#+END_SRC
+
+- Margins works the same as above.
+
+- Borders
+#+BEGIN_SRC sh
+#lorem{
+  border-top: 5px solid #00308F;
+  border-bottom: 5px dotted #00308F;
+  border-left: 5px dashed #00308F;
+  border-right: 5px double #00308F;
+
+  background: #F2F3F4 url("repeat.png") repeat;
+}  
+#+END_SRC
+
+*** Unit Types
+Pixels (px)
+Points (pt) - 72 points ~= 1 inch
+Ems    (em)
+Percent (%)
+
+* Tutorials
+** Introduction to HTML for Designers - Pluralsight
+*** Understanding website folder structure
+- create a file to hold the site
+- inside
+  - images folder
+  - style folder - css files
+  - add an index.html
+*** Adding some content
+- index.html - standard naming convention for home page
+**** index.html - at the end of lesson3
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Red Abbey Resort</title>
+    </head>
+    <body>
+    
+    </body>
+
+</html>
+*** Creating captions for images
+when adding an image use the <figure> block as this will also align the image with text.
+
+**** index.html - at the end of lesson4
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Red Abbey Resort</title>
+    </head>
+    <body>
+        <h1>Red Abbey Resort</h1>
+        <p>Information on Red Abbey...bullshit</p>
+        <figure>
+        <img src="images/main-house.jpg" alts="Welcome players">
+            <figcaption>The Players Pad</figcation>
+        </figure>
+    
+    </body>
+
+</html>
+
+*** Creating unordered lists
+Using the <ul> we can add a unordered list. 
+Inside the <ul> block add items with <li> list item.
+**** index.html at the end of lesson5  
+     
+*** creating a different type of list
+to create a ordered/numbered list use the <ol> tag.
+**** index.html at the end of lesson6
+<!DOCTYPE html>
+<html>
+        <head>
+                <meta charset="UTF-8">
+                <title>Red Abbey Resort</title>
+        </head>
+        <body>
+                <h1>Red Abbey Resort</h1>
+                <p>Information on Red Abbey...bullshit</p>
+                <figure>
+                <img src="images/main-house.jpg" alts="Welcome players">
+                        <figcaption>The Players Pad</figcation>
+                </figure>
+                <h2>Services and Stuff</h2>
+                <ul>
+                        <li>bitches</li>
+                        <li>chronic</li>
+                        <li>pimps</li>
+                </ul>
+                <h2>Booking a Room</h2>
+                <ol>
+                        <li>Call Frank</li>
+                        <li>Give Frank your card dets</li>
+                        <li>Look for an email from the Prince of Nigeria</li>
+                        <li>Room booked</li>
+                </ol>
+        </body>
+
+</html>
+
+*** Organising Information with a table
+<table> block starts a table.
+<tr> - table row
+<th> - table heading/column
+<td> - table data
+**** index.html the code below was add
+                <h2>Rooms and Prices</h2>
+                <table>
+                        <caption>Our Pimp Palace</caption>
+                        <tr>
+                                <th>Room Type</th>
+                                <th>Bitch Capacity</th>
+                                <th>Dollar</th>
+                        </tr>
+                        <tr>
+                                <td>Attic Room</td>
+                                <td>20</td>
+                                <td>&pound;999</td>
+                        </tr>
+                        <tr>
+                                <td>Player's Hot Tub</td>
+                                <td>10</td>
+                                <td>&pound;10000</td>
+                        </tr>
+                        <tr>
+                                <td>Bitches Play Pen</td>
+                                <td>40</td>
+                                <td>&pound;10000</td>
+                        </tr>
+*** Creating a form
+<form> - this block is used to create the form
+<label> - this provides the box and Question
+<input> - this specifies the data type expected and has no closing tag
+**** index.html at the end of lesson7
+        <h2>Submit Room Request</h2>
+                <form>
+                        <p><label>First Name <input type="text"></label></p>
+                        <p><label>Last Name <input type="text"></label></p>
+                        <p><label>Phone Number <input type="text"></label></p>
+                </form>
+        </body>
+*** Form input fields	
+type checkbox allows multiple choice, radio only allows one choice.
+<fieldset> - this puta a border around the qualities in the block
+<legend> - Places name of fieldset group over laid on the created border
+**** index.html
+            <fieldset>
+                <legend>Perferred Room Type</legend>
+            <label><input type="radio" name="room-type">Attic Room</label>
+            <label><input type="radio" name="room-type">Standard Room</label>
+            <label><input type="radio" name="room-type">Pimp Palace</label>
+            </fieldset>
+
+*** Creating input fields for dates and adding buttons
+<textarea></textarea> - this adds a comment box
+<input type="date"> - this will produce a small calendar to pop up and select a date from.
+<button type="submit"> - this creates a submit button
+**** index.html
+           <p><label>Check In: <input type="date"></label></p>
+            <p><label>Check Out: <input type="date"></label></p>
+            <p><label>Comment or Special Requests:</label></p>
+            <textarea></textarea>
+            <p><button type="submit">Submit Request</button></p>
+
+*** Introduction to phrase elements
+<em> italics
+<strong> bold
+<small> this make text small print
+**** index.html
+<p><small><strong>Reservations need to be made <em>30 days<em> in advance</strong></small></p>
+
+*** Adding Special Characters and Symbols
+&ldqou; left double quote "
+&rdpuo; right double quote "
+&copy; this is the copyright sign
+**** index.html
+
+<p>All content on this site is &copy; Bad Ass Productions</p>
+
+*** HTML as an outline
+The headings shouldn't be chosen arbitarily, but should provide structure to the page.
+*** Making our web page into a web site
+<a href="url.html> - this is an anchor and will move you to another url
+*** Using HTML references
+https://w3fools.com - ok
+https://w3.org - ok 
+http://whatwg.org - good
+http://deveoper.mozilla.org - excellent
+
+http://caniuse.com - tells you what browser version supports what html functions
+
+* Books
+[[file://home/crito/Documents/Web_Dev/HTML_and_CSS-Design_and_Build_Websites.pdf][HTML and CSS - Design and Build Websites]]
+[[file://home/crito/Documents/Web_Dev/Head_First_HTML_and_CSS_2e.pdf][Head First HTML and CSS]]
+[[file://home/crito/Documents/Web_Dev/Web_Design_in_a_Nutshell_3ed.pdf][Web Design in a Nutshell]]
+
+* Links
+[[https://colorlib.com/wp/html5-frameworks/][Top 22 Best Free HTML5 Frameworks 2017]]

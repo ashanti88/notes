@@ -1,4 +1,4 @@
-#+TAGS: code vcs
+#+TAGS: git code_management vcs
 
 
 * git
@@ -115,6 +115,157 @@ The above error was throw as ssh didn't know about the github ssh-key
 
 * Lecture
 * Tutorial
+** LinuxAcademy - Git Quick Start
+
+- Installation and Configuration
+  
+- RHEL
+#+BEGIN_SRC sh
+yum install git
+#+END_SRC
+
+- Configure Global Parameters - these parameters will be used if none are supplied
+#+BEGIN_SRC sh
+git config --global user.name "testname"
+git config --global user.email "testname@testemail.com"
+git config --system core.editor "/usr/bin/vim"
+#+END_SRC
+these commands will be written to /etc/gitconfig
+
+
+- Creating a Repository and Adding Content
+
+  - make a directory whcih will become the local repo  
+    #+BEGIN_SRC sh
+    mkdir repo
+    cd repo
+    #+END_SRC
+  - now we have to initialize the repo, this creates the needed files (.git directory)
+    #+BEGIN_SRC sh
+    git init .
+    #+END_SRC
+    - to remove a repo all we have to do is remove the .git directory
+  - checking the status of a git repo
+    #+BEGIN_SRC 
+    git status
+    #+END_SRC
+    - this will provide a list of files that have changed and newly added
+  - changing default username and email
+    #+BEGIN_SRC sh
+    git config user.name "user"
+    git config user.email "user@example.com"
+    #+END_SRC
+  - add files to the repo
+    #+BEGIN_SRC sh
+    git add *
+    #+END_SRC
+    - this will add every file in the directory
+    - these files still need to be commited, and are not tracked (can be removed without recording)
+  - commit the staged files (newly added and changed files)
+    #+BEGIN_SRC sh
+    git commit -m "this is the initial message"
+    #+END_SRC
+    - these is a second way where you can leave out the -m "and message", this will drop you into the editor
+  - commit only modified files
+    #+BEGIN_SRC sh
+    git commit -a -m "this will leave out the untracked files from the commit"
+    #+END_SRC
+    
+
+- Logging
+  - it has it's own man page
+    #+BEGIN_SRC sh
+    man git-log
+    #+END_SRC
+  - pull all the commits from a branch
+    #+BEGIN_SRC sh
+    git log
+    #+END_SRC
+  - to get a summary of the logs
+    #+BEGIN_SRC sh
+    git log --oneline
+    #+END_SRC
+  - pull each commit plus all the details of modified and added files
+    #+BEGIN_SRC sh
+    git log -p
+    #+END_SRC
+  - view the logs/commits of a specific file
+    #+BEGIN_SRC sh
+    git log -- test.txt
+    #+END_SRC
+  - view the all commits submitted by a specific author
+    #+BEGIN_SRC sh
+    git log --author="user"
+    #+END_SRC
+  - grep for a specific word in the commit logs
+    #+BEGIN_SRC sh
+    git log --grep="change"
+    #+END_SRC
+  - view the overview of a repo and how branches divert
+    #+BEGIN_SRC sh
+    git log --graph
+    #+END_SRC
+    
+
+- Cloning
+  - clone a repo that is on the same machine
+    #+BEGIN_SRC sh
+    git clone /home/user/repo /home/user/new-repo
+    #+END_SRC
+  - this new clone will require that you set the local configuration
+    #+BEGIN_SRC sh
+    cd new-repo
+    git config user.name "new-user"
+    git config user.email "new-user@example.com"
+    #+END_SRC
+  - cloning with ssh
+    #+BEGIN_SRC sh
+    git clone user@server.git.com:repo .
+    #+END_SRC
+    this will pull the user repo and clone it to the current directory
+  - pushing to a remote repo
+    #+BEGIN_SRC sh
+    git push origin master
+    #+END_SRC
+    this will push current repo (origin) to the master branch on the remote repo
+
+- Ignoring Content
+  - is there an excludesfile set globally for git
+    #+BEGIN_SRC sh
+    git config --global core.excludesfile
+    #+END_SRC
+  - add an excludes file globally
+    #+BEGIN_SRC sh
+    git config --global core.excludesfile='/etc/gitignore'
+    #+END_SRC
+    /etc/gitignore
+    #+BEGIN_EXAMPLE
+    # globally ignore compiled .out binary files
+    *.out
+    #+END_EXAMPLE
+  - setting a repo specific excludes file
+    /home/user/repo/.gitignore
+    #+BEGIN_EXAMPLE
+    # locally ignore .bak files
+    *.bak
+    #+END_EXAMPLE
+    
+- Branching
+  - check current branch
+    #+BEGIN_SRC sh
+    git branch
+    #+END_SRC
+    this will show which is the current branch with an asterisk and list the rest
+  - create a new branch
+    #+BEGIN_SRC sh
+    git branch new-branch
+    #+END_SRC
+  - switch branch
+    #+BEGIN_SRC sh
+    git checkout new-branch
+    #+END_SRC
+  
+
 * Books
  [[file://home/crito/Documents/Tools/Git/Git_Essentials.pdf][Git Essentials]]
  [[file://home/crito/Documents/Tools/Git/Git_for_Teams.pdf][Git for Teams]]

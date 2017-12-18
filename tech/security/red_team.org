@@ -227,6 +227,8 @@ url: http://www.theregister.co.uk/2017/05/04/linux_rpcbind_vulnerability/
 ** SMB Relay Attack
 
 ** SMTP Injection
+** [[file://home/crito/org/tech/security/attacks/sqli.org][SQL Injection]]
+
 * Code
 ** Python
 *** Backdoor Shell
@@ -657,7 +659,6 @@ Docs: [[file://home/crito/Documents/Security/Red/Bug-Bounty-Field-Manual-complet
     - company stops hosting domain, but is still pointing to it
     - hosting comapnies heroku, aws, azure will allow you to take over these subdomains 
   
-    
 * Tutorial
 ** PluralSight - System Hacking - Dale Meredith
 

@@ -1,4 +1,4 @@
-#+TAGS: sys op
+#+TAGS: uncompress unrar
 
 * unrar
 * Description

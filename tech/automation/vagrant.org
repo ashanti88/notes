@@ -1,1 +1,130 @@
-/mnt/home/crito/org/tech/virt_and_cloud/vagrant.org
+#+TAGS: virt dev
+
+
+* Vagrant
+HomePage: [[https://www.vagrantup.com/][vagrantup.com]]
+Atlas: [[https://atlas.hashicorp.com/boxes/search][hashicorp.com/boxes]]
+* Description
+
+** Guest OS States
+- running
+- poweroff
+- saved
+- not created
+- aborted
+  
+** Vagrantfile
+This file is used to maintain that development is performed on the same platfrom by all involved in the project.
+
++ Variables
+  - config.vm.box = <url_to_box>
+  - config.vm.network :forward_port, guest: 4567, host: 45670, host_ip: "127.0.0.1" - this will restrict remote access using localhost
+  - VAGRANTFILE_API_VERSION = "2" - this will used version 2 format
+   
+** Boxes
+  - This is the base image that vagrant uses for the OS.
+  - The suffix used is usually .box but that is not mandatory.
+  - Once the box has been downloaded it is stored in $HOME/.vagrant.d/boxes. These boxes are then used as templates for projects.
+
+* Usage
+** Cmds
+*** Create a box
+#+BEGIN_SRC sh
+vagrant init centos/7
+#+END_SRC
+This example creates a centos 7 box with no repo specified atlas will be used
+*** Basic Administration
++ list boxes
+#+BEGIN_SRC sh
+vagrant list
+#+END_SRC
+
++ remove box
+#+BEGIN_SRC sh
+vagrant box remove <NAME>
+#+END_SRC  
+
++ status of box
+#+BEGIN_SRC sh
+vagrant status
+#+END_SRC
+
++ Virtualbox Guest Additions
+To ensure there is no vb guest addmitions mismatch the vagrant plugin can be used.
+This is installed with:
+#+BEGIN_SRC sh
+vagrant plugin install vagrant-vbguest
+#+END_SRC
+
+*** ssh-config
+For setting up ssh configuration for emacs us ssh-config
+#+BEGIN_SRC sh
+vagrant ssh-config 7cf053b
+#+END_SRC
+
+#+RESULTS:
+| Host                   | default                                                                           |
+| HostName               | 127.0.0.1                                                                         |
+| User                   | vagrant                                                                           |
+| Port                   | 2222                                                                              |
+| UserKnownHostsFile     | /dev/null                                                                         |
+| StrictHostKeyChecking  | no                                                                                |
+| PasswordAuthentication | no                                                                                |
+| IdentityFile           | /home/crito/vagrant_boxes/django/.vagrant/machines/default/virtualbox/private_key |
+| IdentitiesOnly         | yes                                                                               |
+| LogLevel               | FATAL                                                                             |
+This out put should be placed in the .ssh/config
+
+** Resize a Hard Disk for a Vagrant Box
+https://gist.github.com/christopher-hopper/9755310
+* Examples
+** Create Two Application Servers and a Database Server
+Vagrantfile
+#+BEGIN_EXAMPLE
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+# This will provision 2 Application Servers and a Database serrver running Centos7
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.ssh.insert_key = false
+  config.vm.provider :virtualbox do |vb|
+    vb.customize ["modifyvm", :id, "--memory", "256"]
+  end
+
+  # Application server 1
+  config.vm.define "app1" do |app|
+    app.vm.hostname = "ans-app1.dev"
+    app.vm.box = "centos/7"
+    app.vm.network :private_network, ip: "192.168.60.4"
+  end
+
+  # Application server 2
+  config.vm.define "app2" do |app|
+    app.vm.hostname = "ans-app2.dev"
+    app.vm.box = "centos/7"
+    app.vm.network :private_network, ip: "192.168.60.5"
+  end
+
+  # Application server 3
+  config.vm.define "db" do |app|
+    app.vm.hostname = "ans-db.dev"
+    app.vm.box = "centos/7"
+    app.vm.network :private_network, ip: "192.168.60.6"
+  end
+end
+#+END_EXAMPLE
+The create an ansible playbook to provision the required software and configurations
+
+* Lecture
+* Tutorial
+* Books
+** [[file://home/crito/Documents/SysAdmin/Virt/Vagrant/vagrant.pdf][Vagrant - O'Reilly]]
+** [[file://home/crito/Documents/SysAdmin/Virt/Vagrant/Pro%20Vagrant.pdf][Pro Vagrant]] 
+** [[file://home/crito/Documents/SysAdmin/Virt/Vagrant/Vagrant_Virtual_Development_Environment_Cookbook.pdf][Vagrant Development Environment Cookbook]]
+** [[file://home/crito/Documents/SysAdmin/Virtulization/Vagrant/Creating_Development_Environments_with_Vagrant.pdf][Creating Development Environments with Vagrant]]
+
+* Links
+
+

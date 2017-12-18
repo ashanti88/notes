@@ -1,0 +1,26 @@
+#+TAGS: sqli sql_injection
+
+
+* SQL Injection
+* Description
+* Usage
+* Lecture
+** [[https://www.youtube.com/watch?v=_P8HCLkDInA][SQL Injection Attack Lecture - Kevin Du 2016]]
+   
+Apache Mitigation - 
+php.ini
+#+BEGIN_EXAMPLE
+magic_quotes_gpc = On 
+#+END_EXAMPLE
+
+PHP's Solution - mysql_real_escape_string()
+
+
+* Tutorial
+* Books
+** [[file://home/crito/Documents/Security/Red/SQL_Injection_Attacks_and_Defense-Syngress.pdf][SQL Injection Attacks and Defense - Syngress]]
+** [[file://home/crito/Documents/Security/Red/SQL_Injection_Attack_and_Defense.pdf][SQL Injection Attack and Defense]]
+** [[file://home/crito/Documents/Security/Red/SQL_Injection_White_Paper.pdf][SQL Injection - Are Your Web Applications Vulnerable? - Kevin Spett]]
+** [[file://home/crito/Documents/Security/Web/The_Web_Application_Hackers_Handbook.pdf][The Web Application Hacker's Handbook (Chapter 9)]]
+
+* Links

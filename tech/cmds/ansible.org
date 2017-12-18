@@ -1,4 +1,4 @@
-#+TAGS: auto
+#+TAGS: ansible auto
 
 
 * Ansible
@@ -1022,7 +1022,6 @@ ansible all -m ping
 #+END_SRC
 
 
-
 *** Lesson Six   - These are the core components in Ansible
 
 - Inventories
@@ -1085,7 +1084,6 @@ ansible all -m ping
   - command line flag is used --ask-vault-pass or --vault-password-file
     
 
-
 *** Lesson Seven - What is an ad-hoc command
     
 - These are quick tasks
@@ -1147,7 +1145,7 @@ ansilbe -b -m yum -a "name=elinks state=latest"
 ansilbe -b -m yum -a "name=elinks state=absent"
 #+END_SRC
 
-*** Lesson Nine - Further Discussions about the ansible command
+*** Lesson Nine  - Further Discussions about the ansible command
     
 - creating a hosts file myhosts
 #+BEGIN_EXAMPLE
@@ -1208,6 +1206,8 @@ ansible databases -m copy -a "src=/home/.zshrc dest=/home/.zshrc"
 #+BEGIN_SRC sh
 ansilbe databases -m file -a "dest=./testfile mode=600"
 #+END_SRC
+
+*** Lesson Ten   - Overview of Static and Dynamic Inventories in Ansible 
 
 * Books
 ** [[file://home/crito/Documents/SysAdmin/Mgmt/Ansible/Ansible_Playbook_Essentials.pdf][Ansible Playbook Essentials - Packt]]

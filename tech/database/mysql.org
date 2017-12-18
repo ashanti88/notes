@@ -1927,7 +1927,6 @@ SELECT prodID, prodName, prodDesc, prodPrice, Now() AS prodPriceDate FROM tblPro
 this will add a column that adds a date that will correspond to the data at that time (good for viewing changes in price over time)
 
 
-
 * Books
 [[file://home/crito/Documents/Database/MySQL/High_Performance_MySQL_2e.pdf][High Performance MySQL - O'Reilly]]
 [[file://home/crito/Documents/Database/MySQL/Learning_MySQL_and_MariaDB.pdf][Learning MySQL and MariaDB - O'Reilly]]

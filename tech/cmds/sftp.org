@@ -1,1 +1,1091 @@
-/home/crito/org/tech/services/ftp.org
+#+TAGS: ftp sftp file_transfer_protocol
+
+
+* ftp
+* Cmds
+- [[file://home/crito/org/tech/cmds/ftp.org][ftp]]
+
+* Server
+** Pure-ftpd
+RL: [[https://www.pureftpd.org/project/pure-ftpd][Home Page]]
+** vsftpd
+RL: [[https://security.appspot.com/vsftpd.html][Home Page]]
+** Configuration
+ File - /etc/vsftpd.conf
+ examples can be found in /usr/share/doc/vsftpd/EXAMPLES
+ there are three types in the configuration files
+ - BOOLEAN OPTIONS
+ - NUMERIC OPTIONS
+ - STRING OPTIONS
+   
+** Anonymous Options
+ Anonymous access - by default this is turned off
+ anonymous_enable=YES
+ if this option is enabled only /srv/ftp/ is allowed to be accessed
+ anon_mkdir_write_enable - allow directory creation
+ anon_root=/path/to/new/dir - change the default root directory
+ 
+** User Access Control
+y default local users are authorized
+ local_enable=NO - this disables their access
+ write_enable=YES - this enables write access
+ 
+** User Management
+ Containment of Users
+ chroot_local_user=YES
+his will mean that users are locked into there home directories
+
+o makesure that ftp user only use ftp and not have shell access
+ echo /bin/false >> /etc/shells/
+ usermod -s /bin/false <login>
+
+** Scripts
+*** vsftpd Virtual Config with TLS
+vsftpd_virtual_config_withTLS.sh
+#+BEGIN_EXAMPLE
+#!/bin/sh
+# Chroot FTP with Virtual Users - Installation (with TLS support)
+#
+# Version 1.0
+#       August 1, 2005
+#       Fire Eater <LinuxRockz@gmail.com>
+#
+# Version 1.1
+#       December 14, 2008
+#       Alain Reguera Delgado <alain.reguera@gmail.com>
+#
+# Released under the GPL License- http://www.fsf.org/licensing/licenses/gpl.txt
+
+#
+# Initialization
+#
+IP_Address="`( /sbin/ifconfig | head -2 | tail -1 | awk '{ print $2; }' | tr --delete [a-z]:)`"
+LOCALPATH=`pwd`
+
+#
+# Add some presentation :)
+#
+clear;
+echo " vsftpd 2.0.5 -> Virtual Users -> Configuration"
+echo '-------------------------------------------------------------------'
+
+#
+# Check dependencies
+#
+PACKISMISSING=""
+PACKDEPENDENCIES="vsftpd db4-utils"
+for i in `echo $PACKDEPENDENCIES`; do
+#+BEGIN_EXAMPLE
+    /bin/rpm -q $i > /dev/null
+    if [ "$?" != "0" ];then
+        PACKISMISSING="$PACKISMISSING $i"
+    fi
+done
+if [ "$PACKISMISSING" != "" ];then
+    echo " ATTENTION: The following package(s) are needed by this script:"
+    for i in `echo $PACKISMISSING`; do
+        echo "             - $i"
+    done
+    echo '-------------------------------------------------------------------'
+    exit;
+fi
+
+#
+# Move into pki and create vsftpd certificate.
+#
+echo ''
+echo ' Creating Vsftpd RSA certificate ...'
+echo ''
+
+cd /etc/pki/tls/certs/
+if [ -f vsftpd.pem ];then
+	rm vsftpd.pem
+fi
+make vsftpd.pem
+
+#
+# Set up vsftpd configuration
+#
+echo '' 
+printf ' Setting up Vsftpd with non-system user logins and TLS support ... '
+
+mv  /etc/vsftpd/vsftpd.conf /etc/vsftpd/vsftpd.conf.orig
+cat <<EOFVSFTPD> /etc/vsftpd/vsftpd.conf
+anon_world_readable_only=NO
+anonymous_enable=NO
+chroot_local_user=YES
+guest_enable=NO
+guest_username=ftp
+hide_ids=YES
+listen=YES
+listen_address=$IP_Address
+local_enable=YES
+max_clients=100
+max_per_ip=2
+nopriv_user=ftp
+pam_service_name=ftp
+pasv_max_port=65535
+pasv_min_port=64000
+session_support=NO
+use_localtime=YES
+user_config_dir=/etc/vsftpd/users
+userlist_enable=YES
+userlist_file=/etc/vsftpd/denied_users
+xferlog_enable=YES
+anon_umask=027
+local_umask=027
+async_abor_enable=YES
+connect_from_port_20=YES
+dirlist_enable=NO
+download_enable=NO
+#
+# TLS Configuration
+#
+ssl_enable=YES
+allow_anon_ssl=NO
+force_local_data_ssl=NO
+force_local_logins_ssl=YES
+ssl_tlsv1=YES
+ssl_sslv2=NO
+ssl_sslv3=NO
+rsa_cert_file=/etc/pki/tls/certs/vsftpd.pem
+EOFVSFTPD
+
+#
+# Users
+#
+if [ ! -d /etc/vsftpd/users ]; then
+mkdir /etc/vsftpd/users
+fi
+cat /etc/passwd | cut -d ":" -f 1 | sort > /etc/vsftpd/denied_users; 
+chmod 644 /etc/vsftpd/denied_users
+printf "Done.\n"
+
+#
+# PAM
+#
+printf ' Setting up PAM ... '
+cat <<EOFPAMFTP> /etc/pam.d/ftp
+auth    required pam_userdb.so db=/etc/vsftpd/accounts
+account required pam_userdb.so db=/etc/vsftpd/accounts
+EOFPAMFTP
+printf "Done.\n"
+
+#
+# SELinux
+#
+printf ' Setting up SELinux Boolean (allow_ftpd_anon_write 1) ... '
+/usr/sbin/setsebool -P allow_ftpd_anon_write 1
+printf "Done.\n"
+
+#
+# Add first ftp virtual user
+#
+${LOCALPATH}/vsftpd_virtualuser_add.sh
+
+#+END_EXAMPLE
+*** vsftpd virtualuser config
+vsftpf_virtualuser_config.tpl
+#+BEGIN_EXAMPLE
+dirlist_enable=YES
+download_enable=YES
+local_root=/var/ftp/virtual_users/USERNAME
+write_enable=YES
+#+END_EXAMPLE
+*** vsftpd add user
+vsftpd_virtualuser_add.sh
+#+BEGIN_EXAMPLE
+#!/bin/sh
+# Chroot FTP with Virtual Users - Add ftp virtual user
+#
+# Version 1.0
+#       August 1, 2005
+#       Fire Eater <LinuxRockz@gmail.com>
+#
+# Version 1.1
+#       December 14, 2008
+#       Alain Reguera Delgado <alain.reguera@gmail.com>
+#
+# Released under the GPL License- http://www.fsf.org/licensing/licenses/gpl.txt
+
+#
+# Initialize some variables
+#
+LOCALPATH=`pwd`
+SHELL=/sbin/nologin
+FTPCONF=/etc/vsftpd
+HOMEDIR=/var/ftp/virtual_users
+
+if [ -f $FTPCONF/accounts.tmp ];then
+    ACCOUNTDB_TOTALLINES=`grep '.' -c $FTPCONF/accounts.tmp`
+else
+    ACCOUNTDB_TOTALLINES=0
+fi
+
+function checkNewUser_Existence () {
+    C=1;
+
+    if [ "$ACCOUNTDB_TOTALLINES" != "0" ];then
+        while [ $C -lt $ACCOUNTDB_TOTALLINES ]; do
+            VALIDUSER=`sed -n -e "$C p" $FTPCONF/accounts.tmp`
+            if [ "$USERNAME" == "$VALIDUSER" ];then
+                USERNAMEOK=NO
+                break;
+            else
+                USERNAMEOK=YES
+           fi
+           let C=$C+2;
+        done 
+    fi
+}
+
+function checkNewUser_Availability () {
+
+    if [ -f $FTPCONF/denied_users ];then
+        if [ ! `grep -w $USERNAME $FTPCONF/denied_users` ];then
+            USERNAMEOK=YES
+	else
+	    USERNAMEOK=NO
+        fi
+    
+    else
+        USERNAMEOK=NO
+    fi
+}
+
+function checkNewUser_Homedir () {
+
+    # Verify User's Home Directory.
+    if [ -d $HOMEDIR ];then
+        for i in `ls $HOMEDIR/`; do
+           VALIDUSER=$i
+           if [ "$USERNAME" == "$VALIDUSER" ];then
+               USERNAMEOK=NO
+	       break;
+	   else
+	       USENAMEOK=YES
+           fi
+        done
+    fi
+}
+
+function getUsername () {
+
+    printf " Enter Username (lowercase)      : "
+    read USERNAME
+
+    checkNewUser_Existence;
+    checkNewUser_Availability;
+    checkNewUser_Homedir;
+
+    if [ "$USERNAMEOK" == "NO" ];then
+        echo "  --> Invalid ftp virtual user. Try another username."
+        getUsername;
+    fi
+
+}
+
+#
+# Add some presentation :)
+#
+clear;
+echo " vsftpd 2.0.5 -> Virtual Users -> New User"
+echo '-------------------------------------------------------------------'
+
+#
+# Check dependencies
+#
+PACKISMISSING=""
+PACKDEPENDENCIES="vsftpd db4-utils"
+for i in `echo $PACKDEPENDENCIES`; do
+    /bin/rpm -q $i > /dev/null
+    if [ "$?" != "0" ];then
+        PACKISMISSING="$PACKISMISSING $i"
+    fi
+done
+if [ "$PACKISMISSING" != "" ];then
+    echo " ATTENTION: The following package(s) are needed by this script:"
+    for i in `echo $PACKISMISSING`; do
+    echo "             - $i"
+    done
+    echo '-------------------------------------------------------------------'
+    exit;
+fi
+
+#
+# Get user information
+#
+getUsername;
+printf " Enter Password (case sensitive) : "
+read PASSWORD
+printf " Enter Comment(user's full name) : "
+read FULLNAME
+printf " Account disabled ? (y/N)        : "
+read USERSTATUS
+echo " Home directory location         : ${HOMEDIR}/$USERNAME " 
+echo " Home directory permissions      : $USERNAME.$USERNAME | 750 | public_content_rw_t"
+echo " Login Shell                     : $SHELL "
+
+#
+# Create specific user configuration, based on 
+# vsftpd_virtualuser_config.tpl file.
+#
+cp $LOCALPATH/vsftpd_virtualuser_config.tpl $LOCALPATH/vsftpd_virtualuser_config.tpl.1
+sed -i -e "s/USERNAME/$USERNAME/g;" $LOCALPATH/vsftpd_virtualuser_config.tpl.1
+cat $LOCALPATH/vsftpd_virtualuser_config.tpl.1 > $FTPCONF/users/$USERNAME
+rm -f $LOCALPATH/vsftpd_virtualuser_config.tpl.1
+
+#
+# Update denied_users file
+#
+if [ "$USERSTATUS" == "y" ];then
+	echo $USERNAME >> $FTPCONF/denied_users	
+else
+	sed -i -r -e "/^$USERNAME$/ d" $FTPCONF/denied_users
+fi
+
+#
+# Update accounts.db file.
+#
+echo $USERNAME >> $FTPCONF/accounts.tmp; 
+echo $PASSWORD >> $FTPCONF/accounts.tmp;
+rm -f $FTPCONF/accounts.db
+db_load -T -t hash -f  $FTPCONF/accounts.tmp $FTPCONF/accounts.db
+
+#
+# Create ftp virtual user $HOMEDIR
+#
+if [ ! -d $HOMEDIR  ];then
+    mkdir $HOMEDIR
+fi
+
+#
+# Set user information
+#
+/usr/sbin/useradd -d "${HOMEDIR}/$USERNAME" -s "/sbin/nologin" -c "$FULLNAME" $USERNAME
+
+#
+# Set Permissions
+#
+/bin/chmod 600 $FTPCONF/accounts.db
+/bin/chmod 750 $HOMEDIR/$USERNAME
+/usr/bin/chcon -t public_content_rw_t $HOMEDIR/$USERNAME
+
+# Restart vsftpd after user addition.
+echo '-------------------------------------------------------------------'
+/sbin/service vsftpd reload
+echo '-------------------------------------------------------------------'
+#+END_EXAMPLE
+*** vsftpd update virtual user info
+vsftpd_virtualuser_update.sh
+#+BEGIN_EXAMPLE
+#!/bin/sh
+# Chroot FTP with Virtual Users - Update ftp virtual user information.
+#
+# Version 1.0
+#       August 1, 2005
+#       Fire Eater <LinuxRockz@gmail.com>
+#
+# Version 1.1
+#       December 14, 2008
+#       Alain Reguera Delgado <alain.reguera@gmail.com>
+#
+# Released under the GPL License- http://www.fsf.org/licensing/licenses/gpl.txt
+
+#
+# Initialize some variables
+#
+HOMEDIR=/var/ftp/virtual_users
+FTPCONF=/etc/vsftpd
+SHELL=/sbin/nologin
+CHMOD=750
+SELCONTEXT=public_content_rw_t
+ACCOUNTSDB_TMP=$FTPCONF/accounts.tmp
+ACCOUNTSDB_DB=$FTPCONF/accounts.db
+
+if [ -f $FTPCONF/accounts.tmp ];then
+    ACCOUNTDB_TOTALLINES=`grep '.' -c $FTPCONF/accounts.tmp`
+else
+    ACCOUNTDB_TOTALLINES=0
+fi
+
+function checkUser_Existence () {
+    C=1;
+
+    if [ "$ACCOUNTDB_TOTALLINES" != "0" ];then
+        while [ $C -lt $ACCOUNTDB_TOTALLINES ]; do
+            VALIDUSER=`sed -n -e "$C p" $FTPCONF/accounts.tmp`
+            if [ "$USERNAME" == "$VALIDUSER" ];then
+                USERNAMEOK=YES
+                break;
+            else
+                USERNAMEOK=NO
+           fi
+           let C=$C+2;
+        done 
+    fi
+}
+
+function getUsername () {
+
+    printf " Enter Username (lowercase)      : "
+    read USERNAME
+
+    checkUser_Existence;
+
+    if [ "$USERNAMEOK" == "NO" ];then
+        echo "  --> Invalid ftp virtual user. Try another username."
+        getUsername;
+    fi
+
+}
+
+#
+# Add some presentation :)
+#
+clear;
+echo ' vsftpd 2.0.5 -> Virtual Users -> Update User';
+echo '-------------------------------------------------------------------'
+
+#
+# Check dependencies
+#
+PACKISMISSING=""
+PACKDEPENDENCIES="vsftpd db4-utils"
+for i in `echo $PACKDEPENDENCIES`; do
+    /bin/rpm -q $i > /dev/null
+    if [ "$?" != "0" ];then
+        PACKISMISSING="$PACKISMISSING $i"
+    fi
+done
+if [ "$PACKISMISSING" != "" ];then
+    echo " ATTENTION: The following package(s) are needed by this script:"
+    for i in `echo $PACKISMISSING`; do
+        echo "             - $i"
+    done
+    echo '-------------------------------------------------------------------'
+    exit;
+fi
+
+#
+# Get user information
+#
+getUsername;
+printf " Enter Password (case sensitive) : "
+read PASSWORD
+printf " Enter Comment(user's full name) : "
+read FULLNAME
+printf " Account disabled ? (y/N)        : "
+read USERSTATUS
+echo " Home directory location         : ${HOMEDIR}/$USERNAME " 
+echo " Home directory permissions      : $USERNAME.$USERNAME | 750 | public_content_rw_t"
+echo " Login Shell                     : $SHELL "
+
+#
+# Create specific user configuration, based on 
+# vsftpd_virtualuser_config.tpl file.
+#
+# ... Do not change it in this script.
+
+#
+# Update denied_users file
+#
+if [ "$USERSTATUS" == "y" ];then
+	echo $USERNAME >> $FTPCONF/denied_users	
+else
+	sed -i -r -e "/^$USERNAME$/ d" $FTPCONF/denied_users
+fi
+
+#
+# Update accounts.db file.
+#
+sed -i -e "/$USERNAME/,+1 d" $ACCOUNTSDB_TMP
+echo $USERNAME >> $ACCOUNTSDB_TMP; 
+echo $PASSWORD >> $ACCOUNTSDB_TMP;
+rm -f $ACCOUNTSDB_DB
+db_load -T -t hash -f $ACCOUNTSDB_TMP $ACCOUNTSDB_DB
+
+#
+# Set Permissions
+#
+/bin/chmod 600 $ACCOUNTSDB_DB
+/bin/chmod -R $CHMOD $HOMEDIR/$USERNAME
+/usr/bin/chcon -R -t public_content_rw_t $HOMEDIR/$USERNAME
+
+#
+# Update user information
+#
+/usr/bin/chfn -f "$FULLNAME" $USERNAME 1>/dev/null
+
+# Restart vsftpd after user addition.
+echo '-------------------------------------------------------------------'
+/sbin/service vsftpd reload
+echo '-------------------------------------------------------------------'
+#+END_EXAMPLE
+*** vsftpd remove virtual user
+vsftpd_virtualuser_remove.sh
+#+BEGIN_EXAMPLE
+#!/bin/sh
+# Chroot FTP with Virtual Users - Remove ftp virtual user
+#
+# Version 1.0
+#       August 1, 2005
+#       Fire Eater <LinuxRockz@gmail.com>
+#
+# Version 1.1
+#       December 14, 2008
+#       Alain Reguera Delgado <alain.reguera@gmail.com>
+#
+# Released under the GPL License- http://www.fsf.org/licensing/licenses/gpl.txt
+
+
+#
+# Initialization
+#
+HOMEDIR=/var/ftp/virtual_users
+FTPCONF=/etc/vsftpd
+
+if [ -f $FTPCONF/accounts.tmp ];then
+    ACCOUNTDB_TOTALLINES=`grep '.' -c $FTPCONF/accounts.tmp`
+else
+    ACCOUNTDB_TOTALLINES=0
+fi
+
+function checkUser_Existence () {
+    C=1;
+
+    if [ "$ACCOUNTDB_TOTALLINES" != "0" ];then
+        while [ $C -lt $ACCOUNTDB_TOTALLINES ]; do
+            VALIDUSER=`sed -n -e "$C p" $FTPCONF/accounts.tmp`
+            if [ "$USERNAME" == "$VALIDUSER" ];then
+                USERNAMEOK=YES
+                break;
+            else
+                USERNAMEOK=NO
+           fi
+           let C=$C+2;
+        done 
+    fi
+}
+
+function checkUser_Homedir () {
+
+    # Verify User's Home Directory.
+    if [ -d $HOMEDIR ];then
+        for i in `ls $HOMEDIR/`; do
+           VALIDUSER=$i
+           if [ "$USERNAME" == "$VALIDUSER" ];then
+               USERNAMEOK=YES
+	       break;
+	   else
+	       USENAMEOK=NO
+           fi
+        done
+    fi
+
+}
+
+function removeUser () {
+
+    # Remove user from accounts.tmp
+    printf " Updating $FTPCONF/accounts.tmp file ... ";
+        sed -i -e "/$USERNAME/,+1 d" $FTPCONF/accounts.tmp
+    printf "done. \n"
+
+    # Remove user from account.db
+    printf " Updating $FTPCONF/accounts.db file ... ";
+        db_load -T -t hash -f  $FTPCONF/accounts.tmp $FTPCONF/accounts.db
+    printf "done. \n"
+
+    # Remove user from denied_users 
+    printf " Updating $FTPCONF/denied_users file ... "
+        sed -i -e "/$USERNAME/ d" $FTPCONF/denied_users
+    printf " done.\n"
+    
+    # Remove user from /etc/passwd and /etc/group. Also 
+    # remove related user information.
+    printf " Removing user information from the system ... ";
+        /usr/sbin/userdel -r $USERNAME
+    printf "done. \n"
+
+}
+
+clear;
+echo " vsftpd 2.0.5 -> Virtual Users -> Remove User"
+echo '-------------------------------------------------------------------'
+
+#
+# Check dependencies
+#
+PACKISMISSING=""
+PACKDEPENDENCIES="vsftpd db4-utils"
+for i in `echo $PACKDEPENDENCIES`; do
+    /bin/rpm -q $i > /dev/null
+    if [ "$?" != "0" ];then
+        PACKISMISSING="$PACKISMISSING $i"
+    fi
+done
+if [ "$PACKISMISSING" != "" ];then
+    echo " ATTENTION: The following package(s) are needed by this script:"
+    for i in `echo $PACKISMISSING`; do
+        echo "             - $i"
+    done
+    echo '-------------------------------------------------------------------'
+    exit;
+fi
+
+#
+# Non-interactive
+#
+if [ "$1" ];then
+
+    for i in $1; do
+    USERNAME=$i
+    echo "Removing user $USERNAME: "
+    checkUser_Existence;
+    checkUser_Homedir;
+
+    if [ "$USERNAMEOK" == "YES" ];then
+    removeUser;
+    echo '-------------------------------------------------------------------'
+    /sbin/service vsftpd reload
+    echo '-------------------------------------------------------------------'
+    else
+       echo "   ATTENTION : This user can't be removed. It is an invalid user."
+       echo '-------------------------------------------------------------------'
+    fi
+    done
+
+    exit;
+fi
+
+#
+# Interactive
+#
+printf " Enter username (lowercase): "
+read USERNAME
+
+checkUser_Existence;
+checkUser_Homedir;
+
+if [ "$USERNAMEOK" == "YES" ];then
+
+    echo ' ****************************************************************** '
+    echo " * ATTENTION: All data related to the user $USERNAME will be removed."
+    echo ' ****************************************************************** '
+    printf ' Are you sure ? (N/y): '
+    read CONFIRMATION
+
+    if [ "$CONFIRMATION" != "y" ];then
+        exit;
+    fi
+    removeUser;
+    echo '-------------------------------------------------------------------'
+    /sbin/service vsftpd reload
+    echo '-------------------------------------------------------------------'
+
+else
+       echo "   ATTENTION : This user can't be removed. It is an invalid user."
+       echo '-------------------------------------------------------------------'
+fi
+#+END_EXAMPLE
+*** vsftpd get user user info
+sftpd_virtualuser_info.sh
++BEGIN_EXAMPLE
+!/bin/sh
+ Chroot FTP with Virtual Users - Information about ftp virtual users
+
+ Version 1.0
+       August 1, 2005
+       Fire Eater <LinuxRockz@gmail.com>
+
+ Version 1.1
+       December 14, 2008
+       Alain Reguera Delgado <alain.reguera@gmail.com>
+
+ Released under the GPL License- http://www.fsf.org/licensing/licenses/gpl.txt
+
+
+ Initializations
+
+TPCONF=/etc/vsftpd
+OMEDIR=/var/ftp/virtual_users
+SERCOUNT=0
+OTALSIZE=0
+OUNTER=1
+
+f [ -f $FTPCONF/accounts.tmp ];then
+   ACCOUNTDB_TOTALLINES=`grep '.' -c $FTPCONF/accounts.tmp`
+lse
+   ACCOUNTDB_TOTALLINES=0
+i
+
+unction checkUser_Existence () {
+   C=1;
+
+   if [ "$ACCOUNTDB_TOTALLINES" != "0" ];then
+       while [ $C -lt $ACCOUNTDB_TOTALLINES ]; do
+   	    VALIDUSER=`sed -n -e "$C p" $FTPCONF/accounts.tmp`
+  	    if [ "$USERNAME" == "$VALIDUSER" ];then
+               USERNAMEOK=YES
+               break;
+           else
+               USERNAMEOK=NO
+           fi
+           let C=$C+2;
+        done 
+   fi
+
+
+unction checkUser_Homedir () {
+
+   # Verify User's Home Directory.
+   if [ -d $HOMEDIR ];then
+       for i in `ls $HOMEDIR/`; do
+          VALIDUSER=$i
+          if [ "$USERNAME" == "$VALIDUSER" ];then
+              USERNAMEOK=YES
+       break;
+   else
+       USENAMEOK=NO
+          fi
+       done
+   fi
+
+
+
+ getUserInfo. This function retrives information related to ftp
+ virtual user. If you want to see more information about an ftp
+ virtual user, add it in this function.
+
+unction getUserInfo {
+
+   echo "           User : $USERNAME"
+
+   checkUser_Existence;
+   checkUser_Homedir;
+
+   if [ "$USERNAMEOK" == "YES" ];then
+       SIZE=`du -sc $HOMEDIR/$USERNAME | head -n 1 | sed -r 's/\s.*$//' | cut -d' ' -f1`
+
+       # Set if the username is DENIED or ACTIVE
+       if [ `grep -w $USERNAME $FTPCONF/denied_users | head -n 1` ];then
+    	USERSTATUS=DISABLED
+    else
+        USERSTATUS=AVAILABLE
+       fi
+
+       echo "           Size : $SIZE"
+       echo "     Commentary : `grep $USERNAME /etc/passwd | cut -d: -f5`"
+       echo " Home directory : `grep $USERNAME /etc/passwd | cut -d: -f6`"
+       echo "    Login Shell : `grep $USERNAME /etc/passwd | cut -d: -f7`"
+       echo "  Accout Status : $USERSTATUS"
+
+       let USERCOUNT=$USERCOUNT+1
+       let TOTALSIZE=$TOTALSIZE+$SIZE
+
+   else
+
+       echo "      ATTENTION : Invalid ftp virtual user."
+
+   fi
+
+   echo "---------------------------------------------------------------"
+
+
+
+ showTotals.
+unction showTotals {
+   echo "    Total Users : $USERCOUNT"
+   echo "Total Size Used : $TOTALSIZE"
+
+
+
+ Some presentation :)
+
+lear;
+cho " vsftpd 2.0.5 -> Virtual Users -> Information "
+cho "---------------------------------------------------------------"
+
+
+ Interactive
+
+f [ "$1" ];then
+
+   for i in $1;do
+
+       USERNAME=$i
+       getUserInfo;
+
+   done
+
+howTotals;
+
+xit;
+
+i
+
+
+ Non-Interactive
+
+hile [ $COUNTER -lt $ACCOUNTDB_TOTALLINES ]; do
+
+   USERNAME=`sed -n -e "$COUNTER p" $FTPCONF/accounts.tmp`
+
+   getUserInfo;
+
+   let COUNTER=$COUNTER+2;
+
+one 
+
+howTotals;
+#+END_EXAMPLE
+
+*** Trouble-Shooting
+00 OOPS: vsftpd: Refusing to run with writable root inside chroot()
+** Solution
+. remove writability to the directory
+r
+. allow_writeable_chroot=YES - add to /etc/vsftpd.conf
+
+* Usage
+** Adding FTP user
+#+BEGIN_SRC sh
+useradd -d /home/fred -s /sbin/nologin fred
+#+END_SRC
+** Adding SSH/SFTP user
+#+BEGIN_SRC sh
+useradd -d /home/fred -s /bin/bash fred
+#+END_SRC
+
+** Change Password for user (also used when setting up user first time)
+#+BEGIN_SRC 
+passwd fred
+#+END_SRC
+
+** Changing users start directory
+#+BEGIN_SRC sh
+usermod -d /newdir/location whatever fred
+#+END_SRC
+
+** Moving files
+*** Copy file from local to remote
+- connect to the ftp server
+#+BEGIN_SRC sh
+ftp 192.168.0.15
+#+END_SRC
+
+- confirm current location
+#+BEGIN_SRC sh
+pwd
+#+END_SRC
+this will produce a location based on configured home directory ( / will be the config home directory not the actual root directory)
+
+- view the contents of the current directory
+#+BEGIN_SRC sh
+ls
+#+END_SRC
+
+- set the transfer type as binary
+#+BEGIN_SRC sh
+binary
+#+END_SRC
+
+- copy a file from current directory
+#+BEGIN_SRC sh
+put filename.txt
+#+END_SRC
+
+- exit ftp
+#+BEGIN_SRC sh
+bye
+#+END_SRC
+or
+#+BEGIN_SRC sh
+quit
+#+END_SRC
+
+*** Copy file from remote to local
+- connect to the ftp server
+#+BEGIN_SRC sh
+ftp 192.168.0.15
+#+END_SRC
+
+- confirm current location
+#+BEGIN_SRC sh
+pwd
+#+END_SRC
+this will produce a location based on configured home directory ( / will be the config home directory not the actual root directory)
+
+- view the contents of the current directory
+#+BEGIN_SRC sh
+ls
+#+END_SRC
+
+- set the transfer type as binary
+#+BEGIN_SRC sh
+binary
+#+END_SRC
+
+- pull file from remote to local machine
+#+BEGIN_SRC sh
+get filename.txt
+#+END_SRC
+
+*** Moving multiple files at once 
+- copy all the .txt files in this directory
+#+BEGIN_SRC sh
+mput *.txt
+#+END_SRC
+
+
+
+** Navigating local machine directories
+- move directory on local machine
+#+BEGIN_SRC sh
+lcd /home/Downloads
+#+END_SRC
+
+- view the local machine directory
+#+BEGIN_SRC sh
+lpwd
+#+END_SRC
+
+* Commands
+ abor - abort an active file transfer
+ acct - account information
+ adat - authentication/security data
+ allo - allocate sufficient disk space to receive a file
+ appe - append
+ auth - authentication/security mechanism
+ ccc  - clear command channel
+ cdup - change to parent directory
+ conf - confidentiality protection command
+ cwd  - change working directory
+ dele - delete file
+ enc  - privacy protected channel
+ eprt - specifies an extended address and port to which the server should connect
+ epsv - enter extended passive mode
+ feat - get the feature list implemented by the server
+ help - returns cmd specific help is supplied, otherwise general help
+ host - identify desired virtual host on server, by name
+ lang - language negotiation
+ list - returns information of a file or directory
+ lprt - specifies a long address and port to which the server should connect
+ lpsv - enter long passive mode
+ mdtm - return the last-modified time of a specified file
+ mic  - integrity proctected command
+ mkd  - make directory
+ mlsd - list the contents of a directory if a directory is named
+ mlst - provides data about exactly the object named on its command line, and no others
+ mode - sets the transfer mode (stream, block or compressed)
+ nlst - return a list of files in a named directory
+ noop - no operation (usually used for keep a live)
+ opts - select options for a feature
+ pass - authentication password
+ pasv - enter passive mode
+ pbsz - protection buffer size
+ port - specifies an address and port to which server should connect
+ prot - data channel protection level
+ pwd  - print working directory
+ quit - disconnect
+ rein - re-initialise connection
+ rest - restart transfer from specified point
+ retr - retrieve a copy of the file
+ rmd  - remove a directory
+ rnfr - rename from
+ rnto - rename to
+ site - sends site specific cmds to remote server
+ size - return the size of a file
+ smnt - mount file structure
+ stat - return the current status
+ stor - accept the data and to store the data as a file server side
+ stou - store file uniquely
+ stru - set file transfer structure 
+ syst - return system type
+ type - sets the transfer mode
+ user - authentication username
+ xcup - change to the parent of the current working directory
+ xmkd - make a directory
+ xpwd - print the current working directory
+ xrmd - remove the directory
+ xsem - send, mail if cannot
+ xsen - send to terminal
+  
+* Server Return Codes
+[[https://en.wikipedia.org/wiki/List_of_FTP_server_return_codes][URL: wiki - FTP Server Return Codes]]
+1xx - Positive Preliminary reply
+2xx - Positive Completion reply
+3xx - Positive Intermediate reply
+4xx - Transient Negative Completion reply
+5xx - Permanent Negative Completion reply
+6xx - Protected reply
+
+* Monitoring
+** Checking for FTP Brute force in the logs
+rep 'Jun  6' /var/log/secure | awk '{print $7}' | sort | uniq -c | sort
+gr | head -10
+
+rep 'Failed' /var/log/secure | awk '{print $13}' | sort | uniq -c |
+ort -gr | head -10 | awk '{ printf("%5d\t%-15s\t", $1, $2);
+ystem("geoiplookup " $2 " | head -1 | cut -d \: -f2 ") }'
+
+rep 'Failed' /var/log/secure | awk '{print $11}' | sort | uniq -c |
+ort -gr | head -10 | awk '{ printf("%5d\t%-15s\t", $1, $2);
+ystem("geoiplookup " $2 " | head -1 | cut -d \: -f2 ") }'
+
+rep 'no such user found' /var/log/secure | awk '{print $13}' | sort |
+niq -c | sort -gr | head -10
+
+rep 'no such user found' /var/log/secure | awk '{print $16}' | sort |
+niq -c | sort -gr | head -10 | awk '{ printf("%5d\t%-15s\t", $1, $2);
+ystem("geoiplookup " $2 " | head -1 | cut -d \: -f2 ") }'
+
+rep 'Authentication failed for user' /var/log/messages* | awk '{print
+6}' | cut -d '@' -f2 | cut -d ')' -f1 | sort | uniq -c | sort -gr |
+ead -10 | awk '{ printf("%5d\t%-15s\t", $1, $2); system("geoiplookup "
+2 " | head -1 | cut -d \: -f2 ") }'
+
+rep 'Failed password for' /var/log/secure | awk '{print $11}' | cut -d
+@' -f2 | cut -d ')' -f1 | sort | uniq -c | sort -gr | head -10 | awk '{
+rintf("%5d\t%-15s\t", $1, $2); system("geoiplookup " $2 " | head -1 |
+ut -d \: -f2 ") }'
+
+* Cpanel
+** Config
+) Go into /etc/pure-ftpd.conf and uncomment the following line, also restrict the port range:
+
+assivePortRange 40000 40500
+0000 50000
+
+) Restart the FTP service with the following
+scripts/restartsrv\_ftpd
+
+) Then open this port range on the firewall and bobs your uncle.
+
+* Plesk
+* Links
+[[http://davidokwii.com/7-ways-of-transferring-files-from-remote-server-to-localhost/][7 Ways to Transferring Files From Remote Server to Localhost]]
+[[http://www.jscape.com/blog/ftp-binary-and-ascii-transfer-types-and-the-case-of-corrupt-files][FTP Binary and ASCII Transfer Types and The Case of Corrupt Files]]
+
+
+* sftp
+* Cmds
+- [[file://home/crito/org/tech/cmds/sftp.org][sftp]]
+
+* Files
+/etc/ssh/sshd_config
+  - Subsystem sftp /usr/lib/openssh/sftp-server - this variable needs to be uncommented for sftp, or disable by commenting out
+
+* Description
+* Usage
+- connect with sftp with remote host
+#+BEGIN_SRC sh
+sftp frank@192.168.0.13
+#+END_SRC
+you require the user password or ssh key to connect
+
+* Lecture
+* Tutorial
+* Books
+* Links
