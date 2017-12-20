@@ -1,11 +1,9 @@
-#+TAGS: lpr
+#+TAGS: number_line
 
 
-* lpr
+* nl
 * Description
 * Usage
-> lpr <options> <file>
-
 * Lecture
 * Tutorial
 * Books

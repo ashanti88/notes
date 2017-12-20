@@ -1,0 +1,19 @@
+#+TAGS: pgrep process
+
+
+* pgrep
+* Description
+* Usage
+- find the pid of the bash process
+#+BEGIN_SRC sh
+pgrep bash
+#+END_SRC
+
+- find the pid of the init process
+#+BEGIN_SRC sh
+pgrep init
+#+END_SRC
+* Lecture
+* Tutorial
+* Books
+* Links

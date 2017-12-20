@@ -149,6 +149,9 @@ This directory will eventually hold system crash dumps. Currently, system crash 
 
 *** /var/db
 Data bank store
+/var/db/sudo 
+  - this will sort a timestamp of users with sudo privs and it is checked everytime sudo is used.
+  - if the timestamp is within 15 minutes no password is requested
 
 *** /var/games
 Any variable data relating to games in /usr is placed here. It holds variable data that was previously found in /usr. Static data, such as help text, level descriptions, and so on, remains elsewhere though, such as in /usr/share/games. The separation of /var/games and /var/lib as in release FSSTND 1.2 allows local control of backup strategies, permissions, and disk usage, as well as allowing inter-host sharing and reducing clutter in /var/lib. Additionally, /var/games is the path traditionally used by BSD.

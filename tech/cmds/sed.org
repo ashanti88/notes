@@ -67,14 +67,11 @@ this will change all numbers(of length of 1 or greater) to an underscore
 sed -r "s/[0-9]{1,}/(&)/g" file.txt
 #+END_SRC
 
-
 ** Writing to a file
 #+BEGIN_SRC sh
 sed 's/parttime/fulltime/w promotions.txt' employees.txt
 #+END_SRC
 this will change all employees who are parttime to full time and write it to the file promotions.txt, but the employees.txt file will not be changed
-
-
 
 ** Spacing
 *** Double Space file

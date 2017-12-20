@@ -1,7 +1,7 @@
-#+TAGS: sys op
+#+TAGS: pkill process kill_process
 
 
-* pkill								     :sys:op:
+* pkill
 * Description
 * Usage
 * Lecture

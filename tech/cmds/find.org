@@ -95,6 +95,13 @@ find . -maxdepth -user crito -name "*.py"
 #+END_SRC
 This will find all crito's python files in current directory
 
+** Find by file age
+   
+- files that have been accessed in less than a day
+#+BEGIN_SRC sh
+find /etc -atime -1
+#+END_SRC
+
 ** Delete found files
 #+BEGIN_SRC sh
 find . -name "pattern" -exec rm -rf {} \;

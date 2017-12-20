@@ -1,11 +1,9 @@
-#+TAGS: lpr
+#+TAGS: nano text_editor
 
 
-* lpr
+* nano
 * Description
 * Usage
-> lpr <options> <file>
-
 * Lecture
 * Tutorial
 * Books

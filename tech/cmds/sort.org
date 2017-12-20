@@ -13,6 +13,12 @@ sort file.txt
 #+BEGIN_SRC sh
 sort -n file.txt
 #+END_SRC
+
+- sort by number of occurences
+#+BEGIN_SRC sh
+cat syslog | uniq -c -w 6 | sort -h
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

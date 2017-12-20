@@ -265,6 +265,27 @@ these commands will be written to /etc/gitconfig
     git checkout new-branch
     #+END_SRC
   
+- Merging and Pushing
+  - update a remote repo with changes on local repo
+    #+BEGIN_SRC sh
+    git push origin master
+    #+END_SRC
+  - push a branch other than the master
+    #+BEGIN_SRC sh
+    git checkout new-branch
+    git push origin new-branch
+    #+END_SRC
+    if the branch isn't present on the remote repo it will be created
+  - update all branches
+    #+BEGIN_SRC sh
+    git push origin --all
+    #+END_SRC
+  - merge new-branch with master
+    #+BEGIN_SRC sh
+    git checkout master
+    git merge new-branch
+    #+END_SRC
+    this will prompt for a comment to be added
 
 * Books
  [[file://home/crito/Documents/Tools/Git/Git_Essentials.pdf][Git Essentials]]

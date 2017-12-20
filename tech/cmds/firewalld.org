@@ -1,4 +1,4 @@
-#+TAGS: net sec_d fw fwd
+#+TAGS: firewalld security fw
 
 
 * firewalld

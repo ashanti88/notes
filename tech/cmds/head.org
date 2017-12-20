@@ -1,4 +1,4 @@
-#+TAGS: file txt
+#+TAGS: head
 
 
 * head

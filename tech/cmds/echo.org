@@ -1,0 +1,20 @@
+#+TAGS: echo text_files
+
+
+* echo
+* Description
+* Usage
+- create a blank file
+#+BEGIN_SRC sh
+echo "" > test_file.txt
+#+END_SRC
+
+- append to an existing file
+#+BEGIN_SRC sh
+echo "My Line" >> test_file.txt
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

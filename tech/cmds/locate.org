@@ -16,6 +16,11 @@ b - basename - find only the files that have the query itself, instead of direct
 e - exist
 S - statstics - see statistics about the information that locate has cataloged
 
+** Update the database that locate uses
+#+BEGIN_SRC sh
+updatedb
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

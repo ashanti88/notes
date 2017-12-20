@@ -16,7 +16,6 @@ cp -r -u /home/code /test
 #+END_SRC
 this will only copy new and altered files
 
-liiiiiiiiiiiiiiiiiii d
 * Lecture
 * Tutorial
 * Books

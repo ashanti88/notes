@@ -1,9 +1,15 @@
-#+TAGS: sys op
+#+TAGS: kill kill_process
 
 
-* kill                                                               :sys:op:
+* kill
 * Description
 * Usage
+- list all options
+#+BEGIN_SRC sh
+kill -l
+#+END_SRC
+
+
 * Lecture
 * Tutorial
 * Books

@@ -1,17 +1,31 @@
+#+TAGS: format_line set_line_width set_white_space
 
 
-
-* Description								:txt:
+* fmt
+* Description
 This command will edit the line length of a file
 
 * Usage
-
-> fmt <option> <file>
-
+#+BEGIN_SRC sh
+fmt <option> <file>
+#+END_SRC
 default is 75 columns wide
 
 Set line to a specific width
-
-> fmt -w x <file>
-
+#+BEGIN_SRC sh
+fmt -w x <file>
+#+END_SRC
 this will set the line length to x
+
+Set white to be one between words
+#+BEGIN_SRC sh
+fmt -u file_to_format.txt > formatted_file.txt
+#+END_SRC
+
+
+* Lecture
+* Tutorial
+* Books
+* Links
+
+

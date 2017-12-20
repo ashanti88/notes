@@ -43,7 +43,7 @@ tar -rf file.tar file5
 tar -f file.tar --delete file1 file2
 #+END_SRC
 
-- List the archive
+- List the archive contents
 #+BEGIN_SRC sh
 tar -tf file.tar
 #+END_SRC
@@ -57,6 +57,11 @@ tar xvjf file.tar
 gzip
 #+BEGIN_SRC sh
 tar xvzf file.tar
+#+END_SRC
+
+- excluding files
+#+BEGIN_SRC sh
+tar cvzf data_without_certain_file.tar.gz --exclude=test.txt /home/user/data
 #+END_SRC
 
 * Lecture

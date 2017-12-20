@@ -1,7 +1,7 @@
-#+TAGS: file op
+#+TAGS: chattr extra_file_attributes
 
 
-* chattr							    :file:op:
+* chattr
 * Description
 change attribute is a command that is used to set/unset certain attributes.
 

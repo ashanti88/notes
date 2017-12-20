@@ -1,11 +1,22 @@
-#+TAGS: sys ptr
+#+TAGS: cups printers
 
 
 * CUPS
 Docs: [[https://www.cups.org/documentation.html][cups.org]]
+* Cmds
+- [[file://home/crito/org/tech/cmds/lpstat.org][lpstat]]
+- [[file://home/crito/org/tech/cmds/lpq.org][lpq]]
+- [[file://home/crito/org/tech/cmds/lpoptions.org][lpoptions]]
+- [[file://home/crito/org/tech/cmds/lprm.org][lprm]]
+- cupsenable
+- cupsdisable
+
 * Description
 * Usage
 * Lecture
 * Tutorial
+** Lab - Linux Academy - Installing Cups Print System
+Guide: file://home/crito/Documents/Linux/Labs/installing-cups-print-system_labs.pdf
+
 * Books
 * Links

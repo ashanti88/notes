@@ -1,0 +1,11 @@
+#+TAGS:
+
+
+* Random Access Memory
+* Description
+* Usage
+* Lecture
+[[https://www.youtube.com/watch?v=oGWbdDchOYI][DDR3 2133 Tutorial Introduction - Terry Fox]]
+* Tutorial
+* Books
+* Links

@@ -1,0 +1,16 @@
+#+TAGS: newgrp switch_group
+
+
+* newgrp
+* Description
+This command will let you log into another group
+* Usage
+- switch group
+#+BEGIN_SRC sh
+newgrp new_group
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

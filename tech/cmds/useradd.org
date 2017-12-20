@@ -20,6 +20,15 @@ This creates a normal user issues a uid, gid, but no home directory is created (
 useradd -D
 #+END_SRC
 
+** Create a new user
+#+BEGIN_SRC sh
+useradd -d /home/testuser testuser
+#+END_SRC
+d - home directory
+- Password is required for account to be activated
+- The home directory has to be created manually
+  - this directory will be bare to provide the base file copy the /etc/skel to the new directory
+
 ** Configure a user with custom settings
 
 > useradd -s <shell> -m -d <home dir> -g <group> UserName

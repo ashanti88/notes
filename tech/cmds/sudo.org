@@ -2,6 +2,12 @@
 
 
 * Sudo
+* Files
+/etc/sudo.conf
+/etc/sudoers
+/etc/sudoers.d/
+/etc/pam.d/sudo
+
 * Description
 * Usage
 > sudo <command>
@@ -54,12 +60,24 @@ sudo !!
 #+BEGIN_SRC sh
 usermod -a -G sudo frank
 #+END_SRC
+
+or add user manually to the /etc/group file
+#+BEGIN_EXAMPLE
+sudo:x:27:carol,frank
+#+END_EXAMPLE
+
 ** Using sudo with multiple cmds
 url: [[https://www.cyberciti.biz/faq/how-to-run-multiple-commands-in-sudo-under-linux-or-unix/][cyberciti.biz/multiple_sudo_cmds]]
 
 #+BEGIN_SRC sh
 sudo -- sh -c 'date; whoami'
 #+END_SRC
+
+** Using visudo
+- give the user sudo privileges equivilant to root
+#+BEGIN_EXAMPLE
+user	ALL=(ALL:ALL)	ALL
+#+END_EXAMPLE
 
 * Lecture
 * Tutorial

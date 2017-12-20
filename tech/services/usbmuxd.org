@@ -1,0 +1,12 @@
+#+TAGS: usbmuxd ios apple mobile data_transfer
+
+
+* USBmuxd
+HomePage: http://www.libimobiledevice.org/
+Github: https://github.com/libimobiledevice/usbmuxd
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

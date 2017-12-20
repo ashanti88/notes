@@ -1,0 +1,11 @@
+#+TAGS: colord
+
+
+* colord
+HomePage: https://www.freedesktop.org/software/colord/intro.html
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

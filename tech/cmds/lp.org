@@ -1,11 +1,9 @@
-#+TAGS: lpr
+#+TAGS:
 
 
-* lpr
+* lp
 * Description
 * Usage
-> lpr <options> <file>
-
 * Lecture
 * Tutorial
 * Books

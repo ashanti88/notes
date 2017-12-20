@@ -3,9 +3,39 @@
 * vim
 * Description
 * Usage
-- Resoucing vimrc 
+- Re-soucing vimrc 
 #+BEGIN_EXAMPLE
 :source ~/.vimrc
+#+END_EXAMPLE
+
+- pasting into vim
+#+BEGIN_EXAMPLE
+:set paste
+#+END_EXAMPLE
+
+- line numbering
+#+BEGIN_EXAMPLE
+:set number
+:set nonumber
+#+END_EXAMPLE
+
+- Setting highlight search
+#+BEGIN_EXAMPLE
+:set hlsearch
+#+END_EXAMPLE
+
+- Turning highlight search off (Temp)
+#+BEGIN_EXAMPLE
+:nohlsearch
+#+END_EXAMPLE
+or
+#+BEGIN_EXAMPLE
+:nohl
+#+END_EXAMPLE
+
+- Turning highlight search off (Perm)
+#+BEGIN_EXAMPLE
+:set nohlsearch
 #+END_EXAMPLE
 
 ** Navigation
@@ -33,7 +63,7 @@ dw - delete word
 
 x - delete the character under cursor
 
-*Modes*
+** Modes
 
 1) normal
 
@@ -46,25 +76,6 @@ x - delete the character under cursor
 5) select
 
 6) ex-mode
-
-*Notes:*
-
-https://en.wikibooks.org/wiki/Learning\_the\_vi\_Editor/Vim
-Setting highlight search
-
-:set hlsearch
-
-Turning highlight search off (Temp)
-
-:nohlsearch
-
-or
-
-:nohl
-
-Turning highlight search off (Perm)
-
-:set nohlsearch
 
 ** Objects
 *** word object
@@ -200,29 +211,80 @@ z + =
 this will output a numbered list too choose from
 
 ** Recomended Settings
-:set relativenumber is handy for working out offsets :set wrap can be
-switched on or off :set linebreak this means that wrap won't cut words
-in half :set showbreak=delimiter this show where wrapping is occuring
-:set textwidth=0 default this is the setting before a carriage return
+is handy for working out offsets 
+#+BEGIN_EXAMPLE
+:set relativenumber 
+#+END_EXAMPLE
 
-let mapleader=',' appose to the  that is the default using :map shows
-all available mappings that are available
+#+BEGIN_EXAMPLE
+:set wrap 
+#+END_EXAMPLE
+can beswitched on or off 
 
-make the arrow keys useless add the below to .vimrc noremap <left> <nop>
-noremap <right> <nop> noremap <up> <nop> noremap <down> <nop>
+#+BEGIN_EXAMPLE
+:set linebreak 
+#+END_EXAMPLE
+this means that wrap won't cut wordsin half 
 
-:saveas new\_name this means that you are now editing the new file not
-the original
+#+BEGIN_EXAMPLE
+:set showbreak=delimiter 
+#+END_EXAMPLE
+this show where wrapping is occuring
+
+#+BEGIN_EXAMPLE
+:set textwidth=0 
+#+END_EXAMPLE
+default this is the setting before a carriage return let mapleader=',' appose to the that is the default using 
+
+#+BEGIN_EXAMPLE
+:map shows all 
+#+END_EXAMPLE
+available mappings that are available
+
+make the arrow keys useless add the below to .vimrc noremap <left> <nop> noremap <right> <nop> noremap <up> <nop> noremap <down> <nop>
+
+#+BEGIN_EXAMPLE
+:saveas new_file_name 
+#+END_EXAMPLE
+this means that you are now editing the new file not the original
 
 ** Few More Settings
-:set scrolloff=<value> this provides a buffer between the top and bootom
-of the screen when scrolling up and down :set showmode will switch the
-message on and off as to what mode you are in :set wildmenu ths provides
-options in the bar above :set wildmode this is set to full by default
-:set cursorline will show a highlighted line where the cursor is :set
-undofile this allows actions from previous sessions to be undo. This is
-done by creating an undofile for each file to track changes.
+#+BEGIN_EXAMPLE
+:set scrolloff=<value> 
+#+END_EXAMPLE
+this provides a buffer between the top and bootom of the screen when scrolling up and down 
+
+#+BEGIN_EXAMPLE
+:set showmode 
+#+END_EXAMPLE
+will switch the message on and off as to what mode you are in 
+
+#+BEGIN_EXAMPLE
+:set wildmenu 
+#+END_EXAMPLE
+ths provides options in the bar above 
+
+#+BEGIN_EXAMPLE
+:set wildmode 
+#+END_EXAMPLE
+this is set to full by default
+
+#+BEGIN_EXAMPLE
+:set cursorline 
+#+END_EXAMPLE
+will show a highlighted line where the cursor is 
+
+#+BEGIN_EXAMPLE
+:set undofile 
+#+END_EXAMPLE
+this allows actions from previous sessions to be undo. This is done by creating an undofile for each file to track changes.
+
 * Lecture
 * Tutorial
 * Books
+[[file://home/crito/Documents/Tools/Vim/Hacking_Vim_7.2.pdf][Hacking Vim 7.2]]
+[[file://home/crito/Documents/Tools/Vim/Practical_Vim.pdf][Practical Vim]]
+[[file://home/crito/Documents/Tools/Vim/vim-1.0.pdf][The Vim Tutorial and Reference]]
+[[file://home/crito/Documents/Tools/Vim/vimbook-OPL.pdf][Vim Book]]
 * Links
+https://en.wikibooks.org/wiki/Learning\_the\_vi\_Editor/Vim

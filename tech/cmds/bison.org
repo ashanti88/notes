@@ -1,4 +1,4 @@
-#+TAGS:
+#+TAGS: bison
 
 
 * bison
@@ -7,4 +7,5 @@
 * Lecture
 * Tutorial
 * Books
+[[file://home/crito/Documents/Tools/Bison.pdf][Bison - GNU]]
 * Links

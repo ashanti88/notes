@@ -3,6 +3,8 @@
 
 * touch
 * Description
+Update the access and modification time of each file, but is usually used to created blank files
+
 * Usage
 
 > touch <options> <file>

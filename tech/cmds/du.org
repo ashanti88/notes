@@ -18,6 +18,11 @@ du -sch
 #+END_SRC
 c - grand total
 
+- view directories by size
+#+BEGIN_SRC sh
+du -sch /var/* | sort -h
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

@@ -1,0 +1,28 @@
+#+TAGS: lpd lpstat lpq lpoptions lprm
+
+
+* Line Printer Daemon
+* lpstat
+- check available printers and what is the default printer
+#+BEGIN_SRC sh
+lpstat -p -d
+#+END_SRC
+
+* lpq
+- view the current printer queue
+#+BEGIN_SRC sh
+lpq
+#+END_SRC
+
+* lpoptions
+- designate a printer as default
+#+BEGIN_SRC sh
+lpoptions -d Cups-PDF
+#+END_SRC
+* lprm
+- remove a print job
+#+BEGIN_SRC sh
+lprm 4
+#+END_SRC
+the print job number can be found with the lpq cmd
+* Links

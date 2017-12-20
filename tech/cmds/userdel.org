@@ -1,4 +1,4 @@
-#+TAGS: user_delete user
+#+TAGS: user_delete userdel
 
 
 * userdel
