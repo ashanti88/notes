@@ -26,7 +26,8 @@ Recommended Resources
 - The Agile Admin - What is DevOps?
 
 
-
+** Linux Academy - DevOps Essentials
+Slides: [[file://home/crito/Documents/DevOps/linuxacademy-devops-slides.pdf][Linux Academy - DevOps Essentials Slides]]
 
 * Books
 * Links

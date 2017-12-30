@@ -1,7 +1,10 @@
-#+TAGS: locate help find_utility documentaion
+#+TAGS: locate help find_utility documentaion mlocate
 
 
 * locate
+Info: http://www.linfo.org/locate.html
+* Files
+/var/lib/mlocate/mlocate.db
 * Description
 This command will provide information on what documentaion the specified package was installed with.
 
@@ -11,12 +14,34 @@ It is a database built with the updatedb command.
 
 > locate <query>
 
-** Options
+- Options
 b - basename - find only the files that have the query itself, instead of directories that contain th query leading to it
 e - exist
 S - statstics - see statistics about the information that locate has cataloged
 
-** Update the database that locate uses
+- display all absolute paths
+#+BEGIN_SRC sh
+locate
+#+END_SRC
+
+- find a specific file
+#+BEGIN_SRC sh
+locate file_name.png
+#+END_SRC
+this will return all files named file_name.png that the user has privileges to view
+
+- limit the output for a specific number of results
+#+BEGIN_SRC sh
+locate -n 15 file_name.txt
+#+END_SRC
+this will return the first 15 results
+
+- use case insensitivity for the file serarch
+#+BEGIN_SRC sh
+locate -i *.Txt
+#+END_SRC
+
+- update the locate 
 #+BEGIN_SRC sh
 updatedb
 #+END_SRC

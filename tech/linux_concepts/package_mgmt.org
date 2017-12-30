@@ -191,6 +191,16 @@ Purge
 dpkg -P application.deb
 #+END_SRC
 
+- List all installed packages
+#+BEGIN_SRC sh
+dpkg -l
+#+END_SRC
+
+- List all files installed with package
+#+BEGIN_SRC sh
+dpkg -L nano
+#+END_SRC
+
 **** Adding an additional architecture
 this comes in handy when you need to install a 32bit application on a
 64bit machine
@@ -204,18 +214,12 @@ apt-get update
 - Update available software database
 #+BEGIN_SRC sh
 apt-get update
-#+END_SRC
-or
-#+BEGIN_SRC sh
 apt update
 #+END_SRC
 
 - Upgrade all software available for upgrade
 #+BEGIN_SRC sh
 apt-get upgrade
-#+END_SRC
-or
-#+BEGIN_SRC sh
 apt upgrade
 #+END_SRC
 
@@ -270,6 +274,11 @@ is added to /etc/apt/source.list. It will be a deb-src ....
 - Installing dependencies for a source file
 #+BEGIN_SRC sh
 apt-get build-dep application
+#+END_SRC
+
+- list all infomation on a package
+#+BEGIN_SRC sh
+apt-file find tmux
 #+END_SRC
 
 **** Advanced Actions
@@ -607,7 +616,6 @@ yum info tmux
 #+BEGIN_SRC sh
 yum clean all
 #+END_SRC
-
 
 
 **** Repo Administration

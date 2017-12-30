@@ -1,4 +1,4 @@
-#+TAGS: cloud aws
+#+TAGS: cloud aws vpc virtula_private_cloud iaas paas
 
 
 * Amazon Web Services
@@ -17,6 +17,7 @@ AWS Documentation: https://aws.amazon.com/documentation/
 ** Route53
 ** Lambda
 ** Terraform
+** CloudFormation
 * Lecture
 ** [[https://www.youtube.com/watch?v%3DeKyS9rvbj40][Introduction to Database Services - Brian Rice]]
 + If you host your DB on-site
@@ -686,7 +687,7 @@ these metrics will now be able to be viewed on the dashboard under linux metrics
   - Evictions happen when a new item is added but there is no more space. An older item must be deleted to make space.
   - Evictions can be a caching technique used to make sure you don't run out of memory
   - If an items getting evicted too frequently, it defeats the purpose and will decrease performance
-  - CloudWatch alarms ccan notify you of a certain threshold
+  - CloudWatch alarms can notify you of a certain threshold
     
   - Memcahed solution - Increase instance size or add nodes to your cluster
   
@@ -850,9 +851,9 @@ these metrics will now be able to be viewed on the dashboard under linux metrics
     
 *** Lesson 18 - Elastic Load Balancer Sticky Sessions
     
-- Though cookies can be issued with the LB and instances behind, but this may lead to unevenly distributed traffic and ineffect the LB being bypassed due to the cokkies
+- Though cookies can be issued with the LB and instances behind, but this may lead to unevenly distributed traffic and ineffect the LB being bypassed due to the cookies
   
-- Elasticache is the prefered method, where the session data could be daved in RDS. This would ensure that the traffic is evenly distributed by the LB.
+- Elasticache is the prefered method, where the session data could be saved in RDS. This would ensure that the traffic is evenly distributed by the LB.
       
 *** Lesson 19 - High Availability with Single Instance Applications that Require Elastic IP Addresses
     
@@ -1113,7 +1114,7 @@ Layer  -----  DB Instance
       - Shutdown - happens when we shut down an instance (but before it is actually stopped)
 
 *** Lesson 33 - OpsWorks: Creating our First Stack
-*** Lesson 34 - CloudFormation Essentials    
+*** Lesson 34 - CloudFormation Essentials
     
 - CloudFormation allows you to create and provision resources in a reusable template fashion
 - turns your resources into stacks that work as units
@@ -1161,6 +1162,178 @@ Layer  -----  DB Instance
   - Advanced Concepts
     - templates allow you to declare cloud-init scripts for EC2 resources
     - templates allow the use of regex in certain declarations
+
+*** Lab - CloudFormation
+Lab Guide: [[file://home/crito/Documents/SysAdmin/Cloud/AWS/LA_Lab_Guide_CloudFormation.pdf][Linux Academy Lab Guide for CloudFormation]]
+#+BEGIN_EXAMPLE
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+
+  "Description" : "Introduction to CloudFormation",
+
+  "Mappings" : {	
+
+    "SubnetConfig" : {
+      "VPC"     : { "CIDR" : "10.0.0.0/16" },
+      "Public"  : { "CIDR" : "10.0.0.0/24" }
+    }
+  },
+
+  "Resources" : {
+
+    "VPC" : {
+      "Type" : "AWS::EC2::VPC",
+      "Properties" : {
+        "EnableDnsSupport" : "true",
+        "EnableDnsHostnames" : "true",
+        "CidrBlock" : { "Fn::FindInMap" : [ "SubnetConfig", "VPC", "CIDR" ]},
+        "Tags" : [
+          { "Key" : "Application", "Value" : { "Ref" : "AWS::StackName" } },
+          { "Key" : "Name", "Value" : "LinuxAcademy" },
+          { "Key" : "Network", "Value" : "Public" }
+        ]
+      }
+    },
+    "PublicSubnet" : {
+      "Type" : "AWS::EC2::Subnet",
+      "Properties" : {
+        "VpcId" : { "Ref" : "VPC" },
+        "AvailabilityZone": { "Fn::Select": [ "0", { "Fn::GetAZs": "" } ] },
+        "CidrBlock" : { "Fn::FindInMap" : [ "SubnetConfig", "Public", "CIDR" ]},
+        "Tags" : [
+          { "Key" : "Application", "Value" : { "Ref" : "AWS::StackName" } },
+          { "Key" : "Network", "Value" : "Public" }
+        ]
+      }
+    },
+    "InternetGateway" : {
+      "Type" : "AWS::EC2::InternetGateway",
+      "Properties" : {
+        "Tags" : [
+          { "Key" : "Application", "Value" : { "Ref" : "AWS::StackName" } },
+          { "Key" : "Network", "Value" : "Public" }
+        ]
+      }
+    },
+    "GatewayToInternet" : {
+      "Type" : "AWS::EC2::VPCGatewayAttachment",
+      "Properties" : {
+        "VpcId" : { "Ref" : "VPC" },
+        "InternetGatewayId" : { "Ref" : "InternetGateway" }
+      }
+    },
+    "PublicRouteTable" : {
+      "Type" : "AWS::EC2::RouteTable",
+      "Properties" : {
+        "VpcId" : { "Ref" : "VPC" },
+        "Tags" : [
+          { "Key" : "Application", "Value" : { "Ref" : "AWS::StackName" } },
+          { "Key" : "Network", "Value" : "Public" }
+        ]
+      }
+    },
+    "PublicRoute" : {
+      "Type" : "AWS::EC2::Route",
+      "DependsOn" : "GatewayToInternet",
+      "Properties" : {
+        "RouteTableId" : { "Ref" : "PublicRouteTable" },
+        "DestinationCidrBlock" : "0.0.0.0/0",
+        "GatewayId" : { "Ref" : "InternetGateway" }
+      }
+    },
+    "PublicSubnetRouteTableAssociation" : {
+      "Type" : "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties" : {
+        "SubnetId" : { "Ref" : "PublicSubnet" },
+        "RouteTableId" : { "Ref" : "PublicRouteTable" }
+      }
+    },
+    "PublicNetworkAcl" : {
+      "Type" : "AWS::EC2::NetworkAcl",
+      "Properties" : {
+        "VpcId" : { "Ref" : "VPC" },
+        "Tags" : [
+          { "Key" : "Application", "Value" : { "Ref" : "AWS::StackName" } },
+          { "Key" : "Network", "Value" : "Public" }
+        ]
+      }
+    },
+    "InboundHTTPPublicNetworkAclEntry" : {
+      "Type" : "AWS::EC2::NetworkAclEntry",
+      "Properties" : {
+        "NetworkAclId" : { "Ref" : "PublicNetworkAcl" },
+        "RuleNumber" : "100",
+        "Protocol" : "6",
+        "RuleAction" : "allow",
+        "Egress" : "false",
+        "CidrBlock" : "0.0.0.0/0",
+        "PortRange" : { "From" : "80", "To" : "80" }
+      }
+    },
+    "InboundSSHPublicNetworkAclEntry" : {
+      "Type" : "AWS::EC2::NetworkAclEntry",
+      "Properties" : {
+        "NetworkAclId" : { "Ref" : "PublicNetworkAcl" },
+        "RuleNumber" : "102",
+        "Protocol" : "6",
+        "RuleAction" : "allow",
+        "Egress" : "false",
+        "CidrBlock" : "0.0.0.0/0",
+        "PortRange" : { "From" : "22", "To" : "22" }
+      }
+    },
+    "OutboundPublicNetworkAclEntry" : {
+      "Type" : "AWS::EC2::NetworkAclEntry",
+      "Properties" : {
+        "NetworkAclId" : { "Ref" : "PublicNetworkAcl" },
+        "RuleNumber" : "100",
+        "Protocol" : "6",
+        "RuleAction" : "allow",
+        "Egress" : "true",
+        "CidrBlock" : "0.0.0.0/0",
+        "PortRange" : { "From" : "0", "To" : "65535" }
+      }
+    },
+    "PublicSubnetNetworkAclAssociation" : {
+      "Type" : "AWS::EC2::SubnetNetworkAclAssociation",
+      "Properties" : {
+        "SubnetId" : { "Ref" : "PublicSubnet" },
+        "NetworkAclId" : { "Ref" : "PublicNetworkAcl" }
+      }
+    },
+    "EC2SecurityGroup" : {
+      "Type" : "AWS::EC2::SecurityGroup",
+      "Properties" : {
+        "GroupDescription" : "Enable access to the EC2 host",
+        "VpcId" : { "Ref" : "VPC" },
+        "SecurityGroupIngress" : [
+          { "IpProtocol" : "tcp", "FromPort" : "22",  "ToPort" : "22",  "CidrIp" : "0.0.0.0/0" },
+          { "IpProtocol" : "tcp", "FromPort" : "80",  "ToPort" : "80",  "CidrIp" : "0.0.0.0/0" }
+        ]
+      }
+    },
+    "PublicInstance" : {
+      "Type" : "AWS::EC2::Instance",
+      "DependsOn" : "GatewayToInternet",
+      "Properties" : {
+        "InstanceType" : "t2.micro",
+        "ImageId"  : "ami-9be6f38c",
+        "NetworkInterfaces" : [{
+          "GroupSet"                 : [{ "Ref" : "EC2SecurityGroup" }],
+          "AssociatePublicIpAddress" : "true",
+          "DeviceIndex"              : "0",
+          "DeleteOnTermination"      : "true",
+          "SubnetId"                 : { "Ref" : "PublicSubnet" }
+        }]
+      }
+    }
+  }
+}
+#+END_EXAMPLE
+
+- The overview of the template
+
+[[file://home/crito/Pictures/org/cloudformation_lab0.png]]
 
 *** Lesson 35 - Backup Services on AWS and Services that Include Backups
 
@@ -1480,7 +1653,7 @@ The process of setting up Read Replicas can take quiet a bit of time, this is so
   - NACLs
 	
 *** Lesson 42 - Using IAM Roles with EC2
-*** Lesson 43 MFA on Amazon Web Services(Multifactor Authentication)	
+*** Lesson 43 - MFA on Amazon Web Services(Multifactor Authentication)	
 	
 - AWS MFA to access the console
   - users type in their user and passsword as well as a time-based code
@@ -1663,7 +1836,6 @@ The process of setting up Read Replicas can take quiet a bit of time, this is so
 - Above is the flow of traffic and how security is implemented
 - a subnet has to have a acl attached and will use the default if it is the only one available
   
-
 *** Lesson 53 - Configuring a NAT Instance
 	
 - this instance routes traffic from the private instances to the internet
@@ -1712,6 +1884,102 @@ The process of setting up Read Replicas can take quiet a bit of time, this is so
 	
 - Configure Auto-Scaling
 
+*** Lab - Creating a NAT Instance and Gateway in a VPC
+Lab Guide: [[file://home/crito/Documents/SysAdmin/Cloud/AWS/LA_Lab_Guide_NAT_in_VPC.pdf][Creating a NAT Instance in a VPC]]
+
+*** Lab - Building a Virtual Private Cloud from Scratch
+Lab Guide: [[file://home/crito/Documents/SysAdmin/Cloud/AWS/LA_Lab_Guide_VPC_from_Scratch.pdf][Building a Virtual Private Cloud from Scratch]]
+
+*** Lab - Createing a VPC with CloudFormation and Launching an EC2 Instance
+Lab Guide: file://home/crito/Documents/SysAdmin/Cloud/AWS/LA_Lab_Guide_CloudFormation_Walk_Through.pdf
+
+#+BEGIN_SRC json
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+  "Description" : "Building A VPC From Scratch With CloudFormation",
+
+  "Resources" : {
+    "VPC" : {
+      "Type" : "AWS::EC2::VPC",
+      "Properties" : {
+        "EnableDnsSupport" : "true",
+        "EnableDnsHostnames" : "true",
+        "CidrBlock" : "10.0.0.0/16",
+        "Tags" : [
+          { "Key" : "Application", "Value" : { "Ref" : "AWS::StackName" } },
+          { "Key" : "Network", "Value" : "Public" }
+        ]
+      }
+    },
+  
+    "PublicSubnet" : {
+      "Type" : "AWS::EC2::Subnet",
+      "Properties" : {
+      "VpcId" : { "Ref" : "VPC" },
+      "CidrBlock" : "10.0.0.0/24",
+        "Tags" : [
+        { "Key" : "Application", "Value" : { "Ref" : "AWS::StackName" } },
+        { "Key" : "Network", "Value" : "Public" }
+        ]
+      }
+    },
+    
+    "InternetGateway" : {
+      "Type" : "AWS::EC2::InternetGateway"
+      },
+  
+    "GatewayToInternet" : {
+      "Type" : "AWS::EC2::VPCGatewayAttachment",
+      "Properties" : {
+        "VpcId" : { "Ref" : "VPC" },
+        "InternetGatewayId" : { "Ref" : "InternetGateway" }
+      }
+    },
+    
+    "PublicRouteTable" : {
+      "Type" : "AWS::EC2::RouteTable",
+      "Properties" : {
+        "VpcId" : { "Ref" : "VPC" }
+      }
+    },
+  
+    "PublicRoute" : {
+      "Type" : "AWS::EC2::Route",
+      "DependsOn" : "GatewayToInternet",
+      "Properties" : {
+        "RouteTableId" : { "Ref" : "PublicRouteTable" },
+        "DestinationCidrBlock" : "0.0.0.0/0",
+        "GatewayId" : { "Ref" : "InternetGateway" }
+      }
+    },
+  
+    "PublicSubnetRouteTableAssociation" : {
+      "Type" : "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties" : {
+        "SubnetId" : { "Ref" : "PublicSubnet" },
+        "RouteTableId" : { "Ref" : "PublicRouteTable" }
+      }
+    },
+    
+    "PublicInstance" : {
+      "Type" : "AWS::EC2::Instance",
+      "DependsOn" : "GatewayToInternet",
+      "Properties" : {
+        "InstanceType" : "t1.micro",
+        "ImageId" : "ami-fb8e9292",
+        "NetworkInterfaces" : [{
+          "AssociatePublicIpAddress" : "true",
+          "DeviceIndex" : "0",
+          "DeleteOnTermination" : "true",
+          "SubnetId" : { "Ref" : "PublicSubnet" }
+        }]
+      }
+    }
+  }
+}
+#+END_SRC
+
+
 *** Lesson 57 - AWS Direct Connect and On-premises to VPC Redundancy
 	
 - you can connect on-site infrastructure to AWS
@@ -1748,7 +2016,6 @@ The process of setting up Read Replicas can take quiet a bit of time, this is so
 
 
   
-
 
 * Books
 ** SysOps Associate

@@ -1,21 +1,21 @@
-#+TAGS: ssh remote_access
+#+TAGS: ssh remote_access ssh-copy-id ssh-agent ssh-add ssh-keygen sshd
 
 
 * ssh
 * Files
-/etc/ssh/ssh_config 		- the config file for the ssh client
-/etc/ssh/sshd_config 		- the config file for the ssh daemon
-/home/user/.ssh/authorized_keys - this holds remote hosts public keys 
-/home/user/.ssh/config  	- this is a way to save host configs
-* Description
-* Usage
-** ssh Key Generation
-#+BEGIN_SRC sh
-ssh-keygen
-#+END_SRC
-This will then prompt for a name for the new key
+** /etc/ssh/ssh_config 		
+- the config file for the ssh client
 
-** ssh Tools
+** /etc/ssh/sshd_config 		
+the config file for the ssh daemon
+** /home/user/.ssh/authorized_keys  
+this holds remote hosts public keys
+** /home/user/.ssh/config  	
+this is a way to save host configs
+** /home/user/.ssh/known_hosts     
+this file holds hashes for all known hosts, hosts that we have previously connected to and authorize that we trust them to be the correct machine.
+
+** Cmds
 *** ssh-copy-id
 #+BEGIN_SRC sh
 ssh-copy-id crito@192.168.0.5
@@ -27,50 +27,10 @@ To enable the ssh-agent
 eval $(ssh-agent)
 #+END_SRC
 
-*** Many keys set
-Using ssh-agent with multiple keys can cause problems when login into many servers.
-Each key is considered an attempt, so if a limit is set then you can end up locked out.
-
-*** Setting up ssh-agent as a sysd service
-[Unit]
-Description=SSH key agent
-
-[Service]
-Type=forking
-Environment=SSH_AUTH_SOCK=%t/ssh-agent.socket
-ExecStart=/usr/bin/ssh-agent -a $SSH_AUTH_SOCK
-
-[Install]
-WantedBy=default.target
-
-*** Adding to zshrc
-- add this line to .zshrc
-export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
-
 *** ssh-add
 #+BEGIN_SRC sh
 ssh-add ~/.ssh/git_eurus
 #+END_SRC
-*** Check what identities are currently set
-#+BEGIN_SRC sh
-ssh-add -l
-#+END_SRC
-
-*** add key/identity
-#+BEGIN_SRC sh
-ssh-add $KEY
-#+END_SRC
-
-*** remove key/identity
-#+BEGIN_SRC sh
-ssh-add -d $KEY
-#+END_SRC
-
-*** remove all keys/identities
-#+BEGIN_SRC sh
-ssh-add -D
-#+END_SRC
-
 *** ssh-keygen
 *** ssh-copy-id
 ssh-copy-id uses the SSH protocol to connect to the target host and upload the SSH user key. The command edits the authorized_keys file on the server. It creates the .ssh directory if it doesn't exist. It creates the authorized keys file if it doesn't exist. Effectively, ssh key copied to server.
@@ -78,6 +38,14 @@ ssh-copy-id uses the SSH protocol to connect to the target host and upload the S
 It also checks if the key already exists on the server. Unless the -f option is given, each key is only added to the authorized keys file once.
 
 It further ensures that the key files have appropriate permissions. Generally, the user's home directory or any file or directory containing keys files should not be writable by anyone else. Otherwise someone else could add new authorized keys for the user and gain access. Private key files should not be readable by anyone else.
+* Description
+* Usage
+** ssh Key Generation
+#+BEGIN_SRC sh
+ssh-keygen
+#+END_SRC
+This will then prompt for a name for the new key
+
 ** Check an ssh keys password
 #+BEGIN_SRC sh
 eval $(ssh-agent)
@@ -292,6 +260,64 @@ ssh-copy-id 78.87.56.34
 ssh-copy-id frank@78.87.56.34
 #+END_SRC
 
+** Many keys set
+Using ssh-agent with multiple keys can cause problems when login into many servers.
+Each key is considered an attempt, so if a limit is set then you can end up locked out.
+** Setting up ssh-agent as a sysd service
+#+BEGIN_EXAMPLE
+[Unit]
+Description=SSH key agent
+
+[Service]
+Type=forking
+Environment=SSH_AUTH_SOCK=%t/ssh-agent.socket
+ExecStart=/usr/bin/ssh-agent -a $SSH_AUTH_SOCK
+
+[Install]
+WantedBy=default.target
+#+END_EXAMPLE
+
+** Adding to zshrc
+- add this line to .zshrc
+#+BEGIN_EXAMPLE
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+#+END_EXAMPLE
+** add key/identity
+#+BEGIN_SRC sh
+ssh-add $KEY
+#+END_SRC
+
+** Check what identities are currently set
+#+BEGIN_SRC sh
+ssh-add -l
+#+END_SRC
+
+** remove key/identity
+#+BEGIN_SRC sh
+ssh-add -d $KEY
+#+END_SRC
+
+** remove all keys/identities
+#+BEGIN_SRC sh
+ssh-add -D
+#+END_SRC
+
+** Changing SSH port
+
+vi /etc/ssh/sshd\_config
+
+change port to 22 (or any other number) or add another line to add
+another port
+
+service sshd reload
+** Disable root login
+#+BEGIN_EXAMPLE
+PermitRootLogin no
+#+END_EXAMPLE
+** Only allow ssh protocol v2
+#+BEGIN_EXAMPLE
+Protocol 2
+#+END_EXAMPLE
 * Lecture
 * Tutorial
 * Books

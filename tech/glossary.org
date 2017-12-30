@@ -3,10 +3,15 @@
 
 * FDT  - Flattened Device Tree
 * LDAP - Lightweight Directory Access Protocol
+- setting the daemon to i
+* LDPD - Label Distributed Protocol Daemon
+ManPage: https://man.openbsd.org/ldpd
 * LDA  - Local Delivery Agent
 [[file://home/crito/org/tech/mail/procmail.org][Procmail]]
 maildrop
 
+* MPLS - Multiprotocol Label Switching
+Wiki: https://en.wikipedia.org/wiki/Multiprotocol_Label_Switching
 * NIS  - Network Information Service
 * NUMA - Non Uniform Memory Access 
 Wiki: https://en.wikipedia.org/wiki/Non-uniform_memory_access

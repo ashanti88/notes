@@ -1,0 +1,43 @@
+#+TAGS: linux_routing
+
+
+* Linux Routing
+* Stratically Route IP Traffic
+- view how traffic is routed
+depracted
+#+BEGIN_SRC sh
+netstat -rn
+#+END_SRC
+currnet way
+#+BEGIN_SRC sh
+ip route show
+#+END_SRC
+
+- add a route
+depracted
+#+BEGIN_SRC sh
+route add -net 192.17.0.0 netmask 255.255.255.0 gw 192.168.1.131 dev eth0
+#+END_SRC
+current way
+#+BEGIN_SRC sh
+ip route add 172.17.42.0/24 via 192.168.1.131 dev eth0
+#+END_SRC
+
+- make route persistant
+  - two options
+    - add to network script
+    - add to rc.local the exact commands
+
+- remove a route
+#+BEGIN_SRC sh
+ip route delete 172.17.0.0/24
+#+END_SRC
+
+* Dynamically Route IP Traffic
+
+- [[file://home/crito/org/tech/cmds/quagga.org][Quagga]] - this tool is available to enable dynamic routing
+
+* Lecture
+* Tutorial
+* Books
+* Links

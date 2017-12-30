@@ -2,10 +2,33 @@
 
 
 * Telnet
+* Files
+/etc/xinetd.d/telnet
 * Cmds
 [[file://home/crito/org/tech/cmds/telnet.org][telnet client]]
 * Overview
+* Usage
+** Setting up on Centos7
+#+BEGIN_SRC sh
+yum install telnet-server telnet
+systemctl start telnet.socket
+systemctl enable telnet.socket
+systemctl status telnet.socket
+#+END_SRC
+
+- confirm that the port has opened
+#+BEGIN_SRC sh
+ss -tnlp | grep 23
+#+END_SRC
+
+- test the service by connecting to the localhost with telnet client
+#+BEGIN_SRC sh
+telnet localhost
+#+END_SRC
+this will prompt for user and password
+
 * Lecture
 * Tutorial
 * Books
 * Links
+http://sharadchhetri.com/2014/12/08/install-telnet-server-on-centos-7-rhel-7/

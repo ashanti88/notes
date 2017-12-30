@@ -1,4 +1,4 @@
-#+TAGS: mail mda pop3 imap dovecot
+#+TAGS: mail mda pop3 imap dovecot pop3s imaps
 
 
 * Dovecot
@@ -61,6 +61,7 @@ mail_privileged_group = mail
 #+BEGIN_EXAMPLE
 protocols = imap pop3 imaps pop3s
 #+END_EXAMPLE
+in centos7 imaps and pop3s no longer need to be specified
 
 - makesure that /etc/pki/dovecot has been created
   
@@ -77,6 +78,7 @@ systemctl start dovecot
 
 - check that dovecot is listening
 #+BEGIN_SRC sh
+systemctl status dovecot
 netstat -nptlu | grep dovecot
 #+END_SRC
 
@@ -90,13 +92,42 @@ this will allow us to send mail from the terminal
 
 - sending mail
 #+BEGIN_SRC sh
-mutt -s "this is a test email to a user called user" user@bluelevers.com < /dev/null
+mutt -s "this is a test email to a user called user" user@alickmitchell1.mylabserver.com < /dev/null
 #+END_SRC
 
 - send mail with an attachment
 #+BEGIN_SRC sh
-mutt -s "Test attachment" user@bluelevers.com -a /home/jim/test.txt < /dev/null
+mutt -s "Test attachment" user@alickmitchell1.mylabserver.com -a /home/jim/test.txt < /dev/null
 #+END_SRC
+
+- sending mail with telnet
+#+BEGIN_EXAMPLE
+[user@alickmitchell1 ~]$ telnet localhost smtp
+Trying ::1...
+Connected to localhost.
+Escape character is '^]'.
+220 alickmitchell1.mylabserver.com ESMTP Postfix
+HELO
+501 Syntax: HELO hostname
+HELO alickmitchell1.mylabserver.com
+250 alickmitchell1.mylabserver.com
+mail from: alick@lahome.com
+250 2.1.0 Ok
+rcpt to: user@alickmitchell1.mylabserver.com
+250 2.1.5 Ok
+data
+354 End data with <CR><LF>.<CR><LF>
+This is a test message for the user user
+Thanks
+.
+250 2.0.0 Ok: queued as 0FC888C29D5
+quit
+221 2.0.0 Bye
+Connection closed by foreign host.
+You have new mail in /var/spool/mail/user
+[user@alickmitchell1 ~]$ mutt
+3 kept, 0 deleted.
+#+END_EXAMPLE
 
 * Lecture
 * Tutorial

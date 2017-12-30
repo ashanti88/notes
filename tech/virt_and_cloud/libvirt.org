@@ -1,7 +1,8 @@
-#+TAGS: virt
+#+TAGS: libvirt virsh virt-manager vm virtual_machine
 
 
 * libvirt
+HomePage: http://wiki.libvirt.org/page/Main_Page
 * cmds
 ** virsh
 - list all VMs running on machine
@@ -25,11 +26,22 @@ virsh edit name_of_vm
 #+END_SRC
 This is the prefered method to edit, rather than using vim on the config file
 
+- start a vm on startup
+#+BEGIN_SRC sh
+virsh autostart UbuntuTrustyTahr
+#+END_SRC
+
 ** virt-manager
+HomePage: https://virt-manager.org/
 This is a GUI to manage VMs
 
 * Description
 * Usage
+** Finding VM process
+#+BEGIN_SRC sh
+ps aux | grep virt | grep ubuntu
+#+END_SRC
+just search the name of the VM
 * Lecture
 * Tutorial
 * Books

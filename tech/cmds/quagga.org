@@ -3,7 +3,11 @@
 
 * quagga
 HomePage: http://www.nongnu.org/quagga/
+Documentation: http://www.nongnu.org/quagga/docs/docs-info.html
 
+* Files
+/etc/quagga
+/etc/quagga/daemons 
 * Description
 * Usage
 * Lecture

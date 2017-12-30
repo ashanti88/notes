@@ -1,4 +1,4 @@
-#+TAGS: squid_proxy_server
+#+TAGS: squid_proxy_server http_proxy squid squid_guard
 
 
 * Squid Proxy Server
@@ -15,6 +15,7 @@ HomePage: http://www.squid-cache.org/
 #+BEGIN_SRC sh
 yum install squid squidGuard
 #+END_SRC
+squidGuard is in the epel repo
 
 - check and edit the squid.conf as needed
   
@@ -24,7 +25,16 @@ chkconfig squid on
 service squid start
 #+END_SRC
 
-** Using SquidGuard
+** Restrict Access to the HTTP Proxy Server
+/etc/squid/squid.conf
+#+BEGIN_EXAMPLE
+acl box_block 192.168.0.15/32  # ip addr to exclude from squid access
+#+END_EXAMPLE
+the name can be anything
+
+* Squid Guard
+HomePage: http://squidguard.org/index.html
+Blacklists: http://squidguard.org/blacklists.html
    
 - SquidGuard uses blacklists to stop specific domains and urls of a certain pattern
   - the blacklists are added to /var/squidGuard/blacklist/
@@ -41,11 +51,20 @@ this will create a .db file
 chown squid:squid blacklists/
 #+END_SRC
 
-
+** Hanging Squid Guard Database Creation
+I found that if any of the default enteries that specified in squidGuard.conf are not within the /var/squidGaurd/blacklists/ the compilation of the database just hangs and you will find in the logs a something similar to this
+#+BEGIN_EXAMPLE
+2017-12-28 20:38:50 [1488] squidGuard: ACL destination spy is not defined in configfile /etc/squid/squidGuard.conf
+#+END_EXAMPLE
+just remove all of this element from the config and db creation should stop hanging
 
 * Lecture
 * Tutorial
 * Books
+[[file://home/crito/Documents/SysAdmin/Web/Squid_Proxy_Server3.1-Beginners_Guide.pdf][Squid Proxy Server 3.1 - Beginners Guide]]
+
 * Links
 [[file://home/crito/Documents/SysAdmin/Web/Squid_Proxy_Server3.1-Beginners_Guide.pdf][Squid Proxy Server 3.1 - Beginners Guide]]
 [[file://home/crito/Documents/SysAdmin/Web/Firewall_and_Proxy_HowTo.pdf][Firewall and Proxy Server HowTo]]
+[[http://danscourses.com/how-to-install-squid-a-squidguard-in-centos/][How to Install Squid and SquidGuard in CentOS]]
+[[https://www.linux.com/news/using-squidguard-content-filtering][Using Squid Guard for Content Filtering]]

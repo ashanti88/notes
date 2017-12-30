@@ -1,57 +1,55 @@
+#+TAGS: openstack paas iaas vpc virtual_private_cloud
 
+
+* OpenStack
+HomePage: https://www.openstack.org/
+
+* Description
+* Usage
+* Lecture
+* Tutorial
 * PluralSight - OpenStack Course
-  
-** Origins
+** Origins of OpenStack
+  - NASA and Rackspace worked together to create OpenStack in 2010.
+  -Launced as a fully open cloud platform.
 
-Origins of OpenStack
-NASA and Rackspace worked together to create OpenStack in 2010.
+- OpenStack Foundation
+  - Focus on prodiving an opensource solution to cloud.
+  - Comprised of 3 areas - Tech Commitree
+                         - Borad of Directors
+			 - User Committee
 
-Launced as a fully open cloud platform.
+- OpenStack Developer Ecosystem
+  - Comprised of thousands of devs
+  - individual devs, comapany devs, doc contributes
 
-** OpenStack Foundation
-   
-+ Focus on prodiving an opensource solution to cloud.
-+ Comprised of 3 areas - Tech Commitree
-                       - Borad of Directors
-			 User Committee
+- OpenStack Releases
+  - OpenStack releass are named alaphbetically after storms.
 
-*** OpenStack Developer Ecosystem
-    
-+ Comprised of thousands of devs
-+ individual devs, comapany devs, doc contributes
-
-*** OpenStack Releases
-   
-+ OpenStack releass are named alaphbetically after storms.
-
-*** Release cycle
-
+- Release cycle
 Plan -> Develop -> Test -> Release 
            |                 |
 	   |-----------------|
 
-+ There are several releases a year
+- There are several releases a year
   
-*** OpenStack Projects
+- OpenStack Projects
+  - OpenStack tends to split its self into 
+    - Dashboard
+    - Compute
+    - Networking 
+    - Storage
 
-OpenStack tends to split its self into 
-- Dashboard
-- Compute
-- Networking 
-- Storage
-
-+ Core projects are considered fully supported.
-+ Incubation projects are new features.
+- Core projects are considered fully supported.
+- Incubation projects are new features.
 
 ** OpenStack Delopyment
-
-*** Pre-Requisite
-    
-Service Dependencies
-+ Requires a host OS
-+ Requires a db service (normally MySQL)
-+ Requires a message queuing service (rabbit MQ)
-+ Requires L2/L3 networking
+- Pre-Requisite
+ - Service Dependencies
+    - Requires a host OS
+    - Requires a db service (normally MySQL)
+    - Requires a message queuing service (rabbit MQ)
+    - Requires L2/L3 networking
 
 
 OpenStack uses type 2 hypervisor model
@@ -69,21 +67,16 @@ OpenStack uses type 2 hypervisor model
 				    
 	                             Type 2
 				 
-**** Hardware Deployment	
-    
-+ Physical hardwate deployed for OpenStack components
-+ Services can be co-located for smaller deployments
-+ Huge capacity for scaling out.
-
-
+- Hardware Deployment
+  - Physical hardwate deployed for OpenStack components
+  - Services can be co-located for smaller deployments
+  - Huge capacity for scaling out.
 
 ** OpenStack Core Services
-   
-*** Core Services
-    
-These components are required to drive the OpenStack cloud.
+- Core Services
+  - These components are required to drive the OpenStack cloud.
 
-+ Minimal requirement
+- Minimal requirement
   - Identity services
   - Compute services
   - Image services
@@ -100,7 +93,7 @@ This performs the following tasks
 
 + Uses tokens to authenticate and authenticate and maintain session state information.
 
-***** Identity Workflow
+- Identity Workflow
  
       creds
 user --------> Keystone
@@ -110,101 +103,93 @@ user --------> Keystone
                        \
 		        \-----> Performs authorized action
 			
-
-***** Tenants
-      
-+ These are logically seperated containers within you OpenStack cloud.
-+ Multi-tenancy allows for secure isolation using Keystone.
-+ Tenants can use global objuects.
-+ Tenants can create custom objects within their own tenant environment.
+- Tenants
+  - These are logically seperated containers within you OpenStack cloud.
+  - Multi-tenancy allows for secure isolation using Keystone.
+  - Tenants can use global objuects.
+  - Tenants can create custom objects within their own tenant environment.
 **** Image | Glance
-     
-+ Used to store and manage guest images
-+ Images can be managed globally and per tenant
-+ Users can be authorized to upload custom images
-+ Stores images in Swift, Cinder or in the native FS
-+ Can be stored remotely (eg AWS 53)
+  - Used to store and manage guest images
+  - Images can be managed globally and per tenant
+  - Users can be authorized to upload custom images
+  - Stores images in Swift, Cinder or in the native FS
+  - Can be stored remotely (eg AWS 53)
 **** Compute | Nova
+A hypervisor is required for nova, kvm, xen, vSphere, Hyper-V  etc
+  - Compute platform to run our ruest machine
+  - Boots instances from our Glance images
+  - Currently requires seperate Nova instances per hypervisor
+  - Nova is the management platform for the hypervisor
 
-A hypervisor is required for nova
-kvm, xen, vSphere, Hyper-V  etc
-
-+ Compute platform to run our ruest machine
-+ Boots instances from our Glance images
-+ Currently requires seperate Nova instances per hypervisor
-+ Nova is the management platform for the hypervisor
-
-***** Regions, Aggregates and Availability Zones
-
-+ Regions
-  - logical pools of OpenStack services
-+ Aggregates
-  - groups of OpenStack Nova endpoints based on Characteristics
-    + SSD backed
-    + 10 GbE NICs
-    + 12 core processors
-+ Avaailability Zones
-  - groups of OpenStack Nova endpoints based on location
-    + Toronto, London, Berlin etc
+- Regions, Aggregates and Availability Zones
+  - Regions
+    - logical pools of OpenStack services
+  - Aggregates
+    - groups of OpenStack Nova endpoints based on Characteristics
+      - SSD backed
+      - 10 GbE NICs
+      - 12 core processors
+  + Availability Zones
+    - groups of OpenStack Nova endpoints based on location
+      - Toronto, London, Berlin etc
 
 **** iNetworking | Nova/Neutron
-
-***** Nova Networking
-+ It provides:
-  - L2/L3
-  - DHCP
+- Nova Networking
+  - It provides:
+    - L2/L3
+    - DHCP
     
-+ Different types of IP networks are supported
+- Different types of IP networks are supported
   - Flat networking - Dedicated subnet with IP information injected to instances at boot.
   - Flat DHCP - Allocates IP addresses to instances from a dedicated subnet using dnsmasq.
   - VLAN Manager - Tenant is allocated a VLAN and IP range.
 
-+ Floating IP addresses for public facing networks
+- Floating IP addresses for public facing networks
 
-****** Network types
-       
-+ Single Flat - All tenants connected to one subnet.
-+ Multiple Flat - Multiple shared subnets. 
-+ Flat and Private - Tenants share a common subnet but can also have an subnet which only there machines can access.
-+ Single provider router - Provider router gives each tenant its own subnet.
-+ Per-Tenant Routers - Provides security by dision of resources. No tenant is on the same router as another tenant. No errors with duplication of ip addresses.
+- Network types
+  - Single Flat - All tenants connected to one subnet.
+  - Multiple Flat - Multiple shared subnets. 
+  - Flat and Private - Tenants share a common subnet but can also have an subnet which only there machines can access.
+  - Single provider router - Provider router gives each tenant its own subnet.
+  - Per-Tenant Routers - Provides security by dision of resources. No tenant is on the same router as another tenant. No errors with duplication of ip addresses.
 
+- Neutron Networking
+  - The first SDN stack for OpenStack.
+  - Renamed from Quantum to Neutron due to copyright.
 
-***** Neutron Networking
+- Nova limitations
+  - Limited by layer 2 boundaries
+  - Scalability limitations
+    - Vlan limitations (4094 dur to 802.1q standard)
+  - Interoperability limitations
 
-The first SDN stack for OpenStack.
-Renamed from Quantum to Neutron due to copyright.
+- How Neutron works
+  - Full SDN platform
+    - Neutron is deployed as its own node within the different areas of the OpenStack framework
+    - Compute node has a neutron plugin within it.
+    - Network node has a neutron stack containing:
+    - - neutron-plugin-agent
+    - - neutron-l3-agent
+    - - neutron-dhcp-agent
+    - Controller node has a neutron server.
+    
+    - Stretched VLAN and overlay networking supported.
+    - Lifts limitations from Nova networking model
 
-****** Nova limitations
+- 3rd Party Venfors
+  - Modular L2 plugin framwork for maximum flexibility and interoperability. Venfors can write software that fits the product by easyily following the api.
+  - Muliple topologies:
+    - Local
+    - Flat
+    - VLAN
+    - GRE
+    - VXLAN
+  - Able to tap into the physical networking builds less dependencies on intermediary drivers.
 
-+ Limited by layer 2 boundaries
-+ Scalability limitations
-  - Vlan limitations (4094 dur to 802.1q standard)
-+ Interoperability limitations
-
-
-****** How Neutron works
-+Full SDN platform
-
-+ Neutron is deployed as its own node within the different areas of the OpenStack framework
-+ Compute node has a neutron plugin within it.
-+ Network node has a neutron stack containing:
-  - neutron-plugin-agent
-  - neutron-l3-agent
-  - neutron-dhcp-agent
-+ Controller node has a neutron server.
-
-+ Stretched VLAN and overlay networking supported.
-+ Lifts limitations from Nova networking model
-
-******* 3rd Party Venfors
-
-+ Modular L2 plugin framwork for maximum flexibility and interoperability. Venfors can write software that fits the product by easyily following the api.
-+ Muliple topologies:
-  - Local
-  - Flat
-  - VLAN
-  - GRE
-  - VXLAN
-
-+ Able to tap into the physical networking builds less dependencies on intermediary drivers.
+* Books
+[[file://home/crito/Documents/SysAdmin/Cloud/Openstack/Learning_OpenStack.pdf][Learning OpenStack]]
+[[file://home/crito/Documents/SysAdmin/Cloud/Openstack/Learning_OpenStack_High_Availability.pdf][Learning OpenStack High Availability]]
+[[file://home/crito/Documents/SysAdmin/Cloud/Openstack/Learning_OpenStack_Networking-Neutron.pdf][Learning OpenStack Networking - Neutron]]
+[[file://home/crito/Documents/SysAdmin/Cloud/Openstack/Mastering_OpenStack.pdf][Mastering OpenStack]]
+[[file://home/crito/Documents/SysAdmin/Cloud/Openstack/OpenStack_Cloud_Computing_Cookbook.pdf][OpenStack Cloud Computing Cookbook]]
+* Links

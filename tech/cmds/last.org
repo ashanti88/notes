@@ -2,9 +2,25 @@
 
 
 * last
+* Files
+/var/log/wmtp - a binary file that is accessed with the last command
+
 * Description
 * Usage
+- with that last loging of frank
+#+BEGIN_SRC sh
+last frank
+#+END_SRC
 
+- view the access of a specific tty
+#+BEGIN_SRC sh
+last tty7
+#+END_SRC
+
+- view reboots
+#+BEGIN_SRC sh
+last reboot
+#+END_SRC
 * Lecture
 * Tutorial
 * Books

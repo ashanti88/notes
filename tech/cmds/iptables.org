@@ -5,6 +5,7 @@
 Home Page: [[http://www.netfilter.org/][netfilter.org]]
 
 * Files 
+/etc/sysconfig/iptables-config
 * Description
 * Usage
 ** List current rules
@@ -47,6 +48,27 @@ iptables-restore < /etc/sysconfig/iptables
 #+BEGIN_SRC sh
 iptables -A INPUT -p tcp --dport 443 -j ACCEPT
 #+END_SRC
+** Set FORWARD to DROP
+A blanket policy can only be applied if no other rules are set
+#+BEGIN_SRC sh
+iptables -P FORWARD DROP
+#+END_SRC
+this will drop all packets attempting to forward on to another machine
+
+** Saving iptables (RHEL)
+#+BEGIN_SRC sh
+iptables-save > /etc/sysconfig/iptables
+#+END_SRC
+** Restore iptables (RHEL)
+#+BEGIN_SRC sh
+iptables-restore < /etc/sysconfig/iptables
+#+END_SRC
+
+** Save changes on restart
+#+BEGIN_SRC sh
+IPTABLES_SAVE_ON_STOP=yes
+#+END_SRC
+this should only be set once the rules are correct and tested
 * Lecture
 * Tutorial
 * Books

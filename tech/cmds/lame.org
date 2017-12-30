@@ -1,7 +1,9 @@
-#+TAGS: sys audio
+#+TAGS: mp3_encoder lame
 
 
-* lame								  :sys:audio:
+* lame
+HomePage: http://lame.sourceforge.net/using.php
+
 * Description
 * Usage
 * Lecture

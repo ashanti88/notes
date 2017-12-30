@@ -1,4 +1,4 @@
-#+TAGS: web apache httpd
+#+TAGS: web apache httpd web_server ssl_certificate
 
 
 * Apache
@@ -12,6 +12,7 @@ HomePage: [[https://www.apache.org/][apache.org]]
 - a2disite
 - a2enconf
 - a2disconf
+- httpd
 
 * Files
 ** Debian
@@ -49,6 +50,11 @@ apachectl start
 - stop
 #+BEGIN_SRC sh
 apachectl stop
+#+END_SRC
+
+- show the configuration parsed from the configuration file
+#+BEGIN_SRC sh
+httpd -S
 #+END_SRC
 
 ** Graceful Stop
@@ -307,6 +313,7 @@ mkdir /etc/httpd/ssl-certs
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/httpd/ssl-certs/example.key -out /etc/httpd/ssl-certs/example.crt
 #+END_SRC
 req    - what cert is to be created
+nodes  - no des don't encrypt the key
 days   - when will the cert will expire
 newkey - what encryption type
 keyout - where to place the key

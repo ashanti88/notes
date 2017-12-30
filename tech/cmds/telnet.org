@@ -16,6 +16,35 @@ telnet 192.168.0.1 23
 ** Sending mail with telnet
 [[file://home/crito/Pictures/org/telnet_mail.png]]
 
+- an example
+#+BEGIN_EXAMPLE
+[user@alickmitchell1 ~]$ telnet localhost smtp
+Trying ::1...
+Connected to localhost.
+Escape character is '^]'.
+220 alickmitchell1.mylabserver.com ESMTP Postfix
+HELO
+501 Syntax: HELO hostname
+HELO alickmitchell1.mylabserver.com
+250 alickmitchell1.mylabserver.com
+mail from: alick@lahome.com
+250 2.1.0 Ok
+rcpt to: user@alickmitchell1.mylabserver.com
+250 2.1.5 Ok
+data
+354 End data with <CR><LF>.<CR><LF>
+This is a test message for the user user
+Thanks
+.
+250 2.0.0 Ok: queued as 0FC888C29D5
+quit
+221 2.0.0 Bye
+Connection closed by foreign host.
+You have new mail in /var/spool/mail/user
+[user@alickmitchell1 ~]$ mutt
+3 kept, 0 deleted.
+#+END_EXAMPLE
+
 ** SMTP User Enumeration
 - checking for smtp accounts
 [[file://home/crito/Pictures/org/smtp_enum1.jpeg]]

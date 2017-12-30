@@ -1,7 +1,9 @@
-#+TAGS: virt
+#+TAGS: virtualization kvm
 
 
-* KVM                                                                  :virt:
+* KVM
+HomePage: https://www.linux-kvm.org/page/Main_Page
+
 * Description
 This is an overview of how linux implements virtualization
 [[file://home/crito/Pictures/org/kvm_arch_overview.jpg]]
@@ -14,6 +16,7 @@ This is an overview of libvirt and the types of virtualization it is able to int
 #+BEGIN_SRC sh
 egrep 'vmx | svm' /proc/cpuinfo
 #+END_SRC
+any number greater than 0 means that virtulization is possible
 vmx - intel based virt
 svm - amd based virt
 
@@ -29,6 +32,59 @@ This is the command run a RHEL system
 systemctl status libvirtd
 #+END_SRC
 this will shows if it is running
+
+** Configure a Hypervisor to Host Virtual Guests (Ubuntu 15.04)
+- installation
+#+BEGIN_SRC sh
+apt-get install qemu-kvm qemu libvirt-bin virtinst bridge-utils virt-manager virt-viewer
+#+END_SRC
+
+- check virtualization is possible
+#+BEGIN_SRC sh
+egrep 'vmx | svm' /proc/cpuinfo
+#+END_SRC
+any number greater than 0 means that virtulization is possible
+
+- check the module is installed
+#+BEGIN_SRC sh
+lsmod | grepvhost
+modprobe vhost_net
+lsmod | grepvhost
+#+END_SRC
+if not intalled then run the modprobe cmd
+
+** Configure Virtual Networking to Support Virtualized Guests
+
+- create a file /etc/network/interfaces
+#+BEGIN_EXAMPLE
+auto lo
+iface lo inet loopback
+auto eth0
+dns-nameservers 10.0.0.30
+iface br0 inet static
+address 10.0.0.30
+network 10.0.0.0
+netmask 255.255.255.0
+broadcast 10.0.0.255
+gateway 10.0.0.1
+dns-nameservers 10.0.0.30
+bridge_ports eth0
+brdige_stp off
+auto br0
+#+END_EXAMPLE
+reboot the system for this to take effect
+
+- confirm that the bridge has been added
+#+BEGIN_SRC sh
+ifconfig
+#+END_SRC
+this should show the virbr0
+
+- start the virt-manager
+#+BEGIN_SRC sh
+sudo virt-manager
+#+END_SRC
+you will now be able to create virtual machines that can communicate with each other
 
 
 * Lecture

@@ -1,0 +1,17 @@
+#+TAGS: finger chfn passwd
+
+
+* chfn
+* Description
+This cmd changes finger information, this is the information that is stored in /etc/passwd
+
+* Usage
+- Add full name
+#+BEGIN_SRC sh
+chfn
+#+END_SRC
+This will then lead you through a set of interactive questions that you can complete
+* Lecture
+* Tutorial
+* Books
+* Links

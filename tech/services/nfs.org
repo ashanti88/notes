@@ -30,6 +30,7 @@ exportfs -r
 #+BEGIN_SRC sh
 yum install nfs-utils nfs-utils-lib
 chkconfig nfs on
+service rpcbind start
 service nfs start
 #+END_SRC
 
@@ -51,6 +52,55 @@ service nfs restart
 a - export or unexport all directories
 
 ** Client setup for NFS on sysvinit(RHEL6)
+#+BEGIN_SRC sh
+yum install nfs-utils nfs-utils-lib
+cd /mnt
+mkdir nfs_home
+mkdir nfs_share
+#+END_SRC
+
+- manually mount the nfs shares
+#+BEGIN_SRC sh
+mount 192.168.1.131:/home /mnt/nfs_home/
+mount 192.168.1.131:/var/share /mnt/nfs_share/
+#+END_SRC
+
+- mount on boot
+/etc/fstab
+#+BEGIN_EXAMPLE
+192.168.1.131:/home 		/mnt/nfs_home	nfs	rw,sync,hard,intr 0 0
+192.168.1.131:/var/share 	/mnt/nfs_share	nfs	rw,sync,hard,intr 0 0
+#+END_EXAMPLE
+though /var/share is read only, the abouve rw will have no effect
+
+** Install and configure NFS server for systemd(RHEL7)
+- Install   
+#+BEGIN_SRC sh
+yum install nfs-utils
+#+END_SRC
+
+- configure the /etc/default/nfs-common
+#+BEGIN_EXAMPLE
+NEED_IDMAPD=YES
+#+END_EXAMPLE
+
+- edit /etc/idmapd.conf
+#+BEGIN_EXAMPLE
+DOMAIN = SERVER1.mylabserver.com
+#+END_EXAMPLE
+
+- add the shares to /etc/exports
+#+BEGIN_EXAMPLE
+/mnt/share 172.31.117.2(ro)
+#+END_EXAMPLE
+
+- restart nfs server
+#+BEGIN_SRC sh
+systemctl restart nfs-server
+systemctl status nfs-server
+#+END_SRC
+
+** Client setup for NFS on systemd(RHEL7)
 #+BEGIN_SRC sh
 yum install nfs-utils nfs-utils-lib
 cd /mnt
@@ -272,3 +322,4 @@ mount 192.168.1.11:/srv/nfs/home /mnt/sharedir
 * Books
 [[file://home/crito/Documents/SysAdmin/NFS-HOWTO.pdf][Linux NFS HowTo]]
 * Links
+[[https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nfs-mount-on-centos-6][How To Set Up an NFS Mount on CentOS 6 - DigitalOcean]]

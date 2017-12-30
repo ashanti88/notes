@@ -1,18 +1,23 @@
-#+TAGS: net anal
+#+TAGS: network_analysis network_monitoring ss netstat
 
 
-* ss								   :net:anal:
+* ss (Socket Statistics)
 * Description
 * Usage
 ** Show listening tcp ports
 #+BEGIN_SRC sh
 ss -tl
 #+END_SRC
+t - tcp
+l - listening
 
 ** Show listening tcp ports and associated processors
 #+BEGIN_SRC sh
 ss -ptl
 #+END_SRC
+p - process
+t - tcp
+l - listining
 
 ** Show listening and established connections
 #+BEGIN_SRC sh
@@ -22,6 +27,29 @@ ss -ta
 ** Show socket usage summary
 #+BEGIN_SRC sh
 ss -s
+#+END_SRC
+
+** Show timer information
+- this will show the ttl information
+#+BEGIN_SRC sh
+ss -to
+#+END_SRC
+o - show timer information
+
+** Show listing processes open by socket
+#+BEGIN_SRC sh
+ss -pl
+#+END_SRC
+
+** Filter IPv4 by type
+Established
+#+BEGIN_SRC sh
+ss -4 state ESTABLISHED
+#+END_SRC
+
+Listen
+#+BEGIN_SRC sh
+ss -4 state LISTEN
 #+END_SRC
 
 * Lecture
