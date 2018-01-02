@@ -1,8 +1,14 @@
-#+TAGS: gui
+#+TAGS: windows_managers
 
 
-* Windows Managers                                                    :gui:
-** i3
+* Windows Managers
+** i3wm
+HomePage: https://i3wm.org/
+*** Files
+.config/i3/config
+.config/i3status/config
+.config/i3/pystatus.py
+
 ** xmonad
 ** Awesome WM
 ** Gala
@@ -12,6 +18,7 @@
 ** bspwm
 ** Fluxbox
 ** Compiz
+Wiki: https://en.wikipedia.org/wiki/Compiz
 ** Ratpoison
 * Lecture
 * Tutorial

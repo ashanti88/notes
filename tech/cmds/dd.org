@@ -73,6 +73,17 @@ dd if=raspberry_pi.img of=/dev/mmblk0 bs=1M
 #+END_SRC
 set the device not the partition
 
+** Creating a backup of one disk
+- create a backup file of the partition
+#+BEGIN_SRC sh
+dd if=/dev/sdb1 of=/root/sbd1.img
+#+END_SRC
+
+- copy the partition to another partition
+#+BEGIN_SRC sh
+dd if=/dev/sdb1 of=/dev/sdc1
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

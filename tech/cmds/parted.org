@@ -4,7 +4,7 @@
 * parted
 * Description
 * Usage
- MBR
+- MBR
 #+BEGIN_EXAMPLE
 (parted) mklabel msdos
 #+END_EXAMPLE

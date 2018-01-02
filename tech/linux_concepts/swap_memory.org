@@ -86,7 +86,36 @@ systemctl start systemd-swap.service
 systemctl enable systemd-swap.service
 #+END_SRC
 
-** Crating a swap file on an encrypted hdd
+** Creating a swap partition
+- locate the partition that is to be used
+#+BEGIN_SRC sh
+fdisk -l
+#+END_SRC
+
+- make the partition a of type swap
+#+BEGIN_SRC sh
+mkswap /dev/xvdf1
+#+END_SRC
+
+- activate the partition
+#+BEGIN_SRC sh
+swapon /dev/xvdf1
+#+END_SRC
+
+- confirm that the swap is active
+#+BEGIN_SRC sh
+df -h
+free -h
+blkid
+#+END_SRC
+
+- make persistant
+/etc/fstab
+#+BEGIN_EXAMPLE
+/dev/xvdf1	swap	swap	defaults 0 0
+#+END_EXAMPLE
+
+** Creating a swap file on an encrypted hdd
 - instead of creating a new partition a file can be created /swapfile
 #+BEGIN_SRC sh
 fallocate -l 4G /swapfile

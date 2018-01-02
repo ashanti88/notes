@@ -1,11 +1,27 @@
-adding an iso to sdcard
+#+TAGS:
 
-> dd bs=4M if=<image.iso> of=/dev/diskx
 
-switch to bs 1M if this fails
+* Adding an iso to sdcard
+* Description
+* Usage
+- copy the image to the sdcard
+#+BEGIN_SRC sh
+dd bs=4M if=~/Downloads/debian.iso of=/dev/mmcblk0
+#+END_SRC
+always use the whole disk not a dpartition
 
-with kail being .img.xz
+- if this fails then lower the bs size to 1M
+#+BEGIN_SRC sh
+dd bs=1M if=~/Downloads/debian.iso of=/dev/mmcblk0
+#+END_SRC
 
-> xzcat
-/home/crito/Downloads/kali-linux-light-2016.1-armhf/kali-linux-light-2016.1-armhf.img.xz|
-dd of=/dev/mmcblk0 bs=512k
+- with kail being .img.xz
+#+BEGIN_SRC sh
+xzcat /home/crito/Downloads/kali-linux-light-2016.1-armhf/kali-linux-light-2016.1-armhf.img.xz| dd of=/dev/mmcblk0 bs=512k
+#+END_SRC
+* Lecture
+* Tutorial
+* Books
+* Links
+
+

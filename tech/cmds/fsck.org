@@ -1,7 +1,8 @@
-#+TAGS: sys fs
+#+TAGS: fsck filesystem_diagnosis
 
 
 * fsck
+Wiki: https://en.wikipedia.org/wiki/Fsck
 * Description
 This is tool is used to perform file system checks and recovery.
 
@@ -25,12 +26,12 @@ This will show surrent process of all running instances of fsck
 fsck -C
 #+END_SRC
 
+
 ** Check partition for fragmentation
 #+BEGIN_SRC sh
 fsck -fn /dev/mapper/enc_hdd
 #+END_SRC
 makesure to use the n so as no actions will be taken
-
 
 ** Types
 *** fsck.extx

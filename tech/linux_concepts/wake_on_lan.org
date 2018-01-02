@@ -1,4 +1,4 @@
-#+TAGS:
+#+TAGS: wake_on_lan wol
 
 
 * Wake On Lan

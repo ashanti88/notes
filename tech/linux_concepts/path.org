@@ -1,7 +1,7 @@
 #+TAGS: path
 
 
-* PATH
+* Path
 - setting temporary
 #+BEGIN_SRC sh
 export "PATH=$PATH:/usr/local/nagios/bin:/usr/local/nagios/sbin"

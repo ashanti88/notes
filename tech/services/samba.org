@@ -1,10 +1,38 @@
-#+TAGS: file_server samba
+#+TAGS: file_server samba cifs
 
 
 * Samba
 HomePage: [[https://wiki.samba.org/index.php/Main_Page][wiki.samba.org/Main_Page]]
 * Description
 * Usage
+** Configuring a Samba Share
+- scan to find what shares are available
+#+BEGIN_SRC sh
+smbclient -L -U frank share
+#+END_SRC
+
+- create a credentials file
+#+BEGIN_SRC sh
+echo "username=frank" > /mnt/.smbcredentials
+echo "password=password" >> /mnt/.smbcredentials
+chmod 600 /mnt/.smbcredentials
+#+END_SRC
+
+- add to fstab
+#+BEGIN_EXAMPLE
+//192.168.1.99/news	/mnt/share	cifs	credentials=/mnt/.smbcredentials,defaults	0 0
+#+END_EXAMPLE
+
+- mount the directory
+#+BEGIN_SRC sh
+mount -a
+#+END_SRC
+
+- confirm the share has mounted
+#+BEGIN_SRC sh
+df -h
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

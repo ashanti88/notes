@@ -54,9 +54,19 @@ Contains the source code for the Linux kernel.
 ** /etc
 This is the nerve center of your system, it contains all system related configuration files in here or in its sub-directories. A "configuration file" is defined as a local file used to control the operation of a program; it must be static and cannot be an executable binary. For this reason, it's a good idea to backup this directory regularly. It will definitely save you a lot of re-configuration later if you re-install or lose your current installation. Normally, no binaries should be or are located here.
 
+/etc/fstab - contains the devices to mounted at boot
+
+*** /etc/netctl
+ArchLinux: https://wiki.archlinux.org/index.php/Netctl
+netctl uses profiles to manage network connections and different modes of operation to start profiles automatically or manually on demand.
+
+**** /interfaces
+**** /hooks
+**** /examples
+To use any of the example just copy the file to /etc/netctl and edit
+
 *** /etc/pam.d/
 The /etc/pam.d/ directory contains the PAM configuration files for each PAM-aware application
-
 ** /dev
 /dev is the location of special or device files. It is a very interesting directory that highlights one important aspect of the Linux filesystem - everything is a file or a directory. Look through this directory and you should hopefully see sda1, sda2 etc.... which represent the various partitions on the first master drive of the system and /dev/sr0 represent your CD-ROM drive.
 

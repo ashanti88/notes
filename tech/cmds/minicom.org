@@ -1,4 +1,4 @@
-#+TAGS:
+#+TAGS: minicom uart terminal tty
 
 
 * minicom
@@ -36,3 +36,4 @@ Software Flow Control - no
 * Books
 * Links
 [[http://elinux.org/RPi_Serial_Connection][RPi Serial connection]]
+[[https://www.freebsd.org/doc/en/articles/serial-uart/][Serial and UART Tutorial - FreeBSD]]

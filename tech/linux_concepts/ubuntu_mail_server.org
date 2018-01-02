@@ -1,7 +1,7 @@
-#+TAGS: ubuntu mail
+#+TAGS: ubuntu_mail_server
 
 
-* Ubuntu Mail Server						:ubuntu:mail:
+* Ubuntu Mail Server
 * Cmds
 [[file://home/crito/org/tech/cmds/openssl.org][Openssl]]
 [[file://home/crito/org/tech/cmds/postconf.org][Postconf]]

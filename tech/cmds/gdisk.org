@@ -13,6 +13,32 @@ p - add partition
 ? - help/show options
 w - write the partition to the drive (but doesn't format)
 
+** Create Partition
+- locate device to partition
+#+BEGIN_SRC sh
+fdisk -l
+#+END_SRC
+
+- using gdisk create the partition
+[[file://home/crito/Pictures/org/gdisk_create_partition0.png]]
+
+- then format the partition with required filesystem
+#+BEGIN_SRC sh
+mke2fs -t ext3 -L new_partition /dev/xvdf1 
+#+END_SRC
+
+- mount in reequired location
+#+BEGIN_SRC sh
+mount -t ext3 /dev/xvdf1 /mnt
+#+END_SRC
+
+- confirm the partion has mounted
+#+BEGIN_SRC sh
+df -h
+mount | grep xvdf1
+#+END_SRC
+grep by the device
+
 * Lecture
 * Tutorial
 * Books

@@ -1,0 +1,15 @@
+#+TAGS: blkid uuid
+
+
+* blkid
+* Description
+* Usage
+- print all uuid's of the connected disks
+#+BEGIN_SRC sh
+blkid
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

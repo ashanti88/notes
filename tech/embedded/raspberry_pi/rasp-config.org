@@ -1,5 +1,17 @@
-*Disabling automatic login*
+#+TAGS: raspberry_pi rasp_config
 
-> rasp-config
 
+* rasp-config 
+* Description
+* Usage
+** Disabling automatic login
+#+BEGIN_SRC sh
+rasp-config
+#+END_SRC
 This provides an ncurses menu. In boot option to disable autologin.
+
+* Lecture
+* Tutorial
+* Books
+* Links
+

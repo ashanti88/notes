@@ -54,8 +54,7 @@ apachectl stop
 
 - show the configuration parsed from the configuration file
 #+BEGIN_SRC sh
-httpd -S
-#+END_SRC
+httpd -#+TAGS:
 
 ** Graceful Stop
 #+BEGIN_SRC sh

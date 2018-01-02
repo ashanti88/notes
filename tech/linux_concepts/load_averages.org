@@ -1,6 +1,16 @@
+#+TAGS: load_averages
 
 
-Brendan Gregg - Talk on load averages (Solaris)
+* Load Averages
+* Cmds
+[[file://home/crito/org/tech/cmds/top.org][top]]
+[[file://home/crito/org/tech/cmds/uptime.org][uptime]]
+[[file://home/crito/org/tech/cmds/atop.org][atop]]
+
+* Description
+* Usage
+* Lecture
+** Brendan Gregg - Talk on load averages (Solaris)
 URL : https://www.youtube.com/watch?v=ajtoLLGbwiI&index=12&list=WL
 
 Load averages provides an overview of cpu usage.
@@ -26,4 +36,11 @@ Multi-Core cpu
 + Micro-state accounting is what is used to calculate the LA
 + High resolution timestamps are created for each state that the cpu is in.
 
-> prstat -mLc - this proveds infomation on microservice accounting. 
+#+BEGIN_SRC sh
+prstat -mLc 
+#+END_SRC
+this proveds infomation on microservice accounting. 
+
+* Tutorial
+* Books
+* Links

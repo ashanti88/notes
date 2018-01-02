@@ -1,0 +1,15 @@
+#+TAGS: lvdisplay lvm
+
+
+* lvdisplay
+* Description
+* Usage
+- show the overview of the logical groups
+#+BEGIN_SRC sh
+lvdisplay
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

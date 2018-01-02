@@ -49,10 +49,10 @@ SRV   - Hosts that provide a specific service
 2620:0:ccd::2
 
 * Services
-[[file://home/crito/org/tech/dns/bind.org][BIND]]
-[[file://home/crito/org/tech/dns/nsd.org][NSD]]
-file://home/crito/org/tech/dns/unbound.org
-file://home/crito/org/tech/dns/maradns.org
+[[file://home/crito/org/tech/services/dns-servers/bind.org][BIND]]
+[[file://home/crito/org/tech/services/dns-servers/nsd.org][NSD]]
+[[file://home/crito/org/tech/services/dns-servers/unbound.org][Unbound]]
+[[file://home/crito/org/tech/services/dns-servers/maradns.org][MaraDNS]]
 
 * Authoritative Vs Non-authoritative Answer
 

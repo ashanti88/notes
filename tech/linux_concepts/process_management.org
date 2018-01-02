@@ -22,7 +22,7 @@ putting a processing to background
 dd /dev/zero /devnull&
 #+END_SRC
     
-** Process States
+** Pocess States
 T - Stopped
 R - Runnable (ready)
 R - Running (user)

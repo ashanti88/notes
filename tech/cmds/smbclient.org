@@ -1,10 +1,14 @@
-#+TAGS: sys smb enum
+#+TAGS: samba cifs smbclient
 
 
-* smbclient                                                    :sys:smb:enum:
+* smbclient
 * Description
 List smb shares in a network
 * Usage
+- scan for available shares
+#+BEGIN_SRC sh
+smbclient -L -U crito share
+#+END_SRC
 * Lecture
 * Tutorial
 * Books

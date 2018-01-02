@@ -1,7 +1,7 @@
-#+TAGS: filesystem lvm
+#+TAGS: text_pager
 
 
-* lvs
+* more
 * Description
 * Usage
 * Lecture

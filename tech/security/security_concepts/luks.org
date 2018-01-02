@@ -1,7 +1,7 @@
-#+TAGS: sec crypt
+#+TAGS: encryption crypt disk_encryption luks
 
 
-* Linux Unified Key Setup (LUKS)                                  :sec:crypt:
+* Linux Unified Key Setup (LUKS)
 * Description
 * Usage
 ** Unencrypt and mount a partition
@@ -20,6 +20,55 @@ b - block device
 #+BEGIN_SRC sh
 udisksctl mount -b /dev/mapper/enc_hdd
 #+END_SRC
+
+** Create a luks partition
+- Makesure that the correct modules are installed
+#+BEGIN_SRC sh
+lsmod | grep dm_crypt
+#+END_SRC
+
+- if not then install
+#+BEGIN_SRC sh
+modprobe dm_crypt
+lsmod | grep dm_crypt
+#+END_SRC
+
+- install the cryptsetup utility
+#+BEGIN_SRC sh
+yum install cryptsetup
+#+END_SRC
+
+- identify the device you would like to encrypt
+#+BEGIN_SRC sh
+fdisk -l
+fdisk /dev/xvdf
+#+END_SRC
+
+- configure the partition table with fdisk
+[[file://home/crito/Pictures/org/fdisk_create_partition0.png]]
+
+[[file://home/crito/Pictures/org/fdisk_create_partition1.png]]
+
+[[file://home/crito/Pictures/org/fdisk_create_partition2.png]]
+
+[[file://home/crito/Pictures/org/fdisk_create_partition3.png]]
+
+- Using cryptsetup prepare the partition to use LUKS and add the correct filesystem
+[[file://home/crito/Pictures/org/cryptsetup_luks0.png]]
+
+- Mount the newly create partition
+#+BEGIN_SRC sh
+mkdir /mnt/enc
+mount /dev/mapper/enc_partition /mnt/enc
+#+END_SRC
+
+- confirm the mount
+#+BEGIN_SRC sh
+df -h
+mount | grep enc_partition
+#+END_SRC
+enc_partition is the name that we gave when opening the partition
+
 
 * Lecture
 * Tutorial

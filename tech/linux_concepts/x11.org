@@ -1,7 +1,8 @@
-#+TAGS: X
+#+TAGS: X11
 
 
 * X11
+Wiki: https://en.wikipedia.org/wiki/X_Window_System
 * Description
 * Usage
 - Starting a second desktop
