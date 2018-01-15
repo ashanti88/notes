@@ -48,6 +48,9 @@ openssl dgst -sha256 file.txt
 
 * Lecture
 * Tutorial
+** Linux Academy - HeartBleed Bug
+LabGuide: [[file://home/crito/Documents/Linux/Labs/HeartBleed-lab.pdf][HeartBleed Bug - Risk Assessment and Mitigation]]
+
 * Books
 [[file://home/crito/Documents/Security/Network_Security_with_OpenSSL.pdf][Network Security with OpenSSL]]
 [[file://home/crito/Documents/Networking/Implementing_SSL_TLS.pdf][Implementing SSL/TLS]]

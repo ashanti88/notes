@@ -1,7 +1,11 @@
-#+TAGS:
+#+TAGS: new_relic newrelic monitoring
 
 
 * New Relic
+HomePage: https://newrelic.com/
+Documentation: https://docs.newrelic.com/
+Blog: https://blog.newrelic.com/
+
 * Description
 * Usage
 * Lecture

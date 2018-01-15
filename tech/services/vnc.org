@@ -1,8 +1,27 @@
-#+TAGS:
+#+TAGS: tightvnc tigervnc realvncviewer vncviewer vnc4server
 
 
 * Virtual Network Connection
 * Files
+** /home/user/.vnc - this is the uesr specific configuration directory and holds files like the passwd
+- passwd   - this is a hashed copy of the vncpasswd that you set
+- xstartup - this configuration file contains options that the xserver will access
+#+BEGIN_EXAMPLE
+#!/bin/sh
+
+# Uncomment the following two lines for normal desktop:
+# unset SESSION_MANAGER
+# exec /etc/X11/xinit/xinitrc
+
+[ -x /etc/vnc/xstartup ] && exec /etc/vnc/xstartup
+[ -r $HOME/.Xresources ] && xrdb $HOME/.Xresources
+xsetroot -solid grey
+vncconfig -iconic &
+startkde &
+#+END_EXAMPLE
+gnome -"exec gnome-session &"
+xfce4 -"startxfce4 &"
+
 * Packages
 tightvnc
 tigervnc
@@ -14,8 +33,76 @@ vncviewer
 
 * Description
 * Usage
+** Setup for Ubuntu 14 
+- Install the desktop environment
+#+BEGIN_SRC sh
+apt-get install gnome-core xfce4
+#+END_SRC
+
+- Install VNC server
+#+BEGIN_SRC sh
+apt-get install vnc4server
+#+END_SRC
+
+- set a vnc password
+#+BEGIN_SRC sh
+vncpasswd
+#+END_SRC
+this will prompt you for a password
+
+- We need to run vncserver for the first time to generate the xstartup file
+#+BEGIN_SRC sh
+vncseerver
+#+END_SRC
+
+- now kill the server
+#+BEGIN_SRC sh
+vncserver -kill :1
+#+END_SRC
+
+- edit the xstartup file, to makesure that the vnc session is accessible for hosts
+#+BEGIN_EXAMPLE
+#!/bin/sh
+unset SESSION_MANAGER
+unset DBUS_SESSION_BUS_ADDRESS
+startxfce4 &
+
+[ -x /etc/vnc/xstartup ] && exec /etc/vnc/xstartup
+[ -r $HOME/.Xresources ] && xrdb &HOME/.Xresources
+xsetroot -solid grey
+vncconfig -iconic &
+#+END_EXAMPLE
+
+- create a script to launch the vncserver
+#+BEGIN_SRC sh
+echo "vncserver :1 -geometry 1280x800 -depth 16 -localhost &" > vncuser.sh
+chmod 755 vncuser.sh
+cp vncuser.sh /usr/bin
+#+END_SRC
+local means only port 5901 can be accessed from the local machine (use ssh tunnel to connect)
+
+- call the created script
+#+BEGIN_SRC sh
+vncuser.sh
+#+END_SRC
+
+- on local machine create a script to redirect vnc ports offer ssh 
+#+BEGIN_SRC sh
+echo "ssh -L 5901:localhost:5901 -N -f -l linuxacademy 52.4.184.155" > hostsetup.sh
+#+END_SRC
+this creates an ssh tunnel between 5901 to 5901
+
+- run the script
+#+BEGIN_SRC sh
+hostsetup.sh
+#+END_SRC
+
+
+
 * Lecture
 * Tutorial
+** Linux Academy - Remote GUI VNC Setup
+LabGuide: [[file://home/crito/Documents/Linux/Labs/gui-vnc-setup-lab.pdf][Remote GUI Setup VNC Setup Lab Guide]]
 * Books
 * Links
 [[https://www.digitalocean.com/community/tutorials/how-to-set-up-vnc-server-on-debian-8]]

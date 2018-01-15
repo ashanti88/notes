@@ -1,12 +1,17 @@
-#+TAGS: sys dns
+#+TAGS: bind dns bind9
 
 
-* BIND								    :sys:dns:
-* Description
-* Conf
-** named.conf
-- this is the secure named.conf file from cymru.com
-#+BEGIN_SRC sh
+* BIND
+* Cmds
+named-checkzone - this will check zone file syntax for errors
+
+* Files 
+/etc/bind - this holds all the configuration files
+/etc/bind/named.conf.options - this files has options such as setting forwarding dns servers
+/etc/bind/named.conf.local   - this is where we configure the base zones
+** named.conf - this file is the main configration file for BIND
+*** This is the secure named.conf file from cymru.com
+#+BEGIN_EXAMPLE
 // @(#)named.conf 02 OCT 2001 Team Cymru noc@cymru.com 
 // Set up our ACLs 
 // In BIND 8, ACL names with quotes were treated as different from 
@@ -252,11 +257,104 @@ $ORIGIN bind.
 
 version.bind.   CHAOS  TXT "BIND 9.1.3+robhacks" 
 authors.bind.   CHAOS  TXT "are better coders than I. :)" 
-#+END_SRC
+#+END_EXAMPLE
 
+* Description
 * Usage
 * Lecture
 * Tutorial
+** Configuring BIND9 DNS - Linux Academy
+LabGuide: [[file://home/crito/Documents/Linux/Labs/configuring-bind9.pdf][Configuring BIND9 DNS]]
+
+- Server Install and Setup
+  - first install apache2
+    #+BEGIN_SRC sh
+    apt-get install apache2
+    #+END_SRC
+    - this is just used to create a valid html page
+  - test it's running
+    #+BEGIN_SRC sh
+    telnet 80
+    helo
+    #+END_SRC
+  - create a file in /var/www
+    - test.html
+    #+BEGIN_EXAMPLE
+    <html>
+    <body>
+      Test Page
+    </body>
+    </html>
+    #+END_EXAMPLE
+  - bind hostname to ip addr(local)
+    - /etc/hosts
+    #+BEGIN_EXAMPLE
+    10.0.0.100		alickmitchell1.mylabserver.com
+    #+END_EXAMPLE
+  - install bind9
+    #+BEGIN_SRC sh
+    apt-get install bind9 bind9utils
+    #+END_SRC
+  - edit /etc/bind/named.conf.OPTIONS 
+    #+BEGIN_EXAMPLE
+    FORWARDERS {
+    	10.0.0.2;
+    	8.8.8.8;
+    };
+    #+END_EXAMPLE
+  - edit /etc/bind/named.conf.local
+    - adding zone information
+    #+BEGIN_EXAMPLE
+    zone "mylabserver.com" {
+    	type master;
+    	file "/etc/bind/zones/db.mylabserver.com";
+    {;
+    zone "0.0.10.in-addr.arpa"{
+    	type master;
+	file "/etc/bind/zones/db.10";
+    };
+    #+END_EXAMPLE
+  - create a directory called /etc/bind/zones
+  - copy db.local zones/db.mylabserver.com
+  - edit db.mylabserver.com binding localhost to the zone we have created
+  - copy db.127 zones/db.10 - this is for the reverse lookup
+  - edit /edit/resolv.conf
+    #+BEGIN_EXAMPLE
+    nameserver	10.0.0.100
+    nameserver	10.0.0.2
+    search	mylabserver.com
+    domain	mylabserver.com
+    #+END_EXAMPLE
+  - restart the bind service
+    #+BEGIN_SRC sh
+    service bind9 restart
+    #+END_SRC
+  - confirm that the dns server is resolving ip
+    #+BEGIN_SRC sh
+    tail -f /var/log/syslog
+    #+END_SRC
+  - test with nslookup check forward and reverse zone
+    #+BEGIN_SRC sh
+    nslookup mylabserver.com
+    nslookup 10.0.0.100
+    #+END_SRC
+  
+- Configure the client
+  - ping bind server to check that they see each other
+  - edit /etc/resolv.conf
+    #+BEGIN_EXAMPLE
+    nameserver	10.0.0.100
+    nameserver	10.0.0.2
+    search	mylabserver.com
+    domain	mylabserver.com
+    #+END_EXAMPLE
+  - test pinging mylabserver.com
+  - install lynx to test connection to webpage
+    #+BEGIN_SRC sh
+    apt-get install lynx
+    lynx http://www.mylabserver.com/test.html
+    #+END_SRC
+  
 * Books
 [[file://home/crito/Documents/SysAdmin/DNS/Pro_DNS_and_BIND_10.pdf][Pro DNS and BIND 10]]
 [[file://home/crito/Documents/SysAdmin/DNS/dns_and_bind-oreilly_5e.pdf][DNS and BIND - O'Reilly 5e]]

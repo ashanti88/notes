@@ -1,7 +1,7 @@
-#+TAGS: sys file
+#+TAGS: fuser find_application_by_file find_application_by_port
 
 
-* fuser								   :sys:file:
+* fuser
 * Description
 The fuser command is a very smart unix utility used to find which process is using a file, a directory or a socket. It also gives information about the user owning the process and the type of access. The fuser tool displays the process id(PID) of every process using the specified files or file systems.
 * Uage

@@ -8,6 +8,7 @@ AWS Documentation: https://aws.amazon.com/documentation/
 * Components
 ** VPC
 ** EC2
+** ECS (EC2 Container Service)
 ** S3
 ** RDB
 ** Dynamo
@@ -2012,11 +2013,143 @@ Lab Guide: file://home/crito/Documents/SysAdmin/Cloud/AWS/LA_Lab_Guide_CloudForm
     - the customer Gateway must be configured for both tunnels
 	  
 
+** Using the EC2 Container Service - Linux Academy
+[[file://home/crito/Documents/SysAdmin/Cloud/AWS/LA_EC2_Container_Service/linuxacademy-aws-containers.pdf][EC2 Container Service - Introduction]]
+[[file://home/crito/Documents/SysAdmin/Cloud/AWS/LA_EC2_Container_Service/linuxacademy-aws-containers-ecs-limits.pdf][EC2 Container Service - Service Limits]]
+[[file://home/crito/Documents/SysAdmin/Cloud/AWS/LA_EC2_Container_Service/linuxacademy-aws-whatiscontainer.pdf][EC2 Container Service - What is a Container?]]
 
+*** Introduction
+- What is a Container?
+A container is exactly what you might expect it to be based on the general definition of the word. It is an entirely isolated set of packages, libraries and or applications that are completely independent from its surroundings.  
 
+- Container Architecture
+  - Docker
+    - client-server application where both the daemon and client can be run on the same system or you can connect a Docker client with a remote Docker daemon
+      
+  - Main Components
+    - Daemon
+    - Client
+    - Docker.io Registry
+      
+  - Containers rest on top of a single linux instance. This allows the container to leave behind a lot of the bloat associated with a full hardware hypervisor.
+    
+  - other concepts that are similar to linux containers
+    - FreeBSD - Jails
+    - Sun Solaris - Zones
+    - Google - Imctfy (Let Me Contain That For You)
+    - OpenVZ
+  
+- EC2 Container Service
+  - Amazon ECS is highly scalable and fast container management service.
+  - Has published API to start and stop container aware applications.
+  - Can query applications and instances to get their state, all from a centralized service.
+
+  - ECS components 
+    - Clusters
+      - This is just a grouping of container instances that we 'do stuff' on
+    - Container Instances
+      - EC2 instances running the ECS agent and registered in a cluster.
+    - Task Dfinitions
+      - Description of an appliction with one or more container definitions.
+    - Scheduling
+      - How we get our tasks on the container instances.
+    - Services
+      - allows us to run or maintain a number of instances of a task definition
+    - Tasks
+      - An instance of a Task Definition
+    - Containers
+      - A Linux Container created as part of the task
+
+*** Setup and Configuration
+- Create an ECS User and Group
+  - always ensure that you customize the IAM user sign-in link, otherwise by default the account number is used which shouldn't be given to people who are administering AWS
+  - Create a new user, makesure that you download a copy of the creds, as the won't be available later
+    - this file will be a csv file
+  - Create a group specific for ECS
+    - there are very specific policies available for ECS (be careful granting full administration rights anyone in the group will automatically have full privs)
+    
+- Logging into the console
+  - to grant access to the AWS console
+  - Security Credentials -> manage passwords -> Assign Custom password -> check Require user to create a new password
+    - this will allow us to set an initial password, that will force the user to create there own on initial login
+      
+- Creating Instance KeyPairs
+  - EC2 -> Key Pairs -> Create Key Pair -> add name (name-region) -> download key
+    - add the ssh key to the key exchange on your machine
+      #+BEGIN_SRC sh
+      ssh-agent bash
+      ssh-add newkey.pem
+      #+END_SRC
+      
+- Creating Cluster VPC
+  - this VPC can be created with ECS wizard, but for more granular control you may want to create a none default VPC
+    - VPC -> Create VPC -> add name -> add private ip range -> select Tenancy (dedicated adds an ip that can not be assigned to another machine, but this costs)   
+      
+- Security Groups and ECS Clusters
+  - EC2 -> Secuirty Group -> add name -> add description -> choose VPC -> add rules to apply
+    
+- Install and Configure the AWS CLI (Centos7)
+  - first install awscli
+    #+BEGIN_SRC sh
+    yum install epel-release
+    yum install python-pip
+    pip install awscli
+    #+END_SRC
+  - import the .csv file from earlier when creating the user
+    #+BEGIN_SRC sh
+    aws configure
+    #+END_SRC
+    - this will prompt for key, scret and region
+  - will now be able to connect to aws
+    - confirm with a simple command
+    #+BEGIN_SRC sh
+    aws ec2 describe-regions
+    #+END_SRC
+    
+- Installing Docker for ECS
+  - first install docker
+    #+BEGIN_SRC sh
+    yum install docker
+    systemctl enable docker
+    systemctl start docker
+    #+END_SRC
+  - create a docker group
+    #+BEGIN_SRC sh
+    groupadd docker
+    #+END_SRC
+  - add user to the docker group
+    - this means that root access isn't required to administer docker
+  
+*** Components and Usage
+- The EC2 Container Service Wizard
+  - define task
+  - configure service
+  - configure cluster
+  - launch
+    
+- Using AWS cmd line to communicate with the EC2 Cluster
+  - you will require the key-pair that you specified for that region
+  - no matter how many instances that you have running the number of services will remain at what was specified
+    - 2 instances, but only 1 service (only one of the containers will be accessable, unless ELB is configured)
+      
+- task definitions can't be deleted once created, this means that a meaningful naming convention is selected.
+  
+- Service Limits
+  - Number of clusters per region, per account   - 1000
+  - Number of container instances per cluster    - 1000
+  - Number of load balancers per service         - 1
+  - Number of tasks per service                  - 1000
+  - Number of tasks launched at once             - 10
+  - Number of container instances per start-task - 10
+  - Throttle on number of container instances    - 5 per cluster
+    per second for run-task
+  - Throttle on container instance registration  - 1 per second/60 max per minute
+    rate
+  - Task definition size limit                   - 32 KiB
+  - Task definition max containers               - 10
+  - Throttle on task definition registration rate- 1 per second/60 max per minute
 
   
-
 * Books
 ** SysOps Associate
 [[file://home/crito/Documents/SysAdmin/Cloud/AWS/sysops/AWS_Auditing_Security_Checklist.pdf][AWS Auditing Security Checklist]]

@@ -3,6 +3,11 @@
 
 * Samba
 HomePage: [[https://wiki.samba.org/index.php/Main_Page][wiki.samba.org/Main_Page]]
+* Files
+/etc/samba/smb.conf - the main configuration file for Samba
+/etc/nsswitch.conf - this file contains options for what protocols to use to lookup shares (wins for a windows server share)
+/etc/fstab - this is the file you would edit to make a share permanent
+
 * Description
 * Usage
 ** Configuring a Samba Share
@@ -35,5 +40,7 @@ df -h
 
 * Lecture
 * Tutorial
+** Linux Academy - Samba4 with Windows and Linux Client and Server
+LabGuide: [[file://home/crito/Documents/Linux/Labs/Samba4-lab.pdf][Samba Version 4 with Windows and Linux Client and Server]]
 * Books
 * Links

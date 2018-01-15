@@ -1,4 +1,4 @@
-#+TAGS: bakup file_level_backup backup_tool
+#+TAGS: bakup file_level_backup backup_tool rsync
 
 
 * rsync
@@ -33,8 +33,112 @@ rsync -avzhe ssh crito@51.20.11.192:/var/log/apache2/access.log /tmp/
 rsync --dry-run -vr dir1/ dir2
 #+END_SRC
 
+** Enterprise Backup with Rsync - Linux Academy
+   
+- first select the directory that is going to be backed up
+#+BEGIN_SRC sh
+rsync -r bkup1/ bkup2
+#+END_SRC
+Entire contains of the first directory into the second directory (this will omitte the first directory)
+
+- copy symbolic links also
+#+BEGIN_SRC sh
+rsync -a bkup1/ bkup2
+#+END_SRC
+a - archive
+this will make a complete duplicate, copy recursively, with any special files also copied, plus with all permissions, symbolic links, file modification and ownership information.
+
+- running a dry-run
+#+BEGIN_SRC sh
+rsync -anv bkup1/ bkup2
+#+END_SRC
+this will provide an output that will tell you about any errors that occured
+
+- copying a directory to remote machine (rsync push)
+#+BEGIN_SRC sh
+rsync -anv bkup1/ user@10.0.0.72:/home/user/bkup1
+rsync -av bkup1/ user@10.0.0.72:/home/user/bkup1
+#+END_SRC
+First run a dry-run to to ensure that there will be no errors
+
+*** Setting up a cron backup
+my_backup.sh
+#+BEGIN_EXAMPLE
+#!/bin/bash
+
+/usr/bin/rsync -a /home/user/bkup1 user@10.0.0.72:/home/user/bkup2
+#+END_EXAMPLE
+
+- make this script executable
+#+BEGIN_SRC sh
+chmod 755 my_backup.sh
+#+END_SRC
+
+- make the directory on the second server
+#+BEGIN_SRC sh
+ssh user@10.0.0.72
+cd
+mkdir bkup2
+#+END_SRC
+
+- create the cron job on the first server
+#+BEGIN_EXAMPLE
+55	14	*	*	*	/home/user/bin/my_backup.sh > /home/user/log/mybkup.log 2>&1
+#+END_EXAMPLE
+
+- run the script manually to ensure that it works
+#+BEGIN_SRC sh
+my_backup.sh
+#+END_SRC
+
+- confirm on the second server that it worked
+  
+- on the first run of the cron job confirm by viewing the /var/log/syslog
+
+** Rsync: Advancedd Examples - Linux Academy
+   
+- keeping directories in sync
+#+BEGIN_SRC sh
+rsync -av --delete bkup1/ bkup2
+#+END_SRC
+the --delete parameter will ensure that any deleted files in bkup1 are also removed from bkup2
+
+- excluding files from an rsync
+#+BEGIN_SRC sh
+rsync -av --exclude='example.tar' bkup1/ bkup2
+#+END_SRC
+this will exclude the file example.tar
+
+- specifiy what to include and exclude 
+#+BEGIN_SRC sh
+rsync -av --include='myfile*' --exclude='*' bkup1/ bkup2
+#+END_SRC
+only copy a specific set of files
+
+- excluding files by size
+#+BEGIN_SRC sh
+rsync -av --max-size='200m' bkup1/ bkup2
+#+END_SRC
+no files greater than 200m will be copied
+
+- exclusion list
+/home/user/bkup1/exclude.txt
+#+BEGIN_EXAMPLE
+vmware-tools-distrib/bin/
+exclude.*
+myfiles10
+#+END_EXAMPLE
+this reads a line at a time
+
+#+BEGIN_SRC sh
+rsync -av --exclude-from '/home/user/bkup1/exclude.txt' bkup1/ bkup2
+#+END_SRC
+
 * Lecture
 * Tutorial
+** Linux Academy - 
+LabGuide: [[file://home/crito/Documents/Linux/Labs/Backup_With_Rsync-lab.pdf][Enterprise Backup with Rsync]]
+
 * Books
 * Links
 [[https://www.digitalocean.com/community/tutorials/how-to-use-rsync-to-sync-local-and-remote-directories-on-a-vps][How to use Rsync to Sync Local and Remote Directories]]

@@ -1,7 +1,13 @@
-#+TAGS: net wifi
+#+TAGS: networkmanager network_manager network_service
 
 
-* NetworkManager                                                   :net:wifi:
+* NetworkManager
+Arch: https://wiki.archlinux.org/index.php/NetworkManager
+Fedora: https://fedoraproject.org/wiki/Tools/NetworkManager
+* cmds
+- [[file://home/crito/org/tech/cmds/nmtui.org][nmtui]]
+- [[file://home/crito/org/tech/cmds/nmcli.org][nmcli]]
+
 * Description
 Program for providing detection and configuration for systems to automatically connect to network.
 * Usage
@@ -9,3 +15,4 @@ Program for providing detection and configuration for systems to automatically c
 * Tutorial
 * Books
 * Links
+[[https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-introduction_to_networkmanager][Introduction to NetworkManager - RHEL7]]

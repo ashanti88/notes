@@ -1,0 +1,24 @@
+#+TAGS:
+
+
+* Kernel Modules
+/etc/modules - this file is used by ubuntu to add moudules
+/etc/modules-load.d/ - most distros use individual config files that list specific use
+
+* Description
+* Usage
+- how to load a module at boot
+/etc/modules-load.d/linux49-virtualbox-host-modules.conf
+#+BEGIN_EXAMPLE
+vboxdrv
+vboxnetadp
+vboxnetflt
+vboxpci
+#+END_EXAMPLE
+this will load these modules at boot, starting from top to bottom
+
+* Lecture
+* Tutorial
+* Books
+* Links
+[[https://www.cyberciti.biz/faq/linux-how-to-load-a-kernel-module-automatically-at-boot-time/][How to load a kernel module automatically at boot time - nixCraft]]

@@ -1,7 +1,7 @@
-#+TAGS: disk
+#+TAGS: disk lvm disk_management
 
 
-* Logical Volume Management                                            :disk:
+* Logical Volume Management
 * Cmds
 [[file://home/crito/org/cmds/lvs.org][lvs]]
 [[file://home/crito/org/tech/cmds/lvdisplay.org][lvdisplay]]
@@ -116,6 +116,52 @@ lvreduce -L 10G -r /dev/vg_name/lv_name
 the r will perform the filesystem resize
 
 3. This will add space to the volume group that could be freed to the physical volume
+
+** Create an LVM swap partition
+- install the lvm utilities
+#+BEGIN_SRC sh
+yum install lvm2
+#+END_SRC
+
+- create a partition that uses the entire disk space
+#+BEGIN_SRC sh
+fdisk /dev/xvdf
+#+END_SRC
+
+[[file://home/crito/Pictures/org/fdisk_lvm0.png]]
+
+- create a physical volume and a volume group
+#+BEGIN_SRC sh
+pvcreate /dev/xvdf1
+vgcreate testgroup /dev/xvdf1
+#+END_SRC
+
+- create an LVM volume that is approximately 500M in size
+#+BEGIN_SRC sh
+lvcreate -n swap -L 500M testgroup
+#+END_SRC
+
+- format the new LVM volume with a swap signature
+#+BEGIN_SRC sh
+mkswap /dev/testgroup/swap
+#+END_SRC
+
+- add partition to fstab
+#+BEGIN_EXAMPLE
+/dev/testgroup/swap 	swap 	swap 	defaults 	0 0
+#+END_EXAMPLE
+
+- turn swap on
+#+BEGIN_SRC sh
+swapon -a
+#+END_SRC
+
+- confirm that the swap partiton is active
+#+BEGIN_SRC sh
+free -m
+cat /proc/swaps
+swapon -s
+#+END_SRC
 
 * Lecture
 * Tutorial

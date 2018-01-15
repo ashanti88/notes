@@ -93,7 +93,11 @@ DOMAIN = SERVER1.mylabserver.com
 - add the shares to /etc/exports
 #+BEGIN_EXAMPLE
 /mnt/share 172.31.117.2(ro)
+/mnt/share_two 10.0.0.0/255.255.255.0(rw,no_root_squash,no_subtree_check,crossmnt,fsid=0)
 #+END_EXAMPLE
+10.0.0.0/255.255.255.0 - allow all of the 10.0.0.0/24 access the share
+crossmnt - allow subdirectories to be viewed as subdirectories of the share
+fsid     - filesystem identifer
 
 - restart nfs server
 #+BEGIN_SRC sh
@@ -266,7 +270,7 @@ this is because it has not been made NFSv4 compatiable
 
 * Lecture
 * Tutorial
-** Linux Acadey - Getting Started with NFS
+** Linux Academy - Getting Started with NFS
 - installing NFS server
 #+BEGIN_SRC sh
 apt-get install nfs-server
@@ -319,6 +323,9 @@ mount 192.168.1.11:/srv/nfs/home /mnt/sharedir
 #+BEGIN_EXAMPLE
 192.168.1.11:/srv/nfs/home	/mnt/sharedir	auto,nofail 0 0
 #+END_EXAMPLE
+
+** Linux Academy - Ubuntu NFS Version 4.0 Server Lab
+LabGuide: [[file://home/crito/Documents/Linux/Labs/ubuntu-nfs4-lab.pdf][Ubuntu NFS4 Lab Guide]]
 
 * Books
 [[file://home/crito/Documents/SysAdmin/NFS-HOWTO.pdf][Linux NFS HowTo]]

@@ -1,4 +1,4 @@
-#+TAGS: mon log
+#+TAGS: rsyslog logging
 
 
 * Rsyslog

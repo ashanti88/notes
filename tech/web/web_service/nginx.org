@@ -9,6 +9,24 @@ HomePage: [[https://www.nginx.com/resources/wiki/][nginx.com]]
 /etc/nginx/nginx.conf - this is the main configuration file
 /usr/share/nginx/html - this is the location of the default page
 
+** /etc/nginx/conf.d/ssl.conf
+#+BEGIN_EXAMPLE
+server {
+        listen  443;
+        server_name _;
+
+        ssl                     on;
+        ssl_certificate         /etc/nginx/ssl/nginx.crt;
+        ssl_certificate_key     /etc/nginx/ssl/nginx.key;
+
+        ssl_session_timeout     5m;
+
+        ssl_protocols           SSLv2 SSLv3 TLSv1;
+        ssl_ciphers "EECDH+AESGCM:EDH+AESGCM:ECDHE-RSA-AES128-GCM-SHA256:AES256+EECDH:DHE-RSA-AES128-GCM-SHA256:AES256+EDH:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES128-SHA256:DHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES256-GCM-SHA384:AES128-GCM-SHA256:AES256-SHA256:AES128-SHA256:AES256-SHA:AES128-SHA:DES-CBC3-SHA:HIGH:!aNULL:!eNULL:!EXPORT:!DES:!MD5:!PSK:!RC4";
+        ssl_prefer_server_ciphers       on;
+}
+#+END_EXAMPLE
+
 * Description
 Nginx is a web server that is extremely good at serving large amounts of static content.
 It is considered less efficient at delivering dynamic content.
@@ -221,9 +239,6 @@ yum install lynx
 lynx http://localhost
 #+END_SRC
 This should show the default nginx page if installed correctly
-
-
-
 
 ** Basic Configuration of a New Installation
 /etc/nginx/nginx.conf
@@ -1037,6 +1052,9 @@ root   html;
 ** Plesk
 * Lecture
 * Tutorial
+** Linux Academy Lab - Nginx installation of SSL Certificate
+   LabGuide: [[file://home/crito/Documents/Linux/Labs/Nginx-ssl.pdf][Nginx and Self Signed SSL Certificates]]
+
 * Books
 [[file://home/crito/Documents/SysAdmin/Web/Nginx/Complete_NGINX_Cookbook.pdf][Complete Nginx Cookbook]]
 [[file://home/crito/Documents/SysAdmin/Web/Nginx/Mastering_Nginx.pdf][Mastering Nginx]]

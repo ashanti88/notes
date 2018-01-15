@@ -1,4 +1,4 @@
-#+TAGS: virt container
+#+TAGS: virtualization container docker linux_containers
 
 
 * Docker

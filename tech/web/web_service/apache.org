@@ -54,9 +54,10 @@ apachectl stop
 
 - show the configuration parsed from the configuration file
 #+BEGIN_SRC sh
-httpd -#+TAGS:
+httpd -
+#+END_SRC
 
-** Graceful Stop
+- Graceful Stop
 #+BEGIN_SRC sh
 apachectl graceful-stop
 #+END_SRC
@@ -439,6 +440,7 @@ This only allows the specified ip addrs to connect to that directory
 
 </VirtualHost>
 #+END_EXAMPLE
+has to be specified after the DocumentRoot
 
 ** Setting up name-based virtual web hosts (Ubuntu)
    
@@ -884,6 +886,28 @@ Not recommended - Security performance
 + Log Aggregators
   - graylog2.org
   - lagstash.net
+
+** Linux Academy Labs - Apache Self-signed SSL
+LabGuide: [[file://home/crito/Documents/Linux/Labs/apache-ssl.pdf][Apache and self Signed SSL Certificates]]
+
+** Linux Academy Labs - LAMP Stack with PHP MyAdmin
+LabGuide: [[file://home/crito/Documents/Linux/Labs/lamp-phpmyadmin.pdf][LAMP Stack on Ubuntu with PHPMyAdmin]]
+
+This guide uses the command
+#+BEGIN_SRC sh
+apt-get install lamp-server^
+#+END_SRC
+This is now deprecated for installing each element individually
+
+DigitalOcean Guide: [[https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-on-ubuntu-14-04][How to install Linux, Apache, MySQL PHP on Ubuntu 14.04]]
+#+BEGIN_SRC sh
+apt-get update
+apt-get install apache2
+apt-get install mysql-server php5-mysql
+mysql_install_db
+mysql_secure_installation
+apt-get install php5 libapache2-mod-php5 php5-mcrypt
+#+END_SRC
 
 * Books
 * Links

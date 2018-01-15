@@ -1,7 +1,9 @@
-#+TAGS: mon
+#+TAGS: monitoring zabbix
 
 
-* zabix									:mon:
+* Zabbix
+HomePage: https://en.wikipedia.org/wiki/Zabbix
+
 * Description
 * Usage
 * Lecture

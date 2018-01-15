@@ -480,7 +480,6 @@ Nagios Core Host <-------
                          ----------> Remote Host nrpe/5666
 						 
 
-
 *** Lesson 21 - Passive Checks
 	
 - Passive Checks
@@ -553,7 +552,6 @@ define serviceescalation{
 *** Lesson 25 - Working with Reports
 	
 - reports can be created for a specific host/s over a specific time, for a specific service through the web UI
-
 
 * Books
 [[file://home/crito/Documents/SysAdmin/Monitor/Nagios.pdf][Nagios - Starch Press]]

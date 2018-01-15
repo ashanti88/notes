@@ -1,7 +1,8 @@
-#+TAGS: kernel anal
+#+TAGS: kernel kernel_modules
 
 
 * modprobe
+
 * Description
 * Usage
 ** Add a module

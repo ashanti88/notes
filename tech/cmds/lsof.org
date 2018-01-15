@@ -1,8 +1,9 @@
 #+TAGS: sys anal file
 
 
-* lsof							      :sys:anal:file:
+* lsof
 * Description
+a command line tool to list open files under Linux / UNIX to report a list of all open files and the processes that opened them
 * Usage
 
 > lsof <options> <file/port>

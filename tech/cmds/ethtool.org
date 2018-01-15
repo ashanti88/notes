@@ -67,4 +67,5 @@ For this to become persistant it needs to
 * Tutorial
 * Books
 * Links
+[[https://www.thegeekstuff.com/2010/10/ethtool-command/][9 Linux ethtool Examples to Manipulate Ethernet Card]]
 

@@ -6,6 +6,22 @@
 * Usage
 ** Mail Server 
 file://home/crito/org/tech/linux_concepts/ubuntu_mail_server.org
+** Error with apt-get lock file
+- if find that you get this error
+#+BEGIN_EXAMPLE
+E: Could not get lock /var/lib/dpkg/lock - open (11 Resource temporarily unavailable)
+E: Unable to lock the administration directory (/var/lib/dpkg/) is another process using it?
+#+END_EXAMPLE
+
+- you will need to rm the lock files at
+  - /var/lib/apt/lists/lock
+  - /var/cache/apt/archives/lock
+  - /var/lib/dpkg/lock
+
+** Changing default text editor
+#+BEGIN_SRC sh
+update-alternatives --config editor
+#+END_SRC
 * Lecture
 * Tutorial
 * Books

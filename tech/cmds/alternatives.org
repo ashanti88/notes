@@ -1,0 +1,17 @@
+#+TAGS: debian ubuntu
+
+
+* alternatives
+* Description
+This command enables of the switching between of differnet versions of applications with ease
+* Usage
+- change the version of an application to be used as default
+#+BEGIN_SRC sh
+alternatives --install /usr/bin/java java /opt/java/bin/java 200000
+#+END_SRC
+
+- for ubntu
+* Lecture
+* Tutorial
+* Books
+* Links

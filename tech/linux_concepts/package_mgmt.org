@@ -552,9 +552,15 @@ Edit the repo files in /etc/yum.repos.d
 set the enable parameter to 0.
 
 ***** EPEL (Extra Packages for Enterprise Linux)
-Centos
+Centos >=7
 #+BEGIN_SRC sh
 yum install epel-release
+#+END_SRC
+
+Centos <=6
+#+BEGIN_SRC sh
+wget http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+rpm -ivh epel-release-6-8.noarch.rpm
 #+END_SRC
 
 ***** IUS (Inline with Upstream Stable)

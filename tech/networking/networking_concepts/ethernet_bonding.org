@@ -1,11 +1,225 @@
-#+TAGS:
+#+TAGS: ethernet_bonding
 
 
 * Ethernet Bonding
+* Files
+/etc/sysconfig/networkscripts/ifcfg-bond0 - this is the configuration for the bond
+/etc/sysconfig/ifcfg-ethx - the configuration file for the interfaces to be bound to the bond
+/sys/class/net/     - contains all the running network interface variables
+  - bonding_masters - this contains all the currently configured bonds 
+  - /bond0/bonding/ - will contain all the bond's variables
+    - miimon - 
+    - mode   - this is what the current mode that the bond is running with
+
+* Cmds
+- [[file://home/crito/org/tech/cmds/nmtui.org][nmtui]]
+- [[file://home/crito/org/tech/cmds/nmcli.org][nmcli]]
+
 * Description
 * Usage
+** Configure Bonding in RHEL6
+- create a bond file
+/etc/sysconfig/networkscripts/ifcfg-bond0
+#+BEGIN_EXAMPLE
+DEVICE=bond0
+IPADDR=19.86.101.120
+NETMASK=255.255.255.0
+ONBOOT=yes
+BOOTPROTO=none
+USERCTL=no
+BONDING_OPTS="mode=1 miimon=100"
+#+END_EXAMPLE
+
+- configure the interface files to use the bond
+/etc/sysconfig/networkscripts/ifcfg-eht0
+#+BEGIN_EXAMPLE
+DEVICE=eth0
+HWADDR=00:50:56:8E:0C:10
+MASTER=bond0
+SLAVE=yes
+ONBOOT=yes
+USERCTL=no
+BOOTPROTO=none
+#+END_EXAMPLE
+
+/etc/sysconfig/networkscripts/ifcfg-eht1
+#+BEGIN_EXAMPLE
+DEVICE=eth1
+HWADDR=00:50:56:8E:0C:2A
+MASTER=bond0
+SLAVE=yes
+ONBOOT=yes
+USERCTL=no
+BOOTPROTO=none
+#+END_EXAMPLE
+
+- Create a bonding.conf file
+/etc/modprobe.d/bonding.conf
+#+BEGIN_EXAMPLE
+alias netdev-bond0 bonding
+#+END_EXAMPLE
+
+- restart network service
+#+BEGIN_SRC sh
+systemctl network restart
+#+END_SRC
+
+- verify the status of the bond
+#+BEGIN_SRC sh
+cat /proc/net/bonding/bond0
+#+END_SRC
+- output should be something similar to below
+#+BEGIN_EXAMPLE
+Ethernet Channel Bonding Driver: v3.6.0 (September 26, 2009)
+
+Bonding Mode: fault-tolerance (active-backup)
+Primary Slave: None
+Currently Active Slave: eth0
+MII Status: up
+MII Polling Interval (ms): 100
+Up Delay (ms): 0
+Down Delay (ms): 0
+
+Slave Interface: eth0
+MII Status: up
+Speed: 10000 Mbps
+Duplex: full
+Link Failure Count: 0
+Permanent HW addr: 00:50:56:8e:0c:10
+Slave queue ID: 0
+
+Slave Interface: eth1
+MII Status: up
+Speed: 10000 Mbps
+Duplex: full
+Link Failure Count: 0
+Permanent HW addr: 00:50:56:8e:0c:2a
+Slave queue ID: 0
+#+END_EXAMPLE
+
+** Configure Bonding in RHEL7
+Doc:  [[https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/ch-configure_network_bonding][Chapter 4 - Configure Network Bonding]]
+
+*** nmcli
+- create a bond connection
+#+BEGIN_SRC sh
+nmcli con add type bond ifname mybond0 bond.options "mode=balance-rr,miimon=100"
+#+END_SRC
+
+- add a slave interface
+#+BEGIN_SRC sh
+nmcli con add type ehternet ifname ens3 master mybond0
+nmcli con add type ehternet ifname ens7 master mybond0
+#+END_SRC
+
+- activate the interfaces
+#+BEGIN_SRC sh
+nmcli con up bond-slave-ens3
+nmcli con up bond-slave-ens7
+#+END_SRC
+when you activate the slaves the master is brought up
+
+- options for either the master or slaves can be changed at runtime without deactivating the connection
+#+BEGIN_SRC sh
+nmcli dev mod bond0 +bond.options "active_slave=ens7"
+#+END_SRC
+
+*** cli
+- makesure that the bonding module is installed
+#+BEGIN_SRC sh
+modprobe bonding
+#+END_SRC
+this will not be persistant over restarts
+
+- create a bond file
+/etc/sysconfig/networkscripts/ifcfg-bond0
+#+BEGIN_EXAMPLE
+DEVICE=bond0
+IPADDR=19.86.101.120
+NETMASK=255.255.255.0
+ONBOOT=yes
+BOOTPROTO=none
+USERCTL=no
+BONDING_OPTS="mode=1 miimon=100"
+#+END_EXAMPLE
+
+- configure the interface files to use the bond
+/etc/sysconfig/networkscripts/ifcfg-eht0
+#+BEGIN_EXAMPLE
+DEVICE=eth0
+NAME=bond0-slave
+TYPE=Ethernet
+BOOTPROTO=none
+ONBOOT=yes
+MASTER=bond0
+SLAVE=yes
+#+END_EXAMPLE
+
+/etc/sysconfig/networkscripts/ifcfg-eht1
+#+BEGIN_EXAMPLE
+DEVICE=eth1
+NAME=bond0-slave
+TYPE=Ethernet
+BOOTPROTO=none
+ONBOOT=yes
+MASTER=bond0
+SLAVE=yes
+#+END_EXAMPLE
+
+- Activate a Channel Bond
+#+BEGIN_SRC sh
+ifup ifcfg-eth0
+ifup ifcfg-eth1
+#+END_SRC
+when editing these interfaces makesure to bring them down first
+
+- Make NetworkManager aware
+#+BEGIN_SRC sh
+nmcli con load /etc/sysconfig/network-scripts/ifcfg-bond0
+nmcli con load /etc/sysconfig/network-scripts/ifcfg-eht0
+nmcli con load /etc/sysconfig/network-scripts/ifcfg-eht1
+#+END_SRC
+or
+#+BEGIN_SRC sh
+nmcli con reload
+#+END_SRC
+this will reload all the 
+
+*** Changing bond options
+- changing the mode at runtime
+#+BEGIN_SRC sh
+echo balance-alb > /sys/class/net/bond0/bonding/mode
+#+END_SRC
+or
+#+BEGIN_SRC sh
+echo 6 > /sys/class/net/bond0/bonding/mode
+#+END_SRC
+both the language and numeric mode can be used
+
+- changing the link check interval
+#+BEGIN_SRC sh
+echo 1000 > /sys/class/net/bond0/bonding/miimon
+#+END_SRC
+milliseconds are used, this will set it too one second
+
+** Options
+miimon        - Media Independent Interface -  
+arp_interval  - how often, in milliseconds, ARP monitoring is checked
+arp_ip_target - specifies the target ip of ARP requests when arp_interval parameter is enabled, upto 16 addr seperated by commas
+
+
+** Available Modes
+Mode 0 – Round-robin (RR) policy: Packet transmissions is done in a sequential order. For ex, the first packet is transmitted using the interface and second packet is done through next interface and so on. This mode provides load balancing and fault tolerance.
+Mode 1 – active-backup policy: Packet transmission happens only through the active interface and the traffic is routed through the backup interface only when the active interface went down.
+Mode 2 – XOR policy: This mode balances outgoing traffic across the active ports. In this mode the same slave is used for transmission for each destination MAC address. This provides load balancing and fault tolerance.
+Mode 3 – broadcast policy: This transmits everything on all slave interfaces. This mode provides fault tolerance.
+Mode 4( 802.3ad ): This mode is used to create the link aggregation groups that share the same speed and duplex settings.
+Mode 5( balance-tlb ): Adaptive transmit load balancing. The outgoing traffic is distributed based on the current load on each slave. Incoming traffic is received by the current slave. If the current slave fails, then another slave takes over the incoming traffic based on MAC address.
+Mode 6( balance-alb ): Adaptive load balancing. In this, the incoming traffic is handled to use load balancing across all the slaves. The receive load balancing is done through ARP negotiation.
+
 * Lecture
 * Tutorial
 * Books
 * Links
 http://www.thegeekstuff.com/2014/06/linux-etherchannel-bonding/
+[[https://www.cyberciti.biz/howto/question/static/linux-ethernet-bonding-driver-howto.php][Linux Ethernet Bonding Driver HowTo - Cyberciti]]

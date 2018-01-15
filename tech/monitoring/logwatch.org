@@ -1,7 +1,8 @@
-#+TAGS: sys mon anal log
+#+TAGS: logwatch monitoring
 
 
 * logwatch
+Arch: https://wiki.archlinux.org/index.php/Logwatch
 * Description
 * Usage
 * Lecture

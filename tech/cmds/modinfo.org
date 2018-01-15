@@ -1,10 +1,15 @@
-#+TAGS: kerrnel mod
+#+TAGS: kernel information_on_module
 
 
 * modinfo
 * Description
 This tool will provide detailed information on a kernel module.
 * Usage
+- view infomation on a module
+#+BEGIN_SRC sh
+modinfo bonding
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

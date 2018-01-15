@@ -1,7 +1,7 @@
-#+TAGS: net admin conf curses
+#+TAGS: network_manager ncurces_frontend_network_manager
 
 
-* nmtui                                               :net:admin:conf:curses:
+* nmtui
 Home Page: [[https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Networking_Guide/sec-Networking_Config_Using_nmtui.html][nmtui]]
 * Description
 Network Manager Text User Interfaceion
