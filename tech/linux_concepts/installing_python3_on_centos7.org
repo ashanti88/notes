@@ -1,0 +1,27 @@
+#+TAGS: python3 centos7
+
+
+* Installing Python3 on CentOS7
+* Description
+* Usage
+- install dependencies
+#+BEGIN_SRC sh
+yum update
+yum groupinstall "development tools"
+yum install libffi-devel zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel expat-devel
+#+END_SRC
+
+- download python source from https://www.python.org
+#+BEGIN_SRC sh
+cd /usr/src/
+wget https://www.python.org/ftp/python/3.6.4/Python-3.6.4.tar.xz
+tar xf Python-3.6.4.tar.xz 
+cd Python-3.6.4
+./configure --enable-optimizations
+make altinstall
+#+END_SRC
+altinstall will make the bin python3.6 not python
+* Lecture
+* Tutorial
+* Books
+* Links

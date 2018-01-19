@@ -165,6 +165,8 @@ swapon -s
 
 * Lecture
 * Tutorial
+** Linux Academy Lab - Add and Remove Volumes, Partition Disks and Working with LVM
+LabGuide: [[file://home/crito/Documents/Linux/Labs/work-with-lvm-lab.pdf][Add and Remove Volumes, Partition Disks and Work with LVM]]
 * Books
 * Links
 [[https://wiki.ubuntu.com/Lvm][LVM - Ubuntu]]

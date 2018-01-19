@@ -1,0 +1,17 @@
+#+TAGS: dhcpcd
+
+
+* DHCP Client Deamon
+Arch: https://wiki.archlinux.org/index.php/Dhcpcd
+* Files
+/etc/dhcpcd.conf
+/etc/dhcpcd.duid
+* Cmd
+
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links
+[[https://roy.marples.name/projects/dhcpcd][dhcpcd an overview - Roy's Place]]

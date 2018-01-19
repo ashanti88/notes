@@ -1,0 +1,15 @@
+#+TAGS: whoami logname
+
+
+* whoami
+* Description
+This command will show you the current user that you are logged in as.
+
+this will provide the information that is bound to $LOGNAME variable.
+
+* Usage
+
+* Lecture
+* Tutorial
+* Books
+* Links

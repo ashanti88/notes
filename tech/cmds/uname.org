@@ -1,0 +1,26 @@
+#+TAGS: uname
+
+
+* uname
+* Description
+Provides basic information of the system, such as kernel version, kernel release (this may contain the distro name), arch, hostname,
+* Usage
+- print all available information
+#+BEGIN_SRC sh
+uname -a
+#+END_SRC
+
+- print the processor type
+#+BEGIN_SRC sh
+uname -p
+#+END_SRC
+
+- print the operating system type
+#+BEGIN_SRC sh
+uname -o
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

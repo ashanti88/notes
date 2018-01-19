@@ -1,4 +1,4 @@
-#+TAGS: ansible auto
+#+TAGS: ansible automation
 
 
 * Ansible
@@ -6,8 +6,8 @@ HomePage: [[https://www.ansible.com/][ansible.com]]
 Galaxy: [[https://galaxy.ansible.com/][galaxy.ansible.com]]
 
 * cmds
-[[file://home/crito/org/tech/cmds/ansible.org][ansible]]
-[[file://home/crito/org/tech/cmds/ansible-playbook.org][ansible-playbook]]
+- [[file://home/crito/org/tech/cmds/ansible.org][ansible]]
+- [[file://home/crito/org/tech/cmds/ansible-playbook.org][ansible-playbook]]
 
 * Files
 /etc/ansible/ansible.cfg - this file contains local settings for ansible
@@ -228,7 +228,6 @@ ansible multi -m file -a "dest=/src/symlink dest=/tmp/symlink owner=root group=r
 #+BEGIN_SRC sh
 ansible multi -m file -a "dest=/tmp/test state=absent"
 #+END_SRC
-
 
 
 **** Update system
@@ -927,6 +926,74 @@ pid-file=/var/run/mysqld/mysqld.pid
 #+BEGIN_SRC sh
 ansible-playbook -i hosts site.yml
 #+END_SRC
+
+** Linux Academy - Ansible Quick start
+Guide: [[file://home/crito/Documents/SysAdmin/Mgmt/Ansible/Linux_Academy-Ansible_All_Playbooks.pdf][LA - Ansible Playbooks]]
+Guide: [[file://home/crito/Documents/SysAdmin/Mgmt/Ansible/Linux_Academy-Ansible_Cheatsheet.pdf][LA - Cheatsheet]]
+
+- installation on RHEL
+#+BEGIN_SRC sh
+yum install ansible git python
+#+END_SRC
+
+/etc/ansible/ansible.cfg - this is the systemwide configuration file
+#+BEGIN_EXAMPLE
+inventory	= /etc/ansible/hosts
+sudo_user	= root
+#+END_EXAMPLE
+these two comments are usually good practices
+
+/etc/ansible/hosts - this file contains the address information for nodes that ansible can connect to
+
+- the ansible user will require root privs without password
+visudo
+#+BEGIN_EXAMPLE
+ansible ALL=(ALL)	NOPASSWD: ALL
+#+END_EXAMPLE
+
+- YAML
+  - this is the markup language that is used to create the playbooks that ansible uses
+#+BEGIN_EXAMPLE
+--- # This is a structural YAML example to install HTTPD on CentOS
+- hosts: centos
+  remote_user: ansible
+  become: yes
+  become_method: sudo
+  connection: ssh
+  gather_facts: yes
+  var:
+    username: myuser
+  tasks:
+  - name: Install HTTPD server on CentOS 7 Nodes
+    yum:
+      name: httpd
+      state: latest
+    notify:
+    - startservice
+  handlers:
+  - name: startservice
+    service:
+      name: httpd
+      state: restarted
+#+END_EXAMPLE  
+
+- the playbook syntax can be checked with
+#+BEGIN_SRC sh
+ansible-playbook structure.yaml --syntax-check
+#+END_SRC
+
+- to gather information from a host
+#+BEGIN_SRC sh
+ansible host_name -m setup
+#+END_SRC
+this will pull a huge amount of data
+
+- information can be filtered with the filter option
+#+BEGIN_SRC sh
+ansible host_name -m setup -a 'filter=*ipv4*'
+#+END_SRC
+
+
 
 ** Linux Academy - Red Hat Certificate of Expertise in Ansible Automation Prep Course
 *** Lesson Four  - YAML Refresher

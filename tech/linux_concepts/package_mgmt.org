@@ -32,6 +32,31 @@ dpkg -l
 dpkg -L nano
 #+END_SRC
 
+- Query a .deb package, this will show dependencies, arch, version, package-name etc
+#+BEGIN_SRC sh
+dpkg -I google-chrome-stable_current_amd64.deb
+#+END_SRC
+
+- Checking if package is installed
+#+BEGIN_SRC sh
+dpkg --get-selections google-chrome-stable
+#+END_SRC
+
+***** Dealing with missing dependencies with .deb files
+#+BEGIN_SRC sh
+dpkg -i google-chrome-stable_current_amd64.deb
+#+END_SRC
+this will inform us that we are missing certain dependencies, we could now go and find all the missing dependencies or run
+#+BEGIN_SRC sh
+apt update
+apt -f upgrade
+#+END_SRC
+the system is intelligent to know that we were searching for the previous missing depencies and will go and pull the packages
+#+BEGIN_SRC sh
+dpkg -i google-chrome-stable_current_amd64.deb
+#+END_SRC
+now the installation will complete
+
 **** Adding an additional architecture
 this comes in handy when you need to install a 32bit application on a
 64bit machine
@@ -40,7 +65,7 @@ dpkg --add-architecture i386
 apt-get update
 #+END_SRC
 
-*** apt
+*** apt-get
 **** Basic Actions
 - Update available software database
 #+BEGIN_SRC sh
@@ -168,6 +193,7 @@ apt-get autoremove
 # Verify disk space
 df -H
 
+*** apt
 ** Files
 /etc/apt/sources.list
 
@@ -623,7 +649,6 @@ yum info tmux
 yum clean all
 #+END_SRC
 
-
 **** Repo Administration
 - list all enabled repos
 #+BEGIN_SRC sh
@@ -856,7 +881,12 @@ the repo option should be "Local_Repo"
 * Suse
 *** zypper							   :suse:pkg:
 * Arch(Manjaro|Antergos)
-
+- Holding a package from upgrading
+/etc/pacman.conf
+#+BEGIN_SRC sh
+IgnorePkg=chromium
+IgnoreGroup=gnome
+#+END_SRC
 *** ABS(Arch Build System)
 Arch: [[https://wiki.archlinux.org/index.php/Arch_Build_System][archlinux.org/Arch_Build_System]]
 *** Repos
@@ -864,6 +894,7 @@ The repos are edited in /etc/pacman.conf
 
 *** pacman
 [[https://wiki.archlinux.org/index.php/Pacman][Arch: archlinux.org/pacman]]
+Manjaro: https://wiki.manjaro.org/index.php/Pacman
 - list installed pkgs
 #+BEGIN_SRC sh
 pacman -Q > pkg_list.txt
@@ -913,7 +944,7 @@ yaourt -S python3.5
 
 - Remove pkg
 #+BEGIN_SRC sh
-yaourt -Sr python3.5
+yaourt -Rsn python3.5
 #+END_SRC
 
 - upgrade system
@@ -935,8 +966,10 @@ yaourt -Sb
 #+BEGIN_SRC sh
 yaourt -B
 #+END_SRC
+
 *** pacli
 This tool is a tui for both pacman and yaourt
+
 * FreeBSD
 *** pkg
 *** ports

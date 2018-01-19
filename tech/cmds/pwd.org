@@ -1,0 +1,16 @@
+#+TAGS: pwd print_working_directory
+
+
+* pwd
+* Description
+Print Working Directory 
+* Usage
+- print where in the filesystem you are
+#+BEGIN_SRC sh
+pwd
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -20,6 +20,11 @@ HomePage: https://www.clamav.net/
 --max-filesize=4000M - 4000M is the max size
 --max-scansize=4000M
 
+- check the Download directory recursively and print only the infected files
+#+BEGIN_SRC sh
+clamscan -r -i /home/user/Download
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

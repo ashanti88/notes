@@ -1,0 +1,35 @@
+#+TAGS: networking ipv6 disable_ipv6
+
+
+* Disable IPv6
+* Usage
+** Manjaro
+Manjaro: https://wiki.manjaro.org/index.php?title=Turn_OFF_IPv6
+- edit /etc/default/grub
+#+BEGIN_EXAMPLE
+GRUB_CMDLINE_LINUX_DEFAULT="ipv6.disable=1 "
+#+END_EXAMPLE
+if there are other options just add this at the beginning of the line
+
+- create a new grub.cfg
+#+BEGIN_SRC sh
+grub-mkconfig -o /boot/grub/grub.cfg
+#+END_SRC
+
+- comment out the ipv6 address in the /etc/hosts file
+#+BEGIN_EXAMPLE
+# ::1		localhost.localdomain	localhost
+# ::1	localhost ip6-localhost ip6-loopback
+#+END_EXAMPLE
+
+- test that ipv6 is disable at http://test-ipv6.com/
+  
+- a cmdline test
+#+BEGIN_SRC sh
+test -f /proc/net/if_inet6 && echo "IPv6 supported" || echo "IPv6 not supported"
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

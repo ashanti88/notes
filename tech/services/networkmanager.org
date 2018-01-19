@@ -11,6 +11,14 @@ Fedora: https://fedoraproject.org/wiki/Tools/NetworkManager
 * Description
 Program for providing detection and configuration for systems to automatically connect to network.
 * Usage
+** Stop the rewriting of /etc/resolv.conf on reboot
+/etc/NetworkManager/NetworkManager.conf
+#+BEGIN_EXAMPLE
+[main]
+dns=none
+#+END_EXAMPLE
+The problem I had was I didn't want my ISP nameserver(192.168.0.1) to be added to my resolv.conf, this key value stops NM rewriting resolv.conf at boot.
+
 * Lecture
 * Tutorial
 * Books

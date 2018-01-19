@@ -479,7 +479,6 @@ systemctl start nrpe.service
 Nagios Core Host <-------
                          ----------> Remote Host nrpe/5666
 						 
-
 *** Lesson 21 - Passive Checks
 	
 - Passive Checks
@@ -552,6 +551,10 @@ define serviceescalation{
 *** Lesson 25 - Working with Reports
 	
 - reports can be created for a specific host/s over a specific time, for a specific service through the web UI
+
+  
+** Linux Academy Lab - Compiling and Installing Nagios Plugins 
+LabGuide: [[file://home/crito/Documents/Linux/Labs/Nagios-And-Plugins-lab.pdf][Compiling and Installing Nagios and Plugins]]
 
 * Books
 [[file://home/crito/Documents/SysAdmin/Monitor/Nagios.pdf][Nagios - Starch Press]]

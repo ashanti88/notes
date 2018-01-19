@@ -1,4 +1,4 @@
-#+TAGS: path
+#+TAGS: path setting_path
 
 
 * Path

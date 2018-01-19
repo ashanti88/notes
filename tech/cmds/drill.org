@@ -1,7 +1,7 @@
-#+TAGS: net anal sec_o
+#+TAGS: drill dns_records_lookup ip_address_lookup
 
 
-* drill							     :net:anal:sec_o:
+* dill
 * Description
 * Usage
 - reverse lookup

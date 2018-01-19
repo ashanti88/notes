@@ -1,7 +1,7 @@
-#+TAGS: resolvconf resolv.conf dns name_server
+#+TAGS: dhcpcd dhclient
 
 
-* resolvconf
+* dhclient
 * Description
 * Usage
 * Lecture

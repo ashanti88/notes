@@ -1,7 +1,7 @@
-#+TAGS: file txt
+#+TAGS: awk column_manipulation
 
 
-* awk								   :file:txt:
+* awk
 * Descripton
 Aho, Weinberger and Kernighan
 
@@ -27,21 +27,17 @@ Key features:
 
 1) awk reads the input files one line at a time
 
-2) for each line, it matches with given pattern in the given order, if
-   matches perform the corresponding action.
+2) for each line, it matches with given pattern in the given order, if matches perform the corresponding action.
 
 3) if no pattern matches, no action will be performed.
 
-4) in the above syntax either search pattern or action are optional, but
-   not both.
+4) in the above syntax either search pattern or action are optional, but not both.
 
-5) if the search pattern is not given then awk performs the given action
-   on every line.
+5) if the search pattern is not given then awk performs the given action on every line.
 
-6) if the action is not given, print all the lines that match with the
-   given pattern.
+6) if the action is not given, print all the lines that match with the given pattern.
 
-7) empty braces without any action does nothing. 
+7) empty braces without any action does nothing.
 
 8) each statement in actions should be delimited with a semicolon.
 
@@ -65,8 +61,7 @@ ps aux | awk '{ print $2 }'
 #+BEGIN_SRC sh
 awk '{print $x $y;}' file.txt
 #+END_SRC
-this will only print field x and filed y. counting with awk starts with
-1 not 0.
+this will only print field x and filed y. counting with awk starts with 1 not 0.
 
 - Initialisation and final action
 These are specified with the keywords BEGIN and END
@@ -78,8 +73,6 @@ BEGIN { Actions }
 { ACTION } # Action for every line in a file
 
 END { Actons }
-
-
 
 ** Print how many lines are in a file
 #+BEGIN_SRC sh

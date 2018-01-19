@@ -1,10 +1,11 @@
-#+TAGS: comp
+#+TAGS: xz compression
 
 
-* xz								       :comp:
+* xz
 * Description
 * Usage
 * Lecture
 * Tutorial
 * Books
 * Links
+[[http://www.nongnu.org/lzip/xz_inadequate.html][xz Format inadequate for long-term archiving]]

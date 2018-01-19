@@ -55,10 +55,15 @@ Contains the source code for the Linux kernel.
 This is the nerve center of your system, it contains all system related configuration files in here or in its sub-directories. A "configuration file" is defined as a local file used to control the operation of a program; it must be static and cannot be an executable binary. For this reason, it's a good idea to backup this directory regularly. It will definitely save you a lot of re-configuration later if you re-install or lose your current installation. Normally, no binaries should be or are located here.
 
 /etc/alternatives/ - this is used by debian to allow ease of switching between different versions of an application
+/etc/dhcpcd.conf   - this file is a config file for the dhcp client deamon
 /etc/fstab - contains the devices to mounted at boot
+/etc/hosts         - this file is first read to find IP to hostname lookup
 /etc/hosts.allowed - this is an Access Control File that specifies allowed hosts
 /etc/hosts.deny    - this is the counter part to hosts.allowed
 /etc/exports       - this files is used to add NFS shares that are available for sharing
+/etc/pacman.cof    - this is the main configuration file for the pacman package management system
+/etc/resolv.conf   - this file read after /etc/hosts to find a nameserver that will be able to resolve our search
+/etc/services      - this file contains a list of services and the common ports that are associated with it
 *** /etc/netctl
 ArchLinux: https://wiki.archlinux.org/index.php/Netctl
 netctl uses profiles to manage network connections and different modes of operation to start profiles automatically or manually on demand.

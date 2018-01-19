@@ -2,6 +2,7 @@
 
 
 * Python2
+Docs: https://docs.python.org/2/
 * Description
 * Usage
 * Concepts
@@ -781,11 +782,15 @@ for row in c.fetchall():
 conn.close
 #+END_EXAMPLE
 
+** Linux Academy - Python Scripting For System Administrators
+GitHub: https://github.com/linuxacademy/content-python-for-sys-admins.git 
+
 * Books
 * Links
 
 
 * Python3
+Docs: https://docs.python.org/3/
 * Modules
 Docs: [[https://docs.python.org/3/py-modindex.html][Python3/modules]]
 - list all installed modules
@@ -1428,3 +1433,5 @@ Key ORM Patterns
 [[file://home/crito/Documents/Python/Python-Master_the_Art_of_Design_Patterns.pdf][Python - Master the Art of Design Patterns]]
 
 * Links
+[[https://docs.python.org/3/whatsnew/3.0.html][What's New in Python 3.0- Python Documentation]]
+
