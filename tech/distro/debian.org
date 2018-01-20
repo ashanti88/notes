@@ -1,7 +1,7 @@
-#+TAGS: deb ubuntu
+#+TAGS: debian .deb kali
 
 
-* Debian								:deb:
+* Debian - 3-4yrs Life Cycle - Release Cycle 2yrs
 * Usage
 ** General System Configuration					   :deb:conf:
 *** Setting the default text editor
@@ -79,29 +79,6 @@ Deleting a bridge requires that the bridge is down <ip link set dev
   - created a new /etc/resolv.conf and then made immutable
     - chattr +i /etc/resolv.conf
 * Based Distros
-** Kali								       :kali:
-*** Adding Kali tools to Debian
-Kalis tools can be added to a debian machine with katoolin
-1. > git [[https://github.com/LionSec/katoolin.git]]
-2. >cp katoolin/katoolin /usr/bin/katoolin
-3.> chmod +x /usr/bin/katoolin
-
-You now have an application called katoolin
-> katoolin
-
-This will provide numerical options to choose from
-To exit ctrl c
-
-*** Adding wifi interface
-1. Close virtualbox
-2. Execute in bash (for Debians): sudo adduser $USER vboxusers. If you don't have a Debian-like distro, read here.
-3. Log out and log in again
-4. Attach to your PC the USB devices you want to be automatically mounted in the VM (virtual machine).
-5. Open Virtualbox
-6. Select your VM and go to "Machine" -> "Settings" -> "USB".
-7. Check "Enable USB Controller"; click on the icon with the USB plug and the plus, and click on the devices you want to be automatically mounted in the VM. Click "Ok".
-8. Click on "Start" toolbar button, and ensure your USB devices are recognized and mounted by the VM. Remember that you have to unmount them in the host OS too if you have to disconnect them after you exit the VM.
-
 * Lectures
 ** Anatomy of a Debian Package - Google Tech Talk
 url: [[https://www.youtube.com/watch?v%3DlFzPrzY2KFM&index%3D28&list%3DWL][Anatomy of a Debian Package]]
@@ -253,4 +230,63 @@ snapcraft init
 [[file://home/crito/Documents/Linux/Debian/Debian7_System_Administration_Best_Practices.pdf][Debian 7: System Administration Best Practices]]
 [[file://home/crito/Documents/Linux/Debian/The_Debian_System-Concepts_and_Techniques.pdf][The Debian System - Concepts and Techniques - No Starch Press]]
 
+* Links
+
+
+* Ubuntu - LTS 5yrs - Release Cycle (LTS) 6yrs - Point Release 6mth
+* Usage
+** Mail Server 
+file://home/crito/org/tech/linux_concepts/ubuntu_mail_server.org
+** Error with apt-get lock file
+- if find that you get this error
+#+BEGIN_EXAMPLE
+E: Could not get lock /var/lib/dpkg/lock - open (11 Resource temporarily unavailable)
+E: Unable to lock the administration directory (/var/lib/dpkg/) is another process using it?
+#+END_EXAMPLE
+
+- you will need to rm the lock files at
+  - /var/lib/apt/lists/lock
+  - /var/cache/apt/archives/lock
+  - /var/lib/dpkg/lock
+
+** Changing default text editor
+#+BEGIN_SRC sh
+update-alternatives --config editor
+#+END_SRC
+* Lecture
+* Tutorial
+* Books
+[[file://home/crito/Documents/Linux/Debian/Ubuntu_Linux_Toolbox_1000_Plus_Commands.pdf][Ubuntu Linux Toolbox]]
+[[file://home/crito/Documents/Linux/Debian/Ubuntu_Unleashed_2015.pdf][Ubuntu Unleashed 2015]]
+[[file://home/crito/Documents/Linux/Debian/Ubuntu_Linux_Secrets.pdf][Ubuntu Linux Secrets]]
+[[file://home/crito/Documents/Linux/Debian/ubuntu_server_guide.pdf][Ubuntu Server Guide]]
+
+* Links
+
+* Kali
+*** Adding Kali tools to Debian
+Kalis tools can be added to a debian machine with katoolin
+1. > git [[https://github.com/LionSec/katoolin.git]]
+2. >cp katoolin/katoolin /usr/bin/katoolin
+3.> chmod +x /usr/bin/katoolin
+
+You now have an application called katoolin
+> katoolin
+
+This will provide numerical options to choose from
+To exit ctrl c
+
+*** Adding wifi interface
+1. Close virtualbox
+2. Execute in bash (for Debians): sudo adduser $USER vboxusers. If you don't have a Debian-like distro, read here.
+3. Log out and log in again
+4. Attach to your PC the USB devices you want to be automatically mounted in the VM (virtual machine).
+5. Open Virtualbox
+6. Select your VM and go to "Machine" -> "Settings" -> "USB".
+7. Check "Enable USB Controller"; click on the icon with the USB plug and the plus, and click on the devices you want to be automatically mounted in the VM. Click "Ok".
+8. Click on "Start" toolbar button, and ensure your USB devices are recognized and mounted by the VM. Remember that you have to unmount them in the host OS too if you have to disconnect them after you exit the VM.
+* Usage
+* Lecture
+* Tutorial
+* Books
 * Links

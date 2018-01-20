@@ -1,4 +1,4 @@
-#+TAGS: shell sh bash scripting shell_script
+#+TAGS: shell sh bash scripting shell_script login_shell
 
 
 * Bash
@@ -7,15 +7,29 @@
 ~/.bash_logout - this is run when loging out of shell window
 ~/.bash_profile - user specific preferences read by login
 ~/.bashrc - this is read only by shells that are both interactive and non-login
+~/.bash_history  - this shows a certain number of previous cmds, set by $HISTFILESIZE
 
-- order of the files
+- order files are read for a login shell
   - /etc/profile
-  - ~/.bash_profile
+  - which ever of the next files is first found is used
+    - ~/.bash_profile
+    - ~/.bash_login
+    - ~/.profile
   - ~/.bashrc
+  - /etc/bashrc
+
+- order files are read for a non-login shell
+  - ~/.bashrc
+  - /etc/bashrc
     
 * Description
 * Usage
+
 ** Variables
+- Commands
+  - [[file://home/crito/org/tech/cmds/env.org][env]]
+  - [[file://home/crito/org/tech/cmds/set.org][set]]
+
 - creating a bash variable
 #+BEGIN_SRC sh
 export MYNAME="Jimmy"
@@ -24,9 +38,13 @@ echo $MYNAME
 
 - to create persistent variables they need to be added to the .bashrc
 #+BEGIN_EXAMPLE
-exprot MYNAME="Jimmy"
+export MYNAME="Jimmy"
 #+END_EXAMPLE
-
+*** Common Variables
+$PATH    - the absolute paths that the system will search for executables
+$PWD     - this prints the current working directory
+$OLDPWD  - this shows the previous direcory the user was in
+$LOGNAME - this holds the name of the current user
 ** Precedence of config files
 - non-interactive
   /etc/profile
@@ -50,6 +68,9 @@ ls ?ost - ? is one char, list all files one char + "ost"
 ls [hm]ost - ls any file that match host or most
 ls [!hm] - list any file one char + "ost", but not host or most
 ls [0-9][0-9]script - list any file names script that is prefixed with two numbers
+
+** History
+allows for the looking up of complex cmds previously used, and to audit what actions have been called
 
 * Lecture
 * Tutorial

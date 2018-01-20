@@ -104,7 +104,6 @@ grep -f grepinput.txt file_to_check.txt
 #+END_SRC
 if you have a complex pattern that you want to save and use often can be saved in a file to be used
 
-
 ** egrep
 same as using the -e flag with grep
 
@@ -119,6 +118,18 @@ if lines that contain hello or world
 egrep -v 'hello|world' filename.txt
 #+END_SRC
 this will return all lines that don't contain hello or world
+
+** String boundary
+- this is used when a specific number of letters is to be searched for
+#+BEGIN_SRC sh
+grep '\bwww\b' test_file.txt
+#+END_SRC
+this will find all lines that have the combination of "www"
+
+#+BEGIN_SRC sh
+grep 'www*'
+#+END_SRC
+using this may have found lines that contained more than 3 w's
 
 * Lecture
 * Tutorial

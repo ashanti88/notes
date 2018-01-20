@@ -1,4 +1,4 @@
-#+TAGS: set variable environment
+#+TAGS: set variable environment_variables
 
 
 * set
@@ -6,6 +6,10 @@
 This command outputs all environment variables in alphabetical order.
 
 * Usage
+- show all currently set system variables
+#+BEGIN_SRC sh
+set
+#+END_SRC
 * Lecture
 * Tutorial
 * Books

@@ -1,4 +1,4 @@
-#+TAGS: file_compression bz
+#+TAGS: file_compression bz bzip2 zip
 
 
 * bzip2

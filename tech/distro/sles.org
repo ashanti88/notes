@@ -1,0 +1,17 @@
+#+TAGS: suse opensuse sles
+
+
+* SUSE Linux Enterprise Server (SLES) - Life Cycle 7yrs - Release Cycle 3-4yrs
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links
+
+
+* OpenSUSE - Life Cycle 18mths - Release Cycle 8mth
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -1,17 +1,20 @@
 #+TAGS: rhel centos fedora
 
+
+
+* Red Hat Enterprise Linux - Life Cycle 10yrs - Release Cycle 3-4yrs
 * RHEL Config Files
-** /etc/sysconfig
+*** /etc/sysconfig
 RHEL: [[https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/5/html/Deployment_Guide/ch-sysconfig.html][RHEL 5 /etc/sysconfig]]
 Fedora: [[https://docs.fedoraproject.org/en-US/Fedora/12/html/Deployment_Guide/ch-sysconfig.html#s1-sysconfig-files][Fedora - /etc/sysconfig]]
-* Red Hat Enterprise Linux 
+* Usage
 ** Firewall
 file://home/crito/org/tech/linux_concepts/centos7_firewall.org
 
 ** SMTP Server on RHEL7
 file://home/crito/org/tech/linux_concepts/rhel7_Setting_Up_an_SMTP_Server.org
 
-** [[file://home/crito/org/tech/linux_concepts/centos7_networking_config.org][CentOS 7 Network Configuration]]				 :centos:net:
+** [[file://home/crito/org/tech/linux_concepts/centos7_networking_config.org][CentOS 7 Network Configuration]]
 ** CentOS 7 Mail Server
 file://home/crito/org/tech/linux_concepts/centos7_mail_server.org
 
@@ -594,32 +597,37 @@ this will flush the current queue
     #+BEGIN_EXAMPLE
     frank@example.com 	root
     #+END_EXAMPLE
+ 
+* Lecture
+* Tutorial
+* Books
+[[file://home/crito/Documents/Linux/Red_Hat/Red_Hat_RHCSA_RHCE_7_Cert_Guide.pdf][RHCSA/RHCE 7 Cert Guide]]
+[[file://home/crito/Documents/Linux/Red_Hat/Red_Hat_RHCSA_RHCE_6_Cert_Guide.pdf][RHCSA/RHCE 6 Cert Guide]]
+[[file://home/crito/Documents/Linux/RHEL/RHEL_Server_Cookbook.pdf][Red Hat Enterprise Linux Server Cookbook]]
+[[file://home/crito/Documents/Linux/RHEL/The_Definitive_Guide_to_CentOS.pdf][The Definitive Guide to CentOS]]
+
+* Links
 
 
-* CentOS
-HomePage: [[https://www.centos.org/][centos.org]]
-Wiki: [[https://wiki.centos.org/][wiki.centos.org]]
-Placed notes for Centos in RHEL
-
-* Fedora
-** [[file://home/crito/org/tech/linux_concepts/fedora_networking_config.org][Fedora Network Configuration]]
+* Fedora - Life Cycle 1yr - Release Cycle 6mth
+* Usage
+* [[file://home/crito/org/tech/linux_concepts/fedora_networking_config.org][Fedora Network Configuration]]
 HomePage: [[https://getfedora.org/][getfedora.org]]
 Wiki: [[https://fedoraproject.org/wiki/Fedora_Project_Wiki][fedoraproject.org/wiki]]
 SysAdmin 26: [[https://docs.fedoraproject.org/en-US/Fedora/26/html/System_Administrators_Guide/index.html][docs.fedoraproject.org/26/system_administrators_guide]]
 
-** Usage
-*** Enable a repo for update
+** Enable a repo for update
 If the repo is disabled it can be enabled on the cmd line with
 #+BEGIN_SRC sh
 yum enablerepo= repo_name  update
 #+END_SRC
 
-*** Configuring Network
+** Configuring Network
 **** Hosts File
 - /etc/hosts
 This file asks as a flat db dns file, it is looked at before dns is queried
 
-*** Setting Hostname 
+** Setting Hostname 
 - Temporary
 #+BEGIN_SRC sh
 hostname yournew.hostname.com
@@ -631,263 +639,263 @@ Edit /etc/sysconfig/network so that this persists after a reboot.
 HOSTNAME=yournew.hostname.com
 #+END_EXAMPLE
 
-*** Package Management
-*** Repos
+** Package Management
+** Repos
 - [[https://fedoraproject.org/wiki/EPEL][EPEL(Extra Packages for Enterprise Linux)]]
 - [[https://rpms.remirepo.net/][REMI]]
 - [[http://packages.atrpms.net/][ATrpms]]
 - [[https://webtatic.com/projects/yum-repository/][Webtatic]]
 
-*** Exclude Specfic Repository
-Get repo list
-#+BEGIN_SRC sh
-yum repolist
-#+END_SRC
+** Exclude Specfic Repository
+et repo list
++BEGIN_SRC sh
+um repolist
++END_SRC
 
-****** Method One - Temporary
-On the cmd line
-#+BEGIN_SRC sh
-yum update --disablerepo=isu 
-#+END_SRC
-This will not upgrade the packages that belong to the given repo.
+***** Method One - Temporary
+n the cmd line
++BEGIN_SRC sh
+um update --disablerepo=isu 
++END_SRC
+his will not upgrade the packages that belong to the given repo.
 
-****** Method Two - Permanent
-Edit the repo files in /etc/yum.repos.d
-set the enable parameter to 0.
+***** Method Two - Permanent
+dit the repo files in /etc/yum.repos.d
+et the enable parameter to 0.
 
-*** EPEL (Extra Packages for Enterprise Linux)
-Centos
-#+BEGIN_SRC sh
-yum install epel-release
-#+END_SRC
+** EPEL (Extra Packages for Enterprise Linux)
+entos
++BEGIN_SRC sh
+um install epel-release
++END_SRC
 
-*** IUS (Inline with Upstream Stable)
-#+BEGIN_SRC sh
-wget https://centos7.iuscommunity.org/ius-release.rpm
-rpm -Uvh ius-release.rpm
-yum repolist
-#+END_SRC
-*** rpm                                                            :rhel:pkg:
-**** Basic Actions
-- List of all installed packages
-#+BEGIN_SRC sh
-rpm -qa
-#+END_SRC
-q - query the database
+** IUS (Inline with Upstream Stable)
++BEGIN_SRC sh
+get https://centos7.iuscommunity.org/ius-release.rpm
+pm -Uvh ius-release.rpm
+um repolist
++END_SRC
+** rpm
+*** Basic Actions
+ List of all installed packages
++BEGIN_SRC sh
+pm -qa
++END_SRC
+ - query the database
 
-- Show any changes since installation
-#+BEGIN_SRC sh
-rpm -Vv
-#+END_SRC
+ Show any changes since installation
++BEGIN_SRC sh
+pm -Vv
++END_SRC
 
-**** Repo Administration
-Adding a repo
-#+BEGIN_SRC sh
-wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
-rpm -Uvh remi-release-6*.rpm
-#+END_SRC
-In this example we are downloading the remi repo
+*** Repo Administration
+dding a repo
++BEGIN_SRC sh
+get http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+pm -Uvh remi-release-6*.rpm
++END_SRC
+n this example we are downloading the remi repo
 
-- Find package binary is associated with
-#+BEGIN_SRC sh
-rpm -qf /sbin/chronyd
-#+END_SRC
+ Find package binary is associated with
++BEGIN_SRC sh
+pm -qf /sbin/chronyd
++END_SRC
 
-- Find all packages that are associated with a binary
-#+BEGIN_SRC sh
-rpm -ql chrony
-#+END_SRC
-this will provide a list of all the files
+ Find all packages that are associated with a binary
++BEGIN_SRC sh
+pm -ql chrony
++END_SRC
+his will provide a list of all the files
 
-- Find the configuration files of a binary
-#+BEGIN_SRC sh
-rpm -qc chrony
-#+END_SRC
+ Find the configuration files of a binary
++BEGIN_SRC sh
+pm -qc chrony
++END_SRC
 
-- Find all documentation that is stored for a binary
-#+BEGIN_SRC sh
-rpm -qd chrony
-#+END_SRC
+ Find all documentation that is stored for a binary
++BEGIN_SRC sh
+pm -qd chrony
++END_SRC
 
-- Check the installation script of an rpm
-  - already installed
-  #+BEGIN_SRC sh
-  rpm -q --scripts http
-  #+END_SRC
-  This allows us to check the installation script of a package
-  
-  - before installation
-  Download the rpm from the repo
-  #+BEGIN_SRC sh
-  rpm -qp --scripts the_none_veri_pkg.rpm
-  #+END_SRC
-  qp - query package
+ Check the installation script of an rpm
+ - already installed
+ #+BEGIN_SRC sh
+ rpm -q --scripts http
+ #+END_SRC
+ This allows us to check the installation script of a package
+ 
+ - before installation
+ Download the rpm from the repo
+ #+BEGIN_SRC sh
+ rpm -qp --scripts the_none_veri_pkg.rpm
+ #+END_SRC
+ qp - query package
 
-- Query repo for package
-#+BEGIN_SRC sh
-repoquery -ql yp-tools
-#+END_SRC
+ Query repo for package
++BEGIN_SRC sh
+epoquery -ql yp-tools
++END_SRC
 
-*** yum								   :rhel:pkg:
-**** Basic Administration
-- Install application
-#+BEGIN_SRC sh
-yum install nmap
-#+END_SRC
+** yum
+*** Basic Administration
+ Install application
++BEGIN_SRC sh
+um install nmap
++END_SRC
 
-- Remove application
-#+BEGIN_SRC sh
-yum remove nmap
-#+END_SRC
+ Remove application
++BEGIN_SRC sh
+um remove nmap
++END_SRC
 
-- Purge application
-#+BEGIN_SRC sh
-yum purge nmap
-#+END_SRC
+ Purge application
++BEGIN_SRC sh
+um purge nmap
++END_SRC
 
-- Install a downloaded rpm
-#+BEGIN_SRC sh
-yum --nogpgcheck localinstall dl_pkg.rpm
-#+END_SRC
-this will use the repo list to check for deps
+ Install a downloaded rpm
++BEGIN_SRC sh
+um --nogpgcheck localinstall dl_pkg.rpm
++END_SRC
+his will use the repo list to check for deps
 
-- List all installed packages
-#+BEGIN_SRC sh
-yum list installed
-#+END_SRC
-use grep to narrow the search window
+ List all installed packages
++BEGIN_SRC sh
+um list installed
++END_SRC
+se grep to narrow the search window
 
-**** Repo Administration
-list all the repos
-#+BEGIN_SRC sh
-yum repolist
-#+END_SRC
+*** Repo Administration
+ist all the repos
++BEGIN_SRC sh
+um repolist
++END_SRC
 
-**** Check for system wide upgrades
-#+BEGIN_SRC sh
-yum update
-#+END_SRC
-or
-#+BEGIN_SRC sh
-yum upgrade
-#+END_SRC
+*** Check for system wide upgrades
++BEGIN_SRC sh
+um update
++END_SRC
+r
++BEGIN_SRC sh
+um upgrade
++END_SRC
 
-**** Search for application
-#+BEGIN_SRC sh
-yum search nmap
-#+END_SRC
+*** Search for application
++BEGIN_SRC sh
+um search nmap
++END_SRC
 
-- Know the binary but not the package
-#+BEGIN_SRC sh
-yum whatprovides */semanage
-#+END_SRC
-the */ is to indicate to search for a filename semanage
+ Know the binary but not the package
++BEGIN_SRC sh
+um whatprovides */semanage
++END_SRC
+he */ is to indicate to search for a filename semanage
 
-**** Group Packages
-***** Search Group Packages
-#+BEGIN_SRC sh
-yum grouplist
-#+END_SRC
+*** Group Packages
+**** Search Group Packages
++BEGIN_SRC sh
+um grouplist
++END_SRC
 
-***** Install Package
-#+BEGIN_SRC sh
-yum groupinstall $GROUP 
-#+END_SRC
+**** Install Package
++BEGIN_SRC sh
+um groupinstall $GROUP 
++END_SRC
 
-**** yum-utils
-***** Installation
-#+BEGIN_SRC sh
-yum update && yum install yum-utils
-#+END_SRC
-***** Find Repo of Installed Pkg
-#+BEGIN_SRC sh
-find-repo-of-installed httpd
-#+END_SRC
-***** Remove Duplicate or Ophaned Package
-#+BEGIN_SRC sh
-package-cleanup --orphans
-package-cleanup --oldkernels
-#+END_SRC
-***** Find out Package dependency lists
-#+BEGIN_SRC sh
-repo-graph --repoid=updates | less
-#+END_SRC
-This will print out put all package dependencies format
-"libvirt-daemon-driver-nwfilter" -> {
-"libnl3"  -- dependent pkg
-"glibc"   -- dependent pkg
-"libvirt-daemon"
-} [color="0.578260869565 0.678260869565 1.0"];
+*** yum-utils
+**** Installation
++BEGIN_SRC sh
+um update && yum install yum-utils
++END_SRC
+**** Find Repo of Installed Pkg
++BEGIN_SRC sh
+ind-repo-of-installed httpd
++END_SRC
+**** Remove Duplicate or Ophaned Package
++BEGIN_SRC sh
+ackage-cleanup --orphans
+ackage-cleanup --oldkernels
++END_SRC
+**** Find out Package dependency lists
++BEGIN_SRC sh
+epo-graph --repoid=updates | less
++END_SRC
+his will print out put all package dependencies format
+libvirt-daemon-driver-nwfilter" -> {
+libnl3"  -- dependent pkg
+glibc"   -- dependent pkg
+libvirt-daemon"
+ [color="0.578260869565 0.678260869565 1.0"];
 
-***** Check list of unresolved dependencies
-#+BEGIN_SRC sh
-repoclosure
-#+END_SRC
+**** Check list of unresolved dependencies
++BEGIN_SRC sh
+epoclosure
++END_SRC
 
-***** Query Yum for information on package
-#+BEGIN_SRC sh
-repoquery --requires htop
-#+END_SRC
+**** Query Yum for information on package
++BEGIN_SRC sh
+epoquery --requires htop
++END_SRC
 
-***** Dump all installed RPM Pkgs into Zip file
-#+BEGIN_SRC sh
-yum-debug-dump
-#+END_SRC
+**** Dump all installed RPM Pkgs into Zip file
++BEGIN_SRC sh
+um-debug-dump
++END_SRC
 
-***** Restore the dump file
-#+BEGIN_SRC sh
-yum-debug-restore yum_debug_dump-localhost.localdomain-2017-02-24_20:59:05.txt.gz
-#+END_SRC
+**** Restore the dump file
++BEGIN_SRC sh
+um-debug-restore yum_debug_dump-localhost.localdomain-2017-02-24_20:59:05.txt.gz
++END_SRC
 
-***** Fix Unfinished or Aborted Yum Transactions
-#+BEGIN_SRC sh
-yum-complete-transaction --cleanup-only
-yum update
-#+END_SRC
-Incomplete transactions can be found in /var/lib/yum/transaction-all* and transaction-done*
+**** Fix Unfinished or Aborted Yum Transactions
++BEGIN_SRC sh
+um-complete-transaction --cleanup-only
+um update
++END_SRC
+ncomplete transactions can be found in /var/lib/yum/transaction-all* and transaction-done*
 
-*** dnf 						       :sys:rhel:pkg:
-**** Basic Administration					   :rhel:dnf:
-- Install application
-#+BEGIN_SRC sh
-dnf install vim
-#+END_SRC
+** dnf
+*** Basic Administration					   :rhel:dnf:
+ Install application
++BEGIN_SRC sh
+nf install vim
++END_SRC
 
-- Remove application
-#+BEGIN_SRC sh
-dnf remove vim
-#+END_SRC
+ Remove application
++BEGIN_SRC sh
+nf remove vim
++END_SRC
 
-- Search for application
-#+BEGIN_SRC sh
-dnf search vim
-#+END_SRC
+ Search for application
++BEGIN_SRC sh
+nf search vim
++END_SRC
 
-- Check for available updates
-#+BEGIN_SRC sh
-dnf check-update
-#+END_SRC
+ Check for available updates
++BEGIN_SRC sh
+nf check-update
++END_SRC
 
-- Upgrade All Software to Newest Version
-#+BEGIN_SRC sh
-dnf upgrade
-#+END_SRC
+ Upgrade All Software to Newest Version
++BEGIN_SRC sh
+nf upgrade
++END_SRC
 
-- Upgrade a specific package
-#+BEGIN_SRC sh
-dnf upgrade vim
-#+END_SRC
+ Upgrade a specific package
++BEGIN_SRC sh
+nf upgrade vim
++END_SRC
 
-- [[file://home/crito/org/tech/linux_concepts/pkg_mgmt.org][RPM & yum]]
-*** SELinux
+ [[file://home/crito/org/tech/linux_concepts/pkg_mgmt.org][RPM & yum]]
+** SELinux
 - [[file://home/crito/org/tech/security/selinux.org][selinux]]
-
 * Lecture
 * Tutorial
 * Books
-[[file://home/crito/Documents/Linux/Red_Hat/Red_Hat_RHCSA_RHCE_7_Cert_Guide.pdf][RHCSA/RHCE 7 Cert Guide]]
-[[file://home/crito/Documents/Linux/Red_Hat/Red_Hat_RHCSA_RHCE_6_Cert_Guide.pdf][RHCSA/RHCE 6 Cert Guide]]
-[[file://home/crito/Documents/Linux/RHEL/RHEL_Server_Cookbook.pdf][Red Hat Enterprise Linux Server Cookbook]]
-[[file://home/crito/Documents/Linux/RHEL/The_Definitive_Guide_to_CentOS.pdf][The Definitive Guide to CentOS]]
-
 * Links
+
+
+* CentOS - Life Cycle as RHEL
+HomePage: [[https://www.centos.org/][centos.org]]
+Wiki: [[https://wiki.centos.org/][wiki.centos.org]]
+Placed notes for Centos in RHEL

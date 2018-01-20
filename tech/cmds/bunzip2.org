@@ -1,7 +1,7 @@
-#+TAGS: resize2fs
+#+TAGS: bunzip2 zip bzip2
 
 
-* resize2fs
+* bunzip2
 * Description
 * Usage
 * Lecture

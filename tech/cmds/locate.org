@@ -1,4 +1,4 @@
-#+TAGS: locate help find_utility documentaion mlocate
+#+TAGS: locate help_find_utility documentaion mlocate
 
 
 * locate

@@ -1,0 +1,11 @@
+#+TAGS: man_page man whatis find_man_pages
+
+
+* whatis
+* Description
+This command with return all the man pages that a command has.
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

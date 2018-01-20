@@ -1,7 +1,7 @@
-#+TAGS: resize2fs
+#+TAGS: gzip gunzip zip compression
 
 
-* resize2fs
+* gunzip
 * Description
 * Usage
 * Lecture
