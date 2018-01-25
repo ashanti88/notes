@@ -1,0 +1,68 @@
+#+TAGS: boot_process booting_with_sysvinit sysvinit
+
+
+* Booting the System with sysvinit
+* Files
+/etc/inittab - this is where the default runlevel is set
+/etc/rc.d    - this is where all the runlevel scripts can be found
+/etc/rc.d/rcX.d - these are the runlevel scripts
+/etc/rcX.d   - these sym-linked runlevel scripts to /etc/rc.d/rcX.d
+/etc/init.d  - this is where the service scripts are kept
+#+BEGIN_EXAMPLE
+id:3:initdefault:
+#+END_EXAMPLE
+this would set the default runlevel to 3
+
+* Description
+* Usage
+- What is sysvinit
+  - a package that contains a group of processes that controll the basic function of the system.
+  - the init process is the first application that the kernel loads after the boot loader starts the boot process.
+  - the init application then controls the startup, running and shutdown of all other applications.
+    
+- Boot Process
+  - System power on
+  - BIOS loads
+  - BIOS scans and hands off to the primary disk's boot sector
+  - Boot sector provides the MBR, within the 512 bytes of the active drive
+  - Boot loader is executed LILO/GRUB/GRUB2 begins
+  - USER INPUT - depending on configuration
+    - provide a passphrase for an encrypted disk
+    - choose which kernel you would like to boot
+    - choose which installed OS you would like to boot
+  - Linux kernel is read and executed
+  - Device initialization, module loading and the initial RAM disk (initrd) is loaded
+  - Root filesystem is mounted
+  - The init program loads
+  - /etc/inittab is read and the appropriate runlevel scripts are run
+  - Moudules indicated within the init scripts are loaded
+  - Root filesystem is checked
+  - Remaining local filesystems are mounted
+  - Network devices are started
+  - Init process rescas the /etc/inittab file and changes/sets the system to the indicated default runlevel and completes execution of scripts
+  - runlevel scripts are executed in numeric order
+  - TTY sessions are loaded (as listed in /etc/inittab)
+  - System login prompt is displayed on the console, system is ready for login
+    
+- Runlevels
+  0 - Halt(shutdown
+  1 - Single User
+  2 - Multi-User (no network or remote filesystems)
+  3 - Full Multi-User (including networking and remote filesystems)
+  4 - Unused
+  5 - X11 (including networking and remote filesystems)
+  6 - Reboot
+
+- Init and RC Scripts
+  - S - Starup script
+  - K - Kill script
+  - The start scripts are run first then then the kill scripts are run.
+    - rc.local is always the last script to run
+      - customized scripts should come before rc.local in all runlevels
+
+* Lecture
+* Tutorial
+** Linux Academy Lab - Change Runlevels Sysvinit
+Guide: [[file://home/crito/Documents/Linux/Labs/runlevels_sysvinit-lab.pdf][Change Runlevels and Boot Targets on a Sysvinit System]]
+* Books
+* Links

@@ -1,8 +1,9 @@
-#+TAGS: stor san
+#+TAGS: scsi sata disk_information
 
 
-* lsscsi                                                           :stor:san:
+* lsscsi
 * Description
+This tool was developed when scsi was the standard that most storgage used with the data centers, now that sata is the more common standard, this tool now works with sata
 * Usage
 * Lecture
 * Tutorial

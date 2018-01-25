@@ -1,0 +1,17 @@
+#+TAGS: sysvinit runlevel changing_runlevel
+
+
+* Changing Runlevel
+* Files
+/etc/inittab - this sets the default runlevel
+* Cmds
+- [[file://home/crito/org/tech/cmds/runlevel.org][runlevel]]
+- [[file://home/crito/org/tech/cmds/init.org][init]]
+- [[file://home/crito/org/tech/cmds/telinit.org][telinit]]
+
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

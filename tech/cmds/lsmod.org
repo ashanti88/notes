@@ -5,6 +5,11 @@
 * Description
 This command will list the currently installed kernel modules.
 * Usage
+- show what current modules are installed
+#+BEGIN_SRC sh
+lsmod
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

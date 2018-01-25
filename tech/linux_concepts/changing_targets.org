@@ -1,0 +1,81 @@
+#+TAGS: systemd changing_targets
+
+
+* Changing targets
+* Files
+/usr/lib/systemd/system/ - in this directory all the default targets can be found (these shouldn't be edited, only edit in /etc/systemd/system)
+/etc/systemd/system/     - this is where the system administrator can edit the default target files (these files take precidence over /usr/lib files)
+default.target           - this file holds the current default boot target, equivalent to the sysvinit /etc/inittab
+
+* Cmds
+- These cmds are found on RHEL7, but will eventually be deprecated
+  - [[file://home/crito/org/tech/cmds/runlevel.org][runlevel]]
+  - [[file://home/crito/org/tech/cmds/init.org][init]]
+  - [[file://home/crito/org/tech/cmds/telinit.org][telinit]]
+    
+- [[file://home/crito/org/tech/cmds/systemctl.org][systemctl]]
+
+* Description
+* Usage
+
+- reboot
+#+BEGIN_SRC sh
+reboot
+shutdown -r
+#+END_SRC
+
+- shutdown
+#+BEGIN_SRC sh
+shutdown -h
+shutdown -p 
+#+END_SRC
+h - halt
+p - poweroff
+halt runs until power is switched off
+poweroff goes as far as turning the poweroff
+
+- braodcast message
+#+BEGIN_SRC sh
+shutdown -r 30 -k "Get off the machines soon!"
+#+END_SRC
+r - reboot
+k - fake message
+
+- cancel a shutdown
+#+BEGIN_SRC sh
+shutdown -c
+#+END_SRC
+
+- halt
+#+BEGIN_SRC sh
+halt -f
+#+END_SRC
+this is an older method, and halts the system
+
+- find out the current default target
+#+BEGIN_SRC sh
+systemctl get-default
+#+END_SRC
+
+- setting a new default target
+#+BEGIN_SRC sh
+systemctl set-default graphical.target
+#+END_SRC
+
+- get a list of all available targets
+#+BEGIN_SRC sh
+systemctl list-uints --type=targets
+#+END_SRC
+
+- change target whilst running (similar to how init works in sysvinit)
+#+BEGIN_SRC sh
+systemctl isolate multi-user.target
+#+END_SRC
+
+* Lecture
+* Tutorial
+** Changing Runlevels and Boot Targets on a Systemd System
+Guide: [[file://home/crito/Documents/Linux/Labs/runlevels_systemd-lab.pdf][Changin Targets on Systemd]]
+
+* Books
+* Links

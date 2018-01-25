@@ -1,0 +1,15 @@
+#+TAGS: linux_modules removing_modules rmmod
+
+
+* rmmod
+* Description
+* Usage
+- remove the isofs module for the running kernel
+#+BEGIN_SRC sh
+rmmod isofs
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

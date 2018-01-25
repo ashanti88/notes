@@ -1,0 +1,48 @@
+#+TAGS: boot_process booting_with_systemd systemd
+
+
+* Booting the System with systemd
+* Files
+/usr/lib/systemd/system/ - this is where the default target files are kept
+/etc/systemd/system/     - this is where the user defined target files are kept (this takes presidence over /usr/lib)
+* Description
+* Usage
+- What is systemd
+  - this is an initialization system for bootstrapping the user space and managing all processes sbusequent to system start.
+  
+- Boot Process
+  - System power on
+  - BIOS loads
+  - BIOS scans and hands off to the primary disk's boot sector
+  - Boot sector provides the MBR, within the 512 bytes of the active drive
+  - Boot loader is executed LILO/GRUB/GRUB2 begins
+  - USER INPUT - depending on configuration
+    - provide a passphrase for an encrypted disk
+    - choose which kernel you would like to boot
+    - choose which installed OS you would like to boot
+  - Linux kernel is read and executed
+  - Device initialization, module loading and the initial RAM disk (initrd) is loaded
+  - Root filesystem is mounted
+  - systemd runs
+  - Default run target is executed (along with dependencies)
+  - Moudules indicated within runlevel target are executed
+  - Root filesystem is checked
+  - Remaining local filesystems are mounted
+  - Network devices are started
+  - Remote filesystems are mounted
+  - Systemd sets the runlevel as indicated in the default target
+  - System login prompt is displayed on the console, system is ready for login
+    
+- Systemd Runlevels
+  0 - poweroff.targer (Shutdown)
+  1 - rescue.target (Single User/Rescue Shell)
+  2 - multi-user.target (Non-Graphical, Full Network, Multi-User)
+  3 - multi-user.target (Non-Graphical, Full Network, Multi-User)
+  4 - multi-user.target (Non-Graphical, Full Network, Multi-User)
+  5 - graphical.target (Grphical Desktop, Multi-User)
+  6 - reboot.target (Reboot)
+
+* Lecture
+* Tutorial
+* Books
+* Links

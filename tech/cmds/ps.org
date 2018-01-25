@@ -54,6 +54,14 @@ ps aux | grep -i postfix | grep -v grep
 #+END_SRC
 adding "grep -v grep" stops the grep on postfix being printed
 
+** Split kernel and user space
+#+BEGIN_SRC sh
+ps eH
+#+END_SRC
+e - every process
+H - Hierarchy (forest)
+This will first print the kernel processors, and will then print the userland processors
+
 * Lecture
 * Tutorial
 * Books

@@ -22,6 +22,9 @@ startkde &
 gnome -"exec gnome-session &"
 xfce4 -"startxfce4 &"
 
+* Cmds
+- vncserver
+
 * Packages
 tightvnc
 tigervnc
@@ -52,7 +55,7 @@ this will prompt you for a password
 
 - We need to run vncserver for the first time to generate the xstartup file
 #+BEGIN_SRC sh
-vncseerver
+vncserver
 #+END_SRC
 
 - now kill the server
@@ -86,7 +89,7 @@ local means only port 5901 can be accessed from the local machine (use ssh tunne
 vncuser.sh
 #+END_SRC
 
-- on local machine create a script to redirect vnc ports offer ssh 
+- on local machine create a script to redirect vnc ports over ssh 
 #+BEGIN_SRC sh
 echo "ssh -L 5901:localhost:5901 -N -f -l linuxacademy 52.4.184.155" > hostsetup.sh
 #+END_SRC
@@ -97,7 +100,64 @@ this creates an ssh tunnel between 5901 to 5901
 hostsetup.sh
 #+END_SRC
 
+** Setup for Fedora 27
+- Currently a bug with systemd and VNC causing blank screen, has to be run from the cmd line
 
+- install the tigervnc-server
+#+BEGIN_SRC sh
+dnf install -y tigervnc-server
+#+END_SRC
+
+- become the user that will use VNC
+#+BEGIN_SRC sh
+su - USER
+vncpasswd
+#+END_SRC
+
+- First run the vncserver from the cmd line to create the default xstartup file
+#+BEGIN_SRC sh
+vncserver :1
+#+END_SRC
+
+- then kill the instance
+#+BEGIN_SRC sh
+vncserver -kill :1
+#+END_SRC
+
+- copy the systemd unit file and edit with the correct user
+#+BEGIN_SRC sh
+cp /usr/lib/systemd/system/vncserver@.service /etc/systemd/system/vncserver@\:1.service
+#+END_SRC
+- edit for correct user
+#+BEGIN_EXAMPLE
+[Unit]
+Description=Remote desktop service (VNC)
+After=syslog.target network.target
+
+[Service]
+Type=forking
+# Clean any existing files in /tmp/.X11-unix environment
+ExecStartPre=/bin/sh -c '/usr/bin/vncserver -kill %i > /dev/null 2>&1 || :'
+ExecStart=/sbin/runuser -l frank -c "/usr/bin/vncserver %i -geometry 1280x1024" 
+PIDFile=/home/frank/.vnc/%H%i.pid
+ExecStop=/bin/sh -c '/usr/bin/vncserver -kill %i > /dev/null 2>&1 || :'
+
+[Install]
+WantedBy=multi-user.target
+#+END_EXAMPLE
+
+- start the service and enable
+#+BEGIN_SRC sh
+systemctl daemon-reload
+systemctl start vncserver@:1
+systemctl enable vncserver@:1
+#+END_SRC
+
+- Configure the firewall
+#+BEGIN_SRC sh
+firewall-cmd --permanent --zone=public --add-port=5901/tcp
+firewall-cmd --reload
+#+END_SRC
 
 * Lecture
 * Tutorial
@@ -105,4 +165,6 @@ hostsetup.sh
 LabGuide: [[file://home/crito/Documents/Linux/Labs/gui-vnc-setup-lab.pdf][Remote GUI Setup VNC Setup Lab Guide]]
 * Books
 * Links
-[[https://www.digitalocean.com/community/tutorials/how-to-set-up-vnc-server-on-debian-8]]
+[[https://www.digitalocean.com/community/tutorials/how-to-set-up-vnc-server-on-debian-8][How to set up VNC server on Debian 8]]
+[[https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-vnc-remote-access-for-the-gnome-desktop-on-centos-7][How to install and configure VNC remote access for the Gnome Desktop on CentOS 7 - DigitalOcean]]
+[[https://www.tecmint.com/install-and-configure-vnc-server-in-centos-7/][How to Install and Configure VNC Server in CentOS 7]]

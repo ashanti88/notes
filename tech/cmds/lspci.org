@@ -1,50 +1,48 @@
-#+TAGS: sys hw anal
+#+TAGS: pci list_pci_devices
 
 
-* lspci								:sys:hw:anal:
+* lspci
 * Description
 * Usage
+- provide all available information.
+#+BEGIN_SRC sh
+lspci
+#+END_SRC
 
-> lspci
 
-This will provide all the information available.
-
-format is [domain]:bus:device:function
-
-+ Output for parsing
-
-> lspci -m
-
+- Output for parsing - format is [domain]:bus:device:function
+#+BEGIN_SRC sh
+lspci -m
+#+END_SRC
 or
+#+BEGIN_SRC sh
+lspci -mm
+#+END_SRC
 
-> lspci -mm
+- Output into tree format
+#+BEGIN_SRC sh
+lspci -t
+#+END_SRC
+This cmd provides info about the bus and how devices are connected to those buses.
 
-+ Output into tree format
-
-> lspci -t 
-
-This cmd provides info about the bus and how devices are connected to
-those buses.
-
-+ Add to the level of detail
-
-> lspci -v
-
+- Add to the level of detail
+#+BEGIN_SRC sh
+lspci -v
+#+END_SRC
 or
-
-> lspci -vv
-
+#+BEGIN_SRC sh
+lspci -vv
+#+END_SRC
 v - verbose
-
 vv- more verbose
-
 vvv - even more verbose
 
-*Display vendor codes with output*
-
-> lspci -n
-
+** Display vendor codes with output
 This will display device and vendor code only
+#+BEGIN_SRC sh
+lspci -n
+#+END_SRC
+
 
 > lspci -nn
 

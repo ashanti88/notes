@@ -163,6 +163,27 @@ cat /proc/swaps
 swapon -s
 #+END_SRC
 
+** Linux Academy - LVM Overview
+Components of LVM
+  - PV (Physical Volumes)
+    - the basic starting point or unit of stroage in LVM
+    - Corresponds to a disk or partition on the system
+  - VG (Volume Group)
+    - A combination of one or move PVs to create a pool of available storage
+    - Made up of PEs (Physical Extants) that break up the PVs into units that can be used in a VG
+  - Logical Volume
+    - Thsi is the useable space that gets allocated from a VG
+    - We can create multiple LVs from a single VG, using all or part of the pool of space from that VG.
+    - Can be resized (increased or decreased) as needed and based on the available space in the VG pool.
+    - If the VG pool runs out of space, simply add one or more additional PVs, add them to the VG and then to the LV.
+  
+Advantages of LVM
+- Flexible
+  - you can adjust the size of a LV, up or down as needed.
+  - Allocating additional physical columes to a volume group when needed allows you to dyncamically make more space availale as your needs grow.
+- Snapshots
+  - make point in time backups of your LV
+  - These can then be used for easy backups, restores, migrations, testing - all without affecting the live FS
 * Lecture
 * Tutorial
 ** Linux Academy Lab - Add and Remove Volumes, Partition Disks and Working with LVM

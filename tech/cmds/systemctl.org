@@ -1,7 +1,7 @@
-#+TAGS: sysd op
+#+TAGS: systemd systemctl
 
 
-* systemctl							       :sysd:
+* systemctl
 * Description
 * Usage
 ** System
@@ -21,7 +21,7 @@ systemctl suspend
 systemctl poweroff
 #+END_SRC
 
-*** Change runlevel                                                :runlevel:
+*** Change runlevel
 Though runlevels is legacy concept, it marrys well to the systemd idea of targets
 - switch to what would be runlevel 3 in sysv
 #+BEGIN_SRC sh
@@ -49,6 +49,11 @@ ln -sf /lib/systemd/system/multi-user.target /etc/systemd/system/default.target
 - setting runlevel 5 to be default
 #+BEGIN_SRC 
 ln -sf /lib/systemd/system/graphical.target /etc/systemd/system/default.target
+#+END_SRC
+** Targets
+*** Find the default target
+#+BEGIN_SRC sh
+
 #+END_SRC
 ** Services
 *** Stop, Start and Restart a Service
@@ -120,3 +125,4 @@ systemctl reset-failed
 * Tutorial
 * Books
 * Links
+[[https://linuxconfig.org/working-with-systemd-targets-on-rhel7-linux-beginners-cheatsheet][Working with systemd targets on RHEL7 - LinuxConfig]]

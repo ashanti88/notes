@@ -607,6 +607,8 @@ this will flush the current queue
 [[file://home/crito/Documents/Linux/RHEL/The_Definitive_Guide_to_CentOS.pdf][The Definitive Guide to CentOS]]
 
 * Links
+[[https://access.redhat.com/solutions/637583][How do I upgrade from RHEL6 to RHEL7 - Red Hat Customer Portal]]
+[[https://access.redhat.com/articles/1211223][How do I migrate from RHEL5 to RHEL7]]
 
 
 * Fedora - Life Cycle 1yr - Release Cycle 6mth
@@ -899,3 +901,12 @@ nf upgrade vim
 HomePage: [[https://www.centos.org/][centos.org]]
 Wiki: [[https://wiki.centos.org/][wiki.centos.org]]
 Placed notes for Centos in RHEL
+
+* Trouble Shooting
+** YUM: Thread died in Berkeley DB library, Fatal error - Fedora
+This seemed to occur due to yum failing and corrupting /var/lib/__db00X files
+#+BEGIN_SRC 
+rm -f /var/lib/__db00*
+yum update
+#+END_SRC
+this will remove the corrupted files and rebuild

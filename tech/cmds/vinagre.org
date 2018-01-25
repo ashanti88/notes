@@ -1,0 +1,12 @@
+#+TAGS: vinagre vnc remote_access gnome
+
+
+* Vinagre
+Homepage: [[https://wiki.gnome.org/action/show/Vinagre?action=show&redirect=Apps%252FVinagre][gnome.org/vinagre]]
+* Description
+* Usage
+- makesure that the keyboard shortcuts are enabled under the views, otherwise in fullscreen you won't be able to exit the VNC session.
+* Lecture
+* Tutorial
+* Books
+* Links

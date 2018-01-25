@@ -8,6 +8,13 @@ HomePage: http://www.patalickmitchell2.mylabserver.comhname.com/fhs
 ** /
 ** /boot
 This directory contains everything required for the boot process except for configuration files not needed at boot time (the most notable of those being those that belong to the GRUB boot-loader) and the map installer. Thus, the /boot directory stores data that is used before the kernel begins executing user-mode programs. This may include redundant (back-up) master boot records, sector/system map files, the kernel and other important boot files and data that is not directly edited by hand. Programs necessary to arrange for the boot loader to be able to boot a file are placed in /sbin. Configuration files for boot loaders are placed in /etc.
+/boot/intel-ucode.img
+/boot/vmlinuz-4.9-x86_64
+/boot/initramfs-4.9-x86_64.img -
+*** /grub
+/boot/grub/grub.cfg - this is the Grub2 main configuration file (this file shouldn't be edited manually)
+/boot/grub/grubenv
+
 
 ** /bin
 Unlike /sbin, the bin directory contains several useful commands that are of use to both the system administrator as well as non-privileged users. It usually contains the shells like bash, csh, etc.... and commonly used commands like cp, mv, rm, cat, ls. For this reason and in contrast to /usr/bin, the binaries in this directory are considered to be essential. The reason for this is that it contains essential system programs that must be available even if only the partition containing / is mounted. This situation may arise should you need to repair other partitions but have no access to shared directories (ie. you are in single user mode and hence have no network access). It also contains programs which boot scripts may depend on.
@@ -42,6 +49,8 @@ The original idea behind '/usr/local' was to have a separate ('local') '/usr' di
 This directory contains 'shareable', architecture-independent files (docs, icons, fonts etc). Note, however, that '/usr/share' is generally not intended to be shared by different operating systems or by different releases of the same operating system. Any program or package which contains or requires data that doesn't need to be modified should store that data in '/usr/share' (or '/usr/local/share', if installed locally). It is recommended that a subdirectory be used in /usr/share for this purpose."
 
 **** /usr/share/fonts
+**** /usr/share/hwdata/
+  - pci.ids - this file holds the id information of vendors
 **** /usr/share/man
 **** /usr/share/doc
 **** /usr/share/info
@@ -57,14 +66,18 @@ This is the nerve center of your system, it contains all system related configur
 
 /etc/alternatives/ - this is used by debian to allow ease of switching between different versions of an application
 /etc/dhcpcd.conf   - this file is a config file for the dhcp client deamon
-/etc/fstab - contains the devices to mounted at boot
+/etc/fstab         - contains the devices to mounted at boot
+/etc/group         - contains all the groups on the system and who the members are
 /etc/hosts         - this file is first read to find IP to hostname lookup
 /etc/hosts.allowed - this is an Access Control File that specifies allowed hosts
 /etc/hosts.deny    - this is the counter part to hosts.allowed
 /etc/exports       - this files is used to add NFS shares that are available for sharing
 /etc/pacman.cof    - this is the main configuration file for the pacman package management system
+/etc/passwd        - this file contains all the systems users
 /etc/resolv.conf   - this file read after /etc/hosts to find a nameserver that will be able to resolve our search
 /etc/services      - this file contains a list of services and the common ports that are associated with it
+/etc/skel/         - skel directory, short for skeleton is copied into new users home directories on creation
+/etc/sudoers       - this file is where user privileges can be added, such as sudo, or giving a user access to certain applications
 *** /etc/netctl
 ArchLinux: https://wiki.archlinux.org/index.php/Netctl
 netctl uses profiles to manage network connections and different modes of operation to start profiles automatically or manually on demand.
@@ -78,24 +91,19 @@ To use any of the example just copy the file to /etc/netctl and edit
 The /etc/pam.d/ directory contains the PAM configuration files for each PAM-aware application
 ** /dev
 /dev is the location of special or device files. It is a very interesting directory that highlights one important aspect of the Linux filesystem - everything is a file or a directory. Look through this directory and you should hopefully see sda1, sda2 etc.... which represent the various partitions on the first master drive of the system and /dev/sr0 represent your CD-ROM drive.
-
-*** /dev/hda
-ide connected hard drive
-
-*** /dev/sda
-sata connected hard drive
-
-*** /dev/ttyS0
-First serial port
-
-*** /dev/psaux
-PS/2 connection (mice, keyboard)
+/dev/hda   - ide connected hard drive
+/dev/sda   - sata connected hard drive
+/dev/ttySX - serial ports
+/dev/psaux - PS/2 connection (mice, keyboard)
 
 ** /opt
 This directory is reserved for all the software and add-on packages that are not part of the default installation. Here is where packages are placed that are not installed by the distro's package management tool.
 
 ** /proc
 /proc is very special in that it is also a virtual filesystem. It's sometimes referred to as a process information pseudo-file system. It doesn't contain 'real' files but runtime system information (e.g. system memory, devices mounted, hardware configuration, etc). For this reason it can be regarded as a control and information centre for the kernel. In fact, quite a lot of system utilities are simply calls to files in this directory. For example, 'lsmod' is the same as 'cat /proc/modules' while 'lspci' is a synonym for 'cat /proc/pci'. By altering files located in this directory you can even read/change kernel parameters (sysctl) while the system is running.
+/proc/X/         - proc holds a directory for every process on the system, and the dir contains a set of properties about the process
+/proc/interrupts - this shows the cpu interrupts and how they are being used
+/proc/dma        - dma (direct memory access), this is issued to allow access to the memory
 
 ** /lost+found
 As was explained earlier during the overview of the FSSTND, Linux should always go through a proper shutdown. Sometimes your system might crash or a power failure might take the machine down. Either way, at the next boot, a lengthy filesystem check (the speed of this check is dependent on the type of filesystem that you actually use. ie. ext3 is faster than ext2 because it is a journalled filesystem) using fsck will be done. Fsck will go through the system and try to recover any corrupt files that it finds. The result of this recovery operation will be placed in this directory. The files recovered are not likely to be complete or make much sense but there always is a chance that something worthwhile is recovered.
@@ -108,6 +116,7 @@ removeable media such as flash drives, cdroms and zip disks.
 This is a generic mount point under which you mount your filesystems or devices. Mounting is the process by which you make a filesystem available to the system. After mounting your files will be accessible under the mount-point. This directory usually contains mount points or sub-directories where you mount your floppy and your CD. You can also create additional mount-points here if you wish. Standard mount points would include /mnt/cdrom and /mnt/floppy. There is no limitation to creating a mount-point anywhere on your system but by convention and for sheer practicality do not litter your file system with mount-points. It should be noted that some distributions like Debian allocate /floppy and /cdrom as mount points while Redhat and Mandrake puts them in /mnt/floppy and /mnt/cdrom respectively.
 
 ** /run
+- /run/media/user/ - this is where external drives are added with Gnome
 ** /root
 This is the home directory of the System Administrator, 'root'.
 ** /srv

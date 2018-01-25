@@ -189,8 +189,122 @@ A hypervisor is required for nova, kvm, xen, vSphere, Hyper-V  etc
 ** Linux Academy - OpenStack Essentials
 Study Guide: [[file://home/crito/Documents/SysAdmin/Cloud/Openstack/Linux_OpenStack_Essentials.pdf][OpenStack Essentials]]
 
+- OpenStack life cycle is usually ever 6mths
+  
+- Naming of releases is 
+  - Alphabetical(26 chars of basic Latin)
+  - must frefer to the physical or human geography of hte region encompassing the location of the OpenStack summit
+  - it must be a single word no greater than 10 letters
+    
+- Commercial Versions of OpenStack
+  - Ubuntu Openstack
+  - SUSE OpenStack Cloud
+  - RedHat OpenStack Platform
+  - HP Enterprise Helion OpenStack
+  - IBM Cloud Manager with OpenStack
+  - Mirantis OpenStack
+  - Oracle OpenStack for Oracle Linux (O3L)
+  - Oracle OpenStack for Oracle Solaris
+  - Stratoscale
+  - VMware Integrated OpenStack (VIO)
+  - Rackspace OpenStack Private Cloud
+    
+[[file://home/crito/Pictures/org/overview_openstack.png]]
 
+- Keystone
+  - Identity service
+  - Acts as a common auth system across the cloud
+  - Currently supports token-based auth and user-service auth
+  - The identity service generates auth tokens that permit access to the OpenStack services REST APIs
+  - Provides auth not only to users but also to OpenStack ervices
+  - Provides identity, token, catalog, and policy services using OpenStack Identity API V2 or V3
+  - Protects its APIs by defining policy rules based on an RBAC approach, stored ina .json policy file.
+  - Each identity API v3 call has a line in the policy file that dictates which level of governance of access applies
+  - Keystone is a foundation service and should be the first service installed
+    
+- Horizon
+  - Horizon is a Django-based project.
+  - Can be used to access, provision and automate deployment of cloud-based resources
+  - Design allows for third-party products and services
+  - Can be customized and rebranded by service providers and commercial vendors using custom .css files
+  
+- Nova (Compute)
+  - Designed to provision and manage large networks of virtual machines, creating a redundant and scalable cloud computing platform.
+  - Provides software, control panels, and APIs required to orchestrate a cloud
+  - Strives to be both hardware and hypervisor agnostic, currently supporting a variety of standard hardware configurations and seven major hypervisors
+  - Multi-Tenancy - all facets of platform are multi-tenant including billing, auditing and end-usercontrol panels.
+  - Pluggable Authenication
+    - Local Auth - standalone internal auth system
+    - LDAP - An example auth module that integrates with an LDAP backend
+  - Block Storage Support
+    - AOE - ATA over Ethernet
+    - IET iSCSI - Provisions IET iSCSI volumes from a configurable
+    - LVM volume RBD - Rados Block Device, a network block device backed by objects in a Ceph distributed object store
+    - Sheepdog - A distributed storage system for KVM using commodity hardware
+    - HP SAN
+  - Hypervisor Support
+    - Xen using libvirt
+    - KVM through Qemu
+    - Microsoft Hyper-V
+    - VMware vSphere 5.1.0 & newer
+    - Linux Containers (LXC)
+    - Qemu
+    - UML
+      
+- Neutron
+  - Networking as a Service (NaaS)
+  - Provides an API that allows the user to
+    - Set up adn define network connectivity and addressing in the cloud
+    - Configure and manage a variety of network services, ranging from L3 forwarding and NAT to load balancing, edge firewalls, and IPsec VPN
+  - Network Types       
+    - Management Network
+      - used for internal comms between OpenStack components. The IP addresses on this network be reachable only from within the datacenter
+    - Guest Network
+      - used for VM data comms within the cloud deployment. The IP addressing requirements of this network depend on the OPenStack Networking plugin used and the network configuration choices of the virtual networks made by the tenant
+    - External Network
+      - used to provice VMs with internet access. The IP addresses on this network should be reachable by anyone on the internet
+    - API Network
+      - exposes all OpenStack APIs, including the OpenStack Networking API, to tenants. The IP addresses on this network shhuld be reachable by anyone on the internet
+	
+- Glance
+  - Image service is central to IaaS
+  - Supports the storage of disk or server images on various repository types, including OpenStack Object Storage(Swift)
+  - Allows administrators to create base templates from which their users can start new compute instances
+  - Allows users to choose from available images or create their own from existing servers
+  
+- Swift
+  - Highly available, distributed, eventually consistent object store that can be used to store lots of datat efficiently, safely and cheaply
+  - Objects and files are written to multiple disk drives spread over multiple servers in a datacenter, with OpenStack software responsible for ensuring data replication and integrity across cluster.
+  - Clusters can be scaled horizontally simply by adding additional servers.
+  - Sore an unlimited number of objects as large as 5GB each (default). Max can be adjusted
+  
+- Cinder
+  - Storage resources to end users that can be consumed by the OpenStack Compute project (Nova)
+  - This is done through the use of either a reference implementation (LVM) or plugin drivers for other storage.
+  - Cinder manages the creation, attachment and detachment of block storage devices to servers.
+  - Fully integrated with OpenStack compute and Horizon, Cinder allows users to users to quickly and easily manage their own storage needs.
+  - Intended to run on one or more nodes.
 
+- Trove
+  - this DaaS (Database as a Service)
+  - trove-api - RESTful API that supports JSON and XML
+    
+- Ironic
+  - Bare metal hypervisor API 
+    
+- Magnum
+  - Multi-tenant CaaS (Containers as a Service)
+    
+- Telemetry
+  - Single point of contact for billing
+    
+- Sahara
+  - Elastic Map Reduce, rapidly provision Hadoop clusters
+    
+- Designate
+  - Provides DNSaaS and is compatible with many backend technologies, including PowerDNS and BIND
+** Linux Academy - Server and Image Management
+   Guide: [[file://home/crito/Documents/Linux/Labs/openstack_server-image-management-lab.pdf][Server and Image Management]]
 * Books
 [[file://home/crito/Documents/SysAdmin/Cloud/Openstack/Learning_OpenStack.pdf][Learning OpenStack]]
 [[file://home/crito/Documents/SysAdmin/Cloud/Openstack/Learning_OpenStack_High_Availability.pdf][Learning OpenStack High Availability]]

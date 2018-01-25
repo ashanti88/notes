@@ -1,0 +1,14 @@
+#+TAGS: list_installed_devices device_infomation
+
+
+* lsdev
+* Description
+* Usage
+- list all installed hardware
+#+BEGIN_SRC sh
+lsdev
+#+END_SRC
+* Lecture
+* Tutorial
+* Books
+* Links

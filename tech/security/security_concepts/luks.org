@@ -69,7 +69,6 @@ mount | grep enc_partition
 #+END_SRC
 enc_partition is the name that we gave when opening the partition
 
-
 * Lecture
 * Tutorial
 * Books

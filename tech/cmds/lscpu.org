@@ -1,0 +1,21 @@
+#+TAGS: cpu show_information_on_cpu
+
+
+* lscpu
+* Description
+* Usage
+- show overview of the machine cpu
+#+BEGIN_SRC sh
+lscpu
+#+END_SRC
+
+- show information on all cpus (will show any inactive cpus)
+#+BEGIN_SRC sh
+lscpu -ae
+#+END_SRC
+a - all
+e - extended parse mode
+* Lecture
+* Tutorial
+* Books
+* Links

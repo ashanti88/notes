@@ -1,4 +1,4 @@
-#+TAGS: disk filesystem storage
+#+TAGS: disk filesystem storage disk_layout
 
 
 * Disk Management
@@ -28,10 +28,29 @@ LABLE=myfs				  /data          xfs     defaults,noatime, 0 2
 * Cmds
 - [[file://home/crito/org/tech/cmds/mkfs.org][mkfs]]
 - [[file://home/crito/org/tech/cmds/e2label.org][e2label]]
-- gparted
+- [[file://home/crito/org/tech/cmds/gparted.org][gparted]]
 - [[file://home/crito/org/tech/cmds/parted.org][parted]]
 - [[file://home/crito/org/tech/cmds/fdisk.org][fdisk]]
 - [[file://home/crito/org/tech/cmds/tune2fs.org][tune2fs]]
+- [[file://home/crito/org/tech/cmds/gpart.org][gpart]]
+
+
+* Usage
+** Disk Layout
+- First what is the server to be used for?
+  - logging server
+  - web server
+  - mail server
+  - dns server
+
+- Decide what partitions you are going to create, and where they are to be mounted
+  - /etc  - has to be part of / and can't be on a seperate partition 
+  - /boot - 2GiB is a good amount, remember that you may want to have a couple of kernels, just in case an issue occurs with one
+  - swap  - 2 x RAM but not greater than 8GiB
+  - /home - This is wholey dependent on what your needs are, in a lot of casues the remainder of the disk is given to /home
+  - /var  - This is an important directory that holds logs and mysql data files (if a DB server think of having this on its own partition)
+  - /opt  - This is rarely put on it's own partition, but is sometimes
+
 
 * Lecture
 * Tutorial

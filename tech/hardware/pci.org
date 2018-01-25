@@ -1,0 +1,12 @@
+#+TAGS: pcie pci
+
+
+* PCI
+Wiki:https://en.wikipedia.org/wiki/Conventional_PCI
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links
+[[https://www.tenforums.com/pc-custom-builds-overclocking/21559-using-pcie-x1-card-pcie-x16-slot.html][Using a PCIe x1 card in a PCIe x16 slot - Windows 10 Forums]]

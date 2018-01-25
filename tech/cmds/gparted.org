@@ -1,0 +1,11 @@
+#+TAGS: gpart gparted partitions disks
+
+
+* GParted
+HomePage: https://gparted.org/display-doc.php?name=help-manual
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

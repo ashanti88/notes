@@ -21,6 +21,21 @@ x - execute
 chmod +x file.py
 #+END_SRC
    
+** Apply the sticky bit
+With sticky bit applied no other user can remove the file, other than the owner and root
+
+apply the skicky bit
+#+BEGIN_SRC sh
+chmod o+t file.txt
+chmod 1777 file.txt
+#+END_SRC
+
+to remove the sticky bit
+#+BEGIN_SRC sh
+chmod o-t file.txt
+chmod 777 file.txt
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

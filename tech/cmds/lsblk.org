@@ -3,7 +3,27 @@
 
 * lsblk
 * Description
+Show information on the currently attached block devices
 * Usage
+- show all block devices
+#+BEGIN_SRC sh
+lsblk
+#+END_SRC
+
+- show information on the filesystems
+#+BEGIN_SRC sh
+lsblk -f
+#+END_SRC
+
+- view devices in tree view
+#+BEGIN_SRC sh
+lsblk -t
+#+END_SRC
+
+- show the tree in ascii mode
+#+BEGIN_SRC sh
+lsblk -i
+#+END_SRC
 * Lecture
 * Tutorial
 * Books

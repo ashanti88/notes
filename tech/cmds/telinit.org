@@ -1,7 +1,7 @@
 #+TAGS: sys sysv runlevel
 
 
-* telinit                                                 :sys:sysv:runlevel:
+* telinit
 * Description
 this tool will allow us to change the current runlevel of the system
 * Usage

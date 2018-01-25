@@ -1,0 +1,17 @@
+#+TAGS: ldd list_shared_objects list_shared_libraries
+
+
+* ldd
+* Description
+This prints the shared objects that are reuired for the queried command
+
+* Usage
+- show the shared libraries that ls requires
+#+BEGIN_SRC sh
+ldd /usr/bin/ls
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -21,7 +21,6 @@ ls -R
 this will show all subdirectories and files under the directory
 
 
-
 ** View only directories
 #+BEGIN_SRC sh
 ls -d /home/crito/*
@@ -36,12 +35,15 @@ ls -Z - SELinux context
 
 user - unconfined\_u
 
-role - object\_r
+role - object_r
 
-type - user\_home\_t
+type - user_home_t
 
 level - s0
 * Lecture
 * Tutorial
+** Changing Runlevels and Boot Targets on a Systemd System
+Guide: [[file://home/crito/Documents/Linux/Labs/runlevels_systemd-lab.pdf][Changin Targets on Systemd]]
+
 * Books
 * Links

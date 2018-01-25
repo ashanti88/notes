@@ -5,16 +5,17 @@
 Manual: [[https://www.gnu.org/software/grub/manual/grub.html][gnu.org/grub]]
 Manual: [[https://www.gnu.org/software/grub/manual/grub.html][gnu.org]]
 * Overview
-* Cmds
-- grub2-mkconfig
-- grub-install
-
 * Files
 /boot/grub/grubenv - this shows the default kernel to be booted
 /boot/grub/grub.cfg - this file is automatically created from /etc/grub.d/ and /etc/default/grub
 /etc/sysconfig/grub - this contains the options used to create the grub.cfg (redhat)
 /etc/default/grub - this contains the options used to create the grub.cfg (debian)
 /etc/grub.d/ - the files in here are used to build the grub.cfg file, they indicate individual kernels and OSs
+
+* Cmds
+- grub2-mkconfig (centOS7) - this builds the grub.cfg from the grub.d/* and /etc/default/grub
+- grub-mkconfig  (manjaro) - same as grub2-mkconfig
+- grub-install
 
 * Usage
 ** what version do I have?
@@ -117,6 +118,30 @@ This will rebuild the configuration
 #+BEGIN_EXAMPLE
 #GRUB_HIDDEN_TIMEOUT=5
 #+END_EXAMPLE
+
+** Grub (Legacy)
+grub went out around the time of RHEL6
+
+/boot/grub - in here there are all the stage files
+  - menu.lst -> grub.conf - menu.lst is usally a sym link, and it's this file that creates the menu that starts with grub, and details what OS is available, what kernel to use, and what partition holds the boot partition
+  
+Each option is configured in blocks
+#+BEGIN_EXAMPLE
+title CentOS (2.6.18-419.el5)
+	root (hd0,0)
+	kernel /boot/vmlinuz-2.6.18-419.el5 ro root=LABEL=/ rhgb quiet
+	initrd /boot/initrd-2.6.18-419.el5.img
+#+END_EXAMPLE
+title - can be any name that you like
+root  - disk and partition that the boot sector can be found (count starts at 0)
+kernel - which kernel to boot and its location, also add any kernel parameters here
+initrd - which initrd.img to boot and its location
+
+- Re-install Grub
+#+BEGIN_SRC sh
+grub-install /dev/sda
+#+END_SRC
+
 
 * Lecture
 * Tutorial
