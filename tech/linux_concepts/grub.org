@@ -119,6 +119,31 @@ This will rebuild the configuration
 #GRUB_HIDDEN_TIMEOUT=5
 #+END_EXAMPLE
 
+** How to reinstall Grub onto the MBR
+http://www.av8n.com/computer/htm/grub-reinstall.htm
+- boot system with a live disk
+  
+- become root
+#+BEGIN_SRC sh
+su -
+#+END_SRC
+
+- mkdir to mount the disk with the corrupt MBR
+#+BEGIN_SRC sh
+mkdir mtp
+#+END_SRC
+
+- determine the correct disk and mount
+#+BEGIN_SRC sh
+fdisk -l
+mount /dev/sda1
+#+END_SRC
+
+- reinstall grub to the partition
+#+BEGIN_SRC sh
+grub-install
+#+END_SRC
+
 ** Grub (Legacy)
 grub went out around the time of RHEL6
 
@@ -141,7 +166,6 @@ initrd - which initrd.img to boot and its location
 #+BEGIN_SRC sh
 grub-install /dev/sda
 #+END_SRC
-
 
 * Lecture
 * Tutorial

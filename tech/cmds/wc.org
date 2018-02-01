@@ -1,4 +1,4 @@
-#+TAGS: file word_count line_count
+#+TAGS: file word_count line_count text_utils
 
 
 * wc
@@ -31,6 +31,16 @@ wc -c file.txt
 ** Number of files in directory
 #+BEGIN_SRC sh
 ls -1 | wc -l
+#+END_SRC
+
+** Print the number of lines in a file
+#+BEGIN_SRC sh
+wc -l /etc/passwd
+#+END_SRC
+
+** Print out the size in bytes of a file
+#+BEGIN_SRC sh
+wc -c /home/user/.zshrc
 #+END_SRC
 
 * Lecture

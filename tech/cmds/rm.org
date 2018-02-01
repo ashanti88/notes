@@ -14,6 +14,11 @@ rm -rf /dir
 rm /dir/*
 #+END_SRC
 
+- prompt for before removal
+#+BEGIN_SRC sh
+rm -ri /test/*
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

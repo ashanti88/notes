@@ -3,6 +3,11 @@
 
 * Package Management
 * Debian
+** Files
+/etc/apt/sources.list    - this is the list of repos that debian will use for package installation
+/etc/apt/sources.list.d/ - this is where you can add other repos for the apt tool to query
+/etc/apt/trusted.gpg     -
+
 ** Cmds
 *** dpkg
 **** Basic Administration
@@ -40,6 +45,16 @@ dpkg -I google-chrome-stable_current_amd64.deb
 - Checking if package is installed
 #+BEGIN_SRC sh
 dpkg --get-selections google-chrome-stable
+#+END_SRC
+
+- list all the files that are installed with a pkg
+#+BEGIN_SRC sh
+dpkg -L linux-headers-generic
+#+END_SRC
+
+- list all the files that will be installed
+#+BEGIN_SRC sh
+dpkg --content telnet.deb
 #+END_SRC
 
 ***** Dealing with missing dependencies with .deb files
@@ -94,6 +109,7 @@ apt-get install application
 #+BEGIN_SRC sh
 apt-get remove application
 #+END_SRC
+this will only remove package files, not configuration files
 
 - Purge
 #+BEGIN_SRC sh
@@ -103,29 +119,41 @@ This will attempt to remove all configuration files
 
 - Search for an application
 #+BEGIN_SRC sh
-apt-cache search $KEYWORD
+apt-cache search vsftpd
+#+END_SRC
+
+- show information of an application
+#+BEGIN_SRC sh
+apt-cache show vsftpd
+#+END_SRC
+
+- show more detailed information of an application
+#+BEGIN_SRC sh
+apt-cache showpkg vsftpd
 #+END_SRC
 
 - Show all installed applications
 #+BEGIN_SRC sh
 apt-cache pkgnames
 #+END_SRC
-Apt only will not know about software installed with dpkg or from source
-unless told
+Apt only will not know about software installed with dpkg or from source unless told
 
 - Fix broken dependencies
 #+BEGIN_SRC sh
 apt-get -f install
 #+END_SRC
-This comes in hand if you have installed a .deb with dpkg and there are
-some dependencies missing
+This comes in hand if you have installed a .deb with dpkg and there are some dependencies missing
 
 - Download the source file
 #+BEGIN_SRC sh
-apt-get source application
+apt-get source nano
 #+END_SRC
-To keep track of installed applications from source make sure the source
-is added to /etc/apt/source.list. It will be a deb-src ....
+To keep track of installed applications from source make sure the source is added to /etc/apt/source.list. It will be a deb-src ....
+
+- Download the .deb file but don't install
+#+BEGIN_SRC sh
+apt-get download nano
+#+END_SRC
 
 - Installing dependencies for a source file
 #+BEGIN_SRC sh
@@ -194,175 +222,12 @@ apt-get autoremove
 df -H
 
 *** apt
-** Files
-/etc/apt/sources.list
-
 * Ubuntu
 ** Cmds
 *** dpkg
-**** Basic Administration
-Install
-#+BEGIN_SRC sh
-dpkg -i application.deb
-#+END_SRC
-*makesure to add the deb-src to the source.list for updates
-
-Remove
-#+BEGIN_SRC sh
-dpkg -r application.deb
-#+END_SRC
-
-Purge
-#+BEGIN_SRC sh
-dpkg -P application.deb
-#+END_SRC
-
-- List all installed packages
-#+BEGIN_SRC sh
-dpkg -l
-#+END_SRC
-
-- List all files installed with package
-#+BEGIN_SRC sh
-dpkg -L nano
-#+END_SRC
-
-**** Adding an additional architecture
-this comes in handy when you need to install a 32bit application on a
-64bit machine
-#+BEGIN_SRC sh
-dpkg --add-architecture i386
-apt-get update
-#+END_SRC
-
+view the debian section
 *** apt
-**** Basic Actions
-- Update available software database
-#+BEGIN_SRC sh
-apt-get update
-apt update
-#+END_SRC
-
-- Upgrade all software available for upgrade
-#+BEGIN_SRC sh
-apt-get upgrade
-apt upgrade
-#+END_SRC
-
-- Upgrade with a little intelligence
-#+BEGIN_SRC sh
-apt-get dist-upgrade
-#+END_SRC
-Tries to not break any applications
-
-- Install
-#+BEGIN_SRC sh
-apt-get install application
-#+END_SRC
-
-- Remove
-#+BEGIN_SRC sh
-apt-get remove application
-#+END_SRC
-
-- Purge
-#+BEGIN_SRC sh
-apt-get purge apllication
-#+END_SRC
-This will attempt to remove all configuration files
-
-- Search for an application
-#+BEGIN_SRC sh
-apt-cache search $KEYWORD
-#+END_SRC
-
-- Show all installed applications
-#+BEGIN_SRC sh
-apt-cache pkgnames
-#+END_SRC
-Apt only will not know about software installed with dpkg or from source
-unless told
-
-- Fix broken dependencies
-#+BEGIN_SRC sh
-apt-get -f install
-#+END_SRC
-This comes in hand if you have installed a .deb with dpkg and there are
-some dependencies missing
-
-- Download the source file
-#+BEGIN_SRC sh
-apt-get source application
-#+END_SRC
-To keep track of installed applications from source make sure the source
-is added to /etc/apt/source.list. It will be a deb-src ....
-
-- Installing dependencies for a source file
-#+BEGIN_SRC sh
-apt-get build-dep application
-#+END_SRC
-
-- list all infomation on a package
-#+BEGIN_SRC sh
-apt-file find tmux
-#+END_SRC
-
-**** Advanced Actions
-- apt-key
-#+BEGIN_SRC sh
-apt-key add saved_gpg_key
-#+END_SRC
-to add a gpg key to a repository, first download the key and save as a file.
-
-- apt-Src
-!Think this just brings both "apt-get" and "dpkg" togeather
-
-Downloading the source
-
-  Building source files
-  #+BEGIN_SRC sh
-  apt-src build package
-  #+END_SRC
-  
-  Installing source files
-  #+BEGIN_SRC sh
-  apt-src package
-  #+END_SRC
-
-- Updating debian kernel
-#+BEGIN_SRC 
-apt-cache search linux-image
-#+END_SRC
-this will provide all available debian linux kernels
-
-**** rollback an apt-get upgrade
-Article: [[https://www.cyberciti.biz/howto/debian-linux/ubuntu-linux-rollback-an-apt-get-upgrade/][nixcraft]]
-1. search the apt history for the date of the upgrade to rollback from
-  > grep -A 2 'Start-Date: YYYY-MM-DD HH:MM:SS' /var/log/apt/history.log
-2. create list of programs that are to be removed
-  > grep -A 2 'Start-Date: YYYY-MM-DD HH:MM:SS' /var/log/apt/history.log | tail -1 >/tmp/packages.txt
-3. edit the /tmp/packages.txt and delete the Install: word
-  > sed -i 's/Install://' /tmp/packages.txt
-4. Final clean up
-  > tr ',' '\n' < /tmp/packages.txt | sed '/automatic)/d' | awk '{ print $1}' > /tmp/final.packages.txt
-  > wc -l /tmp/packages.txt - this will give the number packages that were installed
-5. run this script as root
-# Run as root
-# Store packages name in $p
-p="$(</tmp/final.packages.txt)"
- 
-# Nuke it
-apt-get --purge remove $p
- 
-#clears out the local repository of retrieved package files
-apt-get clean
- 
-# Just in case ...
-apt-get autoremove
- 
-# Verify disk space
-df -H
-
+view the debian section
 *** Snappy
 ** Files
 /etc/apt/sources.list
@@ -453,6 +318,15 @@ apt-cache search git
 #+END_SRC
 
 * Redhat
+** Files
+/etc/yum.conf  - this is the configuration file for the yum tool, repo definitions may be contained in here, but should be in /etc/yum.repos.d
+/etc/yum.repos.d/ - this is where repos can be added
+/var/cache/yum - temp files for package installation are stored here
+/var/log/yum.log - this is the yum log, this contains what pkgs have been installed or removed
+/var/cache/yum/x86_64/X/ - this is where downloaded rpm's are stored
+/var/lib/rpm - this is where all the rpm database files are kept
+/var/lib/rpm/__db00X - rpm database file
+
 ** Cmds
 *** rpm
 http://repoforge.org/
@@ -479,12 +353,29 @@ rpm -qa gpg-pubkey*
 rpm -qpR nmap-6.40-7.el7.x86_64.rpm
 #+END_SRC
 
+- give me infomation on an application that isn't installed
+#+BEGIN_SRC sh
+rpm -qip telnet-0.17-48.el6.x86_64.rpm
+#+END_SRC
+the long name is required if the application isn't installed
+
+- show requirements/dependencies
+#+BEGIN_SRC sh
+rpm -qRp telnet-0.17-48.el6.x86_64.rpm
+#+END_SRC
+
+- install application ignoring dependencies
+#+BEGIN_SRC sh
+rpm -ivh --nodeps mysql-server-5.1.73-8.el6_8.x86_64
+#+END_SRC
+
 - insall application
 #+BEGIN_SRC sh
 rpm -ivh xterm-295.3.el7.x86_64.rpm
 rpm -Uvh xterm-295.3.el7.x86_64.rpm
 #+END_SRC
 the second version will update if present or install if not present
+h - hash (progress of the install)
 
 - is a package installed
 #+BEGIN_SRC sh
@@ -615,7 +506,7 @@ yum erase nmap
 yum autoremove nmap
 #+END_SRC
 
-- update all packages on the sysystem
+- upgrade all packages on the sysystem
 #+BEGIN_SRC sh
 yum update
 yum upgrade
@@ -647,6 +538,32 @@ yum info tmux
 - clean out the /var/cache/yum directory
 #+BEGIN_SRC sh
 yum clean all
+#+END_SRC
+
+- enable a repo for a single transaction
+#+BEGIN_SRC sh
+yum install --enablerepo centosplus postfix
+#+END_SRC
+
+- Download the rpm but don't install
+#+BEGIN_SRC sh
+yum install --downloadonly telnet
+#+END_SRC
+this will download the rpm to the /var/cache/yum/x86_64/X/base/packages
+
+- Download the rpm to a specific directory
+#+BEGIN_SRC sh
+yumdownloader --destdir /root telnet
+#+END_SRC
+
+- Download the rpm plus dependencies
+#+BEGIN_SRC sh
+yumdownloader --resolve postfix
+#+END_SRC
+
+- Download the source for an application
+#+BEGIN_SRC sh
+yumdownloader --source postfix
 #+END_SRC
 
 **** Repo Administration
@@ -796,9 +713,6 @@ dnf upgrade
 dnf upgrade vim
 #+END_SRC
 
-** Files
-/etc/yum.repos.d/
-/var/cache/yum - temp files for package installation are stored here
 ** Create a local repository for CentOS6 (for local updates)
 - apache needs to be installed
 #+BEGIN_SRC sh
@@ -887,6 +801,10 @@ the repo option should be "Local_Repo"
 IgnorePkg=chromium
 IgnoreGroup=gnome
 #+END_SRC
+** Files
+/etc/pacman.conf - this is the pacman configuration
+/etc/pacman.d/mirrorlist - this file holds the repos that pacman will query
+** Cmds
 *** ABS(Arch Build System)
 Arch: [[https://wiki.archlinux.org/index.php/Arch_Build_System][archlinux.org/Arch_Build_System]]
 *** Repos
@@ -993,3 +911,8 @@ emerge -pv www-client/firefox
 #+BEGIN_SRC sh
 emerge =www-client/firefox-32.3.0
 #+END_SRC
+* Tutorial
+** Linux Academy - Use Debian Package Management
+Guide: [[file://home/crito/Documents/Linux/Labs/debian-package-management-lab.pdf][Debian Package Management]]
+** Linux Academy - Use Redhat Package Management
+Guide: [[file://home/crito/Documents/Linux/Labs/redhat-package-management-lab.pdf][Redhat Package Management and Repositories]]

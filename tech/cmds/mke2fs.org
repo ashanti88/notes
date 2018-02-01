@@ -2,6 +2,8 @@
 
 
 * mke2fs
+* Files
+/etc/mke2fs.conf - this file is read when this tool is used
 * Description
 This is an exact copy of the mkfs binary, if not symbloically linked then hard linked (check the number next to root when ll is used if > 1 than it is hard linked).
 

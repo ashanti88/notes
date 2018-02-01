@@ -2,8 +2,14 @@
 
 
 * ffmpeg
+HomePage: https://ffmpeg.org/
 * Description
 * Usage
+- convert mkv to mp4
+#+BEGIN_SRC sh
+ffmpeg -i foobar.mkv -vcodec copy -acodec copy foobar.mp4
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

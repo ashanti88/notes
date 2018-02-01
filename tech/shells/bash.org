@@ -72,6 +72,20 @@ ls [0-9][0-9]script - list any file names script that is prefixed with two numbe
 ** History
 allows for the looking up of complex cmds previously used, and to audit what actions have been called
 
+** Bash Built-ins
+*** shopt
+This builtin allows for a user to set or unset bash shell options
+
+- to set option
+#+BEGIN_SRC sh
+shopt -s optionName
+#+END_SRC
+
+- to unset option
+#+BEGIN_SRC sh
+shopt -u optionName
+#+END_SRC
+
 * Lecture
 * Tutorial
 ** Linux Academy - Linux Essentials Scripting Lesson
@@ -184,6 +198,10 @@ echo "###############"
 echo $filename
 #+END_EXAMPLE
 
+** Linux Academy - Working on the Command Line Lab
+Guide: file://home/crito/Documents/Linux/Labs/command-line-variables-lab.pdf
+** Linux Academy - Process Text Streams Using Filters Lab
+   Guide: file://home/crito/Documents/Linux/Labs/process-text-streams-lab.pdf
 * Books
 ** [[file://home/crito/Documents/Linux/Shell/Bash/bash-Cookbook.pdf][bash Cookbook - O'Reilly]]
 ** [[file://home/crito/Documents/Linux/Shell/Bash/bash-Pocket_Reference.pdf][bash - Pocket Reference]]

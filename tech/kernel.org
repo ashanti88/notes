@@ -9,7 +9,6 @@
 - [[file://home/crito/org/tech/cmds/lsmod.org][lsmod]]
 - [[file://home/crito/org/tech/cmds/modprobe.org][modprobe]]
 
-
 * Overview
 ** Major Subsystems
 *** System Call Interface
@@ -567,6 +566,88 @@ https://01.org/linuxgraphics/gfx-docs/drm/process/coding-style.html
 Patches must follow Keese's BRILLO commit prefix conventions
 ** [[https://www.youtube.com/watch?v=7aONIVSXiJ8][Introduction to Memory Management in Linux - Matt Poter]]
 
+** [[https://www.youtube.com/watch?v=MV8Sy6jGUIE][Gorking the Linux SPI Subsystem - Matt Porter Embedded Linux Conf 2017]]
+- What is SPI?
+  - Serical Peripheral Interface
+  - Motorola
+  - master-slave bus
+  - 4 wire bus
+  - no maximum clock speed
+
+- Common uses of SPI
+  - Flash Memory
+  - ADCs
+  - Sensors
+  - LCD controllers
+  - Chromium Enbedded Controller
+    
+- SPI Signals
+  - MOSI - Master Output Slave Input
+    - SIMO, SDI, DI, SDA
+  - MISO - Master Input Slave Output
+    - SOMI, SDO, DO, SDA
+  - SCLK - Serical Clock (Master output)
+    - SCK, CLK, SCL
+  - SS - Slave Seclect (Master output)
+  - CSn, EN, ENB
+    
+- SPI Modes
+  - Modees are composed of two clock characteristics
+  - CPOL - clock polarity
+    - 0 = clock idle state low
+    - 1 = clock idle state high
+  - CPHA - clock phase
+    - 0 = data latched falling, output rising
+    - 1 = data latched rising, output falling
+      
+- SPI can be more complicated
+  - Multiple SPI Slaves
+    - one cheip select for each slave
+  - Daisy Chaining
+    - Inputs to Outputs
+    - Chip Selects
+  - Dual or Quad SPI (or more lanes)
+    - Implemented in high speed SPI Flash devices
+    - Instead of one MISO have N MISOs
+    - N times badnwidth of traditional SPI
+  - 3 Wire (Microwire) SPI
+    - Combined MISO/MOSI signal operates in half duplex
+      
+- Linux SPI Drivers 
+  - controller and Protocol drivers only
+    - Controller drivers support the SPI master controller
+      - Drive hardware to control clock and chip selects, shift data bits on/off wire and configure basic SPI characteristics lick clock frequency and mode
+      - eg spi-bcm2835aux.c
+    - Protocol drivers support the SPI slave specific functionality
+      - based on messages and transfers
+      - Relies on controller driver to program SPI master hardware
+      - eg MCP3008 ADC	
+	
+- Linux SPI communication
+  - Communication is broken up into transfers and messagees 
+  - Transfers
+    - Defines a single operation between master and slave.
+    - tx/rx buffer pointers
+    - optional chip select behaviour after operation
+    - optional delay after operation
+  - Messages
+    - Atomic sequence of transfers
+
+- Adding a SPI device to a system
+  - Know the characteristics of your slave device
+    - Learn to read datasheets
+  - Three methods
+    - Device Tree
+      - Ubiquitious
+    - Board File
+      - Deprecated 
+    - ACPI
+      - Mostly x86
+	
+- Userspace Driver - spidev
+  - Primarily for development and test
+  - DT binding requires use of a supported compatible string or add a new one if no kernel driver exists for the device
+    
 * Tutorial
 * Walk Throughs
 ** wikiversity - Reading the Linux Kernel Sources

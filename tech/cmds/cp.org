@@ -16,6 +16,17 @@ cp -r -u /home/code /test
 #+END_SRC
 this will only copy new and altered files
 
+- only update the files if the source is newer than the destination
+#+BEGIN_SRC sh
+cp -ru /etc .
+#+END_SRC
+
+- only copy what is on the local files sytem
+#+BEGIN_SRC sh
+cp -rx /etc .
+#+END_SRC
+if any part of /etc is on a remote filesystem it would be skipped
+
 * Lecture
 * Tutorial
 * Books

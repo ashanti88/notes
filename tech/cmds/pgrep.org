@@ -3,6 +3,8 @@
 
 * pgrep
 * Description
+This cmds will print all associated pids that a command is currently running
+
 * Usage
 - find the pid of the bash process
 #+BEGIN_SRC sh

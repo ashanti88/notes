@@ -1,4 +1,4 @@
-#+TAGS: head
+#+TAGS: head text_utils
 
 
 * head
@@ -12,6 +12,8 @@ Output the first part of a file.
 #+BEGIN_SRC sh
 head -n 15 file.txt
 #+END_SRC
+
+
 
 * Lecture
 * Tutorial

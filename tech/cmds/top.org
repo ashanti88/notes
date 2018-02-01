@@ -52,6 +52,13 @@ p - list specified process
 ps -n 3 -bp 1227
 #+END_SRC
 
+** Change the nice value of a process
+- inside top press a + r
+  - this will prompt for which pid you would like to renice
+  - then next the new nice value
+    
+- be careful as none root users can only renice upwards, not downwards
+  
 * Lecture
 * Tutorial
 * Books

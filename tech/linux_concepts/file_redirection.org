@@ -2,22 +2,23 @@
 
 
 * File Redirection
+* Files
+/dev/stderr - this is a symlink to /proc/self/fd/2
+/dev/stdin  - this is a symlink to /proc/self/fd/0
+/dev/stdout - this is a symlink to /proc/self/fd/1
+
 * Description
 * Usage
   
-- search files in a directory for a specific file
 #+BEGIN_SRC sh
-find . -type f | grep "config.cfg"
+ls /etc > etc.txt
+ls /etc 1> etc.txt
 #+END_SRC
-
-- find specific filed and cut the second column
-#+BEGIN_SRC sh
-cut -d" " -f3 file.txt | cut -c2
-#+END_SRC
-
+both these are the same, just default behaviour is to rediredt stdout
+  
 ** Redirecting errors
 #+BEGIN_SRC sh
-cat myfile666,txt 2> errors.txt
+cat myfile666.txt 2> errors.txt
 #+END_SRC
 
 - redirect stdout and stderr to differnet files
@@ -25,6 +26,17 @@ cat myfile666,txt 2> errors.txt
 mount 1> mountfile 2> mounterror
 #+END_SRC
 this creates the two files
+
+- redirect errors to null
+#+BEGIN_SRC sh
+find / -iname "*.sh" 2> /dev/null
+#+END_SRC
+this will ensure that no error messges are printed to the screen
+
+- redirect all output to /dev/null
+#+BEGIN_SRC sh
+find / -iname "*.sh" 2>&1 > /dev/null
+#+END_SRC
 
 ** Redirecting input
 
@@ -41,11 +53,26 @@ sort < words.txt
 #+END_SRC
 
 ** pipes
+- need to save output and see it on the screen   
+#+BEGIN_SRC sh
+find / -iname "*.sh" | tee results.log 2>&1 
+#+END_SRC
+
 - using the ls cmd with grep
 #+BEGIN_SRC sh
 ls /etc/ | grep cron
 #+END_SRC
 this will return only files that have cron in their name
+
+- search files in a directory for a specific file
+#+BEGIN_SRC sh
+find . -type f | grep "config.cfg"
+#+END_SRC
+
+- find specific filed and cut the second column
+#+BEGIN_SRC sh
+cut -d" " -f3 file.txt | cut -c2
+#+END_SRC
 
 * Lecture
 * Tutorial

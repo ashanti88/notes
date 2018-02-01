@@ -84,6 +84,22 @@ dd if=/dev/sdb1 of=/root/sbd1.img
 dd if=/dev/sdb1 of=/dev/sdc1
 #+END_SRC
 
+** Create an iso image of a cdrom
+#+BEGIN_SRC sh
+dd if=/dev/sr0 of=cdimgbkup.iso
+#+END_SRC
+
+** Create a copy of the MBR and reinstall MBR
+- Copy
+#+BEGIN_SRC sh
+dd if=/dev/sda of=mbrbkup.img count=1 bs=512
+#+END_SRC
+
+- reinstall the MBR
+#+BEGIN_SRC sh
+dd if=mbrbkup.img of=/dev/sda count=1 bs=512
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

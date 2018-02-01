@@ -4,6 +4,18 @@
 * pkill
 * Description
 * Usage
+- restart all processors associated with apache, but not the root process(owned by root not apache)
+#+BEGIN_SRC sh
+pkill -SIGHUP -U apache
+#+END_SRC
+This is similar to a system restart
+
+- kill all processors associated with apache, but not the root process(owned by root not apache)
+#+BEGIN_SRC sh
+pkill -9 -U apache
+#+END_SRC
+This will disconnect the clients, whereas above would keep the client connections
+
 * Lecture
 * Tutorial
 * Books

@@ -10,11 +10,14 @@ Switch to another system user or root
 #+BEGIN_SRC sh
 su -
 #+END_SRC
+the dash indicates to use the users .profile, .bash_profile if available
 
 - switch to frank
 #+BEGIN_SRC sh
 su - frank
 #+END_SRC
+
+
 
 * Lecture
 * Tutorial

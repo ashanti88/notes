@@ -1,0 +1,20 @@
+#+TAGS: file_details
+
+
+* stat
+* Description
+* Usage
+- show file infomation on a file
+#+BEGIN_SRC sh
+stat mylog.txt
+#+END_SRC
+
+- show a space delimiting version of the above text
+#+BEGIN_SRC sh
+stat -t mylog.txt
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

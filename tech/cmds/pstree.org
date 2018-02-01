@@ -18,6 +18,16 @@ pstree 2955
 #+END_SRC
 this will show all the child processors of the pid
 
+- show detailed information
+#+BEGIN_SRC sh
+pstree -a
+#+END_SRC
+
+- show pid
+#+BEGIN_SRC sh
+pstree -p
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

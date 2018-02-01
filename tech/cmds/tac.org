@@ -1,8 +1,10 @@
-#+TAGS: file read
+#+TAGS: file read text_utils
 
 
 * tac
 * Description
+This is the reverse of cat
+
 * Usage
 - read file backwards
 #+BEGIN_SRC sh

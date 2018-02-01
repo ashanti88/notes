@@ -14,7 +14,6 @@ matches any one character between the braces             [xxx]
 matches any expression that doesn't appear in the braces [^xxx]
 matches any single character between the range           [a-z]
 
-
 * Patterns
 ** Select lines with an ip address, the dot may need changing to - depending on seperator
 #+BEGIN_SRC sh

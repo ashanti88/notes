@@ -1,7 +1,7 @@
-#+TAGS: file anal
+#+TAGS: view_binary_file od octal_dump
 
 
-* od								  :file:anal:
+* od
 * Description
 * Usage
 > od <options> <file>

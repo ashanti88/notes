@@ -1,9 +1,15 @@
-#+TAGS: sys op
+#+TAGS: killall kill terminate_a_process kill_a_process
 
 
-* killall							     :sys:op:
+* killall
 * Description
+This cmd allows for a process to be killed by name
 * Usage
+- kill all processes that are running under httpd
+#+BEGIN_SRC sh
+killall httpd
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

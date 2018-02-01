@@ -21,11 +21,21 @@ A - check all fs
 t - specify fs type
 
 
-This will show surrent process of all running instances of fsck
+- show current progress of all running instances of fsck
 #+BEGIN_SRC sh
 fsck -C
 #+END_SRC
 
+- have a hash progress bar for fsck
+#+BEGIN_SRC sh
+fsck -Cf /dev/sda1
+#+END_SRC
+
+- Force a check
+#+BEGIN_SRC sh
+fsck -f /dev/sda1
+#+END_SRC
+this can be run if fsck says that the disk is clean but you still want to check
 
 ** Check partition for fragmentation
 #+BEGIN_SRC sh

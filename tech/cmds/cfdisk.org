@@ -1,0 +1,10 @@
+#+TAGS: cfdisk fdisk partitioning partioning_tool
+
+
+* cfdisk
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

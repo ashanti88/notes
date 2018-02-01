@@ -1,13 +1,18 @@
-#+TAGS: file txt
+#+TAGS: file text_utils tr
 
 
-* tr								   :file:txt:
+* tr
 * Description
 * Usage
 ** split columns on a line 
 - splitting columns that are using ; as delimiter
 #+BEGIN_SRC sh
 tr ';' '\n' < file.txt
+#+END_SRC
+
+- translate to uppercase
+#+BEGIN_SRC sh
+tr 'a-z' 'A-Z' < alpha.txt
 #+END_SRC
 * Lecture
 * Tutorial

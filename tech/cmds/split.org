@@ -1,4 +1,4 @@
-#+TAGS: file
+#+TAGS: file text_utils split
 
 
 * split
@@ -11,6 +11,8 @@ This command splits a file into the number of files specified on the cmd line.
 split -l 2 file_to_split.txt
 #+END_SRC
 this will now create two new files that begin with x...
+
+
 
 * Lecture
 * Tutorial

@@ -1,4 +1,4 @@
-#+TAGS: sys fs op
+#+TAGS: mkfs create_filesystem
 
 
 * mkfs
@@ -13,6 +13,13 @@ mkfs -t ext2 /dev/sdb1
 mkfs -t ext3 /dev/sdb2
 mkfs -t ext4 /dev/sdb3
 #+END_SRC
+
+- setting the block size of a filesystem
+#+BEGIN_SRC sh
+mkfs -t ext4 -b 8192 -m 10 -L LargeData
+#+END_SRC
+b - block size
+m - reserve a certain percentage for the superuser
 
 * mkfs.ext
 ** Create filesystem on device

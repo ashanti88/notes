@@ -123,13 +123,7 @@ will move to the opposite side
 
 % - this will move you to the corresponding brace, bracket
 ** Special Characters
-Special characters can be inserted with ctrl-v esc - this will give the
-vim representation of esc ctrl-v enter - this will give the vim
-representation of enter
-
-unicode can also be added with ctrl-v ctrl-v u<code>
-
-to move into normal mode for one action ctrl-o<action>
+Special characters can be inserted with ctrl-v esc - this will give the vim representation of esc ctrl-v enter - this will give the vim representation of enter unicode can also be added with ctrl-v ctrl-v u<code> to move into normal mode for one action ctrl-o<action>
 
 ** Expresion Register
 ctrl-r= this allows for valid vim script to be executed and the result

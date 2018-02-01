@@ -1,9 +1,20 @@
-#+TAGS: sys anal
+#+TAGS: uptime system_load
 
 
 * uptime
 * Description
 * Usage
+- show uptime, number of users, and load averages (1m, 5m, 15m)
+#+BEGIN_SRC sh
+uptime
+#+END_SRC
+
+- just output the uptime
+#+BEGIN_SRC sh
+uptime
+#+END_SRC
+will be given in days, hours, minutes
+
 * Lecture
 * Tutorial
 * Books

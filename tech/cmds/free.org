@@ -1,4 +1,4 @@
-#+TAGS: sys anal
+#+TAGS: free show_memory_usage
 
 
 * free
@@ -20,8 +20,14 @@ free -o
 #+END_SRC
 
 ** Update the free the specified time
+- show every 5 seconds
 #+BEGIN_SRC sh
 free -s 5
+#+END_SRC
+
+- show 4 times every 3 seconds
+#+BEGIN_SRC sh
+free -h -c 4 -s 3
 #+END_SRC
 
 ** Show low and high memory size statistics

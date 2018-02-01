@@ -1,9 +1,21 @@
-#+TAGS: number_line
+#+TAGS: number_line text_utils
 
 
 * nl
 * Description
+Number lines of a file.
+
 * Usage
+- print a file out with lines numbered
+#+BEGIN_SRC sh
+nl file.txt
+#+END_SRC
+
+- assign line number to blank lines aswell
+#+BEGIN_SRC sh
+nl -ba /home/user/.zshrc
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

@@ -2,6 +2,9 @@
 
 
 * wget
+* Files
+/etc/wgetrc - this is the wget system-wide config file
+
 * Description
 * Usage
 ** Download a single file

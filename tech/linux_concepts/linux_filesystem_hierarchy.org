@@ -2,9 +2,9 @@
 
 
 * Linux Filesystem Hierarchy
-HomePage: http://www.patalickmitchell2.mylabserver.comhname.com/fhs
+HomePage: 
 * Description
-* FHS
+* FHS - Filesystem Hierarchy Standard
 ** /
 ** /boot
 This directory contains everything required for the boot process except for configuration files not needed at boot time (the most notable of those being those that belong to the GRUB boot-loader) and the map installer. Thus, the /boot directory stores data that is used before the kernel begins executing user-mode programs. This may include redundant (back-up) master boot records, sector/system map files, the kernel and other important boot files and data that is not directly edited by hand. Programs necessary to arrange for the boot loader to be able to boot a file are placed in /sbin. Configuration files for boot loaders are placed in /etc.
@@ -14,7 +14,6 @@ This directory contains everything required for the boot process except for conf
 *** /grub
 /boot/grub/grub.cfg - this is the Grub2 main configuration file (this file shouldn't be edited manually)
 /boot/grub/grubenv
-
 
 ** /bin
 Unlike /sbin, the bin directory contains several useful commands that are of use to both the system administrator as well as non-privileged users. It usually contains the shells like bash, csh, etc.... and commonly used commands like cp, mv, rm, cat, ls. For this reason and in contrast to /usr/bin, the binaries in this directory are considered to be essential. The reason for this is that it contains essential system programs that must be available even if only the partition containing / is mounted. This situation may arise should you need to repair other partitions but have no access to shared directories (ie. you are in single user mode and hence have no network access). It also contains programs which boot scripts may depend on.
@@ -27,11 +26,11 @@ Some distro's have now symlinked this directory to /bin .
 ** /lib
 The /lib directory contains kernel modules and those shared library images (the C programming code library) needed to boot the system and run the commands in the root filesystem, ie. by binaries in /bin and /sbin. Libraries are readily identifiable through their filename extension of *.so.
 
-** /usr
+** /usr - Secondary hierarchy for read-only user data
 *** /usr/bin
 This directory contains the vast majority of binaries on your system. Executables in this directory vary widely.
 
-*** /usr/sbin
+*** /usr/sbin - Non-essential system binaries 
 This directory contains programs for administering a system, meant to be run by 'root'. Like '/sbin', it's not part of a user's $PATH. Examples of included binaries here are chroot, useradd, in.tftpd and pppconfig.
 
 *** /usr/include
@@ -61,7 +60,7 @@ The 'linux' sub-directory holds the Linux kernel sources, header-files and docum
 **** /usr/src/linux
 Contains the source code for the Linux kernel.
 
-** /etc
+** /etc - host specific configuration files (no binaries should be stored here) 
 This is the nerve center of your system, it contains all system related configuration files in here or in its sub-directories. A "configuration file" is defined as a local file used to control the operation of a program; it must be static and cannot be an executable binary. For this reason, it's a good idea to backup this directory regularly. It will definitely save you a lot of re-configuration later if you re-install or lose your current installation. Normally, no binaries should be or are located here.
 
 /etc/alternatives/ - this is used by debian to allow ease of switching between different versions of an application
@@ -89,6 +88,7 @@ To use any of the example just copy the file to /etc/netctl and edit
 
 *** /etc/pam.d/
 The /etc/pam.d/ directory contains the PAM configuration files for each PAM-aware application
+*** /etc/X11/
 ** /dev
 /dev is the location of special or device files. It is a very interesting directory that highlights one important aspect of the Linux filesystem - everything is a file or a directory. Look through this directory and you should hopefully see sda1, sda2 etc.... which represent the various partitions on the first master drive of the system and /dev/sr0 represent your CD-ROM drive.
 /dev/hda   - ide connected hard drive
@@ -108,14 +108,14 @@ This directory is reserved for all the software and add-on packages that are not
 ** /lost+found
 As was explained earlier during the overview of the FSSTND, Linux should always go through a proper shutdown. Sometimes your system might crash or a power failure might take the machine down. Either way, at the next boot, a lengthy filesystem check (the speed of this check is dependent on the type of filesystem that you actually use. ie. ext3 is faster than ext2 because it is a journalled filesystem) using fsck will be done. Fsck will go through the system and try to recover any corrupt files that it finds. The result of this recovery operation will be placed in this directory. The files recovered are not likely to be complete or make much sense but there always is a chance that something worthwhile is recovered.
 
-** /media
+** /media - Mount point for removable media (CD, DVD, etc) 
 This directory contains subdirectories which are used as mount points for
 removeable media such as flash drives, cdroms and zip disks.
 
-** /mnt
+** /mnt - Temporary mount point
 This is a generic mount point under which you mount your filesystems or devices. Mounting is the process by which you make a filesystem available to the system. After mounting your files will be accessible under the mount-point. This directory usually contains mount points or sub-directories where you mount your floppy and your CD. You can also create additional mount-points here if you wish. Standard mount points would include /mnt/cdrom and /mnt/floppy. There is no limitation to creating a mount-point anywhere on your system but by convention and for sheer practicality do not litter your file system with mount-points. It should be noted that some distributions like Debian allocate /floppy and /cdrom as mount points while Redhat and Mandrake puts them in /mnt/floppy and /mnt/cdrom respectively.
 
-** /run
+** /run - Run-time variable data, information about the running system since last boot  
 - /run/media/user/ - this is where external drives are added with Gnome
 ** /root
 This is the home directory of the System Administrator, 'root'.
@@ -151,7 +151,7 @@ The /sys/ directory utilizes the new sysfs virtual file system specific to the 2
 ** /tmp
 This directory contains mostly files that are required temporarily. Many programs use this to create lock files and for temporary storage of data. Do not remove files from this directory unless you know exactly what you are doing! Many of these files are important for currently running programs and deleting them may result in a system crash.
 
-** /var
+** /var - Variable files whose content is expected to change during normal system use and operation
 Contains variable data like system logging files, mail and printer spool directories, and transient and temporary files. Some portions of /var are not shareable between different systems. For instance, /var/log, /var/lock, and /var/run. Other portions may be shared, notably /var/mail, /var/cache/man, /var/cache/fonts, and /var/spool/news. Why not put it into /usr? Because there might be circumstances when you may want to mount /usr as read-only, e.g. if it is on a CD or on another computer. '/var' contains variable data, i.e. files and directories the system must be able to write to during operation, whereas /usr should only contain static data. Some directories can be put onto separate partitions or systems, e.g. for easier backups, due to network topology or security concerns.
 
 *** /var/backups
@@ -258,7 +258,8 @@ Database for BIND. The Berkeley Internet Name Domain (BIND) implements an Intern
 *** /var/yp
 Database for NIS (Network Information Services). NIS is mostly used to let several machines in a network share the same account information (eg. /etc/passwd). NIS was formerly called Yellow Pages (YP).
 
-** /home
+
+** /home - The users home directoriesh
 Linux is a multi-user environment so each user is also assigned a specific directory that is accessible only to them and the system administrator. These are the user home directories, which can be found under '/home/$USER' (~/). It is your playground: everything is at your command, you can write files, delete them, install programs, etc.... Your home directory contains your personal configuration files, the so-called dot files (their name is preceded by a dot). Personal configuration files are usually 'hidden', if you want to see them, you either have to turn on the appropriate option in your file manager or run ls with the -a switch. If there is a conflict between personal and system wide configuration files, the settings in the perse will prevail. 
 
 * The Root Directory

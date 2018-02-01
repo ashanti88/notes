@@ -1,4 +1,4 @@
-#+TAGS: file txt text tail
+#+TAGS: file txt text tail text_utils
 
 
 * tail

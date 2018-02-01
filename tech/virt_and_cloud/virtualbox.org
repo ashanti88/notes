@@ -1,7 +1,7 @@
 #+TAGS: virt virtualbox vdi
 
 
-* Virualbox
+* Virtualbox
 HomePage: [[https://www.virtualbox.org/][virtualbox.org]]
 * Cmds
 - [[file://home/crito/org/tech/virt_and_cloud/vagrant.org][vagrant]]
@@ -138,6 +138,8 @@ VBoxManage showvminfo "VM_name"
 ovftool bee-box.vmx bee-box-vb.ovf
 #+END_SRC
 the ovf file can then be used to create the vm machine
+** VMs refuse to start due to missing vboxdrv kernel module
+https://unix.stackexchange.com/questions/361617/virtualbox-is-complaining-that-the-kernel-module-is-not-loaded
 * Lecture
 * Tutorial
 * Books

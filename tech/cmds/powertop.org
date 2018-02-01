@@ -2,8 +2,17 @@
 
 
 * powertop
+Arch: [[https://wiki.archlinux.org/index.php/Powertop][Powertop]]
 * Description
+Powertop is a tool provided by Intel to enable various powersaving modes in userspace, kernel and hardware. It is possible to monitor processes and show which of them are utilizing the CPU and wake it from its Idle-States, allowing to identify applications with particular high power demands.
+
 * Usage
+- have powertop create a report identifying any possible areas that could be improved
+#+BEGIN_SRC sh
+powertop --html=powerreport.html
+#+END_SRC
+open this report and under Tuning it will provide where imporvments could be made, for them to take effect on reboot yu will need to add as module parameters, udev rules and sysctl.
+
 ** Tunables
 These provide some diagnositc information more for distribution devs.
 - Some of the tunables my save some power usage

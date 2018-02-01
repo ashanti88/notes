@@ -1,9 +1,24 @@
-#+TAGS: file txt
+#+TAGS: file text_utils uniq
 
 
-* uniq								   :file:txt:
+* uniq
 * Description
 * Usage
+- print only unique lines in a file
+#+BEGIN_SRC sh
+uniq text.txt
+#+END_SRC
+
+- print the duplicate lines
+#+BEGIN_SRC sh
+uniq -d text.txt
+#+END_SRC
+
+- print all instances of duplicate lines
+#+BEGIN_SRC sh
+uniq -D text.txt
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

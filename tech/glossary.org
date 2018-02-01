@@ -1,7 +1,10 @@
 #+TAGS: glossary
 
 
+* DMA  - Direct Memory Access
 * FDT  - Flattened Device Tree
+* IIO  - Industrial I/O Subsystem
+https://wiki.analog.com/software/linux/docs/iio/iio
 * LDAP - Lightweight Directory Access Protocol
 - setting the daemon to i
 * LDPD - Label Distributed Protocol Daemon
@@ -10,6 +13,7 @@ ManPage: https://man.openbsd.org/ldpd
 [[file://home/crito/org/tech/mail/procmail.org][Procmail]]
 maildrop
 
+* MMIO - Memory Mapped I/O
 * MPLS - Multiprotocol Label Switching
 Wiki: https://en.wikipedia.org/wiki/Multiprotocol_Label_Switching
 * NIS  - Network Information Service
@@ -19,6 +23,7 @@ Non-uniform memory access (NUMA) is a computer memory design used in multiproces
 * RAC  - Real Application Clustering (oracle)
 * SNI  - Server Name Indication
 Server Name Indication (SNI) is an extension to the TLS computer networking protocol[1] by which a client indicates which hostname it is attempting to connect to at the start of the handshaking process. This allows a server to present multiple certificates on the same IP address and TCP port number and hence allows multiple secure (HTTPS) websites (or any other Service over TLS) to be served by the same IP address without requiring all those sites to use the same certificate. It is the conceptual equivalent to HTTP/1.1 name-based virtual hosting, but for HTTPS. The desired hostname is not encrypted,[2] so an eavesdropper can see which site is being requested.
+* SPI  - Serial Peripheral Interface bus
 * SSO  - Single Sign On
 * SSSD - System Security Services Daemon
 RHEL: [[https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/5/html/5.7_Release_Notes/sssd.html][redhat.com/5/sssd]]

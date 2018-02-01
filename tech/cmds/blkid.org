@@ -8,6 +8,7 @@
 #+BEGIN_SRC sh
 blkid
 #+END_SRC
+this may have to be run as root to output info on all disks
 
 * Lecture
 * Tutorial

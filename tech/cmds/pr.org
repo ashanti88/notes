@@ -1,4 +1,4 @@
-#+TAGS: file_printing printing print
+#+TAGS: file_printing printing print text_utils
 
 
 * pr

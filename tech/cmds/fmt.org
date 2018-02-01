@@ -22,7 +22,6 @@ Set white to be one between words
 fmt -u file_to_format.txt > formatted_file.txt
 #+END_SRC
 
-
 * Lecture
 * Tutorial
 * Books

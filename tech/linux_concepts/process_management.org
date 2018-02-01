@@ -4,10 +4,14 @@
 * Process Management
 * Cmds
 - [[file://home/crito/org/tech/cmds/top.org][top]]
-- [[file://home/crito/org/tech/cmds/nice.org][nice]]
 - [[file://home/crito/org/tech/cmds/ps.org][ps]]
+- [[file://home/crito/org/tech/cmds/pstree.org][pstree]]
 - [[file://home/crito/org/tech/cmds/kill.org][kill]]
 - [[file://home/crito/org/tech/cmds/killall.org][killall]]
+- [[file://home/crito/org/tech/cmds/pkill.org][pkill]]
+- [[file://home/crito/org/tech/cmds/pgrep.org][pgrep]]
+- [[file://home/crito/org/tech/cmds/nice.org][nice]]
+
 
 * Usage
 putting a processing to background

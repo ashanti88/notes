@@ -1,4 +1,4 @@
-#+TAGS: file find search
+#+TAGS: find_file search
 
 
 * find
@@ -102,14 +102,21 @@ This will find all crito's python files in current directory
 find /etc -atime -1
 #+END_SRC
 
-** Delete found files
+** Execute a command on found files
+- delete a found files
 #+BEGIN_SRC sh
-find . -name "pattern" -exec rm -rf {} \;
+find . -name "mytest.txt" -exec rm -rf {} \;
 #+END_SRC
 or
 #+BEGIN_SRC sh
-find . -name "pattern" -delete
+find . -iname "my*.txt" -delete
 #+END_SRC
+
+- chmod all found files
+#+BEGIN_SRC sh
+find . -iregex "mytest.txt" -exec chmod 777 {} \;
+#+END_SRC
+
 ** Count files in directory recursively
 #+BEGIN_SRC sh
 find . -type f | wc -l

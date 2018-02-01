@@ -23,6 +23,17 @@ c - grand total
 du -sch /var/* | sort -h
 #+END_SRC
 
+- list all files
+#+BEGIN_SRC sh
+du -ach /home/user
+#+END_SRC
+a - all files
+
+- match a certain file pattern
+#+BEGIN_SRC sh
+du -ach /home/user/bash*
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

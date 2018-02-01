@@ -1,9 +1,11 @@
-#+TAGS: col columns file cut core_utils
+#+TAGS: col columns file cut core_utils text_utils
 
 
 * cut
 * Description
-Manipulates data by columns
+Manipulates data by columns, or delimited fields.
+
+Counts starting with 1
 
 * Usage
 - return column 2 through 4

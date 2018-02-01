@@ -1,0 +1,25 @@
+#+TAGS: shared_libraries
+
+
+* Shared Libraries
+* Files
+/lib/
+/lib64/
+/usr/lib/
+/usr/lib32/
+/usr/lib64/
+/etc/ld.so.conf
+/etc/ld.so.conf.d/
+
+* Cmds
+- [[file://home/crito/org/tech/cmds/ldd.org][ldd]]
+- ldconfig
+
+* Description
+* Usage
+* Lecture
+* Tutorial
+** Linux Academy - Shared Library Lab
+Guide: [[file://home/crito/Documents/Linux/Labs/managing_shared_libraries-lab.pdf][Manage Shared Libraries]]
+* Books
+* Links

@@ -1,0 +1,39 @@
+#+TAGS: quota
+
+
+* quota
+* Description
+* Usage
+- this will create blank files for quota creation
+#+BEGIN_SRC sh
+cd /mnt/part1
+quotacheck -avugc
+#+END_SRC
+aquota.user
+aquota.group
+
+- edit the quota of a user
+#+BEGIN_SRC sh
+edquota -u user
+#+END_SRC
+- This will open a temp file that shows current block and inode usage
+- You edit the soft and hard columns to define the quota
+  
+- determine if the quota is enabled
+#+BEGIN_SRC sh
+quotaon -p /mnt/part1
+#+END_SRC
+
+- switch it on quota
+#+BEGIN_SRC sh
+quotaon -uagv
+#+END_SRC
+u - user
+g - group
+v - verbose
+a - turn on for all filesystems
+
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -34,7 +34,6 @@ LABLE=myfs				  /data          xfs     defaults,noatime, 0 2
 - [[file://home/crito/org/tech/cmds/tune2fs.org][tune2fs]]
 - [[file://home/crito/org/tech/cmds/gpart.org][gpart]]
 
-
 * Usage
 ** Disk Layout
 - First what is the server to be used for?
@@ -50,7 +49,6 @@ LABLE=myfs				  /data          xfs     defaults,noatime, 0 2
   - /home - This is wholey dependent on what your needs are, in a lot of casues the remainder of the disk is given to /home
   - /var  - This is an important directory that holds logs and mysql data files (if a DB server think of having this on its own partition)
   - /opt  - This is rarely put on it's own partition, but is sometimes
-
 
 * Lecture
 * Tutorial

@@ -9,6 +9,7 @@ Tar is used to backup and archive files. It also has the ability to harness comp
 
 > tar options archive_name file_names
 
+** Creating an Archive
 - Creating an Archive of files
 #+BEGIN_SRC sh
 tar -cf file.tar file1 file2 file3
@@ -19,6 +20,7 @@ tar -cf file.tar file1 file2 file3
 tar -cf dir.tar dir1 dir2
 #+END_SRC
 
+** Compress the Archive
 - Compression of the tar file
 #+BEGIN_SRC sh
 tar -cvjf file.tar.bz2 file1 file2 file3 file4
@@ -31,7 +33,22 @@ tar -cvzf file.tar.gzip file1 file2 file3
 #+END_SRC
 -z is for gzip
 
-- Adding files to an archive
+- gzip after tar creation
+#+BEGIN_SRC sh
+gzip file.tar
+#+END_SRC
+
+- bzip2 after tar creation
+#+BEGIN_SRC sh
+bzip2 file.tar
+#+END_SRC
+
+- xz after tar creation
+#+BEGIN_SRC sh
+xz file.tar
+#+END_SRC
+
+** Adding or Removing files from an archive
 
 - This adds additional files to an archive
 #+BEGIN_SRC sh
@@ -46,20 +63,23 @@ tar -f file.tar --delete file1 file2
 - List the archive contents
 #+BEGIN_SRC sh
 tar -tf file.tar
+tar -tvzf file.tar.gz
+tar -tvjf file.tar.bz2
 #+END_SRC
 
-- Extracting files from an Archive
+
+** Extracting files from an Archive
 bzip2
 #+BEGIN_SRC sh
-tar xvjf file.tar
+tar xvjf file.tar.bz2
 #+END_SRC
 
 gzip
 #+BEGIN_SRC sh
-tar xvzf file.tar
+tar xvzf file.tar.gz
 #+END_SRC
 
-- excluding files
+** Excluding Files
 #+BEGIN_SRC sh
 tar cvzf data_without_certain_file.tar.gz --exclude=test.txt /home/user/data
 #+END_SRC

@@ -3,7 +3,26 @@
 
 * jobs
 * Description
+This command shows current jobs that in a paused, stopped state
 * Usage
+- show currrent stopped jobs
+#+BEGIN_SRC sh
+jobs
+#+END_SRC
+
+** start a process in the background
+- stop the process press Ctrl-z
+  
+- then list the current stopped jobs
+#+BEGIN_SRC sh
+jobs
+#+END_SRC
+
+- select the correct job number to start in the background
+#+BEGIN_SRC sh
+bg 2
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

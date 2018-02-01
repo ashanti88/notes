@@ -1,8 +1,12 @@
-#+TAGS: file
+#+TAGS: file text_utils
 
 
 * sort
 * Description
+Sort starts its sort by default from the 0 column. This means that 11 comes before 2.
+
+The sort cmd doesn't effect the original file, the output is required to be redirected.
+
 * Usage
 - basic sort (default alpha)
 #+BEGIN_SRC sh
@@ -18,6 +22,18 @@ sort -n file.txt
 #+BEGIN_SRC sh
 cat syslog | uniq -c -w 6 | sort -h
 #+END_SRC
+
+- sort by numeric value
+#+BEGIN_SRC sh
+sort -n numbers.txt
+#+END_SRC
+this will ensure that 2 is sorted before 11, unlike the default behaviour that sorts starting with column 0.
+
+- sort by the second delimited field (delimited by space or tab)
+#+BEGIN_SRC sh
+sort -k2 -n numbers.txt
+#+END_SRC
+
 
 * Lecture
 * Tutorial

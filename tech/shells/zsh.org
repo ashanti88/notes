@@ -127,5 +127,6 @@ cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
 * Lecture
 * Tutorial
 * Books
+[[file://home/crito/Documents/Tools/zsh_manual.pdf][Z Shell Manual]]
 * Links
 https://www.smashingmagazine.com/2015/07/become-command-line-power-user-oh-my-zsh-z/

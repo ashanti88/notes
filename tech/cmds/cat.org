@@ -1,4 +1,4 @@
-#+TAGS: core_utils cat stdout
+#+TAGS: core_utils cat stdout cat text_utils
 
 
 * cat

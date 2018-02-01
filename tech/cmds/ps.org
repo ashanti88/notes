@@ -18,6 +18,10 @@ ps auxf
 #+END_SRC
 f - forest
 
+- view only processes that are connected to a tty
+#+BEGIN_SRC sh
+ps au
+#+END_SRC
 ** View the process status and WCHAN field (hung process)
 - This will show WCHAN, the address of the kernel function where the process is sleeping. Running tasks will show "-"
 #+BEGIN_SRC sh

@@ -3,7 +3,7 @@
 
 * libvirt
 HomePage: http://wiki.libvirt.org/page/Main_Page
-* cmds
+* Cmds
 ** virsh
 - list all VMs running on machine
 #+BEGIN_SRC sh
@@ -35,6 +35,21 @@ virsh autostart UbuntuTrustyTahr
 HomePage: https://virt-manager.org/
 This is a GUI to manage VMs
 
+** virt-install 
+A command line tool which provides an easy way to provision operating systems into virtual machines.
+
+** virt-viewer 
+A lightweight UI interface for interacting with the graphical display of virtualized guest OS. It can display VNC or SPICE, and uses libvirt to lookup the graphical connection details.
+
+** virt-clone 
+A command line tool for cloning existing inactive guests. It copies the disk images, and defines a config with new name, UUID and MAC address pointing to the copied disks.
+
+** virt-xml 
+A command line tool for easily editing libvirt domain XML using virt-install’s command line options.
+
+** virt-convert 
+A command line tool for converting OVF and VMX VM configurations to run with libvirt.
+
 * Description
 * Usage
 ** Finding VM process
@@ -42,7 +57,32 @@ This is a GUI to manage VMs
 ps aux | grep virt | grep ubuntu
 #+END_SRC
 just search the name of the VM
+** Convert .vdi(Virtualbox) or .vmdk to .qcow2
+- firts conver to .raw file
+#+BEGIN_SRC sh
+VBoxManage clonehd disk.vdi disk.raw --format raw
+#+END_SRC
+
+- then convert to .qcow2
+#+BEGIN_SRC sh
+qemu-img convert -f raw disk.raw -O qcow2 disk.qcow2
+#+END_SRC
+
+** Conver .ova for virt-manager
+- extract the .ova into the ovf file and the .vdi/.vmdk
+#+BEGIN_SRC sh
+tar -xvf file.ova
+#+END_SRC
+
+- now convert the .vdi or .vmdk to .qcow2
+#+BEGIN_SRC sh
+qemu-img convert -O qcow2 input.vdi output.qcow2
+qemu-img convert -O qcow2 input.vmdk output.qcow2
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books
 * Links
+[[https://www.ibm.com/developerworks/linux/library/l-libvirt/][Anatomy of the libvirt Virtualization Library - IBM DevelperWorks]]
+[[http://blog.bodhizazen.com/linux/virt-manager-bridged-networking/][virt-manager Bridged Networking - Shadows of epiphany]]

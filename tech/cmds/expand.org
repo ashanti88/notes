@@ -1,12 +1,18 @@
-#+TAGS: file txt
+#+TAGS: file text_utils expand
 
 
-* expand							   :file:txt:
+* expand
 * Description
 This command will convert tabs to spaces.
 
 * Usage
 > expand <option> <file>
+
+- set the tab size to 10
+#+BEGIN_SRC sh
+expand -t 10 tabs.txt
+#+END_SRC
+this is useful when you have columns that runover a tab size
 
 * Lecture
 * Tutorial

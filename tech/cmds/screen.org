@@ -1,7 +1,7 @@
-#+TAGS: sys op admn
+#+TAGS: screen terminal_multiplexer
 
 
-* screen						       :sys:op:admin:
+* screen
 Arch: https://wiki.archlinux.org/index.php/GNU_Screen
 * Description
 * Usage
