@@ -125,6 +125,12 @@ find . -type f | wc -l
 #+BEGIN_SRC sh
 find . -type f -printf '%f\n
 #+END_SRC
+** Find any binary that has the set uid
+#+BEGIN_SRC sh
+find /usr/bin -perm -4000 -exec cp {} /root/bkup \;
+#+END_SRC
+this will make a copy of every instance with set uid to /root/bkup
+
 * Lecture
 * Tutorial
 * Books

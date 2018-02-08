@@ -1,0 +1,23 @@
+#+TAGS: shopt bash shell_variables shell_options
+
+
+* shopt
+* Description
+* Usage
+- to set option
+#+BEGIN_SRC sh
+shopt -s optionName
+#+END_SRC
+
+- to unset option
+#+BEGIN_SRC sh
+shopt -u optionName
+#+END_SRC
+
+** Variables
+- noclobber - setting this will stop files from being overwritten 
+
+* Lecture
+* Tutorial
+* Books
+* Links

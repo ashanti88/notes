@@ -1,0 +1,23 @@
+#+TAGS: cron crond automate_system_administration
+
+
+* Automate System Administration
+* Files
+/etc/cron.d
+/etc/corn.hourly
+/etc/cron.daily
+/etc/cron.weekly
+/etc/cron.allow - if this file is present and empty then only root user can access cron jobs
+/etc/cron.deny  - if cron.allow is not present this file is looked for and all users not in here will be allowed to access cron
+/var/spool/cron - this is where all cron jobs are stored for each user, it is this file that crond reads.
+
+* Cmds
+- [[file://home/crito/org/tech/cmds/crontab.org][crontab]]
+- crond
+
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -939,7 +939,6 @@ mput *.txt
 #+END_SRC
 
 
-
 ** Navigating local machine directories
 - move directory on local machine
 #+BEGIN_SRC sh

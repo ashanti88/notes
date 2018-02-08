@@ -3,9 +3,16 @@
 
 * X11
 Wiki: https://en.wikipedia.org/wiki/X_Window_System
+* Files
+/home/user/xorg.conf.d
+* Cmds
+- [[file://home/crito/org/tech/cmds/xwininfo.org][xwininfo]]
+- [[file://home/crito/org/tech/cmds/xdpyinfo.org][xdpyinfo]]
+- [[file://home/crito/org/tech/cmds/xhost.org][xhost]]
+
 * Description
 * Usage
-- Starting a second desktop
+** Starting a second desktop
 1. move to another virtual console
 #+BEGIN_EXAMPLE
 C-M-F3
@@ -23,7 +30,33 @@ startx gnome-session -- :1 vt5
 #+END_SRC
 start gdm on display 1 in virtual terminal 5
 
+** Centos 6 X isntall
+#+BEGIN_SRC sh
+yum groupinstall "X Window System" "Desktop" "Desktop Platform"
+#+END_SRC
+
+- configure X
+#+BEGIN_SRC sh
+X -configure
+#+END_SRC
+this creates the xorg.conf.new for the user that runs it
+
+- test the new configure file
+#+BEGIN_SRC sh
+X -config xorg.conf.new
+#+END_SRC
+
+** Ubuntu X install
+#+BEGIN_SRC sh
+apt-get install xserver-xorg-core
+#+END_SRC
+
 * Lecture
 * Tutorial
+** Linux Academy - Installing X Windows, Display Manager and Desktop Packages for Deployment
+Guide: [[file://home/crito/Documents/Linux/Labs/installing-x-windows-lab.pdf][Installing X Windows]]
+note: the "x-configure" cmd doesn't work on the centos6 use "Xorg -configure" instead
+
 * Books
 * Links
+https://www.cyberciti.biz/faq/howto-linux-configure-xorg-x11/

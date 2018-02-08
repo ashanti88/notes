@@ -1,4 +1,4 @@
-#+TAGS: user_add add_user
+#+TAGS: user_add add_user useradd
 
 
 * useradd
@@ -22,12 +22,23 @@ useradd -D
 
 ** Create a new user
 #+BEGIN_SRC sh
-useradd -d /home/testuser testuser
+useradd -m -d /home/testuser testuser
 #+END_SRC
-d - home directory
+m - create home directory
+d - define home directory
 - Password is required for account to be activated
 - The home directory has to be created manually
   - this directory will be bare to provide the base file copy the /etc/skel to the new directory
+    
+- adding the skeleton files during creation
+#+BEGIN_SRC sh
+useradd newuser -m -k /etc/skel -u 1010 -g 1010 -G 100 -s /bin/zsh
+#+END_SRC
+k - specify the skeleton file
+u - set a specific uid
+g - set the gid(this should only be used if the group has alread been created, otherwise omit and it will be created with the -u flag)
+G - add addtional groups
+s - set the shell
 
 ** Configure a user with custom settings
 

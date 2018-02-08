@@ -125,7 +125,6 @@ ufw enable
 
 - Reboot the server
 
-** 
 * Lecture
 * Tutorial
 * Books

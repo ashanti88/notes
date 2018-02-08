@@ -125,5 +125,10 @@ Creating NTFS volume structures.
 
 * Lecture
 * Tutorial
+** Linux Academy - Using Partition Tools Lab
+Guide: [[file://home/crito/Documents/Linux/Labs/using-partition-tools-lab.pdf][Using Partition Tools]]
+
+** Linux Academy - Creating Filesystems on Partitioned Devices
+Guide: [[file://home/crito/Documents/Linux/Labs/create-filesystem-lab.pdf][Creating Filesystems on Partitioned Devices]]
 * Books
 * Links

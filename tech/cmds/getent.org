@@ -1,0 +1,16 @@
+#+TAGS: getent nsswitch
+
+
+* getent
+* Description
+Get enteries from the Name Service Switch libraries
+* Usage
+- get passwd entry for a user
+#+BEGIN_SRC sh
+getent testuser passwd
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

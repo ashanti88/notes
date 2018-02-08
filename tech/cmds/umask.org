@@ -1,8 +1,10 @@
-#+TAGS: file op
+#+TAGS: umask file_priviliges shell_builtin
 
 
-* umask								    :file:op:
+* umask
 * Description
+Set the shell process’s file creation mask to mode. If mode begins with a digit, it is interpreted as an octal number; if not, it is interpreted as a symbolic mode mask similar to that accepted by the chmod command. If mode is omitted, the current value of the mask is printed. If the -S option is supplied without a mode argument, the mask is printed in a symbolic format. If the -p option is supplied, and mode is omitted, the output is in a form that may be reused as input. The return status is zero if the mode is successfully changed or if no mode argument is supplied, and non-zero otherwise.
+
 * Usage
 
 ** Display the current mask

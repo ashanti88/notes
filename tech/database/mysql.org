@@ -1,39 +1,21 @@
 #+TAGS: database sql mysql
 
+
 * MySQL
 HomePage: [[https://www.mysql.com/][mysql.com]]
 * Commands
- [[file://home/crito/org/tech/cmds/mysqladmin.org][Mysqladmin]]
- [[file://home/crito/org/tech/cmds/mysqldump.org][Mysqldump]]
- [[file://home/crito/org/tech/cmds/mytop.org][Mytop]]
- [[file://home/crito/org/tech/cmds/mysqlaccess.org][Mysqlaccess]]
- [[file://home/crito/org/tech/cmds/mysqltuner.org][Mysqltuner]]
- [[file://home/crito/org/tech/cmds/mysqlimport.org][Mysqlimport]]
- [[file://home/crito/org/tech/cmds/automysqlbackup.org][Automysqlbackup]]
+- [[file://home/crito/org/tech/cmds/mysqladmin.org][Mysqladmin]]
+- [[file://home/crito/org/tech/cmds/mysqldump.org][Mysqldump]]
+- [[file://home/crito/org/tech/cmds/mytop.org][Mytop]]
+- [[file://home/crito/org/tech/cmds/mysqlaccess.org][Mysqlaccess]]
+- [[file://home/crito/org/tech/cmds/mysqltuner.org][Mysqltuner]]
+- [[file://home/crito/org/tech/cmds/mysqlimport.org][Mysqlimport]]
+- [[file://home/crito/org/tech/cmds/automysqlbackup.org][Automysqlbackup]]
 
 * Config Files
 /etc/my.cnf
 * Usage
-** Adding Oracle Repos
-Oracle Repo: https://dev.mysql.com/downloads/repo/apt/
-- Debian
-#+BEGIN_SRC sh
-wget https://dev.mysql.com/get/mysql-apt-config_0.8.8-1_all.deb
-sudo dpkg -i mysql-apt-config_0.8.8-1_all.deb
-sudo apt-get update
-sudo apt-get install mysql-community-server
-#+END_SRC
-
-- RHEL 7
-#+BEGIN_SRC sh
-wget https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm
-sudo rpm -Uvh mysql57-community-release-el7-11.noarch.rpm
-sudo yum update
-sudo yum install mysql-community-server
-#+END_SRC
-With RHEL no password for root is provided, use the mysql_secure_installation to add one
-
-** Basic Admin
+** Administration
 *** Check Number of MySQL Open DB Connections
 - use of SHOW 
 #+BEGIN_SRC sh
@@ -154,7 +136,6 @@ GRANT ALL ON *.* TO 'root'@'localhost' WITH GRANT OPTION;
 
 4. Restart the mysqld
 
-** Uses
 *** List All Users
 #+BEGIN_SRC sh
 SELECT User, Host FROM mysql.user;
@@ -193,8 +174,150 @@ ALTER TABLE testTable CHANGE col1 col_one varchar(20);
 #+END_EXAMPLE
 provide the original name to change and new name and data type
 
+*** Switching Major Release
+By default, all installations and upgrades for your MySQL server and the other required components come from the release series of the major version you have selected during the installation of the configuration package (see Adding the MySQL APT Repository). However, you can switch to another supported major release series at any time by reconfiguring the configuration package you have installed. Use the following command: 
+#+BEGIN_SRC sh
+sudo dpkg-reconfigure mysql-apt-config
+sudo apt-get update
+#+END_SRC
+the latest version will now be available for download
+
+*** Adding Oracle Repos
+Oracle Repo: https://dev.mysql.com/downloads/repo/apt/
+- Debian
+#+BEGIN_SRC sh
+wget https://dev.mysql.com/get/mysql-apt-config_0.8.8-1_all.deb
+sudo dpkg -i mysql-apt-config_0.8.8-1_all.deb
+sudo apt-get update
+sudo apt-get install mysql-community-server
+#+END_SRC
+
+- RHEL 7
+#+BEGIN_SRC sh
+wget https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm
+sudo rpm -Uvh mysql57-community-release-el7-11.noarch.rpm
+sudo yum update
+sudo yum install mysql-community-server
+#+END_SRC
+With RHEL no password for root is provided, use the mysql_secure_installation to add one
+
+*** Move MySQL data directory to new partition
+#+BEGIN_SRC sh
+mkdir -p /new/mysql/location/
+cd /new/mysql/location
+mv <new\_data\_directory>
+chown -R mysql:mysql <new\_data\_directory>
+#+END_SRC
+
+*** Move data directory
+By default the data directory can be found in /var/lib/mysql
+This maybe moved due to size constraints.
+
+Overview of the procedure
+1. Move the MySQL database files from /var/lib/mysql to the new partition.
+2. Modify the .cnf file to reflect the new position.
+3. Update any SELinux settings.
+
+Take a backup of the current MySQL data
+- Stop the mysql service
+#+BEGIN_SRC sh
+systemctl stop mysqld.service
+#+END_SRC
+
+- Copy files to backup location
+#+BEGIN_SRC sh
+cp -r /var/lib/mysql backup_partition
+#+END_SRC
+or
+- SQL dump single database
+#+BEGIN_SRC sh
+sqldump -u root -ppassword database > dumpfilename.sql
+#+END_SRC
+
+- All databases
+#+BEGIN_SRC sh
+sqldump -u root -ppassword --all-databases > /tmp/all-databases.sql
+#+END_SRC
+
+- Move MySQL data directory to new partition*
+#+BEGIN_SRC sh
+mkdir -p new_data_directory
+cd new_data_directory
+mv mysql_datadir new_data_directory
+chown -R mysql:mysql new_data_directory
+#+END_SRC
+
+- Modify my.cnf and start MySQL
+/etc/my.cnf
+#+BEGIN_EXAMPLE
+datadir=<new\_data\_directory>
+socket=<new\_data\_directory/mysql.sock>
+tmp=<new\_data\_directory>
+#+END_EXAMPLE
+
+#+BEGIN_SRC sh
+systemctl restart mysql.start
+#+END_SRC
+
+- SELinux context type for MySQL
+Check the selinux context before moving moving data directory.
+#+BEGIN_SRC sh
+ls -Z
+#+END_SRC
+
+*** Modify my.cnf and start MySQL
+#+BEGIN_SRC sh
+vi /etc/my.cnf
+#+END_SRC
+
+#+BEGIN_EXAMPLE
+atadir=<new\_data\_directory>
+ocket=<new\_data\_directory/mysql.sock>
+mp=<new\_data\_directory>
+#+END_EXAMPLE
+
+#+BEGIN_SRC sh
+systemctl restart mysql.start
+#+END_SRC
+
+*** Checking Status
+COM_* Command Counters
+Start with these:
+  - com_begin
+  - com_commit
+  - com_delete
+  - com_insert
+  - com_select
+  - com_update
+The above variables will give an idea of current workload
+
+Temporary Tables
+- Number of tmp tables on disk vs memory:
+  - created_tmp_disk_tables
+  - created_tmp_tables
+- Small tmp_table_size or max_heap_table_size is often not the reason for tmp tables on disk
+  - instead it's variable size text/blob columns in queries
+    
+Handler_* Counters
+- Most interesting ones:
+  - handler_read_first
+  - handler_read_key
+  - handler_read_next
+  - handler_read_prev
+  - handler_read_rnd_next
+
+Innodb_* Counters
+- interesting ones:
+  - innodb_buffer_pool_pages_flushed - number of pages flushed from buffer pool
+  - innodb_buffer_Pool_reads - number of Disk IO calls to read into the buffer pool
+  - innodb_data_fsyncs - number of fsync() calls executed
+  - innodb_data_pending_* - gauges showing a number of pending fsync, read or write calls
+  - innodb_data_reads/writes - number of random read/write disk IO operations for data files specifically
+  - innodb_history_list_length - guage showing a number of transactions that haven't been cleaned up
+  - innodb_ubuf_merges - number of insert buffer merge operations. High numbers here could explain intense IO spikes 
+
 ** Backup & Restore
-*** Overview of backup procedure 				:mysql:bakup:
+*** Overview of backup procedure
 - Move the MySQL database files from /var/lib/mysql to the new partition.
 #+BEGIN_SRC sh
 mv /var/lib/mysql /mysql
@@ -254,6 +377,10 @@ mysql -u root -p blue_levers_wp > blue_levers_wp.bakup.sql
 - Default the data directory can be found in /var/lib/mysql .
 - This maybe moved due to size constraints.
 
+** Repair
+*** MyISAM 
+*** InnoDB
+URL: [[https://www.percona.com/blog/2008/07/04/recovering-innodb-table-corruption/][Recovering Innodb Table Corruption - Percona]]
 ** Security
 *** Setting up MariaDB SSL and secure connection from clients
 Article: [[https://www.cyberciti.biz/faq/how-to-setup-mariadb-ssl-and-secure-connections-from-clients/][How to setup MariaDB SSL and secure connections from clients]]
@@ -333,6 +460,46 @@ eans a lot of unused space. Recommended that the tables are defraged on
 n ongoing basis.
 
 ** Optimisation
+*** Single Table
+#+BEGIN_EXAMPLE
+mysql> use <database>;
+mysql> optimize table blue_levers_wp;
+#+END_EXAMPLE
+
+*** Multiple Tables
+#+BEGIN_EXAMPLE
+mysql> use <database>;
+mysql> optimize table <table_one>, <table_two>, <table_three>;
+#+END_EXAMPLE
+Optimie table works for InnoDB engine, MyISAM engine and ARCHIVE tables.
+
+*** Defrag using mysqlcheck cmd
+#+BEGIN_SRC sh
+mysqlcheck -o blue_levers_wp wp_user -u root -p
+#+END_SRC
+o - option is to indicate that mysqlcheck should perform "optimize table" operation
+u - user
+p - password
+
+- Defrag all tables on all databases
+#+BEGIN_SRC sh
+mysqlcheck -o --all-databases -u root -p
+#+END_SRC
+
+*** After Optimization
+run the query that we an initially run. This time the data\_free\_mb
+should show zeros in the column.
+When no Plesk or Cpanel if facing a .htaccess file with the following:
+
+AuthName "Restricted Area" AuthType Basic AuthUserFile
+/var/www/html/phpMyAdmin-SBAL/.htpasswd AuthGroupFile /dev/null require
+valid-user
+
+Check the .htpasswd file in the same directory, if it contains a
+password, then this is fine. When catting this, it will show the
+encrypted version of the password so you need to get the password off
+the customer.
+
 *** Identify Tables for Optimisation
 Use the following query to determine how much unused space is available
 in every table.
@@ -353,177 +520,78 @@ The query will output -
 2) data\_length\_mb displays the total unused space in the particular
    table.
 
-** Modify my.cnf and start MySQL
-#+BEGIN_SRC sh
-vi /etc/my.cnf
-#+END_SRC
-
-#+BEGIN_EXAMPLE
-atadir=<new\_data\_directory>
-ocket=<new\_data\_directory/mysql.sock>
-mp=<new\_data\_directory>
-#+END_EXAMPLE
-
-#+BEGIN_SRC sh
-systemctl restart mysql.start
-#+END_SRC
-
-** Move MySQL data directory to new partition
-#+BEGIN_SRC sh
-mkdir -p /new/mysql/location/
-cd /new/mysql/location
-mv <new\_data\_directory>
-chown -R mysql:mysql <new\_data\_directory>
-#+END_SRC
-
-** Move data directory
-By default the data directory can be found in /var/lib/mysql
-This maybe moved due to size constraints.
-*** Overview of the procedure
-1. Move the MySQL database files from /var/lib/mysql to the new partition.
-2. Modify the .cnf file to reflect the new position.
-3. Update any SELinux settings.
-
-*** Take a backup of the current MySQL data
-- Stop the mysql service
-#+BEGIN_SRC sh
-systemctl stop mysqld.service
-#+END_SRC
-
-- Copy files to backup location
-#+BEGIN_SRC sh
-cp -r /var/lib/mysql backup_partition
-#+END_SRC
-or
-- SQL dump single database
-#+BEGIN_SRC sh
-sqldump -u root -ppassword database > dumpfilename.sql
-#+END_SRC
-
-- All databases
-#+BEGIN_SRC sh
-sqldump -u root -ppassword --all-databases > /tmp/all-databases.sql
-#+END_SRC
-
-- Move MySQL data directory to new partition*
-#+BEGIN_SRC sh
-mkdir -p new_data_directory
-cd new_data_directory
-mv mysql_datadir new_data_directory
-chown -R mysql:mysql new_data_directory
-#+END_SRC
-
-- Modify my.cnf and start MySQL
-/etc/my.cnf
-#+BEGIN_EXAMPLE
-datadir=<new\_data\_directory>
-socket=<new\_data\_directory/mysql.sock>
-tmp=<new\_data\_directory>
-#+END_EXAMPLE
-
-#+BEGIN_SRC sh
-systemctl restart mysql.start
-#+END_SRC
-
-- SELinux context type for MySQL
-Check the selinux context before moving moving data directory.
-#+BEGIN_SRC sh
-ls -Z
-#+END_SRC
-
 ** Techniques that are no longer recomended
 - myqlhotcopy 
 Shouldn't be used anymore due to limitations. One of these is it only works for data stored in 'MyISAM' and 'Archive' storag eengines. It also has to be run on the local machine, so no backing up from a remote box.
 
-** Checking Status
-COM_* Command Counters
-Start with these:
-  - com_begin
-  - com_commit
-  - com_delete
-  - com_insert
-  - com_select
-  - com_update
-The above variables will give an idea of current workload
-
-Temporary Tables
-- Number of tmp tables on disk vs memory:
-  - created_tmp_disk_tables
-  - created_tmp_tables
-- Small tmp_table_size or max_heap_table_size is often not the reason for tmp tables on disk
-  - instead it's variable size text/blob columns in queries
-    
-Handler_* Counters
-- Most interesting ones:
-  - handler_read_first
-  - handler_read_key
-  - handler_read_next
-  - handler_read_prev
-  - handler_read_rnd_next
-
-Innodb_* Counters
-- interesting ones:
-  - innodb_buffer_pool_pages_flushed - number of pages flushed from buffer pool
-  - innodb_buffer_Pool_reads - number of Disk IO calls to read into the buffer pool
-  - innodb_data_fsyncs - number of fsync() calls executed
-  - innodb_data_pending_* - gauges showing a number of pending fsync, read or write calls
-  - innodb_data_reads/writes - number of random read/write disk IO operations for data files specifically
-  - innodb_history_list_length - guage showing a number of transactions that haven't been cleaned up
-  - innodb_ubuf_merges - number of insert buffer merge operations. High numbers here could explain intense IO spikes 
-
-** Switching Major Release
-By default, all installations and upgrades for your MySQL server and the other required components come from the release series of the major version you have selected during the installation of the configuration package (see Adding the MySQL APT Repository). However, you can switch to another supported major release series at any time by reconfiguring the configuration package you have installed. Use the following command: 
-#+BEGIN_SRC sh
-sudo dpkg-reconfigure mysql-apt-config
-sudo apt-get update
-#+END_SRC
-the latest version will now be available for download
-
-* Optimization
-** Single Table
+** SQL Commands
+*** Working with IN
+- return only customers that have the stated ages
 #+BEGIN_EXAMPLE
-mysql> use <database>;
-mysql> optimize table blue_levers_wp;
+SELECT customerName, customerAge FROM tblCustomerInfo WHERE customerAge IN (18, 25, 29);
 #+END_EXAMPLE
 
-** Multiple Tables
+*** Working with BETWEEN and AND
+- return all enteries that are between the stated range
 #+BEGIN_EXAMPLE
-mysql> use <database>;
-mysql> optimize table <table_one>, <table_two>, <table_three>;
+SELECT customerName, customerAge FROM tblCustomerInfo WHERE customerAge BETWEEN 18 AND 35;
 #+END_EXAMPLE
-Optimie table works for InnoDB engine, MyISAM engine and ARCHIVE tables.
 
-** Defrag using mysqlcheck cmd
-#+BEGIN_SRC sh
-mysqlcheck -o blue_levers_wp wp_user -u root -p
-#+END_SRC
-o - option is to indicate that mysqlcheck should perform "optimize table" operation
-u - user
-p - password
+- another way to set a range
+#+BEGIN_EXAMPLE
+SELECT customerName, customerAge FROM tblCustomerInfo WHERE customerAge > 21 AND customerAge < 65;
+#+END_EXAMPLE
 
-- Defrag all tables on all databases
-#+BEGIN_SRC sh
-mysqlcheck -o --all-databases -u root -p
-#+END_SRC
+*** Change value of a record (UPDATE)
+- change the age of Bruce Wayne to 41
+#+BEGIN_EXAMPLE
+UPDATE tblCustomerinfo SET customerAge=41 WHERE customerName="Bruce Wayne";
+#+END_EXAMPLE
 
-** After Optimization
-run the query that we an initially run. This time the data\_free\_mb
-should show zeros in the column.
-When no Plesk or Cpanel if facing a .htaccess file with the following:
+*** Delete a specific record (DELETE)
+- this will remove Wall West from the table
+#+BEGIN_EXAMPLE
+DELETE FROM tblCustomerinfo WHERE customerName='Wally West';
+#+END_EXAMPLE
 
-AuthName "Restricted Area" AuthType Basic AuthUserFile
-/var/www/html/phpMyAdmin-SBAL/.htpasswd AuthGroupFile /dev/null require
-valid-user
+*** Count a number records that meet a specific requirements
+- return the number of customers who are older than 25
+#+BEGIN_EXAMPLE
+SELECT COUNT(customerName) FROM tblCustomerInfo WHERE customerAge > 25;
+#+END_EXAMPLE
 
-Check the .htpasswd file in the same directory, if it contains a
-password, then this is fine. When catting this, it will show the
-encrypted version of the password so you need to get the password off
-the customer.
+*** What is the average of set of records (AVG)
+- return the average age of the customers
+#+BEGIN_EXAMPLE
+SELECT AVG(customerAge) FROM tblCustomerInfo;
+#+END_EXAMPLE
 
-* Repair
-** MyISAM 
-** InnoDB
-URL: [[https://www.percona.com/blog/2008/07/04/recovering-innodb-table-corruption/][Recovering Innodb Table Corruption - Percona]]
+*** What is the maximum of a record (MAX)
+#+BEGIN_EXAMPLE
+SELECT MAX(customerAge) FROM tblCustomerInfo;
+#+END_EXAMPLE
+
+*** What is the minimum of a specific record field (MIN)
+#+BEGIN_EXAMPLE
+SELECT MIN(itemPrice) FROM tblOrderInfo;
+#+END_EXAMPLE
+
+*** What is the combined total of a field (SUM)
+#+BEGIN_EXAMPLE
+SELECT SUM(customerAge) FROM tblCustomerInfo;
+#+END_EXAMPLE
+
+*** Using a sub select to provide additional information
+- this will provide the full record of the oldest customer
+#+BEGIN_EXAMPLE
+SELeCT * FROM tblCustomerInfo WHERE customerAge IN (SELECT MAX(customerAge) FROM tblCustomerInfo);
+#+END_EXAMPLE
+
+*** Adding multiple records at once
+- this will add the two records at once, more can be added with a comma delimiter.
+#+BEGIN_EXAMPLE
+insert into customers(customerId,customerName,customerAge) values(111,"Lenny",31),(112,"Stretch",22);
+#+END_EXAMPLE
 * Engines
 URL: [[https://en.wikipedia.org/wiki/Comparison_of_MySQL_database_engines][Wiki - Engine Comparison]]
 ** MyISAM
@@ -1706,7 +1774,7 @@ CREATE INDEX indexCustInfoNames ON tblCustomerIDInfo (custInfoFirstName,custInfo
 #+END_EXAMPLE
 index should be used sparringly as it requires more processing to create
 
-*** Lesson 10 - DROP 
+*** Lesson 10 - DROP
 
 #+BEGIN_EXAMPLE
 CREATE TABLE tblTest (col1 varchar(1),col2 varchar(2));
@@ -1926,6 +1994,8 @@ SELECT prodID, prodName, prodDesc, prodPrice, Now() AS prodPriceDate FROM tblPro
 #+END_EXAMPLE
 this will add a column that adds a date that will correspond to the data at that time (good for viewing changes in price over time)
 
+** Linux Academy - Order Entry Databases are Missing Records
+Guide: [[file://home/crito/Documents/Linux/Labs/order-entry-databases-lab.pdf][Order Entry Databases are Missing Records]]
 
 * Books
 [[file://home/crito/Documents/Database/MySQL/High_Performance_MySQL_2e.pdf][High Performance MySQL - O'Reilly]]

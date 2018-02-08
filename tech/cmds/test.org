@@ -1,8 +1,9 @@
-#+TAGS: test
+#+TAGS: test shell_builtin
 
 
 * test
 * Description
+Evaluate a conditional expression expr and return a status of 0 (true) or 1 (false).
 * Usage
 - test if a is present
 #+BEGIN_SRC sh

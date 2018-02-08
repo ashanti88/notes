@@ -35,5 +35,7 @@ a - turn on for all filesystems
 
 * Lecture
 * Tutorial
+** Linux Academy - Managing Disk Quotas
+Guide: [[file://home/crito/Documents/Linux/Labs/manage-disk-quotas-labs.pdf][Managine Disk Quotas]]
 * Books
 * Links

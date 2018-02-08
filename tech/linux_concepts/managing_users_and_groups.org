@@ -1,21 +1,28 @@
-#+TAGS: op
+#+TAGS: managing_users_and_groups user_administration group_administration 
 
 
-* Managing Users and Groups                                              :op:
+* Managing Users and Groups
 * Files
-- /etc/passwd - users file
-- /etc/group  - groups file
-- /etc/shadow - this file holds the hashes for the user passwords
-- /etc/gshadow - this file holds the hashes for the group passwords
-- /etc/login.defs - this file holds security policies for login
-- /usr/share/doc/setup*/uidgid - this files describes system uses for RHEL
+/etc/passwd - users file - 644 priv
+  - |name|x(was password before the shadow file)|uid|gid|Description of user acct|home directory|shell
+/etc/group  - groups file - 644 priv
+  - |name|x(was password before the gshadow file)|gid|users who are part of the group(comma seperated)
+/etc/shadow - this file holds the hashes for the user passwords - 000(redhat) or 640(debian) or 600(manjaro) priv
+  - |name|hash|last time the password was changed in secs|max number of days to change password|days you will be warned to change password|grace period to change password|reserved section|
+/etc/gshadow - this file holds the hashes for the group passwords
+/etc/login.defs - this file holds security policies for logins for newly created users(defaults)
+/etc/securetty  - this configures which tty can be used to login
+/etc/nsswitch.conf  - this sets how logins are processed by the machine(which login files are read first)
+/etc/skel  - this file contains the files that every new user will have placed into their home directory
+/etc/default/useradd - this sets the defaults for new users
+/usr/share/doc/setup*/uidgid - this files describes system uses for RHEL
 
 * Cmds
 - [[file://home/crito/org/tech/cmds/id.org][id]]
 - [[file://home/crito/org/tech/cmds/adduser.org][adduser]]
-- [[file://home/crito/org/tech/cmds/usermod.org][usermod]]
 - [[file://home/crito/org/tech/cmds/useradd.org][useradd]]
 - [[file://home/crito/org/tech/cmds/userdel.org][userdel]]
+- [[file://home/crito/org/tech/cmds/usermod.org][usermod]]
 - [[file://home/crito/org/tech/cmds/newusers.org][newusers]]
 - [[file://home/crito/org/tech/cmds/passwd.org][passwd]]
 - [[file://home/crito/org/tech/cmds/gshadow.org][gshadow]]
@@ -24,10 +31,12 @@
 - [[file://home/crito/org/tech/cmds/groupdel.org][groupdel]]
 - [[file://home/crito/org/tech/cmds/pwck.org][pwck]]
 - [[file://home/crito/org/tech/cmds/chsh.org][chsh]]
+- [[file://home/crito/org/tech/cmds/getent.org][getent]]
 
 * Description
 * Usage
-
+uid usally range from 0 - 65000 (but in theory 0 - 4 billion)
+gid usally range from 0 - 2500  (but again in theory 0 - 4 billion)
 ** Creating a new user
 
 Three options for adding new users.
@@ -64,8 +73,10 @@ groupdel accounts
 ** Adding an existing user to a group
 - [[file://home/crito/org/tech/cmds/usermod.org][usermod]] 
 #+BEGIN_SRC sh
-usermod -G accounts frank
+usermod -a -G accounts frank
 #+END_SRC
+a - append to group file line
+G - group name
 
 ** Creating Group Directories
 1. as root create the /opt/myproject directory
@@ -186,6 +197,18 @@ cp - set the --preserve=mode, also the -a retains acl data
 - What groups is a user in?
 #+BEGIN_SRC sh
 cat /etc/group | grep accounts
+#+END_SRC
+
+** Prevent logins
+- lock the account
+#+BEGIN_SRC sh
+usermod -L newuser
+#+END_SRC
+the newuser will no longer be able to login with the "Authentcatin failure" error
+
+- unlock the account 
+#+BEGIN_SRC sh
+usermod -U newuser
 #+END_SRC
 
 * Lecture

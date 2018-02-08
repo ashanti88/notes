@@ -1,0 +1,22 @@
+#+TAGS: updatedb find_file locate
+
+
+* updatedb
+* Files
+/etc/updatedb.conf - holds the main configuration for the updatedb cmd
+* Cmds
+- [[file://home/crito/org/tech/cmds/locate.org][locate]]
+
+* Description
+This command updates the database for mlocate
+
+* Usage
+- update the mlocate database
+#+BEGIN_SRC sh
+updatedb
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

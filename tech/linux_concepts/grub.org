@@ -147,7 +147,7 @@ grub-install
 ** Grub (Legacy)
 grub went out around the time of RHEL6
 
-/boot/grub - in here there are all the stage files
+/boot/grub - in here there are all the stage files (this is the file that is edited to make changes)
   - menu.lst -> grub.conf - menu.lst is usally a sym link, and it's this file that creates the menu that starts with grub, and details what OS is available, what kernel to use, and what partition holds the boot partition
   
 Each option is configured in blocks

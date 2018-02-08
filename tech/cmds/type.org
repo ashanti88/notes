@@ -1,4 +1,4 @@
-#+TAGS: op sys
+#+TAGS: find_binaries provide_details_of_command show_aliases_of_a_command
 
 
 * type
@@ -6,6 +6,16 @@
 Displays information about a command
 
 * Usage
+- what is the location of ssh
+#+BEGIN_SRC sh
+type ssh
+#+END_SRC
+
+- provide location and show any aliases that exist to it
+#+BEGIN_SRC sh
+type -a ssh
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

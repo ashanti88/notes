@@ -37,6 +37,11 @@ fsck -f /dev/sda1
 #+END_SRC
 this can be run if fsck says that the disk is clean but you still want to check
 
+- check all filesystems listed in /etc/fstab
+#+BEGIN_SRC sh
+fsck -A
+#+END_SRC
+
 ** Check partition for fragmentation
 #+BEGIN_SRC sh
 fsck -fn /dev/mapper/enc_hdd

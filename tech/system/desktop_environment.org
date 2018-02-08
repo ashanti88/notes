@@ -1,9 +1,15 @@
-#+TAGS:
+#+TAGS: desktop_environments gnome kde xfce lxde mate
 
 
-* Gnome 
+* Gnome
+HomePage: https://www.gnome.org/
+- Display Manager - GDM
 * Kde
+HomePage: https://www.kde.org/
+- Display Manager - KDM
 * i3wm
+HomePage: https://i3wm.org/
+Display Manager - LightDM
 ** Key-bindings
 - terminal
 $mod + Ret
@@ -11,5 +17,8 @@ $mod + Ret
 - reload i3.conf & i3statusbar.conf
 $mod + Shift + r
 * xfce
+HomePage: https://xfce.org/
 * lxde
-* mate
+HomePage: https://lxde.org/
+* Mate
+HomePage: https://mate-desktop.org/

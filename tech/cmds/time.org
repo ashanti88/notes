@@ -1,7 +1,7 @@
-#+TAGS: sys
+#+TAGS: time shell_builtin monitor_execution_time
 
 
-* time									:sys:
+* time
 * Description
 This cmd will produce the amount of CPU time used by a give process command.
 * Usage
@@ -9,6 +9,7 @@ This cmd will produce the amount of CPU time used by a give process command.
 #+BEGIN_SRC sh
 time -p ls
 #+END_SRC
+
 * Lecture
 * Tutorial
 * Books

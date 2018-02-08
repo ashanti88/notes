@@ -100,6 +100,11 @@ dd if=/dev/sda of=mbrbkup.img count=1 bs=512
 dd if=mbrbkup.img of=/dev/sda count=1 bs=512
 #+END_SRC
 
+** Create a file 1GB of zeros
+#+BEGIN_SRC sh
+dd if=/dev/zero of=filename bs=1M count=1024
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

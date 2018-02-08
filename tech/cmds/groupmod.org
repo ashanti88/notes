@@ -1,4 +1,4 @@
-#+TAGS: group group_modify
+#+TAGS: group group_modify groupmod
 
 
 * groupmod

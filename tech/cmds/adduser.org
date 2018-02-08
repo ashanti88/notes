@@ -2,6 +2,8 @@
 
 
 * adduser
+* Files
+/etc/default/useradd
 * Description
 adduser is frontend for useradd that uses the /etc/adduser.conf file to make user creation easier.
 Where useradd requires the options to be provided on the command line, whereas adduser will prompt for the required parameters.

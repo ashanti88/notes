@@ -35,6 +35,7 @@ usermod -s /usr/bin/zsh lisa
 #+BEGIN_SRC sh
 usermod -c "fullname of user"
 #+END_SRC
+this is added to the fifth field in the /etc/passwd
 
 ** Lock/Unlock the users account
 #+BEGIN_SRC sh

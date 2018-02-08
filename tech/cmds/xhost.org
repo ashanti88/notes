@@ -1,0 +1,30 @@
+#+TAGS: X X11 xhost
+
+
+* xhost
+* Description
+* Usage
+- disable access control on xhost
+#+BEGIN_SRC sh
+xhost +
+#+END_SRC
+
+- enable access control on xhost
+#+BEGIN_SRC sh
+xhost -
+#+END_SRC
+
+- add an ip to the authorized clients
+#+BEGIN_SRC sh
+xhost +192.168.0.11
+#+END_SRC
+
+- remove an ip from the authorized clients
+#+BEGIN_SRC sh
+xhost +192.168.0.11
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

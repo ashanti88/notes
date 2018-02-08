@@ -403,6 +403,11 @@ this will list all the documentation where the package is mentioned
 rpm --rebuilddb
 #+END_SRC
 
+- Verify the signature on a package
+#+BEGIN_SRC sh
+rpm --checksig
+#+END_SRC
+
 **** Repo Administration
 Adding a repo
 #+BEGIN_SRC sh

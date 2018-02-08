@@ -14,4 +14,10 @@ groupadd -r dnsmasq
 #+END_SRC
 - Options
 r - system group - these groups will be issued a gid normally below 1000
+
+- create a new group
+#+BEGIN_SRC sh
+groupadd mynewgroup -g 1099
+#+END_SRC
+
 * Links

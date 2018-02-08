@@ -1,7 +1,7 @@
-#+TAGS: sys op
+#+TAGS: chage
 
 
-* chage								     :sys:op:
+* chage
 * Description
 For security reasons, it is advisable to require users to change their passwords periodically. This can be done by using the chage command.
 
@@ -10,7 +10,6 @@ $ chage <options> <user>
 
 ** Options
 [[file://home/crito/Pictures/org/chage_options.png]]
-
 
 ** Running with Prompted Questions
 #+BEGIN_SRC sh
@@ -22,6 +21,10 @@ this will prompt you for all the chage information
 #+BEGIN_SRC sh
 chage -l -1 -m 0 -M 99999 -E -1 testuser
 #+END_SRC
+l - list current aging settings
+m - specify min days
+M - specify max days
+E - specifies the dat on which the account is locked in the format YYYY-MM-DD
 ** Enable password expiry date of user
 #+BEGIN_SRC sh
 chage -M 20 testuser

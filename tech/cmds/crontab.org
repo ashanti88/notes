@@ -13,15 +13,36 @@ crontab -l
 #+BEGIN_SRC sh
 crontab -e
 #+END_SRC
+after editing the crontab you don't need to restart the crond
 
 ** Example
-0 1 * * 1-5 /bin/execute/this/script 
+#+BEGIN_EXAMPLE
+0 1 * * 1-5 /home/user/bin/myscript.sh
+#+END_EXAMPLE
   
 minute - 0 (zero minute of the hour)
 hour - 1 (1am)
 day of month * (no matter the date of the month)
 month - * (every month)
 weekday - 1-5 (monday through friday)
+
+#+BEGIN_EXAMPLE
+45 */2 1,4,7,10 * cp /home/user/check_up.txt /home/user/check_up.txt.bkup
+#+END_EXAMPLE
+45  - every 45 minutes
+*/2 - every 2 hours
+\*  - every day
+1,4,7,10 - only on these months
+\*  - every day
+
+#+BEGIN_EXAMPLE
+50 */1 * 1-4 * /home/user/bin/my_script.sh
+#+END_EXAMPLE
+50 - every 50 minutes
+*/1 - every hour
+\*  - every day of the month
+1-4 - January through April
+\*  - every weekday
 
 * Lecture
 * Tutorial

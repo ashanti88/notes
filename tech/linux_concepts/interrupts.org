@@ -1,0 +1,29 @@
+#+TAGS: irq interrupts
+
+
+* Interrupts
+* Cmds
+- irqbalance
+* Files
+/proc/stat - the intr line shows in the first column the number of interrupts since boot, and each subsequent field conrresponds to a particular interrupt
+/proc/irq/IRQ_NUMBER/smp_affinity -
+** /proc/softirqs
+** /proc/interrupts - Records the number of interrupts per CPU core per IO device
+The columns are IRQ, the next set of columns are the number of interrupts per cpu, the interrupt type, and the final column is the driver that receives the interrupt.
+* Description
+* Usage
+** IRQ Examples
+0 - system timer
+1 - keyboard controller
+3 - serial port controller for serial port 2 
+4 - serial port controller for serial port 1
+5 - parallel port 2 and 3 or sound card
+6 - floppy disk controller
+7 - parallel port 1(used for printer of for any parallel port if no printer)
+* Lecture
+* Tutorial
+* Books
+* Links
+[[https://voipmagazine.wordpress.com/tag/procinterrupts/][/proc/interrupts - VIOP Magazine]]
+[[https://www.thegeekstuff.com/2014/01/linux-interrupts/][Introduction to Linux Interrupts and CPU SMP Affinity - The Geek Stuff]]
+[[https://notes.shichao.io/lkd/ch7/][Interrupts and Interrupt Handlers - Shichao's Notes]]

@@ -2,6 +2,15 @@
 
 
 * Bash
+* Built-in-cmds
+- exit    - this will exit from the shell
+- [[file://home/crito/org/tech/cmds/export.org][export]]  - this will create or append to shell variables (but isn't persistent 
+- [[file://home/crito/org/tech/cmds/history.org][history]] - this will show the users history, the limit is set in the .bashrc
+- [[file://home/crito/org/tech/cmds/shopt.org][shopt]]   - this will list the bash options and their current stat
+- [[file://home/crito/org/tech/cmds/set.org][set]]     - this cmd will set shell options to on(-) or off(+)
+- [[file://home/crito/org/tech/cmds/test.org][test]]    - Evaluate a conditional expression expr and return a status of 0 (true) or 1 (false).
+- [[file://home/crito/org/tech/cmds/time.org][time]]    - this will return timing statistics about a specific program
+
 * Files
 /etc/profile - 
 ~/.bash_logout - this is run when loging out of shell window
@@ -23,7 +32,24 @@
   - /etc/bashrc
     
 * Description
+Borne Again Shell is the GNU's shell, and builds upon a lot of the Borne Shell (sh).
+
 * Usage
+** Precedence of config files
+- non-interactive
+  /etc/profile
+  ~/.bash_profile
+  ~/.bash_login
+
+- interactive
+  /etc/bash.bashrc
+  ~/.bashrc
+  
+- Non-interactive shell
+When you open a terminal emulator (gnome-terminal for example), you are executing what is known as an interactive, non-login shell. 
+
+- Interactive shell
+When you log into your machine from the command line, or run a command such as su - username, you are running an interactive login shell.
 
 ** Variables
 - Commands
@@ -45,22 +71,6 @@ $PATH    - the absolute paths that the system will search for executables
 $PWD     - this prints the current working directory
 $OLDPWD  - this shows the previous direcory the user was in
 $LOGNAME - this holds the name of the current user
-** Precedence of config files
-- non-interactive
-  /etc/profile
-  ~/.bash_profile
-  ~/.bash_login
-
-- interactive
-  /etc/bash.bashrc
-  ~/.bashrc
-  
-- Non-interactive shell
-When you open a terminal emulator (gnome-terminal for example), you are executing what is known as an interactive, non-login shell. 
-
-- Interactive shell
-When you log into your machine from the command line, or run a command such as su - username, you are running an interactive login shell.
-
 ** Globbing
 - Also known as wildcards  
 ls host* - list anything that starts with host
@@ -72,19 +82,72 @@ ls [0-9][0-9]script - list any file names script that is prefixed with two numbe
 ** History
 allows for the looking up of complex cmds previously used, and to audit what actions have been called
 
-** Bash Built-ins
-*** shopt
-This builtin allows for a user to set or unset bash shell options
+* Scripting
+** Check for the correct number of arguments
+- check that at least one argument has been passed
+#+BEGIN_EXAMPLE
+if [[ "$#" -lt 1 ]]; then
+	echo "Usage: conditional.sh [string]"
+	echo "Please try again!"
+	exit 4
+fi
+#+END_EXAMPLE
+if only exit was passed the script would exit thinking that it was successful
 
-- to set option
-#+BEGIN_SRC sh
-shopt -s optionName
-#+END_SRC
+** Check that the argument passed is of a certain value
+- check if the second argument is greater than 10
+#+BEGIN_EXAMPLE
+if [[ "$2" -ge 10 ]]; then
+	echo "The value is greater than 10, we got: $2"
+else
+	echo "The value is less than 10, we got: $2"
+fi
+#+END_EXAMPLE
 
-- to unset option
-#+BEGIN_SRC sh
-shopt -u optionName
-#+END_SRC
+** Loop over a directory that are of a certain file type
+- display all the scripts are in the current directory and cat them to the console
+#+BEGIN_EXAMPLE
+for FILE in $( ls *.sh ); do
+	echo "===================================================================="
+	echo "NAME: $FILE"
+	echo "===================================================================="
+	cat $FILE
+	echo "===================================================================="
+done
+#+END_EXAMPLE
+
+** Looping over a given number
+- find the name of the user and loop over the given number
+#+BEGIN_EXAMPLE
+clear
+echo "Please Enter Your First Name:"
+read FIRSTNAME
+
+if [[ "$#" -lt 1 ]]; then
+	echo "Usage: looping.sh [integer]"
+	echo "Please Try Again!"
+	exit 4
+fi
+
+COUNT=1
+
+while [[ "$COUNT" -le "$1" ]]; do
+	echo "This is Loop Number $COUNT of $1"
+	COUNT=$((COUNT + 1))
+done
+#+END_EXAMPLE
+
+** Testing for files and directories
+#+BEGIN_EXAMPLE
+if [[ -d "$1" ]]; then
+	echo "This is a directory"
+elif [[ -f "$1" && -x "$1" ]]; then
+	echo "The value of $1 is a file and it is executable"
+else
+	echo "I have no clue what it is"
+fi
+#+END_EXAMPLE
+in the above the test command has been omitted before the -d, this is the usual syntax
 
 * Lecture
 * Tutorial
@@ -202,9 +265,11 @@ echo $filename
 Guide: file://home/crito/Documents/Linux/Labs/command-line-variables-lab.pdf
 ** Linux Academy - Process Text Streams Using Filters Lab
    Guide: file://home/crito/Documents/Linux/Labs/process-text-streams-lab.pdf
+** Linux Academy - Writing a Script to Perform Conditional Input Testing
+Guide: [[file://home/crito/Documents/Linux/Labs/write-a-script-lab.pdf][Writing a Script to Perform Conditional Input Testing]]
 * Books
 ** [[file://home/crito/Documents/Linux/Shell/Bash/bash-Cookbook.pdf][bash Cookbook - O'Reilly]]
-** [[file://home/crito/Documents/Linux/Shell/Bash/bash-Pocket_Reference.pdf][bash - Pocket Reference]]
+** [[file://home/crito/Documents/Linux/Shell/Bash/bash-Pocket_Reference.pdf][Bash - Pocket Reference]]
 ** [[file://home/crito/Documents/Linux/Shell/Bash/Learning_the_bash_Shell.pdf][Learning the Bash Shell]]
 ** [[file://home/crito/Documents/Linux/Shell/Bash/Pro_Bash_Programming_2e.pdf][Pro Bash Programming 2e]]
 ** [[file://home/crito/Documents/Linux/Shell/Bash/Pro_Bash_Programming-Scripting_the_GNU-Linux_Shell.pdf][Pro Bash Programming - Scripting the GNU/Linux Shell]]

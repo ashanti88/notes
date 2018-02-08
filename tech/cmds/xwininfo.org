@@ -1,0 +1,10 @@
+#+TAGS: X xwininfo
+
+
+* xwininfo
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links
