@@ -10,6 +10,11 @@ Get enteries from the Name Service Switch libraries
 getent testuser passwd
 #+END_SRC
 
+- get the ip address of a domain
+#+BEGIN_SRC sh
+getent www.google.com
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

@@ -2,7 +2,9 @@
 
 
 * Linux Filesystem Hierarchy
-HomePage: 
+HomePage: https://wiki.linuxfoundation.org/lsb/fhs
+Wiki: https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard
+
 * Description
 * FHS - Filesystem Hierarchy Standard
 ** /
@@ -23,7 +25,7 @@ Linux discriminates between 'normal' executables and those used for system maint
 
 Some distro's have now symlinked this directory to /bin .
 
-** /lib
+** /lib - b
 The /lib directory contains kernel modules and those shared library images (the C programming code library) needed to boot the system and run the commands in the root filesystem, ie. by binaries in /bin and /sbin. Libraries are readily identifiable through their filename extension of *.so.
 
 ** /usr - Secondary hierarchy for read-only user data
@@ -70,7 +72,7 @@ This is the nerve center of your system, it contains all system related configur
 /etc/group         - contains all the groups on the system and who the members are
 /etc/hosts         - this file is first read to find IP to hostname lookup
 /etc/hosts.allowed - this is an Access Control File that specifies allowed hosts
-/etc/hosts.deny    - this is the counter part to hosts.allowed
+/etc/hosts.deny    - this is the counter part to hosts.allowed, if only this file all allowed to access except what is contained in this file
 /etc/nologin       - if this file is present then no-one will be able to login, access can only be had through a rescue shell, single user login.
 /etc/pacman.cof    - this is the main configuration file for the pacman package management system
 /etc/passwd        - this file contains all the systems users
@@ -78,9 +80,27 @@ This is the nerve center of your system, it contains all system related configur
 /etc/services      - this file contains a list of services and the common ports that are associated with it
 /etc/skel/         - skel directory, short for skeleton is copied into new users home directories on creation
 /etc/sudoers       - this file is where user privileges can be added, such as sudo, or giving a user access to certain applications
+/etc/xinetd.d/     - this directory is used to control services on a system
 *** /etc/default - contains some parameters that the end user or administrator is likely to change, rather than embedding the values in the actual boot scripts. In this way, changes will persist even if you upgrade the package and the boot script is replaced.
 /etc/default/grub - this file can be modified to make changes to the grub.cfg file
 /etc/default/useradd - this file holds the defaults to be applied to a newly created user
+*** /etc/issue   - this is where a pre-login message can be configured
+https://www.cyberciti.biz/faq/howto-change-login-message/
+
+Escape code that can be included in the issue file
+\b : Insert the baudrate of the current line.
+\d : Insert the current date.
+\s : Insert the system name, the name of the operating system.
+\l : Insert the name of the current tty line.
+\m : Insert the architecture identifier of the machine, eg. i486
+\n : Insert the nodename of the machine, also known as the hostname.
+\o : Insert the domainname of the machine.
+\r : Insert the release number of the OS, eg. 1.1.9.
+\t : Insert the current time.
+\u : Insert the number of current users logged in.
+\U : Insert the string “1 user” or “ users” where is the number of current users logged in.
+\v : Insert the version of the OS, eg. the build-date etc.
+
 *** /etc/netctl
 ArchLinux: https://wiki.archlinux.org/index.php/Netctl
 netctl uses profiles to manage network connections and different modes of operation to start profiles automatically or manually on demand.
@@ -93,17 +113,18 @@ To use any of the example just copy the file to /etc/netctl and edit
 *** /etc/pam.d/
 The /etc/pam.d/ directory contains the PAM configuration files for each PAM-aware application
 *** /etc/X11/
-** /dev
+** /dev - holds information on machine devices (block|character)  
 /dev is the location of special or device files. It is a very interesting directory that highlights one important aspect of the Linux filesystem - everything is a file or a directory. Look through this directory and you should hopefully see sda1, sda2 etc.... which represent the various partitions on the first master drive of the system and /dev/sr0 represent your CD-ROM drive.
 /dev/hda   - ide connected hard drive
+/dev/psaux - PS/2 connection (mice, keyboard)
+/dev/urandom - this is the pseudo random device
 /dev/sda   - sata connected hard drive
 /dev/ttySX - serial ports
-/dev/psaux - PS/2 connection (mice, keyboard)
-
+ 
 ** /opt
 This directory is reserved for all the software and add-on packages that are not part of the default installation. Here is where packages are placed that are not installed by the distro's package management tool.
 
-** /proc
+** /proc - kernel and process files
 /proc is very special in that it is also a virtual filesystem. It's sometimes referred to as a process information pseudo-file system. It doesn't contain 'real' files but runtime system information (e.g. system memory, devices mounted, hardware configuration, etc). For this reason it can be regarded as a control and information centre for the kernel. In fact, quite a lot of system utilities are simply calls to files in this directory. For example, 'lsmod' is the same as 'cat /proc/modules' while 'lspci' is a synonym for 'cat /proc/pci'. By altering files located in this directory you can even read/change kernel parameters (sysctl) while the system is running.
 /proc/X/         - proc holds a directory for every process on the system, and the dir contains a set of properties about the process
 /proc/interrupts - this shows the cpu interrupts and how they are being used
@@ -116,15 +137,13 @@ As was explained earlier during the overview of the FSSTND, Linux should always 
 This directory contains subdirectories which are used as mount points for
 removeable media such as flash drives, cdroms and zip disks.
 
-** /mnt - Temporary mount point
+** /mnt   - Temporary mount point
 This is a generic mount point under which you mount your filesystems or devices. Mounting is the process by which you make a filesystem available to the system. After mounting your files will be accessible under the mount-point. This directory usually contains mount points or sub-directories where you mount your floppy and your CD. You can also create additional mount-points here if you wish. Standard mount points would include /mnt/cdrom and /mnt/floppy. There is no limitation to creating a mount-point anywhere on your system but by convention and for sheer practicality do not litter your file system with mount-points. It should be noted that some distributions like Debian allocate /floppy and /cdrom as mount points while Redhat and Mandrake puts them in /mnt/floppy and /mnt/cdrom respectively.
 
-** /run - Run-time variable data, information about the running system since last boot  
+** /run   - Run-time variable data, information about the running system since last boot  
 - /run/media/user/ - this is where external drives are added with Gnome
-** /root
-This is the home directory of the System Administrator, 'root'.
-** /srv
-/srv contains site-specific data which is served by this system.
+** /root  - This is the home directory of the System Administrator, 'root'.
+** /srv   - contains site-specific data which is served by this system.
 
 This main purpose of specifying this is so that users may find
 the location of the data files for particular service, and so that
@@ -149,10 +168,10 @@ This is particularly important as these areas will often contain both
 files initially installed by the distributor, and those added by the
 administrator.
 
-** /sys
+** /sys   - Contains information about devices, drivers, and some kernel features
 The /sys/ directory utilizes the new sysfs virtual file system specific to the 2.6 kernel. With the increased support for hot plug hardware devices in the 2.6 kernel, the /sys/ directory contains information similarly held in /proc/, but displays a hierarchical view of specific device information in regards to hot plug devices.
 
-** /tmp
+** /tmp   - holds files that will be removed on reboot
 This directory contains mostly files that are required temporarily. Many programs use this to create lock files and for temporary storage of data. Do not remove files from this directory unless you know exactly what you are doing! Many of these files are important for currently running programs and deleting them may result in a system crash.
 
 ** /var - Variable files whose content is expected to change during normal system use and operation
@@ -220,11 +239,20 @@ KDM log file. Normally a subset of the last X log file. See /var/log/xdm.log for
 - gdm
 GDM log files. Normally a subset of the last X log file. See /var/log/xdm.log for mode details.
 
+**** /var/log/journal
+this contains all the binary journal logs for the systemd logging service
+**** /var/log/libvirt
+/var/log/libvirt/lxc  - this holds logs for each linux container
+/var/log/libvirt/qemu - this holds logs for each created virtual machine
+/var/log/libvirt/uml
 **** /var/log/messages
 System logs
 
 **** /var/log/pacct
 Process accounting is the bookkeeping of process activity. The raw data of process activity is maintained here. Three commands can be used to access the contents of this file dump-acct, sa (summary of process accounting) and lastcomm (list the commands executed on the system).
+
+**** /var/log/samba
+This will create seperate logs for each created connection
 
 **** /var/log/utmp
 Active user sessions. This is a data file and as such it can not be viewed normally. A human-readable form can be created via the dump-utmp command or through the w, who or users commands.
@@ -261,7 +289,6 @@ Database for BIND. The Berkeley Internet Name Domain (BIND) implements an Intern
 
 *** /var/yp
 Database for NIS (Network Information Services). NIS is mostly used to let several machines in a network share the same account information (eg. /etc/passwd). NIS was formerly called Yellow Pages (YP).
-
 
 ** /home - The users home directoriesh
 Linux is a multi-user environment so each user is also assigned a specific directory that is accessible only to them and the system administrator. These are the user home directories, which can be found under '/home/$USER' (~/). It is your playground: everything is at your command, you can write files, delete them, install programs, etc.... Your home directory contains your personal configuration files, the so-called dot files (their name is preceded by a dot). Personal configuration files are usually 'hidden', if you want to see them, you either have to turn on the appropriate option in your file manager or run ls with the -a switch. If there is a conflict between personal and system wide configuration files, the settings in the perse will prevail. 

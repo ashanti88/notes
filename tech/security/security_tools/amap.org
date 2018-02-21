@@ -1,0 +1,11 @@
+#+TAGS: amap
+
+
+* amap
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links
+[[https://www.hackingloops.com/using-amap-on-kali-linux/][Using amap on Kali]]

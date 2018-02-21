@@ -1,8 +1,11 @@
-#+TAGS: cups printers
+#+TAGS: cups printers lp
 
 
 * CUPS
 Docs: [[https://www.cups.org/documentation.html][cups.org]]
+* Files
+/etc/cups
+/var/spool/cups/ - this is where the print jobs are stored until processed
 * Cmds
 - [[file://home/crito/org/tech/cmds/lpstat.org][lpstat]]
 - [[file://home/crito/org/tech/cmds/lpq.org][lpq]]
@@ -16,7 +19,7 @@ Docs: [[https://www.cups.org/documentation.html][cups.org]]
 * Lecture
 * Tutorial
 ** Lab - Linux Academy - Installing Cups Print System
-Guide: file://home/crito/Documents/Linux/Labs/installing-cups-print-system_labs.pdf
+Guide: [[file://home/crito/Documents/Linux/Labs/installing-cups-print-system_labs.pdf][Installing Cups Print System]]
 
 * Books
 * Links

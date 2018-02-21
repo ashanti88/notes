@@ -1,7 +1,7 @@
-#+TAGS: net sec ldap
+#+TAGS: ldap active_directory
 
 
-* LDAP                                                         :net:sec:ldap:
+* LDAP
 OpenLDAP: [[https://www.openldap.org/][openldap.org]]
 * Cmds
 - ldapsearch
@@ -52,3 +52,4 @@ LDAP uses the Sleepycat Berkley DB,
 https://wiki.debian.org/LDAP
 [[http://www.thegeekstuff.com/2017/07/ldap-389-directory-server-install/][How to Install LDAP 389 Directory Server On Linux]]
 [[https://www.howtoforge.com/linux_openldap_setup_server_client][Step-by-Step OpenLDAP Installation and Configuration]]
+[[https://www.linuxtechi.com/integrate-rhel7-centos7-windows-active-directory/][How to Integrate RHEL7 or CentOS7 with Windows Active Directory - Linux Techi]]

@@ -8,9 +8,9 @@
 - [[file://home/crito/org/tech/cmds/mkswap.org][mkswap]]
 
 * Files
-/proc/swap              - shows what partitions are set for swap
+/proc/swaps             - shows what partitions are set for swap
 /proc/sys/vm/swappiness - swappiness value is kept here
-/etc/sysctl.d/99-sysctl.conf
+/etc/sysctl.d/99-sysctl.conf - this is where you change the swappiness value permanently
 
 * Overview
 * Usage

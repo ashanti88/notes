@@ -5,7 +5,13 @@
 HomePage: [[http://he.fi/bchunk/][bchunk]]
 * Description
 * Usage
+- convert .bin and .cue to .iso
+#+BEGIN_SRC sh
+bchunk image.cue image.bin image.iso
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books
 * Links
+[[https://rorasa.wordpress.com/2009/09/13/convert-bin-cue-to-iso-in-linux/][Convert .bin .cue to .iso in Linux - Rorasa's Blog]]

@@ -1,13 +1,36 @@
-#+TAGS: sys adm date
+#+TAGS: date time hwclock ntp
 
 
-* Date and Time                                                :sys:adm:date:
+* Date and Time
+* Files
+/usr/share/zoneinfo/ - this contains all the available timezones that can be set
+/etc/adjtime - this is the offset between the system and hardware clock, it also shows the number of seconds since the epoch
+/etc/localtime - this is usually a symbolic link to /usr/share/zoneinfo/$time_zone
+
 * Cmds
 - [[file://home/crito/org/tech/cmds/date.org][date]]
+- [[file://home/crito/org/tech/cmds/hwclock.org][hwclock]]
+
+* Service
+- [[file://home/crito/org/tech/services/ntp.org][ntp]]
 
 * Description
 * Usage
+- setting timezone with /usr/shar/zoneinfo
+#+BEGIN_SRC sh
+rm /etc/localtime
+ln -s /usr/share/zoneinfo/US/Eastern /etc/localtime
+#+END_SRC
+this will take effect straight away without any reboot
+
 * Lecture
 * Tutorial
+** Linux Academy - Resolving Time Synchronisation Issues Between Clocks
+Guide: [[file://home/crito/Documents/Linux/Labs/resolving-time-sync-lab.pdf][Resolving Time Synchronization Issues Between Clocks]]
+
+** Linux Academy - Remote Server Timezone Configuration
+Guide: [[file://home/crito/Documents/Linux/Labs/remote-timezone-configuration-lab.pdf][Reomote Server Timezone Configuration]]
+- error in the guide "date =%z" should be "date +%z"
+
 * Books
 * Links

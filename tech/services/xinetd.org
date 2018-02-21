@@ -1,0 +1,17 @@
+#+TAGS: xinetd service_control
+
+
+* xinetd
+* Files
+/etc/xinetd.d
+* Description
+This daemon is a service manager.
+
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links
+[[https://www.centos.org/docs/5/html/Deployment_Guide-en-US/ch-tcpwrappers.html][TCP Wrappers and xinetd - CentOS5 docs]]
+https://jamalahmed.wordpress.com/2010/03/19/using-etchosts-allow-and-etchosts-deny-to-secure-unix/
+[[https://www.server-world.info/en/note?os=CentOS_7&p=tcp_wrapper][Centos7 TCP Wrapper TCP Access - Server World]]

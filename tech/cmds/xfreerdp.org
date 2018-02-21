@@ -1,7 +1,7 @@
 #+TAGS: virt rdp remote
 
 
-* xfreerdp                                                  :virt:rdp:remote:
+* xfreerdp
 HomePage: [[http://www.freerdp.com/][freerdp.com]]
 Wiki: [[https://github.com/FreeRDP/FreeRDP/wiki/CommandLineInterface][github.com/freerdp/wiki]]
 

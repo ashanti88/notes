@@ -54,12 +54,13 @@ Software
 [[file://home/crito/org/tech/mail/cyrus.org][Cyrus]]
 
 * 161u  - SNMP
+* 162   - SNMP
 * 256   - FW1-securemote - Checkpoint Firewall-1 devices often have this administration port open
 * 389t  - LDAP
 Software
 [[file://home/crito/org/tech/cmds/openldap.org][OpenLDAP]]
 
-* 443   - https
+* 443   - HTTPSSS
 Software
 [[file://home/crito/org/tech/web/web_service/apache.org][Apache]]
 [[file://home/crito/org/tech/web/web_service/lighttpd.org][Lighttpd]]
@@ -80,7 +81,7 @@ Software
 * 544t  - kshell, Kerveros remote shell
 * 554   - rtsp - Real Time Stream Control Protocol - is used by media servers
 * 631u  - IPP - Internet Printing Protocol
-* 636t  - ldapssl - LDAP over SSL
+* 636t  - ldapssl/LDAPS - LDAP over SSL
 Software
 [[file://home/crito/org/tech/cmds/openldap.org][OpenLDAP]]
 

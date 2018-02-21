@@ -1,7 +1,7 @@
-#+TAGS: sys clock
+#+TAGS: hwclock time
 
 
-* hwclock                                                         :sys:clock:
+* hwclock
 * Description
 hwclock is a utility for accessing the hardware clock, also referred to as the Real Time Clock (RTC). The hardware clock is independent of the operating system you use and works even when the machine is shut down. This utility is used for displaying the time from the hardware clock. hwclock also contains facilities for compensating for systematic drift in the hardware clock.
 
@@ -18,10 +18,19 @@ hwclock --show
 hwclock --set --date "27 Aug 2016 14:25"
 #+END_SRC
 
-- synchronize both hardware clock and system clock
+- synchronize hardware clock and system clock
 #+BEGIN_SRC sh
 hwclock --systohc
+hwclock -w
 #+END_SRC
+using hardware clock
+
+- synchronize system clock with the hardware clock
+#+BEGIN_SRC sh
+hwclock --hctosys
+hwclock -s
+#+END_SRC
+using system clock
 
 * Lecture
 * Tutorial

@@ -1,0 +1,14 @@
+#+TAGS:
+
+
+* newaliases
+* Description
+* Usage
+- rebuild the aliases.db file after changing the alisases file
+#+BEGIN_SRC sh
+newaliases
+#+END_SRC
+* Lecture
+* Tutorial
+* Books
+* Links

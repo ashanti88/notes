@@ -429,7 +429,6 @@ lt - less than
 ge - greater than or equal to
 le - less than or equal to
 
-
 *** Conditionals
 - testing if entered number is greater than 10
 #+BEGIN_SRC sh

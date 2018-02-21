@@ -86,7 +86,6 @@ sudo virt-manager
 #+END_SRC
 you will now be able to create virtual machines that can communicate with each other
 
-
 * Lecture
 ** KVM and QEMU Internals - Understanding the IO subsystem - Kyle Bader :openstack:
    
@@ -131,6 +130,8 @@ you will now be able to create virtual machines that can communicate with each o
 
 * Books
 * Links
+[[https://fatmin.com/2016/12/20/how-to-resize-a-qcow2-image-and-filesystem-with-virt-resize/][How to Resize a qcow2 Image and Filesystem with Virt-Resize - Fatmin Blog]]
+[[https://www.benweb.eu/2015/04/virtualbox-vs-kvm/][VirtualBox Vs KVM - BenWeb]]
 
 
 

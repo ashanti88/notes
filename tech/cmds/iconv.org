@@ -1,9 +1,9 @@
-#+TAGS: sys
+#+TAGS: iconv encoding_conversion
 
 
-* iconv									:sys:
+* iconv
 * Description
-The command iconv can convert from one encoding to an other.
+The command iconv can convert from one encoding to an other encoding, but isn't a translation tool.
 * Usage
 * Lecture
 * Tutorial

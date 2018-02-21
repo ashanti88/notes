@@ -213,6 +213,8 @@ usermod -U newuser
 
 * Lecture
 * Tutorial
+** Linux Academy - Creating and Managing Users and Groups
+   Guide: file://home/crito/Documents/Linux/Labs/creating-and-managing-users-and-groups-lab.pdf
 * Books
 * Links
 

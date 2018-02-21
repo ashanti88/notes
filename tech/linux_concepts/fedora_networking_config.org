@@ -2,16 +2,33 @@
 
 
 * Fedora Network Configuration
+* Files
+/etc/hosts - this is where address to ip addr are first looked up
+/etc/hostname - this is where the machines hostname is set
+/etc/resolv.conf - this is where the nameserver that the machine should use are selected and set
+/etc/nsswitch.conf - the host variable determines how host lookup is performed
+/etc/sysconfig/network-scripts/ - this directory holds all the networking configuration files
+/etc/sysconfig/network-scripts/interfaces/ifcfg-* - each file holds the configuration for an interface
+/proc/sys/net/ipv4/ip_forward - this is the variable for forwarding traffic (1=yes 0=no)
+
 * Cmds
 - [[file://home/crito/org/tech/cmds/ethtool.org][ethtool]]
 - [[file://home/crito/org/tech/cmds/nmcli.org][nmcli]]
 - [[file://home/crito/org/tech/cmds/ip.org][ip]]
+- [[file://home/crito/org/tech/cmds/ss.org][ss]]
+- [[file://home/crito/org/tech/cmds/ifdown.org][ifdown]]
+- [[file://home/crito/org/tech/cmds/ifup.org][ifup]]
+- [[file://home/crito/org/tech/cmds/route.org][route]]
+- [[file://home/crito/org/tech/cmds/dhclient.org][dhclient]]
+- [[file://home/crito/org/tech/cmds/ifconfig.org][ifconfig (deprecate for ip)]]
+- [[file://home/crito/org/tech/cmds/netstat.org][netstat (deprecated for ss)]]
+
 
 * Network Configuration
-** Network Interface Config Files
-/etc/sysconfig/network-scripts/
 ** Example Interface Config
+/etc/sysconfig/network-scripts/interfaces/ifcfg-enp0s17
 #+BEGIN_EXAMPLE
+DEVICE=enp0s17
 TYPE=Ethernet
 BOOTPROTO=none
 DEFROUTE=yes
@@ -32,12 +49,14 @@ IPV6_PEERROUTES=yes
 
 ** Setting an Interface to DHCP
 #+BEGIN_EXAMPLE
+DEVICE=enp0s17
 BOOTPROTO=dhcp
 ONBOOT=yes
 #+END_EXAMPLE
 
 ** Setting an Interface to a Static ip
 #+BEGIN_EXAMPLE
+DEVICE=enp0s17
 BOOTPROTO=static
 ONBOOT=yes
 IPADDR=172.27.0.32
@@ -75,7 +94,27 @@ nameserver 8.8.4.4
 hostname temp_hostname
 #+END_SRC
 
+** Set IPv4 Forwarding
+- Temporary
+#+BEGIN_SRC sh
+echo "1" > /proc/sys/net/ipv4/ip_forward
+#+END_SRC
+or
+#+BEGIN_SRC sh
+sysctl -w net.ipv4.ip_forward=1
+#+END_SRC
+
+- Premanent edit /etc/sysctl.conf
+#+BEGIN_EXAMPLE
+net.ipv4.ip_forward = 1
+#+END_EXAMPLE
+
+
 * Lecture
 * Tutorial
+** Linux Academy - Legacy Application with DNS Limitations
+Guide: [[file://home/crito/Documents/Linux/Labs/legacy-app-dns-limits-lab.pdf][Legacy Application with DNS Limitations]]
+
 * Books
 * Links
+[[http://www.ducea.com/2006/08/01/how-to-enable-ip-forwarding-in-linux/][How to enable IP Forwarding in LInux - MDLog]]

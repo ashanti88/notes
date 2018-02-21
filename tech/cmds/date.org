@@ -43,8 +43,7 @@ mon-sun, month, year
 
 ** Seconds since the epoch
 
-If --date=@x is used, it converts x number of seconds since the epoch
-(1970-01-01 UTC) to a date.
+If --date=@x is used, it converts x number of seconds since the epoch (1970-01-01 UTC) to a date.
 
 > date --date=@x
 
@@ -77,7 +76,7 @@ date --set 11:15:12
 date --set 2017-05-22
 #+END_SRC
 
-** View the last modification time for a file                          :file:
+** View the last modification time for a file
 - view the modification date of a file
 #+BEGIN_SRC sh
 date -r file_name.txt

@@ -1,0 +1,11 @@
+#+TAGS: locale 
+
+
+* locale
+* Description
+Provides infromation on the locale settings
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

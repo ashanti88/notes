@@ -1,0 +1,12 @@
+#+TAGS: compression zstd
+
+
+* zstd
+Wiki: https://en.wikipedia.org/wiki/Zstandard
+Github: https://facebook.github.io/zstd/
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

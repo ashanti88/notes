@@ -2,7 +2,10 @@
 
 
 * resolvconf
+* Files
+resolv.conf - this file contains all the dns information for a client dns machine
 * Description
+This cmd will allow for updates of dns changes dynamically from the cmd line.
 * Usage
 * Lecture
 * Tutorial

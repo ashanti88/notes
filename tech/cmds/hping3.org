@@ -1,7 +1,7 @@
-#+TAGS: net anal sec_d
+#+TAGS: hping
 
 
-* hping3						     :net:anal:sec_d:
+* hping3
 * Description
 This command is used to analyse and assemble tcp/ip packets. hping3 is based on the ping command but is not only limited to the icmp echo requests.
 
@@ -87,6 +87,7 @@ hping3 -S -p 80 -s 5050 --flood --interface <ethx> --rand-source 51.20.54.122
 * Lecture
 * Tutorial
 * Books
+[[file://home/crito/Documents/Security/Tools/hping2.pdf][hping Tutorial]]
 * Links
 
 

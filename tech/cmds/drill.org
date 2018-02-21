@@ -13,3 +13,4 @@ drill -x 75.126.43.253
 * Tutorial
 * Books
 * Links
+[[https://imdjh.github.io/toolchain/2015/10/07/drill-if-you-can-dig-if-you-have-to.html][drill if you can, dig if you have to, nslook if you must - imdjh]]

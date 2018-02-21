@@ -41,7 +41,7 @@ rsync -r bkup1/ bkup2
 #+END_SRC
 Entire contains of the first directory into the second directory (this will omitte the first directory)
 
-- copy symbolic links also
+- copy symbolic links also (equals -rlptgoD)
 #+BEGIN_SRC sh
 rsync -a bkup1/ bkup2
 #+END_SRC
@@ -53,6 +53,7 @@ this will make a complete duplicate, copy recursively, with any special files al
 rsync -anv bkup1/ bkup2
 #+END_SRC
 this will provide an output that will tell you about any errors that occured
+n - dry-run
 
 - copying a directory to remote machine (rsync push)
 #+BEGIN_SRC sh

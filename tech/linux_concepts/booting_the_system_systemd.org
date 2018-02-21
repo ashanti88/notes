@@ -46,3 +46,4 @@
 * Tutorial
 * Books
 * Links
+[[https://opensource.com/article/18/1/analyzing-linux-boot-process][Analyzing Linux Boot process - Opensource.com]]

@@ -1,7 +1,7 @@
 #+TAGS: net op conf
 
 
-* netctl							:net:op:conf:
+* netctl
 ArchLinux: [[https://wiki.archlinux.org/index.php/Netctl][archlinux/Netctl]]
 * Description
 This is a cmd line tool that allows for network interfaces to be configured using profiles.

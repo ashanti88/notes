@@ -2,11 +2,17 @@
 
 
 * ntp
-* Description
-* Usage
-* Servers
+* Serives
 ntpd
 chrony
+* Description
+* Usage
+- Query the ntpd
+#+BEGIN_SRC sh
+ntpq
+#+END_SRC
+This will provide information of the configured ntp pool that the machines time is being delivered from.
+
 * Lecture
 * Tutorial
 * Books

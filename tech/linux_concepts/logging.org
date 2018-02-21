@@ -1,11 +1,28 @@
-#+TAGS: sys anal log
+#+TAGS: syslog rsyslog journalctl logrotate logger syslog-ng
 
 
 * Logging
-* Cmds
+* Files
+** Syslog
+/etc/syslog.conf - this is the main syslog configuration file
+
+** Syslog-ng
+/etc/syslog-ng/syslog-ng.conf - this is the syslog-ng main configuration file, and specifies where log files shuld be placed
+
+** rsyslog
+
+** journalctl
+/etc/systemd/journald.conf - this is the main systemd journal config file
+
+** logrotate
+/etc/logrotate.conf - the main configuration file for logroate
+/etc/logroate.d/ - this holds service specific files, and these take precedence over logrotate.conf
+
+* Cmds/Service
 - [[file://home/crito/org/tech/monitoring/rsyslog.org][rsyslog]]
 - [[file://home/crito/org/tech/cmds/journalctl.org][journalctl]]
 - [[file://home/crito/org/tech/monitoring/logrotate.org][logrotate]]
+- [[file://home/crito/org/tech/monitoring/syslog-ng.org][syslog-ng]]
 - logger
 
 * Lecture

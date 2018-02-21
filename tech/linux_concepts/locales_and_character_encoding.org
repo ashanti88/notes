@@ -1,0 +1,33 @@
+#+TAGS: locale character_encoding keyboard_settings
+
+
+* System Locale
+* Files
+- /etc/locale.conf
+- /etc/locale.gen - this contains all available locales and is used to build the locale
+* Cmds
+- localectl
+- [[file://home/crito/org/tech/cmds/locale.org][locale]]
+- [[file://home/crito/org/tech/cmds/iconv.org][iconv]]
+
+* Description
+
+* Usage
+
+- check current settings
+#+BEGIN_SRC sh
+localectl status
+#+END_SRC
+** Setting Locale
+LANG - this is what your main language
+LANGUAGE - this sets the language that messages are printed in, doesn't affect formatting 
+LC_ALL - this overrides all other locale variables
+
+** Options for locale.conf
+Don't set LC_ALL in locale.conf
+[[file://home/crito/Pictures/org/locale_ops.png]]
+
+* Lecture
+* Tutorial
+* Books
+* Links

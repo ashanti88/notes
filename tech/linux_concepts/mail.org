@@ -1,8 +1,41 @@
 #+TAGS: mail
 
 
-* Mail
-** Introduction
+
+* Mail Linux Overview
+* Files
+/etc/aliases - this is where mail can be redirected to the correct user
+/etc/aliases.db - this is the database that is created by the aliases file
+/var/spool/mail - here is where 
+/var/spool/mqueue - this is mail is stored before being delivered
+/var/log/maillog - this is the mail log file for the mail deamon
+
+* Cmds
+- [[file://home/crito/org/tech/cmds/mail.org][mail]]
+- [[file://home/crito/org/tech/cmds/mailq.org][mailq]]
+- [[file://home/crito/org/tech/cmds/newaliases.org][newaliases]]
+
+
+* Services
+- [[file://home/crito/org/tech/services/mail/sendmail.org][Sendmail]]
+- [[file://home/crito/org/tech/services/mail/postfix.org][Postfix]]
+- [[file://home/crito/org/tech/services/mail/qmail.org][QMail]]
+- [[file://home/crito/org/tech/services/mail/exim.org][Exim]]
+
+* Description
+* Usage
+SMTP - Simple Mail Transfer Protocol
+MUA - Mail User Agent
+MTA - Mail Transfer Agent
+MDA - Mail Delivery Agent
+POP - Post Office Protocol
+IMAP - Internet Message Access Protocol
+MX Record - This is the mail DNS record
+
+* Lecture
+* Tutorial
+** Linux Academy - Email Overview
+*** Introduction
 
 Email is quite possibly the most ubiquitous technology we use today. Although it is starting to see a little age, it still seems to chug along and stay in the forefront of our daily lives.
 
@@ -61,7 +94,7 @@ MX Records
 
   ⦁ A “Mail Exchanger” record is a DNS record that directs email to the appropriate mail server for the domain.
 
-** Common Email Software
+*** Common Email Software
 
 Now that we’ve mentioned protocols, let’s quickly go over some of the software that is used today. Obviously, there is a LOT more software than I’ll mention here, but I want to just go over some of the primary software you will find in the wild.
 
@@ -83,8 +116,7 @@ MailEnable
 PostFix
   ⦁ PostFix is a mail system for Linux that allows the sending and receiving of mail. It is a no-frills option for those who wish to have email integrated with their applications or websites hosted in a Linux environment.
 
-
-** Email Security
+*** Security
 
 We’ve gone through why you need to know email and how it works, but how about how to make it work securely? This is a topic that seems to become more necessary every day!
 

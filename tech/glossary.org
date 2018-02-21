@@ -1,6 +1,8 @@
 #+TAGS: glossary
 
 
+* ASLR - Address Space Layout Randomization
+Wiki: https://en.wikipedia.org/wiki/Address_space_layout_randomization
 * DMA  - Direct Memory Access
 * FDT  - Flattened Device Tree
 * IIO  - Industrial I/O Subsystem

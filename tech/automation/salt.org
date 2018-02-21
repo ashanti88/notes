@@ -1,7 +1,7 @@
-#+TAGS: auto code
+#+TAGS: automation salt
 
 
-* salt								  :auto:code:
+* salt
 HomePage: [[https://saltstack.com/][saltstack.com]]
 * Description
 * Usage
@@ -9,3 +9,4 @@ HomePage: [[https://saltstack.com/][saltstack.com]]
 * Tutorial
 * Books
 * Links
+[[https://wpengine.linuxacademy.com/devops/getting-started-with-salt/][Getting started with Salt - Linux Academy Blog]]

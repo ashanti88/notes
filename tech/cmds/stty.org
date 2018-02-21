@@ -1,0 +1,15 @@
+#+TAGS: stty terminal_settings
+
+
+* stty
+* Description
+This cmd can change and print terminal line settings
+* Usage
+- view all the terminal line settings in a human readable form
+#+BEGIN_SRC sh
+stty -a
+#+END_SRC
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -314,6 +314,11 @@ So be practical. [[http://en.wikipedia.org/wiki/Richard_Stallman][Richard Stallm
 * Packages
 ** projectile - provides an easy way to navigate a project :emacs:projectile:project:
 HomePage: [[http://batsov.com/projectile/][batsoy.com/projectile]]
+
+- invalidate the cache
+#+BEGIN_EXAMPLE
+M-x projectile-invalidate-cache
+#+END_EXAMPLE
 ** epc - middleware that connects pythonland to emacsland
 ** elpy
 check the elpy config

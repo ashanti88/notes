@@ -66,3 +66,4 @@ this would set the default runlevel to 3
 Guide: [[file://home/crito/Documents/Linux/Labs/runlevels_sysvinit-lab.pdf][Change Runlevels and Boot Targets on a Sysvinit System]]
 * Books
 * Links
+[[https://opensource.com/article/18/1/analyzing-linux-boot-process][Analyzing Linux Boot process - Opensource.com]]

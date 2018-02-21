@@ -1,0 +1,28 @@
+#+TAGS: time date
+
+
+* Time and Date
+* Files
+/usr/share/zoneinfo - timezone files in binary format
+/etc/localtime      - this is normally a symbolic link to the local timezone in /usr/share/zoneinfo
+* Cmds
+- [[file://home/crito/org/tech/cmds/date.org][date]]
+- [[file://home/crito/org/tech/cmds/tzselect.org][tzselect]]
+- [[file://home/crito/org/tech/system/systemd.org][timedatectl]]
+
+
+* Description
+* Usage
+** Precedence of how time is fetched
+- TZ variable
+#+BEGIN_SRC sh
+TZ="Asia/Tokyo"
+#+END_SRC
+this environment variable would take precedence over the /etc/localtime file
+
+- /etc/localtime
+
+* Lecture
+* Tutorial
+* Books
+* Links

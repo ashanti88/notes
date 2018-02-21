@@ -1,4 +1,4 @@
-#+TAGS: arch_distro
+#+TAGS: arch_distro arch_linux manjaro
 
 
 * Arch
@@ -108,5 +108,13 @@ setxkbmap gb
 * Lectures
 * Tutorial
 * Articles
+* Books
+* Links
+
+* Manjaro
+* Description
+* Usage
+* Lecture
+* Tutorial
 * Books
 * Links

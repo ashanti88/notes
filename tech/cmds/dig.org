@@ -64,6 +64,11 @@ dig postfix-book.com MX
 | ;;                 | MSG          | SIZE                    | rcvd:     | 82      |                        |      |         |    |            |    |             |   |
 |                    |              |                         |           |         |                        |      |         |    |            |    |             |   |
 
+- chrck NS records
+#+BEGIN_SRC sh
+dig www.linuxacademy.com NS
+#+END_SRC
+
 - check reverse dns
 #+BEGIN_SRC sh
 dig -x 194.126.158.25
@@ -90,8 +95,14 @@ dig -x 194.126.158.25
 | ;;                            | MSG          | SIZE                    | rcvd:     | 90                    |          |                |         |    |            |    |             |   |
 |                               |              |                         |           |                       |          |                |         |    |            |    |             |   |
 
+- to get the smaller output that dig can produce
+#+BEGIN_SRC sh
+drill -x 192.241.224.130 | grep PTR | tac | head -n 1 | cut -d '	' -f5
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books
 * Links
 [[https://www.madboa.com/geek/dig/][Dig HowTo - Madboa.com]]
+[[https://imdjh.github.io/toolchain/2015/10/07/drill-if-you-can-dig-if-you-have-to.html][drill if you can, dig if you have to, nslook if you must - imdjh]]

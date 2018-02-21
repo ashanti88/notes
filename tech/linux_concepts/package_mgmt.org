@@ -800,15 +800,11 @@ the repo option should be "Local_Repo"
 * Suse
 *** zypper							   :suse:pkg:
 * Arch(Manjaro|Antergos)
-- Holding a package from upgrading
-/etc/pacman.conf
-#+BEGIN_SRC sh
-IgnorePkg=chromium
-IgnoreGroup=gnome
-#+END_SRC
 ** Files
-/etc/pacman.conf - this is the pacman configuration
+/etc/pacman.conf         - this is the pacman configuration
 /etc/pacman.d/mirrorlist - this file holds the repos that pacman will query
+/var/log/pacman.log      - this log shows all package transactions
+
 ** Cmds
 *** ABS(Arch Build System)
 Arch: [[https://wiki.archlinux.org/index.php/Arch_Build_System][archlinux.org/Arch_Build_System]]
@@ -816,11 +812,29 @@ Arch: [[https://wiki.archlinux.org/index.php/Arch_Build_System][archlinux.org/Ar
 The repos are edited in /etc/pacman.conf
 
 *** pacman
-[[https://wiki.archlinux.org/index.php/Pacman][Arch: archlinux.org/pacman]]
+Arch: [[https://wiki.archlinux.org/index.php/Pacman][archlinux.org/pacman]]
 Manjaro: https://wiki.manjaro.org/index.php/Pacman
 - list installed pkgs
 #+BEGIN_SRC sh
 pacman -Q > pkg_list.txt
+#+END_SRC
+
+- update system
+#+BEGIN_SRC sh
+pacman -Syu
+#+END_SRC
+y - refrech database
+u - update
+
+- synchronise with the repositories
+#+BEGIN_SRC sh
+pacman -Syy
+#+END_SRC
+yy - force a refresh of database even if up to date
+
+- update and sysnchronise with the repositories
+#+BEGIN_SRC sh
+pacman -Syyu
 #+END_SRC
 
 - delete orphaned pkgs
@@ -833,11 +847,92 @@ pacman -Rns $(pacman -Qtdq)
 pacman -R $(pacman -Qtdq)
 #+END_SRC
 
-- Clean out the old pkg from /var/cache/pacman/pkg/
+- Search for a package
+#+BEGIN_SRC sh
+pacman -Ss vim
+#+END_SRC
+s - search
+
+- Clean out the cache of downloads that have already been installed
 #+BEGIN_SRC sh
 pacman -Sc
 #+END_SRC
-this will remove all pkgs that are not installed on the system
+
+- Completely clean out the cache
+#+BEGIN_SRC sh
+pacman -Scc
+#+END_SRC
+
+**** Holding a package from upgrading
+/etc/pacman.conf
+#+BEGIN_SRC sh
+IgnorePkg=chromium
+IgnoreGroup=gnome
+#+END_SRC
+**** Searching System
+- search system for installed packages
+#+BEGIN_SRC sh
+pacman -Qs vim
+#+END_SRC
+
+- search system for installed packages with more information
+#+BEGIN_SRC sh
+pacman -Qi vim
+#+END_SRC
+
+- even more information with
+#+BEGIN_SRC sh
+pacman -Qii vim
+#+END_SRC
+
+- list all installed packages
+#+BEGIN_SRC sh
+pacman -Q
+#+END_SRC
+
+- list all installed packages and all associated files of package
+#+BEGIN_SRC sh
+pacman -Ql
+#+END_SRC
+
+- list all orphans
+#+BEGIN_SRC sh
+pacman -Qdt
+#+END_SRC
+d - dependencies
+t - unrequired
+
+**** pacman-mirrors
+- change the repository branch
+#+BEGIN_SRC sh
+pacman-mirrors --branch testing
+#+END_SRC
+- stable
+- testing
+- unstable
+
+**** pacmantree
+this cmd provides the dependencies for a given package
+- show an ascii tree
+#+BEGIN_SRC sh
+pacmantree -a zsh
+#+END_SRC
+
+- show a colour tree
+#+BEGIN_SRC sh
+pacmantree -c zsh
+#+END_SRC
+
+- show each dep on its own line
+#+BEGIN_SRC sh
+pacmantree -l zsh
+#+END_SRC
+this is more useful for scripts that need to pull data
+
+- show packages that are dependent on a specific package
+#+BEGIN_SRC sh
+pacmantree -r glibc
+#+END_SRC
 
 *** yaourt
 **** Diagnosis

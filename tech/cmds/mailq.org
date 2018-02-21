@@ -1,0 +1,11 @@
+#+TAGS: mail mailq mail_queue
+
+
+* mailq
+* Description
+This command is used to query the mail queue
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links
