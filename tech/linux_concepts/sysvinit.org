@@ -12,6 +12,30 @@
 /etc/rc.d
 
 * Overview
+** Shutdown, reboot and suspend
+- reboot
+#+BEGIN_SRC sh
+reboot
+#+END_SRC
+
+- poweroff
+#+BEGIN_SRC sh
+shutdown -P now
+#+END_SRC
+
+- halt
+#+BEGIN_SRC sh
+shutdown -h now
+shutdown -h +0
+#+END_SRC
+both occur immediately
+
+- cancel a shutdown
+#+BEGIN_SRC sh
+shutdown -c
+#+END_SRC
+
+
 ** Runlevels
 + Red Hat
 0 - halt

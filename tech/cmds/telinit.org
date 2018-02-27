@@ -4,7 +4,17 @@
 * telinit
 * Description
 this tool will allow us to change the current runlevel of the system
+
 * Usage
+The runlevels
+0 - halt
+1 - single-user mode
+2 - multi-user no networking
+3 - multi-user
+4 - none
+5 - graphical
+6 - reboot
+
 - change system to runlevel 3
 #+BEGIN_SRC sh
 telinit 3

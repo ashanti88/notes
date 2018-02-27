@@ -3,6 +3,30 @@
 
 * systemd
 HomePage: [[https://www.freedesktop.org/wiki/Software/systemd/][freedesktop.org/systemd]]
+* Files
+- /etc/systemd/system - this is where we can place unit files
+- /usr/lib/systemd/system - this is where pkgs install services
+/etc takes precedence over /usr/lib
+
+- ~/.config/systemd/user/
+
+- Example Unit File
+#+BEGIN_SRC sh
+[Unit]
+Description=The Apache HTTP Server
+After=network.target remote-fs.target nss-lookup.target
+[Service]
+Type=notify
+EnvironmentFile=/etc/sysconfig/httpd
+ExecStart=/usr/sbin/httpd/ $OPTIONS -DFOREGROUND
+ExecReload=/usr/sbin/httpd $OPTIONS -k graceful
+ExecStop=/bin/kill -WINCH ${MAINPID}
+KillSignal=SIGCONT
+PrivateTmp=true
+[Install]
+WantedBy=multi.user.target
+#+END_SRC
+
 * Cmds
 [[file://home/crito/org/tech/cmds/systemctl.org][systemctl]]
 [[file://home/crito/org/tech/cmds/systemd-cgtop.org][systemd-cgtop]]
@@ -29,30 +53,6 @@ ln -sf /usr/lib/systemd/system/multi-user.target /etc/systemd/system/default.tar
 #+BEGIN_SRC sh
 systemctl isolate graphical.target 
 #+END_SRC
-* Files
-- /etc/systemd/system - this is where we can place unit files
-- /usr/lib/systemd/system - this is where pkgs install services
-/etc takes precedence over /usr/lib
-
-- ~/.config/systemd/user/
-
-- Example Unit File
-#+BEGIN_SRC sh
-[Unit]
-Description=The Apache HTTP Server
-After=network.target remote-fs.target nss-lookup.target
-[Service]
-Type=notify
-EnvironmentFile=/etc/sysconfig/httpd
-ExecStart=/usr/sbin/httpd/ $OPTIONS -DFOREGROUND
-ExecReload=/usr/sbin/httpd $OPTIONS -k graceful
-ExecStop=/bin/kill -WINCH ${MAINPID}
-KillSignal=SIGCONT
-PrivateTmp=true
-[Install]
-WantedBy=multi.user.target
-#+END_SRC
-
 * Targets
 * Services
 ** accounts-daemon.service
@@ -144,7 +144,17 @@ WantedBy = multi-user.target
 #+END_EXAMPLE
 the automount requires the corresponding mount file
 
-* Examples
+* Usage
+** Entering Rescue Target from Grub (Or any other target other than default)
+In grub enter the edit screen for the kernel
+Add to the end of the kernel line (that's the line with the vmlinuz) 
+#+BEGIN_EXAMPLE
+systemd.unit=rescue.target
+#+END_EXAMPLE
+Any target can be added here and it will enter into that Target
+
+** Exit resuce mode
+In this mode you need to type "exit" and take you to the grub screen
 ** View targets initialised for for the curent target
 #+BEGIN_SRC sh
 systemctl list-units --type=target
@@ -158,8 +168,6 @@ systemctl get-default
 systemctl set-default multi-user.target
 #+END_SRC
 
-** Exit resuce mode
-This in this mode you need to type "exit" and take you to the grub screen
 ** Changing the current target
 #+BEGIN_SRC sh
 systemctl isolate multi-user.target

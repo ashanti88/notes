@@ -1,8 +1,8 @@
-#+TAGS: file op
+#+TAGS: links symbolic_links hard_links
 
 
 * ln
-* Description 							   :sys:file:
+* Description
 linux uses two types of links soft and hard.
   - Soft being a reference to another file path.
   - Hard being a reference to another file inode.
@@ -13,16 +13,18 @@ linux uses two types of links soft and hard.
 > ln <file\_path\_orig> <file\_path\_link>
 
 ** Creating a soft link
-
-> ln -s <file\_path\_orig> <file\_path\_links>
+#+BEGIN_SRC sh
+ln -s /home/user/test1.txt /home/user/test2.txt
+#+END_SRC
+test2.txt is now a symbolically linked file to test1.txt
 
 ** Links over different partitions
-
 Only symbolic links can be created across partitions
+
 ** Link two directories with different names
 - make sure that the directory that is going to be the sym link isn't already created
 #+BEGIN_SRC sh
-ln -s /media/sf_Dropbox /home/crito/dropbox
+ln -s /media/sf_Dropbox /home/user/dropbox
 #+END_SRC
 
 * Lecture

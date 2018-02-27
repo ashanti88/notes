@@ -67,7 +67,6 @@ tar -tvzf file.tar.gz
 tar -tvjf file.tar.bz2
 #+END_SRC
 
-
 ** Extracting files from an Archive
 bzip2
 #+BEGIN_SRC sh

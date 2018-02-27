@@ -2,6 +2,10 @@
 
 
 * systemctl
+* Files
+/usr/lib/systemd/ - this is the default as shipped configration files (never edit these)
+/etc/systemd      - this is where system changes should be made (these take presidence over /usr/lib/systemd)
+
 * Description
 * Usage
 ** System
@@ -50,11 +54,35 @@ ln -sf /lib/systemd/system/multi-user.target /etc/systemd/system/default.target
 #+BEGIN_SRC 
 ln -sf /lib/systemd/system/graphical.target /etc/systemd/system/default.target
 #+END_SRC
+
+- This command should be used
+#+BEGIN_SRC sh
+systemctl set-default multi-user.target
+#+END_SRC
+this will remove and current default symlink and create the new symlink that points from multi-user
+
 ** Targets
+4 common Targets
+- multi-user.target - similar to runlevel 3 (multi-user with networking)
+- graphical.target  - similar to runlevel 5 (graphical) 
+- emergency.target  - boots into root shell, mounts fs as read-only
+- resucue.target    - single-user environment
+
+*** Show all available Targets
+#+BEGIN_SRC sh
+systemctl -t target
+#+END_SRC
+
 *** Find the default target
 #+BEGIN_SRC sh
-
+systemctl get-default
 #+END_SRC
+
+*** Show the service and target dependencies of a Target
+#+BEGIN_SRC sh
+systemctl list-dependencies multi-user.target
+#+END_SRC
+
 ** Services
 *** Stop, Start and Restart a Service
 - stop

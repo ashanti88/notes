@@ -17,8 +17,6 @@ the dash indicates to use the users .profile, .bash_profile if available
 su - frank
 #+END_SRC
 
-
-
 * Lecture
 * Tutorial
 * Books

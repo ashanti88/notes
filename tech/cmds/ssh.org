@@ -338,6 +338,11 @@ ClientAliveInterval 30
 ClientAliveCountMax 99999
 #+END_EXAMPLE
 
+** Execute cmds on remote machine
+#+BEGIN_SRC sh
+ssh user@54.165.122.155 ls
+#+END_SRC
+this will return the ls of the users home directory, this can be handy for executing a script without connecting
 
 * Lecture
 * Tutorial

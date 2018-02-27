@@ -3,12 +3,13 @@
 
 * Man Pages
 * Description
-* Finding commands
-- whatis  - this will return a single line command description of all commands that relate to your search option
-- man -k  - similar to whait but will is a more detailed search
-- apropos - same as man -k
+* Usage
+- update the manpages(if new man pages have been added)
+#+BEGIN_SRC sh
+mandb
+#+END_SRC
 
-* Sections
+** Sections
 1 - Executable programs and shell commands
 2 - System calls proviced by the kernel
 3 - Library calls provided by tthe program libraries
@@ -19,7 +20,7 @@
 8 - System Administration Commands (programs run mostly or exclusively by root)
 9 - Kernel routines
 
-* Man Page Format
+** Man Page Format
 - Name
 - Synopsis
   - format expected from the command
@@ -45,6 +46,12 @@
   - summary of the projects history
 
 - Author
+
+** Finding commands
+[[file://home/crito/org/tech/cmds/whatis.org][whatis]]    - this will return a single line command description of all commands that relate to your search option
+- man -k  - similar to whait but will is a more detailed search
+[[file://home/crito/org/tech/cmds/apropos.org][apropos]]   - same as man -k
+[[file://home/crito/org/tech/cmds/locate.org][locate]]    - this will search the whole system for any related content to the argument provided
 
 * Lecture
 * Tutorial

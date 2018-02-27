@@ -167,6 +167,18 @@ initrd - which initrd.img to boot and its location
 grub-install /dev/sda
 #+END_SRC
 
+** Interrupt the boot process to gain Access to a system
+This can be handy if a system root password need to be changed after being compromised
+  - In Grub enter the edit section for the kernel
+  - on the vmlinuz line add to the end rd.break , and hit ctrl-x
+  - this will drop you into the initramfs shell as root
+  - mount -oremount,rw /sysroot
+  - chroot /sysroot
+  - passwd is now available to change root password
+  - need to now relable all the SELinux on next reboot
+  - touch /.autorelabel
+  - if this isn't done the password change will not take effect
+
 * Lecture
 * Tutorial
 ** Linux Academy - Bootloading with GRUB

@@ -144,6 +144,8 @@ Software
 Software
 [[file://home/crito/org/tech/linux_concepts/plesk.org][Plesk]]
 
+* 5228  - Google Services
+Found that chromium was connecting to this port. After futher investigation it appears to be how google services connect and update.
 * 5432  - PostgreSQL
 Software
 [[file:~/org/tech/database/postgres.org][PostgeSQL]]

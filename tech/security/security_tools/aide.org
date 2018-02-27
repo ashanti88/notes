@@ -1,0 +1,16 @@
+#+TAGS: aide file_integrity
+
+
+* AIDE
+HomePage: http://aide.sourceforge.net/
+* Files
+/etc/aide.conf
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links
+[[https://www.malasuk.com/linux/advanced-intrusion-detection-environment-aide/][Advanced Intrusion Detection Environment - Malasuk]]
+[[https://access.redhat.com/solutions/55021][How to use and Configure AIDE (Advanced Intrusion Detection Environment) - Red Hat]]
+[[https://www.techrepublic.com/article/use-aide-to-help-detect-a-compromised-system/][Use AIdE to help detect a compromised system - TechRepublic]]

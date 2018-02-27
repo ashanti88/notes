@@ -1,0 +1,36 @@
+#+TAGS: star tar copression_tool
+
+
+* star
+* Description
+* Usage
+- create an archive
+#+BEGIN_SRC sh
+star -c -f=myarchive.tar dir1/ dir2/ hello1.txt hello2.txt
+#+END_SRC
+
+- list contents of an archive
+#+BEGIN_SRC sh
+star -t -f=myarchive.tar
+#+END_SRC
+
+- extract an archive
+#+BEGIN_SRC sh
+star -x -f=myarchive.tar
+#+END_SRC
+this will not extart any file that is older that the current file on disk
+
+- extract a file from teh archive
+#+BEGIN_SRC sh
+star -x -f=myarchive.tar hello1.txt
+#+END_SRC
+
+- compress with gzip
+#+BEGIN_SRC sh
+star -cz -f=myarchive.tar dir1/ dir2/ hello.txt hello1.txt
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

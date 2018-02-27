@@ -126,7 +126,6 @@ The /set command allows for adding of variables or adjusting of already set vari
 #+END_EXAMPLE
 if no port is specified the default 6667 is used
 
-
 * Lecture
 * Tutorial
 * Books

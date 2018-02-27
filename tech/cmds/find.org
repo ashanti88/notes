@@ -61,6 +61,23 @@ find . -size +100M
 find . -size 1M
 #+END_SRC
 
+** Find by user
+#+BEGIN_SRC sh
+find . -maxdepth -user frank -name "*.py"
+#+END_SRC
+This will find all frank's python files in current directory
+
+** Find file by group or user
+- find all files owned by accounting group
+#+BEGIN_SRC sh
+find / -group accounting
+#+END_SRC
+
+- find all files owned by jim
+#+BEGIN_SRC sh
+find / -user jim
+#+END_SRC
+
 ** Find file at certain depth
 To descend into sub-directories use the maxdepth flag
 #+BEGIN_SRC 
@@ -78,25 +95,7 @@ find /home -perm 777
 find /home -perm 777 -exec chmod 555 {} \;
 #+END_SRC
 
-** Find file by group or user
-- find all files owned by accounting group
-#+BEGIN_SRC sh
-find / -group accounting
-#+END_SRC
-
-- find all files owned by jim
-#+BEGIN_SRC sh
-find / -user jim
-#+END_SRC
-
-** Find by user
-#+BEGIN_SRC sh
-find . -maxdepth -user crito -name "*.py"
-#+END_SRC
-This will find all crito's python files in current directory
-
 ** Find by file age
-   
 - files that have been accessed in less than a day
 #+BEGIN_SRC sh
 find /etc -atime -1
@@ -121,7 +120,7 @@ find . -iregex "mytest.txt" -exec chmod 777 {} \;
 #+BEGIN_SRC sh
 find . -type f | wc -l
 #+END_SRC
-** Print only the file name 
+** Print only the file name
 #+BEGIN_SRC sh
 find . -type f -printf '%f\n
 #+END_SRC

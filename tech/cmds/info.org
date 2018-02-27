@@ -2,6 +2,8 @@
 
 
 * info
+* Files
+/usr/share/info - this is where all the info page infomation is stored
 * Description
 This is the gnu version of man pages.
 

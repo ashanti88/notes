@@ -6,6 +6,15 @@
 This will print the current and previous runlevels.
 
 * Usage
+The runlevels
+0 - halt
+1 - single-user mode
+2 - multi-user no networking
+3 - multi-user
+4 - none
+5 - graphical
+6 - reboot
+
 * Lecture
 * Tutorial
 * Books

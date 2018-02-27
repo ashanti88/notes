@@ -911,7 +911,7 @@ pacman-mirrors --branch testing
 - testing
 - unstable
 
-**** pacmantree
+**** pactree
 this cmd provides the dependencies for a given package
 - show an ascii tree
 #+BEGIN_SRC sh
@@ -988,6 +988,12 @@ yaourt -B
 *** pacli
 This tool is a tui for both pacman and yaourt
 
+*** arch-audit
+This is used to check installed packages for any CVEs
+
+#+BEGIN_SRC sh
+arch-audit
+#+END_SRC
 * FreeBSD
 *** pkg
 *** ports

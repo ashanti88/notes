@@ -1,7 +1,7 @@
-#+TAGS: sys kernel dep
+#+TAGS: kernel_module_depencies
 
 
-* depmod						     :sys:kernel:dep:
+* depmod
 * Description
 * Usage
 * Lecture

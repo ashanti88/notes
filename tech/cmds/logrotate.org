@@ -1,0 +1,12 @@
+#+TAGS: logs monitoring logrotate
+
+
+* logrotate
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links
+[[https://support.rackspace.com/how-to/understanding-logrotate-utility/][Understanding logrotate utility - rackspace]]
+[[https://www.thegeekstuff.com/2010/07/logrotate-examples/][logrotate Examples - The Geek Stuff]]

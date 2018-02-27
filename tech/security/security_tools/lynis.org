@@ -1,8 +1,9 @@
-#+TAGS:
+#+TAGS: lynis security_audit
 
 
 * lynis
 Home Page: [[https://cisofy.com/lynis/][lynis]]
+Docs: https://cisofy.com/documentation/lynis/
 * Description
 * Usage
 Basic audit
