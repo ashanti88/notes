@@ -1,4 +1,4 @@
-#+TAGS: echo text_files
+#+TAGS: echo coreutils text_files
 
 
 * echo

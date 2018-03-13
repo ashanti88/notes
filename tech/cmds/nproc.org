@@ -1,0 +1,10 @@
+#+TAGS: nproc coreutils
+
+
+* nproc
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

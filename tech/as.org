@@ -1,0 +1,11 @@
+#+TAGS: as binutils assembler
+
+
+* as
+* Description
+The GNU assembler
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

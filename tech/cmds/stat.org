@@ -1,4 +1,4 @@
-#+TAGS: file_details
+#+TAGS: stat coreutils file_details
 
 
 * stat

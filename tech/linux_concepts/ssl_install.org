@@ -8,9 +8,9 @@
 ** Example for Apache
 
 
-
 * Lecture
 * Tutorial
 * Books
 * Links
-[[http://tecadmin.net/simple-steps-to-generate-csr-on-centos/]]
+[[http://tecadmin.net/simple-steps-to-generate-csr-on-centos/][Simple Steps to Generate CSR on CentOS - TecAdmin]]
+[[https://linuxacademy.com/blog/webdevelopment/free-ssl-with-lets-encrypt-nginx/][Free SSL with Let's Encrypt & NGINX - Linux Academy Blog]]

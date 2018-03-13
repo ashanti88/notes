@@ -12,12 +12,16 @@ kill -l
 ** List of Interrupts
 SIGHUP 1   - Hangup
 SIGINT 2   - this interrupts a process (similar to Ctrl-c)
+SIGQUIT 3  - request the process quit
 SIGKILL 9  - this kills a process and can't be caught or ignored
 SIGTERM 15 - this is a nice terminate (this is the default for kill)
+SIGCONT 18 - stop the process and start again
 SIGSTOP 19 - stop, but not kill a process and can't be caught or ignored
-SIGTSTP 20 - this is similar to Ctrl-z, pausing a process
+SIGTSTP 20 - this is similar to Ctrl-z, pausing a process but can be ignored
 
 * Lecture
 * Tutorial
+** Linux Academy - Kill or Adjust Process Priotities
+   Guide: file://home/crito/Documents/Linux/Labs/kill-adjust-process-priorities-lab.pdf
 * Books
 * Links

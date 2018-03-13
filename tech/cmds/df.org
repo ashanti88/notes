@@ -1,7 +1,7 @@
-#+TAGS: sys anal
+#+TAGS: df coreutils disk_space_usage
 
 
-* df								   :sys:anal:
+* df
 * Description
 * Usage
 * Lecture

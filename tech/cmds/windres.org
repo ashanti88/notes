@@ -1,0 +1,11 @@
+#+TAGS: windres binutils
+
+
+* windres
+* Description
+A compiler for Windows resource files
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -1,0 +1,12 @@
+#+TAGS: c++ c++filt binutils
+
+
+* c++filt
+* Description
+Filter to demangle encoded C++ symbols.
+
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

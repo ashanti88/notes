@@ -1,7 +1,7 @@
-#+TAGS: file op
+#+TAGS: chgrp coreutils change_group_ownership
 
 
-* chgrp								    :file:op:
+* chgrp
 * Description
 * Usage
 #+BEGIN_SRC sh

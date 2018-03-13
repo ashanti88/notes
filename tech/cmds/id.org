@@ -1,4 +1,4 @@
-#+TAGS: user group uid gid id
+#+TAGS: id coreutils user group uid gid id
 
 
 * id
@@ -24,7 +24,6 @@ id -G user
 #+BEGIN_SRC sh
 id -Gn user
 #+END_SRC
-
 
 * Lecture
 * Tutorial

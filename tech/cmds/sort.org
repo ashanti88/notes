@@ -34,7 +34,6 @@ this will ensure that 2 is sorted before 11, unlike the default behaviour that s
 sort -k2 -n numbers.txt
 #+END_SRC
 
-
 * Lecture
 * Tutorial
 * Books

@@ -1,0 +1,11 @@
+#+TAGS: size binutils
+
+
+* size
+* Description
+Lists the section sizes of an object or archive file.
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

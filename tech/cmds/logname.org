@@ -1,7 +1,7 @@
-#+TAGS: sys anal
+#+TAGS: logname coreutils
 
 
-* logname							   :sys:anal:
+* logname
 * Description
 * Usage
 * Lecture

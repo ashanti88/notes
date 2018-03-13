@@ -1,0 +1,11 @@
+#+TAGS: dlltools binutils
+
+
+* dlltools
+* Description
+Creates files for building and using DLLs.
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

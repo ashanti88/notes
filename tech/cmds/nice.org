@@ -1,4 +1,4 @@
-#+TAGS: process nice
+#+TAGS: process nice coreutils
 
 
 * nice
@@ -18,6 +18,11 @@ nice -10 perl test.pl
 - launch an application with a nice value of -10
 #+BEGIN_SRC sh
 nice --10 perl test.pl
+#+END_SRC
+
+** Starting httpd with the most process favourable level
+#+BEGIN_SRC sh
+nice -n -20 httpd
 #+END_SRC
 
 * Lecture

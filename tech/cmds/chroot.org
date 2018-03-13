@@ -1,4 +1,4 @@
-#+TAGS: root chroot
+#+TAGS: chroot coreutils root
 
 
 * chroot

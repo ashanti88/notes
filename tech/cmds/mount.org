@@ -15,6 +15,13 @@ mount -o loop file.iso /home/crito/mtp
 mount -a
 #+END_SRC
 
+** Mount using the uuid
+#+BEGIN_SRC sh
+blkid
+mount -U 77916940-75c8-4497-88e4-1b6c07a6f685 /mnt/dir1
+#+END_SRC
+blkid will provide all the uuids of the known partitions
+
 * Lecture
 * Tutorial
 * Books

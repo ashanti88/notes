@@ -1,7 +1,7 @@
-#+TAGS: sys op
+#+TAGS: dir directory_listings coreutils
 
 
-* dir								     :sys:op:
+* dir
 * Description
 Normally considered the MS version of ls, but also works in linux
 * Usage

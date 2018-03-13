@@ -1,4 +1,4 @@
-#+TAGS: file_permissions perms mode_bits
+#+TAGS: chmod coreutils file_permissions perms mode_bits
 
 
 * chmod

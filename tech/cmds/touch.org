@@ -1,4 +1,4 @@
-#+TAGS: touch file change_time access_time modify_time
+#+TAGS: touch coreutils file change_time access_time modify_time
 
 
 * touch

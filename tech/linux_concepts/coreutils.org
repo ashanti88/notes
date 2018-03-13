@@ -1,0 +1,123 @@
+#+TAGS: gnu_coreutils
+
+
+* GNU Coreutils
+Manual: https://www.gnu.org/software/coreutils/manual/coreutils.html
+
+** Cmds
+*** Directory listing
+- [[file://home/crito/org/tech/cmds/ls.org][ls]]
+- [[file://home/crito/org/tech/cmds/dir.org][dir]]
+- [[file://home/crito/org/tech/cmds/vdir.org][vdir]]
+- [[file://home/crito/org/tech/cmds/dircolors.org][dircolors]]
+
+*** Basic Operations
+- [[file://home/crito/org/tech/cmds/cp.org][cp]]
+- [[file://home/crito/org/tech/cmds/dd.org][dd]]
+- [[file://home/crito/org/tech/cmds/install.org][install]]
+- [[file://home/crito/org/tech/cmds/mv.org][mv]]
+- [[file://home/crito/org/tech/cmds/rm.org][rm]]
+- [[file://home/crito/org/tech/cmds/shred.org][shred]]
+
+*** Special File Types
+- [[file://home/crito/org/tech/cmds/link.org][link]]
+- [[file://home/crito/org/tech/cmds/ln.org][ln]]
+- [[file://home/crito/org/tech/cmds/mkdir.org][mkdir]]
+- [[file://home/crito/org/tech/cmds/mkfifo.org][mkfifo]]
+- [[file://home/crito/org/tech/cmds/mknod.org][mknod]]
+- [[file://home/crito/org/tech/cmds/readlink.org][readlink]]
+- [[file://home/crito/org/tech/cmds/rmdir.org][rmdir]]
+- [[file://home/crito/org/tech/cmds/unlink.org][unlink]]
+
+*** Changing File Attributes
+- [[file://home/crito/org/tech/cmds/chown.org][chown]]
+- [[file://home/crito/org/tech/cmds/chgrp.org][chgrp]]
+- [[file://home/crito/org/tech/cmds/chmod.org][chmod]]
+- [[file://home/crito/org/tech/cmds/touch.org][touch]]
+
+*** Disk Usage
+- [[file://home/crito/org/tech/cmds/df.org][df]]
+- [[file://home/crito/org/tech/cmds/du.org][du]]
+- [[file://home/crito/org/tech/cmds/stat.org][stat]]
+- [[file://home/crito/org/tech/cmds/sync.org][sync]]
+- [[file://home/crito/org/tech/cmds/truncate.org][truncate]]
+
+*** Printing Text
+- [[file://home/crito/org/tech/cmds/echo.org][echo]]
+- [[file://home/crito/org/tech/cmds/printf.org][printf]]
+- [[file://home/crito/org/tech/cmds/yes.org][yes]]
+
+*** Conditionals
+- [[file://home/crito/org/tech/cmds/false.org][false]]
+- [[file://home/crito/org/tech/cmds/true.org][true]]
+- [[file://home/crito/org/tech/cmds/test.org][test]]
+- [[file://home/crito/org/tech/cmds/expr.org][expr]]
+
+*** Redirection
+- [[file://home/crito/org/tech/cmds/tee.org][tee]]
+
+*** File Name Manipulation
+- [[file://home/crito/org/tech/cmds/basename.org][basename]]
+- [[file://home/crito/org/tech/cmds/dirname.org][dirname]]
+- [[file://home/crito/org/tech/cmds/pathchk.org][pathchk]]
+- [[file://home/crito/org/tech/cmds/mktemp.org][mktemp]]
+- [[file://home/crito/org/tech/cmds/realpath.org][realpath]]
+
+*** Working Context
+- [[file://home/crito/org/tech/cmds/pwd.org][pwd]]
+- [[file://home/crito/org/tech/cmds/stty.org][stty]]
+- [[file://home/crito/org/tech/cmds/printenv.org][printenv]]
+- [[file://home/crito/org/tech/cmds/tty.org][tty]]
+
+*** User Information
+- [[file://home/crito/org/tech/cmds/id.org][id]]
+- [[file://home/crito/org/tech/cmds/logname.org][logname]]
+- [[file://home/crito/org/tech/cmds/whoami.org][whoami]]
+- [[file://home/crito/org/tech/cmds/groups.org][groups]]
+- [[file://home/crito/org/tech/cmds/users.org][users]]
+- [[file://home/crito/org/tech/cmds/who.org][who]]
+
+*** System Context
+- [[file://home/crito/org/tech/cmds/date.org][date]]
+- [[file://home/crito/org/tech/cmds/arch.org][arch]]
+- [[file://home/crito/org/tech/cmds/nproc.org][nproc]]
+- [[file://home/crito/org/tech/cmds/uname.org][uname]]
+- [[file://home/crito/org/tech/cmds/hostname.org][hostname]]
+- [[file://home/crito/org/tech/cmds/hostid.org][hostid]]
+- [[file://home/crito/org/tech/cmds/uptime.org][uptime]]
+
+*** SELinux Context
+- [[file://home/crito/org/tech/cmds/chcon.org][chcon]]
+- [[file://home/crito/org/tech/cmds/runcon.org][runcon]]
+
+*** Modified Common Invocation
+- [[file://home/crito/org/tech/cmds/chroot.org][chroot]]
+- [[file://home/crito/org/tech/cmds/env.org][env]]
+- [[file://home/crito/org/tech/cmds/nice.org][nice]]
+- [[file://home/crito/org/tech/cmds/nohup.org][nohup]]
+- [[file://home/crito/org/tech/cmds/stdbuf.org][stdbuf]]
+- [[file://home/crito/org/tech/cmds/timeout.org][timeout]]
+
+*** Process Control
+- [[file://home/crito/org/tech/cmds/kill.org][kill]]
+
+*** Delaying
+- [[file://home/crito/org/tech/cmds/sleep.org][sleep]]
+
+*** Numeric Operations
+- [[file://home/crito/org/tech/cmds/factor.org][factor]]
+- [[file://home/crito/org/tech/cmds/numfmt.org][numfmt]]
+- [[file://home/crito/org/tech/cmds/seq.org][seq]]
+
+*** Toolbox Introduction
+- [[file://home/crito/org/tech/cmds/who.org][who]]
+- [[file://home/crito/org/tech/cmds/cut.org][cut]]
+- [[file://home/crito/org/tech/cmds/sort.org][sort]]
+- [[file://home/crito/org/tech/cmds/uniq.org][uniq]]
+
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

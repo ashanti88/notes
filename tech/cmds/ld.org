@@ -1,0 +1,11 @@
+#+TAGS: ld binutils
+
+
+* ld
+* Description
+The GNU linker
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

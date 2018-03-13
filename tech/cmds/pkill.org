@@ -16,6 +16,18 @@ pkill -9 -U apache
 #+END_SRC
 This will disconnect the clients, whereas above would keep the client connections
 
+** kicking a user from ssh
+- First determine his running programs 
+#+BEGIN_SRC sh
+pgrep -u user -l
+#+END_SRC
+
+- now specify the ssh process
+#+BEGIN_SRC sh
+pkill -u user sshd
+#+END_SRC
+
+This can also be used to close down applications that a user is using
 * Lecture
 * Tutorial
 * Books

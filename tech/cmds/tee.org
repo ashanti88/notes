@@ -1,4 +1,4 @@
-#+TAGS: file_manipulation tee
+#+TAGS: coreutils file_manipulation tee
 
 
 * tee

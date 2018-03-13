@@ -1,4 +1,4 @@
-#+TAGS: nohup no_hang_up
+#+TAGS: nohup no_hang_up coreutils
 
 
 * nohup

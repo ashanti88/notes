@@ -1,0 +1,11 @@
+#+TAGS: strip binutils
+
+
+* strip
+* Description
+Discards symbols.
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

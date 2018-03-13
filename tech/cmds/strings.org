@@ -1,8 +1,9 @@
-#+TAGS: sys file
+#+TAGS: stings binutils
 
 
-* strings							   :sys:file:
+* strings
 * Description
+Lists printable strings from files.
 * Usage
 - print all ASCII text in a file
 #+BEGIN_SRC sh

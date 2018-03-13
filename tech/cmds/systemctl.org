@@ -68,9 +68,22 @@ this will remove and current default symlink and create the new symlink that poi
 - emergency.target  - boots into root shell, mounts fs as read-only
 - resucue.target    - single-user environment
 
-*** Show all available Targets
+*** Show all active Targets
 #+BEGIN_SRC sh
 systemctl -t target
+#+END_SRC
+or
+#+BEGIN_SRC sh
+systemctl list-units --type=target
+#+END_SRC
+
+*** Show all Targets installed on the disk
+#+BEGIN_SRC sh
+systemctl -t target -a
+#+END_SRC
+or
+#+BEGIN_SRC sh
+systemctl list-units --type=target --all
 #+END_SRC
 
 *** Find the default target
@@ -82,6 +95,20 @@ systemctl get-default
 #+BEGIN_SRC sh
 systemctl list-dependencies multi-user.target
 #+END_SRC
+
+*** View all available systemd configuration units
+#+BEGIN_SRC sh
+systemctl -t help
+#+END_SRC
+*** List all active service unit configuration files
+#+BEGIN_SRC sh
+systemctl --type=service
+#+END_SRC
+or
+#+BEGIN_SRC sh
+systemctl list-units --type=service
+#+END_SRC
+
 
 ** Services
 *** Stop, Start and Restart a Service
@@ -148,6 +175,19 @@ systemctl daemon-reload
 systemctl reset-failed
 #+END_SRC
 - There may also be symlinks that need to be removed rm /etc/systemd/system/firewalld.service
+
+*** View enabled and disabled settings for all units of the type service
+#+BEGIN_SRC sh
+systemctl list-unit-files --type=service --all
+#+END_SRC
+*** List all service configuration files acive or not
+#+BEGIN_SRC sh
+systemctl list-units --all
+#+END_SRC
+or
+#+BEGIN_SRC sh
+systemctl list-units --type=service --all
+#+END_SRC
 
 * Lecture
 * Tutorial

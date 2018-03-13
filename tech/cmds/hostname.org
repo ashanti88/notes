@@ -1,7 +1,7 @@
-#+TAGS: sys op
+#+TAGS: hostname coreutils
 
 
-* hostname							     :sys:op:
+* hostname
 * Description
 * Usage
 - print the hostname

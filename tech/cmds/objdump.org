@@ -1,8 +1,9 @@
-#+TAGS: code
+#+TAGS: objdump binutils
 
 
-* objdump							       :code:
+* objdump
 * Description
+Displays information from object files.
 * Usage
 - view the main function
 #+BEGIN_SRC sh

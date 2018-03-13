@@ -1,4 +1,4 @@
-#+TAGS: stty terminal_settings
+#+TAGS: stty coreutils terminal_settings
 
 
 * stty

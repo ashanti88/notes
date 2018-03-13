@@ -1,4 +1,4 @@
-#+TAGS: file_owner ownership group_ownership
+#+TAGS: chown coreutils file_owner ownership group_ownership
 
 
 * chown

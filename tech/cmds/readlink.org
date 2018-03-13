@@ -1,4 +1,4 @@
-#+TAGS: links symbolic_links hard_links
+#+TAGS: readlink coreutils links symbolic_links hard_links
 
 
 * readlink

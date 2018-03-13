@@ -1,7 +1,7 @@
-#+TAGS: file op
+#+TAGS: unlink coreutils
 
 
-* unlink							    :file:op:
+* unlink
 * Description
 * Usage
 * Lecture

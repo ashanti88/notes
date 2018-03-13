@@ -1,0 +1,11 @@
+#+TAGS: nm binutils
+
+
+* nm
+* Description
+Lists symbols from object files.
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -3,7 +3,8 @@
 
 * pgrep
 * Description
-This cmds will print all associated pids that a command is currently running
+This cmds will print all associated pids that a command is currently running.
+This saves using ps aux | grep 
 
 * Usage
 - find the pid of the bash process
@@ -14,6 +15,21 @@ pgrep bash
 - find the pid of the init process
 #+BEGIN_SRC sh
 pgrep init
+#+END_SRC
+
+- provide the pid and the name of the process
+#+BEGIN_SRC sh
+pgrep -l firefox
+#+END_SRC
+
+- show all processors that are associated with a user
+#+BEGIN_SRC sh
+pgrep -u user -l
+#+END_SRC
+
+- show all processors not owned by the root user
+#+BEGIN_SRC sh
+pgrep -v root -l
 #+END_SRC
 * Lecture
 * Tutorial

@@ -9,6 +9,7 @@ Used for finding files by file name.
 
 > find <start_point> <options> <filename>
 
+
 ** Find file by name
 We can use either
   - name - casesensitive
@@ -130,6 +131,10 @@ find /usr/bin -perm -4000 -exec cp {} /root/bkup \;
 #+END_SRC
 this will make a copy of every instance with set uid to /root/bkup
 
+** Follow symbolic links
+#+BEGIN_SRC sh
+find -P /home/user/ -name 
+#+END_SRC
 * Lecture
 * Tutorial
 * Books

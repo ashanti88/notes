@@ -1,0 +1,11 @@
+#+TAGS: objcopy binutils
+
+
+* objcopy
+* Description
+Copies and translates object files.
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

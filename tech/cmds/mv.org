@@ -1,7 +1,7 @@
-#+TAGS: file op
+#+TAGS: mv coreutils
 
 
-* mv								    :file:op:
+* mv
 * Description
 * Usage
 * Lecture

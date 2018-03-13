@@ -1,0 +1,11 @@
+#+TAGS: ranlib binutils
+
+
+* ranlib
+* Description
+Generates an index to the contents of an archive.
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

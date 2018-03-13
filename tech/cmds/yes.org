@@ -1,0 +1,10 @@
+#+TAGS: yes coreutils
+
+
+* yes
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -1,4 +1,4 @@
-#+TAGS: pwd print_working_directory
+#+TAGS: pwd coreutils print_working_directory
 
 
 * pwd

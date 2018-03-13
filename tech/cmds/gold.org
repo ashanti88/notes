@@ -1,0 +1,11 @@
+#+TAGS: gold binutils
+
+
+* gold
+* Description
+A new, faster, ELF only linker, still in beta test.
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

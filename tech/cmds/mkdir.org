@@ -1,0 +1,10 @@
+#+TAGS: mkdir coreutils create_directory
+
+
+* mkdir
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

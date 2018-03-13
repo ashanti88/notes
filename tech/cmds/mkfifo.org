@@ -1,0 +1,10 @@
+#+TAGS: mkfifo coreutils
+
+
+* mkfifo
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

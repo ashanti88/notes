@@ -99,7 +99,7 @@ sed '/regex/{x;p;x;}'
 sed '/regex/G'
 #+END_SRC
 
-** Numbering 
+** Numbering
 *** Number each line of a file(number above)
 #+BEGIN_SRC sh
 sed = file.txt

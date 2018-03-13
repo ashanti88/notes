@@ -1,0 +1,31 @@
+#+TAGS: binutils
+
+
+* GNU Binutils
+Info: https://www.gnu.org/software/binutils/
+* Description
+* Cmds
+- [[file://home/crito/org/tech/cmds/ld.org][ld]]
+- [[file://home/crito/org/tech/as.org][as]]
+- [[file://home/crito/org/tech/cmds/addr2line.org][addr2line]]
+- [[file://home/crito/org/tech/cmds/ar.org][ar]]
+- [[file://home/crito/org/tech/cmds/c++filt.org][c++filt]]
+- [[file://home/crito/org/tech/cmds/dlltools.org][dlltools]]
+- [[file://home/crito/org/tech/cmds/gold.org][gold]]
+- [[file://home/crito/org/tech/cmds/gprof.org][gprof]]
+- [[file://home/crito/org/tech/cmds/nlmconv.org][nlmconv]]
+- [[file://home/crito/org/tech/cmds/nm.org][nm]]
+- [[file://home/crito/org/tech/cmds/objcopy.org][objcopy]]
+- [[file://home/crito/org/tech/cmds/objdump.org][objdump]]
+- [[file://home/crito/org/tech/cmds/ranlib.org][ranlib]]
+- [[file://home/crito/org/tech/cmds/readelf.org][readelf]]
+- [[file://home/crito/org/tech/cmds/size.org][size]]
+- [[file://home/crito/org/tech/cmds/strings.org][strings]]
+- [[file://home/crito/org/tech/cmds/strip.org][strip]]
+- [[file://home/crito/org/tech/cmds/windmc.org][windmc]]
+- [[file://home/crito/org/tech/cmds/windres.org][windres]]
+
+* Lecture
+* Tutorial
+* Books
+* Links

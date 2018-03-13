@@ -1,4 +1,4 @@
-#+TAGS: test shell_builtin
+#+TAGS: test coreutils shell_builtin
 
 
 * test

@@ -1,0 +1,10 @@
+#+TAGS: install coreutils
+
+
+* install
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

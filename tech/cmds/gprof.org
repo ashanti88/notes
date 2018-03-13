@@ -1,0 +1,11 @@
+#+TAGS: gprof binutils
+
+
+* gprof
+* Description
+Displays profiling information.
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

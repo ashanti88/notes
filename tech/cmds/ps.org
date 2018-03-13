@@ -48,7 +48,14 @@ If viewing a process in stat "D", next look at /proc/pid/status
 ps -eZ
 
 ** Nice values of processes
-ps -ax -o pid,ni,cmd This will show the nice value of the processes
+This will show the nice value of the processes
+#+BEGIN_SRC sh
+ps axo pid,ni,cmd 
+#+END_SRC
+or
+#+BEGIN_SRC sh
+ps axo pid,nice,comm
+#+END_SRC
 
 rtprio - real time priority
 ** search a specific process

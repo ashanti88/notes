@@ -48,14 +48,9 @@ Key features:
 
 ** Print lines that match a pattern
 #+BEGIN_SRC sh
-awk '/pattern/' <file>
+awk /file/ test.txt
 #+END_SRC
 the forward slashes are needed
-
-- cut second column of ps aux
-#+BEGIN_SRC sh
-ps aux | awk '{ print $2 }'
-#+END_SRC
 
 ** Print only specific fields
 #+BEGIN_SRC sh
@@ -89,8 +84,165 @@ awk -F":" { print $1; } access.log
 awk '!seen[$0]++' file.txt
 #+END_SRC
 
+** Cut the columns of a ps
+- cut second column of ps aux
+#+BEGIN_SRC sh
+ps aux | awk '{ print $2 }'
+#+END_SRC
+
+** Killing a users processors
+#+BEGIN_SRC sh
+ps aux | grep user | kill -9 $(awk '{ print $2 }'
+#+END_SRC
+or
+#+BEGIN_SRC sh
+ps aux | grep user | kill -9 `awk '{ print $2 }`
+#+END_SRC
+
+** Print the total size of a perticular type of file
+- MB
+#+BEGIN_SRC sh
+ls -l /home/user/Pictures/*.jpg | awk '{ s+=$5 } END { print "Total size: " s/1024/1024"MB" }'
+#+END_SRC
+
+- KB
+#+BEGIN_SRC sh
+ls -l /home/user/Pictures/*.jpg | awk '{ s+=$5 } END { print "Total size: " s/1024"KB" }'
+#+END_SRC
+
+- B
+#+BEGIN_SRC sh
+ls -l /home/user/Pictures/*.jpg | awk '{ s+=$5 } END { print "Total size: " s"B" }'
+#+END_SRC
+
+** Print users that have a specific shell
+#+BEGIN_SRC sh
+awk -F: '{ if ($7 ~ /nologin/) print $1 }' /etc/passwd
+#+END_SRC
+this will print all the users that have the nologin set as the shell
+
+** Dealing with quotes
+to use the ' character it is better to replace with "\47" e.g. "isn\47t"
+
+** Counting the columns of lines
+- print lines that are longer than 40 characters
+#+BEGIN_SRC sh
+awk 'length($0) > 40' mail-list
+#+END_SRC
+
+- print the length of the longest line
+#+BEGIN_SRC sh
+awk '{if (length($0) > max) max = length($0) } END { print max }' mail-list
+#+END_SRC
+or
+- this will expand tabs to the character number of characters
+#+BEGIN_SRC sh
+expand mail-list | awk '{if (x < length($0)) x = length($0) } END { print "Maximum length is " x }'
+#+END_SRC
+
+** Print every line that has at least one field
+#+BEGIN_SRC sh
+awk 'NF > 0' mail-list
+#+END_SRC
+
+** Print 7 random numbers between 0 to 100
+#+BEGIN_SRC sh
+awk 'BEGIN { for (i=1; i <= 7; i++) print int(101 * rand()) }'
+#+END_SRC
+
+** Print a sorted list of users on a system
+#+BEGIN_SRC sh
+awk -F: '{ print $1 }' /etc/passwd | sort
+#+END_SRC
+
+** Print the number of lines read files (NR and FNR)
+- single file
+#+BEGIN_SRC sh
+awk 'END { print NR }' mail-list
+#+END_SRC
+
+- multiple files
+#+BEGIN_SRC sh
+awk 'END { print FNR }' mail-list inventory-shipped
+#+END_SRC
+- FNR - is reset to zero every time a new file is read
+- NR  - counts every record read from all files
+
+** What is the combined size of all files modified in November
+#+BEGIN_SRC sh
+ls -l | awk '$6 == "Nov" { sum += $5 } END { print sum }'
+#+END_SRC
+
+** Print lines that equal a specific pattern
+#+BEGIN_SRC sh
+awk '$1 ~ /Jan/' inventory-shipped
+#+END_SRC
+or
+#+BEGIN_SRC sh
+awk '{ if ($1 ~ /Jan/) print }' inventory-shipped
+#+END_SRC
+
+** Print lines that don't match the specified pattern
+#+BEGIN_SRC sh
+awk '$1 !~ /Jan/' inventory-shipped
+#+END_SRC
+or
+#+BEGIN_SRC sh
+awk '{ if ($1 !~ /Jan/) print }' inventory-shipped
+#+END_SRC
+
+** Using bracket expressions
+[:alnum:] - alphanumeric characters
+[:alpha:] - alphabetic characters
+[:blank:] - space and tab characters
+[:cntrl:] - control characters
+[:digit:] - numeric characters
+[:graph:] - characters that are both printable and visible
+[:lower:] - lowercase alphabetic characters
+[:print:] - printable characters
+[:punct:] - punctuation characters
+[:space:] - space characters
+[:upper:] - uppercase characters
+[:xdigit:] - characters that are hexidecimal digits
+
+- print all lines where the first column contains alphabetic characters
+#+BEGIN_SRC sh
+awk '$1 ~ /[:alpha:]/ { print $0 }' mail-list
+#+END_SRC
+
+** tolower($1) or toupper($1)
+- convert a field to lowercase then run a comparison
+#+BEGIN_SRC sh
+awk 'tolower($1) ~ /bill/ { print $0 }' mail-list
+#+END_SRC
+This means that if $1 was any iteration of bill it would still be selected
+
+- convert a field to uppercase then run a comparison
+#+BEGIN_SRC sh
+awk 'toupper($1) ~ /BILL/ { print $0 }' mail-list
+#+END_SRC
+This means that if $1 was any iteration of BILL it would still be selected
+
+** Adding text to ends of lines
+#+BEGIN_SRC sh
+awk '{ print $0"end_of_line" }' a.txt >> b.txt
+#+END_SRC
+
+** Substituting a word with awk
+This will substitute "the" with "cat"
+#+BEGIN_SRC sh
+awk 'sub("the", "cat") { print $0 }' a.txt
+#+END_SRC
+or
+global (this will substitute all globally)
+#+BEGIN_SRC sh
+awk 'gsub("the", "cat") { print $0 }' a.txt
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books
-file://home/crito/Documents/Tools/Effective_awk_Programming_4ed.pdf
+[[file://home/crito/Documents/Tools/Effective_awk_Programming_4ed.pdf][Effective awk Programming]]
+[[file://home/crito/Documents/Tools/GNU_awk.pdf][GNU awk]]
+
 * Links

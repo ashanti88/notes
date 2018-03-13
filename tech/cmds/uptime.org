@@ -1,4 +1,4 @@
-#+TAGS: uptime system_load
+#+TAGS: uptime coreutils system_load
 
 
 * uptime

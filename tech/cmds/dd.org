@@ -1,4 +1,4 @@
-#+TAGS: disk copy iso file
+#+TAGS: disk_copy coreutils dd
 
 
 * dd

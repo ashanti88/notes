@@ -6,7 +6,7 @@
 * Usage
 
 > grep [options] <pattern> <file>
-
+ascii
 ** Using Regular Expressions
 - ip addresses
 #+BEGIN_SRC sh

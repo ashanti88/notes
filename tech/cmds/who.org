@@ -1,4 +1,4 @@
-#+TAGS: users uptime boot_time number_of_users who_is_logged_in
+#+TAGS: who coreutils users uptime boot_time number_of_users who_is_logged_in
 
 
 * who

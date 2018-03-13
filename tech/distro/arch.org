@@ -92,7 +92,7 @@ find -xtype l -print
 
 ** PGP Keys
 write up on how to resolve a corrupt keyring
-** Fonts 							       :font:
+** Fonts
 Wiki: [[https://wiki.archlinux.org/index.php/fonts#Emoji_and_symbols][Arch-Fonts]]
 *** Setting fonts for local user
 - files need to be added to .local/share/fonts

@@ -10,6 +10,11 @@ renice -n -19 -p 3535
 #+END_SRC
 sets the nice value -19 to process 3535
 
+** Renice the httpd process
+#+BEGIN_SRC sh
+renice -n -20 $(pgrep httpd)
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

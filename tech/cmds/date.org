@@ -1,4 +1,4 @@
-#+TAGS: date setting_date
+#+TAGS: date coreutils setting_date
 
 
 * date

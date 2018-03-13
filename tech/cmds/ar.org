@@ -1,0 +1,11 @@
+#+TAGS: ar binutils archives
+
+
+* ar
+* Description
+A utility for creating, modifying and extracting from archives.
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

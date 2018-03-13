@@ -38,6 +38,11 @@ ssh-copy-id uses the SSH protocol to connect to the target host and upload the S
 It also checks if the key already exists on the server. Unless the -f option is given, each key is only added to the authorized keys file once.
 
 It further ensures that the key files have appropriate permissions. Generally, the user's home directory or any file or directory containing keys files should not be writable by anyone else. Otherwise someone else could add new authorized keys for the user and gain access. Private key files should not be readable by anyone else.
+* Cmds
+- ssh-agent - this provides a single signin solution
+- keychain  - this provides a fronted to ssh-agent and helps if you are using multiple keys
+- ssh-xfer  - this provides an in channel download solution (but only from the remote machine)
+
 * Description
 * Usage
 ** ssh Key Generation
@@ -260,9 +265,31 @@ ssh-copy-id 78.87.56.34
 ssh-copy-id frank@78.87.56.34
 #+END_SRC
 
-** Many keys set
-Using ssh-agent with multiple keys can cause problems when login into many servers.
-Each key is considered an attempt, so if a limit is set then you can end up locked out.
+** ssh-agent
+- Using ssh-agent with multiple keys can cause problems when login into many servers.
+  - Each key is considered an attempt, so if a limit is set then you can end up locked out.
+
+- If GDM is used ssh-agent is started automatically
+  - to start automatically with other desktop managers
+    ~/.xsession
+    #+BEGIN_EXAMPLE
+    ssh-agent gnome-session
+    #+END_EXAMPLE
+    substituting gnome with the window manger in use
+    
+- keychain
+  - this is a front-end to ssh-agent
+  - to have this start on login
+    ~/.bash_profile
+    #+BEGIN_EXAMPLE
+    #!/bin/bash
+    /usr/bin/keychain ~/.ssh/id_rsa ~/.ssh/id_dsa ~/.ssh/root_key > /dev/null
+    source ~/.keychain/hostname-sh
+    #+END_EXAMPLE
+    hostname should correspond with the machines hostname
+  
+
+
 ** Setting up ssh-agent as a sysd service
 #+BEGIN_EXAMPLE
 [Unit]
@@ -344,6 +371,14 @@ ssh user@54.165.122.155 ls
 #+END_SRC
 this will return the ls of the users home directory, this can be handy for executing a script without connecting
 
+** Kerberos
+- these need to set in /etc/ssh/sshd_config
+#+BEGIN_EXAMPLE
+KerberosAuthentication yes
+KerberosOrLocalPasswd yes
+GSSAPIAuthentication yes
+
+#+END_EXAMPLE
 * Lecture
 * Tutorial
 ** Linux Academy - Server Application Requires a Secure SSH connection

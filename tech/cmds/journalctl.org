@@ -2,7 +2,6 @@
 
 
 * journalctl
-* Description
 * Files
 /etc/systemd/journald.conf
   - SystemMaxUse       - Specifies the maximum disk space that can be used by the journal in persistent storage
@@ -12,7 +11,10 @@
   - RuntimeKeepFree    - Specifies the amount of space to be set aside for other uses when writing data to volatile storage (within the /run filesystem)
   - RuntimeMaxFileSize - Specifies the amount of space that an individual journal file can take up in volatile storage (within the /run filesystem) before being rotated
 /var/log/journal
+/run/log/journal/      - This holds the runtime journal file (this can be switched to /var/log/journal/ if changed to persistent in the config)
 
+* Description
+This is the systemd journal deamon that allows use to read and manipulate the system logs to find specific system information.
 * Usage
 ** Search with a filter
 - view all logs since yesterday

@@ -1,0 +1,14 @@
+#+TAGS: partition_creation
+
+
+* partprobe
+* Description
+* Usage
+- run after a new partition or changes to partitions to ensure that the OS is aware of the changes
+#+BEGIN_SRC sh
+partprobe
+#+END_SRC
+* Lecture
+* Tutorial
+* Books
+* Links
