@@ -1,0 +1,20 @@
+#+TAGS: xfs_admin xfs
+
+
+* xfs_admin
+* Description
+* Usage
+- Add a label to a partition (the partition needs to be unmounted)
+#+BEGIN_SRC sh
+xfs_admin -L name_of_partition /dev/sdb2
+#+END_SRC
+
+- print the label of the partition
+#+BEGIN_SRC sh
+xfs_admin -l name_of_partition
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

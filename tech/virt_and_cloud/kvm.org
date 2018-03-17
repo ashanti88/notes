@@ -4,6 +4,14 @@
 * KVM
 HomePage: https://www.linux-kvm.org/page/Main_Page
 
+* Files
+* Cmds
+- [[file://home/crito/org/tech/virt_and_cloud/virt-manager.org][virt-manager]]
+- [[file://home/crito/org/tech/virt_and_cloud/virsh.org][virsh]]
+- [[file://home/crito/org/tech/virt_and_cloud/virt-viewer.org][virt-viewer]]
+
+
+
 * Description
 This is an overview of how linux implements virtualization
 [[file://home/crito/Pictures/org/kvm_arch_overview.jpg]]
@@ -12,6 +20,7 @@ This is an overview of libvirt and the types of virtualization it is able to int
 [[file://home/crito/Pictures/org/Libvirt_support.png]]
 
 * Usage
+** Initial setup
 - checking that the cpu is virt enabled
 #+BEGIN_SRC sh
 egrep 'vmx | svm' /proc/cpuinfo
@@ -19,19 +28,116 @@ egrep 'vmx | svm' /proc/cpuinfo
 any number greater than 0 means that virtulization is possible
 vmx - intel based virt
 svm - amd based virt
+1M  - 64bit virtualization capable
 
 - checking that the linux kvm modules are installed
 #+BEGIN_SRC sh
 lsmod | grep kvm
 #+END_SRC
-This is the command run a RHEL system
+This is the command run in a RHEL system
 [[file://home/crito/Pictures/org/kvm_modules.png]]
 
-- check that libvirtd is running
+- if module is missing run
+#+BEGIN_SRC sh
+modprobe kvm kvm_intel
+modprobe kvm kvm_amd
+#+END_SRC
+run whichever type of processor you have
+
+- for the addition of physical hardware to VMs Virtaulization extensions needs to be enabled, these are found in the bios if available.
+
+- install the required packages
+#+BEGIN_SRC sh
+yum install qemu-kvm libvirtd virt-install virt-manager
+pacman -S virt-manager qemu vde2 ebtables dnsmasq bridge-utils openbsd-netcat
+#+END_SRC
+
+- alternative install for rhel
+#+BEGIN_SRC sh
+yum group install virtualization
+#+END_SRC
+
+- check that libvirtd is running and enable
 #+BEGIN_SRC sh
 systemctl status libvirtd
+systemctl enable libvirtd
 #+END_SRC
-this will shows if it is running
+
+- sanity check that libvirt can use or system
+#+BEGIN_SRC sh
+virt-host-validate
+#+END_SRC
+#+BEGIN_EXAMPLE
+/etc/sysctl.d ᐅ cd  
+~ ᐅ virt-host-validate  
+  QEMU: Checking for hardware virtualization                                 : PASS
+  QEMU: Checking if device /dev/kvm exists                                   : PASS
+  QEMU: Checking if device /dev/kvm is accessible                            : PASS
+  QEMU: Checking if device /dev/vhost-net exists                             : PASS
+  QEMU: Checking if device /dev/net/tun exists                               : PASS
+  QEMU: Checking for cgroup 'memory' controller support                      : PASS
+  QEMU: Checking for cgroup 'memory' controller mount-point                  : PASS
+  QEMU: Checking for cgroup 'cpu' controller support                         : PASS
+  QEMU: Checking for cgroup 'cpu' controller mount-point                     : PASS
+  QEMU: Checking for cgroup 'cpuacct' controller support                     : PASS
+  QEMU: Checking for cgroup 'cpuacct' controller mount-point                 : PASS
+  QEMU: Checking for cgroup 'cpuset' controller support                      : PASS
+  QEMU: Checking for cgroup 'cpuset' controller mount-point                  : PASS
+  QEMU: Checking for cgroup 'devices' controller support                     : PASS
+  QEMU: Checking for cgroup 'devices' controller mount-point                 : PASS
+  QEMU: Checking for cgroup 'blkio' controller support                       : PASS
+  QEMU: Checking for cgroup 'blkio' controller mount-point                   : PASS
+  QEMU: Checking for device assignment IOMMU support                         : PASS
+  QEMU: Checking if IOMMU is enabled by kernel                               : WARN (IOMMU appears to be disabled in kernel. Add intel_iommu=on to kernel cmdline arguments)
+   LXC: Checking for Linux >= 2.6.26                                         : PASS
+   LXC: Checking for namespace ipc                                           : PASS
+   LXC: Checking for namespace mnt                                           : PASS
+   LXC: Checking for namespace pid                                           : PASS
+   LXC: Checking for namespace uts                                           : PASS
+   LXC: Checking for namespace net                                           : PASS
+   LXC: Checking for namespace user                                          : WARN (User namespace support is recommended)
+   LXC: Checking for cgroup 'memory' controller support                      : PASS
+   LXC: Checking for cgroup 'memory' controller mount-point                  : PASS
+   LXC: Checking for cgroup 'cpu' controller support                         : PASS
+   LXC: Checking for cgroup 'cpu' controller mount-point                     : PASS
+   LXC: Checking for cgroup 'cpuacct' controller support                     : PASS
+   LXC: Checking for cgroup 'cpuacct' controller mount-point                 : PASS
+   LXC: Checking for cgroup 'cpuset' controller support                      : PASS
+   LXC: Checking for cgroup 'cpuset' controller mount-point                  : PASS
+   LXC: Checking for cgroup 'devices' controller support                     : PASS
+   LXC: Checking for cgroup 'devices' controller mount-point                 : PASS
+   LXC: Checking for cgroup 'blkio' controller support                       : PASS
+   LXC: Checking for cgroup 'blkio' controller mount-point                   : PASS
+   LXC: Checking if device /sys/fs/fuse/connections exists                   : PASS
+#+END_EXAMPLE
+This will provide a print out of test with pass, fail, warn. If warn it will provide a possible solution
+
+- overview of the node and show the nodes capablities
+#+BEGIN_SRC sh
+virsh nodeinfo
+virsh domcapabilities
+#+END_SRC
+
+** Post Installation Tasks
+Users will require root access to access virt-manager as the system currently stands.
+- To remedy this we can either add the user to the kvm group or if the user is in the wheel add a polkit rule(in RHEL this rule is already created as 50-default.rules
+/etc/polkit-1/rules.d/50-default.rules
+#+BEGIN_EXAMPLE
+/* -*- mode: js; js-indent-level: 4; indent-tabs-mode: nil -*- */
+
+// DO NOT EDIT THIS FILE, it will be overwritten on update
+//
+// Default rules for polkit
+//
+// See the polkit(8) man page for more information
+// about configuring polkit.
+
+polkit.addAdminRule(function(action, subject) {
+    return ["unix-group:wheel"];
+});
+#+END_EXAMPLE
+- adding the user to the kvm group means that you won't be prompted for a password  
+
 
 ** Configure a Hypervisor to Host Virtual Guests (Ubuntu 15.04)
 - installation
@@ -85,6 +191,23 @@ this should show the virbr0
 sudo virt-manager
 #+END_SRC
 you will now be able to create virtual machines that can communicate with each other
+
+* Trouble Shooting
+** Permissions issue due to removing acl attrs from home directory
+- noticed that these acl attrs where present on my home directory, but unsure as to why so removed.
+#+BEGIN_EXAMPLE
+/home ᐅ getfacl VMs
+# file: VMs
+# owner: crito
+# group: kvm
+user::rwx
+user:nobody:--x
+group::---
+mask::--x
+other::---
+#+END_EXAMPLE
+- this caused access permission issues for virt-manager
+- once these acl were reset the permissions issue was corrected.
 
 * Lecture
 ** KVM and QEMU Internals - Understanding the IO subsystem - Kyle Bader :openstack:

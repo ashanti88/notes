@@ -3,11 +3,16 @@
 
 * libvirt
 HomePage: http://wiki.libvirt.org/page/Main_Page
+* Files
+/etc/libvirt/     - this is there the configuration files can be found
+/var/lib/libvirt/ - this holds variable data for libvirt
+/var/lib/libvirt/images/ - default home for OS images for VM creation
+
 * Cmds
 ** virsh
 - list all VMs running on machine
 #+BEGIN_SRC sh
-vish list
+vish list --all
 #+END_SRC
 
 - stop a running VM
@@ -31,6 +36,21 @@ This is the prefered method to edit, rather than using vim on the config file
 virsh autostart UbuntuTrustyTahr
 #+END_SRC
 
+- view all of the virtual networks
+#+BEGIN_SRC sh
+virsh net-list --all
+#+END_SRC
+
+- dump the xml files of a specific network
+#+BEGIN_SRC sh
+virsh net-dumpxml isolated
+#+END_SRC
+this can be used to created new networks
+
+- check for all current snapshots for a specific VM
+#+BEGIN_SRC sh
+virsh snapshot-list virtual_machin_name
+#+END_SRC
 ** virt-manager
 HomePage: https://virt-manager.org/
 This is a GUI to manage VMs
@@ -52,6 +72,13 @@ A command line tool for converting OVF and VMX VM configurations to run with lib
 
 * Description
 * Usage
+** Create a VM from the Cmd line
+#+BEGIN_SRC sh
+qemu-img create -f raw -o size=10G /var/lib/libvirt/qemu/windows7.img
+virt-install --name windows7 --ram 1024 --disk path=/var/lib/libvirt/qemu/windows7.img --vcpus 1 --os-type=Windows --network bridge=virbr0 --graphics vnc,port=5999 --console pty,target_type=serial --cdrom /home/user/OS_images/windows7.iso
+#+END_SRC
+On pressing enter a window will appear and you can begin the installation
+
 ** Finding VM process
 #+BEGIN_SRC sh
 ps aux | grep virt | grep ubuntu
@@ -78,6 +105,69 @@ tar -xvf file.ova
 #+BEGIN_SRC sh
 qemu-img convert -O qcow2 input.vdi output.qcow2
 qemu-img convert -O qcow2 input.vmdk output.qcow2
+#+END_SRC
+
+** Disk Images with virt-builder
+- first we need to install libguestfs
+#+BEGIN_SRC sh
+yum install libguestfs
+#+END_SRC
+
+- now we tell virt-builder what OS to create
+#+BEGIN_SRC sh
+virt-build fedora-23 --root-password password:linuxacademy
+#+END_SRC
+this will go to http://libguestfs.org/download and pull the build script
+
+- now use the created disk to create a VM
+#+BEGIN_SRC sh
+virt-install --name fedora --ram 1028 --vcpus=1 --disk path=/var/lib/libvirt/qemu/fedora-23.img --import
+#+END_SRC
+** Creating a isolated network
+- provide a name for the new network   
+[[file://home/crito/Pictures/org/libvirt_isolated_network.png]]
+
+- create the ip range of the network
+[[file://home/crito/Pictures/org/libvirt_isolated_network2.png]]
+
+- we have the option to choose ipv6 address space (this example we don't)
+[[file://home/crito/Pictures/org/libvirt_isolated_network3.png]]
+
+- now we choose are network connection, isolated virtual network or forwarded to router
+[[file://home/crito/Pictures/org/libvirt_isolated_network4.png]]
+
+- In the networks tab there's now a newly created network
+[[file://home/crito/Pictures/org/libvirt_isolated_network5.png]]
+
+
+** Creating a routed network
+- name the new network
+[[file://home/crito/Pictures/org/libvirt_routed_network.png]]
+
+- you need to specifiy the local LAN network that your host machine is attached too
+[[file://home/crito/Pictures/org/libvirt_routed_network2.png]]
+
+- select the network connection type. The physical device that the LAN is connected to needs to be selected and Mode Routed.
+[[file://home/crito/Pictures/org/libvirt_routed_network3.png]]
+
+- In the network tab you should now see a new network created
+  
+** Create a disk image
+- create the disk that is to be mounted
+#+BEGIN_SRC sh
+qemu-img create -f raw addondisk1.img 1G
+#+END_SRC
+
+- add the disk to the VM
+#+BEGIN_SRC sh
+virsh attach-disk virtual_machine_name --source /var/lib/libvirt/images/addondisk1.img --target vdc --persistent
+#+END_SRC
+this disk will be attached at /dev/vdc and is persistent on reboot
+
+- now add the new filesystem and mount
+#+BEGIN_SRC sh
+mkfs.ext4 /dev/vdc1
+mount /dev/vdc1 /mnt/new_disk
 #+END_SRC
 
 * Lecture

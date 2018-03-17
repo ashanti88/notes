@@ -4,6 +4,8 @@
 * ASLR - Address Space Layout Randomization
 Wiki: https://en.wikipedia.org/wiki/Address_space_layout_randomization
 * DMA  - Direct Memory Access
+* DRM  - Direct Rendering Manager
+HomePage: https://dri.freedesktop.org/wiki/DRM/
 * FDT  - Flattened Device Tree
 * IIO  - Industrial I/O Subsystem
 https://wiki.analog.com/software/linux/docs/iio/iio
@@ -29,6 +31,8 @@ Server Name Indication (SNI) is an extension to the TLS computer networking prot
 * SSO  - Single Sign On
 * SSSD - System Security Services Daemon
 RHEL: [[https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/5/html/5.7_Release_Notes/sssd.html][redhat.com/5/sssd]]
+* TWM  - Tab Window Manager
+Wiki: https://en.wikipedia.org/wiki/Twm
 * UAT  - User Acceptence Testing
 * UCE  - Unsolicited Commercial Email
 * VTL  - Virtual Tape Library

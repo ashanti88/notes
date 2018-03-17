@@ -1,1 +1,1 @@
-/mnt/home/crito/org/tech/distro/arch.org
+/home/crito/org/tech/distro/arch.org

@@ -1,0 +1,19 @@
+#+TAGS: hostnamectl
+
+
+* hostnamectl
+* Description
+* Usage
+- set hostname for the system that will be persistant
+#+BEGIN_SRC sh
+hostnamectl set-hostname new_hostname
+#+END_SRC
+
+- display the hostname information
+#+BEGIN_SRC sh
+hostnamectl status
+#+END_SRC
+* Lecture
+* Tutorial
+* Books
+* Links

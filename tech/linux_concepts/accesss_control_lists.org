@@ -1,0 +1,29 @@
+#+TAGS: acl access_control_lists
+
+
+* Access Control Lists
+* Cmds
+- setfacl
+- getfacl
+
+* Description
+* Usage
+- add multiple groups to a directory
+#+BEGIN_SRC sh
+setfacl -m g:finance /home/user/finance/
+#+END_SRC
+m - modifiy
+
+- add an other named user
+#+BEGIN_SRC sh
+setfacl -m u:starbug:rw file1.txt
+#+END_SRC
+u - user
+rw - allow read write privs
+
+- 
+* Lecture
+* Tutorial
+* Books
+* Links
+[[http://bencane.com/2012/05/27/acl-using-access-control-lists-on-linux/][ACL: Using Access Control Lists on Linux - Benjamin Cane]]

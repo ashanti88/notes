@@ -1,7 +1,7 @@
-#+TAGS: fs lvm op
+#+TAGS: lvm lvextend logical_volume_management
 
 
-* lvextend							  :fs:lvm:op:
+* lvextend
 * Description
 * Usage
 * Lecture

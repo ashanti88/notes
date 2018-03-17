@@ -109,7 +109,6 @@ or
 systemctl list-units --type=service
 #+END_SRC
 
-
 ** Services
 *** Stop, Start and Restart a Service
 - stop

@@ -1,4 +1,4 @@
-#+TAGS: cron job_synchronisation application_synchronisation
+#+TAGS: cron job_synchronisation application_synchronisation anacron
 
 
 * cron
@@ -38,13 +38,17 @@ Features of sys-process/bcron:
   - Native daylight savings time support.
 ** anacron
 Anacron is not a cron daemon, it is something that usually works in conjunction with one. It executes commands at intervals specified in days and it does not assume that the system is running continuously; it will run jobs that were missed while the system was down. Anacron usually relies on a cron daemon to run it each day.
+* Cmds
+- crontab
+
 * Files
 /etc/crontab - shouldn't normally be edited as it can be over written, user/admin should use crontab cmd 
 /etc/cron.hourly ------
 /etc/cron.daily
 /etc/cron.weekly    These are normally used by the pgk manager, or system to add any cron jobs that certain applicaiton requires
 /etc/cron.monthly
-/etc/cron.deny   ------
+/etc/cron.allow - if present only the users added can use the cron facility
+/etc/cron.deny  - if the allow isn't present and the deny is everyone but those on this file can use cron 
 /etc/cron.d/ - this is where users/admins can place cron jobs or they can add jobs with crontab -e with the specific user the cron job is for
 
 * Alternative
@@ -67,3 +71,12 @@ This will write hello to the log at 2:30pm each day
 * Books
 * Links
 [[https://opensource.com/article/17/11/how-use-cron-linux][How to use cron in Linux]]
+
+
+* anacron
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

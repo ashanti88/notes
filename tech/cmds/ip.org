@@ -1,4 +1,4 @@
-#+TAGS: net op anal
+#+TAGS: ip network_tool
 
 
 * ip
@@ -11,22 +11,22 @@ This tool is used for manipulating network interfaces and generating network inf
 ip a
 #+END_SRC
 
-** Only view ip4 information*
+** Only view ip4 information
 #+BEGIN_SRC sh
 ip -4 a
 #+END_SRC
 
-** Only view ip6 information*
+** Only view ip6 information
 #+BEGIN_SRC sh
 ip -6 a
 #+END_SRC
 
-** View an specific interface details*
+** View an specific interface details
 #+BEGIN_SRC sh
 ip a show wlp2s0 
 #+END_SRC
 
-** Only show the up interfaces*
+** Only show the up interfaces
 #+BEGIN_SRC sh
 ip link ls up
 #+END_SRC
@@ -78,14 +78,18 @@ ip neigh show
 #+BEGIN_SRC sh
 ip neigh delete 192.168.0.4 dev wlp2s0
 #+END_SRC
-The deleted machine will now show as FAILED and need an arp request to
-be set to establish connection.
+The deleted machine will now show as FAILED and need an arp request to be set to establish connection.
 
 ** Routing Tables
 - Show rules
 #+BEGIN_SRC sh
 ip rule list
 #+END_SRC
+** Show interface statistics
+#+BEGIN_SRC sh
+ip -s link show eth0
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

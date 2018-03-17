@@ -4,7 +4,7 @@
 * getent
 * Description
 Get enteries from the Name Service Switch libraries
-* Usage
+* usage
 - get passwd entry for a user
 #+BEGIN_SRC sh
 getent testuser passwd

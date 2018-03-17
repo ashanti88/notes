@@ -1,4 +1,4 @@
-#+TAGS: network_manager network_tool wifi_tool wifi terminal
+#+TAGS: network_manager network_tool wifi_tool wifi terminal network_manager ncurces_frontend_network_manager nm_connection_editor network_manager_gui
 
 
 * nmcli
@@ -12,6 +12,37 @@ HomePage: [[https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Lin
 This tool allows for changes to the network via the cmd line.
 The Networkmanager command line interface, nmcli, can be used by both users and scripts for controlling NetworkManager.
 * Usage
+- show all connections
+#+BEGIN_SRC sh
+nmcli con show
+#+END_SRC
+
+- add a new configuration
+#+BEGIN_SRC sh
+nmcli con add con-name "myconnection" autoconnect yes type type ethernet ifname eth1
+#+END_SRC
+- this sets autoconnect on reboot
+- by default dhcp is set to on (BOOTPROTO=dhcp)
+
+- add a new configuration with a static addr
+#+BEGIN_SRC sh
+nmcli con add con-name "myconnection-static" type type ethernet ifname eth1 ip4 10.0.0.16 gw4 10.0.0.1
+#+END_SRC
+- by default dhcp is set to on (BOOTPROTO=none)
+
+- modify a configuration
+#+BEGIN_SRC sh
+nmcli con mod "myconnection" connection.autoconnect no
+#+END_SRC
+
+- remove a configuration
+#+BEGIN_SRC sh
+nmcli con down myconnection
+nmcli con del "myconnection"
+#+END_SRC
+this will bring down the connection and remove the configuration file
+
+
 ** Configure
 *** Modify the Current ip
 #+BEGIN_SRC sh
@@ -81,3 +112,25 @@ sysd: [[file://home/crito/org/tech/cmds/netctl.org][netctl]] (terminal)
 
 
 
+
+
+* nmtui
+Home Page: [[https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Networking_Guide/sec-Networking_Config_Using_nmtui.html][nmtui]]
+* Description
+Network Manager Text User Interfaceion
+- this tool allows for an curses environment to adjust netwrok settings.
+
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links
+  
+
+* nm-connection-editor
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

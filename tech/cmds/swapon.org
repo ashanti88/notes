@@ -11,6 +11,16 @@ This command is used to initialise a swap file
 swapon -s
 #+END_SRC
 
+- mount the swap file/partition set in /etc/fstab
+#+BEGIN_SRC sh
+swapon -a
+#+END_SRC
+
+- mount a specific partition as swap
+#+BEGIN_SRC sh
+swapon /dev/sdb3
+#+END_SRC
+
 - create a swap file
 #+BEGIN_SRC sh
 dd if=/dev/zero of=/swapfile bs=1G count=4

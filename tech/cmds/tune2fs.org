@@ -32,6 +32,11 @@ tune2fs -e panic /dev/sda2
 tune2fs -e remount-ro /dev/sda2
 #+END_SRC
 
+- add a label to a partition
+#+BEGIN_SRC sh
+tune2fs -L name_of_partition /dev/sdb2
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

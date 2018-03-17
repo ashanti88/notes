@@ -9,6 +9,13 @@
 * Description
 Run a specific task at a specific time, once.
 * Usage
+<EOT> - Ctrl-d
+
+Make sure that the atd is running otherwise tasks can't be created
+#+BEGIN_SRC sh
+systemctl start atd
+#+END_SRC
+
 - check status of atd
 #+BEGIN_SRC sh
 systemctl status atd -l
@@ -36,6 +43,12 @@ atq
 atrm 1
 #+END_SRC
 The 1 is the job number that is found in the queue
+
+- set a task for a specific time in the future
+#+BEGIN_EXAMPLE
+at now +5 minutes
+at> reboot<EOT>
+#+END_EXAMPLE
 
 * Lecture
 * Tutorial

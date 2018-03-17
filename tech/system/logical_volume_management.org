@@ -3,6 +3,11 @@
 
 * Logical Volume Management
 * Cmds
+** Physical Volumes
+
+** Volume Groups
+
+** Logical Volumes
 [[file://home/crito/org/cmds/lvs.org][lvs]]
 [[file://home/crito/org/tech/cmds/lvdisplay.org][lvdisplay]]
 [[file://home/crito/org/tech/cmds/lvscan.org][lvscan]]
@@ -188,6 +193,11 @@ Advantages of LVM
 * Tutorial
 ** Linux Academy Lab - Add and Remove Volumes, Partition Disks and Working with LVM
 LabGuide: [[file://home/crito/Documents/Linux/Labs/work-with-lvm-lab.pdf][Add and Remove Volumes, Partition Disks and Work with LVM]]
+
+** Linux Academy Lab - Extending Logical Volumes
+LabGuide: [[file://home/crito/Documents/Linux/Labs/extending_lvm-lab.pdf][Extending Existing Logical Volumes]]
+
 * Books
 * Links
 [[https://wiki.ubuntu.com/Lvm][LVM - Ubuntu]]
+[[https://linuxguruunix.blogspot.ch/2016/02/lvm-migration-using-mirroring-and.html][LVM Migration using mirroring and pvmove method - linux newbies]]

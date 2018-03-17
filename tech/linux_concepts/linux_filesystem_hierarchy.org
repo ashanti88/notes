@@ -70,6 +70,7 @@ This is the nerve center of your system, it contains all system related configur
 /etc/exports       - this files is used to add NFS shares that are available for sharing
 /etc/fstab         - contains the devices to mounted at boot
 /etc/group         - contains all the groups on the system and who the members are
+/etc/hostname	   - this holds the hostname of the machine
 /etc/hosts         - this file is first read to find IP to hostname lookup
 /etc/hosts.allowed - this is an Access Control File that specifies allowed hosts
 /etc/hosts.deny    - this is the counter part to hosts.allowed, if only this file all allowed to access except what is contained in this file
@@ -113,6 +114,8 @@ To use any of the example just copy the file to /etc/netctl and edit
 
 *** /etc/pam.d/
 The /etc/pam.d/ directory contains the PAM configuration files for each PAM-aware application
+*** /etc/polkit-1/  - this contains the policy rules 
+**** /etc/polkit-1/rules.d/ - this contains rule files
 *** /etc/X11/
 ** /dev - holds information on machine devices (block|character)  
 /dev is the location of special or device files. It is a very interesting directory that highlights one important aspect of the Linux filesystem - everything is a file or a directory. Look through this directory and you should hopefully see sda1, sda2 etc.... which represent the various partitions on the first master drive of the system and /dev/sr0 represent your CD-ROM drive.
@@ -211,6 +214,9 @@ Any variable data relating to games in /usr is placed here. It holds variable da
 
 *** /var/lib
 Holds dynamic data libraries/files like the rpm/dpkg database and game scores. Furthermore, this hierarchy holds state information pertaining to an application or the system. State information is data that programs modify while they run, and that pertains to one specific host. Users shouldn't ever need to modify files in /var/lib to configure a package's operation. State information is generally used to preserve the condition of an application (or a group of inter-related applications) between invocations and between different instances of the same application. An application (or a group of inter-related applications) use a subdirectory of /var/lib for their data. There is one subdirectory, /var/lib/misc, which is intended for state files that don't need a subdirectory; the other subdirectories should only be present if the application in question is included in the distribution. /var/lib/'name' is the location that must be used for all distribution packaging support. Different distributions may use different names, of course.
+
+**** /var/lib/libvirt/ - this holds variable data for libvirt
+/var/lib/libvirt/images/ - default home for OS images for VM creation
 
 *** /var/local
 Variable data for local programs (i.e., programs that have been installed by the system administrator) that are installed in /usr/local (as opposed to a remotely mounted '/var' partition). Note that even locally installed programs should use the other /var directories if they are appropriate, e.g., /var/lock.

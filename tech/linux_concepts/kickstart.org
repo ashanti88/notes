@@ -1,0 +1,26 @@
+#+TAGS: kickstart rhel automated_installations
+
+
+* Kickstart
+* Description
+* Usage
+- install the gui helper application for kickstart creation
+#+BEGIN_SRC sh
+yum install system-config-kickstart
+#+END_SRC
+this application runs you through what kind of installation you would like and then create the ks script
+
+- another application that is available to aid creation of kickstart scripts is pykickstart
+#+BEGIN_SRC sh
+yum install pykickstart
+#+END_SRC
+- this is a terminal based application
+- this provides documentaion on how to create ks scripts and examples
+  - /usr/share/doc/pykickstart-1.99.66.12/programmers-guide
+  - /usr/share/doc/pykickstart-1.99.66.12/kickstart-docs.rst
+
+
+* Lecture
+* Tutorial
+* Books
+* Links

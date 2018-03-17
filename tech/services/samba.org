@@ -3,6 +3,10 @@
 
 * Samba
 HomePage: [[https://wiki.samba.org/index.php/Main_Page][wiki.samba.org/Main_Page]]
+* Cmds
+- testparm
+- nmblookup
+
 * Files
 /etc/samba/smb.conf - the main configuration file for Samba
 /etc/nsswitch.conf - this file contains options for what protocols to use to lookup shares (wins for a windows server share)
@@ -10,6 +14,12 @@ HomePage: [[https://wiki.samba.org/index.php/Main_Page][wiki.samba.org/Main_Page
 
 * Description
 * Usage
+** Mounting samba share (temporary)
+#+BEGIN_SRC sh
+mount -t cifs -o username=frank //10.0.0.100/public_files /mnt/mount_point
+#+END_SRC
+this will not be mounted on reboot
+
 ** Configuring a Samba Share
 - scan to find what shares are available
 #+BEGIN_SRC sh
@@ -142,6 +152,9 @@ chmod 701 /home/user
 * Tutorial
 ** Linux Academy - Samba4 with Windows and Linux Client and Server
 LabGuide: [[file://home/crito/Documents/Linux/Labs/Samba4-lab.pdf][Samba Version 4 with Windows and Linux Client and Server]]
+** Linux Academy - Create and Mount Samba and CIFS Fileshares
+Guide: [[file://home/crito/Documents/Linux/Labs/deploy_samba_server-rhcsa_lab.pdf][Create and Mount Samba and CIFS Fileshares]]
+
 * Books
 [[file://home/crito/Documents/SysAdmin/Storage/Using_Samba_3e.pdf][Using Samba 3e - O'Reilly]]
 * Links

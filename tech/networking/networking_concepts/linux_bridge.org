@@ -1,1 +1,0 @@
-/home/crito/org/tech/linux_concepts/setting_up_a_bridge.org

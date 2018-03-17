@@ -1,13 +1,11 @@
+#+TAGS: traceroute 
 
 
+* traceroute
+* Description
+This is now considered deprecated and replaced by tracepath
 
-* Description							    :Network:
-Traceroute uses the TTL field to determine the distance between the host
-and the target. It does this by initially sending the first packet with
-a TTL of 1 which is discarded by the first hop router which sends back
-to the source ip an ICMP error message of "Time exceeded".
-
-* Basic usage
+* usage
 
 > traceroute <ipaddress>
 
@@ -17,16 +15,14 @@ or
 
 The '*' field
 
-This means that the required feild could not be fetched. The reason
-could anything from reverse DNS lookup failure to packets not hitting
-the target router, to packets getting lost on the way back. We can not
-determine exactly what caused the *.
+This means that the required feild could not be fetched. The reason could anything from reverse DNS lookup failure to packets not hitting the target router, to packets getting lost on the way back. We can not determine exactly what caused the *.
 
-+ Disable IP address and host name mapping
+- Disable IP address and host name mapping
+#+BEGIN_SRC sh
+traceroute 143.23.23.10 -n
+#+END_SRC
 
-> traceroute <ipaddress> -n
-
-+ Configure response wait time
+- Configure response wait time
 
 The time the utility waits after issuing a probe can be configured using
 the -w flag.
@@ -47,4 +43,7 @@ the -q flag.
 the default is 1, changing this will determine which hop the traceroute
 starts from. 
 
+* Lecture
+* Tutorial
+* Books
 * Links
