@@ -152,7 +152,7 @@ virt-install --name fedora --ram 1028 --vcpus=1 --disk path=/var/lib/libvirt/qem
 
 - In the network tab you should now see a new network created
   
-** Create a disk image
+** Create a disk image that can be mounted
 - create the disk that is to be mounted
 #+BEGIN_SRC sh
 qemu-img create -f raw addondisk1.img 1G
