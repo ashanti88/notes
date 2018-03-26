@@ -1,0 +1,15 @@
+#+TAGS: mysqlcheck mysql
+
+
+* mysqlcheck
+* Cmds
+- the following names can be substitued to change mysqlcheck default behaviour
+  - mysqlrepair   - the default option is --repair
+  - mysqlanalyze  - the default option is analyze
+  - mysqloptimize - the default option is optimize
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

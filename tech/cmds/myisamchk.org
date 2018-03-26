@@ -1,0 +1,10 @@
+#+TAGS: myisamchk mysql isam_db
+
+
+* myisamchk
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -11,6 +11,8 @@ HomePage: [[https://www.mysql.com/][mysql.com]]
 - [[file://home/crito/org/tech/cmds/mysqltuner.org][Mysqltuner]]
 - [[file://home/crito/org/tech/cmds/mysqlimport.org][Mysqlimport]]
 - [[file://home/crito/org/tech/cmds/automysqlbackup.org][Automysqlbackup]]
+- [[file://home/crito/org/tech/cmds/myisamchk.org][myisamchk]]
+- [[file://home/crito/org/tech/cmds/mysqlcheck.org][mysqlcheck]]
 
 * Config Files
 /etc/my.cnf

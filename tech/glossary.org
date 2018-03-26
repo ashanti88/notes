@@ -3,6 +3,8 @@
 
 * ASLR - Address Space Layout Randomization
 Wiki: https://en.wikipedia.org/wiki/Address_space_layout_randomization
+* DCCP - Datagram Congestion Control Protocol
+Wiki - https://en.wikipedia.org/wiki/Datagram_Congestion_Control_Protocol
 * DMA  - Direct Memory Access
 * DRM  - Direct Rendering Manager
 HomePage: https://dri.freedesktop.org/wiki/DRM/

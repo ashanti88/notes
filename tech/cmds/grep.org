@@ -7,11 +7,57 @@
 
 > grep [options] <pattern> <file>
 ascii
+** Using the output of an expression to form the pattern
+- the older method is to use the backtick `
+#+BEGIN_SRC sh
+grep `whoami` system_users.txt
+#+END_SRC
+
+- the now prefered method
+#+BEGIN_SRC sh
+grep $(whoami) system_users.txt
+#+END_SRC
+
+** Using system variables as search patterns
+#+BEGIN_SRC sh
+grep $HOME logfile.txt
+#+END_SRC
+
 ** Using Regular Expressions
 - ip addresses
 #+BEGIN_SRC sh
 grep -E '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' ip_addr.txt
 #+END_SRC
+E - extended regular expressions
+
+- search for a line that contains any of letters or combination of letters between the []
+#+BEGIN_SRC sh
+grep -e '[afrets]' a.txt
+#+END_SRC
+e  - regular expressions
+[] - character class
+
+- search for a line that doesn't contain any of letters or combination of letters between the []
+#+BEGIN_SRC sh
+grep -e '[^afrets]' a.txt
+#+END_SRC 
+
+*** Character Classes
+- lines with any kind of alphabetical characters of either class
+#+BEGIN_SRC sh
+grep -e '[[:alpha:]]' a.txt
+#+END_SRC
+
+- lines that have only lowercase letters
+#+BEGIN_SRC sh
+grep -e '[[:lower:]]' a.txt
+#+END_SRC
+
+- lines that have only uppercase letters
+#+BEGIN_SRC sh
+grep -e '[[:upper:]]' a.txt
+#+END_SRC
+
 
 ** Search entire directory for pattern
 #+BEGIN_SRC sh

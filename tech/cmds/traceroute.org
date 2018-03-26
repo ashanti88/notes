@@ -23,27 +23,33 @@ traceroute 143.23.23.10 -n
 #+END_SRC
 
 - Configure response wait time
+#+BEGIN_SRC sh
+> traceroute 172.168.20.21 -w 3
+#+END_SRC
+The time the utility waits after issuing a probe can be configured using the -w flag.
 
-The time the utility waits after issuing a probe can be configured using
-the -w flag.
 
-> traceroute <ipaddress> -w <seconds>
+- Configure number of queries per hop
+#+BEGIN_SRC sh
+traceroute 172.168.20.21 -q 3
+#+END_SRC
+Traceroute uses 3 packets per hop by default. This can be changed with the -q flag.
 
-+ Configure number of queries per hop
 
-Traceroute uses 3 packets per hop by default. This can be changed with
-the -q flag.
+- Configure the TTL value to start with
+#+BEGIN_SRC sh
+traceroute 172.168.20.21 -f 5
+#+END_SRC
+the default is 1, changing this will determine which hop the traceroute starts from.
 
-> traceroute <ipaddress> -q <packets>
-
-+ Configure the TTL value to start with
-
-> traceroute <ipaddress> -f <ttl>
-
-the default is 1, changing this will determine which hop the traceroute
-starts from. 
+- Setting the probe to use icmp packets
+#+BEGIN_SRC sh
+traceroute -i 172.168.20.21
+#+END_SRC
 
 * Lecture
+[[https://www.youtube.com/watch?v=WL0ZTcfSvB4][Troubleshooting with Traceroute - Richard Steenbergen]]
+[[https://www.youtube.com/watch?v=Ih3KgQnT6T0][Deep dive on traceroute, Firewallking, TCP traceroute and scanning - Ryan Lindfield]]
 * Tutorial
 * Books
 * Links
