@@ -1,0 +1,56 @@
+#+TAGS: file user management sid gid uid
+
+
+* File Management
+* Cmds
+- [[file://home/crito/org/tech/cmds/chmod.org][chmod]]  - change the permissions on a file
+- [[file://home/crito/org/tech/cmds/chown.org][chown]]  - change the owner/group of a file
+- [[file://home/crito/org/tech/cmds/chgrp.org][chgp]]   - change the group of a file
+- [[file://home/crito/org/tech/cmds/chattr.org][chattr]] - alter the attributes of a file
+- [[file://home/crito/org/tech/cmds/chsh.org][chsh]]   - change the users shell
+- [[file://home/crito/org/tech/cmds/ls.org][ls]]     - list the files of the specified directory
+- [[file://home/crito/org/tech/cmds/lsattr.org][lsattr]] - list the extra attributes
+- [[file://home/crito/org/tech/cmds/chattr.org][chattr]] - modify the extra attributes
+
+* Concepts
+** Setuid
+The setuid (set user id) is a permission bit, that allows the users to exec a program with the permissions of its owner
+    
+[[file://home/crito/Pictures/org/setuid.png]]
+  - the 's' in 'rws' for the user indicates that the setuid is configured for this file
+    
+- setting the uid
+#+BEGIN_SRC sh
+chmod u+s file
+chomd 4755 file
+#+END_SRC
+    
+** Setgid
+The setgid (set group id) is a bit that allows the user to exec a program with the permissions of the group owner.
+     
+[[file://home/crito/Pictures/org/setguid.png]]
+  - the 's' in the group section indicates that the setguid is configured for this file/directory
+    
+- setting the guid bit
+#+BEGIN_SRC sh
+chmod g+s guidexample
+chmod 2755 guidexample
+#+END_SRC
+
+** Sticky Bit
+  - This prevents other users from deleting other users files
+    - /tmp has the sticky bit set
+
+[[file://home/crito/Pictures/org/sticky_bit.png]]
+
+- setting the sticky bit
+#+BEGIN_SRC sh
+chmod o+t stick_bit_dir
+chmod 1755 stick_bit_dir
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links
+[[http://linuxg.net/how-to-set-the-setuid-and-setgid-bit-for-files-in-linux-and-unix/][How to set the SetUID and SetGID bit for files in Linux and Unix - LinuxG.net]]

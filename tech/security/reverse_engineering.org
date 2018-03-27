@@ -1,0 +1,18 @@
+#+TAGS: code:sec
+
+
+* Reverse Engineering                                              :codE:††sec:
+* Usage
+* Tools
+- [[file://home/crito/org/tech/cmds/radare2.org][Radare2]]
+- [[file://home/crito/org/tech/cmds/gdb.org][GDB]]
+
+* Lecture
+* Tutorial
+* Books
+[[file://home/crito/Documents/Security/Hacking-The_Art_of_Exploitation.pdf][Hacking - The Art of Exploitation]]
+[[file://home/crito/Documents/Security/Practical_Malware_Analysis-No_Starch.pdf][Practical Malware Analysis]]
+
+* Links
+[[https://exploit-exercises.com/][exploit-exercises.com]]
+[[http://smashthestack.org/][smashthestack.org]]

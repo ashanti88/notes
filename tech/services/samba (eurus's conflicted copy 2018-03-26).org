@@ -1,0 +1,163 @@
+#+TAGS: file_server samba cifs
+
+
+* Samba
+HomePage: [[https://wiki.samba.org/index.php/Main_Page][wiki.samba.org/Main_Page]]
+* Cmds
+- testparm
+- nmblookup
+
+* Files
+/etc/samba/smb.conf - the main configuration file for Samba
+/etc/nsswitch.conf - this file contains options for what protocols to use to lookup shares (wins for a windows server share)
+/etc/fstab - this is the file you would edit to make a share permanent
+
+* Description
+* Usage
+** Mounting samba share (temporary)
+#+BEGIN_SRC sh
+mount -t cifs -o username=frank //10.0.0.100/public_files /mnt/mount_point
+#+END_SRC
+this will not be mounted on reboot
+
+** Configuring a Samba Share
+- scan to find what shares are available
+#+BEGIN_SRC sh
+smbclient -L -U frank share
+#+END_SRC
+
+- create a credentials file
+#+BEGIN_SRC sh
+echo "username=frank" > /mnt/.smbcredentials
+echo "password=password" >> /mnt/.smbcredentials
+chmod 600 /mnt/.smbcredentials
+#+END_SRC
+
+- add to fstab
+#+BEGIN_EXAMPLE
+//192.168.1.99/news	/mnt/share	cifs	credentials=/mnt/.smbcredentials,defaults	0 0
+#+END_EXAMPLE
+
+- mount the directory
+#+BEGIN_SRC sh
+mount -a
+#+END_SRC
+
+- confirm the share has mounted
+#+BEGIN_SRC sh
+df -h
+#+END_SRC
+
+** Configuring a Samba Share in Manjaro
+
+- install samba
+#+BEGIN_SRC sh
+yaourt -S samba manjaro-settings-samba
+#+END_SRC
+
+- create the usershare directory
+#+BEGIN_SRC sh
+mkdir -p /usr/lib/samba/usershare
+#+END_SRC
+this is for the use of GUI file managers to enable shares
+
+- now create the usershare group
+#+BEGIN_SRC sh
+groupadd sambashare
+chown root:sambashare /var/lib/samba/usershare
+chmod 1770 /usr/lib/samba/usershare
+#+END_SRC
+
+- configure the /etc/samba/smb.conf
+#+BEGIN_EXAMPLE
+
+[global]
+   workgroup = WORKGROUP
+   dns proxy = no
+   log file = /var/log/samba/%m.log
+   max log size = 1000
+   client max protocol = NT1
+   server role = standalone server
+   passdb backend = tdbsam
+   obey pam restrictions = yes
+   unix password sync = yes
+   passwd program = /usr/bin/passwd %u
+   passwd chat = *New*UNIX*password* %n\n *ReType*new*UNIX*password* %n\n *passwd:*all*authentication*tokens*updated*successfully*
+   pam password change = yes
+   map to guest = bad user
+   usershare allow guests = yes
+   name resolve order = lmhosts bcast host wins
+   security = user
+   guest account = nobody
+   usershare path = /var/lib/samba/usershare
+   usershare max shares = 100
+   usershare owner only = yes
+   group = sambashare
+   force create mode = 0070
+   force directory mode = 0070
+
+[homes]
+   comment = Home Directories
+   browseable = no
+   read only = yes
+   create mask = 0700
+   directory mask = 0700
+   valid users = %S
+
+[printers]
+   comment = All Printers
+   browseable = no
+   path = /var/spool/samba
+   printable = yes
+   guest ok = no
+   read only = yes
+   create mask = 0700
+
+[print$]
+   comment = Printer Drivers
+   path = /var/lib/samba/printers
+   browseable = yes
+   read only = yes
+   guest ok = no
+
+[share]
+comment = Torrents
+path = /mnt/Documents
+force user = user
+force group = user
+read only = No
+hosts allow = 192.168.0.0/255.255.255.0
+hosts allow = 192.168.122.0/255.255.255.0
+#+END_EXAMPLE
+- this provides access to the users home directory and the /mnt/Documents directory 
+
+
+- add your user to the sambashare group 
+#+BEGIN_SRC sh
+usermod -a -G sambashare user
+#+END_SRC
+
+- start and enable the smbd service (not the samba service)
+#+BEGIN_SRC sh
+systemctl enable smbd.service
+systemctl start smbd.service
+#+END_SRC
+
+- the home directory has to have the execute bit set for other on the home directory
+#+BEGIN_SRC sh
+chmod 701 /home/user
+#+END_SRC
+
+* Lecture
+* Tutorial
+** Linux Academy - Samba4 with Windows and Linux Client and Server
+LabGuide: [[file://home/crito/Documents/Linux/Labs/Samba4-lab.pdf][Samba Version 4 with Windows and Linux Client and Server]]
+** Linux Academy - Create and Mount Samba and CIFS Fileshares
+Guide: [[file://home/crito/Documents/Linux/Labs/deploy_samba_server-rhcsa_lab.pdf][Create and Mount Samba and CIFS Fileshares]]
+
+* Books
+[[file://home/crito/Documents/SysAdmin/Storage/Using_Samba_3e.pdf][Using Samba 3e - O'Reilly]]
+* Links
+[[https://www.tecmint.com/setup-samba-file-sharing-for-linux-windows-clients/][Setting Up Samba and Configure FirewallD and SELinux to Allow File Sharing on Linux/Windows Clients]]
+[[https://wiki.manjaro.org/index.php?title=Using_Samba_in_your_File_Manager][Using Samba in your File Manager - Manjaro Linux]]
+[[https://www.techrepublic.com/article/how-to-manage-user-security-in-samba/][How to manage user security in Samba - TechRepublic]]

@@ -1,0 +1,301 @@
+#+TAGS: git code_management vcs
+
+
+* git
+HomePage: https://git-scm.com/
+
+* Description
+* Usage
+** Create a new repo
+#+BEGIN_SRC sh
+git init 
+#+END_SRC
+do this inside the directory to create a repo
+
+** Setting user creds
+-setting username
+#+BEGIN_SRC sh
+git config --global user.name "Alick"
+#+END_SRC
+
+- setting email
+#+BEGIN_SRC sh
+git config --global user.email "mitchell.alick@gmail.com"
+#+END_SRC
+
+- setting default editor
+#+BEGIN_SRC sh
+git config --global core.editor vim
+#+END_SRC
+
+** Clone
+#+BEGIN_SRC sh
+git clone https://github.com:AlickMitchell/notes.git
+#+END_SRC
+
+** Commits
+1. add files to repo for commit
+#+BEGIN_SRC sh
+git <file_name> | > git *
+#+END_SRC
+2. now make the commit
+#+BEGIN_SRC sh
+git commit -m "message to be added"
+#+END_SRC
+
+** Push commits
+#+BEGIN_SRC sh
+git push origin master
+#+END_SRC
+
+** Branchs
+- create a new branch
+#+BEGIN_SRC sh
+git checkout -b new_branch
+#+END_SRC
+
+- switch to master branch
+#+BEGIN_SRC sh
+git checkout master
+#+END_SRC
+
+- delete a certain branch
+#+BEGIN_SRC sh
+git branch -d <branch>
+#+END_SRC
+
+** Update & Merge
+- update repo to most current
+#+BEGIN_SRC sh
+> git pull
+#+END_SRC
+
+- merge branch into your active branch
+#+BEGIN_SRC sh
+git merge branch
+#+END_SRC
+
+** Removing files after being added to .gitignore
+1. add the file to the .gitignore
+2. > git rm -r --cached <file>
+3. then add and commit
+
+** Reset
+- if you have made a change to a branch and would like to go back to the original state
+#+BEGIN_SRC sh
+git reset --hard
+#+END_SRC
+
+* Github
+- SSH test
+#+BEGIN_SRC sh
+ssh -T git@github.com
+#+END_SRC
+This will return a message that github doesn't allow shell access, but allows you to know that you can connect to github
+
+- Github not using ssh key
+- first check that it's been added to github
+- check the .git/config makesure that it is connecting over ssh not https
+  - url = git@github.com:AlickMitchell/notes.git
+
+*** Error
+19:13:43 ajax:~/org$ git push origin master
+Permission denied (publickey).
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+
+The above error was throw as ssh didn't know about the github ssh-key
+
++ Solution(do in bash, didn't work in zsh)
+> ssh-agent /bin/bash
+> ssh-add github-key
+> ssh-add -l - this will show the added key in the list
+
+* Lecture
+* Tutorial
+** LinuxAcademy - Git Quick Start
+
+- Installation and Configuration
+  
+- RHEL
+#+BEGIN_SRC sh
+yum install git
+#+END_SRC
+
+- Configure Global Parameters - these parameters will be used if none are supplied
+#+BEGIN_SRC sh
+git config --global user.name "testname"
+git config --global user.email "testname@testemail.com"
+git config --system core.editor "/usr/bin/vim"
+#+END_SRC
+these commands will be written to /etc/gitconfig
+
+
+- Creating a Repository and Adding Content
+
+  - make a directory whcih will become the local repo  
+    #+BEGIN_SRC sh
+    mkdir repo
+    cd repo
+    #+END_SRC
+  - now we have to initialize the repo, this creates the needed files (.git directory)
+    #+BEGIN_SRC sh
+    git init .
+    #+END_SRC
+    - to remove a repo all we have to do is remove the .git directory
+  - checking the status of a git repo
+    #+BEGIN_SRC 
+    git status
+    #+END_SRC
+    - this will provide a list of files that have changed and newly added
+  - changing default username and email
+    #+BEGIN_SRC sh
+    git config user.name "user"
+    git config user.email "user@example.com"
+    #+END_SRC
+  - add files to the repo
+    #+BEGIN_SRC sh
+    git add *
+    #+END_SRC
+    - this will add every file in the directory
+    - these files still need to be commited, and are not tracked (can be removed without recording)
+  - commit the staged files (newly added and changed files)
+    #+BEGIN_SRC sh
+    git commit -m "this is the initial message"
+    #+END_SRC
+    - these is a second way where you can leave out the -m "and message", this will drop you into the editor
+  - commit only modified files
+    #+BEGIN_SRC sh
+    git commit -a -m "this will leave out the untracked files from the commit"
+    #+END_SRC
+    
+
+- Logging
+  - it has it's own man page
+    #+BEGIN_SRC sh
+    man git-log
+    #+END_SRC
+  - pull all the commits from a branch
+    #+BEGIN_SRC sh
+    git log
+    #+END_SRC
+  - to get a summary of the logs
+    #+BEGIN_SRC sh
+    git log --oneline
+    #+END_SRC
+  - pull each commit plus all the details of modified and added files
+    #+BEGIN_SRC sh
+    git log -p
+    #+END_SRC
+  - view the logs/commits of a specific file
+    #+BEGIN_SRC sh
+    git log -- test.txt
+    #+END_SRC
+  - view the all commits submitted by a specific author
+    #+BEGIN_SRC sh
+    git log --author="user"
+    #+END_SRC
+  - grep for a specific word in the commit logs
+    #+BEGIN_SRC sh
+    git log --grep="change"
+    #+END_SRC
+  - view the overview of a repo and how branches divert
+    #+BEGIN_SRC sh
+    git log --graph
+    #+END_SRC
+    
+
+- Cloning
+  - clone a repo that is on the same machine
+    #+BEGIN_SRC sh
+    git clone /home/user/repo /home/user/new-repo
+    #+END_SRC
+  - this new clone will require that you set the local configuration
+    #+BEGIN_SRC sh
+    cd new-repo
+    git config user.name "new-user"
+    git config user.email "new-user@example.com"
+    #+END_SRC
+  - cloning with ssh
+    #+BEGIN_SRC sh
+    git clone user@server.git.com:repo .
+    #+END_SRC
+    this will pull the user repo and clone it to the current directory
+  - pushing to a remote repo
+    #+BEGIN_SRC sh
+    git push origin master
+    #+END_SRC
+    this will push current repo (origin) to the master branch on the remote repo
+
+- Ignoring Content
+  - is there an excludesfile set globally for git
+    #+BEGIN_SRC sh
+    git config --global core.excludesfile
+    #+END_SRC
+  - add an excludes file globally
+    #+BEGIN_SRC sh
+    git config --global core.excludesfile='/etc/gitignore'
+    #+END_SRC
+    /etc/gitignore
+    #+BEGIN_EXAMPLE
+    # globally ignore compiled .out binary files
+    *.out
+    #+END_EXAMPLE
+  - setting a repo specific excludes file
+    /home/user/repo/.gitignore
+    #+BEGIN_EXAMPLE
+    # locally ignore .bak files
+    *.bak
+    #+END_EXAMPLE
+    
+- Branching
+  - check current branch
+    #+BEGIN_SRC sh
+    git branch
+    #+END_SRC
+    this will show which is the current branch with an asterisk and list the rest
+  - create a new branch
+    #+BEGIN_SRC sh
+    git branch new-branch
+    #+END_SRC
+  - switch branch
+    #+BEGIN_SRC sh
+    git checkout new-branch
+    #+END_SRC
+  
+- Merging and Pushing
+  - update a remote repo with changes on local repo
+    #+BEGIN_SRC sh
+    git push origin master
+    #+END_SRC
+  - push a branch other than the master
+    #+BEGIN_SRC sh
+    git checkout new-branch
+    git push origin new-branch
+    #+END_SRC
+    if the branch isn't present on the remote repo it will be created
+  - update all branches
+    #+BEGIN_SRC sh
+    git push origin --all
+    #+END_SRC
+  - merge new-branch with master
+    #+BEGIN_SRC sh
+    git checkout master
+    git merge new-branch
+    #+END_SRC
+    this will prompt for a comment to be added
+
+* Books
+ [[file://home/crito/Documents/Tools/Git/Git_Essentials.pdf][Git Essentials]]
+ [[file://home/crito/Documents/Tools/Git/Git_for_Teams.pdf][Git for Teams]]
+ [[file://home/crito/Documents/Tools/Git/Git_Fundamentals.pdf][Git Fundamentals]]
+ [[file://home/crito/Documents/Tools/Git/Git_in_Practice.pdf][Git in Practice]]
+ [[file://home/crito/Documents/Tools/Git/GitLab_Cookbook.pdf][GitLab Cookbook]]
+ [[file://home/crito/Documents/Tools/Git/Introducing_GitHub.pdf][Introducing GitHub]]
+ [[file://home/crito/Documents/Tools/Git/Learn_Git_in_a_Month_of_Lunches.pdf][Learn Git in a Month of Lunches]]
+ [[file://home/crito/Documents/Tools/Git/Mastering_Git.pdf][Mastering Git]]
+ [[file://home/crito/Documents/Tools/Git/Pragmatic_Version_Control_Using_Git.pdf][Pragmatic Version Control Using Git]]
+* Links
+

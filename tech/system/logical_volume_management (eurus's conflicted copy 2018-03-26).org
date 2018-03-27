@@ -1,0 +1,203 @@
+#+TAGS: disk lvm disk_management
+
+
+* Logical Volume Management
+* Cmds
+** Physical Volumes
+
+** Volume Groups
+
+** Logical Volumes
+[[file://home/crito/org/cmds/lvs.org][lvs]]
+[[file://home/crito/org/tech/cmds/lvdisplay.org][lvdisplay]]
+[[file://home/crito/org/tech/cmds/lvscan.org][lvscan]]
+[[file://home/crito/org/tech/cmds/lvmdiskscan.org][lvmdiskscan]]
+[[file://home/crito/org/tech/cmds/lvextend.org][lvextend]]
+[[file://home/crito/org/tech/cmds/lvreduce.org][lvreduce]]
+[[file://home/crito/org/tech/cmds/lvresize.org][lvresize]]
+[[file://home/crito/org/tech/cmds/lvcreate.org][lvcreate]]
+[[file://home/crito/org/tech/cmds/lvremove.org][lvremove]]
+[[file://home/crito/org/tech/cmds/lvrename.org][lvrename]]
+
+* Description
+* Usage
+			mkfs /dev/vgroup/logvol_name
+			      
+			logical volume
+			      
+			Volume group
+			      
+			physical volume
+			      
+			physical disk
+
+** Creating a logical volume
+1. create a partition 
+#+BEGIN_SRC sh
+fdisk /dev/sdb
+#+END_SRC
+- this will enter the interactive [[file://home/crito/org/tech/cmds/fdisk.org][fdisk]] utility
+- partition type has to be changed also in fdisk to Linux LVM
+  
+2. Create a physical volume
+#+BEGIN_SRC sh
+pvcreate /dev/sdb3
+#+END_SRC
+
+3. Place new physical volume into a group
+#+BEGIN_SRC sh
+vgcreate vg_name /dev/sdb3
+#+END_SRC
+the volume group name is your choice
+
+4. Create a logical volume
+#+BEGIN_SRC sh
+lvcreate -n lv_name -L 10G vg_name
+#+END_SRC
+Again the volume name is your choice
+
+5. Add a filesystem to the volume
+#+BEGIN_SRC sh
+mkfs.ext3 /dev/vg_name/lv_name
+#+END_SRC
+
+6. Mount new volume to test
+#+BEGIN_SRC sh
+mount /dev/vg_name/lv_name /mnt
+mount | grep ^/dev
+#+END_SRC
+this should confirm if the volume can be mounted
+
+** Resizing
+*** extend the filesystem (will use the case that all space has been used)
+1. Create a new physical volume
+#+BEGIN_SRC sh
+fdisk /dev/sdb
+#+END_SRC
+use the interactive [[file://home/crito/org/tech/cmds/fdisk.org][fdisk]] to create a new partion, and make sure partition type is Linux LVM
+
+2. Add this to the Volume group
+#+BEGIN_SRC sh
+vgextend vg_name /dev/sdb5
+#+END_SRC
+
+3. Extend the Logical volume
+#+BEGIN_SRC sh
+lvextend -l +100%FREE -r /dev/vg_name/lv_name
+#+END_SRC
+-r - resize filesystem
+adding the r means that resize2fs doesn't have to be used in a seperate cmd
+
+4. Extend the filesystem
+this has been performed in the above cmd
+
+*** reduce the size of the filesystem (the filesystem will have to support this function)
+1. Reduce the size of the filesystem
+#+BEGIN_SRC sh
+mount | grep lv_name
+#+END_SRC
+this is to confirm the fs type, and that it supports shrinking and its mount point (/moredata)
+#+BEGIN_SRC sh
+umount /moredata
+#+END_SRC
+the partition needs to be unmounted before shinking
+
+#+BEGIN_SRC sh
+resize2fs /dev/vg_name/lv_name 100M
+#+END_SRC
+the logical volume to be shrunk and the new size (100M)
+e2fsck maybe required to run first to check filesystem consistency 
+
+2.a Reduce the size of the logical volume
+#+BEGIN_SRC sh
+lvreduce -L 102400K /dev/vg_name/lv_name
+#+END_SRC
+This means the new size is 102400K after the cmd has been run
+
+2.b Resize and Reduce in one step
+#+BEGIN_SRC sh
+lvreduce -L 10G -r /dev/vg_name/lv_name
+#+END_SRC
+the r will perform the filesystem resize
+
+3. This will add space to the volume group that could be freed to the physical volume
+
+** Create an LVM swap partition
+- install the lvm utilities
+#+BEGIN_SRC sh
+yum install lvm2
+#+END_SRC
+
+- create a partition that uses the entire disk space
+#+BEGIN_SRC sh
+fdisk /dev/xvdf
+#+END_SRC
+
+[[file://home/crito/Pictures/org/fdisk_lvm0.png]]
+
+- create a physical volume and a volume group
+#+BEGIN_SRC sh
+pvcreate /dev/xvdf1
+vgcreate testgroup /dev/xvdf1
+#+END_SRC
+
+- create an LVM volume that is approximately 500M in size
+#+BEGIN_SRC sh
+lvcreate -n swap -L 500M testgroup
+#+END_SRC
+
+- format the new LVM volume with a swap signature
+#+BEGIN_SRC sh
+mkswap /dev/testgroup/swap
+#+END_SRC
+
+- add partition to fstab
+#+BEGIN_EXAMPLE
+/dev/testgroup/swap 	swap 	swap 	defaults 	0 0
+#+END_EXAMPLE
+
+- turn swap on
+#+BEGIN_SRC sh
+swapon -a
+#+END_SRC
+
+- confirm that the swap partiton is active
+#+BEGIN_SRC sh
+free -m
+cat /proc/swaps
+swapon -s
+#+END_SRC
+
+** Linux Academy - LVM Overview
+Components of LVM
+  - PV (Physical Volumes)
+    - the basic starting point or unit of stroage in LVM
+    - Corresponds to a disk or partition on the system
+  - VG (Volume Group)
+    - A combination of one or move PVs to create a pool of available storage
+    - Made up of PEs (Physical Extants) that break up the PVs into units that can be used in a VG
+  - Logical Volume
+    - Thsi is the useable space that gets allocated from a VG
+    - We can create multiple LVs from a single VG, using all or part of the pool of space from that VG.
+    - Can be resized (increased or decreased) as needed and based on the available space in the VG pool.
+    - If the VG pool runs out of space, simply add one or more additional PVs, add them to the VG and then to the LV.
+  
+Advantages of LVM
+- Flexible
+  - you can adjust the size of a LV, up or down as needed.
+  - Allocating additional physical columes to a volume group when needed allows you to dyncamically make more space availale as your needs grow.
+- Snapshots
+  - make point in time backups of your LV
+  - These can then be used for easy backups, restores, migrations, testing - all without affecting the live FS
+* Lecture
+* Tutorial
+** Linux Academy Lab - Add and Remove Volumes, Partition Disks and Working with LVM
+LabGuide: [[file://home/crito/Documents/Linux/Labs/work-with-lvm-lab.pdf][Add and Remove Volumes, Partition Disks and Work with LVM]]
+
+** Linux Academy Lab - Extending Logical Volumes
+LabGuide: [[file://home/crito/Documents/Linux/Labs/extending_lvm-lab.pdf][Extending Existing Logical Volumes]]
+
+* Books
+* Links
+[[https://wiki.ubuntu.com/Lvm][LVM - Ubuntu]]
+[[https://linuxguruunix.blogspot.ch/2016/02/lvm-migration-using-mirroring-and.html][LVM Migration using mirroring and pvmove method - linux newbies]]

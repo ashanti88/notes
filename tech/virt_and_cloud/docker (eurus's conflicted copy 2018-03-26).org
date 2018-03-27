@@ -4,20 +4,10 @@
 * Docker
 HomePage: [[https://www.docker.com/][docker.com]]
 CheatSheet: [[https://github.com/wsargent/docker-cheat-sheet][github.com/docker-cheat-sheet]]
-* Files
-/var/lib/docker         - data and metadata store
-/var/lib/containers     - long hashes are the container names these contain data on the conatiners
-/var/lib/docker/image   - 
-/var/lib/docker/network -
-/var/lib/docker/overlay -
-/var/lib/docker/plugins -
-/var/lib/docker/swarm   - 
-/var/lib/docker/tmp     -
-/var/lib/docker/trust   -
-/var/lib/docker/volumes -
+* files
 /var/run/docker.pid
-/var/run/docker.sock
-* Cmds
+/var/run/docker.socket
+* cmds
 - docker-compose
 
 * Tools
@@ -26,23 +16,47 @@ CheatSheet: [[https://github.com/wsargent/docker-cheat-sheet][github.com/docker-
 - [[https://github.com/kevana/ui-for-docker][DockerUI]]
 - [[https://github.com/shipyard/shipyard][Shipyard]]
 - [[https://github.com/gliderlabs/logspout][Logspout]]
+
 ** [[https://github.com/jpetazzo/dind][DIND - Docker Inside Docker]] 
 
 * Description
 * Usage
+- what images do I have
+#+BEGIN_SRC sh
+docker images
+#+END_SRC
+
+- pull an image from docker hub
+#+BEGIN_SRC sh
+docker pull centos:latest
+#+END_SRC
+
+- what images are running
+#+BEGIN_SRC sh
+docker ps
+#+END_SRC
+
+- what images have exited
+#+BEGIN_SRC sh
+docker ps -a
+#+END_SRC
+
+** Search docker from the cmd line
+#+BEGIN_SRC sh
+docker search centos
+#+END_SRC
+this will search docker hub for any images that the search pattern has in common
+
+** Create a Container
+#+BEGIN_SRC sh
+docker create $DOCKER_ID
+#+END_SRC
+The container will be created but not started
+
 ** Start and Stop
 *** Start
-- starting a docker container that is running a command
 #+BEGIN_SRC sh
-docker run -itd ubuntu:xenial /bin/bash
-#+END_SRC
-i - interactive
-t - 
-d - detattched
-
-- start the container but without specifying the cmd
-#+BEGIN_SRC sh
-docker start nginx:latest
+docker start $DOCKER_ID
 #+END_SRC
 
 *** Stop
@@ -71,39 +85,63 @@ Sends SIGKILL to a running container
 docker kill $DOCKER_ID
 #+END_SRC
 
-*** Run single cmd with a container
-#+BEGIN_SRC sh
-docker run ubuntu:xenial /bin/echo "Hello from this container"
-#+END_SRC
-once the container has run the command it will exit
-** List running containers
+** Info
+- List running containers
 #+BEGIN_SRC sh
 docker ps $DOCKER_ID
 #+END_SRC
 
-** Get logs from container
+- Gets logs from container
 #+BEGIN_SRC sh
 docker logs $DOCKER_ID
 #+END_SRC
-this will provide a print out of the activity in the container
 
-** Looks at all the info on a container
+- Looks at all the info on a container
 #+BEGIN_SRC sh
 docker ps $DOCKER_ID
 #+END_SRC
 
-** Shows public facing port of container
+- Shows public facing port of container
 #+BEGIN_SRC sh
 docker port $DOCKER_ID
 #+END_SRC
 
-** Clean up non-used network interfaces
+** Networking
+- clean up non-used network interfaces
 #+BEGIN_SRC sh
 docker network prune
 #+END_SRC
 
-** Installation on CentOS 7
-- first create a repo file to /etc/yum.repos.d/docker.repo
+- make available ports on container to the host
+#+BEGIN_SRC sh
+docker run --name=WebServer -d -P nginx:latest
+#+END_SRC
+P - tells docker to use port forwarding and uses the docker default available ports
+
+- bind to a specific port on the host
+#+BEGIN_SRC sh
+docker run --name=WebServer -d -p 8080:80 nginx:latest
+#+END_SRC
+8080 - host
+80   - container
+
+- view port information on a container
+#+BEGIN_SRC sh
+docker port WebServer
+#+END_SRC
+this will show all ports that are being forwarded and to which ports on the host
+
+- create mounts between host and container
+#+BEGIN_SRC sh
+docker run -d -p 8080:80 --name=web3 -v /mnt/data nginx
+#+END_SRC
+this allows for sharing of data between host and container
+
+
+** Examples
+** Installation on CentOS7
+- we add the docker repo to the yum.repo.d directory
+docker.repo
 #+BEGIN_EXAMPLE
 [dockerrepo]
 name=Docker Repository
@@ -113,132 +151,36 @@ gpgcheck=1
 gpgkey=https://yum.dockerproject.org/gpg
 #+END_EXAMPLE
 
-- now update the system
+- then pull docker 
 #+BEGIN_SRC sh
 yum update
 #+END_SRC
-care should be taken if this is a production server as it will update the whole system
+be careful here if it's a production machine as you will be updating the whole system
 
-- install the docker-engine
+- now install docker
 #+BEGIN_SRC sh
 yum install docker-engine
 #+END_SRC
+this will also pull the selinux package also that is required
 
-- enable, start, and confirm status of docker
+- enable, start, and confirm the service 
 #+BEGIN_SRC sh
 systemctl enable docker
 systemctl start docker
 systemctl status docker
 #+END_SRC
 
-- check that you are able to connect to the docker deamon
+- confirm that you can access the daemon
 #+BEGIN_SRC sh
 docker --version
 #+END_SRC
 
-- any users that are to use docker will need to be part of the docker group
+- any users will have to be added to the docker group to access the daemon.
 #+BEGIN_SRC sh
 usermod -a -G docker user
 #+END_SRC
-this is due to the user will need access to /var/run/docker.socket that has privs of root:docker
-
-- confirm that the user can connect to the daemon
-#+BEGIN_SRC sh
-docker --version
-#+END_SRC
-if this fails exit the session and re-enter, this should resolve the problem
-
-- good quick test is to pull in a simple image to docker as user
-#+BEGIN_SRC sh
-docker run hello-world
-#+END_SRC
-this will pull the hello-world image from docker hub, print a blurb and exit
-
-** Show Docker information
-- show version short
-#+BEGIN_SRC sh
-docker --version
-#+END_SRC
-
-- show version full
-#+BEGIN_SRC sh
-docker version
-#+END_SRC
-
-- show detailed information about the daemon
-#+BEGIN_SRC sh
-docker info
-#+END_SRC
-** Interacing with a running instance
-- attach, makesure that a shell is available, or you'll attach to the processes
-#+BEGIN_SRC sh
-docker attach name_of_container
-#+END_SRC
-this method will cause the container to exit when you exit
-
-- exec, this command always for any command to be run by against the container
-#+BEGIN_SRC sh
-docker exec ecstatic_yonath /bin/cat /etc/profile
-#+END_SRC
-this will print to the screen the /etc/profile of the container
-
-** Saving changes to a base image
-- start the the container
-#+BEGIN_SRC sh
-docker run -it ubuntu:xenial /bin/bash
-#+END_SRC
-i - interactive
-t - attached to terminal
-  
-- make the required changes
-#+BEGIN_SRC sh
-apt-get update
-apt-get install telnet ssh
-adduser test
-#+END_SRC
-changes have now been made
-
-- now exit the container
-#+BEGIN_SRC sh
-exit
-#+END_SRC
-
-- confirm that the container has stopped  
-#+BEGIN_SRC sh
-docker ps
-#+END_SRC
-this instance shouldn't be present
-
-- now commit the changes to the image file
-#+BEGIN_SRC sh
-docker commit -m "Installed Telnet, SSH, and added the user test" -a "frank@gmail.com" pedantic_jepsen frank/ubuntusshd:v1
-#+END_SRC
-m - commit message
-a - author
-pedantic_jepsen is the image name given by docker
-frank/buntusshd:v1 is the new image name
-
-- view docker images
-#+BEGIN_SRC sh
-docker images
-#+END_SRC
-frank/ubuntusshd:v1 should now be an option
-
-** Creating Dockerfiles
-*** Simple example where ubuntu has a few packages installed
-#+BEGIN_SRC sh
-# This is a custom ubuntu image with ssh already installed
-FROM ubuntu:xenial
-MAINTAINER amitchrll <mitchell.alick@gmail.com>
-RUN apt-get update -y
-RUN apt-get install -y telnet openssh-server
-#+END_SRC
-
-- building the image
-#+BEGIN_SRC sh
-docker build -t="amitchell/ubuntusshdonly:v2" .
-#+END_SRC
-. - if not being run in the same directory a redirect to the Dockerfile location would take the place of the "."
+This is because the user requires access to the /var/run/docker.sock which has ownership of root:docker
+  - if this is being done over ssh the seesion will need to be exited then reentered to access docker as regular user
 
 * Lecture
 * Tutorials

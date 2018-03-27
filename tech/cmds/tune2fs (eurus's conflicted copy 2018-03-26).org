@@ -1,0 +1,45 @@
+#+TAGS: filesystem shrink expand
+
+
+* tune2fs
+* Description
+* Usage
+> tune2fs <options> <dev/sdx>
+
+- Options
+
+l - List the contents of the filesystem superblock, including the
+current values of the parameters that can be set via tune2fs.
+
+- set the number of filesystem mounts before fsck is run 
+#+BEGIN_SRC sh
+tune2fs -c 10 /dev/sda1
+#+END_SRC
+
+- set the filesystemt to be checked on next reboot
+#+BEGIN_SRC sh
+tune2fs -c 0 /dev/sda1
+#+END_SRC
+once this has been checked it will reset to the default check value
+
+- throw a kernel panic if a filesystem error and run fsck on reboot
+#+BEGIN_SRC sh
+tune2fs -e panic /dev/sda2
+#+END_SRC
+  
+- if an error is encountered remount in readonly mode
+#+BEGIN_SRC sh
+tune2fs -e remount-ro /dev/sda2
+#+END_SRC
+
+- add a label to a partition
+#+BEGIN_SRC sh
+tune2fs -L name_of_partition /dev/sdb2
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links
+
+

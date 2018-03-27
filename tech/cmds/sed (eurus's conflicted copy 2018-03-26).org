@@ -1,0 +1,387 @@
+#+TAGS: file text text_manipulation text_substitution sed stream_editor
+
+
+* sed
+HomePage: [[https://www.gnu.org/software/sed/manual/sed.html][gnu.org/sed]]
+* Description
+Sed, short for stream editor, is a command line tool to manipulate text and files.
+
+* Usage
+- print the entire file
+#+BEGIN_SRC sh
+sed "" file.txt
+sed -n '1,$p' file.txt
+#+END_SRC
+
+- print a specific line
+#+BEGIN_SRC sh
+sed -n "4p" file.txt
+#+END_SRC
+n - supress output
+this will print only line 4
+
+- print a range of lines
+#+BEGIN_SRC sh
+sed -n "1,4p" file.txt
+#+END_SRC
+this will print line 1 through 4
+
+- print line plus certain number of lines after
+#+BEGIN_SRC sh
+sed -n "2,+3p" file.txt
+#+END_SRC
+this print line 2 plus the next 3 lines
+
+- print only even numbered lines
+#+BEGIN_SRC sh
+sed -n '0~2p' filename.txt
+#+END_SRC
+
+- print odd numbered lines
+#+BEGIN_SRC sh
+sed -n '1~2p' filename.txt
+#+END_SRC
+
+- print every third line starting with the second
+#+BEGIN_SRC sh
+sed -n '2~3p' filename.txt
+#+END_SRC
+this will print the second line
+
+- print all lines after a specific line
+#+BEGIN_SRC sh
+sed -n '10~1p' /etc/passwd
+#+END_SRC
+
+- print lines that contain a specific regex
+#+BEGIN_SRC sh
+sed -n '/bash/p' /etc/passwd
+sed -n '\%bash%p' /etc/passwd
+sed -n '\^bash^p' /etc/passwd
+#+END_SRC
+this will print all lines that contain the bash shell
+
+- print lines from a line then a certain number after
+#+BEGIN_SRC sh
+sed -n '4,+5p' filename.txt
+#+END_SRC
+
+- print from a certain line until the line is a multiple of the specified number
+#+BEGIN_SRC sh
+sed -n '5,~4p' filename.txt
+#+END_SRC
+this would print from line 5 to line 8(as it is a multiple of 4)
+
+- print lines that contain a word\s that begin with a specific pattern
+#+BEGIN_SRC sh
+sed -En '/<de/p' filename.txt
+#+END_SRC
+this will print all lines that contain a word that begins with 'de'
+
+- print lines that contain word\s which end with a specific pattern
+#+BEGIN_SRC sh
+sed -En '/ing>/p' filename.txt
+#+END_SRC
+this will print all lines that contain a word that begins with 'ing'
+
+
+** Substitution
+- only have the substitution occur on a specific line
+#+BEGIN_SRC sh
+sed '10s/hello/goodbye/g' filename.txt
+#+END_SRC
+
+- only have the substitution occur over a range of lines
+#+BEGIN_SRC sh
+sed '20,40s/hello/goodbye/g' filename.txt
+#+END_SRC
+both lines 20 and 40 will be included in the changes
+
+- change all lines but the range specified
+#+BEGIN_SRC sh
+sed '20,40!s/hello/goodbye/g' filename.txt
+#+END_SRC
+this will effect the whole stream but the specified range
+
+- only change a certain instance of a pattern
+#+BEGIN_SRC sh
+sed '0,/parttime/s/parttime/promotion/' employees.txt
+#+END_SRC
+this will only change the first instance of 'parttime' all others will remain unchanged
+
+- use a regex to find the lines that are to be changed
+#+BEGIN_SRC sh
+sed -E '/regex/s/old/new/g' filename.txt
+#+END_SRC
+this will look for lines with 'regex' and replace all 'old' with 'new'
+
+- change only lines that don't have the specified regex
+#+BEGIN_SRC sh
+sed '/regex/!s/old/new/g' filename.txt
+#+END_SRC
+this will effect all lines that don't contain the regex
+
+** Using a sed script file
+#+BEGIN_SRC sh
+sed -f script.sed input_file.txt > output_file.txt
+#+END_SRC
+f - file
+
+** Deleting Content
+- this will delete the first line when printing to the screen
+#+BEGIN_SRC sh
+sed "1d" file.txt
+#+END_SRC
+this would output the file with the first line missing
+
+- make the change apply to the file
+#+BEGIN_SRC sh
+sed -i "1d" file.txt
+#+END_SRC
+i - in-place
+
+- delete lines that contain specific pattern
+#+BEGIN_SRC sh
+sed "/red fox/d" file.txt
+#+END_SRC
+this will delete all lines that contain "red fox"
+
+** Replace Content
+- replace all numbers with an underscore
+#+BEGIN_SRC sh
+sed -r "s/[0-9]{1,}/_/g" file.txt
+#+END_SRC
+this will change all numbers(of length of 1 or greater) to an underscore
+
+- surround all numbers with brackets
+#+BEGIN_SRC sh
+sed -r "s/[0-9]{1,}/(&)/g" file.txt
+#+END_SRC
+
+- replace a specific line with new a new line of text
+#+BEGIN_SRC sh
+sed '21c this is the new line of text' input_file.txt
+#+END_SRC
+
+- same as above but breaks out the c flag and expresion
+#+BEGIN_SRC sh
+sed -e '21c\' -e 'this is the new line of text' input_file.txt
+#+END_SRC
+
+** Append text
+- append text to a specific line number
+#+BEGIN_SRC sh
+sed '21a this is the appened text' input_file.txt
+#+END_SRC
+this will be placed on a newline
+
+- same as above but breaks out the a flag and expresion
+#+BEGIN_SRC sh
+sed -e '21a\' -e 'this is the inserted text' input_file.txt
+#+END_SRC
+
+** Insert text
+- insert text before a specific line number
+#+BEGIN_SRC sh
+sed '21i this is the inserted text' input_file.txt
+#+END_SRC
+this will be placed on a newline before the specified line
+
+- same as above but breaks out the i flag and expresion
+#+BEGIN_SRC sh
+sed -e '21i\' -e 'this is the inserted text' input_file.txt
+#+END_SRC
+
+- insert using a specified regex 
+#+BEGIN_SRC sh
+sed -E '/regex/i change' filename.txt
+#+END_SRC
+this will add 'change' before every line that contains the word 'regex'
+
+- read in a file at a specific line number
+#+BEGIN_SRC sh
+sed '23r/etc/hostname' file.txt
+#+END_SRC
+this will place the contents of the hostname file at line 24
+
+** Writing to a file
+#+BEGIN_SRC sh
+sed 's/parttime/fulltime/w promotions.txt' employees.txt
+#+END_SRC
+this will change all employees who are parttime to full time and write it to the file promotions.txt, but the employees.txt file will not be changed
+
+- writing a specific line of text to a file
+#+BEGIN_SRC sh
+sed '2w filename.txt' inputfile.txt
+#+END_SRC
+this will overwrite all other text in the file
+
+** Spacing
+*** Double Space file
+#+BEGIN_SRC sh
+sed G file.txt
+#+END_SRC
+*** Double Space file with blank lines
+#+BEGIN_SRC sh
+> sed '/^$/d;G
+#+END_SRC
+*** Triple space file
+#+BEGIN_SRC sh
+sed 'G;G'
+#+END_SRC
+*** Undo Double spacing
+#+BEGIN_SRC sh
+sed 'n;d'
+#+END_SRC
+*** Insert blank line above regex
+#+BEGIN_SRC sh
+sed '/regex/{x;p;x;}'
+#+END_SRC
+*** Insert blank line after regex
+#+BEGIN_SRC sh
+sed '/regex/G'
+#+END_SRC
+
+** Numbering
+*** Number each line of a file(number above)
+#+BEGIN_SRC sh
+sed = file.txt
+#+END_SRC
+
+*** Number each line(same line)
+#+BEGIN_SRC sh
+sed = file.txt | sed 'N;s/\n/\t/'
+#+END_SRC
+
+** Count lines
+#+BEGIN_SRC sh
+sed -n '$='
+#+END_SRC
+
+** Print specific lines of text
+- print 20 - 25 from file.txt
+#+BEGIN_SRC sh
+sed -n 20,25p file.txt
+#+END_SRC
+
+- print all lines up until and including a pattern
+#+BEGIN_SRC sh
+sed '/^this/q42/' file.txt
+#+END_SRC
+q - the specified number as the exit code if the pattern is found
+
+** Alter content in place
+- if no output file is specified sed will use stdoutput, the other alternative is to use the -i flag
+#+BEGIN_SRC sh
+sed -i 's/hello/goodbye/' file.txt
+#+END_SRC
+i - inplace
+
+** Working on multiple files
+- sed treats multiple files as one stream
+#+BEGIN_SRC sh
+sed -n '1p ; $p' a.txt b.txt c.txt
+#+END_SRC
+this will print the first line of a.txt and the last line of c.txt
+
+- using the -s flag allows sed to work on each file individually
+#+BEGIN_SRC sh
+sed -sn '1p ; $p' a.txt b.txt c.txt
+#+END_SRC
+now the first and last line of each file will be printed
+
+
+** Using multiple expressions
+These three commands are equal
+#+BEGIN_SRC sh
+sed '/^this/d ; s/hello/goodbye/' a.txt
+
+sed '/^this/d 
+s/hello/goodbye/' a.txt
+
+sed -e '/^this/d' -e 's/hello/goodbye/' a.txt
+#+END_SRC
+
+** Case-sensitivity
+this most other tools -i is the flag used for this, but this is the insert cmd in sed
+
+- delete every line that contains a specific word regardless of case
+#+BEGIN_SRC sh
+sed '/word/Id' filename.txt
+#+END_SRC
+word, Word, WoRd any iteration will be deleted in the file
+
+** Back-references and subexpressions
+These allow us to reuse previously created regex in the expression
+
+- print all 3 letter words that have 'o' as their middle letter
+#+BEGIN_SRC sh
+sed -E -n '/^(.)o\1$/p' /usr/share/dict/words
+#+END_SRC
+- this will output all words that fit the regex '^.o.$' 
+  (.) - is a subexpresion
+  \1  - this the back-reference (to the first subexpression)
+
+- search for 6 letter palindromes
+#+BEGIN_SRC sh
+sed -E -n '/^(.)(.)(.)\3\2\1$/p' /usr/share/dict/words
+#+END_SRC
+\3 - subexpression 3
+\2 - subexpression 2
+\1 - subexpression 1
+
+- using echoed input to create output using subexpressions
+#+BEGIN_SRC sh
+echo "James Bond" | sed -E 's/(.*) (.*)/The name is \2, \1 \2./'
+#+END_SRC
+
+* Sample Scripts
+** Joining Lines
+- join the middle hel with the lo
+- lines.txt
+#+BEGIN_EXAMPLE
+hello
+hel
+lo
+hello
+#+END_EXAMPLE
+
+#+BEGIN_SRC sh
+sed '2{N;s/\n//;}' lines.txt
+#+END_SRC
+
+- join the backslashed lines
+- lines.txt
+#+BEGIN_EXAMPLE
+this \
+is \
+a \
+long \
+line
+and \
+another \
+line \
+#+END_EXAMPLE
+
+#+BEGIN_SRC sh
+sed -e ':x /\\$/ {N; s\\\n//g ; bx}' lines.txt
+#+END_SRC
+
+- joing lines that start with whitespace
+- lines.txt
+#+BEGIN_EXAMPLE
+Subject: Hello
+	World
+Content-Type: multipart/alternative;
+	boundary=94er45siidjt83
+Date: Tue, 3 Jan 2017 19:14
+#+END_EXAMPLE
+
+#+BEGIN_SRC sh
+sed -E ':a ; $!N ; s/\n\s+/ / : ta ; P : D' lines.txt
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

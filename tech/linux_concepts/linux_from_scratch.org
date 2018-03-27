@@ -1,0 +1,17 @@
+#+TAGS: linux_from_scratch lfs
+
+
+* Linux From Scratch
+HomePage: http://www.linuxfromscratch.org/
+Wiki: http://www.linuxfromscratch.org/lfs/view/stable/
+
+* Description
+* Usage
+* Lecture
+* Tutorial
+** Linux Academy - Build Your Own Linux
+Guide - [[file://home/crito/Documents/Linux/Linux_Academy-Build_Your_Own_Linux.pdf][Build Your Own Linux From Scratch]]
+* Books
+[[file://home/crito/Documents/Linux/Linux_From_Scratch_8.2.pdf][Linux From Scratch 8.2]]
+[[file://home/crito/Documents/Linux/Linux_From_Scratch_8.2-systemd.pdf][Linux From Scratch 8.2 with Systemd]]
+* Links

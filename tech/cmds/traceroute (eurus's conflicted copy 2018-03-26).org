@@ -1,0 +1,55 @@
+#+TAGS: traceroute 
+
+
+* traceroute
+* Description
+This is now considered deprecated and replaced by tracepath
+
+* usage
+
+> traceroute <ipaddress>
+
+or
+
+> traceroute <domain.com>
+
+The '*' field
+
+This means that the required feild could not be fetched. The reason could anything from reverse DNS lookup failure to packets not hitting the target router, to packets getting lost on the way back. We can not determine exactly what caused the *.
+
+- Disable IP address and host name mapping
+#+BEGIN_SRC sh
+traceroute 143.23.23.10 -n
+#+END_SRC
+
+- Configure response wait time
+#+BEGIN_SRC sh
+> traceroute 172.168.20.21 -w 3
+#+END_SRC
+The time the utility waits after issuing a probe can be configured using the -w flag.
+
+
+- Configure number of queries per hop
+#+BEGIN_SRC sh
+traceroute 172.168.20.21 -q 3
+#+END_SRC
+Traceroute uses 3 packets per hop by default. This can be changed with the -q flag.
+
+
+- Configure the TTL value to start with
+#+BEGIN_SRC sh
+traceroute 172.168.20.21 -f 5
+#+END_SRC
+the default is 1, changing this will determine which hop the traceroute starts from.
+
+- Setting the probe to use icmp packets
+#+BEGIN_SRC sh
+traceroute -i 172.168.20.21
+#+END_SRC
+
+* Lecture
+[[https://www.youtube.com/watch?v=WL0ZTcfSvB4][Troubleshooting with Traceroute - Richard Steenbergen]]
+[[https://www.youtube.com/watch?v=Ih3KgQnT6T0][Deep dive on traceroute, Firewallking, TCP traceroute and scanning - Ryan Lindfield]]
+* Tutorial
+* Books
+* Links
