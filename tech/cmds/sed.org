@@ -290,7 +290,6 @@ sed -sn '1p ; $p' a.txt b.txt c.txt
 #+END_SRC
 now the first and last line of each file will be printed
 
-
 ** Using multiple expressions
 These three commands are equal
 #+BEGIN_SRC sh

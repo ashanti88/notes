@@ -17,6 +17,7 @@ The Networkmanager command line interface, nmcli, can be used by both users and 
 nmcli con show
 #+END_SRC
 
+** New Configurations
 - add a new configuration
 #+BEGIN_SRC sh
 nmcli con add con-name "myconnection" autoconnect yes type type ethernet ifname eth1
@@ -34,6 +35,7 @@ nmcli con add con-name "myconnection-static" type type ethernet ifname eth1 ip4 
 #+BEGIN_SRC sh
 nmcli con mod "myconnection" connection.autoconnect no
 #+END_SRC
+this will turn autoconnect at boot time off
 
 - remove a configuration
 #+BEGIN_SRC sh
@@ -41,7 +43,6 @@ nmcli con down myconnection
 nmcli con del "myconnection"
 #+END_SRC
 this will bring down the connection and remove the configuration file
-
 
 ** Configure
 *** Modify the Current ip

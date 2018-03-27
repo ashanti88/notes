@@ -72,6 +72,34 @@ A command line tool for converting OVF and VMX VM configurations to run with lib
 
 * Description
 * Usage
+** Configure CentOS7 to host VMs with libvirt
+- packages to install
+#+BEGIN_SRC 
+yum install virt-manger qemu-kvm qemu-ing
+yum install libvirt libvirt-python python-virtinst libvirt-client
+#+END_SRC
+
+- enable, startand confirm the status of libvirtd
+#+BEGIN_SRC sh
+systemctl enable libvirtd
+systemctl start libvirtd
+systemctl status libvirtd
+#+END_SRC
+
+** Have VMs start on boot
+- ensure that libvirtd is enabled at boot
+#+BEGIN_SRC sh
+systemctl enable libvirtd
+#+END_SRC
+
+- configure autostart for specific machine in virsh
+#+BEGIN_SRC sh
+autostart vm-name
+#+END_SRC
+on the next reboot "vm-name" should start on boot
+
+This needs to be done for every VM that is to start at boot
+
 ** Create a VM from the Cmd line
 #+BEGIN_SRC sh
 qemu-img create -f raw -o size=10G /var/lib/libvirt/qemu/windows7.img
@@ -95,7 +123,7 @@ VBoxManage clonehd disk.vdi disk.raw --format raw
 qemu-img convert -f raw disk.raw -O qcow2 disk.qcow2
 #+END_SRC
 
-** Conver .ova for virt-manager
+** Convert .ova for virt-manager
 - extract the .ova into the ovf file and the .vdi/.vmdk
 #+BEGIN_SRC sh
 tar -xvf file.ova
@@ -138,7 +166,6 @@ virt-install --name fedora --ram 1028 --vcpus=1 --disk path=/var/lib/libvirt/qem
 
 - In the networks tab there's now a newly created network
 [[file://home/crito/Pictures/org/libvirt_isolated_network5.png]]
-
 
 ** Creating a routed network
 - name the new network

@@ -33,6 +33,10 @@ java --classpath lib/hello.jar lib/hello.jar org.openjdk.hello.Main
 #+END_SRC
 this will crate and execute the hello.jar
 
+** Get jdk with wget or curl
+This link has url's for the different jdks and what options to set to pull an rpm or tar.gz
+https://stackoverflow.com/questions/10268583/downloading-java-jdk-on-linux-via-wget-is-shown-license-page-instead
+
 * Lecture
 ** [[https://www.youtube.com/watch?v=MGX-JfMl9-Y][Oracle Code Sessions: Modules in One Lesson: Mark Reinhold: 03/10/2017]]
 - As of jdk9 there is now a jshell (repl) for java

@@ -182,6 +182,14 @@ docker exec ecstatic_yonath /bin/cat /etc/profile
 #+END_SRC
 this will print to the screen the /etc/profile of the container
 
+- some instances run with a non-priviledged user. To connect as root run
+#+BEGIN_SRC sh
+docker exec -u 0 -it peaceful_raman /bin/bash
+#+END_SRC
+this will also not kill the container when root exits
+u - user
+0 - root
+
 ** Saving changes to a base image
 - start the the container
 #+BEGIN_SRC sh
@@ -211,7 +219,7 @@ this instance shouldn't be present
 
 - now commit the changes to the image file
 #+BEGIN_SRC sh
-docker commit -m "Installed Telnet, SSH, and added the user test" -a "frank@gmail.com" pedantic_jepsen frank/ubuntusshd:v1
+docker commit -m "Installed Telnet, SSH, and added the user test" -a "frank@gmail.com" pedantic_jepsen ubuntusshd:v1
 #+END_SRC
 m - commit message
 a - author
@@ -239,6 +247,70 @@ RUN apt-get install -y telnet openssh-server
 docker build -t="amitchell/ubuntusshdonly:v2" .
 #+END_SRC
 . - if not being run in the same directory a redirect to the Dockerfile location would take the place of the "."
+
+*** Dockerfile Order
+Docker files run from top to bottom linearly
+#+BEGIN_EXAMPLE
+# Dockerfile based on the latest CentOS 7 images - non-privileged user entry
+# FROM always needs to be at the top
+FROM centos:latest
+MAINTAINER mitchell.alick@gmail.com
+
+# If root isn't being used the new user needs to be created
+RUN useradd -ms /bin/bash user
+RUN echo "EXPORT 192.168.0.0/24" >> /etc/exports.list
+
+USER user
+
+# If the cmd below is run then the build would fail due to the order. It would be run as user
+#RUN echo "EXPORT 192.168.0.0/24" >> /etc/exports.list
+#+END_EXAMPLE
+if the echo cmd was run after USER user then the build would fail, as it would be run with user's privs
+
+*** Dockerfile Env
+we install java 8 and then show how to set env variables for users or system-wide
+#+BEGIN_EXAMPLE
+# Dockerfile based on the latest CentOS 7 images - non-privileged user entry
+# FROM always needs to be at the top
+FROM centos:latest
+MAINTAINER mitchell.alick@gmail.com
+
+# If root isn't being used the new user needs to be created
+RUN useradd -ms /bin/bash user
+
+# all cmds need to be configured to run without user interaction
+RUN yum update -y
+RUN yum install -y net-tools wget
+
+RUN cd ~ && wget --no-cookies --no-check-certificate --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.rpm
+
+RUN yum localinstall -y ~/jdk-8u131-linux-x64.rpm
+
+USER user
+
+#This will set the user to have the environment variable for JAVA_HOME
+RUN cd ~ && echo "export JAVA_HOME=/usr/java/jdk1.8.0_131/jre" >> /home/user/.bashrc
+
+#This is how to set system-wide env variables
+ENV JAVA_BIN /usr/java/jdk1.8.0_131/jre/bin
+#+END_EXAMPLE
+
+*** Differenc between CDM and RUN
+RUN is used during container build
+CDM is run when the container is started
+#+BEGIN_EXAMPLE
+# Dockerfile based on the latest CentOS 7 images - non-privileged user entry
+# FROM always needs to be at the top
+FROM centos:latest
+MAINTAINER mitchell.alick@gmail.com
+
+RUN useradd -ms /bin/bash user
+
+CMD "echo" "This is a custom container"
+
+USER user
+#+END_EXAMPLE
+everytime this container is started the message "This is a custome container" will be printed to the screen
 
 * Lecture
 * Tutorials

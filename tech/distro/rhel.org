@@ -8,100 +8,79 @@
 RHEL: [[https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/5/html/Deployment_Guide/ch-sysconfig.html][RHEL 5 /etc/sysconfig]]
 Fedora: [[https://docs.fedoraproject.org/en-US/Fedora/12/html/Deployment_Guide/ch-sysconfig.html#s1-sysconfig-files][Fedora - /etc/sysconfig]]
 * Usage
-** Firewall
-file://home/crito/org/tech/linux_concepts/centos7_firewall.org
-
-** SMTP Server on RHEL7
-file://home/crito/org/tech/linux_concepts/rhel7_Setting_Up_an_SMTP_Server.org
-
-** [[file://home/crito/org/tech/linux_concepts/centos7_networking_config.org][CentOS 7 Network Configuration]]
-** CentOS 7 Mail Server
-file://home/crito/org/tech/linux_concepts/centos7_mail_server.org
-
-** Red Hat Identity Management(IdM) Solution
-
-** How to Install Xfce on CentOS7
-url: https://www.rootusers.com/how-to-install-xfce-gui-in-centos-7-linux/
-
-- Ensure that the epel repo is installed
-#+BEGIN_SRC sh
-yum install epel-release -y
-#+END_SRC
-
-- Add the group package "Server with GUI", this will install Gnome
-#+BEGIN_SRC sh
-yum groupinstall "Server with GUI" -y
-#+END_SRC
-
-- Install xfce
-#+BEGIN_SRC sh
-yum groupinstall "xfce" -y
-#+END_SRC
-
-- Remove xfce
-#+BEGIN_SRC sh
-yum groupremove "xfce"
-#+END_SRC
-
-** RHEL7 Logging
-Service - Direct write ---> /so/log/.log
-        - systemctl    ---> journald
-	- rsyslogd     ---> /var/log/...
-	  
-journalctl can be set to write to rsyslog, this way all logs are kept in one logical area
-  - it is also possible to have rsyslog write to journalctl
-    
-- Connection Journald to rsyslog
-  - rsyslog messagees are sent ot jounald and vice versa
-  - Sending to journal in rsyslog.conf (not enabled)
-    #+BEGIN_EXAMPLE
-    $Modload omjournal
-    *.* :omjournal:
-    #+END_EXAMPLE
-  - Receiving from journal in rsyslog.conf (enabled)
-    #+BEGIN_EXAMPLE
-    $ModLoad imuxsock
-    $OmitLocalLogging off
-    #+END_EXAMPLE
-    - in /etc/rsyslog.d/listend.conf
-      #+BEGIN_EXAMPLE
-      $SystemLogSocketName /run/systemd/journal/syslog
-      #+END_EXAMPLE
-
-- Modules
-  - connecting rsyslog to journald goes through modules
-  - Different modules are available
-    - im*: input module
-    - om*: output module
-    - and others such as parser modules, messages modification modules and more
-  - Module - Importing Text Files      
-    #+BEGIN_EXAMPLE
-    $ModLoad imfile
-    $InputFileName /var/log/httpd/error_log
-    $InputFileTag apache-error:
-    $InputRunFileMonitor
-    #+END_EXAMPLE
-  - Module - Exporting to a Database
-    #+BEGIN_EXAMPLE
-    $ModLoad ommysql
-    $ActionOmmysqlServerPort 1234
-    *.* :ommysql:database-srvername,database-name,database-userid,database-password
-    #+END_EXAMPLE
-    
-- Setting up Remote Logging
-/etc/rsyslog.conf
-- two methods
-  - udp - best backwards compatiability
-  - tcp - recommended (if all applications run tcp logging)
-
-- setting remote host
-#+BEGIN_EXAMPLE
-*.* @@server1.example.com:514
-#+END_EXAMPLE
-@@ - tcp
-@  - udp
-
 ** RHEL7 Networking
+*** Files
+/etc/sysconfig/network-scripts/
+*** Cmds
+[[file://home/crito/org/tech/cmds/ethtool.org][ethtool]] -
+[[file://home/crito/org/tech/cmds/nmcli.org][nmcli]] - NetworkManager Cli
+[[file://home/crito/org/tech/cmds/ip.org][ip]] - systemd ifconfig
+[[file:~/org/tech/cmds/iw.org][iw]] - systemd iwconfig
+[[file://home/crito/org/tech/cmds/wifi-menu.org][wifi-menu]] - ncurses wifi configuration tool
+*** Example Interface Configs
+#+BEGIN_EXAMPLE
+TYPE=Ethernet
+BOOTPROTO=none
+DEFROUTE=yes
+IPV4_FAILURE_FATAL=no
+IPV6INIT=yes
+IPV6_AUTOCONF=yes
+IPV6_DEFROUTE=yes
+IPV6_FAILURE_FATAL=no
+NAME=enp0s17
+UUID=7f1aff2d-b154-4436-9497-e3a4dedddcef
+ONBOOT=no
+HWADDR=00:0C:29:A1:B5:D6
+PEERDNS=yes
+PEERROUTES=yes
+IPV6_PEERDNS=yes
+IPV6_PEERROUTES=yes
+#+END_EXAMPLE
+
+- static address example
+#+BEGIN_EXAMPLE
+DEVICE="eth0"
+BOOTPROTO="static"
+IPADDR="10.10.20.11"
+NETMASK="255.255.255.0"
+ONBOOT="yes"
+TYPE="Ethernet"
+USERCTL="yes"
+PEERDNS="yes"
+IPV6INIT="no"
+PERSISTENT_DHCLIENT="1"
+#+END_EXAMPLE
+
+*** Setting an Interface to DHCP
+BOOTPROTO=dhcp
+ONBOOT=yes
+*** Setting an Interface to a Static ip
+BOOTPROTO=static
+ONBOOT=yes
+IPADDR=172.27.0.32
+NETMASK=255.255.255.0
+GATEWAY=172.27.0.1
+DNS1=172.27.0.5
+*** Setting up /etc/hosts
+This file is read before a request is made to the dns server 
+add here any hostname => ip
+Foramt is [ip hostname]
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+*** Permanently change hostname and DNS
+- Add DNS and Hostname to interface config file
+HOSTNAME=server.alick.com
+DNS1=192.168.1.5
+DNS2=8.8.8.8
+SEARCH=alick.com
+
+- Add the DNS server to the resolv.conf file
+nameserver 8.8.8.8
+
+*** Temporary change hostname
+#+BEGIN_SRC sh
+hostname $HOSTNAME
+#+END_SRC
+
 *** Basic Overview
 - nmcli
 - ip
@@ -340,6 +319,96 @@ The man pages have examples
 #+BEGIN_SRC sh
 man 5 nmcli-examples
 #+END_SRC
+
+*** Configure networking services start at boot
+- confirm that the the network service is running at boot
+#+BEGIN_SRC sh
+systemctl status network
+systemctl list-units | grep network.target
+systemctl list-dependencies multi-usr.target | grep network
+#+END_SRC
+
+- confirm that interface is set to come up at boot
+#+BEGIN_SRC sh
+cd /etc/sysconfig/network-scripts # this is where the configuration files are stored
+nmcli con show # use this to find out the interface name
+cat ifcfg-ens3
+#+END_SRC
+from the cat we are looking for the ONBOOT variable, and it needs to be set to yes
+
+- set the ONBOOT variable to yes
+#+BEGIN_SRC sh
+nmcli con mod "ens3" connection.autoconnect yes
+#+END_SRC
+
+** RHEL7 Logging
+Service - Direct write ---> /so/log/.log
+        - systemctl    ---> journald
+	- rsyslogd     ---> /var/log/...
+	  
+journalctl can be set to write to rsyslog, this way all logs are kept in one logical area
+  - it is also possible to have rsyslog write to journalctl
+    
+- Connection Journald to rsyslog
+  - rsyslog messagees are sent ot jounald and vice versa
+  - Sending to journal in rsyslog.conf (not enabled)
+    #+BEGIN_EXAMPLE
+    $Modload omjournal
+    *.* :omjournal:
+    #+END_EXAMPLE
+  - Receiving from journal in rsyslog.conf (enabled)
+    #+BEGIN_EXAMPLE
+    $ModLoad imuxsock
+    $OmitLocalLogging off
+    #+END_EXAMPLE
+    - in /etc/rsyslog.d/listend.conf
+      #+BEGIN_EXAMPLE
+      $SystemLogSocketName /run/systemd/journal/syslog
+      #+END_EXAMPLE
+
+- Modules
+  - connecting rsyslog to journald goes through modules
+  - Different modules are available
+    - im*: input module
+    - om*: output module
+    - and others such as parser modules, messages modification modules and more
+  - Module - Importing Text Files      
+    #+BEGIN_EXAMPLE
+    $ModLoad imfile
+    $InputFileName /var/log/httpd/error_log
+    $InputFileTag apache-error:
+    $InputRunFileMonitor
+    #+END_EXAMPLE
+  - Module - Exporting to a Database
+    #+BEGIN_EXAMPLE
+    $ModLoad ommysql
+    $ActionOmmysqlServerPort 1234
+    *.* :ommysql:database-srvername,database-name,database-userid,database-password
+    #+END_EXAMPLE
+    
+- Setting up Remote Logging
+/etc/rsyslog.conf
+- two methods
+  - udp - best backwards compatiability
+  - tcp - recommended (if all applications run tcp logging)
+
+- setting remote host
+#+BEGIN_EXAMPLE
+*.* @@server1.example.com:514
+#+END_EXAMPLE
+@@ - tcp
+@  - udp
+
+** RHEL7 Firewall
+file://home/crito/org/tech/linux_concepts/centos7_firewall.org
+
+** SMTP Server on RHEL7
+file://home/crito/org/tech/linux_concepts/rhel7_Setting_Up_an_SMTP_Server.org
+
+** CentOS 7 Mail Server
+file://home/crito/org/tech/linux_concepts/centos7_mail_server.org
+
+** Red Hat Identity Management(IdM) Solution
 
 ** RHEL7 Configuring a Cache-only DNS Server
 files - /etc/unbound/unbound.conf
@@ -598,6 +667,77 @@ this will flush the current queue
     frank@example.com 	root
     #+END_EXAMPLE
  
+** How to Install Xfce on CentOS7
+url: https://www.rootusers.com/how-to-install-xfce-gui-in-centos-7-linux/
+
+- Ensure that the epel repo is installed
+#+BEGIN_SRC sh
+yum install epel-release -y
+#+END_SRC
+
+- Add the group package "Server with GUI", this will install Gnome
+#+BEGIN_SRC sh
+yum groupinstall "Server with GUI" -y
+#+END_SRC
+
+- Install xfce
+#+BEGIN_SRC sh
+yum groupinstall "xfce" -y
+#+END_SRC
+
+- Remove xfce
+#+BEGIN_SRC sh
+yum groupremove "xfce"
+#+END_SRC
+
+** REL7 Time services
+*** Cmds
+[[file://home/crito/org/tech/cmds/timedatectl.org][timedatectl]]
+chronyd
+
+*** setting system clock
+- available timezones
+#+BEGIN_SRC sh
+timedatectl list-timezones
+#+END_SRC
+
+- if unsure of what timezone to use run tzselect. This will guide you through questions to findout what your timezone should be using
+  
+- Once you have the timezone you would like to use it needs to be set
+#+BEGIN_SRC sh
+timedatectl set-timezone Europe/London
+#+END_SRC
+
+*** Setting ntpd
+RHEL uses chronyd to configure ntp
+
+- confirm that chronyd is running
+#+BEGIN_SRC sh
+systemctl status chronyd
+#+END_SRC
+
+- we can use the chronyc cmd to interact with chronyd
+#+BEGIN_SRC sh
+chronyc sources -v
+#+END_SRC
+this will show our current NTP sources
+
+- we can find out the machine that we are currently using as our ntp source with
+#+BEGIN_SRC sh
+chronyc tracking
+#+END_SRC
+
+- change the ntp source, any changes made will require that the service is restarted
+/etc/chrony.conf
+#+BEGIN_EXAMPLE
+server 0.rhel.pool.ntp.org iburst
+server 1.rhel.pool.ntp.org iburst
+server 2.rhel.pool.ntp.org iburst
+server 3.rhel.pool.ntp.org iburst
+#+END_EXAMPLE
+these can be replaced with different machines
+iburst - after restart will send 4 measurements in a short time period
+
 * Lecture
 * Tutorial
 * Books

@@ -82,6 +82,13 @@ With username and password
 wget --ftp-user=$USERNAME --ftp-password=$PASSWORD $URL
 #+END_SRC
 
+** Download jdk8 from Oracle
+RPM
+#+BEGIN_SRC sh
+wget -c --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.rpm
+#+END_SRC
+this will download the rpm without being prompted to agree with the license
+
 * Lecture
 * Tutorial
 * Books
