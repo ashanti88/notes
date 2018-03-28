@@ -738,6 +738,31 @@ server 3.rhel.pool.ntp.org iburst
 these can be replaced with different machines
 iburst - after restart will send 4 measurements in a short time period
 
+** Change the default kernel to boot
+- This will print out all available options (numbering starts from 0)
+#+BEGIN_SRC sh
+awk -F\' /^menuentry/{print\$2} /etc/grub2.cfg
+#+END_SRC
+or
+#+BEGIN_SRC sh
+yum list kernel
+#+END_SRC
+
+2. Selecting a new boot option
+#+BEGIN_SRC sh
+grub-set-default 1
+#+END_SRC
+This will select the second line printed with above command as the default boot option
+
+3. Confirm the defualt option has been selected
+#+BEGIN_SRC sh
+cat /boot/grub/grubenv
+#+END_SRC
+This will show the new option as the saved_entry=<new_option>
+
+4. Reboot system for change to take effect
+
+
 * Lecture
 * Tutorial
 * Books

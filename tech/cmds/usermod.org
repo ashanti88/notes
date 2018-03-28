@@ -38,10 +38,12 @@ usermod -c "fullname of user"
 this is added to the fifth field in the /etc/passwd
 
 ** Lock/Unlock the users account
+- Lock the account
 #+BEGIN_SRC sh
 usermod -L user_name
 #+END_SRC
 
+- Unlock the account
 #+BEGIN_SRC sh
 usermod -U user_name
 #+END_SRC

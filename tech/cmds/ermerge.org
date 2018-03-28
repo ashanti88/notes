@@ -337,6 +337,7 @@ http://repoforge.org/
 rpm -qa
 #+END_SRC
 q - query the database
+a - all
 
 - Show any changes since installation
 #+BEGIN_SRC sh
@@ -463,15 +464,87 @@ yum repolist
 #+END_SRC
 
 ****** Method One - Temporary
-On the cmd line
+- disable
+#+BEGIN_SRC sh
+yum-config-manager --disabue dl.fedoraproject.org_pub_epel_7_x86_64
+#+END_SRC
+
+- re-enable
+#+BEGIN_SRC sh
+yum-config-manager --enable dl.fedoraproject.org_pub_epel_7_x86_64
+#+END_SRC
+
+****** Method Two - Permanent
+Edit the repo files in /etc/yum.repos.d
+set the enable parameter to 0.
+
+****** remove a repo for an update
 #+BEGIN_SRC sh
 yum update --disablerepo=isu 
 #+END_SRC
 This will not upgrade the packages that belong to the given repo.
 
-****** Method Two - Permanent
-Edit the repo files in /etc/yum.repos.d
-set the enable parameter to 0.
+***** Remove a repository
+#+BEGIN_SRC sh
+rm -rf /etc/yum.repo.d/dl.fedoraproject.org_pub_epel_7_x86_64_.repo
+#+END_SRC
+
+***** Creating a local repository
+- mount the rhel7 iso
+#+BEGIN_SRC sh
+mkdir -p /repos/local
+mount -o loop rhel-server-7.1-x86_64-dvd.iso /repos/local
+#+END_SRC
+loop - allows the system to read the cdrom as a block device
+
+- disable/remove the rhel repo
+#+BEGIN_SRC sh
+rm /etc/yum.repo.d/redhat-rhui*
+#+END_SRC
+
+- create the local repository
+/etc/yum.repo.d/local-repo
+#+BEGIN_EXAMPLE
+[local-repo]
+name=Red Hat Linux Local Repo
+baseurl=file:///repos/local
+enable=1
+gpgcheck=0
+#+END_EXAMPLE
+
+- confirm that the new repo has been added
+#+BEGIN_SRC sh
+yum repolist
+#+END_SRC
+it should be listed
+
+- confirm that an application can be pulled from the repo
+#+BEGIN_SRC sh
+yum install emacs
+#+END_SRC
+
+***** Configuring gpg keys for repo
+- install the repo
+#+BEGIN_SRC sh
+yum-config-manager --add-repo http://dl.fedoraproject.org/pub/epel/7/x86_64/
+#+END_SRC
+
+- go to the the repo website and get the url for the gpg key
+  - http://dl.fedoraproject.org/pub/epel
+
+- edit the /etc/pki/rpm-gpg
+#+BEGIN_SRC sh
+wget http://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7
+#+END_SRC
+you don't have to store the key here, but it's best practices
+
+- edit the repo in etc/yum.repos.d that was created by yum-config-manager
+add
+#+BEGIN_EXAMPLE
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7
+#+END_EXAMPLE
+
+- confirm by installing package and you will be asked if the gpg-key is ok to use
 
 ***** EPEL (Extra Packages for Enterprise Linux)
 Centos >=7
@@ -494,7 +567,7 @@ yum repolist
 
 *** yum
 CheatSheet: [[file://home/crito/Documents/Linux/RHEL/yum_cheatsheet.pdf][YUM CheatSheet]]
-**** Basic Administration
+**** basic Administration
 - Install application
 #+BEGIN_SRC sh
 yum install nmap
@@ -571,6 +644,23 @@ yumdownloader --resolve postfix
 yumdownloader --source postfix
 #+END_SRC
 
+- View yum history
+#+BEGIN_SRC sh
+yum history
+#+END_SRC
+
+- view information about action in history
+#+BEGIN_SRC sh
+yum history info 17
+#+END_SRC
+this will provide information such as what was in installed, removed etc
+
+- Remove a package using history
+#+BEGIN_SRC sh
+yum history undo 17
+#+END_SRC
+17 - being the index of the package to remove in the yum history
+
 **** Repo Administration
 - list all enabled repos
 #+BEGIN_SRC sh
@@ -582,12 +672,25 @@ yum repolist
 yum repolist all
 #+END_SRC
 
+- adding a repo with yum
+#+BEGIN_SRC sh
+yum-config-manager --add-repo=http://dl.fedoraproject.org/pub/epel/7/x86_64
+#+END_SRC
+this will create the repo file in /etc/yum.repo.d/ for the repository
+
+- disable a repo
+#+BEGIN_SRC sh
+yum-config-manager --disable dl.fedoraproject.org_pub_epel_7_x86_64_
+#+END_SRC
+
 **** Check for system wide upgrades
 - check what has an available update     
 #+BEGIN_SRC sh
 yum check-update
 #+END_SRC
+this will list all packages that have an available update
 
+- these will go out and pull all updates for the system
 #+BEGIN_SRC sh
 yum update
 #+END_SRC
@@ -613,6 +716,8 @@ yum list
 #+END_SRC
 
 **** Group Packages
+= indicates what is installed as part of the package
+- indicates the package is not installed will not be installed if the group is installed
 ***** Search Group Packages
 #+BEGIN_SRC sh
 yum grouplist
@@ -796,6 +901,46 @@ yum update
 yum info git
 #+END_SRC
 the repo option should be "Local_Repo"
+
+** Update the kernel package
+*** automated
+- list the current kernel and available kernels
+#+BEGIN_SRC sh
+yum clean all
+yum list kernel
+#+END_SRC
+this will printout the current kernel and available kernels
+
+- install an available new kernel
+#+BEGIN_SRC sh
+yum update kernel
+#+END_SRC
+
+*** Manual method
+- list the current kernel and available kernels
+#+BEGIN_SRC sh
+yum clean all
+yum list kernel
+#+END_SRC
+this will printout the current kernel and available kernels
+
+- download the available kernel
+#+BEGIN_SRC sh
+yumdownloader kernel
+#+END_SRC
+
+- install the new kernel
+#+BEGIN_SRC sh
+rpm-ivh kernel-3.10.0-229.1.2.el7.x86_64.rpm
+#+END_SRC
+this may issue dependency issues, these will need to be installed before you can install the kernel
+
+- confirm that the initramfs has been created in /boot/initramfs-xxx, if not then create
+#+BEGIN_SRC sh
+dracut
+#+END_SRC
+
+- confirm by reboot and check that grub has the new kernel available
 
 * Suse
 *** zypper							   :suse:pkg:

@@ -5,6 +5,10 @@
 * Description
 This cmd will display user and group ids
 * Usage
+0 - root
+1-200 - system users (specific rhel processors)
+201-999 - system users but don't own files on the system
+1000
 - uid of user
 #+BEGIN_SRC sh
 id -u user

@@ -67,7 +67,7 @@ git branch -d <branch>
 ** Update & Merge
 - update repo to most current
 #+BEGIN_SRC sh
-> git pull
+git pull
 #+END_SRC
 
 - merge branch into your active branch

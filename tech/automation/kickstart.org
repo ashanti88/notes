@@ -1,7 +1,8 @@
-#+TAGS: auto
+#+TAGS: kickstart rhel
 
 
-* Kickstart							       :auto:
+* Kickstart
+* Files
 * Description
 * Usage
 * Lecture

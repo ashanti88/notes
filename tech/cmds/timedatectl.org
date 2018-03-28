@@ -19,6 +19,31 @@ timedatectl set-timezone Europe/London
 timedatectl status
 #+END_SRC
 
+** Manually setting the time
+- we need to turn off ntp if it's currently being used
+#+BEGIN_SRC sh
+timedatectl set-ntp false
+#+END_SRC
+
+- now we can set your time manually
+#+BEGIN_SRC sh
+timedatectl set-time 01:43:23
+#+END_SRC
+
+** Editting ntp servers for RHEL
+/etc/chrony.conf
+#+BEGIN_EXAMPLE
+server 0.pool.ntp.org iburst
+server 1.pool.ntp.org iburst
+server 2.pool.ntp.org iburst
+server 3.pool.ntp.org iburst
+#+END_EXAMPLE
+
+- any changes made need to make sure that chronyd is restarted
+#+BEGIN_SRC sh
+systemctl restart chronyd 
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

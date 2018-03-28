@@ -108,6 +108,7 @@ Each resource in a given backend is evaluated to determine which one has the lea
 * Lectures
 * Books
 * Articles
+[[https://linuxacademy.com/cp/socialize/index/type/community_post/id/14569][Linux Academy - Configuration of HAProxy - Michael Hatcher]]
 ** An Introduction to HAProxy and Load Balancing Concepts - Digital Ocean
 [[https://www.digitalocean.com/community/tutorials/an-introduction-to-haproxy-and-load-balancing-concepts][URL]]
 + HAProxy - High Availability Proxy

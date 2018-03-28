@@ -248,7 +248,7 @@ docker build -t="amitchell/ubuntusshdonly:v2" .
 #+END_SRC
 . - if not being run in the same directory a redirect to the Dockerfile location would take the place of the "."
 
-*** Dockerfile Order
+*** Dockerfile Order of execution
 Docker files run from top to bottom linearly
 #+BEGIN_EXAMPLE
 # Dockerfile based on the latest CentOS 7 images - non-privileged user entry
@@ -295,7 +295,7 @@ RUN cd ~ && echo "export JAVA_HOME=/usr/java/jdk1.8.0_131/jre" >> /home/user/.ba
 ENV JAVA_BIN /usr/java/jdk1.8.0_131/jre/bin
 #+END_EXAMPLE
 
-*** Differenc between CDM and RUN
+*** Difference between CDM and RUN
 RUN is used during container build
 CDM is run when the container is started
 #+BEGIN_EXAMPLE
@@ -311,6 +311,21 @@ CMD "echo" "This is a custom container"
 USER user
 #+END_EXAMPLE
 everytime this container is started the message "This is a custome container" will be printed to the screen
+
+*** ENTRY difference to CDM
+#+BEGIN_EXAMPLE
+# Dockerfile based on the latest CentOS 7 images - non-privileged user entry
+# FROM always needs to be at the top
+FROM centos:latest
+MAINTAINER mitchell.alick@gmail.com
+
+RUN useradd -ms /bin/bash user
+
+ENTRYPOINT echo "This command will display this message on EVERY container that is run from it"
+
+USER user
+#+END_EXAMPLE
+We used CDM before to echo a message to screen, the difference is that we can change the behaviour of CDM, but will always print this message.
 
 * Lecture
 * Tutorials

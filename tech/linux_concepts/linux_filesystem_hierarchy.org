@@ -74,6 +74,7 @@ This is the nerve center of your system, it contains all system related configur
 /etc/hosts         - this file is first read to find IP to hostname lookup
 /etc/hosts.allowed - this is an Access Control File that specifies allowed hosts
 /etc/hosts.deny    - this is the counter part to hosts.allowed, if only this file all allowed to access except what is contained in this file
+/etc/login.defs    - this file holds the defaults for creating a new user
 /etc/nologin       - if this file is present then no-one will be able to login, access can only be had through a rescue shell, single user login.
 /etc/nologin.txt   - if this file is present it is printed to the screen when a login is attempted, instead of the default message.
 /etc/pacman.cof    - this is the main configuration file for the pacman package management system

@@ -23,3 +23,4 @@ curl -F "file=@file.txt" httpbin.org/post
 * Tutorial
 * Books
 * Links
+[[https://linuxacademy.com/cp/socialize/index/type/community_post/id/13852][Linux Academy - Understanding Curl and HTTP Headers - Fasih Khatib]]

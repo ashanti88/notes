@@ -44,14 +44,18 @@ nmcli con del "myconnection"
 #+END_SRC
 this will bring down the connection and remove the configuration file
 
-** Configure
-*** Modify the Current ip
+** Modify the Current ip
 #+BEGIN_SRC sh
 nmcli con mod $NAME ipv4.addresses "192.168.0.6"
 #+END_SRC
-*** To Add an ip Address
+** To Add an ip Address
 #+BEGIN_SRC sh
 nmcli con mod $NAME +ipv4.addresses "192.168.0.6"
+#+END_SRC
+
+** Change a connections DNS nameserver
+#+BEGIN_SRC sh
+nmcli con mod "System eth0" +ipv4.dns 8.8.8.8
 #+END_SRC
 
 ** Diagnostics

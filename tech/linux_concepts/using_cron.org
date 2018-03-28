@@ -76,6 +76,13 @@ This will write hello to the log at 2:30pm each day
 * anacron
 * Description
 * Usage
+- force the jobs in anacron to run regardless of their last run timestamp
+#+BEGIN_SRC sh
+anacron -fn
+#+END_SRC
+f - force
+n - do immediately
+
 * Lecture
 * Tutorial
 * Books
