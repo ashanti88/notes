@@ -23,25 +23,96 @@ RHEL Docs: https://access.redhat.com/documentation/en-us/red_hat_enterprise_linu
 * Usage
 The [[file://home/crito/org/tech/cmds/firewall-cmd.org][firewall-cmd]] is generally used for administration
 Gui front-end is called [[file://home/crito/org/tech/cmds/firewall-config.org][firewall-config]]
+
+- view the current default zone
+#+BEGIN_SRC sh
+firewall-cmd --get-default
+#+END_SRC
+
+- view the current rules in place
+#+BEGIN_SRC sh
+firewall-cmd --list-all
+#+END_SRC
+the services will list what is currently enabled
+
+- view the rules for another zone
+#+BEGIN_SRC sh
+firewall-cmd --zone=home --list-all
+#+END_SRC
+this will list the available services that would be enabled if that zone were to be used
+
+- add a source ip to a zone
+#+BEGIN_SRC sh
+firewall-cmd --zone=home --add-source=192.168.1.0/24
+#+END_SRC
+this will now apply the rules set for that zone to machines that fit this ip block
+
+- make a change permanent
+#+BEGIN_SRC sh
+firewall-cmd --zone=home --permanent --add-source=192.168.1.0/24
+firewall-cmd --reload
+#+END_SRC
+the reload is always required with a permanent rule
+this will mean that the change will be persistant at the next reboot, or service reload
+
+- reload the firewalld serrvice
+#+BEGIN_SRC sh
+firewall-cmd --reload
+#+END_SRC
+
+- adding an open port to a zone
+#+BEGIN_SRC sh
+firewall-cmd --zone=public --add-port=80/tcp
+#+END_SRC
+this would open port 80, but only until the next reload
+
+-adding a service to be available
+#+BEGIN_SRC sh
+firewall-cmd --zone=public --add-service=http
+#+END_SRC
+
+- close all ports and services, access only available in front of the machine
+#+BEGIN_SRC sh
+firewall-cmd --panic
+#+END_SRC
+runtime change only
+
+
 ** Zones
-*** Block  
-Any incoming network connections are rejected with an icmp-host-prohibited message for IPv4 and icmp6-adm-prohibited for IPv6. Only network connections initiated within this system are possible.
-*** DMZ 
-For computers in your demilitarized zone that are publicly-accessible with limited access to your internal network. Only selected incoming connections are accepted.
-*** Drop
+- These are the basic units used to group rules. 
+- An interface is assigned a zone, and this dictates the behaviour that the fw should allow.
+- These zones allow flexibility for machines that move between networks (i.e. laptops).
+
+- Drop
 Any incoming network packets are dropped, there is no reply. Only outgoing network connections are possible.
-*** External
-For use on external networks with masquerading enabled especially for routers. You do not trust the other computers on networks to not harm your computer. Only selected incoming connections are accepted.
-*** Home
-For use in home areas. You mostly trust the other computers on networks to not harm your computer. Only selected incoming connections are accepted.
-*** Internal
-For use on internal networks. You mostly trust the other computers on the networks to not harm your computer. Only selected incoming connections are accepted.
-*** Public
+- Block  
+Any incoming network connections are rejected with an icmp-host-prohibited message for IPv4 and icmp6-adm-prohibited for IPv6. Only network connections initiated within this system are possible.
+- Public
 For use in public areas. You do not trust the other computers on networks to not harm your computer. Only selected incoming connections are accepted.
-*** Trusted
-All network connections are accepted.
-*** Work
+- External
+For use on external networks with masquerading enabled especially for routers. You do not trust the other computers on networks to not harm your computer. Only selected incoming connections are accepted.
+- Internal
+For use on internal networks. You mostly trust the other computers on the networks to not harm your computer. Only selected incoming connections are accepted.
+- DMZ 
+For computers in your demilitarized zone that are publicly-accessible with limited access to your internal network. Only selected incoming connections are accepted.
+- Work
 For use in work areas. You mostly trust the other computers on networks to not harm your computer. Only selected incoming connections are accepted.
+- Home
+For use in home areas. You mostly trust the other computers on networks to not harm your computer. Only selected incoming connections are accepted.
+- Trusted
+All network connections are accepted.
+
+*** Pre-defined Zones (least trusted to most trusted)
+drop - All incoming connections are dropped without reply and only outgoing connections are possible.
+block - Similar to the above, but instead of simply dropping connections, incoming requests are rejected with an icmp-host-prohibited or icmp6-adm-prohibited message.
+public - Represents public, untrusted networks. You don't trust other computers but may allow selected incoming connections on a case-by-case basis.
+external - External networks in the event that you are using the firewall as your gateway. It is configured for NAT masquerading so that your internal network remains private but reachable.
+internal - The other side of the external zone, used for the internal portion of a gateway. The computers are fairly trustworthy and some additional services are available.
+dmz - Used for computers located in a DMZ (isolated computers that will not have access to the rest of your network). Only certain incoming connections are allowed.
+work - Used for work machines. Trust most of the computers in the network. A few more services might be allowed.
+home - A home environment. It generally implies that you trust most of the other computers and that a few more services will be accepted.
+trusted - Trust all of the machines in the network. The most open of the available options and should be used sparingly.
+
 ** Creating Services files
 First copy a service file from /usr/lib/firewalld/services/ to use as a template
 
@@ -56,8 +127,7 @@ First copy a service file from /usr/lib/firewalld/services/ to use as a template
 #+END_EXAMPLE
 replace the fileds with the new details
 
-** Internal Port Forwarding
-*** Red Hat/CentOS 7 use firewalld as the default firewall application:
+** Internal Port Forwarding RHEL7
 
 - Login to the root account
 #+BEGIN_SRC sh
@@ -89,41 +159,6 @@ firewall-cmd --permanent --add-forward-port=port=443:proto=tcp:toport=5901
 #+BEGIN_SRC sh
 firewall-cmd --reload
 #+END_SRC
-
-*** Ubuntu*/Debian systems can use ufw as a firewall for port redirection: 
-- Login to the root account
-#+BEGIN_SRC sh
-su -
-#+END_SRC
-
-- Make sure ufw is installed and enabled
-#+BEGIN_SRC sh
-apt-get install -y ufw
-update-rc.d ufw enable
-service ufw start
-#+END_SRC
-
-- Edit the /etc/ufw/before.rules. Add the below lines to the top of the file and save the file
-#+BEGIN_EXAMPLE
-*nat
-:PREROUTING ACCEPT [0:0]
--A PREROUTING -p tcp --dport 443 -j REDIRECT --to-port 5901
-COMMIT
-#+END_EXAMPLE
-
-- Allow connections on the needed ports in ufw (note 22 is for ssh and just included so you can ssh back to the server)
-#+BEGIN_SRC sh
-ufw allow 22
-ufw allow 443
-ufw allow 5901
-#+END_SRC
-
-- Enable ufw
-#+BEGIN_SRC sh
-ufw enable
-#+END_SRC
-
-- Reboot the server
 
 * Lecture
 * Tutorial

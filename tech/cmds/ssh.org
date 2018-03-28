@@ -3,17 +3,13 @@
 
 * ssh
 * Files
-** /etc/ssh/ssh_config 		
-- the config file for the ssh client
-
-** /etc/ssh/sshd_config 		
-the config file for the ssh daemon
-** /home/user/.ssh/authorized_keys  
-this holds remote hosts public keys
-** /home/user/.ssh/config  	
-this is a way to save host configs
-** /home/user/.ssh/known_hosts     
-this file holds hashes for all known hosts, hosts that we have previously connected to and authorize that we trust them to be the correct machine.
+/etc/ssh/ssh_config             - the config file for the ssh client
+/etc/ssh/sshd_config            - the config file for the ssh daemon
+/home/user/.ssh/authorized_keys - this holds remote hosts public keys
+/home/user/.ssh/config          - this is a way to save host configs
+/home/user/.ssh/known_hosts     - this file holds hashes for all known hosts, hosts that we have previously connected to and authorize that we trust them to be the correct machine.
+/home/user/.ssh/id_rsa          - this is the default private key, it needs privs of 600
+/home/user/.ssh/id_rsa.pub      - this is the public key and should have privs of 644
 
 ** Cmds
 *** ssh-copy-id

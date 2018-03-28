@@ -1,7 +1,7 @@
 #+TAGS: sec_d fw
 
 
-* ufw								   :sec_d:fw:
+* ufw
 Wiki: [[https://wiki.ubuntu.com/UncomplicatedFirewall][wiki.ubuntu.com/ufw]]
 * Description
 UFW, or Uncomplicated Firewall, is an interface to iptables that is geared towards simplifying the process of configuring a firewall.
@@ -88,6 +88,45 @@ ufw delete 2
 #+BEGIN_SRC sh
 ufw delete allow http
 #+END_SRC
+** Ubuntu*/Debian systems can use ufw as a firewall for port redirection: 
+- Login to the root account
+#+BEGIN_SRC sh
+su -
+#+END_SRC
+
+- Make sure ufw is installed and enabled
+#+BEGIN_SRC sh
+apt-get install -y ufw
+update-rc.d ufw enable
+service ufw start
+#+END_SRC
+
+- Edit the /etc/ufw/before.rules. Add the below lines to the top of the file and save the file
+#+BEGIN_EXAMPLE
+*nat
+:PREROUTING ACCEPT [0:0]
+-A PREROUTING -p tcp --dport 443 -j REDIRECT --to-port 5901
+COMMIT
+#+END_EXAMPLE
+
+- Allow connections on the needed ports in ufw (note 22 is for ssh and just included so you can ssh back to the server)
+#+BEGIN_SRC sh
+ufw allow 22
+ufw allow 443
+ufw allow 5901
+#+END_SRC
+
+- Enable ufw
+#+BEGIN_SRC sh
+ufw enable
+#+END_SRC
+
+- Reboot the server
+
+**** Rule Permanence
+- Altered rules will take effect immediately, but on reboot will revert to originally set rules.
+- The --permanent flag will push the rule to the non-ephemeral firewall. This rule will then be activeated on the next reboot.
+
 * Lecture
 * Tutorial
 * Books

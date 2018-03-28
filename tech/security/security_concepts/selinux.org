@@ -3,6 +3,12 @@
 
 * SELinux
 Doc: [[https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/selinux_users_and_administrators_guide/index][SELinux User's and Administrator's Guide]]
+* Files
+/etc/selinux/ - this is the configuration directory
+/etc/selinux/config - this is the main configuration file for selinux (mainly for setting enabled and permissive)
+* Cmds
+- semanage
+- restorecon
 * Description
 * Configuration
 /etc/selinux/config
@@ -44,6 +50,17 @@ getenforce
 #+END_SRC
 Enforcing
 
+- view a files selinux context
+#+BEGIN_SRC sh
+ls -Z
+#+END_SRC
+
+** Have all labels reset to default on next boot
+#+BEGIN_SRC sh
+cd /
+touch .autorelabel
+#+END_SRC
+on the next reboot with this file set in / the system will set all files to their default selinux contexts
 ** SELinux Modes
 Enforcing - SELinux policy is enforced. SELinux denies access based on
 SELinux policy rules.
@@ -84,14 +101,15 @@ type
 
 level
 
-SELinux uses a combination of RBAC, TE and MLS. 
+SELinux uses a combination of RBAC, TE and MLS.
 
 To configure selinux users you use the semanage command. This command is
 found in the policycoreutils-python.
 
 to list all selinux users run:
-
-> semanage login -l
+#+BEGIN_SRC sh
+semanage login -l
+#+END_SRC
 
 ** Level
 

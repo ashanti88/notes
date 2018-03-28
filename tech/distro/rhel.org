@@ -400,7 +400,81 @@ journalctl can be set to write to rsyslog, this way all logs are kept in one log
 @  - udp
 
 ** RHEL7 Firewall
-file://home/crito/org/tech/linux_concepts/centos7_firewall.org
+*** Files
+*** Cmds
+**** firewalld
+**** [[file://home/crito/org/tech/cmds/firewall-cmd.org][firewall-cmd]]
+
+*** Usage
+- Start service
+#+BEGIN_SRC sh
+systemctl start firewalld.service
+#+END_SRC
+
+- What is the current status
+#+BEGIN_SRC sh
+firewall-cmd --list-all
+#+END_SRC
+
+- What is the current zone
+#+BEGIN_SRC sh
+firewall-cmd 
+#+END_SRC
+    
+- Change interface zone
+#+BEGIN_SRC sh
+firewall-cmd --zone=home --change-interface=eth0
+#+END_SRC
+  
+- List of All Available Services
+#+BEGIN_SRC sh
+firewall-cmd --get-services
+#+END_SRC
+
+- the zone is set as public by default.
+
+**** Setting Interface to a Zone Permanently
+alter the ZONE variable in /etc/sysconfig/network-scripts/ifcfg-eth0
+ZONE=home
+**** To implement the new zone
+Restart the network and firewall service
+#+BEGIN_SRC sh
+systemctl restart network.service
+systemctl restart firewalld.service
+#+END_SRC
+Check the firewall properties
+#+BEGIN_SRC sh
+firewall-cmd --get-active-zones
+#+END_SRC
+
+**** Setting Rules for Applications
+- Services are named and more details can be found about them by looking at the .xml files corresponding to the service found at /var/lib/firewalld/services
+- Add a service with the --add-service parameter
+#+BEGIN_SRC sh
+firewall-cmd --zone=home --add-service=http
+#+END_SRC
+- the --permanent parameter needs to be set for it to come into effect on reboot.
+  
+**** Opening a Port for your Zones
+- the --add-port parameter is used to set a port to a zone
+#+BEGIN_SRC sh
+firewall-cmd --zone=public --add-port=80/tcp
+#+END_SRC
+**** Opening a Port range
+#+BEGIN_SRC sh
+firewall-cmd --zone=public --add-port=4400-4450/udp
+#+END_SRC
+    
+***** Defining a Service
+- managing a service is easier than remembering ports and the associated ports
+- copying one of the service xml files in /usr/lib/firewalld/services and using it as a template to define your own service
+#+BEGIN_SRC sh
+cp /usr/lib/firewalld/services/service.xml /etc/firewalld/services/example.xml
+#+END_SRC
+- to get access to your new service reload the firewall
+#+BEGIN_SRC sh
+systemctl restart firewalld.service
+#+END_SRC
 
 ** SMTP Server on RHEL7
 file://home/crito/org/tech/linux_concepts/rhel7_Setting_Up_an_SMTP_Server.org
@@ -761,7 +835,6 @@ cat /boot/grub/grubenv
 This will show the new option as the saved_entry=<new_option>
 
 4. Reboot system for change to take effect
-
 
 * Lecture
 * Tutorial
