@@ -1,0 +1,27 @@
+#+TAGS: picture_data exif_data
+
+
+* EXIF Data
+* Description
+* Usage
+- install imagemagick
+#+BEGIN_SRC sh
+apt-get install imagemagick
+pacman -S imagemagick
+#+END_SRC
+
+- pull picture data
+#+BEGIN_SRC sh
+identify -verbose /usr/share/backgrounds/london.jpg
+#+END_SRC
+this will print all the data the picture contains
+
+- to pull just the exif data
+#+BEGIN_SRC sh
+identify -verbose /usr/share/backgrounds/london.jpg | grep "exif:"
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

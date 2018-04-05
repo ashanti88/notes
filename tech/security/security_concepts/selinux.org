@@ -159,6 +159,91 @@ MCS - Muti-Category Security
 
 LSPP - Labeled Security Protection Profile
 
+** Adding a context to a directory
+- add /content to the apache context
+#+BEGIN_SRC sh
+mkdir /content
+#+END_SRC
+
+- makesure that /content is owned by apache
+#+BEGIN_SRC sh
+chown apache:apache -R /content
+#+END_SRC
+
+- grep for the apache directory /var/www
+#+BEGIN_SRC sh
+semanage fcontext -l | grep /var/www
+#+END_SRC
+
+- add the context that we found for /var/www to /content
+#+BEGIN_SRC sh
+semanage fcontext -a -t httpd_sys_content_t '/content(/.*)?'
+#+END_SRC
+a - add
+t - type
+(/.*)? - regular expression. Anything under /content, should also have this context, but it's optional
+
+- restore the contexts
+#+BEGIN_SRC sh
+restorecon -Rv /content
+#+END_SRC
+this will now add the new context
+
+- confirm the change
+#+BEGIN_SRC sh
+ls -Z
+#+END_SRC
+
+** Remove a context
+- grep for the file or directory that you would like to remove the context of
+#+BEGIN_SRC sh
+semange fcontext -l | grep /content
+#+END_SRC
+
+- delete the context that was found
+#+BEGIN_SRC sh
+semanage fcontext -d "/content(/.*)?"
+#+END_SRC
+
+- make change take effect
+#+BEGIN_SRC sh
+restorcon -Rv /content
+#+END_SRC
+
+- confirm
+#+BEGIN_SRC sh
+ls -Z
+#+END_SRC
+
+** Boolean Values
+- list all boolean values
+#+BEGIN_SRC sh
+getsebool -a
+#+END_SRC
+this will list the boolean values and their current/temporary values
+
+- list all boolean values with the persistant values
+#+BEGIN_SRC sh
+semanage boolean -l
+#+END_SRC
+
+- set a bool temp
+#+BEGIN_SRC sh
+setsebool httpd_enable_homedirs on
+#+END_SRC
+this will return to the default on reboot
+
+- turn off a bool temp
+#+BEGIN_SRC sh
+setsebool httpd_enable_homedirs off
+#+END_SRC
+
+- set a bool persistantly
+#+BEGIN_SRC sh
+setsebool -P httpd_enable_homedirs on
+#+END_SRC
+P - persistantly
+
 * Lecture
 ** A Fresh Look at SELinux - Daniel Walsh
 [[https://www.youtube.com/watch?v%3DX1NAJbLqEv8&list%3DWL&index%3D86][URL]]

@@ -4,6 +4,10 @@
 * NetworkManager
 Arch: https://wiki.archlinux.org/index.php/NetworkManager
 Fedora: https://fedoraproject.org/wiki/Tools/NetworkManager
+* Files
+/etc/NetworkManager/NetworkManager.conf
+/etc/resolv.conf
+/etc/resolvconf.conf
 * cmds
 - [[file://home/crito/org/tech/cmds/nmtui.org][nmtui]]
 - [[file://home/crito/org/tech/cmds/nmcli.org][nmcli]]
@@ -18,6 +22,11 @@ Program for providing detection and configuration for systems to automatically c
 dns=none
 #+END_EXAMPLE
 The problem I had was I didn't want my ISP nameserver(192.168.0.1) to be added to my resolv.conf, this key value stops NM rewriting resolv.conf at boot.
+
+/etc/resolvconf.conf
+#+BEGIN_EXAMPLE
+resolvconf=NO
+#+END_EXAMPLE
 
 * Lecture
 * Tutorial

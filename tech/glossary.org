@@ -24,6 +24,8 @@ maildrop
 * MMIO - Memory Mapped I/O
 * MPLS - Multiprotocol Label Switching
 Wiki: https://en.wikipedia.org/wiki/Multiprotocol_Label_Switching
+* MTU  - Maximum Transmission Unit
+Wiki: https://en.wikipedia.org/wiki/Maximum_transmission_unit
 * NIS  - Network Information Service
 * NUMA - Non Uniform Memory Access 
 Wiki: https://en.wikipedia.org/wiki/Non-uniform_memory_access

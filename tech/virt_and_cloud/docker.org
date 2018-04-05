@@ -30,6 +30,12 @@ CheatSheet: [[https://github.com/wsargent/docker-cheat-sheet][github.com/docker-
 
 * Description
 * Usage
+- viewing man pages for docker cmds replace an hyphen where there's a space 
+#+BEGIN_SRC sh
+man docker-network-create
+#+END_SRC
+docker network create
+
 ** Start and Stop
 *** Start
 - starting a docker container that is running a command
@@ -76,9 +82,27 @@ docker kill $DOCKER_ID
 docker run ubuntu:xenial /bin/echo "Hello from this container"
 #+END_SRC
 once the container has run the command it will exit
-** List running containers
+
+** Removing containers
+- remove conatiner from memory
 #+BEGIN_SRC sh
-docker ps $DOCKER_ID
+docker rm ae884abc2ba1
+#+END_SRC
+
+- remove all containers that are in memory
+#+BEGIN_SRC sh
+docker rm $(docker ps -a -q)
+#+END_SRC
+
+** List containers
+- list all running containers
+#+BEGIN_SRC sh
+docker ps
+#+END_SRC
+
+- list all containers that are still present in memory
+#+BEGIN_SRC sh
+docker ps -a
 #+END_SRC
 
 ** Get logs from container
@@ -88,8 +112,14 @@ docker logs $DOCKER_ID
 this will provide a print out of the activity in the container
 
 ** Looks at all the info on a container
+- overview
 #+BEGIN_SRC sh
 docker ps $DOCKER_ID
+#+END_SRC
+
+- more detailed view
+#+BEGIN_SRC sh
+docker inspect name_of_container
 #+END_SRC
 
 ** Shows public facing port of container
@@ -101,58 +131,6 @@ docker port $DOCKER_ID
 #+BEGIN_SRC sh
 docker network prune
 #+END_SRC
-
-** Installation on CentOS 7
-- first create a repo file to /etc/yum.repos.d/docker.repo
-#+BEGIN_EXAMPLE
-[dockerrepo]
-name=Docker Repository
-baseurl=https://yum.dockerproject.org/repo/main/centos/7/
-enabled=1
-gpgcheck=1
-gpgkey=https://yum.dockerproject.org/gpg
-#+END_EXAMPLE
-
-- now update the system
-#+BEGIN_SRC sh
-yum update
-#+END_SRC
-care should be taken if this is a production server as it will update the whole system
-
-- install the docker-engine
-#+BEGIN_SRC sh
-yum install docker-engine
-#+END_SRC
-
-- enable, start, and confirm status of docker
-#+BEGIN_SRC sh
-systemctl enable docker
-systemctl start docker
-systemctl status docker
-#+END_SRC
-
-- check that you are able to connect to the docker deamon
-#+BEGIN_SRC sh
-docker --version
-#+END_SRC
-
-- any users that are to use docker will need to be part of the docker group
-#+BEGIN_SRC sh
-usermod -a -G docker user
-#+END_SRC
-this is due to the user will need access to /var/run/docker.socket that has privs of root:docker
-
-- confirm that the user can connect to the daemon
-#+BEGIN_SRC sh
-docker --version
-#+END_SRC
-if this fails exit the session and re-enter, this should resolve the problem
-
-- good quick test is to pull in a simple image to docker as user
-#+BEGIN_SRC sh
-docker run hello-world
-#+END_SRC
-this will pull the hello-world image from docker hub, print a blurb and exit
 
 ** Show Docker information
 - show version short
@@ -232,8 +210,111 @@ docker images
 #+END_SRC
 frank/ubuntusshd:v1 should now be an option
 
-** Creating Dockerfiles
-*** Simple example where ubuntu has a few packages installed
+** List and Inspect Networking
+- view all container networks
+#+BEGIN_SRC sh
+docker network ls
+#+END_SRC
+this will give a truncated network id
+
+- to view container network id non-truncated
+#+BEGIN_SRC sh
+docker network ls --no-trunc
+#+END_SRC
+
+- more detailed network information
+#+BEGIN_SRC sh
+docker network inspect bridge
+#+END_SRC
+
+** Network
+
+- Create a simple bridge network
+#+BEGIN_SRC sh
+docker network create --subnet 10.1.0.0/24 --gateway 10.1.0.1 mybridge01
+#+END_SRC
+
+- Delete a network
+  - never remove the default networks
+  - if these are removed usually easier to reinstall docker from scratch
+
+- removing a network
+#+BEGIN_SRC sh
+docker network rm mybridge01
+#+END_SRC
+mybridge01 - this is the name of the network to remove
+
+- a more complex network that sets a subnet, and then assigns a subset of the subnet that can be used
+#+BEGIN_SRC sh
+docker network create --subnet 10.1.0.0/16 --gateway 10.1.0.1 --ip-range=10.1.4.0/24 --driver=bridge --label=host4network bridge04
+#+END_SRC
+driver - specifies what type of interface to use
+
+- add a container to the network
+#+BEGIN_SRC sh
+docker run -it --name nettest1 --net bridge04 centos:latest /bin/bash
+#+END_SRC
+
+- specify the ip that a containr should have
+#+BEGIN_SRC sh
+docker run -it --name nettest1 --net bridge04 --ip 10.1.4.100 centos:latest /bin/bash
+#+END_SRC
+
+
+* Installation on CentOS 7
+- first create a repo file to /etc/yum.repos.d/docker.repo
+#+BEGIN_EXAMPLE
+[dockerrepo]
+name=Docker Repository
+baseurl=https://yum.dockerproject.org/repo/main/centos/7/
+enabled=1
+gpgcheck=1
+gpgkey=https://yum.dockerproject.org/gpg
+#+END_EXAMPLE
+
+- now update the system
+#+BEGIN_SRC sh
+yum update
+#+END_SRC
+care should be taken if this is a production server as it will update the whole system
+
+- install the docker-engine
+#+BEGIN_SRC sh
+yum install docker-engine
+#+END_SRC
+
+- enable, start, and confirm status of docker
+#+BEGIN_SRC sh
+systemctl enable docker
+systemctl start docker
+systemctl status docker
+#+END_SRC
+
+- check that you are able to connect to the docker deamon
+#+BEGIN_SRC sh
+docker --version
+#+END_SRC
+
+- any users that are to use docker will need to be part of the docker group
+#+BEGIN_SRC sh
+usermod -a -G docker user
+#+END_SRC
+this is due to the user will need access to /var/run/docker.socket that has privs of root:docker
+
+- confirm that the user can connect to the daemon
+#+BEGIN_SRC sh
+docker --version
+#+END_SRC
+if this fails exit the session and re-enter, this should resolve the problem
+
+- good quick test is to pull in a simple image to docker as user
+#+BEGIN_SRC sh
+docker run hello-world
+#+END_SRC
+this will pull the hello-world image from docker hub, print a blurb and exit
+
+* Creating Dockerfiles
+** Simple example where ubuntu has a few packages installed
 #+BEGIN_SRC sh
 # This is a custom ubuntu image with ssh already installed
 FROM ubuntu:xenial
@@ -248,7 +329,7 @@ docker build -t="amitchell/ubuntusshdonly:v2" .
 #+END_SRC
 . - if not being run in the same directory a redirect to the Dockerfile location would take the place of the "."
 
-*** Dockerfile Order of execution
+** Dockerfile Order of execution
 Docker files run from top to bottom linearly
 #+BEGIN_EXAMPLE
 # Dockerfile based on the latest CentOS 7 images - non-privileged user entry
@@ -267,7 +348,7 @@ USER user
 #+END_EXAMPLE
 if the echo cmd was run after USER user then the build would fail, as it would be run with user's privs
 
-*** Dockerfile Env
+** Dockerfile Env
 we install java 8 and then show how to set env variables for users or system-wide
 #+BEGIN_EXAMPLE
 # Dockerfile based on the latest CentOS 7 images - non-privileged user entry
@@ -295,7 +376,7 @@ RUN cd ~ && echo "export JAVA_HOME=/usr/java/jdk1.8.0_131/jre" >> /home/user/.ba
 ENV JAVA_BIN /usr/java/jdk1.8.0_131/jre/bin
 #+END_EXAMPLE
 
-*** Difference between CDM and RUN
+** Difference between CDM and RUN
 RUN is used during container build
 CDM is run when the container is started
 #+BEGIN_EXAMPLE
@@ -312,7 +393,7 @@ USER user
 #+END_EXAMPLE
 everytime this container is started the message "This is a custome container" will be printed to the screen
 
-*** ENTRY difference to CDM
+** ENTRY difference to CDM
 #+BEGIN_EXAMPLE
 # Dockerfile based on the latest CentOS 7 images - non-privileged user entry
 # FROM always needs to be at the top
@@ -326,6 +407,24 @@ ENTRYPOINT echo "This command will display this message on EVERY container that 
 USER user
 #+END_EXAMPLE
 We used CDM before to echo a message to screen, the difference is that we can change the behaviour of CDM, but will always print this message.
+
+** EXPOSE
+#+BEGIN_EXAMPLE
+# This image is based on CentOS 7 and will start apache sservice in each container
+FROM centos:latest
+MAINTAINER alickmitchell@example.com
+
+RUN yum update -y
+RUN yum install -y httpd net-tools
+
+RUN echo "This is a custom index file built during the image creation" > /var/www/html/index.html
+
+# This will mean that when the -P option is enabled when the container starts 80 will be mapped to a default port
+EXPOSE 80
+
+ENTRYPOINT apachectl "-DFOREGROUND"
+#+END_EXAMPLE
+Without the EXPOSE, ports have to be explicitly selected at the cmd line by docker on creation of the container
 
 * Lecture
 * Tutorials

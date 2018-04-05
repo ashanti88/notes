@@ -162,6 +162,8 @@ firewall-cmd --reload
 
 * Lecture
 * Tutorial
+** Security with firewalld
+Guide: [[file://home/crito/Documents/Linux/Labs/security-with-firewalld-labs.pdf][Red Hat Security with FirewallD]]
 * Books
 * Links
 [[https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/security_guide/sec-using_firewalls][Using Firewalls - RHEL7 Docs]]

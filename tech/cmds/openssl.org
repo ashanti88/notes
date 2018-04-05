@@ -46,6 +46,25 @@ openssl dgst -sha1 file.txt
 openssl dgst -sha256 file.txt
 #+END_SRC
 
+** Encrypt a file
+- encrypt a file using -aes-256-cbc
+#+BEGIN_SRC sh
+openssl enc -aes-256-cbc -in ~/Desktop/Tecmint/tecmint.txt -out ~/Desktop/Tecmint/tecmint.dat
+#+END_SRC
+enc - encryption
+-aes-256-cbc - the cipher
+in - input file
+of - output file
+
+** Decrypt a file
+#+BEGIN_SRC sh
+openssl enc -aes-256-cbc -in ~/Desktop/Tecmint/tecmint.txt -out ~/Desktop/Tecmint/tecmint.dat
+#+END_SRC
+enc - encryption
+-aes-256-cbc - the cipher used
+in - input file
+out - output file
+
 * Lecture
 * Tutorial
 ** Linux Academy - HeartBleed Bug
