@@ -6,9 +6,19 @@
 * Usage
 - copy a directory
 #+BEGIN_SRC sh
-cp -r /home/code test
+cp -r /home/user/code test
 #+END_SRC
 this will create a directory called test that contains all the files that code did
+
+- copy all the files inside a directory to another directory
+#+BEGIN_SRC sh
+cp -r /home/user1/code/. /home/user2/code/
+#+END_SRC
+
+- copy all files plus the attributes
+#+BEGIN_SRC sh
+cp -a /home/user1/code/. /home/user2/code/
+#+END_SRC
 
 - copy a directory, but only copy changed files
 #+BEGIN_SRC sh

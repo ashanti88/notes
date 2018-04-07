@@ -244,6 +244,8 @@ setsebool -P httpd_enable_homedirs on
 #+END_SRC
 P - persistantly
 
+** Setroubleshoot
+
 * Lecture
 ** A Fresh Look at SELinux - Daniel Walsh
 [[https://www.youtube.com/watch?v%3DX1NAJbLqEv8&list%3DWL&index%3D86][URL]]

@@ -1162,6 +1162,8 @@ emerge -pv www-client/firefox
 #+BEGIN_SRC sh
 emerge =www-client/firefox-32.3.0
 #+END_SRC
+* Alpine
+apk
 * Tutorial
 ** Linux Academy - Use Debian Package Management
 Guide: [[file://home/crito/Documents/Linux/Labs/debian-package-management-lab.pdf][Debian Package Management]]

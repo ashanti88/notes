@@ -1,1 +1,222 @@
+#+TAGS: lxc lxd linux_containers
 
+
+* LXC/LXD
+Homepage: https://linuxcontainers.org/lxd/getting-started-cli/
+Images: https://uk.images.linuxcontainers.org/
+
+* Description
+* Usage
+LXC - Linux Containers
+LXD - Linux Container Daemon
+
+- start
+#+BEGIN_SRC sh
+lxc start name_of_container
+#+END_SRC
+  
+- stop
+#+BEGIN_SRC sh
+lxc stop name_of_container
+#+END_SRC
+
+- list all containers
+#+BEGIN_SRC sh
+lxc list
+#+END_SRC
+
+- list all images
+#+BEGIN_SRC sh
+lxc image list
+#+END_SRC
+
+- delete an image
+#+BEGIN_SRC sh
+lxc delete name_of_image
+#+END_SRC
+
+** Installing LXD on Ubuntu 16.04
+- install lxd and lxd-client
+#+BEGIN_SRC sh
+apt-get install lxd lxd-client
+#+END_SRC
+
+- configure lxd
+#+BEGIN_SRC sh
+lxd init
+#+END_SRC
+this will take you through choices for how you wold like storage and network to be configured
+
+- terminal output of installation and configuration
+#+BEGIN_EXAMPLE
+root@alickmitchell1:~# apt-get install lxd lxd-client
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+lxd is already the newest version (2.0.11-0ubuntu1~16.04.4).
+lxd-client is already the newest version (2.0.11-0ubuntu1~16.04.4).
+The following packages were automatically installed and are no longer required:
+  linux-aws-headers-4.4.0-1050 linux-headers-4.4.0-1050-aws linux-image-4.4.0-1050-aws
+Use 'sudo apt autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+root@alickmitchell1:~# lxd init
+Do you want to configure a new storage pool (yes/no) [default=yes]?
+Name of the storage backend to use (dir or zfs) [default=dir]:
+Would you like LXD to be available over the network (yes/no) [default=no]? yes
+Address to bind LXD to (not including port) [default=all]:
+Port to bind LXD to [default=8443]:
+Trust password for new clients:
+Again:
+Do you want to configure the LXD bridge (yes/no) [default=yes]?
+Warning: Stopping lxd.service, but it can still be activated by:
+  lxd.socket
+LXD has been successfully configured.
+#+END_EXAMPLE
+
+- confirm that lxd is working
+#+BEGIN_SRC sh
+lxc list
+#+END_SRC
+
+** Starting the default ubuntu container
+- list current containers
+#+BEGIN_SRC sh
+lxc list
+#+END_SRC
+
+- launch a container
+#+BEGIN_SRC sh
+lxc launch ubuntu:16.04 ubuntu
+#+END_SRC
+
+- connect to the container
+#+BEGIN_SRC sh
+lxc exec ubuntu -- /bin/bash
+#+END_SRC
+
+** Launching other distros
+The images server is where other distros can be found: https://uk.images.linuxcontainers.org/
+
+- lauch the alpine 3.4 image
+#+BEGIN_SRC sh
+lxc launch images:alpine/3.4/amd64 test_launch
+#+END_SRC
+format for launching an image server:distro/version/arch
+
+- connect to the alpine images
+#+BEGIN_SRC sh
+lxc exec test_launch -- /bin/ash
+#+END_SRC
+/bin/ash - this is the default sh for alpine (slim down version of bash)
+
+** Downloading an image to host
+#+BEGIN_SRC sh
+lxc image copy images:debian/buster/amd64 local: --alias deb
+#+END_SRC
+alias - this means that deb can be used in the place of the image name
+
+** Interacting with containers
+- running cmds from outside of the container
+#+BEGIN_SRC sh
+lxc exec name_of_container -- apt-get update
+#+END_SRC
+
+- edit a file on the container
+#+BEGIN_SRC sh
+lxc file edit name_of_container/etc/nginx/conf.d/default.conf
+#+END_SRC
+this will open the file in your default editor
+
+- moving files from the host to the container
+#+BEGIN_SRC sh
+lxc file push index.html name_of_container/var/www/index.html
+#+END_SRC
+
+** Create a snapshot of a container
+- create a snapshot
+#+BEGIN_SRC sh
+lxc snapshot name_of_container name_of_snapshot
+#+END_SRC
+
+*** Restore a snapshot
+#+BEGIN_SRC sh
+lxc restore name_of_container name_of_snapshot
+#+END_SRC
+this should be done with care as the original contianer will be deleted
+
+*** Create a duplicate container
+- first find out the name of the snapshot
+#+BEGIN_SRC sh
+lxc info name_of_container
+#+END_SRC
+it will be at the bottom of the information
+
+- now create the copy
+#+BEGIN_SRC sh
+lxc copy name_of_container/name_of_snapshot name_of_duplicate
+#+END_SRC
+
+- confim new container
+#+BEGIN_SRC sh
+lxc list
+#+END_SRC
+the new container should be present, if no ipv4 addr, just wait a few seconds and retry
+
+*** Deleting snapshots
+- view current snapshots
+#+BEGIN_SRC sh
+lxc info name_of_container
+#+END_SRC
+
+- found the name of the snapshot
+#+BEGIN_SRC sh
+lxc delete name_of_container/snapshot_to_delete
+#+END_SRC
+
+** Find information on a container
+- find information on a container
+#+BEGIN_SRC sh
+lxc info name_of_container
+#+END_SRC
+
+- example of output
+#+BEGIN_EXAMPLE
+root@alickmitchell1:~# lxc info web
+Name: web
+Remote: unix://
+Architecture: x86_64
+Created: 2018/04/07 06:41 UTC
+Status: Running
+Type: persistent
+Profiles: default
+Pid: 25189
+Ips:
+  eth0: inet    10.163.212.16   vethPXTWN0
+  eth0: inet6   fd7f:16ac:1226:77ff:216:3eff:fe06:201e  vethPXTWN0
+  eth0: inet6   fe80::216:3eff:fe06:201e        vethPXTWN0
+  lo:   inet    127.0.0.1
+  lo:   inet6   ::1
+Resources:
+  Processes: 6
+  Memory usage:
+    Memory (current): 63.36MB
+    Memory (peak): 309.86MB
+  Network usage:
+    eth0:
+      Bytes received: 22.10MB
+      Bytes sent: 42.77kB
+      Packets received: 1030
+      Packets sent: 541
+    lo:
+      Bytes received: 0B
+      Bytes sent: 0B
+      Packets received: 0
+      Packets sent: 0
+Snapshots:
+  initialconfig (taken at 2018/04/07 07:03 UTC) (stateless)
+#+END_EXAMPLE
+
+* Lecture
+* Tutorial
+* Books
+* Links

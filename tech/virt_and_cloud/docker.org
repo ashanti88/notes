@@ -17,6 +17,7 @@ CheatSheet: [[https://github.com/wsargent/docker-cheat-sheet][github.com/docker-
 /var/lib/docker/volumes -
 /var/run/docker.pid
 /var/run/docker.sock
+/home/user/.docker/config.json - this contains the dockerhub login creds
 * Cmds
 - docker-compose
 
@@ -89,10 +90,43 @@ once the container has run the command it will exit
 docker rm ae884abc2ba1
 #+END_SRC
 
+- remove multiple containers from memory
+#+BEGIN_SRC sh
+docker rm ae884abc2ba1 name_of_container 39efceafa4f0
+#+END_SRC
+you can mix container names with ids, just delimit with a space
+
 - remove all containers that are in memory
 #+BEGIN_SRC sh
 docker rm $(docker ps -a -q)
 #+END_SRC
+
+- force kill a running container
+#+BEGIN_SRC sh
+docker rm -f 39efceafa4f0
+#+END_SRC
+this will kill the container process and remove the container from memory
+
+- remove container by deleting file on the filesystem
+#+BEGIN_SRC sh
+systemctl stop docker
+cd /var/lib/docker/containers
+rm -rf 39efceafa4f084ccc495b4eb40af351eb66029c4091723eae16ca38299fede93
+#+END_SRC
+this would remove the container from docker, and won't be present when docker is restarted
+
+** Removing Base Images
+- remove a base image
+#+BEGIN_SRC sh
+docker rmi ubuntu:xenial
+#+END_SRC
+this will only work if there aren't currently any containers in memory that use the base image
+
+- remove a base image even if containers based on image
+#+BEGIN_SRC sh
+docker rmi -f ubuntu:xenial
+#+END_SRC
+containers in memory will still be available to use
 
 ** List containers
 - list all running containers
@@ -111,10 +145,20 @@ docker logs $DOCKER_ID
 #+END_SRC
 this will provide a print out of the activity in the container
 
-** Looks at all the info on a container
+** Info on a Containerss
 - overview
 #+BEGIN_SRC sh
 docker ps $DOCKER_ID
+#+END_SRC
+
+- view only running containers
+#+BEGIN_SRC sh
+docker ps
+#+END_SRC
+
+- view all containers that are stored in memory
+#+BEGIN_SRC sh
+docker ps -a
 #+END_SRC
 
 - more detailed view
@@ -122,10 +166,18 @@ docker ps $DOCKER_ID
 docker inspect name_of_container
 #+END_SRC
 
-** Shows public facing port of container
+- docker top
 #+BEGIN_SRC sh
-docker port $DOCKER_ID
+docker top name_of_container
 #+END_SRC
+this provides an updated overview of the container dynamically
+
+- view events over a period of time
+#+BEGIN_SRC sh
+docker events --since '1h'
+#+END_SRC
+
+** Shows public facing port of container
 
 ** Clean up non-used network interfaces
 #+BEGIN_SRC sh
@@ -147,7 +199,7 @@ docker version
 #+BEGIN_SRC sh
 docker info
 #+END_SRC
-** Interacing with a running instance
+** Interacting with a running instance
 - attach, makesure that a shell is available, or you'll attach to the processes
 #+BEGIN_SRC sh
 docker attach name_of_container
@@ -167,6 +219,12 @@ docker exec -u 0 -it peaceful_raman /bin/bash
 this will also not kill the container when root exits
 u - user
 0 - root
+
+- connect with exec to ensure that the container doesn't stop on exit
+#+BEGIN_SRC sh
+docker exec -i -it peaceful_raman /bin/bash
+#+END_SRC
+this will mean that another instance of bash is running on the system and when exited it won't stop
 
 ** Saving changes to a base image
 - start the the container
@@ -227,8 +285,7 @@ docker network ls --no-trunc
 docker network inspect bridge
 #+END_SRC
 
-** Network
-
+** Networking
 - Create a simple bridge network
 #+BEGIN_SRC sh
 docker network create --subnet 10.1.0.0/24 --gateway 10.1.0.1 mybridge01
@@ -260,6 +317,79 @@ docker run -it --name nettest1 --net bridge04 centos:latest /bin/bash
 docker run -it --name nettest1 --net bridge04 --ip 10.1.4.100 centos:latest /bin/bash
 #+END_SRC
 
+- show currently bound ports
+#+BEGIN_SRC sh
+docker port serene_hodgkin
+#+END_SRC
+
+- exposing a port to the host
+#+BEGIN_SRC sh
+docker run -itd -p 80 nginx:latest
+#+END_SRC
+this will use one the default ports on the host machine to bind 80
+
+- exposing the default ports
+#+BEGIN_SRC sh
+docker run -itd -P nginx
+#+END_SRC
+this will bind the ports that were set to expose in the image to a default port of the host
+
+- bind a port to localhost
+#+BEGIN_SRC sh
+docker run -itd -p 127.0.0.1:8081:80 nginx:latest
+#+END_SRC
+this now bind only localhost:8081 to port 80 of nginx
+
+- Setting dns for the container
+#+BEGIN_SRC sh
+docker run -it --dns=8.8.8.8 --name mycontainer1 ubuntu:latest /bin/bash
+#+END_SRC
+
+- Setting dns and search domain
+#+BEGIN_SRC sh
+docker run -it --dns=8.8.8.8 --dns-serach="mydomain.local" --name="mycontainer1" ubuntu:latest /bin/bash
+#+END_SRC
+
+** Mounting Volumes
+- mount a volume that is on the host on the container
+#+BEGIN_SRC sh
+docker run -it --name="local_vol" -v /home/user/docker/mydata:/mydata centos:latest /bin/bash
+#+END_SRC
+
+** Naming Containers
+- set our own name for the container
+#+BEGIN_SRC sh
+docker run -itd --name webtest1 nginx:latest
+#+END_SRC
+
+- rename a container
+#+BEGIN_SRC sh
+docker rename webtest1 nginx1
+docker rename 2f201820d435 nginx1
+#+END_SRC
+This can be done on both stopped and running containers
+
+** Pushing to DockerHub
+- login
+#+BEGIN_SRC sh
+docker login
+#+END_SRC
+this will then prompt you for your username and password
+
+- tag docker image that is to be pushed with the created repo on dockerhub
+#+BEGIN_SRC sh
+docker tag centos7/apache:v1 alickmitchell/customapache
+#+END_SRC
+
+- now push to repo
+#+BEGIN_SRC sh
+docker push alickmitchell/customapache
+#+END_SRC
+
+- logout
+#+BEGIN_SRC sh
+docker logout
+#+END_SRC
 
 * Installation on CentOS 7
 - first create a repo file to /etc/yum.repos.d/docker.repo
