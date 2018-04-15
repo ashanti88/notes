@@ -1,0 +1,10 @@
+#+TAGS: rexec inetutils
+
+
+* rexec
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

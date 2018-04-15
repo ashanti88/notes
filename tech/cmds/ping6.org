@@ -1,7 +1,7 @@
-#+TAGS: net op
+#+TAGS: ping6 ipv6 networking_tool
 
 
-* ping6                                                              :net:op:
+* ping6
 * Description
 * Usage
 * Lecture

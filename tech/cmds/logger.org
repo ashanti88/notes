@@ -1,7 +1,7 @@
-#+TAGS: lvm lvextend logical_volume_management
+#+TAGS: logger
 
 
-* lvextend
+* logger
 * Description
 * Usage
 * Lecture

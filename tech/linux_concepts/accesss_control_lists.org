@@ -3,8 +3,8 @@
 
 * Access Control Lists
 * Cmds
-- setfacl
-- getfacl
+- [[file://home/crito/org/tech/cmds/setfacl.org][setfacl]]
+- [[file://home/crito/org/tech/cmds/getfacl.org][getfacl]]
 
 * Description
 * Usage
@@ -21,7 +21,6 @@ setfacl -m u:starbug:rw file1.txt
 u - user
 rw - allow read write privs
 
-- 
 * Lecture
 * Tutorial
 * Books

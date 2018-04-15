@@ -1,1 +1,0 @@
-/home/crito/org/tech/linux_concepts/using_cron.org

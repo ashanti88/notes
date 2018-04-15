@@ -32,6 +32,9 @@
 - [[file://home/crito/org/tech/cmds/pwck.org][pwck]]
 - [[file://home/crito/org/tech/cmds/chsh.org][chsh]]
 - [[file://home/crito/org/tech/cmds/getent.org][getent]]
+- [[file://home/crito/org/tech/cmds/setfacl.org][setfacl]]
+- [[file://home/crito/org/tech/cmds/getfacl.org][getfacl]]
+
 
 * Description
 * Usage

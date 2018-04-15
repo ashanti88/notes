@@ -1,13 +1,126 @@
 #+TAGS: code pl
 
 
-* Perl                                                          :code:pl:
+* Perl
 HomePage: [[https://www.perl.org/][perl.org]]
 * Cmds
 * One liners
 - print a file in reverse
 #+BEGIN_SRC sh
 perl -e 'print reverse <>' file.txt
+#+END_SRC
+
+- find all lines that appear more than once
+#+BEGIN_SRC sh
+perl -ne 'print if $a{$_}++' file.txt
+#+END_SRC
+n - loop over the line, but doesn't automatically print the line like -p
+
+- print the line and the line number
+#+BEGIN_SRC sh
+perl -ne 'print "$. $_"' file.txt
+#+END_SRC
+
+- calculate the sum of all the numbers in the first column
+#+BEGIN_SRC sh
+perl -lane '$sum += $F[0]; END { print $sum }'
+#+END_SRC
+a   - splits the lines into columns
+@F  - this allows the fields to be accessed
+END - this block is executed after all code has been processed
+
+** Sys Admin
+- print all users on a system
+#+BEGIN_SRC sh
+perl -a -F: -lne 'print $F[4]' /etc/passwd
+#+END_SRC
+F - delimiter
+
+** Subsitution
+- substitute text in a file 
+#+BEGIN_SRC sh
+perl -pi -e 's/you/me/g' file.txt
+#+END_SRC
+p - code is executed on every line
+i - file is edited in place
+
+- substitute text in place and create a backup
+#+BEGIN_SRC sh
+perl -pi.bak -e 's/you/me/g' file.txt
+#+END_SRC
+i.bak - this creates a file.bak of the original file
+
+- perform substitution on multiple files
+#+BEGIN_SRC sh
+perl -pi -e 's/you/me/g' file1 file2 file3
+#+END_SRC
+
+- only perform the substitution on lines that contain 'we'
+#+BEGIN_SRC sh
+perl -pi -e 's/you/me/g if /we/' file.txt
+#+END_SRC
+
+- substitute on lines that only contain numbers
+#+BEGIN_SRC sh
+perl -pi -e 's/you/me/g if /\d/' file.txt
+#+END_SRC
+
+** Spacings
+- double spacing a file
+#+BEGIN_SRC sh
+perl -pe '$\ = "\n"' file.txt
+#+END_SRC
+p - prints $_ followed by $\, here $\ was set to newline
+
+
+the above is equivalent to
+#+BEGIN_SRC pl
+while (<>) {
+	$_ = $_ . "\n"
+} continue {
+	print or die "-p failed: $!\n";
+}
+#+END_SRC
+
+
+- double spacing with substitution
+#+BEGIN_SRC sh
+perl -pe 's/$/\n/' file.txt
+#+END_SRC
+
+
+- use say operator to add a newline
+#+BEGIN_SRC sh
+perl -nE 'say' file.txt
+#+END_SRC
+say - does as print but adds a \n
+E   - adds the functionality of Perl 5.10 features
+
+
+- double spacing a file, but exclding the blank lines
+#+BEGIN_SRC sh
+perl -pe '$\ .= "\n" unless /^$/'
+perl -pe '$\ .= "\n" if /\S/'
+#+END_SRC
+\S - any none white character
+
+
+- add a blank line before each line
+#+BEGIN_SRC sh
+perl -pe 's/^/\n/' 
+#+END_SRC
+
+
+- remove all blank lines
+#+BEGIN_SRC sh
+perl -ne 's/^$/'
+perl -lne 'print if length'
+#+END_SRC
+l - automatically chomps the \n of a line
+length - this gives the length of the line, 0 being a blank line and false
+
+#+BEGIN_SRC sh
+perl -ne 'print if /\S/'
 #+END_SRC
 
 * Overview
@@ -18,4 +131,5 @@ perl -e 'print reverse <>' file.txt
 [[file://home/crito/Documents/Perl/Advanced_Perl_Programming_2e.pdf][Advanced Perl Programming]]
 [[file://home/crito/Documents/Perl/Mastering_Perl.pdf][Mastering Perl]]
 [[file://home/crito/Documents/Perl/Mastering_Algorithms_with_Perl.pdf][Mastering Algorithms with Perl]]
+[[file://home/crito/Documents/Perl/Perl_One-Liners.pdf][Perl One-Liners]]
 * Links

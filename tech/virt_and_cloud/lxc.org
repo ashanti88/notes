@@ -5,6 +5,8 @@
 Homepage: https://linuxcontainers.org/lxd/getting-started-cli/
 Images: https://uk.images.linuxcontainers.org/
 
+* Files
+/var/lib/lxd/containers - this is where containers are stored (contents is similar to what an exported image looks like)
 * Description
 * Usage
 LXC - Linux Containers
@@ -115,6 +117,18 @@ lxc image copy images:debian/buster/amd64 local: --alias deb
 #+END_SRC
 alias - this means that deb can be used in the place of the image name
 
+** Exporting an image to a directory
+- create the directory to hold the image
+#+BEGIN_SRC sh
+mkdir image_dir
+#+END_SRC
+
+- export the image to the directory
+#+BEGIN_SRC sh
+lxc image export name_of_image image_dir
+#+END_SRC
+the image will be exported as a tar.xz file
+
 ** Interacting with containers
 - running cmds from outside of the container
 #+BEGIN_SRC sh
@@ -215,6 +229,44 @@ Resources:
 Snapshots:
   initialconfig (taken at 2018/04/07 07:03 UTC) (stateless)
 #+END_EXAMPLE
+
+** Creating a LXC image
+- use a container(that is stopped) or snapshot
+#+BEGIN_SRC sh
+lxc publish web/1.0 --alias my_nginx_alpine
+#+END_SRC
+web/1.0 - this is the web container 1.0 snapshot
+
+** Remotes
+This is where you can pull images from
+
+- view current remotes that images can be pulled from
+#+BEGIN_SRC sh
+lxc remote list
+#+END_SRC
+
+*** adding a remote machine
+- on remote that has lxd already configured
+#+BEGIN_SRC sh
+lxc config set core.https_address "[::]:8443"
+lxc config set core.trust_password secret
+#+END_SRC
+
+- on local
+#+BEGIN_SRC sh
+lxc remote add name_of_remote 172.31.23.109:8443 --password=secret
+#+END_SRC
+
+This means that commands can now be executed on the localhost for the remote machine
+#+BEGIN_SRC sh
+lxc list name_of_remote:
+lxc image list name_of_remote:
+#+END_SRC
+
+*** launching a container on the remote
+#+BEGIN_SRC sh
+lxc launch name-of-image name_of_remote:name_of_new_container
+#+END_SRC
 
 * Lecture
 * Tutorial

@@ -111,9 +111,17 @@ setxkbmap gb
 * Books
 * Links
 
+
 * Manjaro
 * Description
 * Usage
+** Mirror List Error
+- this will update the mirror list /etc/pacman.d/mirrorlist
+#+BEGIN_SRC sh
+sudo pacman-mirrors --fasttrack && sudo pacman -Syyu
+#+END_SRC
+this will create the file with the fastest mirrors at the top
+
 * Lecture
 * Tutorial
 * Books

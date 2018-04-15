@@ -58,7 +58,6 @@ grep -e '[[:lower:]]' a.txt
 grep -e '[[:upper:]]' a.txt
 #+END_SRC
 
-
 ** Search entire directory for pattern
 #+BEGIN_SRC sh
 grep crito /etc/*

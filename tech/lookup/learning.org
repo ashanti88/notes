@@ -252,8 +252,7 @@ file://home/crito/Documents/Security/Red/XSS_Attacks-Cross_Site_Scripting_Exploi
 **** TODO [[file://home/crito/Documents/Ruby/Build_Awesome_Command-Line_Applications_in_Ruby.pdf][Build Awesome Command-line Applications in Ruby]]
 **** TODO [[file://home/crito/Documents/Ruby/Everyday_Scripting_with_Ruby-For_Teams_Testers_and_You.pdf][Everyday Scripting with Ruby - For Teams, Testers and You]] 
 *** Perl
-**** TODO [[file://home/crito/Documents/Perl/Mastering_Perl.pdf][Mastering Perl - O'Reilly]]
-     - State "TODO"       from ""           [2017-01-15 Sun 17:38]
+**** WORKING [[file://home/crito/Documents/Perl/Mastering_Perl.pdf][Mastering Perl - O'Reilly]]
 **** TODO [[file://home/crito/Documents/Perl/Pro_Perl.pdf][Pro Perl - Apress]]
      - State "TODO"       from ""           [2017-01-15 Sun 17:42]
 **** TODO [[file://home/crito/Documents/Perl/Programming_the_Perl_DBI.pdf][Programming the Perl DBI - O'Reilly]]
@@ -271,7 +270,8 @@ file://home/crito/Documents/Security/Red/XSS_Attacks-Cross_Site_Scripting_Exploi
 **** TODO [[file://home/crito/Documents/Python/Automate_the_Boring_Stuff_with_Python.pdf][Automate the Boring Stuff with Python - No Starch Press]]
      - State "TODO"       from ""           [2017-01-15 Sun 17:58]
 *** Lisp
-**** TODO [[file://home/crito/Documents/Lisp/An_Introduction_to_LISP.pdf][An Introduction to LISP]]
+**** DONE [[file://home/crito/Documents/Lisp/An_Introduction_to_LISP.pdf][An Introduction to LISP]]
+     - State "DONE"       from "TODO"       [2018-04-07 Sat 16:03]
      - State "TODO"       from ""           [2017-01-15 Sun 18:02]
 
 **** TODO [[file://home/crito/Documents/Lisp/ANSI_Common_Lisp-Paul_Graham.pdf][ANSI Common Lisp - Paul Graham]]
@@ -280,37 +280,13 @@ file://home/crito/Documents/Security/Red/XSS_Attacks-Cross_Site_Scripting_Exploi
      - State "TODO"       from ""           [2017-01-15 Sun 18:07]
 **** TODO [[file://home/crito/Documents/Lisp/The_Little_Schemer_Series/The_Reasoned_Schemer.pdf][The Reasoned Schemer]]
      - State "TODO"       from ""           [2017-01-15 Sun 18:10]
+** Linux_Kernel
+*** DONE Kernel Drivers
+    - State "DONE"       from "TODO"       [2017-04-07 Sat 16:02]
 ** Bash
-*** Linux_Kernel
-**** TODO Kernel Drivers
 *** General
 **** [[file://home/crito/Documents/Programming/Complete_Code_2.pdf][Complete Code 2]] - Steve McConnell
 ** HW
-* Courses
-** Edx
-*** TODO Introduction to DevOps
-*** TODO Introduction to Data Storage and Management Technologies
-*** TODO Embedded Systems - Shape the World
-*** TODO Introduction to Apache Spark
-*** TODO Distributed Machine Learning with Apache Spark
-*** TODO Computation Structures 1: Digital Circuits
-*** TODO Introduction to MongoDB using the Mean Stack
-*** TODO Introduction to Cloud Infrastructure
-*** DONE Introduction to OpenStack
-*** TODO Introduction to Linux
-** Coursera
-*** TODO Ruby on Rails:An Introduction
-*** TODO Programming Languages Part A
-** Cybrary
-*** TODO CompTIA SECURITY+
-** Udacity
-*** TODO Advanced Operating Systems
-*** TODO Intro to Relational Database
-*** DONE How to Use Git and GitHub
-*** DONE Programming Foundations with Python
-*** TODO Data Wrangling with MongoDB
-*** TODO Software Development Process
-** Open Yale 
 * PD
 ** System
 *** TODO NIS server 

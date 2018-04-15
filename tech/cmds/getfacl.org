@@ -1,0 +1,10 @@
+#+TAGS: getfacl access_control_list
+
+
+* getfacl
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

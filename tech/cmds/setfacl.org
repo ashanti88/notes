@@ -1,0 +1,30 @@
+#+TAGS: setfacl access_control_lists
+
+
+* setfacl
+* Description
+* Usage
+- add multiple groups to a directory
+#+BEGIN_SRC sh
+setfacl -m g:finance /home/user/finance/
+#+END_SRC
+m - modifiy
+
+- add an other named user
+#+BEGIN_SRC sh
+setfacl -m u:starbug:rw file1.txt
+#+END_SRC
+u - user
+rw - allow read write privs
+
+- revoke all acl additions, and return file to original owner and group
+#+BEGIN_SRC sh
+setfacl -Rb /usr/bin/core_perl/
+#+END_SRC
+R - recursivly on all underlying files
+b - remove all extented acl enteries
+
+* Lecture
+* Tutorial
+* Books
+* Links

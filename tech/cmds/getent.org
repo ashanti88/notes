@@ -15,6 +15,11 @@ getent testuser passwd
 getent www.google.com
 #+END_SRC
 
+- get the hostname for an ip address
+#+BEGIN_SRC sh
+getent hosts 213.163.64.209
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

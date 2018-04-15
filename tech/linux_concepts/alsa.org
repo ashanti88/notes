@@ -1,4 +1,7 @@
+#+TAGS: alsa linux_sound
 
+
+* ALSA
 * Description
 * Interfaces
 - Information Interface

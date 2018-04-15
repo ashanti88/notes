@@ -786,6 +786,99 @@ conn.close
 GitHub: https://github.com/linuxacademy/content-python-for-sys-admins.git 
 
 * Books
+** [[file://home/crito/Documents/Python/Python_for_Unix_and_Linux_System_Administration.pdf][Python for Unix and Linux System Administration]]
+*** Python scripting basics
+- list a directory with long listing
+#+BEGIN_SRC sh
+ls -l /etc/
+#+END_SRC
+
+#+BEGIN_SRC py
+#!/usr/bin/env python
+
+import subprocess
+
+subprocess.call(["ls","-l","/etc/"
+#+END_SRC
+
+- system information script(bash
+#+BEGIN_SRC sh
+#!/usr/bin/env bash
+# System Information Gathering Script
+
+# Command 1
+UNAME="uname -a"
+printf "Gathering system information with the $UNAME command: \n\n"
+$UNAME
+
+# Command 2
+DISKSPACE="df -h"
+printf "Gathering system information with the $DISKSPACE command: \n\n"
+$DISKSPACE
+#+END_SRC
+
+- system information script(python)
+#+BEGIN_SRC py
+#!/usr/bin/env python
+# System Information Gathering Script
+
+# Command 1
+uname = "uname"
+uname_arg = "-a"
+print("Gathering system information with the %s command: \n" % uname)
+subprocess.call([uname, uname_arg])
+
+# Command 2
+diskspace = "df"
+diskspace_arg = "-h"
+print("Gathering system information with the %s command: \n" % diskspace)
+subprocess.call([diskspace, diskspace_arg])
+#+END_SRC
+
+- system information script with functions(python)
+#+BEGIN_SRC py
+#!/usr/bin/env python
+# System Information Gathering Script
+
+# Command 1
+def uname_func():
+    uname = "uname"
+    uname_arg = "-a"
+    print("Gathering system information with the %s command: \n" % uname)
+    subprocess.call([uname, uname_arg])
+
+# Command 2
+def disk_func():
+    diskspace = "df"
+    diskspace_arg = "-h"
+    print("Gathering system information with the %s command: \n" % diskspace)
+    subprocess.call([diskspace, diskspace_arg])
+    
+def main():
+    uname_func()
+    disk_func()
+    
+main()
+#+END_SRC
+
+- creating scripts that allow functions to be pulled from inside of python shell or ipython
+#+BEGIN_SRC py
+def main():
+    uname_func()
+    disk_func()
+    
+if __name__ == "__main__":
+    main()
+#+END_SRC
+adding the if __name__ allows for scripts to be imported and the functions they contain to be used independently
+the functions can be called using the standard python method of library.function()
+
+*** Editing files from within ipython
+#+BEGIN_EXAMPLE
+edit filename.py
+#+END_EXAMPLE
+this will open the named file with your default editor
+
 * Links
 
 
