@@ -268,7 +268,344 @@ lxc image list name_of_remote:
 lxc launch name-of-image name_of_remote:name_of_new_container
 #+END_SRC
 
+** Open a port on a LXC container and the host
+- ip forwarding needs to be enabled on the host
+#+BEGIN_SRC sh
+sysctl net.ipv4.ip_forward
+#+END_SRC
+if this returns a 0 the run the following cmds to enable
+
+#+BEGIN_SRC sh
+echo 1 > /proc/sys/net/ipv4/ip_forward
+sysctl -p /etc/sysctl.conf
+systemctl restart network.service
+#+END_SRC
+
+- now connect port 80 on the host with port 80 on the container with an IP rule
+#+BEGIN_SRC sh
+iptables -t nat -A PREROUTING -i eth0 -p tcp -m tcp --dport 80 -j DNAT --to 10.24.69.17:80
+#+END_SRC
+
+** Use Nginx as a Load balancer for a number of Containers
+- launch the intial containers
+#+BEGIN_SRC sh
+lxc launch imagees:alipine/3.5 web1
+lxc exec web1 -- apk update
+lxc exec web1 -- apk add nginx
+#+END_SRC
+
+- edit the nginx.conf
+#+BEGIN_SRC sh
+lxc file edit web1/etc/nginx/conf.d/default.conf
+#+END_SRC
+
+#+BEGIN_EXAMPLE
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+
+	root /var/www/;
+}
+#+END_EXAMPLE
+
+- provide a /var/www/index.html
+#+BEGIN_SRC sh
+vim index.html
+lxc file push index.html web1/var/www/index.html
+#+END_SRC
+
+- make sure the nginx service starts on a container restart
+#+BEGIN_SRC sh
+lxc exec web1 -- rc-update add nginx default
+#+END_SRC
+
+- start the service
+#+BEGIN_SRC sh
+lxc exec web1 -- /etc/init.d/nginx start
+#+END_SRC
+
+- create a snapshot
+#+BEGIN_SRC sh
+lxc snapshot web1 1.0
+#+END_SRC
+
+- copy two more instances of the snapshot
+#+BEGIN_SRC sh
+lxc copy web1/1.0 web2
+lxc copy web1/1.0 web3
+#+END_SRC
+
+- edit the two new instances /var/www/index.html to be what is required
+  
+- start the two new containers
+#+BEGIN_SRC sh
+lxc start web2
+lxc start web3
+#+END_SRC
+
+- create an nginx load blancer
+#+BEGIN_SRC sh
+lxc copy web1/1.0 lb
+#+END_SRC
+
+- edit the /etc/nginx/conf.d/default.conf
+#+BEGIN_SRC sh
+lxc file edit lb/etc/nginx/conf.d/default.conf 
+#+END_SRC
+
+#+BEGIN_EXAMPLE
+upstream lb-web {
+
+	server web1;
+
+	server web2;
+
+	server web3;
+
+}
+
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+
+	location / {
+
+		proxy_pass http://lb-web;
+	}
+}
+#+END_EXAMPLE
+- if more containers are to be added, then all that is need it the container name is add to the above config
+  - likewise if a containers is to be removed, then it just needs to be removed from the file, but makesure that you clean up the containers 
+  
+- start the lb
+#+BEGIN_SRC sh
+lxc start lb
+#+END_SRC
+
+- test that the loadbalancer is serving the different containers
+#+BEGIN_SRC sh
+curl 10.10.10.12
+curl 10.10.10.12
+curl 10.10.10.12
+curl 10.10.10.12
+#+END_SRC
+do this serveral timees and different index.html pages should be served indicating that different containers are being load balanced
+
+- using ip tables we can now bind the lb container to the host's port 80, 
+  - confirm that ipv4.ip_forward is enabled on the host
+#+BEGIN_SRC sh
+sysctl net.ipv4.ip_forward
+#+END_SRC
+this should return a 1, if not it needs to be enabled and view the above section on opening ports on lxc containers
+
+- add the ip rule to the host that will enable ports on the containers to talk with the host
+#+BEGIN_SRC sh
+iptables -t nat -A PREROUTING -i eth0 -p tcp -m tcp --dport 80 -j DNAT --to 10.10.10.12:80
+#+END_SRC
+10.10.10.12:80 is the lb, and now when the hosts port 80 is accessed remote machines will be accessing the containers through the load balancer container
+
+** Deploy a microservice on Ubuntu container
+- launch the ubuntu image
+#+BEGIN_SRC sh
+lxc launch m1
+#+END_SRC
+
+- connect to the container
+#+BEGIN_SRC sh
+lxc exec m1 -- bash
+#+END_SRC
+
+- on the container build the LEMP stack
+Nginx
+#+BEGIN_SRC sh
+apt-get update
+apt-get install nginx
+curl localhost
+#+END_SRC
+MySQL
+#+BEGIN_SRC sh
+apt-get install mysql-server
+mysql_secure_installation
+#+END_SRC
+PHP
+#+BEGIN_SRC sh
+apt-get install php-fpm php-mysql php7
+vim /etc/php/7.0/fpm/php.ini
+#+END_SRC
+change from 1 to 0
+#+BEGIN_EXAMPLE
+cgi.fix_pathinfo=0
+#+END_EXAMPLE
+#+BEGIN_SRC 
+systemctl restart php7.0-fpm
+#+END_SRC
+
+- edit the /etc/nginx/sites-available/default to allow for index.php and add the ip of the container to the server_name
+#+BEGIN_EXAMPLE
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/www/html;
+
+    index index.php index.html index.htm index.nginx-debian.html;
+    server_name 10.10.10.240;
+    location / {
+
+
+        try_files $uri $uri/ =404;
+    }
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+    }
+
+    location ~ /\.ht {
+        deny all;
+    }
+}
+#+END_EXAMPLE
+
+- check nginx config files
+#+BEGIN_SRC sh
+nginx -t
+#+END_SRC
+
+- restart nginx
+#+BEGIN_SRC sh
+systemctl restart nginx
+#+END_SRC
+
+- test php by adding a info.php to /var/www/html/
+#+BEGIN_EXAMPLE
+<?php phpinfo(); ?>
+#+END_EXAMPLE
+- curl to confirm
+#+BEGIN_SRC sh
+curl localhost/info.php
+#+END_SRC
+
+- exit the container and create a snapshot
+#+BEGIN_SRC sh
+lxc snapshot m1 lempstack
+#+END_SRC
+
+- move the microservice files to the container
+#+BEGIN_SRC sh
+lxc file push *.php m1/var/www/html/
+#+END_SRC
+
+*** The Microservice files
+- insert.php
+#+BEGIN_SRC php
+<php
+##
+# insert.php
+#
+# This is the sample microservice.  It takes the POST variable after "add" and adds the new name to the database
+#
+# run it like:
+# curl localhost/insert.php?add=chad
+# curl localhost/insert.php?add=terry
+# curl localhost/insert.php?add=anthony
+$servername = "localhost";
+$username = "root";
+$password = "YOURPASSWORDHERE";
+$newname = $_GET['add'];
+if ($newname == "") {
+   die("1");
+ }
+$conn = new mysqli($servername, $username, $password, 'myDB');
+if ($conn->connect_error) {
+    die("1");
+}
+$sql = "INSERT INTO t1 (firstname)
+VALUES ('$newname')";
+
+if ($conn->query($sql) === TRUE) {
+    echo "0";
+} else {
+    echo "1";
+}
+?>
+#+END_SRC
+
+- installdb.php
+#+BEGIN_SRC php
+<php 
+##
+#installdb.php
+#
+# Run this to drop/create the database and set up the tables.
+# Run this before either
+# of the others with
+# curl localhost/installdb.php
+#
+$servername = "localhost";
+$username = "root";
+$password = "YOURPASSWORDHERE";
+$conn = new mysqli($servername, $username, $password);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error . "\n");
+}
+$sql = "DROP DATABASE myDB";
+$conn->query($sql);
+$sql = "CREATE DATABASE myDB";
+if ($conn->query($sql) === TRUE) {
+    echo "Database created successfully\n";
+} else {
+    echo "Error creating database: " . $conn->error . "\n";
+}
+$conn = new mysqli($servername, $username, $password, 'myDB');
+$sql = "CREATE TABLE t1 (
+id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+firstname VARCHAR(30) NOT NULL,
+reg_date TIMESTAMP
+)";
+if ($conn->query($sql) === TRUE) {
+    echo "Table t1 created successfully\n";
+} else {
+    echo "Error creating table: " . $conn->error . "\n";
+}
+$conn->close();
+?>
+#+END_SRC
+
+- list.php
+#+BEGIN_SRC php
+<php 
+##
+# list.php
+#
+# This is a utility script so you can see that names have been added to the database
+#
+# Run it like:
+# curl localhost/list.php
+$servername = "localhost";
+$username = "root";
+$password = "YOURPASSWORDHERE";
+$conn = new mysqli($servername, $username, $password, 'myDB');
+if ($conn->connect_error) {
+    die("1");
+}
+echo "\n";
+$sql = "SELECT firstname FROM t1";
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+        echo $row["firstname"] . ", ";
+    }
+} else {
+    echo "0 results";
+}
+echo "\n";
+$conn->close();
+?>
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books
+[[file://home/crito/Documents/SysAdmin/Virt/lxc-lxd-cheat-sheet.pdf][LXC LXD Cheat Sheet]]
 * Links

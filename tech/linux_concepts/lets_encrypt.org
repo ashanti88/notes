@@ -1,0 +1,12 @@
+#+TAGS: lets_encrypt ssl_certificates ssl_certs
+
+
+* Lets Encrypt
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links
+https://linuxacademy.com/blog/linuxacademy-com/wildcard-certificates-with-lets-encrypt-and-nginx/
+

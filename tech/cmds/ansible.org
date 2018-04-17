@@ -993,10 +993,8 @@ this will pull a huge amount of data
 ansible host_name -m setup -a 'filter=*ipv4*'
 #+END_SRC
 
-
-
 ** Linux Academy - Red Hat Certificate of Expertise in Ansible Automation Prep Course
-*** Lesson Four  - YAML Refresher
+*** YAML Refresher
 YAML Ain't Markup Language
   - distinguish it's purpose as data-orientated, rather than as document markup
   - Ansible prefers spaces to tabs
@@ -1025,7 +1023,21 @@ YAML Ain't Markup Language
 #+END_EXAMPLE
 makesure that spaces are used instead of tabs
 
-*** Lesson Five  - Creating Lab Servers
+- simple example playbook
+#+BEGIN_EXAMPLE
+--- # Comment line
+
+- hosts: apacheweb
+  user: ansible
+  sudo: yes
+  connection: ssh 
+  gater_facts: no
+  tasks:
+    - name: Install apache
+      action: yum name=httpd state=installed
+#+END_EXAMPLE
+
+*** Creating Lab Servers
 
 - Building the Lab Server
   - one ansible control server
@@ -1088,8 +1100,7 @@ this will create the .ssh/authorized_keys file on the control server
 ansible all -m ping
 #+END_SRC
 
-
-*** Lesson Six   - These are the core components in Ansible
+*** These are the core components in Ansible
 
 - Inventories
   - Static or local /etc/ansible/hosts
@@ -1150,8 +1161,7 @@ ansible all -m ping
   - command line tool ansible-vault is used to edit files
   - command line flag is used --ask-vault-pass or --vault-password-file
     
-
-*** Lesson Seven - What is an ad-hoc command
+*** What is an ad-hoc command
     
 - These are quick tasks
 
@@ -1180,7 +1190,7 @@ ansible test_one -b -a "/usr/sbin/reboot"
 a - module arguments
 b - become root
 
-*** Lesson Eight - Ad-hoc commands continued
+*** Ad-hoc commands continued
 - ping all machines
 #+BEGIN_SRC sh
 ansible all -m ping
@@ -1212,7 +1222,7 @@ ansilbe -b -m yum -a "name=elinks state=latest"
 ansilbe -b -m yum -a "name=elinks state=absent"
 #+END_SRC
 
-*** Lesson Nine  - Further Discussions about the ansible command
+*** Further Discussions about the ansible command
     
 - creating a hosts file myhosts
 #+BEGIN_EXAMPLE
@@ -1274,7 +1284,7 @@ ansible databases -m copy -a "src=/home/.zshrc dest=/home/.zshrc"
 ansilbe databases -m file -a "dest=./testfile mode=600"
 #+END_SRC
 
-*** Lesson Ten   - Overview of Static and Dynamic Inventories in Ansible 
+*** Overview of Static and Dynamic Inventories in Ansible 
 
 * Books
 ** [[file://home/crito/Documents/SysAdmin/Mgmt/Ansible/Ansible_Playbook_Essentials.pdf][Ansible Playbook Essentials - Packt]]

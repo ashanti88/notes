@@ -16,6 +16,14 @@
 7za x file.7z
 #+END_SRC
 
+** Compress and Encrypt directory
+#+BEGIN_SRC sh
+7z a -mhe=on -pPASSWORD name-of-dir.7z name-of-dir
+#+END_SRC
+a - archive
+mhe - enable 7z header encryption
+p - password
+
 * Lecture
 * Tutorial
 * Books

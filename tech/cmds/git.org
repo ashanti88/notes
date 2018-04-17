@@ -4,8 +4,36 @@
 * git
 HomePage: https://git-scm.com/
 
+* Files
+/etc/gitconfig             - system wide
+/home/user/.gitconfig      - user specific
+/home/user/repo/.gitconfig - repo specific
+
 * Description
 * Usage
+** Git Configuration
+- setting cedentials for user
+#+BEGIN_SRC sh
+git config --global user.name "Root User"
+git config --global user.email "root@localhost"
+git config --global core.edAXX2Re2w6xJdz1nyKBYwitor "vim"
+git config --global core.pager "more"
+git config --global core.excludesfile ~/.gitignore_global
+#+END_SRC
+
+- setting configuration for system
+#+BEGIN_SRC sh
+git config --system system.name "Git Repo Server 1"
+#+END_SRC
+any plain text variables can be added
+
+- setting files that need to be ignored
+.gitignore_global
+#+BEGIN_EXAMPLE
+*~
+#+END_EXAMPLE
+this will mean that all files with a ~ on the end will never be added to a repo for that user
+
 ** Create a new repo
 #+BEGIN_SRC sh
 git init 
@@ -113,6 +141,14 @@ The above error was throw as ssh didn't know about the github ssh-key
 > ssh-add github-key
 > ssh-add -l - this will show the added key in the list
 
+* Alternative Version Control
+Perforce
+Subversion - SVN
+Microsoft Visual SourceSafe (legacy)
+Mercurial
+TeamSite (Microsoft)
+Vault
+Bitkeeper - used to manage the linux kernel before git
 * Lecture
 * Tutorial
 ** LinuxAcademy - Git Quick Start
@@ -298,4 +334,3 @@ these commands will be written to /etc/gitconfig
  [[file://home/crito/Documents/Tools/Git/Mastering_Git.pdf][Mastering Git]]
  [[file://home/crito/Documents/Tools/Git/Pragmatic_Version_Control_Using_Git.pdf][Pragmatic Version Control Using Git]]
 * Links
-

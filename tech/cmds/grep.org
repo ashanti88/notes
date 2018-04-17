@@ -182,6 +182,61 @@ this will return all lines that don't contain hello or world
 grep -F
 #+END_SRC
 they are deprecated, but remain for backwards compatiability
+** Using Containers to confirm backups have been run correctly
+#+BEGIN_SRC sh
+#!/bin/bash
+
+LOGFILENAME=/home/user/testlog
+SEEDFILE=/home/user/Original
+BACKUPTEST=/home/user/Backup
+
+
+touch $LOGFILENAME
+
+lxc launch ubuntu test
+
+lxc file push /home/backup.tar.gz test/home/backup.tar.gz
+
+lxc exec test -- tar -xvf /home/backup.tar.gz -C /home
+
+lxc file pull test$SEEDFILE $BACKUPTEST
+
+if diff $SEEDFILE $BACKUPTEST >/dev/null ;
+
+then
+
+   #Success
+
+   echo "Success..."
+
+   lxc delete --force test
+
+   rm $BACKUPTEST
+
+   echo "[$(date +%d/%b/%Y:%H:%M:%S)] Testing Backup File [====Success====]" >> $LOGFILENAME
+
+else
+
+   #Fail
+
+   echo "+==========================+"
+
+   echo "| File Backup Test Failed  |"
+   echo "+==========================+"
+
+   echo "Check the container BackupFail$(date +%Y%m%d) for details."
+
+   lxc copy test BackupFail$(date +%Y%m%d)
+
+   lxc delete --force test
+
+   rm $BACKUPTEST
+
+   echo "[$(date +%d/%b/%Y:%H:%M:%S)] Testing Backup File [XXX FAIL XXX] See container BackupFail$(date +%Y%m%d) for details." >> $LOGFILENAME
+
+fi
+
+#+END_SRC
 * Lecture
 * Tutorial
 * Books

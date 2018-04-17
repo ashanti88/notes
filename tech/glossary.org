@@ -11,6 +11,8 @@ Wiki - https://en.wikipedia.org/wiki/Datagram_Congestion_Control_Protocol
 * DRM  - Direct Rendering Manager
 HomePage: https://dri.freedesktop.org/wiki/DRM/
 * FDT  - Flattened Device Tree
+* FD   - Fast Data Project
+Homepage: https://fd.io/
 * IIO  - Industrial I/O Subsystem
 https://wiki.analog.com/software/linux/docs/iio/iio
 * LDAP - Lightweight Directory Access Protocol
@@ -30,11 +32,19 @@ Wiki: https://en.wikipedia.org/wiki/Maximum_transmission_unit
 * NUMA - Non Uniform Memory Access 
 Wiki: https://en.wikipedia.org/wiki/Non-uniform_memory_access
 Non-uniform memory access (NUMA) is a computer memory design used in multiprocessing, where the memory access time depends on the memory location relative to the processor. Under NUMA, a processor can access its own local memory faster than non-local memory (memory local to another processor or memory shared between processors). The benefits of NUMA are limited to particular workloads, notably on servers where the data is often associated strongly with certain tasks or users.
+* ONAP - Open Network Automation Platform
+Homepage: https://www.onap.org/
+* OPNFV - Open Platform Network Function Virtulization
+Homepage: https://www.opnfv.org/
 * OSPF - Open Shortest Path First protocol
 wiki: https://en.wikipedia.org/wiki/Open_Shortest_Path_First
+* PNDA - Platform for Network Data Analysis
+Homepage: http://pnda.io/
 * RAC  - Real Application Clustering (oracle)
 * RESTful API - Repressentational State Transfer
 Wiki: https://en.wikipedia.org/wiki/Representational_state_transfer
+* SNAS - Streaming Network Analytics System
+Homepage: http://www.snas.io/
 * SNI  - Server Name Indication
 Server Name Indication (SNI) is an extension to the TLS computer networking protocol[1] by which a client indicates which hostname it is attempting to connect to at the start of the handshaking process. This allows a server to present multiple certificates on the same IP address and TCP port number and hence allows multiple secure (HTTPS) websites (or any other Service over TLS) to be served by the same IP address without requiring all those sites to use the same certificate. It is the conceptual equivalent to HTTP/1.1 name-based virtual hosting, but for HTTPS. The desired hostname is not encrypted,[2] so an eavesdropper can see which site is being requested.
 * SPI  - Serial Peripheral Interface bus

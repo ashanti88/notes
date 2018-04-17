@@ -5,6 +5,8 @@
 HomePage: [[https://www.gnupg.org/][gnupg.org]]
 * Cmds
 - dirmngr
+- gpg-zip - https://www.gnupg.org/documentation/manuals/gnupg/gpg_002dzip.html
+
 
 * Description
 
@@ -112,11 +114,42 @@ gpg -e -u 'Your id' -r 'Their id' file\_to\_encrypt.txt
 #+END_SRC
 
 *** Decrypting a file
+- single files
 #+BEGIN_SRC sh
-gpg --decrypt file\_to\_encrypt.txt.gpg > secret.txt
+gpg --decrypt file_to_decrypt.txt.gpg > secret.txt
+gpg -o secret.txt -d file_to_decrypt.txt.gpg
 #+END_SRC
 The file secret.txt will now contain the actual text file.
 
+- tar file
+#+BEGIN_SRC sh
+gpg --output test-comp.tar.gz --decrypt test-comp.tar.gpg
+gpg -o test-comp.tar.gz -d test-comp.tar.gpg
+#+END_SRC
+
+*** Encrypt a directory
+#+BEGIN_SRC sh
+gpg-zip -c -o file.gpg dirname
+#+END_SRC
+o - file output name
+without specifiying an encryption algorithm AES 128 is used
+
+- a more secure algorithm
+#+BEGIN_SRC sh
+gpg-zip -c -o file.gpg dirname --cipher AES256
+#+END_SRC
+the individual files will still be able to be viewed
+
+- placing the directory into a compressed tar file will stop the ability of listing the file
+#+BEGIN_SRC sh
+tar czvf name_of_dir.tar.gz name_of_dir 
+gpg ---cipher-algo AES256 -c -o name_of_dir.tar.gpg name_of_dir.tar.gz 
+#+END_SRC
+
+*** Decrypting a directory
+#+BEGIN_SRC sh
+gpg-zip -d file.gpg
+#+END_SRC
 * Lecture
 * Tutorial
 * Books

@@ -2,11 +2,60 @@
 
 
 * QEMU
+Wiki: https://wiki.qemu.org/Main_Page
+Gentoo Wiki: https://wiki.gentoo.org/wiki/QEMU/Options#Processor
+
 * cmds
 vde - Virtual Distributed Ethernet
 vde2 - Virtual Distributed Ethernet 2
 * Description
 * Usage
+** Options
+*** CPU
+-smp - this will select the number of cores to be used by the guest
+*** Memory
+-m size=128
+  - 128 is default if none is specified
+
+*** Boot options
+-boot order=
+  - a,b - floppy dirves
+  - c   - first hard drive
+  - d   - first cdrom
+
+*** Block Device
+-fda file
+  - floppy disk 0
+-fdb file
+  - floppy disk 1
+
+- hda file
+  - hard drive 0
+- hdb file
+  - hard drive 1
+- hdc file
+  - hard drive 2
+- hdd file
+  - hard drive 3
+    
+*** Network
+
+*** Display
+-vga <driver>
+  - cirrus
+    - Cirrus Logic GD5446 Video card. All Windows versions starting from Windows 95 should recognize and use this graphic card. For optimal performances, use 16 bit color depth in the guest and the host OS. (This card was the default before QEMU 2.2)
+  - std
+    - Standard VGA card with Bochs VBE extensions. If your guest OS supports the VESA 2.0 VBE extensions (e.g. Windows XP) and if you want to use high resolution modes (>= 1280x1024x16) then you should use this option. (This card is the default since QEMU 2.2)
+  - qxl
+    - QXL paravirtual graphic card. It is VGA compatible (including VESA 2.0 VBE support). Works best with qxl guest drivers installed though. Recommended choice when using the spice protocol.
+  - tcx
+    - (sun4m only) Sun TCX framebuffer. This is the default framebuffer for sun4m machines and offers both 8-bit and 24-bit colour depths at a fixed resolution of 1024x768.
+  - virtio
+    - Virtio VGA card.
+  - none
+    - Disable the VGA card.
+
+
 ** View available CPUs
 #+BEGIN_SRC sh
 qemu-system-arm -cpu help
@@ -18,6 +67,18 @@ this will list the available cpu's for ARM architecture
 #+BEGIN_SRC sh
 yaourt -S qemu qemu-extra-arch
 #+END_SRC
+
+** Installing VM from the cmd line
+- create the image
+#+BEGIN_SRC sh
+qemu-img create fedora.qcow 5G
+#+END_SRC
+
+- install the OS from the iso
+#+BEGIN_SRC sh
+sudo qemu-system-x86_64 -cdrom /home/crito/os_disk/GhostBSD11.1-mate-amd64.iso -hda gbsd.qcow -boot d -net nic -net user -m 2048 -localtime
+#+END_SRC
+boot d - first cdrom
 
 * Lecture
 ** [[https://01.org/linuxgraphics/gfx-docs/drm/process/coding-style.html][Emulating Raspberry Pi on Linux with QEMU Part 1]]
