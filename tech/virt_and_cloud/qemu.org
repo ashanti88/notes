@@ -55,7 +55,6 @@ vde2 - Virtual Distributed Ethernet 2
   - none
     - Disable the VGA card.
 
-
 ** View available CPUs
 #+BEGIN_SRC sh
 qemu-system-arm -cpu help
@@ -79,6 +78,11 @@ qemu-img create fedora.qcow 5G
 sudo qemu-system-x86_64 -cdrom /home/crito/os_disk/GhostBSD11.1-mate-amd64.iso -hda gbsd.qcow -boot d -net nic -net user -m 2048 -localtime
 #+END_SRC
 boot d - first cdrom
+
+** Launching a VM from the cmd line
+#+BEGIN_SRC sh
+qemu-system-x86_64 -hda trueos.qcow2 -boot c -net nic -net user -m 4096 -localtime -vga qxl -smp 2 -accel kvm,thread=multi
+#+END_SRC
 
 * Lecture
 ** [[https://01.org/linuxgraphics/gfx-docs/drm/process/coding-style.html][Emulating Raspberry Pi on Linux with QEMU Part 1]]

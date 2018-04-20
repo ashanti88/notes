@@ -129,10 +129,16 @@ etstat -c
 etstat --verbose
 +END_SRC
 
-** Display the kernel routing information
-+BEGIN_SRC sh
-etstat -r
-+END_SRC
+** Display routing information
+- display the kernel routing tables
+#+BEGIN_SRC sh
+netstat -r
+#+END_SRC
+
+- display the same as above, but use octal notation not domain names
+#+BEGIN_SRC sh
+netstat -rn
+#+END_SRC
 
 ** Show a list of network interfaces
 +BEGIN_SRC sh

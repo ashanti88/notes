@@ -64,8 +64,14 @@ ip route add default
 #+END_SRC
 
 ** Viewing Routes
+- show the routing information
 #+BEGIN_SRC sh
 ip route show
+#+END_SRC
+
+- same as above
+#+BEGIN_SRC sh
+ip route list
 #+END_SRC
 
 ** Arp Table
@@ -89,6 +95,29 @@ ip rule list
 #+BEGIN_SRC sh
 ip -s link show eth0
 #+END_SRC
+
+** static route
+- check the current routing information
+#+BEGIN_SRC sh
+ip route list
+#+END_SRC
+
+- add the new route
+#+BEGIN_SRC sh
+ip route add 216.58.217.0/24 via 10.208.192.1 dev eth1
+#+END_SRC
+this will be added to the routing information
+
+- remove the added route
+#+BEGIN_SRC sh
+ip route del 216.58.217.0/24 via 10.208.192.1 dev eth1
+#+END_SRC
+
+*** Create persistant route (rhel7)
+/etc/sysconfig/static-routes
+#+BEGIN_EXAMPLE
+any net 172.192.201.0 netmask 255.255.255.0 gw 162.242.253.1 dev eth0
+#+END_EXAMPLE
 
 * Lecture
 * Tutorial

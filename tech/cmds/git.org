@@ -34,12 +34,6 @@ any plain text variables can be added
 #+END_EXAMPLE
 this will mean that all files with a ~ on the end will never be added to a repo for that user
 
-** Create a new repo
-#+BEGIN_SRC sh
-git init 
-#+END_SRC
-do this inside the directory to create a repo
-
 ** Setting user creds
 -setting username
 #+BEGIN_SRC sh
@@ -56,17 +50,60 @@ git config --global user.email "mitchell.alick@gmail.com"
 git config --global core.editor vim
 #+END_SRC
 
-** Clone
+** Create a new repo
 #+BEGIN_SRC sh
-git clone https://github.com:AlickMitchell/notes.git
+git init 
+#+END_SRC
+do this inside the directory to create a repo
+
+** Removing files from git
+- first remove the file
+#+BEGIN_SRC sh
+rm filename
 #+END_SRC
 
+- now we have to remove the file from git
+#+BEGIN_SRC sh
+git rm filename
+#+END_SRC
+
+** gitignore
+- this shouldn't be added to the repo, it will still have effect
+
+** Clone
+- copying a repo
+#+BEGIN_SRC sh
+cp -r /repo /repo2
+#+END_SRC
+This will give you a full copy of the original, but will not be linked.
+  - Will not be able to push or pull too
+    
+- cloning a repo
+#+BEGIN_SRC sh
+git clone /repo /home/user2/repo
+#+END_SRC
+Now these two repos will be able to communicate with each other
+
+- cloning to another machine over ssh
+#+BEGIN_SRC sh
+ssh-keygen
+ssh-copy-id user@192.168.0.10
+#+END_SRC
+Though this isn't nessesary it does make for a less hindered process in the future
+
+- clone the to the remote server
+#+BEGIN_SRC sh
+git clone user@192.168.0.10:/home/user/repo localrepo
+#+END_SRC
+We are pulling from the remote repo on 192.168.0.10 to our machine
+
 ** Commits
-1. add files to repo for commit
+- add files to repo for commit
 #+BEGIN_SRC sh
 git <file_name> | > git *
 #+END_SRC
-2. now make the commit
+
+- now make the commit
 #+BEGIN_SRC sh
 git commit -m "message to be added"
 #+END_SRC
@@ -92,6 +129,11 @@ git checkout master
 git branch -d <branch>
 #+END_SRC
 
+- show all branches
+#+BEGIN_SRC sh
+git branch -a
+#+END_SRC
+
 ** Update & Merge
 - update repo to most current
 #+BEGIN_SRC sh
@@ -103,16 +145,96 @@ git pull
 git merge branch
 #+END_SRC
 
+- merge development into master and retain all commit messages
+on master
+#+BEGIN_SRC sh
+git merge development --no-ff
+#+END_SRC
+no-ff - this indicates to keep all commit messages prior to the merge
+
 ** Removing files after being added to .gitignore
-1. add the file to the .gitignore
-2. > git rm -r --cached <file>
-3. then add and commit
+- add the file to the .gitignore
+
+- remove the file from the repo history
+#+BEGIN_SRC sh
+git rm -r --cached <file>
+#+END_SRC
+
+- then add and commit
+#+BEGIN_SRC sh
+git add *
+git commit -m "file added to .gitignore"
+#+END_SRC
 
 ** Reset
 - if you have made a change to a branch and would like to go back to the original state
 #+BEGIN_SRC sh
 git reset --hard
 #+END_SRC
+
+** Tags
+These point to a commit and will never change
+  - these are handy for pointing to versions of software
+    
+- Two types
+  - annotate
+  - non-annotated
+    
+- adding a non-annotated tag
+#+BEGIN_SRC sh
+git tag tag1
+#+END_SRC
+this will pin a tag to the current commit point
+
+- show all tags
+#+BEGIN_SRC sh
+git tag
+#+END_SRC
+
+- show what has happend since the tag was added
+#+BEGIN_SRC sh
+git show tag1
+#+END_SRC
+
+** Git Log
+- view all commits of a repo
+#+BEGIN_SRC sh
+git log
+#+END_SRC
+
+- more specific log search
+#+BEGIN_SRC sh
+git log -p -2 
+#+END_SRC
+p - difference introduced to the commit
+2 - show only the last two commits
+
+- git log with statistics
+#+BEGIN_SRC sh
+git log --stat
+#+END_SRC
+this show all file changes that occured with that commit
+
+- view commit message and commit hash on oneline
+#+BEGIN_SRC sh
+git --pretty=oneline
+#+END_SRC
+
+- select your own format
+#+BEGIN_SRC sh
+git log --pretty=format:"%h: %an, %ae, %cn, - %s"
+#+END_SRC
+h  - host
+an - author name
+ae - author email
+cn - person that commits name
+s  - subject
+
+- view the log with graph
+#+BEGIN_SRC sh
+git log --graph
+#+END_SRC
+-- graph can be used with the other log formats
 
 * Github
 - SSH test
@@ -126,20 +248,30 @@ This will return a message that github doesn't allow shell access, but allows yo
 - check the .git/config makesure that it is connecting over ssh not https
   - url = git@github.com:AlickMitchell/notes.git
 
+*** Pushing a new branch to Github
+#+BEGIN_SRC sh
+git push origin development
+#+END_SRC
+where development is the new branch being pushed to Github
+
 *** Error
+#+BEGIN_EXAMPLE
 19:13:43 ajax:~/org$ git push origin master
 Permission denied (publickey).
 fatal: Could not read from remote repository.
 
 Please make sure you have the correct access rights
 and the repository exists.
-
+#+END_EXAMPLE
 The above error was throw as ssh didn't know about the github ssh-key
 
-+ Solution(do in bash, didn't work in zsh)
-> ssh-agent /bin/bash
-> ssh-add github-key
-> ssh-add -l - this will show the added key in the list
+- Solution(do in bash, didn't work in zsh)
+#+BEGIN_SRC sh
+ssh-agent /bin/bash
+ssh-add github-key
+ssh-add -l 
+#+END_SRC
+- this will show the added key in the list
 
 * Alternative Version Control
 Perforce

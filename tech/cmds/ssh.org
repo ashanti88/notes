@@ -285,7 +285,6 @@ ssh-copy-id frank@78.87.56.34
     hostname should correspond with the machines hostname
   
 
-
 ** Setting up ssh-agent as a sysd service
 #+BEGIN_EXAMPLE
 [Unit]

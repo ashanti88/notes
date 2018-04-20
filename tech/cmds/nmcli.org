@@ -104,6 +104,73 @@ nmcli dev disconnect iface eth0
 nmcli r wifi off
 #+END_SRC
 
+** Network Teaming
+- add the team
+#+BEGIN_SRC sh
+nmcli con add type team con-name lateam0 ifname lateam0 config '{"runner": {"name":"activebackup"}}'
+#+END_SRC
+
+- add an ip address to lateam0
+#+BEGIN_SRC sh
+nmcli con mod lateam0 ipv4.addresses '192.168.0.10/24'
+#+END_SRC
+
+- tell Network Manager that the ip is static
+#+BEGIN_SRC sh
+nmcli con mod lateam0 ipv4.method manual
+#+END_SRC
+
+- add interfaces to the team
+#+BEGIN_SRC sh
+nmcli con add type team-slave con-name lateam0-port1 ifname enp0s8
+nmcli con add type team-slave con-name lateam0-port2 ifname enp0s9
+#+END_SRC
+
+- bring up the team
+#+BEGIN_SRC sh
+nmcli con up lateam0-port1
+nmcli con up lateam0-port2
+#+END_SRC
+
+- check the state of the team
+#+BEGIN_SRC sh
+teamdctl lateam0 state
+#+END_SRC
+both should be up
+
+- now bring down the active port
+#+BEGIN_SRC sh
+nmcli con down lateam0port1
+#+END_SRC
+this will promote the second port as the active port
+  - if the first port was brought back up the second port would remain the active port as not to effect connections
+
+** Managing IPv6
+- adding ipv6 connection
+#+BEGIN_SRC sh
+nmcli con add con-name "ipv6-connection" type ethernet ifname eth1
+#+END_SRC
+
+- create ipv6 address
+#+BEGIN_SRC sh
+nmcli con mod eth1 ipv4.addressses 192.168.10.100/34
+nmcli con mod eth1 ipv4.method manual
+nmcli con mod eth1 ipv6.addresses fddb:f112:ab1e::c0a8:6547/64
+nmcli con mod eth1 ipv6.method manual
+nmcli con up eth1
+#+END_SRC
+
+- view the interface eth1
+#+BEGIN_SRC sh
+ip a
+#+END_SRC
+this should now show the new settings
+
+- confirm that the address is correct
+#+BEGIN_SRC sh
+ping6 -I eth1 fddb:f112:ab1e::c0a8:6547
+#+END_SRC
+
 * Alternatives
 curses: [[file://home/crito/org/tech/cmds/nmtui.org][nmtui]]
 ncurses: [[file://home/crito/org/tech/cmds/wifi-menu.org][wifi-menu]]

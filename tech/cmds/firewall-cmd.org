@@ -36,7 +36,12 @@ firewall-cmd --get-default-zone
 firewall-cmd --get-active-zone
 #+END_SRC
 
-** Get current active services
+** Set zone
+#+BEGIN_SRC sh
+firewall-cmd --set-zone=private
+#+END_SRC
+
+** Get all information on a zone
 #+BEGIN_SRC sh
 firewall-cmd --zone=home --list-all
 #+END_SRC
@@ -61,7 +66,7 @@ firewall-cmd --add-service=vnc.server --permanent
 firewall-cmd --reload
 #+END_SRC
 
-** Closting a port
+** Closing a port
 
 ** Get the specific configuration associated with a zone
 #+BEGIN_SRC sh
@@ -83,7 +88,7 @@ ZONE=home
   
 - Arch
 
-** Complex Rules
+** Complex/Rch Rules
 check out
 #+BEGIN_SRC sh
 man firewalld.richlanguage
@@ -99,9 +104,20 @@ firewall-cmd --permanent --add-rich-rule='rule service name="ssh" log prefix="ss
 firewall-cmd --reload
 #+END_SRC
 
+- http rich-rule
+#+BEGIN_SRC sh
+firewall-cmd --permanent --zone=public --add-rich-rule='rule family=ipv4 source address=172.123.44.91 service name="http" log level=notice prefix="NEW HTTP RULE   " limit value="100/s" accept'
+#+END_SRC
+
 - to view the added rich rules
 #+BEGIN_SRC sh
 firewall-cmd --list-all
+#+END_SRC
+
+** Redirect ports
+- redirect port 443 to 22
+#+BEGIN_SRC sh
+firewall-cmd --permanent --add-rich-rule='rule family=ipv4 source=192.168.0.0/24 forward-port port=443 protocol=tcp to-port=22'
 #+END_SRC
 
 ** Configuring NAT
@@ -115,8 +131,7 @@ firewall-cmd --permanent --zone=public --add-masquerade
 #+BEGIN_SRC sh
 firewall-cmd --permanent --zone=public --add-forward-port=888:proto=tcp:toport=80:toaddr=10.0.0.10
 #+END_SRC
-** Examples
-- open specific ip addr
+** Open specific ip addr
 #+BEGIN_SRC sh
 firewall-cmd --permanent --add-source=10.0.0.0/24
 firewall-cmd reload
