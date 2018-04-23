@@ -6,8 +6,7 @@ Docs: https://docs.python.org/2/
 * Description
 * Usage
 * Concepts
-
-*** Sietting up Python2 virtual environment
+*** Setting up Python2 virtual environment
 1. Install virtualenv
 #+BEGIN_SRC sh
 pip install virtualenv
@@ -879,6 +878,118 @@ edit filename.py
 #+END_EXAMPLE
 this will open the named file with your default editor
 
+*** Using unicode
+-setting strings with unicode
+#+BEGIN_EXAMPLE
+unicode_string = u'abc_\u03a0\u03a3\u03a9'
+#+END_EXAMPLE
+
+*** Using re
+- print all words that begin with "a"
+#+BEGIN_EXAMPLE
+import re
+
+re_string = 'a[a-z]*'
+
+some_string = "the animals in the asylum are anorexic"
+
+for match in re.findall(re_string, some_string):
+    print("MATCH -> ", match)
+#+END_EXAMPLE
+
+- creating a compiled regular expression
+#+BEGIN_EXAMPLE
+import re
+
+re_obj = re.compile('a[a-z]*')
+
+some_string = "the animals in the asylum are anorexic"
+
+for match in re.findall(re_string, some_string):
+    print("MATCH -> ", match)
+#+END_EXAMPLE
+compiled patterns can cut down on execution time
+
+- the four most used regular expressions
+  - [[https://docs.python.org/2/library/re.html][findall()]]
+  - [[https://docs.python.org/2/library/re.html][finditer()]]
+  - [[https://docs.python.org/2/library/re.html][match()]]
+  - [[https://docs.python.org/2/library/re.html][search()]]
+
+*** Files
+- create a file object
+#+BEGIN_EXAMPLE
+infile = open("foo.txt", "r")
+#+END_EXAMPLE
+
+- print a files
+#+BEGIN_EXAMPLE
+print(infile.read())
+#+END_EXAMPLE
+this will output the file implementing file special characters
+
+- writing to a file
+#+BEGIN_EXAMPLE
+outputfile = open("foo.txt", "w")
+
+outputfile.write("This will be added to the foo.txt file\n")
+outputfile.close()
+#+END_EXAMPLE
+
+- reading files
+#+BEGIN_EXAMPLE
+files_r = open("foo.txt", "r"
+#+END_EXAMPLE
+this will output the file with special characters printed
+
+- there are 3 read functions
+  - [[https://docs.python.org/2/tutorial/inputoutput.html][read()]]
+  - [[https://docs.python.org/2/tutorial/inputoutput.html][readline()]]
+  - [[https://docs.python.org/2/tutorial/inputoutput.html][readlines()]]
+    
+*** Stdout Stdin Stderr
+- [[https://docs.python.org/2/library/sys.html][sys]]
+k
+*** Apache change the virtual host root
+#+BEGIN_EXAMPLE
+#!/bin/usr/env python
+
+from cStringIO import StringIO
+import re
+
+vhost_start = re.compile(r'<VirtualHost\s+(.*?)>')
+vhsot_end = re.compile(r'</VirtualHost')
+docroot_re = re.compile(r'(DocumentRoot\s+)(\S+)')
+
+def replace_docroot(conf_string, vhost, new_docroot):
+    '''yield new lines of an httpd.conf file where docroot lines matching
+        the specified vhost are replaced with the new_docroot
+    '''
+    conf_file = StringIO(conf_string)
+    in_vhost = False
+    curr_vhost = None
+    for line in conf_file:
+        curr_vhost = vhost_start.search(line)
+        in_vhost = True
+    if in_vhost and (curr_vhost == vhost):
+        docroot_match = docroot_re.search(line)
+	if docroot_match:
+            sub_line = docroot_re.sub(r'\1%s' % new_docroot, line)
+            line = sub_line
+    vhost_end_match = vhost_end.search(line)
+    if vhost_end_match:
+        in_vhost = False
+    yield line
+
+if __name__ == '__main__':
+    import sys
+    conf_file = sys.argv[1]
+    vhost = sys.argv[2]
+    docroot = sys.argv[3]
+    conf_string = open(conf_file).read()
+    for line in replace_docroot(conf_string, vhost, docroot):
+        print(line)
+#+END_EXAMPLE
 * Links
 
 

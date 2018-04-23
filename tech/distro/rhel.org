@@ -7,7 +7,7 @@
 *** /etc/sysconfig
 RHEL: [[https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/5/html/Deployment_Guide/ch-sysconfig.html][RHEL 5 /etc/sysconfig]]
 Fedora: [[https://docs.fedoraproject.org/en-US/Fedora/12/html/Deployment_Guide/ch-sysconfig.html#s1-sysconfig-files][Fedora - /etc/sysconfig]]
-* Usage
+* Uage
 ** RHEL7 Networking
 *** Files
 /etc/sysconfig/network-scripts/
@@ -477,7 +477,64 @@ systemctl restart firewalld.service
 #+END_SRC
 
 ** SMTP Server on RHEL7
-file://home/crito/org/tech/linux_concepts/rhel7_Setting_Up_an_SMTP_Server.org
+** rhel7 setting up an SMTP server
+*** Cmds
+[[file://home/crito/org/tech/cmds/postconf.org][postconf]]
+*** Overview
+[[file://home/crito/Pictures/org/mail_transfer_process.png][Image - Mail Transfer Process]]
+*** Configuration Files
+*** /etc/nsswitch.conf
+Name Service Switch 
+This file is used to indicate where to look for cetain information and what to do if this fails.
+Each line specifies how to search for piece of information, and uses the following format.
+#+BEGIN_SRC sh
+info:method[action][method[action]...]
+#+END_SRC
+info - the type of information that the line describes
+method - the method used to find the information
+action - the response to be taken to the reply from the method
+
+**** Information that nsswitch.conf Controls Searches For
+- automount Automount (/etc/auto.master and /etc/auto.misc;)
+- bootparams Diskless and other booting options (See the bootparam man page.)
+- ethers MAC address
+- group Groups of users (/etc/group;)
+- hosts System information (/etc/hosts;)
+- netgroup Netgroup information (/etc/netgroup;)
+- networks Network information (/etc/networks)
+- passwd User information (/etc/passwd;)
+- protocols Protocol information (/etc/protocols;)
+- publickey Used for NFS running in secure mode
+- rpc RPC names and numbers (/etc/rpc;)
+- services Services information (/etc/services;)
+- shadow Shadow password information (/etc/shadow;) 
+
+**** Methods
+- files Searches local files such as /etc/passwd and /etc/hosts
+- nis Searches the NIS database; yp is an alias for nis
+- dns Queries the DNS (hosts queries only)
+- compat ± syntax in passwd, group, and shadow files
+
+**** Actions [[!]STATUS=action]
+- STATUS
+  - NOTFOUND—The method worked but the value being searched for was not found. Default action is continue.
+  - SUCCESS—The method worked and the value being searched for was found; no error was returned. Default action is return.
+  - UNAVAIL—The method failed because it is permanently unavailable. For example, the required file may not be accessible or the required server may be down. Default action is continue.
+  - TRYAGAIN—The method failed because it was temporarily unavailable. For example, a file may be locked or a server overloaded. Default action is continue.
+- values
+  - return—Returns to the calling routine with or without a value.
+  - continue—Continues with the next method. Any returned value is overwritten by a value found by the next method.
+
+*** /etc/postfix/master.cf
+**** Set up
+***** Essential Parameters
+inet_interfaces - what interfaces postfix with provide services on
+myorigin - allows you to rewrite posted email to come from a specific domain instead of $myhostname
+relayhost - specifies which central mail server to forward messages to
+mydestination - domains handled by this server. Mail addressed to a domain not listed in mydestination is rejected
+local_transport - specifies what to use for local mail delivery
+inet_protocols - specifies which protocol to use to offer services
+mynetworks - space-seperated list of networks that are allowed to relay
 
 ** CentOS 7 Mail Server
 file://home/crito/org/tech/linux_concepts/centos7_mail_server.org
@@ -835,6 +892,942 @@ cat /boot/grub/grubenv
 This will show the new option as the saved_entry=<new_option>
 
 4. Reboot system for change to take effect
+
+** RHEL7 KDC Server Setup (kerberos)
+- install required components
+#+BEGIN_SRC sh
+yum install -y krb5-server krb5-workstation pam_krb5
+#+END_SRC
+
+- edit the file to use your domain
+/var/kerberos/krb5kdc/kdc.conf
+#+BEGIN_EXAMPLE
+[realms]
+MYLABSERVER.COM = {
+#+END_EXAMPLE
+to force kerberos 5 uncomment and add the next two lines
+#+BEGIN_EXAMPLE
+master_key_type = aes256-cts
+default_principal_flags = +preauth
+#+END_EXAMPLE
+
+- edit the file to use the your domain
+/etc/krb5.conf
+#+BEGIN_EXAMPLE
+default_realllm = MYLABSERVER.COM
+
+[realms]
+ MYLABSERVER.COM = {
+ kdc = alickmitchell1.mylabserver.com
+ admin_server = alickmitchell1.mylabserver.com
+ }
+
+[domain_realm]
+ .mylabserver.com = MYLABSERVER.COM
+ mylabserver.com = MYLABSERVER.COM
+#+END_EXAMPLE
+
+/var/kerberos/krb5kdc/kadm5.acl
+#+BEGIN_EXAMPLE
+*/admin@MYLABSERVER.COM
+#+END_EXAMPLE
+When editing the last three files always use the case that you replace with
+
+- create the database for the domain MYLABSERVER
+#+BEGIN_SRC sh
+kdb5_util create -s -r MYLABSERVER.COM
+#+END_SRC
+This may take a few minutes
+
+- you will be prompted for a master key password
+
+- Start and enable the services
+#+BEGIN_SRC sh
+systemctl enable krb5kdc kadmin
+systemctl start krb5kdc kadmin
+#+END_SRC
+
+- run kadmin
+#+BEGIN_SRC sh
+kadmin.local
+#+END_SRC
+this will drop you into kadmin
+  - first thing set the kadmin root password
+#+BEGIN_EXAMPLE
+kadmin.local: addprinc root/admin
+#+END_EXAMPLE
+this will prompt you to set the password
+
+- set a principle called krbtest and set a key for your kerberos server
+#+BEGIN_EXAMPLE
+kadmin.local: addprinc krbtest
+kadmin.local: addprinc -randkey host/alickmitchell1.mylabserver.com
+#+END_EXAMPLE
+
+- save all that we created in a file in /etc
+#+BEGIN_EXAMPLE
+kadmin.local: ktadd host/alickmitchell1.mylabserver.com
+#+END_EXAMPLE
+
+- confirm that a keytab file has been created in /etc 
+#+BEGIN_SRC sh
+ls -al *keytab
+#+END_SRC
+
+- uncomment 
+/etc/ssh/ssh_config
+#+BEGIN_EXAMPLE
+GSSAPIAuthentication yes
+GSSAPIDelegateCredentials yes
+#+END_EXAMPLE
+
+- reload sshd
+#+BEGIN_SRC sh
+systemctl reload sshd
+#+END_SRC
+
+- update the kerberos authentication config
+#+BEGIN_SRC sh
+authconfig --enablekrb5 --update
+#+END_SRC
+
+- open required ports on firewall using an xml file
+/etc/firewalld/services/kerberos.xml
+#+BEGIN_SRC sh
+<?xml version="1.0" encoding="utf-8"?>
+<service>
+  <short>Kerberos</short>
+  <description>Kerberos network authentication protocol server</description>
+  <port protocol="tcp" port="88"/>
+  <port protocol="udp" port="88"/>
+  <port protocol="tcp" port="749"/>
+</service
+#+END_SRC
+
+- Now apply the above config file
+#+BEGIN_SRC sh
+firewall-cmd --permanent --add-service=kerberos
+firewall-cmd --reload
+#+END_SRC
+
+- test configuration usign the krbtest
+#+BEGIN_SRC sh
+su - krbtest
+kinit
+ssh alickmitchell1.mylabserver.com
+#+END_SRC
+you should now connect with kerberos authenticating the krbtest user
+
+** RHEL7 KDC Client Setup
+- Kerberos requires FQDN
+  
+- install packages
+#+BEGIN_SRC sh
+yum install -y krb5-workstation pam_krb5
+#+END_SRC
+
+- move config file to bakup name and copy config from server(this file will be a copy of the servers version)
+/etc/krb5.conf
+#+BEGIN_SRC sh
+mv krb5.conf krb5.conf.orig
+scp user@alickmitchell1:/etc/krb5.conf /etc/
+#+END_SRC
+
+- create a user to use against the KDC server
+#+BEGIN_SRC sh
+useradd krbtest
+#+END_SRC
+
+- setup the user
+#+BEGIN_SRC sh
+kadmin
+#+END_SRC
+You'll be prompted for the root password of the KDC server
+#+BEGIN_EXAMPLE
+kadmin: addprinc -randkey host/alickmitchell3.mylabserver.com
+kadmin: ktadd host/alickmitchell3.mylabserver.com
+#+END_EXAMPLE
+
+- edit the ssh config
+/etc/ssh/ssh_config
+#+BEGIN_EXAMPLE
+GSSAPIAuthentication yes
+GSSAPIDelegateCredentials yes
+#+END_EXAMPLE
+
+- reload ssh
+#+BEGIN_SRC sh
+systemctl reload sshd
+#+END_SRC
+
+- update config
+#+BEGIN_SRC sh
+authconfig --enablekrb5 --update
+#+END_SRC
+
+- test with krbtest user
+#+BEGIN_SRC sh
+su - krbtest
+kinit
+klist
+ssh alickmitchell1.mylabserver.com
+#+END_SRC
+** RHEL7 iSCSI Target
+- install packages
+#+BEGIN_SRC sh
+yum install -y targetcli
+#+END_SRC
+
+- enable service
+#+BEGIN_SRC sh
+systemctl enable target
+#+END_SRC
+
+- decide on storage, Block IO or file images (two options for providing storage with iSCSI block, or create file images)
+
+- drop into targetcli
+#+BEGIN_SRC sh
+targetcli
+#+END_SRC
+- if using a logical volume
+#+BEGIN_EXAMPLE
+/> backstores/block/ create testblock1 /dev/vg/lv_test1
+#+END_EXAMPLE
+- if using a physical volume
+#+BEGIN_EXAMPLE
+/> backstores/block/ create testblock1 /dev/xvdf
+#+END_EXAMPLE
+
+- create iSCI qualified name
+#+BEGIN_EXAMPLE
+/> iscsi/ create iqn.2018-04.com.mylabserver:target1
+#+END_EXAMPLE
+
+- explore the creted
+#+BEGIN_EXAMPLE
+/> isci/iqn.2018-04.com.mylabserver:target1/tpg1/
+#+END_EXAMPLE
+
+- create the LUN
+#+BEGIN_EXAMPLE
+/> luns/ create /backstores/block/testblock1
+#+END_EXAMPLE
+
+- create the node ACL and mapped LUN
+#+BEGIN_EXAMPLE
+/> acls/ create iqn.2018-04.com.mylabserver:client
+/> cd acls/iqn.2018-04.com.mylabserver:client/
+/> set auth userif=lunuser
+/> set auth password=secret
+#+END_EXAMPLE
+on quiting this will crreate a json file in /etc/target
+
+- configure the firewall to allow the iSCI traffic
+#+BEGIN_SRC sh
+firewall-cmd --permanent --add-port=3260/tcp
+firewall-cmd --reload
+#+END_SRC
+
+- start the service
+#+BEGIN_SRC sh
+systemctl start target
+#+END_SRC
+
+** RHEL7 iSCSI Initiator
+- install packages
+#+BEGIN_SRC sh
+yum install -y iscsi-initiator-utils
+#+END_SRC
+
+- add the iqn
+/etc/iscsi/initiatorname.isci
+#+BEGIN_EXAMPLE
+InitiatorName=iqn.2018-04.com.mylabserver:client
+#+END_EXAMPLE
+
+- uncomment and change as needed these three lines
+/etc/iscsi/iscsid
+#+BEGIN_EXAMPLE
+node.session.auth.authmethod = CHAP
+
+node.sesseion.auth.username = lunuser
+node.sesseion.auth.password = secret
+#+END_EXAMPLE
+
+- start and enable the service
+#+BEGIN_SRC sh
+systemctl enable iscsi
+systemctl start iscsi
+#+END_SRC
+
+- connect to server
+#+BEGIN_SRC sh
+iscsiadm --mode discovery --type sendtargets --portal 172.31.51.244
+#+END_SRC
+
+- run iscsiadm in node mode
+#+BEGIN_SRC sh
+iscsiadm --mode node --targetname iqn.2018-04.com.mylabserver:target1 --portal172.31.51.244 --login
+#+END_SRC
+
+- view available block storage
+#+BEGIN_SRC sh
+lsblk
+#+END_SRC
+the available iSCSI will be shown here
+
+- format the the iSCSI volume as ext4
+#+BEGIN_SRC sh
+mkfs.ext4 /dev/sdc
+#+END_SRC
+
+- mount the file and add to fstab
+#+BEGIN_SRC sh
+blkid | grep "/dev/sdc"
+mkdir /mnt/iscsi
+#+END_SRC
+this will give us the uuid
+/etc/fstab
+#+BEGIN_EXAMPLE
+UUID=d6ba4633-65dx-43sd-bis3-7sid04ls8dw5g	/mnt/iscsi	ext4	_netdev	0 0
+#+END_EXAMPLE
+
+- mount the iSCSI filesystem
+#+BEGIN_SRC sh
+mount -a
+#+END_SRC
+
+- confirm that the filesystem has been mounted
+#+BEGIN_SRC sh
+isciadm -m session -P 3
+#+END_SRC
+this will provide information on the iSCSI mount
+
+
+* Package Management
+** Files
+/etc/yum.conf  - this is the configuration file for the yum tool, repo definitions may be contained in here, but should be in /etc/yum.repos.d
+/etc/yum.repos.d/ - this is where repos can be added
+/var/cache/yum - temp files for package installation are stored here
+/var/log/yum.log - this is the yum log, this contains what pkgs have been installed or removed
+/var/cache/yum/x86_64/X/ - this is where downloaded rpm's are stored
+/var/lib/rpm - this is where all the rpm database files are kept
+/var/lib/rpm/__db00X - rpm database file
+
+** Cmds
+*** rpm
+http://repoforge.org/
+
+**** Basic Actions
+- List of all installed packages
+#+BEGIN_SRC sh
+rpm -qa
+#+END_SRC
+q - query the database
+a - all
+
+- Show any changes since installation
+#+BEGIN_SRC sh
+rpm -Va
+#+END_SRC
+
+- import any publickeys that are missing
+#+BEGIN_SRC sh
+rpm -qa gpg-pubkey*
+#+END_SRC
+
+- view requirements of an rpm file
+#+BEGIN_SRC sh
+rpm -qpR nmap-6.40-7.el7.x86_64.rpm
+#+END_SRC
+
+- give me infomation on an application that isn't installed
+#+BEGIN_SRC sh
+rpm -qip telnet-0.17-48.el6.x86_64.rpm
+#+END_SRC
+the long name is required if the application isn't installed
+
+- show requirements/dependencies
+#+BEGIN_SRC sh
+rpm -qRp telnet-0.17-48.el6.x86_64.rpm
+#+END_SRC
+
+- install application ignoring dependencies
+#+BEGIN_SRC sh
+rpm -ivh --nodeps mysql-server-5.1.73-8.el6_8.x86_64
+#+END_SRC
+
+- insall application
+#+BEGIN_SRC sh
+rpm -ivh xterm-295.3.el7.x86_64.rpm
+rpm -Uvh xterm-295.3.el7.x86_64.rpm
+#+END_SRC
+the second version will update if present or install if not present
+h - hash (progress of the install)
+
+- is a package installed
+#+BEGIN_SRC sh
+rpm -q openssh-server
+#+END_SRC
+
+- what packages were installed with a package
+#+BEGIN_SRC sh
+rpm -ql opwnssh-server
+#+END_SRC
+
+- remove a package
+#+BEGIN_SRC sh
+rpm -evv nmap
+#+END_SRC
+
+- query package documentation
+#+BEGIN_SRC sh
+rpm -qdf /usr/bin/vmstat
+#+END_SRC
+this will list all the documentation where the package is mentioned
+
+- is package database cache becomes corrupt
+#+BEGIN_SRC sh
+rpm --rebuilddb
+#+END_SRC
+
+- Verify the signature on a package
+#+BEGIN_SRC sh
+rpm --checksig
+#+END_SRC
+
+**** Repo Administration
+Adding a repo
+#+BEGIN_SRC sh
+wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+rpm -Uvh remi-release-6*.rpm
+#+END_SRC
+In this example we are downloading the remi repo
+
+- Find package binary is associated with
+#+BEGIN_SRC sh
+rpm -qf /sbin/chronyd
+#+END_SRC
+
+- Find all packages that are associated with a binary
+#+BEGIN_SRC sh
+rpm -ql chrony
+#+END_SRC
+this will provide a list of all the files
+
+- Find the configuration files of a binary
+#+BEGIN_SRC sh
+rpm -qc chrony
+#+END_SRC
+
+- Find all documentation that is stored for a binary
+#+BEGIN_SRC sh
+rpm -qd chrony
+#+END_SRC
+
+- Check the installation script of an rpm
+  - already installed
+  #+BEGIN_SRC sh
+  rpm -q --scripts http
+  #+END_SRC
+  This allows us to check the installation script of a package
+  
+  - before installation
+  Download the rpm from the repo
+  #+BEGIN_SRC sh
+  rpm -qp --scripts the_none_veri_pkg.rpm
+  #+END_SRC
+  qp - query package
+
+- Query repo for package
+#+BEGIN_SRC sh
+repoquery -ql yp-tools
+#+END_SRC
+
+***** Exclude Specfic Repository
+Get repo list
+#+BEGIN_SRC sh
+yum repolist
+#+END_SRC
+
+****** Method One - Temporary
+- disable
+#+BEGIN_SRC sh
+yum-config-manager --disabue dl.fedoraproject.org_pub_epel_7_x86_64
+#+END_SRC
+
+- re-enable
+#+BEGIN_SRC sh
+yum-config-manager --enable dl.fedoraproject.org_pub_epel_7_x86_64
+#+END_SRC
+
+****** Method Two - Permanent
+Edit the repo files in /etc/yum.repos.d
+set the enable parameter to 0.
+
+****** remove a repo for an update
+#+BEGIN_SRC sh
+yum update --disablerepo=isu 
+#+END_SRC
+This will not upgrade the packages that belong to the given repo.
+
+***** Remove a repository
+#+BEGIN_SRC sh
+rm -rf /etc/yum.repo.d/dl.fedoraproject.org_pub_epel_7_x86_64_.repo
+#+END_SRC
+
+***** Creating a local repository
+- mount the rhel7 iso
+#+BEGIN_SRC sh
+mkdir -p /repos/local
+mount -o loop rhel-server-7.1-x86_64-dvd.iso /repos/local
+#+END_SRC
+loop - allows the system to read the cdrom as a block device
+
+- disable/remove the rhel repo
+#+BEGIN_SRC sh
+rm /etc/yum.repo.d/redhat-rhui*
+#+END_SRC
+
+- create the local repository
+/etc/yum.repo.d/local-repo
+#+BEGIN_EXAMPLE
+[local-repo]
+name=Red Hat Linux Local Repo
+baseurl=file:///repos/local
+enable=1
+gpgcheck=0
+#+END_EXAMPLE
+
+- confirm that the new repo has been added
+#+BEGIN_SRC sh
+yum repolist
+#+END_SRC
+it should be listed
+
+- confirm that an application can be pulled from the repo
+#+BEGIN_SRC sh
+yum install emacs
+#+END_SRC
+
+***** Configuring gpg keys for repo
+- install the repo
+#+BEGIN_SRC sh
+yum-config-manager --add-repo http://dl.fedoraproject.org/pub/epel/7/x86_64/
+#+END_SRC
+
+- go to the the repo website and get the url for the gpg key
+  - http://dl.fedoraproject.org/pub/epel
+
+- edit the /etc/pki/rpm-gpg
+#+BEGIN_SRC sh
+wget http://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7
+#+END_SRC
+you don't have to store the key here, but it's best practices
+
+- edit the repo in etc/yum.repos.d that was created by yum-config-manager
+add
+#+BEGIN_EXAMPLE
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7
+#+END_EXAMPLE
+
+- confirm by installing package and you will be asked if the gpg-key is ok to use
+
+***** EPEL (Extra Packages for Enterprise Linux)
+Centos >=7
+#+BEGIN_SRC sh
+yum install epel-release
+#+END_SRC
+
+Centos <=6
+#+BEGIN_SRC sh
+wget http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+rpm -ivh epel-release-6-8.noarch.rpm
+#+END_SRC
+
+***** IUS (Inline with Upstream Stable)
+#+BEGIN_SRC sh
+wget https://centos7.iuscommunity.org/ius-release.rpm
+rpm -Uvh ius-release.rpm
+yum repolist
+#+END_SRC
+
+*** yum
+CheatSheet: [[file://home/crito/Documents/Linux/RHEL/yum_cheatsheet.pdf][YUM CheatSheet]]
+**** basic Administration
+- Install application
+#+BEGIN_SRC sh
+yum install nmap
+#+END_SRC
+
+- Remove application
+#+BEGIN_SRC sh
+yum remove nmap
+yum erase nmap
+#+END_SRC
+
+- autoremove application (similar to purge on deb)
+#+BEGIN_SRC sh
+yum autoremove nmap
+#+END_SRC
+
+- upgrade all packages on the sysystem
+#+BEGIN_SRC sh
+yum update
+yum upgrade
+#+END_SRC
+
+- Install a downloaded rpm
+#+BEGIN_SRC sh
+yum --nogpgcheck localinstall dl_pkg.rpm
+#+END_SRC
+this will use the repo list to check for deps
+
+- List all installed packages
+#+BEGIN_SRC sh
+yum list installed
+#+END_SRC
+use grep to narrow the search window
+
+- list the dependencies of a package
+#+BEGIN_SRC sh
+yum deplist httpd
+#+END_SRC
+this will return the dependencies of the httpd
+
+- list all information on a package
+#+BEGIN_SRC sh
+yum info tmux
+#+END_SRC
+
+- clean out the /var/cache/yum directory
+#+BEGIN_SRC sh
+yum clean all
+#+END_SRC
+
+- enable a repo for a single transaction
+#+BEGIN_SRC sh
+yum install --enablerepo centosplus postfix
+#+END_SRC
+
+- Download the rpm but don't install
+#+BEGIN_SRC sh
+yum install --downloadonly telnet
+#+END_SRC
+this will download the rpm to the /var/cache/yum/x86_64/X/base/packages
+
+- Download the rpm to a specific directory
+#+BEGIN_SRC sh
+yumdownloader --destdir /root telnet
+#+END_SRC
+
+- Download the rpm plus dependencies
+#+BEGIN_SRC sh
+yumdownloader --resolve postfix
+#+END_SRC
+
+- Download the source for an application
+#+BEGIN_SRC sh
+yumdownloader --source postfix
+#+END_SRC
+
+- View yum history
+#+BEGIN_SRC sh
+yum history
+#+END_SRC
+
+- view information about action in history
+#+BEGIN_SRC sh
+yum history info 17
+#+END_SRC
+this will provide information such as what was in installed, removed etc
+
+- Remove a package using history
+#+BEGIN_SRC sh
+yum history undo 17
+#+END_SRC
+17 - being the index of the package to remove in the yum history
+
+**** Repo Administration
+- list all enabled repos
+#+BEGIN_SRC sh
+yum repolist
+#+END_SRC
+
+- list all enabled and disabled repos
+#+BEGIN_SRC sh
+yum repolist all
+#+END_SRC
+
+- adding a repo with yum
+#+BEGIN_SRC sh
+yum-config-manager --add-repo=http://dl.fedoraproject.org/pub/epel/7/x86_64
+#+END_SRC
+this will create the repo file in /etc/yum.repo.d/ for the repository
+
+- disable a repo
+#+BEGIN_SRC sh
+yum-config-manager --disable dl.fedoraproject.org_pub_epel_7_x86_64_
+#+END_SRC
+
+**** Check for system wide upgrades
+- check what has an available update     
+#+BEGIN_SRC sh
+yum check-update
+#+END_SRC
+this will list all packages that have an available update
+
+- these will go out and pull all updates for the system
+#+BEGIN_SRC sh
+yum update
+#+END_SRC
+or
+#+BEGIN_SRC sh
+yum upgrade
+#+END_SRC
+
+**** Search for application
+#+BEGIN_SRC sh
+yum search nmap
+#+END_SRC
+
+- Know the binary but not the package
+#+BEGIN_SRC sh
+yum whatprovides */semanage
+#+END_SRC
+the */ is to indicate to search for a filename semanage
+
+- list all available packages
+#+BEGIN_SRC sh
+yum list
+#+END_SRC
+
+**** Group Packages
+= indicates what is installed as part of the package
+- indicates the package is not installed will not be installed if the group is installed
+***** Search Group Packages
+#+BEGIN_SRC sh
+yum grouplist
+#+END_SRC
+
+***** Install Package
+#+BEGIN_SRC sh
+yum groupinstall $GROUP 
+#+END_SRC
+
+**** yum-utils
+***** Installation
+#+BEGIN_SRC sh
+yum update && yum install yum-utils
+#+END_SRC
+***** Find Repo of Installed Pkg
+#+BEGIN_SRC sh
+find-repo-of-installed httpd
+#+END_SRC
+***** Remove Duplicate or Ophaned Package
+#+BEGIN_SRC sh
+package-cleanup --orphans
+package-cleanup --oldkernels
+#+END_SRC
+***** Find out Package dependency lists
+#+BEGIN_SRC sh
+repo-graph --repoid=updates | less
+#+END_SRC
+This will print out put all package dependencies format
+"libvirt-daemon-driver-nwfilter" -> {
+"libnl3"  -- dependent pkg
+"glibc"   -- dependent pkg
+"libvirt-daemon"
+} [color="0.578260869565 0.678260869565 1.0"];
+
+***** Check list of unresolved dependencies
+#+BEGIN_SRC sh
+repoclosure
+#+END_SRC
+
+***** Query Yum for information on package
+#+BEGIN_SRC sh
+repoquery --requires htop
+#+END_SRC
+
+***** Dump all installed RPM Pkgs into Zip file
+#+BEGIN_SRC sh
+yum-debug-dump
+#+END_SRC
+
+***** Restore the dump file
+#+BEGIN_SRC sh
+yum-debug-restore yum_debug_dump-localhost.localdomain-2017-02-24_20:59:05.txt.gz
+#+END_SRC
+
+***** Fix Unfinished or Aborted Yum Transactions
+#+BEGIN_SRC sh
+yum-complete-transaction --cleanup-only
+yum update
+#+END_SRC
+Incomplete transactions can be found in /var/lib/yum/transaction-all* and transaction-done*
+
+**** Update to a minor version
+#+BEGIN_SRC sh
+yum --releaserver=7.3 update
+#+END_SRC
+this will update the current install to 7.3
+
+**** Download only the rpm
+#+BEGIN_SRC sh
+yumdownloader nmap
+#+END_SRC
+this will just download the nmap rpm
+*** dnf
+**** Basic Administration					   :rhel:dnf:
+- Install application
+#+BEGIN_SRC sh
+dnf install vim
+#+END_SRC
+
+- Remove application
+#+BEGIN_SRC sh
+dnf remove vim
+#+END_SRC
+
+- Search for application
+#+BEGIN_SRC sh
+dnf search vim
+#+END_SRC
+
+- Check for available updates
+#+BEGIN_SRC sh
+dnf check-update
+#+END_SRC
+
+- Upgrade All Software to Newest Version
+#+BEGIN_SRC sh
+dnf upgrade
+#+END_SRC
+
+- Upgrade a specific package
+#+BEGIN_SRC sh
+dnf upgrade vim
+#+END_SRC
+
+** Create a local repository for CentOS6 (for local updates)
+- apache needs to be installed
+#+BEGIN_SRC sh
+yum install httpd
+mkdir -p /var/www/html/repos/centos/6/7
+#+END_SRC
+
+- makesure that "direcotry browsing" is not turned off in "/var/www/html" directory config in httpd.conf
+  - Should look similar to this
+    #+BEGIN_EXAMPLE
+    Options Indexes FollowSymlinks MultiViews ExecCGI
+    AllowOverride None
+    Order allow,deny
+    allow from all
+    #+END_EXAMPLE
+    the directory browsing option is the "Indexes". Makesure that a - isn't infront, as this negates the option(same as removing it).
+    
+- create an index file /www/html/
+#+BEGIN_EXAMPLE
+Centos 6.7 Local Network Repository
+
+Browse to http://192.168.1.135/repos/centos/os/6/7
+#+END_EXAMPLE
+
+- add the createrepo tool
+#+BEGIN_SRC sh
+yum update
+yum install craterepo
+#+END_SRC
+
+- build the local repo
+#+BEGIN_SRC sh
+createrepo /var/www/html/repos/centos/6/7
+#+END_SRC
+this updates the sqlitedb for the repos
+
+- select the mirror that will allow us to download over http and rsync
+  - centos.org/downloads/mirrors
+  - check the mirror has the correct options
+    
+- create the rsync
+#+BEGIN_SRC sh
+rsync -avz rsync://mirrors.usinternet.com/centos/6.7/os/x86_64/ /var/www/html/centos/6/7/
+#+END_SRC
+this will pull down all the required files
+
+- update
+#+BEGIN_SRC sh
+createrepo --update /var/www/html/repos/centos/6/7/
+#+END_SRC
+this updates the local sqlitedb of the repo
+
+*** Configure a machine to update using a local repository
+    
+- move all files in the /etc/yum.repos.d/ to a backup directory
+#+BEGIN_SRC sh
+mv /etc/yum.repos.d/* /root/repo_backup/
+#+END_SRC
+
+- configure a file called /etc/yum.repos.d/local_repo.repo
+#+BEGIN_EXAMPLE
+[local_repo]
+name=Local Repo
+baseurl=http://192.168.1.135/repos/centos/6/7/
+gpgcheck=1
+gpgkey=http://mirror.centos.org/centos/RPM-GPG-key-CentOS-6
+#+END_EXAMPLE
+
+- now update the machine
+#+BEGIN_SRC sh
+yum update
+#+END_SRC
+
+- to confirm that the local repo is being used, run a query on an application
+#+BEGIN_SRC sh
+yum info git
+#+END_SRC
+the repo option should be "Local_Repo"
+
+** Update the kernel package
+*** automated
+- list the current kernel and available kernels
+#+BEGIN_SRC sh
+yum clean all
+yum list kernel
+#+END_SRC
+this will printout the current kernel and available kernels
+
+- install an available new kernel
+#+BEGIN_SRC sh
+yum update kernel
+#+END_SRC
+
+*** Manual method
+- list the current kernel and available kernels
+#+BEGIN_SRC sh
+yum clean all
+yum list kernel
+#+END_SRC
+this will printout the current kernel and available kernels
+
+- download the available kernel
+#+BEGIN_SRC sh
+yumdownloader kernel
+#+END_SRC
+
+- install the new kernel
+#+BEGIN_SRC sh
+rpm-ivh kernel-3.10.0-229.1.2.el7.x86_64.rpm
+#+END_SRC
+this may issue dependency issues, these will need to be installed before you can install the kernel
+
+- confirm that the initramfs has been created in /boot/initramfs-xxx, if not then create
+#+BEGIN_SRC sh
+dracut
+#+END_SRC
+
+- confirm by reboot and check that grub has the new kernel available
 
 * Lecture
 * Tutorial

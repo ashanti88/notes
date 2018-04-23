@@ -1,0 +1,147 @@
+#+TAGS: iscsi storage
+
+
+* iSCSI
+* Files
+* Cmds
+- iscsiadm
+* Description
+* Usage
+** RHEL7 iSCSI Target
+- install packages
+#+BEGIN_SRC sh
+yum install -y targetcli
+#+END_SRC
+
+- enable service
+#+BEGIN_SRC sh
+systemctl enable target
+#+END_SRC
+
+- decide on storage, Block IO or file images (two options for providing storage with iSCSI block, or create file images)
+
+- drop into targetcli
+#+BEGIN_SRC sh
+targetcli
+#+END_SRC
+- if using a logical volume
+#+BEGIN_EXAMPLE
+/> backstores/block/ create testblock1 /dev/vg/lv_test1
+#+END_EXAMPLE
+- if using a physical volume
+#+BEGIN_EXAMPLE
+/> backstores/block/ create testblock1 /dev/xvdf
+#+END_EXAMPLE
+
+- create iSCI qualified name
+#+BEGIN_EXAMPLE
+/> iscsi/ create iqn.2018-04.com.mylabserver:target1
+#+END_EXAMPLE
+
+- explore the creted
+#+BEGIN_EXAMPLE
+/> isci/iqn.2018-04.com.mylabserver:target1/tpg1/
+#+END_EXAMPLE
+
+- create the LUN
+#+BEGIN_EXAMPLE
+/> luns/ create /backstores/block/testblock1
+#+END_EXAMPLE
+
+- create the node ACL and mapped LUN
+#+BEGIN_EXAMPLE
+/> acls/ create iqn.2018-04.com.mylabserver:client
+/> cd acls/iqn.2018-04.com.mylabserver:client/
+/> set auth userif=lunuser
+/> set auth password=secret
+#+END_EXAMPLE
+on quiting this will crreate a json file in /etc/target
+
+- configure the firewall to allow the iSCI traffic
+#+BEGIN_SRC sh
+firewall-cmd --permanent --add-port=3260/tcp
+firewall-cmd --reload
+#+END_SRC
+
+- start the service
+#+BEGIN_SRC sh
+systemctl start target
+#+END_SRC
+
+** RHEL7 iSCSI Initiator
+- install packages
+#+BEGIN_SRC sh
+yum install -y iscsi-initiator-utils
+#+END_SRC
+
+- add the iqn
+/etc/iscsi/initiatorname.isci
+#+BEGIN_EXAMPLE
+InitiatorName=iqn.2018-04.com.mylabserver:client
+#+END_EXAMPLE
+
+- uncomment and change as needed these three lines
+/etc/iscsi/iscsid
+#+BEGIN_EXAMPLE
+node.session.auth.authmethod = CHAP
+
+node.sesseion.auth.username = lunuser
+node.sesseion.auth.password = secret
+#+END_EXAMPLE
+
+- start and enable the service
+#+BEGIN_SRC sh
+systemctl enable iscsi
+systemctl start iscsi
+#+END_SRC
+
+- connect to server
+#+BEGIN_SRC sh
+iscsiadm --mode discovery --type sendtargets --portal 172.31.51.244
+#+END_SRC
+
+- run iscsiadm in node mode
+#+BEGIN_SRC sh
+iscsiadm --mode node --targetname iqn.2018-04.com.mylabserver:target1 --portal172.31.51.244 --login
+#+END_SRC
+
+- view available block storage
+#+BEGIN_SRC sh
+lsblk
+#+END_SRC
+the available iSCSI will be shown here
+
+- format the the iSCSI volume as ext4
+#+BEGIN_SRC sh
+mkfs.ext4 /dev/sdc
+#+END_SRC
+
+- mount the file and add to fstab
+#+BEGIN_SRC sh
+blkid | grep "/dev/sdc"
+mkdir /mnt/iscsi
+#+END_SRC
+this will give us the uuid
+/etc/fstab
+#+BEGIN_EXAMPLE
+UUID=d6ba4633-65dx-43sd-bis3-7sid04ls8dw5g	/mnt/iscsi	ext4	_netdev	0 0
+#+END_EXAMPLE
+
+- mount the iSCSI filesystem
+#+BEGIN_SRC sh
+mount -a
+#+END_SRC
+
+- confirm that the filesystem has been mounted
+#+BEGIN_SRC sh
+isciadm -m session -P 3
+#+END_SRC
+this will provide information on the iSCSI mount
+
+* Lecture
+* Tutorial
+* Books
+* Links
+[[https://www.tecmint.com/create-centralized-secure-storage-using-iscsi-targetin-linux/][Create Centralized Secure Storage Using iSCSI Target on RHEL Part 1]]
+[[https://www.tecmint.com/create-luns-using-lvm-in-iscsi-target/][Create Centralized Secure Storage Using iSCSI Target on RHEL Part 2]]
+[[https://www.tecmint.com/iscsi-initiator-client-setup/][Create Centralized Secure Storage Using iSCSI Target on RHEL Part 3]]

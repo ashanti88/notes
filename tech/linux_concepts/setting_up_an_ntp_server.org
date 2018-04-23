@@ -1,7 +1,7 @@
 #+TAGS: sys ntp
 
 
-* Setting up an NTP server                                          :sys:ntp:
+* Setting up an NTP server
 * Overview
 * Configuration
 /etc/ntp.conf

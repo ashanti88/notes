@@ -18,23 +18,6 @@ HomePage: [[https://www.mysql.com/][mysql.com]]
 /etc/my.cnf
 * Usage
 ** Administration
-*** Check Number of MySQL Open DB Connections
-- use of SHOW 
-#+BEGIN_SRC sh
-SHOW STATUS LIKE 'Conn%';
-#+END_SRC
-
-- use of MySQLadmin
-#+BEGIN_SRC sh
-mysqladmin status -u root -p
-#+END_SRC
-
-- use the show processlist sql command
-#+BEGIN_SRC sh
-SHOW PROCESSLIST;
-#+END_SRC
-This will procduce a table with each line indicating a connection
-
 *** Set root password
 **** Method I used for systemd
 1. edit the /etc/mysql/my.cnf add under [mysqld]
@@ -151,6 +134,7 @@ SHOW GRANTS FOR 'fred'@'localhost';
 REVOKE ALL PRIVILEGES, GRANT OPTION FROM 'fred'@'localhost';
 #+END_SRC
 
+*** Create new user
 *** Delete a User
 #+BEGIN_SRC sh
 DROP USER 'fred'@'localhost';
@@ -317,6 +301,30 @@ Innodb_* Counters
   - innodb_data_reads/writes - number of random read/write disk IO operations for data files specifically
   - innodb_history_list_length - guage showing a number of transactions that haven't been cleaned up
   - innodb_ubuf_merges - number of insert buffer merge operations. High numbers here could explain intense IO spikes 
+
+*** Check Number of MySQL Open DB Connections
+- use of SHOW 
+#+BEGIN_SRC sh
+SHOW STATUS LIKE 'Conn%';
+#+END_SRC
+
+- use of MySQLadmin
+#+BEGIN_SRC sh
+mysqladmin status -u root -p
+#+END_SRC
+
+- use the show processlist sql command
+#+BEGIN_SRC sh
+SHOW PROCESSLIST;
+#+END_SRC
+This will procduce a table with each line indicating a connection
+
+#+BEGIN_SRC sh
+CREATE USER 'newuser'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON * . * TO 'newuser'@'localhost';
+FLUSH PRIVILEGES;
+#+END_SRC
+this will grant all privs on all tables on all databases
 
 ** Backup & Restore
 *** Overview of backup procedure

@@ -1,4 +1,4 @@
-#+TAGS: resource analysis performance cpu disk io network
+#+TAGS: dstat resource_analysis performance cpu_analysis disk_analysis io_analysis network_analysis
 
 
 * dstat
@@ -16,6 +16,8 @@ d - disk stats
 n - network stats
 g - page stats
 y - system stats
+s - swap stats
+p - process stats
 
 ** Show process with highest cpu usage
 #+BEGIN_SRC sh
@@ -25,6 +27,11 @@ dstat -tcnyldp --top-cpu
 ** Show information about cpu, disk (sda1) utilisation and system load
 #+BEGIN_SRC sh
 dstat -cdl -D sda1
+#+END_SRC
+
+** create a csv file of information requested
+#+BEGIN_SRC sh
+dstat -tcdm --output dstat.csv
 #+END_SRC
 
 * Lecture

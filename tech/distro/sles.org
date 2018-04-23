@@ -3,6 +3,7 @@
 
 * SUSE Linux Enterprise Server (SLES) - Life Cycle 7yrs - Release Cycle 3-4yrs
 * Usage
+* Package Management
 * Lecture
 * Tutorial
 * Books

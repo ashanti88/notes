@@ -1,21 +1,150 @@
-#+TAGS: sec auth rhel
+#+TAGS: kerberos user_autentication
 
 
-* Kerberos                                                    :sec:auth:rhel:
+* Kerberos
 HomePage: http://web.mit.edu/kerberos/
+Documentation: https://web.mit.edu/kerberos/krb5-devel/doc/index.html
 * Cmds
 - authconfig
 - klist
 * Files
+- /var/kerberos/krb5kdc/kadm5.acl
+- /var/kerberos/krb5kdc/kdc.conf
+- /etc/krb5.conf
 - /etc/krb5.keytab
 * Description
 * Usage
- 
 ** Understanding the Principal and keytab
 - The kerberos server stores accounts and keys for systems, the so called service principals
 - Every network service to which a user authenticates needs a service principal and corresponding key. To verify the service identity, a copy of that key is required: the so called keytab.
 - use klist -k to view the contents of a keytab 
 - The keytab for a service is created at the IdM server. If the NFS Server is a different machine, it needs to be copied over to the NFS server; the NFS server must be able to access it
+** RHEL7 KDC Server Setup (kerberos)
+- install required components
+#+BEGIN_SRC sh
+yum install -y krb5-server krb5-workstation pam_krb5
+#+END_SRC
+
+- edit the file to use your domain
+/var/kerberos/krb5kdc/kdc.conf
+#+BEGIN_EXAMPLE
+[realms]
+MYLABSERVER.COM = {
+#+END_EXAMPLE
+to force kerberos 5 uncomment and add the next two lines
+#+BEGIN_EXAMPLE
+master_key_type = aes256-cts
+default_principal_flags = +preauth
+#+END_EXAMPLE
+
+- edit the file to use the your domain
+/etc/krb5.conf
+#+BEGIN_EXAMPLE
+default_realllm = MYLABSERVER.COM
+
+[realms]
+ MYLABSERVER.COM = {
+ kdc = alickmitchell1.mylabserver.com
+ admin_server = alickmitchell1.mylabserver.com
+ }
+
+[domain_realm]
+ .mylabserver.com = MYLABSERVER.COM
+ mylabserver.com = MYLABSERVER.COM
+#+END_EXAMPLE
+
+/var/kerberos/krb5kdc/kadm5.acl
+#+BEGIN_EXAMPLE
+*/admin@MYLABSERVER.COM
+#+END_EXAMPLE
+When editing the last three files always use the case that you replace with
+
+- create the database for the domain MYLABSERVER
+#+BEGIN_SRC sh
+kdb5_util create -s -r MYLABSERVER.COM
+#+END_SRC
+This may take a few minutes
+
+- you will be prompted for a master key password
+
+- Start and enable the services
+#+BEGIN_SRC sh
+systemctl enable krb5kdc kadmin
+systemctl start krb5kdc kadmin
+#+END_SRC
+
+- run kadmin
+#+BEGIN_SRC sh
+kadmin.local
+#+END_SRC
+this will drop you into kadmin
+  - first thing set the kadmin root password
+#+BEGIN_EXAMPLE
+kadmin.local: addprinc root/admin
+#+END_EXAMPLE
+this will prompt you to set the password
+
+- set a principle called krbtest and set a key for your kerberos server
+#+BEGIN_EXAMPLE
+kadmin.local: addprinc krbtest
+kadmin.local: addprinc -randkey host/alickmitchell1.mylabserver.com
+#+END_EXAMPLE
+
+- save all that we created in a file in /etc
+#+BEGIN_EXAMPLE
+kadmin.local: ktadd host/alickmitchell1.mylabserver.com
+#+END_EXAMPLE
+
+- confirm that a keytab file has been created in /etc 
+#+BEGIN_SRC sh
+ls -al *keytab
+#+END_SRC
+
+- uncomment 
+/etc/ssh/ssh_config
+#+BEGIN_EXAMPLE
+GSSAPIAuthentication yes
+GSSAPIDelegateCredentials yes
+#+END_EXAMPLE
+
+- reload sshd
+#+BEGIN_SRC sh
+systemctl reload sshd
+#+END_SRC
+
+- update the kerberos authentication config
+#+BEGIN_SRC sh
+authconfig --enablekrb5 --update
+#+END_SRC
+
+- open required ports on firewall using an xml file
+/etc/firewalld/services/kerberos.xml
+#+BEGIN_SRC sh
+<?xml version="1.0" encoding="utf-8"?>
+<service>
+  <short>Kerberos</short>
+  <description>Kerberos network authentication protocol server</description>
+  <port protocol="tcp" port="88"/>
+  <port protocol="udp" port="88"/>
+  <port protocol="tcp" port="749"/>
+</service
+#+END_SRC
+
+- Now apply the above config file
+#+BEGIN_SRC sh
+firewall-cmd --permanent --add-service=kerberos
+firewall-cmd --reload
+#+END_SRC
+
+- test configuration usign the krbtest
+#+BEGIN_SRC sh
+su - krbtest
+kinit
+ssh alickmitchell1.mylabserver.com
+#+END_SRC
+you should now connect with kerberos authenticating the krbtest user
+
+
 * Lecture
 * Tutorial
 ** RHCE Configuration of Kerberos 
@@ -89,4 +218,6 @@ ipa user-find frank
 #+END_SRC
 
 * Books
+[[file://home/crito/Documents/Linux/Linux_Security_Cookbook.pdf][Linux Security Cookbook]]
+
 * Links

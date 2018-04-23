@@ -7,7 +7,6 @@ HomePage: [[https://www.gnupg.org/][gnupg.org]]
 - dirmngr
 - gpg-zip - https://www.gnupg.org/documentation/manuals/gnupg/gpg_002dzip.html
 
-
 * Description
 
 * Usage

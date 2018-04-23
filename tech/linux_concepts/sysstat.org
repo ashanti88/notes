@@ -1,0 +1,20 @@
+#+TAGS: sys
+
+
+* sysstat
+Wiki: https://github.com/sysstat/sysstat/wiki
+Github: https://github.com/sysstat/sysstat
+* Files
+/etc/sysconfig/sysstat - the sysstat configuration
+/etc/sysconfig/sysstat.ioconf
+/etc/cron.d/sysstat - this file is where the cron job details for sysstat are held
+/var/log/sa - this is where the logs are kept
+* Cmds
+- iostat
+- pidstat
+- sar
+- sadf
+
+* Tutorial
+* Books
+* Links

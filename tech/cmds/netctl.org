@@ -1,8 +1,38 @@
-#+TAGS: net op conf
+#+TAGS: netctl systemd
 
 
 * netctl
 ArchLinux: [[https://wiki.archlinux.org/index.php/Netctl][archlinux/Netctl]]
+* Files
+/etc/netctl - this is the main directory
+** /etc/netctl/my_dhcp_profile
+#+BEGIN_EXAMPLE
+Interface=enp1s0
+Connection=ethernet
+IP=dhcp
+#+END_EXAMPLE
+
+** /etc/netctl/my_static_profile
+#+BEGIN_EXAMPLE
+Interface=enp1s0
+Connection=ethernet
+IP=static
+Address=('10.1.10.2/24')
+Gateway=('10.1.10.1')
+DNS=('10.1.10.1')
+#+END_EXAMPLE
+
+** /etc/netctl/wireless-wpa
+#+BEGIN_EXAMPLE
+Description='A simple WPA encrypted wireless connection using 256-bit PSK'
+Interface=wlp2s2
+Connection=wireless
+Security=wpa
+IP=dhcp
+ESSID=your_essid
+Key=\"64cf3ced850ecef39197bb7b7b301fc39437a6aa6c6a599d0534b16af578e04a
+#+END_EXAMPLE
+
 * Description
 This is a cmd line tool that allows for network interfaces to be configured using profiles.
 These profiles are found in /etc/netctl/
@@ -29,8 +59,12 @@ This will show all available networks
 
 ** netctl conflict with NetworkManager 
 - new install of Manjaro xfce installed NetworkManager by default
-- disabled NetworkManager but is still started on boot (being called by another program)
+- disabled NetworkManager but is still started on boot (being called by dbus)
 - mask NetworkManager to stop it 
+#+BEGIN_SRC sh
+systemctl disalbe NetworkManager
+systemctl mask NetworkManager
+#+END_SRC
 * Lecture
 * Tutorial
 * Books

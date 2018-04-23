@@ -1,3 +1,24 @@
-#+TAGS: sys anal sysstat
+#+TAGS: sysstat sadf frontend_to_sysstat_log
+
 
 * sadf
+* Description
+* Usage
+- view log information between between two times
+#+BEGIN_SRC sh
+sadf -s 01:00:00 -e 23:59:00 /var/log/sa/sa07
+#+END_SRC
+s - start
+e - end
+
+- print output delimited with ; and use sar cmd
+#+BEGIN_SRC sh
+sadf -d /var/log/sa/sa07 -- -urd -n DEV
+#+END_SRC
+-- - this means that sar cmds can be used
+d  - output information semicolon delimited
+
+* Lecture
+* Tutorial
+* Books
+* Links

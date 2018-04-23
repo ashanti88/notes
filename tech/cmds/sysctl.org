@@ -1,7 +1,7 @@
-#+TAGS: kernel op
+#+TAGS: kernel_runtime_parameters sysctl
 
 
-* sysctl                                                          :kernel:op:
+* sysctl
 Arch: [[https://wiki.archlinux.org/index.php/sysctl][wiki.archlinux.org/sysctl]]
 * Description
 Sysctl is used to examine and change kernel parameters at runtime. Sysctl is implemented in procfs.
@@ -30,10 +30,10 @@ sysstl -p /etc/sysctl.d/para_file.conf
 
 ** Set Specific Variable
 #+BEGIN_SRC sh
-sysctl pid_max=50000
+sysctl -w pid_max=50000
 #+END_SRC
 
-** Make a new varible value persistent
+** Make a new variable value persistent
 - write a new file in the /etc/sysctl.d directory that contains the varible and its new value
 50-ipforward.conf
 #+BEGIN_EXAMPLE
@@ -45,6 +45,14 @@ this means on subsequent reboots the variable will be set to 1
 sysctl -p /etc/sysctl.d/50-ipforward.conf
 #+END_SRC
 this will read the sysctl conf file and set new value, if no file is given /etc/sysctl.conf is read
+
+** adding a custom kernel variable value to /etc/sysctl.conf
+- this will be persistent across reboots
+#+BEGIN_EXAMPLE
+kernel.threads-max = 7550
+#+END_EXAMPLE
+this can be done for any varible that need to be altered
+
 
 * Lecture
 * Tutorial

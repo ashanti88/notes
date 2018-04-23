@@ -78,7 +78,226 @@ Deleting a bridge requires that the bridge is down <ip link set dev
   - removed the sym link /etc/resolv.conf -> /var/NetworkManager/resolv.conf
   - created a new /etc/resolv.conf and then made immutable
     - chattr +i /etc/resolv.conf
-* Based Distros
+* Package Management
+** Files
+/etc/apt/sources.list    - this is the list of repos that debian will use for package installation
+/etc/apt/sources.list.d/ - this is where you can add other repos for the apt tool to query
+/etc/apt/trusted.gpg     -
+
+** Cmds
+*** dpkg
+**** Basic Administration
+Install
+#+BEGIN_SRC sh
+dpkg -i application.deb
+#+END_SRC
+*makesure to add the deb-src to the source.list for updates
+
+Remove
+#+BEGIN_SRC sh
+dpkg -r application.deb
+#+END_SRC
+
+Purge
+#+BEGIN_SRC sh
+dpkg -P application.deb
+#+END_SRC
+
+- List all installed packages
+#+BEGIN_SRC sh
+dpkg -l
+#+END_SRC
+
+- List all files installed with package
+#+BEGIN_SRC sh
+dpkg -L nano
+#+END_SRC
+
+- Query a .deb package, this will show dependencies, arch, version, package-name etc
+#+BEGIN_SRC sh
+dpkg -I google-chrome-stable_current_amd64.deb
+#+END_SRC
+
+- Checking if package is installed
+#+BEGIN_SRC sh
+dpkg --get-selections google-chrome-stable
+#+END_SRC
+
+- list all the files that are installed with a pkg
+#+BEGIN_SRC sh
+dpkg -L linux-headers-generic
+#+END_SRC
+
+- list all the files that will be installed
+#+BEGIN_SRC sh
+dpkg --content telnet.deb
+#+END_SRC
+
+***** Dealing with missing dependencies with .deb files
+#+BEGIN_SRC sh
+dpkg -i google-chrome-stable_current_amd64.deb
+#+END_SRC
+this will inform us that we are missing certain dependencies, we could now go and find all the missing dependencies or run
+#+BEGIN_SRC sh
+apt update
+apt -f upgrade
+#+END_SRC
+the system is intelligent to know that we were searching for the previous missing depencies and will go and pull the packages
+#+BEGIN_SRC sh
+dpkg -i google-chrome-stable_current_amd64.deb
+#+END_SRC
+now the installation will complete
+
+**** Adding an additional architecture
+this comes in handy when you need to install a 32bit application on a
+64bit machine
+#+BEGIN_SRC sh
+dpkg --add-architecture i386
+apt-get update
+#+END_SRC
+
+*** apt-get
+**** Basic Actions
+- Update available software database
+#+BEGIN_SRC sh
+apt-get update
+apt update
+#+END_SRC
+
+- Upgrade all software available for upgrade
+#+BEGIN_SRC sh
+apt-get upgrade
+apt upgrade
+#+END_SRC
+
+- Upgrade with a little intelligence
+#+BEGIN_SRC sh
+apt-get dist-upgrade
+#+END_SRC
+Tries to not break any applications
+
+- Install
+#+BEGIN_SRC sh
+apt-get install application
+#+END_SRC
+
+- Remove
+#+BEGIN_SRC sh
+apt-get remove application
+#+END_SRC
+this will only remove package files, not configuration files
+
+- Purge
+#+BEGIN_SRC sh
+apt-get purge apllication
+#+END_SRC
+This will attempt to remove all configuration files
+
+- Search for an application
+#+BEGIN_SRC sh
+apt-cache search vsftpd
+#+END_SRC
+
+- show information of an application
+#+BEGIN_SRC sh
+apt-cache show vsftpd
+#+END_SRC
+
+- show more detailed information of an application
+#+BEGIN_SRC sh
+apt-cache showpkg vsftpd
+#+END_SRC
+
+- Show all installed applications
+#+BEGIN_SRC sh
+apt-cache pkgnames
+#+END_SRC
+Apt only will not know about software installed with dpkg or from source unless told
+
+- Fix broken dependencies
+#+BEGIN_SRC sh
+apt-get -f install
+#+END_SRC
+This comes in hand if you have installed a .deb with dpkg and there are some dependencies missing
+
+- Download the source file
+#+BEGIN_SRC sh
+apt-get source nano
+#+END_SRC
+To keep track of installed applications from source make sure the source is added to /etc/apt/source.list. It will be a deb-src ....
+
+- Download the .deb file but don't install
+#+BEGIN_SRC sh
+apt-get download nano
+#+END_SRC
+
+- Installing dependencies for a source file
+#+BEGIN_SRC sh
+apt-get build-dep application
+#+END_SRC
+
+- list all infomation on a package
+#+BEGIN_SRC sh
+apt-file find tmux
+#+END_SRC
+
+**** Advanced Actions
+- apt-key
+#+BEGIN_SRC sh
+apt-key add saved_gpg_key
+#+END_SRC
+to add a gpg key to a repository, first download the key and save as a file.
+
+- apt-Src
+!Think this just brings both "apt-get" and "dpkg" togeather
+
+Downloading the source
+
+  Building source files
+  #+BEGIN_SRC sh
+  apt-src build package
+  #+END_SRC
+  
+  Installing source files
+  #+BEGIN_SRC sh
+  apt-src package
+  #+END_SRC
+
+- Updating debian kernel
+#+BEGIN_SRC 
+apt-cache search linux-image
+#+END_SRC
+this will provide all available debian linux kernels
+
+**** rollback an apt-get upgrade
+Article: [[https://www.cyberciti.biz/howto/debian-linux/ubuntu-linux-rollback-an-apt-get-upgrade/][nixcraft]]
+1. search the apt history for the date of the upgrade to rollback from
+  > grep -A 2 'Start-Date: YYYY-MM-DD HH:MM:SS' /var/log/apt/history.log
+2. create list of programs that are to be removed
+  > grep -A 2 'Start-Date: YYYY-MM-DD HH:MM:SS' /var/log/apt/history.log | tail -1 >/tmp/packages.txt
+3. edit the /tmp/packages.txt and delete the Install: word
+  > sed -i 's/Install://' /tmp/packages.txt
+4. Final clean up
+  > tr ',' '\n' < /tmp/packages.txt | sed '/automatic)/d' | awk '{ print $1}' > /tmp/final.packages.txt
+  > wc -l /tmp/packages.txt - this will give the number packages that were installed
+5. run this script as root
+# Run as root
+# Store packages name in $p
+p="$(</tmp/final.packages.txt)"
+ 
+# Nuke it
+apt-get --purge remove $p
+ 
+#clears out the local repository of retrieved package files
+apt-get clean
+ 
+# Just in case ...
+apt-get autoremove
+ 
+# Verify disk space
+df -H
+
+*** apt
 * Lectures
 ** Anatomy of a Debian Package - Google Tech Talk
 url: [[https://www.youtube.com/watch?v%3DlFzPrzY2KFM&index%3D28&list%3DWL][Anatomy of a Debian Package]]
@@ -253,6 +472,95 @@ E: Unable to lock the administration directory (/var/lib/dpkg/) is another proce
 #+BEGIN_SRC sh
 update-alternatives --config editor
 #+END_SRC
+* Package Management
+** Files
+/etc/apt/sources.list
+** Create a local repository for Ubuntu (for local updates)
+
+- install proftpd and apt-mirror 
+#+BEGIN_SRC sh
+apt-get install apt-mirror proftpd-basic
+#+END_SRC
+
+- proftd will provide an ncurses setup
+
+[[file://home/crito/Pictures/org/deb_local_repo0.png]]
+the inetd is more appropriate for sysvinit, whereas standalone is more suited for systemd   
+
+- test ftp with localhost
+#+BEGIN_SRC sh
+ftp localhost
+#+END_SRC
+this should connect you to the ftp server
+
+- Now vist the Ubuntu Mirror Acheive https://launchpad.net/ubuntu/+archivemirrors
+  - choose a mirror that has ftp, sftp options
+    
+- edit mirror
+#+BEGIN_EXAMPLE
+set base_path /opt/dist-mirror
+set_nthreads 20
+set _tilde 0
+
+# Where I am mirroring from
+deb http://mirror.lstn.net/ubuntu/ trusty main
+deb-src http://mirror.lstn.net/ubuntu/ trusty main
+#+END_EXAMPLE
+the "Where I am mirroring from, should be the mirror that you choose
+
+- mkdir /opt/dist-mirror and download the mirrorlist
+#+BEGIN_SRC sh
+mkdir /opt/dist-mirror
+cd /opt/dist-mirror
+apt-mirror
+#+END_SRC
+this will download the repo from the mirror (around an hour)
+
+- configure a mirror path for the proftpd
+#+BEGIN_SRC sh
+mount --bind /opt/dist-mirror/mirror/mirror.lstn.net/ /srv/ftp/
+#+END_SRC
+
+- make the mount bind at boot add this to /etc/rc.local
+#+BEGIN_EXAMPLE
+mount --bind /opt/dist-mirror/mirror/mirror.lstn.net/ /srv/ftp/
+#+END_EXAMPLE
+
+- use cron to update the repo
+#+BEGIN_SRC sh
+cron -e
+#+END_SRC
+#+BEGIN_EXAMPLE
+0 3 * * * /usr/bin/apt-mirror >> /home/jim/mirror.log
+#+END_EXAMPLE
+3 am every day update the log files
+
+*** Configuring the client
+    
+- edit the /etc/apt/sources.list, add the following
+#+BEGIN_EXAMPLE
+deb ftp://192.168.1.135:/ubuntu trusty main
+deb-src ftp://192.168.1.135:/ubuntu trusty main
+#+END_EXAMPLE
+
+- update
+#+BEGIN_SRC sh
+apt-get update
+#+END_SRC
+errors may occur, such as throwing errors asking for 32bit arch on a 64bit arch
+
+- if this does occur edit the /etc/apt/sources.list
+#+BEGIN_SRC sh
+deb [arch=amd64]ftp://192.168.1.135:/ubuntu trusty main
+deb-src [arch=amd64]ftp://192.168.1.135:/ubuntu trusty main
+#+END_SRC
+this should resolve this issue
+
+- test by running an apt-cache search and view the repo address
+#+BEGIN_SRC sh
+apt-cache search git
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

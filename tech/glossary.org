@@ -13,6 +13,8 @@ HomePage: https://dri.freedesktop.org/wiki/DRM/
 * FDT  - Flattened Device Tree
 * FD   - Fast Data Project
 Homepage: https://fd.io/
+* iSCSI - Internet Small Computer Systems Interface
+wiki: https://en.wikipedia.org/wiki/ISCSI
 * IIO  - Industrial I/O Subsystem
 https://wiki.analog.com/software/linux/docs/iio/iio
 * LDAP - Lightweight Directory Access Protocol
@@ -23,6 +25,7 @@ ManPage: https://man.openbsd.org/ldpd
 [[file://home/crito/org/tech/mail/procmail.org][Procmail]]
 maildrop
 
+* LUN  - Logical Unit Number
 * MMIO - Memory Mapped I/O
 * MPLS - Multiprotocol Label Switching
 Wiki: https://en.wikipedia.org/wiki/Multiprotocol_Label_Switching

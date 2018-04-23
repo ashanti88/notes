@@ -24,6 +24,7 @@ HomePage: [[https://www.apache.org/][apache.org]]
 /etc/apache2/mods-enabled/    - symbolic links of the enabled mods
 /etc/apache2/sites-available/ - vhost configs
 /etc/apache2/sites-enabled/   - symbolic links of the enabled files in sites-available
+/etc/apache2/.htaccess        - this can override other configurations as it's read last. These are disabled by default
 
 ** RHEL
 /etc/httpd - server root
@@ -60,6 +61,11 @@ httpd -
 - Graceful Stop
 #+BEGIN_SRC sh
 apachectl graceful-stop
+#+END_SRC
+
+- list all available directives
+#+BEGIN_SRC sh
+/usr/sbin/apache2 -L
 #+END_SRC
 
 ** Module Mgmt
@@ -409,7 +415,7 @@ telnet localhost 80
 lynx http://localhost
 #+END_SRC
 
-** Restrict Access to a Web Page with Apache (RHEL)
+** Restrict Access to a Web Page with by IP with Apache (RHEL)
    
 - with in the /etc/httpd/conf/httpd.conf specifiy the exact directory that is to be restricted
 #+BEGIN_EXAMPLE
@@ -441,6 +447,58 @@ This only allows the specified ip addrs to connect to that directory
 </VirtualHost>
 #+END_EXAMPLE
 has to be specified after the DocumentRoot
+
+** Restrict Access to a Web Page to specific users (Debian)
+- create file that is to be held secret
+#+BEGIN_SRC sh
+cd /var/www/
+mkdir secret
+cd secret
+echo "This is a secret" > file.html
+#+END_SRC
+
+- create a users file 
+#+BEGIN_EXAMPLE
+htpasswd -c /etc/apache2/users fred
+#+END_EXAMPLE
+this will prompt you for a password
+
+- add the following above the final </VirtualHost>
+#+BEGIN_EXAMPLE
+<Location /secret>
+       AuthName "test"
+       AuthType Basic
+       AuthUserFile /tmp/users
+       Order deny,allow
+       require valid-user
+</Location>
+#+END_EXAMPLE
+if you only want a specific user change the /tmp/users to the user to be allowed
+
+- reload the apache
+#+BEGIN_SRC sh
+apache2ctl graceful
+#+END_SRC
+
+*** Using groups
+- similar to users but 
+#+BEGIN_EXAMPLE
+<Location /secret>
+        AuthName "test"
+        AuthType Basic
+        AuthUserFile /tmp/users
+        Order deny,allow
+	AuthGroupFile /etc/apache/groups	
+	require group pirates
+</Location>
+#+END_EXAMPLE
+
+/etc/apache/groups
+#+BEGIN_EXAMPLE
+pirates: fred
+pirates: wilma
+pirates: barney
+#+END_EXAMPLE
 
 ** Setting up name-based virtual web hosts (Ubuntu)
    
@@ -633,6 +691,33 @@ systemctl restart httpd.service
 systemctl status httpd.service
 #+END_SRC
 
+** Enabling SSI on apache (Debian)
+- add the the config option for the include module
+#+BEGIN_EXAMPLE
+<Location /ssi>
+	Options +Includes
+</Location>
+#+END_EXAMPLE
++ this adds to exsiting options
+
+- enable the include module
+#+BEGIN_SRC sh
+a2enmod include
+#+END_SRC
+
+- restart the apache service
+#+BEGIN_SRC sh
+apache2ctl graceful
+#+END_SRC
+
+** Logging for apache with webalizer
+#+BEGIN_SRC sh
+apt-get install webalizer
+#+END_SRC
+
+- access example.com/webalizer
+  - this will create an entry with every log rotation  
+    
 * Modules
 Wiki: [[https://en.wikipedia.org/wiki/List_of_Apache_modules][List of Apache Modules]]
 ** mod_wsgi
@@ -910,6 +995,7 @@ apt-get install php5 libapache2-mod-php5 php5-mcrypt
 #+END_SRC
 
 * Books
+[[file://home/crito/Documents/Linux/Linux_System_Administration.pdf][Linux System Administration - Chapter 6 Administering Apache]]
 * Links
 [[https://linuxconfig.org/turn-off-directory-browsing-on-apache][Turn off directory browsing on Apache]]
 [[https://httpd.apache.org/docs/1.3/logs.html][Log Files - Apache HTTP Server]]

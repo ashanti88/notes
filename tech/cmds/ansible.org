@@ -1364,9 +1364,7 @@ ansilbe databases -m file -a "dest=./testfile mode=600"
 
 
 * ansible-playbook 
-* Description
-* Usage
-** Playbooks
+* Playbooks
 *** Simple file copy
 #+BEGIN_EXAMPLE
 ---
@@ -1375,7 +1373,7 @@ ansilbe databases -m file -a "dest=./testfile mode=600"
     - name: Copy ansible inventory file to client
       copy: src=/etc/ansible/hosts dest=/home/ansible/hosts
 #+END_EXAMPLE
-*** create the file if it doesn't exist and add the line to the file
+*** Create the file if it doesn't exist and add the line to the file
 #+BEGIN_EXAMPLE
 ---
 - hosts: databases
@@ -1391,7 +1389,7 @@ ansilbe databases -m file -a "dest=./testfile mode=600"
       line: Hostname= {{ ansible_hostname }}
 #+END_EXAMPLE
  
-*** install apache and add an index.html file with text
+*** Install apache and add an index.html file with text
 #+BEGIN_EXAMPLE
 ---
 - hosts: databases
@@ -1416,7 +1414,7 @@ ansilbe databases -m file -a "dest=./testfile mode=600"
       state: reloaded
 #+END_EXAMPLE
 
-*** using stdout and stderr to print messages
+*** Using stdout and stderr to print messages
 #+BEGIN_EXAMPLE
 ---
 - hosts: databases
@@ -1428,7 +1426,7 @@ ansilbe databases -m file -a "dest=./testfile mode=600"
    - debug: msg="stderr={{ hello.stderr }}"
 #+END_EXAMPLE
 
-*** print the motd, if empty tell us
+*** Print the motd, if empty tell us
 #+BEGIN_EXAMPLE
 ---
 - hosts: databases
@@ -1440,7 +1438,7 @@ ansilbe databases -m file -a "dest=./testfile mode=600"
      when: motd_contents.stdout == ""
 #+END_EXAMPLE
 
-*** copying a file to a target machine and set the privs
+*** Copying a file to a target machine and set the privs
 mainapp1.yml
 #+BEGIN_EXAMPLE
 ---
@@ -1528,17 +1526,121 @@ ignore_errors - this means that the script will continue even if it initially fa
       - php-mysql
       - httpd
 #+END_EXAMPLE
+*** Create a new user and copy a file to their home dir
+#+BEGIN_EXAMPLE
+---
+- hosts: local
+  become: yes
+  tasks:
+  - user:
+      name: newuser
+      comment: "new user"
+  - name: upload file to target if it doesn't exist
+    copy:
+      src: /opt/program1.sh
+      dest: /home/newuser/program1.sh
+      mode: 0755
+#+END_EXAMPLE
+
+*** Copy a file and check the contents for a specific line, if not there add it
+#+BEGIN_EXAMPLE
+---
+- hosts: local
+  tasks:
+  - name: upload file to target if it doesn't exist
+    copy:
+      src: /opt/program1.sh
+      dest: /home/ansible/program1.sh
+      mode: 0755
+  - name: if the line isn't there then add it
+    lineinfile:
+      state: present
+      dest: /home/ansible/program1.sh
+      regexp: '^hostname2='
+      line: hostname2={{ ansible_hostname }}
+#+END_EXAMPLE
+*** setup a Wordpress site with
+The database is already configured on the remote host and httpd is up and running
+wp-config.j2 is a copy of wp-config.php with the following changed and the salts added
+#+BEGIN_EXAMPLE
+// ** MySQL settings - You can get this info from your web host ** //
+/** The name of the database for WordPress */
+define('DB_NAME', '{{database_name_here}}');
+
+/** MySQL database username */
+define('DB_USER', '{{username_here}}');
+
+/** MySQL database password */
+define('DB_PASSWORD', '{{password_here}}');
+
+/** MySQL hostname */
+define('DB_HOST', '{{dbhost_here}}');
+#+END_EXAMPLE
+
+playbook
+#+BEGIN_EXAMPLE
+---
+- hosts: databases
+  become: yes
+  vars:
+    database_name_here: wordpress
+    username_here: wordpress
+    password_here: wordpress
+    dbhost_here: 172.31.110.19
+  tasks:
+  - name: install php for wp
+    yum: name={{item}}
+    with_items:
+      - php
+      - php-gd
+      - php-pear
+      - php-mysql
+  - name: restart httpd
+    service: name=httpd state=restarted
+  - unarchive:
+      src: https://wordpress.org/latest.tar.gz
+      dest: /tmp/
+      remote_src: True
+  - name: remove html folder
+    command: /usr/bin/rm -rf /var/www/html
+  - name: move wp
+    command: /usr/bin/mv /tmp/wordpress/ /var/www/html
+  - name: copy template to host
+    template: src=wp-config.j2 dest=/var/www/html/wp-config.php
+#+END_EXAMPLE
+
+*** Pulling the servers date and time facts
+#+BEGIN_EXAMPLE
+---
+- hosts: databases
+  tasks:
+    - debug: msg="The Server Date is {{ ansible_date_time.date }} Time is {{ ansible_date_time.hour }}:{{ ansible_date_time.minute }}"
+#+END_EXAMPLE
+
+*** Pulling the OS distribution and Version
+#+BEGIN_EXAMPLE
+---
+- hosts: databases
+  tasks:
+    - debug: msg="The Server OS at {{ ansible_default_ipv4.address }} is {{ ansible_distribution }} Version {{ ansible_distribution_major_version }}"
+#+END_EXAMPLE
+
+*** Find the ip address of a group of servers
+#+BEGIN_EXAMPLE
+---
+- hosts: all
+  tasks:
+    - debug: msg="The Server's IP address is {{ ansible_default_ipv4.address }}"
+#+END_EXAMPLE
+
 * Lecture
 * Tutorial
-* Books
 * Links
 
 
 * ansible-galaxy
 HomePage: [[https://galaxy.ansible.com/][galaxy.ansible.com]]
-* Description
 * Usage
 * Lecture
 * Tutorial
-* Books
 * Links
