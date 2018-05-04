@@ -4,7 +4,6 @@
 * Logical Volume Management
 * Cmds
 ** Physical Volumes
-
 ** Volume Groups
 
 ** Logical Volumes

@@ -246,6 +246,30 @@ P - persistantly
 
 ** Setroubleshoot
 
+** Port labeling to allow services to use non-standard ports
+- this example will use http and run it on a none standard port
+  
+- edit the /etc/httpd/conf/httpd.conf
+#+BEGIN_EXAMPLE
+Listen 81
+#+END_EXAMPLE
+this is none standard but still allowed by selinux as it is set a one of the allowed ports
+
+- view allowed ports
+#+BEGIN_SRC sh
+semanage port -l | grep http
+#+END_SRC
+
+- adding a port that isn't listed
+#+BEGIN_SRC sh
+semanage port -a -t http_port_t -p tcp 8282
+#+END_SRC
+
+- restart apache
+#+BEGIN_SRC sh
+systemctl restart httpd
+#+END_SRC
+
 * Lecture
 ** A Fresh Look at SELinux - Daniel Walsh
 [[https://www.youtube.com/watch?v%3DX1NAJbLqEv8&list%3DWL&index%3D86][URL]]

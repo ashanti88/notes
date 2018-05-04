@@ -357,6 +357,191 @@ systemctl restart httpd
 telnet example.com 443
 #+END_SRC
 
+** Configuring Private Directories 
+- Select user that is going to have a private directory
+#+BEGIN_SRC sh
+mkdir /var/user1dir
+chown user1:user1 /var/user1dir
+chmod 0711 /var/user1dir
+#+END_SRC
+
+- change the selinux context on the user1dir
+#+BEGIN_SRC sh
+semanage fcontext -at httpd_sys_content_t "/var/user1dir(/.*)?"
+restorecon -Rv /var/user1dir
+#+END_SRC
+v - verbose
+R - Recursively apply
+
+- create an index.html in the private directory
+#+BEGIN_SRC sh
+echo "This is user1's private directory" > /var/user1dir/index.html
+#+END_SRC
+
+- edit the httpd.conf, change DocumentRoot
+#+BEGIN_SRC sh
+DocumentRoot "/var"
+<Directory "/var/user">
+    AllowOverride AuthConfig
+</Direcotry>
+#+END_SRC
+
+- check the syntax
+#+BEGIN_SRC sh
+httpd -t
+#+END_SRC
+
+- crate an .htaccess file in /var/user
+#+BEGIN_EXAMPLE
+AuthType Basic
+AuthName "Password Protected Private Directory - Enter Login Credentials:"
+AuthUserFile "/etc/httpd/conf/.userdb"
+Require user user
+#+END_EXAMPLE
+
+- create the user password
+/etc/httpd/conf/.userdb
+#+BEGIN_SRC sh
+htpasswd -c .userdb user
+chgrp apache .userdb
+chmod 0640 .userdb
+systemctl restart httpd
+#+END_SRC
+
+- now login into the private directory
+#+BEGIN_SRC sh
+elinks http://alickmitchell5.mylabserver.com/user
+#+END_SRC
+you will be prompt for a user login and password
+
+** Configuring Group Managed Content
+- create the directory to hold the group content
+#+BEGIN_SRC sh
+mkdir /var/private
+#+END_SRC
+
+- create the group that are to access the content
+#+BEGIN_SRC sh
+groupadd dbadmins
+usermod -G dbadmins user1
+usermod -G dbadmins user2
+#+END_SRC
+
+- change group ownership of /var/private
+#+BEGIN_SRC sh
+chgrp dbadmins private
+chmod 0771 private
+echo "This is the DBADMINS index.html in /var/private" > index.html
+#+END_SRC
+
+- set the selinux contexts
+#+BEGIN_SRC sh
+semange fcontext -at httpd_sys_content_t /var/private(/.*)?
+restorecon -Rv /var/private
+#+END_SRC
+v - verbose
+R - recursive
+
+- configure /etc/httpd/conf/httpd.conf
+#+BEGIN_EXAMPLE
+DocumentRoot "/var"
+<Directory /var/private>
+    AllowOverride AuthConfig
+</Directory>
+#+END_EXAMPLE
+
+- check the syntax of the changes
+#+BEGIN_SRC sh
+httpd
+#+END_SRC
+
+- create the .htaccess file for /var/private
+#+BEGIN_EXAMPLE
+AuthType Basic
+AuthName "Password Protected DBADMIN Contect: "
+AuthUserFile "/etc/httpd/conf/.grouppassworddb"
+AuthGroupFile "/etc/httpd/conf/.groupdb"
+Require group dbadmins
+#+END_EXAMPLE
+
+- create the .groupdb
+#+BEGIN_SRC sh
+dbadmins user1 user2
+#+END_SRC
+
+- add the correct privs and group ownership to /etc/httpd/conf/.groupdb
+#+BEGIN_SRC sh
+chgrp apache .groupdb
+chmod 0640 .groupdb
+#+END_SRC
+
+- create the group password file /etc/httpd/conf/.grouppassworddb
+#+BEGIN_SRC sh
+htpasswd -c .grouppassworddb user1
+htpasswd .grouppassworddb user1
+#+END_SRC
+makesure that the -c is only used on the first user, otherwise the file be written over each time
+
+- restart the httpd service
+#+BEGIN_SRC sh
+systemctl restart httpd
+#+END_SRC
+
+- confirm that content is available
+#+BEGIN_SRC sh
+elinks http://alickmitchell5.mylabserver.com/private
+#+END_SRC
+you will be challenged for a username and password before being taken to the shared content
+
+
+** Configure a Virtual Host(RHCE RHEL7)
+- ensure that the directory that you are going to place your vhosts in is added to the httpd.conf
+#+BEGIN_EXAMPLE
+IncludeOptional conf.d/*.conf
+IncludeOptional vhosts/*.conf
+#+END_EXAMPLE
+By default the conf.d/*.conf is set, this means that an vhost that is added in the conf.d that ends with conf will be used
+  - this can become messy and it's better to use a single directory to hold all your vhost configs
+
+- create the vhost config in /etc/httpd/vhosts
+#+BEGIN_EXAMPLE
+<VirtualHost *:80>
+        ServerAdmin admin@myvhost.example.com
+        DocumentRoot /var/www/html/myvhost
+        ServerName myvhost.example.com
+        ErrorLog logs/myvhost-error_log
+        CustomLog logs/myvhost-access_log combined
+</VirtualHost>
+#+END_EXAMPLE
+when testing you will have to add the domain name to the /etc/hosts file
+
+- create the index.html file
+#+BEGIN_SRC sh
+mkdir /var/www/html/myvhost
+echo "This is MYVHOST at myvhost.example.com" > /var/www/html/myvhost/index.html
+#+END_SRC
+
+- check syntax of config file
+#+BEGIN_SRC 
+httpd -t
+#+END_SRC
+
+- check that virtual host has been added
+#+BEGIN_SRC sh
+httpd -D DUMP_VHOSTS
+#+END_SRC
+
+- restart the httpd service
+#+BEGIN_SRC sh
+systemctl restart httpd
+#+END_SRC
+
+- confirm that the vhost is accessable and returning the correct content
+#+BEGIN_SRC sh
+elinks http://myvhost.example.com
+#+END_SRC
+
+
 ** Install and Configure an Apache Web Server (RHEL)
    
 - install apache

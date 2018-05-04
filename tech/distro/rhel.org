@@ -2090,34 +2090,34 @@ ncomplete transactions can be found in /var/lib/yum/transaction-all* and transac
 ** dnf
 *** Basic Administration					   :rhel:dnf:
  Install application
-+BEGIN_SRC sh
-nf install vim
-+END_SRC
+#+BEGIN_SRC sh
+dnf install vim
+#+END_SRC
 
  Remove application
-+BEGIN_SRC sh
-nf remove vim
-+END_SRC
+#+BEGIN_SRC sh
+dnf remove vim
+#+END_SRC
 
  Search for application
-+BEGIN_SRC sh
-nf search vim
-+END_SRC
+#+BEGIN_SRC sh
+dnf search vim
+#+END_SRC
 
  Check for available updates
-+BEGIN_SRC sh
-nf check-update
-+END_SRC
+#+BEGIN_SRC sh
+dnf check-update
+#+END_SRC
 
  Upgrade All Software to Newest Version
-+BEGIN_SRC sh
-nf upgrade
-+END_SRC
+#+BEGIN_SRC sh
+dnf upgrade
+#+END_SRC
 
  Upgrade a specific package
-+BEGIN_SRC sh
-nf upgrade vim
-+END_SRC
+#+BEGIN_SRC sh
+dnf upgrade vim
+#+END_SRC
 
  [[file://home/crito/org/tech/linux_concepts/pkg_mgmt.org][RPM & yum]]
 ** SELinux
