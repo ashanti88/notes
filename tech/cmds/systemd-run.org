@@ -1,0 +1,17 @@
+#+TAGS: systemd-run at
+
+
+* systemd-run
+* Description
+This command can be used to create transient timers, similar to the at command
+
+* Usage
+- create a file in 1 minute
+#+BEGIN_SRC sh
+systemd-run --on-active=1m /bin/touch /root/hello
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

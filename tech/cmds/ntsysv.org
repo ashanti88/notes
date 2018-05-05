@@ -1,0 +1,12 @@
+#+TAGS: sysvinit red_hat_service_tool
+
+
+* ntsysv
+* Description
+This is an ncurses utility to manage sysvinit services.
+
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

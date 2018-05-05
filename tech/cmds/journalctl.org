@@ -1,15 +1,23 @@
-#+TAGS: systemd log sysd logging
+#+TAGS: systemd log sysd logging journalctl
 
 
 * journalctl
 * Files
 /etc/systemd/journald.conf
+  - Storage            - auto       - the default, will store data to /var/log/journal(if it exists) and to /run/log/journal
+                       - persistent - data is stored to /var/log/journal hierarchy
+		       - volatile   - data is only sent to /run/log/journal, resides in memory
+		       - none       - no data is kept, all log data is dropped
+  - Compress           - yes - the default, any data objects above a certain threshold are compress before they are written to disk
+                       - no  - no data objects are compressed
   - SystemMaxUse       - Specifies the maximum disk space that can be used by the journal in persistent storage
   - SystemKeepFree     - Specifies the amount of space that the journal should leave free when adding journal entries to persistent storage 
   - SystemMaxFileSize  - Controls how large individual journal files can grow to in persistent storage before being rotated
+  - MaxRetentionSec    - The maximum amount of time to store journal entries, default is 0 (meaning that it's off)
   - RuntimeMaxUse      - Specifies the maximum disk space that can be used in volatile storage (within the /run filesystem)
   - RuntimeKeepFree    - Specifies the amount of space to be set aside for other uses when writing data to volatile storage (within the /run filesystem)
   - RuntimeMaxFileSize - Specifies the amount of space that an individual journal file can take up in volatile storage (within the /run filesystem) before being rotated
+
 /var/log/journal
 /run/log/journal/      - This holds the runtime journal file (this can be switched to /var/log/journal/ if changed to persistent in the config)
 
@@ -99,6 +107,12 @@ b - boot
 journalctl -b 
 #+END_SRC
 
+- list all available boot sessions
+#+BEGIN_SRC sh
+journalctl --list-boots
+#+END_SRC
+this will provide a numbered list that can be used with the -b flag
+
 - review a previous sessions boot process
 #+BEGIN_SRC sh
 journalctl -b -1
@@ -160,6 +174,11 @@ n - number of last enteries (default 10)
 #+BEGIN_SRC sh
 journalctl -n 20
 #+END_SRC
+
+- only print a specific service
+#+BEGIN_SRC sh
+journalctl -f -u httpd.service
+#+END_SRC
 ** Journal Maintenance
 - view the size of the current logs
 #+BEGIN_SRC sh
@@ -178,8 +197,34 @@ journalctl --vacuum-time=1years
 #+END_SRC
 logs older than 1yr will be deleted
 
+** Make the journal permanent
+- with the journal being stored in /run/log/journal on reboot this is lost
+  
+- make a log directory
+#+BEGIN_SRC sh
+mkdir -p /var/log/journal
+#+END_SRC
+
+- enable journal to becom persistent on reboot
+#+BEGIN_SRC sh
+systemd-tempfiles --create --prefix /var/log/journal
+#+END_SRC
+
+This is usually already enabled on most distributions
+
+** How much memory are the current joural logs taking up
+#+BEGIN_SRC sh
+journalctl --disk-usage
+#+END_SRC
+
+** Rotate the logs
+#+BEGIN_SRC sh
+journalctl --rotate
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books
 * Links
 [[https://www.digitalocean.com/community/tutorials/how-to-use-journalctl-to-view-and-manipulate-systemd-logs][How to use journalctl to view and manipulate systemd logs - DigitalOcean]]
+man 7 systemd.journal-fields - this will explain in detail all the fields that are output by the journal

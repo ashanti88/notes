@@ -1,0 +1,11 @@
+#+TAGS: systemd
+
+
+* systemd-resolve.org
+* Description
+Allows a system to resolve hostnames, not available in some older versions of systemd
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -1,0 +1,52 @@
+#+TAGS: systemd-nspawn containers
+
+
+* systemd-nspawn
+* Description
+* Usage
+** How to build a Container in systemd
+- download base packages
+#+BEGIN_SRC sh
+yum -y --releasever=7 --installroot=/var/lib/machines/centos7 install systemd passwd yum vim-minimal redhat-realease
+#+END_SRC
+
+- set selinux to permissive
+#+BEGIN_SRC sh
+setenforce 0
+#+END_SRC
+currently causes issues with containers(05/05/2018)
+
+- systemd will spawn the container
+#+BEGIN_SRC sh
+sytemd-nspawn -D /var/lib/machines/centos7
+#+END_SRC
+This will provide you with a basic root prompt inside your container
+
+- set a password for the root user
+#+BEGIN_SRC sh
+passwd
+#+END_SRC
+
+- rename the /etc/securetty to disabled
+#+BEGIN_SRC sh
+mv /etc/securetty /etc/securetty.disabled
+#+END_SRC
+
+- exit the container by hitting ^] three times
+  
+- set container to be enabled on boot
+#+BEGIN_SRC sh
+sysemctl enable systemd-nspawn@centos7
+#+END_SRC
+
+- start the container
+#+BEGIN_SRC sh
+machinectl start centos7
+machinectl status centos7
+#+END_SRC
+
+
+* Lecture
+* Tutorial
+* Books
+* Links

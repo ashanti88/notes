@@ -84,7 +84,6 @@ a2enmod mod_wsgi
 a2dismod mod_wsgi
 #+END_SRC
 
-** .htaccess
 ** htpasswd
 - htpasswd
   - this cmd creates a database of user, password values that apache can use
@@ -541,6 +540,124 @@ systemctl restart httpd
 elinks http://myvhost.example.com
 #+END_SRC
 
+** Deploy a bsic CGI application
+- check where scripts can be placed bey greping httpd.conf for ScriptAlias
+#+BEGIN_SRC sh
+cat /etc/httpd/conf/httpd.conf | grep -i "scriptalias"
+#+END_SRC
+this will return a line that will indicate where scripts should be placed for cgi, by default /cgi-bin
+
+- in /var/www/cgi-bin create a simple script
+#+BEGIN_EXAMPLE
+#!/bin/bash
+
+echo "Content-type: text"
+echo 
+echo
+echo "This is the current time on the system $(date)"
+#+END_EXAMPLE
+the Content-type line is important and needs to be set correctly otherwist the script will fail
+
+- check the state of the selinux bool for cgi, if not enable then enable 
+#+BEGIN_SRC sh
+getsebool -a | grep httpd_enable_cgi
+setsebool -P httpd_enable_cgi 1
+#+END_SRC
+
+*** Setting the script in a none default cgi directory
+- create the new directory to put the scripts in
+#+BEGIN_SRC sh
+mkdir /var/www/webscripts
+#+END_SRC
+
+- create the script in the new directory
+#+BEGIN_EXAMPLE
+#!/bin/bash
+
+echo "Content-type: text"
+echo 
+echo
+echo "This is the current time on the system $(date)"
+echo
+echo
+echo "This script isn't in the default position"
+#+END_EXAMPLE
+
+- set the selinux context on the new directory
+#+BEGIN_SRC sh
+semanage fcontext -at httpd_sys_script_exec_t "/var/www/webscripts(/.*)?"
+restorecon -Rv /var/www/webscripts
+#+END_SRC
+
+- edit /etc/httpd/conf/httpd.conf
+#+BEGIN_EXAMPLE
+ScriptAlias /cgi-bin/ "var/www/webscripts/"
+<Directory "/var/www/webscripts">
+    AllowOverride None
+    Options None
+    Require all granted
+</Directory>
+#+END_EXAMPLE
+    
+- restart the httpd service
+#+BEGIN_SRC sh
+systemctl restart httpd
+#+END_SRC
+
+
+** Configure TLS Security - Generating Key Files, CSRs and SelfSigned Certificates
+- install mod_ssl and openssl
+#+BEGIN_SRC sh
+yum install -y mod_ssl openssl
+#+END_SRC
+
+- generate an key to sign your certificate
+#+BEGIN_SRC sh
+openssl genpkey -algorithm rsa -pkeyopt rsa_keygen_bits:2048 -out alickmitchell5.mylabserver.com.key
+#+END_SRC
+
+- create the certificate signing request
+#+BEGIN_SRC sh
+openssl req -new -key alickmitchell5.mylabserver.com.key -out alickmitchell5.mylabserver.com.csr
+#+END_SRC
+it is this that is sent to the CA to request a cert for your site
+
+- we can create a self signed cert
+#+BEGIN_SRC sh
+openssl x509 -req -days 365 -signkey alickmitchell5.mylabserver.com.key -in alickmitchell5.mylabserver.com.csr -out alickmitchell5.mylabserver.com.crt
+#+END_SRC
+
+- set the location of the certificate in the httpd.conf or in the virtual host config
+#+BEGIN_EXAMPLE
+<VirtualHost *:443>
+    DocumentRoot "/var/www/html/ourexample"
+    ServerName alickmitchell5.mylabserver.com:443
+    SSLCertificateFile /etc/pki/tls/certs/alickmitchell5.mylabserver.com.crt
+    SSLCertificateKeyFile /etc/pki/tls/certs/alickmitchell5.mylabserver.com.key
+</VirtualHost>
+#+END_EXAMPLE
+
+- test that our vhost is listening for ssl
+#+BEGIN_SRC sh
+httpd -D DUMP_VHOSTS
+#+END_SRC
+
+- add firewall rules
+#+BEGIN_SRC sh
+firewall-cmd --permanent --add-service=https
+firewall-cmd --reload
+#+END_SRC
+
+- restart the httpd service
+#+BEGIN_SRC sh
+systemctl restart httpd
+#+END_SRC
+
+- check the validity of the certificate (if no gui browser available)
+#+BEGIN_SRC sh
+openssl s_client -connect localhost:443 -state
+#+END_SRC
+this will print to the screen all the certificates details
 
 ** Install and Configure an Apache Web Server (RHEL)
    

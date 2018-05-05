@@ -1,0 +1,17 @@
+#+TAGS: systemd systemd-inhibit
+
+
+* systemd-inhibit
+* Description
+Prevents the system from sleeping or shutting down while a command is running.
+
+* Usage
+- stop machine from going to sleep whilst a download is occuring
+#+BEGIN_SRC sh
+systemd-inhibit wget http://example.com/dvd.iso
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

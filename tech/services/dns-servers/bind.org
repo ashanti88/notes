@@ -261,6 +261,89 @@ authors.bind.   CHAOS  TXT "are better coders than I. :)"
 
 * Description
 * Usage
+** Configure a Caching-Only Name Server
+- install bind and it's utils
+#+BEGIN_SRC sh
+yum install -y bind bind-utils
+#+END_SRC
+
+- edit the /etc/named.conf
+  - listen-on port 53
+  - allow-query
+  - dnssec-validation
+#+BEGIN_EXAMPLE
+options {
+        listen-on port 53 { any; }; // edited from 127.0.0.1 to any
+        listen-on-v6 port 53 { ::1; };
+        directory       "/var/named";
+        dump-file       "/var/named/data/cache_dump.db";
+        statistics-file "/var/named/data/named_stats.txt";
+        memstatistics-file "/var/named/data/named_mem_stats.txt";
+        allow-query     { any; }; // edited from localhost to any
+
+        /* 
+         - If you are building an AUTHORITATIVE DNS server, do NOT enable recursion.
+         - If you are building a RECURSIVE (caching) DNS server, you need to enable 
+           recursion. 
+         - If your recursive DNS server has a public IP address, you MUST enable access 
+           control to limit queries to your legitimate users. Failing to do so will
+           cause your server to become part of large scale DNS amplification 
+           attacks. Implementing BCP38 within your network would greatly
+           reduce such attack surface 
+        */
+        recursion yes;
+
+        dnssec-enable yes;
+        dnssec-validation no; //edited for yes to no
+
+        /* Path to ISC DLV key */
+        bindkeys-file "/etc/named.iscdlv.key";
+
+        managed-keys-directory "/var/named/dynamic";
+
+        pid-file "/run/named/named.pid";
+        session-keyfile "/run/named/session.key";
+};
+
+logging {
+        channel default_debug {
+                file "data/named.run";
+                severity dynamic;
+        };
+};
+
+zone "." IN {
+        type hint;
+        file "named.ca";
+};
+
+include "/etc/named.rfc1912.zones";
+include "/etc/named.root.key";
+#+END_EXAMPLE
+
+- check the configuration
+#+BEGIN_SRC sh
+named-checkconf
+#+END_SRC
+
+- add the firewall rules
+#+BEGIN_SRC sh
+firewall-cmd --permanent --add-service=dns
+firewall-cmd --reload
+#+END_SRC
+
+- start and enable the dns service
+#+BEGIN_SRC sh
+systemctl start named
+systemctl enable named
+#+END_SRC
+
+- check that the caching name server is working
+#+BEGIN_SRC sh
+nslookup linuxacademy.com 127.0.0.1
+#+END_SRC
+if no output is produced that means that the dns isn't working correctly
+
 * Lecture
 * Tutorial
 ** Configuring BIND9 DNS - Linux Academy

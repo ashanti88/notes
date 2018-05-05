@@ -33,6 +33,25 @@ WantedBy=multi.user.target
 [[file://home/crito/org/tech/cmds/coredumpctl.org][coredumptl]]
 [[file://home/crito/org/tech/cmds/bootctl.org][bootctl]]
 [[file://home/crito/org/tech/cmds/journalctl.org][journalctl]]
+[[file://home/crito/org/tech/cmds/systemd-cgls.org][systemd-cgls]]
+[[file://home/crito/org/tech/cmds/timedatectl.org][timedatectl]]
+[[file://home/crito/org/tech/cmds/localectl.org][localectl]]
+[[file://home/crito/org/tech/cmds/hostnamectl.org][hostnamectl]]
+[[file://home/crito/org/tech/cmds/systemd-resolve.org][systemd-resolve]]
+[[file://home/crito/org/tech/cmds/systemd-inhibit.org][systemd-inhibit]]
+[[file://home/crito/org/tech/cmds/timedatectl.org][timedatectl]]
+[[file://home/crito/org/tech/cmds/systemd-delta.org][systemd-delta]]
+[[file://home/crito/org/tech/cmds/systemd-run.org][systemd-run]]
+[[file://home/crito/org/tech/cmds/systemd-nspawn.org][systemd-nspawn]]
+[[file://home/crito/org/tech/cmds/machinectl.org][machinectl]]
+file://home/crito/org/tech/cmds/systemd-networkd.org
+
+
+
+* Overview of Systemd Parts
+
+[[file://home/crito/Pictures/org/systemd_main_parts.png]]
+
 * States (Runlevels)
 0      - poweroff.target - halt the system
 1      - rescue.target - single-user mode
@@ -297,3 +316,5 @@ WantedBy=multi-user.target
 [[https://www.linux.com/learn/cleaning-your-linux-startup-process][Cleaning up your linux startup process]]
 [[https://www.linux.com/learn/intro-systemd-runlevels-and-service-management-commands][Intro to Systemd Runlevels and Service Management Commands]]
 [[https://www.digitalocean.com/community/tutorials/understanding-systemd-units-and-unit-files][Understanding Systemd Units and Unit Files - DigitalOcean]]
+man 5 system.resource-control - this explains how systemd uses cgroups
+man 5 systemd.unit - this will explain all the available variables that unit files can use

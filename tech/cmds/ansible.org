@@ -300,6 +300,11 @@ Docs: https://docs.ansible.com/ansible/latest/modules/script_module.html
 *** service
 Docs: https://docs.ansible.com/ansible/latest/modules/service_module.html
 
+*** setup
+- view the current setup of a system
+#+BEGIN_SRC sh
+ansible dbserver -m setup -a "filter=ansible_hostname"
+#+END_SRC
 *** shell
 Docs: https://docs.ansible.com/ansible/latest/modules/shell_module.html
 
@@ -1633,14 +1638,362 @@ playbook
     - debug: msg="The Server's IP address is {{ ansible_default_ipv4.address }}"
 #+END_EXAMPLE
 
+*** Using your own facts
+- create your own facts in /etc/ansible/facts.d/preference.fact
+#+BEGIN_EXAMPLE
+[general]
+private_fact=bugs
+other_fact=bunny
+#+END_EXAMPLE
+
+- uses these now in a playbook
+#+BEGIN_EXAMPLE
+---
+- hosts: local
+  tasks:
+    - debug: msg="{{ansible_local.preference}}"
+#+END_EXAMPLE
+
+- the output
+#+BEGIN_EXAMPLE
+PLAY [local] **********************************************************************************
+
+TASK [Gathering Facts] ************************************************************************
+ok: [localhost]
+
+TASK [debug] **********************************************************************************
+ok: [localhost] => {
+    "msg": {
+        "general": {
+            "other_fact": "bunny", 
+            "private_fact": "bugs"
+        }
+    }
+}
+
+PLAY RECAP ************************************************************************************
+localhost                  : ok=2    changed=0    unreachable=0    failed=0   
+#+END_EXAMPLE
+
+*** Serialization/Parallelism of processors
+- make the playbook connect to more machines at once
+#+BEGIN_EXAMPLE
+---
+- hosts: ec2
+  become: yes
+  serial: 10
+  tasks:
+  - name: install elinks
+    yum: name=elinks state=lastest
+#+END_EXAMPLE
+Now instead of ansible using the default 5, it will connect to 10 at a time
+
+- instead of using numbers you can use a percent, this will use the selected percentage of the hosts
+#+BEGIN_EXAMPLE
+---
+- hosts: ec2
+  become: yes
+  serial: "30%"
+  tasks:
+  - name: install elinks
+    yum: name=elinks state=lastest
+#+END_EXAMPLE
+
+- it can also be split into batches
+#+BEGIN_EXAMPLE
+---
+- hosts: ec2
+  become: yes
+  serial:
+   - 1
+   - 5
+   - 10
+  tasks:
+  - name: install elinks
+    yum: name=elinks state=lastest
+#+END_EXAMPLE
+- first would only run one machine, then 5, then 10 and continue with this sequence until all the hosts have been administered
+
+* Roles
+** Install an apache webserver
+~/roles/apache-webserver/tasks/main.yml
+#+BEGIN_EXAMPLE
+- name: Install apache
+  yum: pkg=httpd state=latest
+  notify: Restart HTTPD
+#+END_EXAMPLE
+
+~/roles/apache-webserver/handlers/main.yml
+#+BEGIN_EXAMPLE
+- name: Restart HTTPD
+  service: name=httpd state=restarted
+#+END_EXAMPLE
+
+- bring the above to files together into a playbook to install an apache server
+~/roles/webservers
+#+BEGIN_EXAMPLE
+--- # Master playbook to install apache
+
+- hosts: single
+  become: yes
+  roles:
+    - apache-webserver
+#+END_EXAMPLE
+
+** Customize apache
+~/roles/customize-apache/tasks/main.yml
+#+BEGIN_EXAMPLE
+- name: create file if it doesnt exist
+  file: state=touch path=/var/www/html/index.html
+
+- name: If hostname not in the file then add it
+  lineinfile:
+    state: present
+    dest: /var/www/html/index.html
+    line: Hostname={{ansible_hostname}}
+#+END_EXAMPLE
+
+- pulling in the install apache from above we will change /var/www/html/index.html to show the hostsname
+~/roles/update_apache.yml
+#+BEGIN_EXAMPLE
+--- # put the hostname in the index.html
+- hosts: single
+  become: yes
+  roles:
+    - apache-webserver
+    - customize-apache
+#+END_EXAMPLE
+
+** Install php along with apache
+~/roles/install_php/tasks/main.yml
+#+BEGIN_EXAMPLE
+ name: Install php onto server
+  yum: name={{itme}} state=latest
+  with_items:
+    - php
+    - php-gd
+    - php-pear
+    - php-mysql
+#+END_EXAMPLE
+
+- Using role webservers from above and the task, we can create a webserver with php installed
+~/roles/install_php.yml
+#+BEGIN_EXAMPLE
+---
+
+- hosts: single
+  become: yes
+  roles:
+    - apache-webserver
+    - install_php
+    - customize-apache
+#+END_EXAMPLE
+
+** Install word press
+~/roles/wordpress/tasks/main.yml
+#+BEGIN_EXAMPLE
+- unarchive:
+    src: https://wordpress.org/latest.tar.gz
+    dest: /tmp/
+    remote_src: True
+- name: remove html folder
+  command: /usr/bin/rm -rf /var/www/html
+- name: move the wordpress
+  command: /usr/bin/mv /tmp/wordpress/ /var/www/html
+- name: copy template to the host
+  template: src=wp-config.j2 dest=/var/www/html/wp-config.php
+#+END_EXAMPLE
+
+~/roles/wordpress/templates/wp-config.j2
+#+BEGIN_EXAMPLE
+<?php
+/**
+ * The base configuration for WordPress
+ *
+ * The wp-config.php creation script uses this file during the
+ * installation. You don't have to use the web site, you can
+ * copy this file to "wp-config.php" and fill in the values.
+ *
+ * This file contains the following configurations:
+ *
+ * * MySQL settings
+ * * Secret keys
+ * * Database table prefix
+ * * ABSPATH
+ *
+ * @link https://codex.wordpress.org/Editing_wp-config.php
+ *
+ * @package WordPress
+ */
+
+// ** MySQL settings - You can get this info from your web host ** //
+/** The name of the database for WordPress */
+define('DB_NAME', '{{database_name_here}}');
+
+/** MySQL database username */
+define('DB_USER', '{{username_here}}');
+
+/** MySQL database password */
+define('DB_PASSWORD', '{{password_here}}');
+
+/** MySQL hostname */
+define('DB_HOST', '{{dbhost_here}}');
+
+/** Database Charset to use in creating database tables. */
+define('DB_CHARSET', 'utf8');
+
+/** The Database Collate type. Don't change this if in doubt. */
+define('DB_COLLATE', '');
+
+/**#@+
+ * Authentication Unique Keys and Salts.
+ *
+ * Change these to different unique phrases!
+ * You can generate these using the {@link https://api.wordpress.org/secret-key/1.1/salt/ WordPress.org secret-key service}
+ * You can change these at any point in time to invalidate all existing cookies. This will force all users to have to log in again.
+ *
+ * @since 2.6.0
+ */
+define('AUTH_KEY',         '=N;Gj)Q2V:4}-mD!C~| ~m,xW8q1cx-}ezob,Tx69z04%+^i(hCpq.cTgSZ&Z;*=');
+define('SECURE_AUTH_KEY',  'byVQ.8u*6^gd5pqy;bvR0_ko3L|DQ+[mVOD@Z.h7}f%cDP0}-v!,Z2]+%#0efI[u');
+define('LOGGED_IN_KEY',    'EpT| %VB&.9}-G4hv[_i&a*B cblG7}0I$gfY}w%fhHRA.gSBY,He<|;}0:2iJ5S');
+define('NONCE_KEY',        '?ZB>pQ],DhG?FJHyOwkd``c4QXCt?#e1YHoBo_+X1q9WO`#3AIi8}_GX<Euh-^`5');
+define('AUTH_SALT',        'q.C+Aac,Tlwhnje[|2:>X4e3,8dll21y]!f6A|@y|6|T77Yg:,don69-PzKkcU2D');
+define('SECURE_AUTH_SALT', 'FdEjus)on?])g:v+g]8P#%Z</CGpw|#8nIiNjF`V4(y:y(I^()|L$L$6+_--TL[`');
+define('LOGGED_IN_SALT',   'N^+d}X,.N%a:]V+ -5lZr8:x2{*p~hEG/xQ?+}03b?(#Dm`6zOkroC|?1Z%[o2z+');
+define('NONCE_SALT',       '!$hHfzsa&%a;Vk%BVGMv8[{+.(H7l9S{Re7/Of~4 eeoMM@< E68HF;<XsKT^kXc');
+
+/**#@-*/
+
+/**
+ * WordPress Database Table prefix.
+ *
+ * You can have multiple installations in one database if you give each
+ * a unique prefix. Only numbers, letters, and underscores please!
+ */
+$table_prefix  = 'wp_';
+
+/**
+ * For developers: WordPress debugging mode.
+ *
+ * Change this to true to enable the display of notices during development.
+ * It is strongly recommended that plugin and theme developers use WP_DEBUG
+ * in their development environments.
+ *
+ * For information on other constants that can be used for debugging,
+ * visit the Codex.
+ *
+ * @link https://codex.wordpress.org/Debugging_in_WordPress
+ */
+define('WP_DEBUG', false);
+
+/* That's all, stop editing! Happy blogging. */
+
+/** Absolute path to the WordPress directory. */
+if ( !defined('ABSPATH') )
+        define('ABSPATH', dirname(__FILE__) . '/');
+
+/** Sets up WordPress vars and included files. */
+require_once(ABSPATH . 'wp-settings.php');
+#+END_EXAMPLE
+
+~/roles/wordpress/vars/main.yml
+#+BEGIN_EXAMPLE
+database_name_here: wordpress
+username_here: wordpress
+password_here: mypassword
+dbhost_here: 172.31.29.21
+#+END_EXAMPLE
+
+- the vars will be placed in the template, and the template will be mv into the wp home dir
+~/roles/setup-wordpress.yml
+#+BEGIN_EXAMPLE
+---
+- hosts: single
+  become: yes
+  roles:
+    - apache-webserver
+    - install_php
+    - wordpress
+#+END_EXAMPLE
+
 * Lecture
 * Tutorial
 * Links
 
 
 * ansible-galaxy
-HomePage: [[https://galaxy.ansible.com/][galaxy.ansible.com]]
 * Usage
+HomePage: [[https://galaxy.ansible.com/][galaxy.ansible.com]]
+- list installed roles
+#+BEGIN_SRC sh
+ansilble-galaxy list
+#+END_SRC
+
+- install a role from galaxy
+#+BEGIN_SRC sh
+ansible-galaxy install geerlingguy.mysql
+#+END_SRC
+this will be installed in your default roles area ~/.ansible/roles/
+
+- install a role in a specific directory
+~/ansible/galaxy
+#+BEGIN_SRC sh
+ansible-galaxy install geerlingguy.mysql -p roles
+#+END_SRC
+this will install the role relative to where you are in the file system (~/ansible/galaxy/roles)
+
+- remove a role
+#+BEGIN_SRC sh
+ansible-galaxy remove wasilak.centos-docker
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Links
+
+* ansible-vault
+* Usage
+- encrypt a file
+#+BEGIN_SRC sh
+ansible-vault encrypt roles/test.demo/vars/main.yml
+#+END_SRC
+you will be prompted for your password
+
+- run a playbook with encrypted files
+#+BEGIN_SRC sh
+ansible-playbook test.demo.yml --ask-vault-pass
+#+END_SRC
+
+- edit an encrypted file
+#+BEGIN_SRC sh
+ansible-vault edit roles/test.demo/vars/main.yml
+#+END_SRC
+you will be prompted for your password
+
+- change the password on a file
+#+BEGIN_SRC sh
+ansible-vault rekey roles/test.demo/vars/main.yml
+#+END_SRC
+first you will have to enter the old password, then the new one
+
+- cat out the encrypted file
+#+BEGIN_SRC sh
+ansible-vault view roles/test.demo/vars/main.yml
+#+END_SRC
+this will be cat out to the screen
+
+- decrypt a file
+#+BEGIN_SRC sh
+ansible-vault decrypt roles/test.demo/vars/main.yml
+#+END_SRC
+this will return the file to its oringinal plain text
+
+- using a password file
+#+BEGIN_SRC sh
+ansible-playbook test-demo.yml --vault-password-file=secured-code
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Links

@@ -1,8 +1,9 @@
-#+TAGS: sysd anal
+#+TAGS: systemd-analyze analyze_system_boot
 
 
-* systemd-analyze                                                 :sysd:anal:
+* systemd-analyze
 * Description
+Prints out how long it takes for the system to boot up, or outputs to a graph image file
 * Usage
 ** blame
 - this will show the services that are taking the longest to start up

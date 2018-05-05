@@ -1,0 +1,25 @@
+#+TAGS: init upstart ubuntu
+
+
+* Upstart
+* Description
+* Usage
+** Boot Sequence
+1  /sbin/init
+
+2  startup(man 7)
+
+3  mountall(man 8)  ----- /etc/init/rc-sysinit.conf
+                                 |
+4                         telinit(man 8) 
+
+5    -------------------- runlevel(man 7)
+     |                          |
+6  /etc/init/rc.conf            |
+     |                          |
+7  login-------------------------
+
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -7,7 +7,7 @@
 *** /etc/sysconfig
 RHEL: [[https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/5/html/Deployment_Guide/ch-sysconfig.html][RHEL 5 /etc/sysconfig]]
 Fedora: [[https://docs.fedoraproject.org/en-US/Fedora/12/html/Deployment_Guide/ch-sysconfig.html#s1-sysconfig-files][Fedora - /etc/sysconfig]]
-* Uage
+* Usage
 ** RHEL7 Networking
 *** Files
 /etc/sysconfig/network-scripts/
@@ -1202,6 +1202,31 @@ mount -a
 isciadm -m session -P 3
 #+END_SRC
 this will provide information on the iSCSI mount
+
+** RHEL7 Installing and Configuring Apache
+- install httpd and elinks(just to access the server over http)
+#+BEGIN_SRC sh
+yum update
+yum install httpd elinks
+#+END_SRC
+
+- start and enable httpd
+#+BEGIN_SRC sh
+systemctl start httpd
+systemctl enable httpd
+#+END_SRC
+
+- add the firewalld rules for http and https
+#+BEGIN_SRC sh
+firewall-cmd --permanent --add-service=http
+firewall-cmd --permanent --add-service=https
+firewall-cmd --reload
+#+END_SRC
+
+- connect to httpd with elinks
+#+BEGIN_SRC sh
+elinks http://localhost
+#+END_SRC
 
 
 * Package Management

@@ -1,0 +1,50 @@
+#+TAGS: systemd machinectl containers
+
+
+* machinectl
+* Description
+* Usage
+- list out the containers on the system
+#+BEGIN_SRC sh
+machinectl list
+#+END_SRC
+
+- login to a running container
+#+BEGIN_SRC sh
+machinectl login name_of_container
+#+END_SRC
+
+- check the status of a container
+#+BEGIN_SRC sh
+machinectl status name_of_container
+#+END_SRC
+
+- reboot a running container
+#+BEGIN_SRC sh
+machinectl reboot name_of_container
+#+END_SRC
+
+- shutdown a running container
+#+BEGIN_SRC sh
+machinectl poweroff name_of_continer
+#+END_SRC
+
+- startup a container
+#+BEGIN_SRC sh
+machinectl start name_of_container
+#+END_SRC
+
+- enable a container to start when the hosts system starts
+#+BEGIN_SRC sh
+machinectl enable name_of_container
+#+END_SRC
+
+- remove a container from the system
+#+BEGIN_SRC sh
+machinectl remove name_of_container
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

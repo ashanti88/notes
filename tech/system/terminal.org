@@ -2,9 +2,31 @@
 
 
 * Termite
-Arch: [[https://wiki.archlinux.org/index.php/termite][archlinux.org/termite]]
-* Uxvt
+HomePage: https://github.com/thestinger/termite/
+
+* GNOME Terminal
+HomePage: https://wiki.gnome.org/Apps/Terminal
+* Konsole
+HomePage: https://konsole.kde.org/
+* mlterm
+HomePage: http://mlterm.sourceforge.net/
+* Urxvt
+Homepage: http://software.schmorp.de/pkg/rxvt-unicode.html
 Arch: [[https://wiki.archlinux.org/index.php/rxvt-unicode][archlinux.org/rxvt-unicode]]
 * Terminator
 HomePage: [[https://gnometerminator.blogspot.co.uk/p/introduction.html][gnometerminator.co.uk]]
+* st
+HomePage: https://st.suckless.org/
+
 * Uxterm
+* XFCE Terminal
+HomePage: https://docs.xfce.org/apps/terminal/start
+
+* xterm
+HomePage: http://invisible-island.net/xterm/
+* Alacritty
+GitHub: https://github.com/jwilm/alacritty
+
+* Links
+[[https://lwn.net/Articles/749992/][A look at terminal emulators, part 1 - LWN.net]]
+[[https://lwn.net/Articles/751763/][A look at terminal emulators, part 2 - LWN.net]]

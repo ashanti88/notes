@@ -74,11 +74,19 @@ This is the nerve center of your system, it contains all system related configur
 /etc/hosts         - this file is first read to find IP to hostname lookup
 /etc/hosts.allowed - this is an Access Control File that specifies allowed hosts
 /etc/hosts.deny    - this is the counter part to hosts.allowed, if only this file all allowed to access except what is contained in this file
+/etc/httpd         - this is the directory that Red Hat uses to hold apache config files
+/etc/init.d        - this directory holds the runlevel scripts on Debian sysvinit machines
+/etc/inittab       - this file would tell sysvinit what run level to start by default - <identifier>:<runlevel>:<action>:<process>
 /etc/login.defs    - this file holds the defaults for creating a new user
+/etc/named.conf    - this is the configuration file for the bind server(DNS)
 /etc/nologin       - if this file is present then no-one will be able to login, access can only be had through a rescue shell, single user login.
 /etc/nologin.txt   - if this file is present it is printed to the screen when a login is attempted, instead of the default message.
 /etc/pacman.cof    - this is the main configuration file for the pacman package management system
 /etc/passwd        - this file contains all the systems users
+/etc/pki           - this is the default directory for certificates
+/etc/rc.d/         - this directory holds the runlevel scripts on Red Hat sysvinit machines (rc = run commands)
+/etc/rc.d/rc.local - this file is run after the runlevel script has finished
+/etc/rc.d/rc.sysinit - this file is run before the runlevel script is run, and performs some initial house keeping
 /etc/resolv.conf   - this file read after /etc/hosts to find a nameserver that will be able to resolve our search
 /etc/services      - this file contains a list of services and the common ports that are associated with it
 /etc/skel/         - skel directory, short for skeleton is copied into new users home directories on creation
@@ -148,6 +156,7 @@ This is a generic mount point under which you mount your filesystems or devices.
 
 ** /run   - Run-time variable data, information about the running system since last boot  
 - /run/media/user/ - this is where external drives are added with Gnome
+- /run/log/journal/ - this is where systemd stores its logging information
 ** /root  - This is the home directory of the System Administrator, 'root'.
 ** /srv   - contains site-specific data which is served by this system.
 
@@ -219,6 +228,7 @@ Holds dynamic data libraries/files like the rpm/dpkg database and game scores. F
 **** /var/lib/libvirt/ - this holds variable data for libvirt
 /var/lib/libvirt/images/ - default home for OS images for VM creation
 
+**** /var/lib/machines/ - this directory holds systemd containers
 *** /var/local
 Variable data for local programs (i.e., programs that have been installed by the system administrator) that are installed in /usr/local (as opposed to a remotely mounted '/var' partition). Note that even locally installed programs should use the other /var directories if they are appropriate, e.g., /var/lock.
 

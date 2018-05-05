@@ -1,8 +1,9 @@
-#+TAGS: sysd anal
+#+TAGS: systemd systemd-cgls
 
 
-* systemd-cgls							  :sysd:anal:
+* systemd-cgls
 * Description
+This cmd shows the breakdown of all of the processes and how the system's resources are split up
 * Usage
 * Lecture
 * Tutorial

@@ -1,0 +1,14 @@
+#+TAGS: systemd-networkd
+
+
+* systemd-networkd
+* Files
+/etc/systemd/network/ - this directory is where configuration files are placed
+
+* Description
+* Usage
+- this comes as part of Debians systemd install, RHEL needs to install the package
+* Lecture
+* Tutorial
+* Books
+* Links

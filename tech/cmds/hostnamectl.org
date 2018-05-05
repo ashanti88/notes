@@ -3,6 +3,7 @@
 
 * hostnamectl
 * Description
+View or set the system's hostname
 * Usage
 - set hostname for the system that will be persistant
 #+BEGIN_SRC sh
