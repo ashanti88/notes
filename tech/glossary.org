@@ -5,6 +5,7 @@
 Wiki: https://en.wikipedia.org/wiki/Address_space_layout_randomization
 * BGP  - Border Gate Protocol
 wiki: https://en.wikipedia.org/wiki/Border_Gateway_Protocol
+* CRUD - Create Read Update Delete
 * DCCP - Datagram Congestion Control Protocol
 Wiki - https://en.wikipedia.org/wiki/Datagram_Congestion_Control_Protocol
 * DMA  - Direct Memory Access

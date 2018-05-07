@@ -268,6 +268,349 @@ clnt_create: RPC: Port mapper failure - Unable to receive: errno 113 (No route t
 #+END_EXAMPLE
 this is because it has not been made NFSv4 compatiable
 
+** Provide Network Shares to Specific Clients - Server Installation and Configuration
+- first install the required tools
+#+BEGIN_SRC sh
+yum install -y nfs-utils
+#+END_SRC
+
+- create the directories that are to be shared
+#+BEGIN_SRC sh
+mkdir /test1 /test2
+#+END_SRC
+
+- set the selinux bools 
+#+BEGIN_SRC sh
+getsebool -a | grep nfs_export
+setsebool -P nfs_export_all_ro=1 nfs_export_all_rw=1
+#+END_SRC
+
+- add the nfs ports to the firewall
+#+BEGIN_SRC sh
+firewall-cmd --permanent --add-service=nfs
+firewall-cmd --reload
+#+END_SRC
+
+- enable rpcbind and nfs-server to start on reboot
+#+BEGIN_SRC sh
+systemctl enable rpcbind
+systemctl enable nfs-server
+#+END_SRC
+
+- start both rpcbind and nfs-server
+#+BEGIN_SRC sh
+systemctl start rpcbind
+systemctl start nfs-server
+#+END_SRC
+
+- on the status of rpcgind
+#+BEGIN_SRC sh
+systemctl status rpcbind
+#+END_SRC
+if no exports have been set then, it will indicate with "exited", instead of the usual "running"
+
+- define are exports in /etc/exports
+#+BEGIN_SRC sh
+/test1 172.31.117.0/24(rw,no_root_squash)
+/test2 172.31.117.0/24(sync)
+#+END_SRC
+here I have shared it to anyone on our subnet
+
+- export the filesystem
+#+BEGIN_SRC sh
+exportfs -avr
+#+END_SRC
+a - export or unexport all directories 
+v - verbose
+r - rexport all directories
+
+- confirm that the shares have been created
+#+BEGIN_SRC sh
+cat /var/lib/nfs/etab
+#+END_SRC
+here you will see any created nfs shares
+
+- restart rpcbind and nfs-server
+#+BEGIN_SRC sh
+systemctl restart rpcbind
+systemctl restart nfs-server
+#+END_SRC
+
+
+** Provide Network Shares to Specific Clients - Client Installation and Configuration
+- install required packages
+#+BEGIN_SRC sh
+yum install nfs-utils
+apt install nfs-common
+#+END_SRC
+
+- enable and start rpcbind
+#+BEGIN_SRC sh
+systemctl start rpcbind
+systemctl enable rpcbind
+systemctl status rpcbind
+#+END_SRC
+
+- create the directories to mount the nfs shares
+#+BEGIN_SRC sh
+mkdir /test1 /test2
+#+END_SRC
+
+Two options for mounting temporary and permanent
+- manually mount the nfs 
+#+BEGIN_SRC sh
+mount -t nfs -o rw 172.31.36.243:/test1
+#+END_SRC
+
+- mount the nfs share wit
+#+BEGIN_EXAMPLE
+172.31.117.208:/test1 /test1 nfs _netdev,rw 0 0
+172.31.117.208:/test2 /test2 nfs _netdev,ro 0 0
+#+END_EXAMPLE
+
+- mount the shares
+#+BEGIN_SRC sh
+mount -a
+#+END_SRC
+
+** Provice Network Shares Suitable for Group Collaboration
+*** On Server
+- create a goup to use
+#+BEGIN_SRC sh
+groupadd -g 7654 nfsdatagrp
+#+END_SRC
+
+- create users and add them to the nfsdatagrp group
+#+BEGIN_SRC sh
+adduser user3
+adduser user4
+usermod -G nfsdatagrp user3
+usermod -G nfsdatagrp user4
+#+END_SRC
+
+- create the share
+#+BEGIN_SRC sh
+mkdir /nfsdata
+#+END_SRC
+
+- set correct permissions on /nfsdata
+#+BEGIN_SRC sh
+chown nfsnobody:nfsdatagrp /nfsdata
+#+END_SRC
+
+- set gid bit so it is inherited
+#+BEGIN_SRC sh
+chmod 2770 /nfsdata/
+#+END_SRC
+
+- edit the /etc/exports
+#+BEGIN_SRC sh
+/nfsdata 172.31.18.59(rw,no_root_squash)
+#+END_SRC
+
+- export the filesystem
+#+BEGIN_SRC sh
+exportfs -avr
+#+END_SRC
+
+- confirm creation
+#+BEGIN_SRC sh
+cat /var/lib/nfs/etab
+#+END_SRC
+
+*** On Client
+- create a goup to use
+#+BEGIN_SRC sh
+groupadd -g 7654 nfsdatagrp
+#+END_SRC
+
+- create users and add them to the nfsdatagrp group
+#+BEGIN_SRC sh
+adduser user3
+adduser user4
+usermod -G nfsdatagrp user3 user4
+#+END_SRC
+
+- set user passwords
+#+BEGIN_SRC sh
+passwd user3
+passwd user4
+#+END_SRC
+
+- create the mount point
+#+BEGIN_SRC sh
+mkdir /nfsdata
+#+END_SRC
+
+- edit fstab
+#+BEGIN_SRC sh
+172.31.117.208:/nfsdata /nfsdata nfs _netdev,rw 0 0
+#+END_SRC
+
+** Use Kerberos to Control Access to NFS Network Shares - Quick NFS Setup
+*** On Server
+- install required packages
+#+BEGIN_SRC sh
+yum groupinstall file-server
+#+END_SRC
+
+- set firewall rules for nfs
+#+BEGIN_SRC sh
+firewall-cmd --permanent --add-service=nfs
+firewall-cmd --reload
+#+END_SRC
+
+- enable rpcbind
+#+BEGIN_SRC sh
+systemctl enable rpcbind
+systemctl enable nfs-server
+#+END_SRC
+
+- create the share directory
+#+BEGIN_SRC sh
+mkdir krbdata
+#+END_SRC
+
+- set the permissions to 0777
+#+BEGIN_SRC sh
+chmod 0777 /krbdata/
+#+END_SRC
+
+- set the correct selinux contexts
+#+BEGIN_SRC sh
+semanage fcontext -a -t public_content_rw_t "/krbdata(/.*)?"
+restorecon -R /krbdata
+semanage boolean -l | grep nfs
+setsebool -P nfs_export_all_rw on
+setsebool -P nfs_export_all_ro on
+semanage boolean -l | grep nfs_export_all_*
+#+END_SRC
+fcontext - file context
+
+- edit /etc/exports
+#+BEGIN_SRC sh
+/krbdata 172.31.18.59(rw,no_root_squash)
+#+END_SRC
+no_root_squash - this means that root, will mean root on the remote machine(if not set root's id is elevated and is no longer see with a uid of 0)
+
+- start rpcbind and nfs-server
+#+BEGIN_SRC sh
+systemctl start rpcbind
+systemctl start nfs-server
+#+END_SRC
+
+- export the filesytem
+#+BEGIN_SRC sh
+exportfs -avr
+#+END_SRC
+
+- confirm the nfs share has been created
+#+BEGIN_SRC sh
+cat /var/lib/nfs/etab
+#+END_SRC
+
+*** On Client
+- install the required packages
+#+BEGIN_SRC sh
+yum install -y nfs-utils
+apt install nfs-common
+#+END_SRC
+
+- create the mount point for the share
+#+BEGIN_SRC sh
+mkdir /mnt/test
+#+END_SRC
+
+- test the share
+#+BEGIN_SRC sh
+mount -t nfs 172.31.117.208:/krbdata /mnt/test
+#+END_SRC
+
+- confirm that share has been mounted
+#+BEGIN_SRC sh
+df -hT
+#+END_SRC
+
+** Use Kerberso to Control Access to NFS Network Shares - Kerberos NFS Server and Client
+*** NFS Server
+- add as a host principle
+#+BEGIN_SRC sh
+kadmin
+#+END_SRC
+#+BEGIN_EXAMPLE
+kadmin: addprinc -randkey host/alickmitchell2.mylabserver.com@MYLABSERVER.COM;
+kadmin: ktadd host/alickmitchell2.mylabserver.com@MYLABSERVER.COM;
+#+END_EXAMPLE
+
+- edit /etc/ssh/ssh.conf
+#+BEGIN_EXAMPLE
+GSSAPIAuthentication yes
+GSSAPIDelegateCredentials yes
+#+END_EXAMPLE
+
+- reload sshd
+#+BEGIN_SRC sh
+systemctl reload sshd
+#+END_SRC
+
+- update krb
+#+BEGIN_SRC sh
+authconfig --enablekrb5 --update
+#+END_SRC
+
+- add as an NFS Server principle
+#+BEGIN_SRC sh
+kadmin
+#+END_SRC
+#+BEGIN_EXAMPLE
+kadmin: addprinc -randkey nfs/alickmitchell2.mylabserver.com@MYLABSERVER.COM;
+kadmin: ktadd nfs/alickmitchell2.mylabserver.com@MYLABSERVER.COM;
+#+END_EXAMPLE
+
+- update krb
+#+BEGIN_SRC sh
+authconfig --enablekrb5 --update
+#+END_SRC
+
+- edit /etc/exports so that it knows that krb is being used
+#+BEGIN_EXAMPLE
+/krbdata alickmitchell2.mylabserver.com(rw,no_root_squash,sec=krb5)
+#+END_EXAMPLE
+
+- export filesystems
+#+BEGIN_SRC sh
+exportfs -avr
+#+END_SRC
+
+- a reboot is required at this point to ensure that NFS and Kerberos work together
+#+BEGIN_SRC sh
+reboot
+#+END_SRC  
+
+*** On NFS client
+- add principle for client
+#+BEGIN_SRC sh
+kadmin
+#+END_SRC
+#+BEGIN_EXAMPLE
+kadmin: addprinc -randkey nfs/alickmitchell2.mylabserver.com
+kadmin: ktadd nfs/alickmitchell2.mylabserver.com
+#+END_EXAMPLE
+
+- enable and start the nfs-client.target
+#+BEGIN_SRC sh
+systemctl enable nfs-client.target
+systemctl start nfs-client.target
+systemctl status nfs-client.target
+#+END_SRC
+
+- mount the share
+#+BEGIN_SRC sh
+mkdir /mnt/krbtest
+mount -t nfs4 -o sec=krb5 alickmitchell2.mylabserver.com:/krbdata /mnt/krbtest
+#+END_SRC
+
+
 * Lecture
 * Tutorial
 ** Linux Academy - Getting Started with NFS
@@ -331,3 +674,4 @@ LabGuide: [[file://home/crito/Documents/Linux/Labs/ubuntu-nfs4-lab.pdf][Ubuntu N
 [[file://home/crito/Documents/SysAdmin/NFS-HOWTO.pdf][Linux NFS HowTo]]
 * Links
 [[https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nfs-mount-on-centos-6][How To Set Up an NFS Mount on CentOS 6 - DigitalOcean]]
+[[https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nfs-mount-on-ubuntu-16-04][How To Set Up an NFS Mount on Ubuntu 16.04]]

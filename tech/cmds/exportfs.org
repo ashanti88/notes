@@ -1,0 +1,18 @@
+#+TAGS: exportfs nfs nfs-utils
+
+
+* exportfs
+* Description
+* Usage
+- export newly configured nfs shares
+#+BEGIN_SRC sh
+exportfs -avr
+#+END_SRC
+a - export or unexport all directories 
+v - verbose
+r - rexport all directories
+
+* Lecture
+* Tutorial
+* Books
+* Links

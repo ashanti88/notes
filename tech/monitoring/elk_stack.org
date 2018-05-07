@@ -2,9 +2,462 @@
 
 
 * ELK Stack
+* Files 
 ** Elasticsearch
+/etc/elasticsearch - the main configuration directory for elasticsearch
+/etc/elasticsearch/elasticserach.yml - the main configuration file for elasticsearch
+/etc/elasticsearch/jvm.options - this is where the heap size is set
+/etc/elasticsearch/log4j2.properties - this is where log formats can be changed (but mostly should remain untouched)
 ** Logstash
+/etc/logstash - this is the main configuration directory for logstash
+/etc/conf.d/  - this holds all the pipline configs
+
+* Core Services
+** Elasticsearch
+- The heart of the ELK Stack
+- Distributed, RESTful Search and Analytics Engine
+- Highly Scalable and Fault Tolerant
+- Near Real Time (NRT)
+  
+- Common use cases
+  - product search with autocomplete for websites
+  - mine log or transaction data for trends, stats or anomalies
+  - quickly investigate, analyze, visualize and ask ad-hoc questions on huge datasets
+
+** Logstash
+- Extensible plugin ecosystem
+- Data pipelines
+  - inputs
+    - ingest from multiple sources simultaneously
+  - Filters
+    - parse events into structured fields
+    - enrich events dynamically
+  - Outputs
+    - stash the processed events
+    - output to multiple destinations simultaneously
+
 ** Kibana
+- Search, View and Interact with data sroted in elasticsearch
+- Discover
+  - interactively explore data
+  - search and filter the data to view specific documents
+  - save searches for quick for quick se later or to embed in dashboards
+
+- Visualize
+  - Create visula representations of your data
+  - save visualizations to use in dashboards
+  - Charts, data tables, mardown, gauges, maps and more
+    
+- Dashboard
+  - Display a collection of visualizations and searches
+  - search and filter across all dashboard objects at the same time
+  - Share with others
+
+
+
+** Beats
+All the beats on Libbeat
+
+- Filebeat
+  - multiline
+  - include/exclude filters
+  - backpressure tolerant
+  - container ready
+ 
+- Metricbeat
+  - One Client, Many Modules(ex. System, Docker, MongoDB, Kubernetes, NGINX, MySQL, PostgreSQL)
+  - container ready
+    
+- Packetbeat
+  - Decodes network protocols (ICMP, DNS, HTTP, AMQP, Cassandra, MySQL)
+  - Correlates requests with responses
+    
+- Heartbeat
+  - pings via icmp, tcp and http
+  - supports TLS, authentication and proxies
+  - simple DNS resolution
+
+- Winlogbeat
+  - Attach to windows envent log channels
+    
+- Auditbeat
+  - auditd Module
+    - Linux Only
+    - Attaches to the Linux Kernel's Audit Framework
+    - Combines multiple audit messages into a single event
+    - Configure what syscalls to monitor
+      
+  - File Integrity Module
+    - compatible with Linux, MacOS, and Windows
+    - Hashes specified files and monitors changes in real-time
+    - Compare to known malicious file hashes
+      
+* Premium Tools - X-Pack
+- Security Plugin
+  - AD, LDAP and SAML authentication
+  - manage users and roles
+  - encrypt cluster communication with SSL/TLS
+  - index, documrnt and field level restriction
+  - audit trail via audit logging 
+    
+- Alerting
+  - identify and alert on changes in your data
+  - if you can query it in elasticsearch, you can alert on it
+  - get notified by email, pagerDuty, Slack, HipChat
+
+- Monitoring
+  - Monitor your Elastic Stack
+  - track elasticsearch performance and usage at the cluster, node, and index level
+  - track kibana usage and request performance
+  - monitor logstash throughput and pipline performance
+  - multi-stack support to centralize elastic stack monitoring
+    
+- Reporting
+  - Generate, schedule and share reports
+  - export raw documents, seraches, visualizations, and even whole dashboards
+  - send reports on a schedule or trigger a report when certain conditions are met
+    
+- Graph
+  - discover relationships in your data
+  - integrate with your application using the API
+  - visualize in Kibana
+  - Filter relevant relationships from popular ones
+
+- Machine Learning
+  - unsupervised anomaly detection
+  - visualize and analyze anomalies quickly
+  - prepare for the future with on-demand forecasting
+  - intuitive UI for easy job creationk
+
+
+* Usage
+** Best Practices
+- Dedicated Nodes for Each Role
+- Data Node Sizing
+  - 32GB max heap (any more and it will impact on preformance)
+  - At least as much free memory as heap memory
+  - SSD
+  - More cores are better than faster clock speed
+  - Raid 0, but only if you implement sharding (replication at the application level)
+
+** Create a Multi-Node Cluster
+*** Setting up Elasticsearch
+For this Lab we require 3 servers
+
+- Setting up the Master Node
+
+- Install java 
+#+BEGIN_SRC sh
+yum install java-1.8.0-openjdk -y
+#+END_SRC
+
+- import the gpg key for elasticsearch
+#+BEGIN_SRC sh
+rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
+#+END_SRC
+
+- pull the rpm from elasticsearch
+#+BEGIN_SRC sh
+wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.2.3.rpm
+#+END_SRC
+
+- install the rpm
+#+BEGIN_SRC sh
+rpm -i elasticsearch-6.2.3.rpm
+#+END_SRC
+
+- we need to update systemd
+#+BEGIN_SRC sh
+systemctl daemon-reload
+#+END_SRC
+
+- enable elasticserch
+#+BEGIN_SRC sh
+systemctl enable elasticsearch
+#+END_SRC
+
+- edit /etc/elasticsearch/elasticsearch.yml changing these three properties
+#+BEGIN_EXAMPLE
+node.name: master1
+node.data: false
+
+network.host: ["localhost", "172.31.24.206"]
+#+END_EXAMPLE
+
+- now start elasticsearch
+#+BEGIN_SRC sh
+systemctl start elasticsearch
+#+END_SRC
+
+- confirm nodes status
+#+BEGIN_SRC sh
+less /var/log/elasticearch/elasticsearch.log
+#+END_SRC
+
+- Setting up Data Node 1
+  
+- Install java 
+#+BEGIN_SRC sh
+yum install java-1.8.0-openjdk -y
+#+END_SRC
+
+- import the gpg key for elasticsearch
+#+BEGIN_SRC sh
+rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
+#+END_SRC
+
+- pull the rpm from elasticsearch
+#+BEGIN_SRC sh
+wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.2.3.rpm
+#+END_SRC
+
+- install the rpm
+#+BEGIN_SRC sh
+rpm -i elasticsearch-6.2.3.rpm
+#+END_SRC
+
+- we need to update systemd
+#+BEGIN_SRC sh
+systemctl daemon-reload
+#+END_SRC
+
+- enable elasticserch
+#+BEGIN_SRC sh
+systemctl enable elasticsearch
+#+END_SRC
+
+- edit /etc/elasticsearch/elasticsearch.yml changing these three properties
+#+BEGIN_EXAMPLE
+node.name: data1
+node.master: false
+
+network.host: ["localhost", "172.31.24.206"]
+discovery.zen.ping.unicast.hosts: ["172.31.24.206"]
+#+END_EXAMPLE
+the ip address set to discovery is the master1's 
+
+- now start elasticsearch
+#+BEGIN_SRC sh
+systemctl start elasticsearch
+#+END_SRC
+
+- confirm nodes status
+#+BEGIN_SRC sh
+less /var/log/elasticearch/elasticsearch.log
+#+END_SRC
+
+
+- Setup Data Node 2
+
+- Install java 
+#+BEGIN_SRC sh
+yum install java-1.8.0-openjdk -y
+#+END_SRC
+
+- import the gpg key for elasticsearch
+#+BEGIN_SRC sh
+rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
+#+END_SRC
+
+- pull the rpm from elasticsearch
+#+BEGIN_SRC sh
+wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.2.3.rpm
+#+END_SRC
+
+- install the rpm
+#+BEGIN_SRC sh
+rpm -i elasticsearch-6.2.3.rpm
+#+END_SRC
+
+- we need to update systemd
+#+BEGIN_SRC sh
+systemctl daemon-reload
+#+END_SRC
+
+- enable elasticserch
+#+BEGIN_SRC sh
+systemctl enable elasticsearch
+#+END_SRC
+
+- edit /etc/elasticsearch/elasticsearch.yml changing these three properties
+#+BEGIN_EXAMPLE
+node.name: data1
+node.master: false
+
+network.host: ["localhost", "172.31.24.206"]
+discovery.zen.ping.unicast.hosts: ["172.31.24.206"]
+#+END_EXAMPLE
+the ip address set to discovery is the master1's 
+
+- now start elasticsearch
+#+BEGIN_SRC sh
+systemctl start elasticsearch
+#+END_SRC
+
+- confirm nodes status
+#+BEGIN_SRC sh
+less /var/log/elasticearch/elasticsearch.log
+#+END_SRC
+
+*** Logstash Install and Configure a Pipeline
+   
+- install java
+#+BEGIN_SRC sh
+yum install java-1.8.0-openjdk -y
+#+END_SRC
+
+- download the logstash rpm   
+#+BEGIN_SRC sh
+wget https://artifacts.elastic.co/downloads/logstash/logstash-6.2.3.rpm
+#+END_SRC
+
+- install the logstash rpm
+#+BEGIN_SRC sh
+rpm -i logstash-6.2.3.rpm
+#+END_SRC
+
+- enable logstash to start on boot
+#+BEGIN_SRC sh
+systemctl enable logstash
+#+END_SRC
+
+- download the pre-built pipline from Linux Academy into /etc/logstash/conf.d/
+#+BEGIN_SRC sh
+wget https://github.com/linuxacademy/content-elastic-log-samples/raw/master/apache.conf
+#+END_SRC
+
+*** Filebeat: Install and Ship Log Events
+
+- as we will be simulating apache we need to download the linux academy sample data 
+#+BEGIN_SRC sh
+mkdir /var/log/apache2
+cd /var/log/apache2
+wget https://github.com/linuxacademy/content-elastic-log-samples/raw/master/access.log
+#+END_SRC
+
+- download the filebeats rpm
+#+BEGIN_SRC sh
+wget https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-6.2.3-x86_64.rpm
+#+END_SRC
+
+- install the filebeats
+#+BEGIN_SRC sh
+rpm -i filebeat-6.2.3-x86_64.rpm
+#+END_SRC
+
+- enable the service
+#+BEGIN_SRC sh
+systemctl enable filebeat
+#+END_SRC
+
+- filebeat provides a setup option to set you started
+#+BEGIN_SRC sh
+filebeat setup
+#+END_SRC
+this provides some configs to work with
+
+- edit /etc/filebeat/filebeat.yml
+#+BEGIN_SRC sh
+#output.elasticsearch:
+  # Array of hosts to connect to.
+  #hosts: ["localhost:9200"]
+  
+output.logstash:
+  # The Logstash hosts
+  hosts: ["localhost:5044"]
+
+#+END_SRC
+comment out the default the sends to elasticsearch and uncomment the logstash
+
+- enable the apache2 module
+#+BEGIN_SRC sh
+filebeat modules enable apache2
+#+END_SRC
+
+- before we start filebeat just confirm that logstash and the 3 elasticsearch nodes are running
+#+BEGIN_SRC sh
+systemctl status logstash
+curl localhost:9200/_cluster/health?pretty=true
+#+END_SRC
+
+- if all are up start filebeat
+#+BEGIN_SRC sh
+systemctl start filebeat
+#+END_SRC
+*** Kibana: Install and Visualize
+    
+- download kibana rpm
+#+BEGIN_SRC sh
+wget https://artifacts.elastic.co/downloads/kibana/kibana-6.2.3-x86_64.rpm
+#+END_SRC
+
+- install the rpm for kibana
+#+BEGIN_SRC sh
+rpm -i kibana-6.2.3-x86_64.rpm
+#+END_SRC
+
+- enable and start kibana
+#+BEGIN_SRC sh
+systemctl enable kibana
+systemctl start kibana
+systemctl status kibana
+#+END_SRC
+
+- connect port 5601 to your local 5601
+#+BEGIN_SRC sh
+ssh user@34.248.165.10 -L 5601:localhost:5601
+#+END_SRC
+
+- you can now configure kibana through the web portal
+** View Information on cluster
+- Info on the node
+#+BEGIN_SRC sh
+curl localhost:9200
+#+END_SRC
+#+BEGIN_EXAMPLE
+{                                   
+  "name" : "master1",
+  "cluster_name" : "elasticsearch",                                                           
+  "cluster_uuid" : "ibaCxjf6TJSMt7JAg0i4Cw",
+  "version" : {                    
+    "number" : "6.2.3",
+    "build_hash" : "c59ff00",
+    "build_date" : "2018-03-13T10:06:29.741383Z",
+    "build_snapshot" : false,
+    "lucene_version" : "7.2.1",
+    "minimum_wire_compatibility_version" : "5.6.0",
+    "minimum_index_compatibility_version" : "5.0.0"
+  },                        
+  "tagline" : "You Know, for Search"
+}                                 
+#+END_EXAMPLE
+
+- info on the cluster state
+#+BEGIN_SRC sh
+curl localhost:9200/_cluster/health?pretty=true
+#+END_SRC
+#+BEGIN_EXAMPLE
+{
+  "cluster_name" : "elasticsearch",
+  "status" : "green",
+  "timed_out" : false,
+  "number_of_nodes" : 3,
+  "number_of_data_nodes" : 2,
+  "active_primary_shards" : 0,
+  "active_shards" : 0,
+  "relocating_shards" : 0,
+  "initializing_shards" : 0,
+  "unassigned_shards" : 0,
+  "delayed_unassigned_shards" : 0,
+  "number_of_pending_tasks" : 0,
+  "number_of_in_flight_fetch" : 0,
+  "task_max_waiting_in_queue_millis" : 0,
+  "active_shards_percent_as_number" : 100.0
+}
+#+END_EXAMPLE
+
+
+
 * Lecture
 * Tutorial
 * Books
