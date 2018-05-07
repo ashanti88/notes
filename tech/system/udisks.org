@@ -1,11 +1,15 @@
-#+TAGS:
+#+TAGS: udisks udisks2 storage_management
 
 
 * udisks
 HomePage: [[https://www.freedesktop.org/wiki/Software/udisks/][freedesktop.org/udisks]]
+Arch: https://wiki.archlinux.org/index.php/Udisks
 * Description
+udisks provides a daemon udisksd, that implements D-Bus interfaces used to query and manipulate storage devices, and a command-line tool udisksctl, used to query and use the daemon.
+
 * Usage
 * Lecture
 * Tutorial
 * Books
 * Links
+

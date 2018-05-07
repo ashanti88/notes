@@ -1,4 +1,4 @@
-#+TAGS: sys term
+#+TAGS: terminal termite gnome_terminal konsole urxvt terminator uxterm xterm
 
 
 * Termite
@@ -30,3 +30,4 @@ GitHub: https://github.com/jwilm/alacritty
 * Links
 [[https://lwn.net/Articles/749992/][A look at terminal emulators, part 1 - LWN.net]]
 [[https://lwn.net/Articles/751763/][A look at terminal emulators, part 2 - LWN.net]]
+[[http://www.aboutlinux.info/2005/10/configuring-xterm-in-linux.html][Configuring Xterm in Linux - All about Linux]]

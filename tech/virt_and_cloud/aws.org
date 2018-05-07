@@ -2012,7 +2012,6 @@ Lab Guide: file://home/crito/Documents/SysAdmin/Cloud/AWS/LA_Lab_Guide_CloudForm
     - one tunnel is always used and the other is for failover only
     - the customer Gateway must be configured for both tunnels
 	  
-
 ** Using the EC2 Container Service - Linux Academy
 [[file://home/crito/Documents/SysAdmin/Cloud/AWS/LA_EC2_Container_Service/linuxacademy-aws-containers.pdf][EC2 Container Service - Introduction]]
 [[file://home/crito/Documents/SysAdmin/Cloud/AWS/LA_EC2_Container_Service/linuxacademy-aws-containers-ecs-limits.pdf][EC2 Container Service - Service Limits]]
@@ -2149,7 +2148,6 @@ A container is exactly what you might expect it to be based on the general defin
   - Task definition max containers               - 10
   - Throttle on task definition registration rate- 1 per second/60 max per minute
 
-  
 * Books
 ** SysOps Associate
 [[file://home/crito/Documents/SysAdmin/Cloud/AWS/sysops/AWS_Auditing_Security_Checklist.pdf][AWS Auditing Security Checklist]]

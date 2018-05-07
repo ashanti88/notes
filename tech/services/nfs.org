@@ -610,7 +610,6 @@ mkdir /mnt/krbtest
 mount -t nfs4 -o sec=krb5 alickmitchell2.mylabserver.com:/krbdata /mnt/krbtest
 #+END_SRC
 
-
 * Lecture
 * Tutorial
 ** Linux Academy - Getting Started with NFS

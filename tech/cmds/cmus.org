@@ -1,7 +1,11 @@
-#+TAGS: term music wf
+#+TAGS: terminal_music_player
 
 
-* cmus							      :term:music:wf:
+* cmus
+cmus-tutorial(7)
+cmus(1)
+* Files
+~/.config/cmus
 * Description
 Terminal music player
 * Usage
@@ -10,7 +14,9 @@ Terminal music player
 2. press the 'a' on the directory you would like to add
 You should now see files adding in the bottom righthadn corner
 
+
 * Lecture
 * Tutorial
 * Books
 * Links
+[[http://www.tuxarena.com/static/cmus_guide.php][Guide to CMus - Music Player ofr Your Terminal - TuxArena Debian/Ubuntu]]

@@ -1,4 +1,4 @@
-#+TAGS: file_server samba cifs
+#+TAGS: file_server samba cifs smb
 
 
 * Samba
@@ -6,11 +6,13 @@ HomePage: [[https://wiki.samba.org/index.php/Main_Page][wiki.samba.org/Main_Page
 * Cmds
 - testparm
 - nmblookup
+- pdbedit
 
 * Files
 /etc/samba/smb.conf - the main configuration file for Samba
 /etc/nsswitch.conf - this file contains options for what protocols to use to lookup shares (wins for a windows server share)
 /etc/fstab - this is the file you would edit to make a share permanent
+/var/lib/samba/private/smbpasswd - this file holds hashes of the samba users passwords
 
 * Description
 * Usage
@@ -148,7 +150,259 @@ systemctl start smbd.service
 chmod 701 /home/user
 #+END_SRC
 
-* Lecture
+** Provide Network Shares to Specific Clients - Server Installation and Configuration(RHEL7)
+- install the required packages
+#+BEGIN_SRC sh
+yum install -y samba samba-client
+#+END_SRC
+
+- create the shared directory
+#+BEGIN_SRC sh
+mkdir /sambashare
+#+END_SRC
+
+- set the correct selinux booleans
+#+BEGIN_SRC sh
+getsebool -a | grep -e samba_export -e samba_share_nfs
+setsebool -P samba_export_all_ro=1
+setsebool -P samba_export_all_rw=1
+setsebool -P samba_share_nfs=1
+getsebool -a | grep "samba_export\|samba_share_nfs"
+#+END_SRC
+
+- set the correct context on the share
+#+BEGIN_SRC sh
+semanage fcontext -at samba_share_t "/sambashare(/.*)?"
+restorecon /sambashare/
+#+END_SRC
+
+- set the correct firewall rules
+#+BEGIN_SRC sh
+firewall-cmd --permanent --add-service=samba
+firewall-cmd --reload
+#+END_SRC
+
+- save a copy of the original samba config
+#+BEGIN_SRC sh
+cp /etc/samba/smb.conf /etc/samba/smb.conf.orig
+#+END_SRC
+
+- create the /etc/samba/smb.conf
+#+BEGIN_EXAMPLE
+[global]
+  workgroup      = MYLABSERVER
+  server string  = 172.31.125.229
+  hosts allow    = 127. 172.31.
+  interfaces     = lo eth0 172.31.125.
+  passdb backend = smbpasswd
+  security       = user
+  log file       = /var/log/samba/%m.log
+  max log size   = 5000
+[sambashare]
+  comment        = /sambashare
+  browsable      = yes
+  path           = /sambashare
+  public         = yes
+  valid users    = user1
+  write list     = user1
+  writable       = yes
+#+END_EXAMPLE
+
+- check the configuration
+#+BEGIN_SRC sh
+testparm
+#+END_SRC
+
+- create user1 if not already created
+#+BEGIN_SRC sh
+useradd user1
+#+END_SRC
+
+- add user1 to samba and provide a samba password
+#+BEGIN_SRC sh
+smbpasswd -a user1
+#+END_SRC
+a - add
+
+- view details of user from on the SAM db
+#+BEGIN_SRC sh
+pdbedit -Lv
+#+END_SRC
+
+- enable and start samba
+#+BEGIN_SRC sh
+systemctl enable smb
+systemctl start smb
+#+END_SRC
+
+- test that share is available to client
+#+BEGIN_SRC sh
+smbclient -L //localhost -U user1
+#+END_SRC
+this will print to screen all available shares
+
+** Provice Network Shares to Specific Clients - Client Installation and Configuration(RHEL7)
+- install required packages
+#+BEGIN_SRC sh
+yum install -y samba samba-client cifs-utils
+#+END_SRC
+
+- create user1
+#+BEGIN_SRC sh 
+adduser user1
+passwd user1
+#+END_SRC
+try to keep uid and gid the as on the server
+
+- list available shares
+#+BEGIN_SRC sh
+smbclient -L //172.31.125.229/sambashare -U user1
+#+END_SRC
+
+- mount our share
+#+BEGIN_SRC sh
+mkdir /sharedrive
+mount //172.21.125.229/sambashare /sharedrive -t cifs -o username=user1,password=mango22!,uid=1002,gid=1003
+#+END_SRC
+
+- confirm mount
+#+BEGIN_SRC sh
+df -hT
+#+END_SRC
+
+- create a credentials file in /etc/samba/shared.creds
+#+BEGIN_EXAMPLE
+username=user1
+password=orange
+#+END_EXAMPLE
+
+- edit fstab
+#+BEGIN_SRC sh
+//172.21.125.229/sambashare /sharedrive -t cifs rw,username=user1 password=pa$$word 0 0
+#+END_SRC
+the credentials= options threw failures
+
+** Provide Network shares Suitable for Group Collaboration
+*** On the Samba server
+- create group users
+#+BEGIN_SRC sh
+adduser user5 
+adduser user6
+passwd user5
+paswd user6
+#+END_SRC
+
+- create group
+#+BEGIN_SRC sh
+groupadd -g 8765 smbgrp
+#+END_SRC
+
+- add users to the group
+#+BEGIN_SRC sh
+usermod -G smbgrp user5
+usermod -G smbgrp user6
+cat /etc/group | grep smbgrp
+#+END_SRC
+
+- create group to be shared and set privs
+#+BEGIN_SRC sh
+mkdir /smbgroup
+chgrp smbgrp /smbgroup/
+chmod 0770 /smbgroup/
+#+END_SRC
+
+- set the selinux bools and contexts
+#+BEGIN_SRC sh
+getsebool -a | grep -e samba_export
+semange fcontext -at samba_share_t "/smbgroup(/.*)?"
+restorecon /smbgroup
+#+END_SRC
+
+- set the firewall rules
+#+BEGIN_SRC sh
+firewall-cmd --permanent --add-service=samba
+firewall-cmd --reload
+#+END_SRC
+
+- edit the /etc/samba/smb.conf
+#+BEGIN_EXAMPLE
+[smbgroup]
+  comment      = /smbgroup
+  browsable    = yes
+  path         = /smbgroup 
+  public       = no
+  valid users  = @smbgrp
+  write list   = @smbgrp
+  writable     = yes
+  forece group = +smbgrp
+  create mask  = 0770
+#+END_EXAMPLE
+
+- check configuration
+#+BEGIN_SRC sh
+testparm
+#+END_SRC
+
+- create samba password for the users
+#+BEGIN_SRC sh
+smbpasswd -a user5
+smbpasswd -a user6
+#+END_SRC
+
+- start and enable the samba server
+#+BEGIN_SRC sh
+systemctl start smb
+systemctl enalbe smb
+#+END_SRC
+
+- confirm that the share is available
+#+BEGIN_SRC sh
+smbclient -L //localhost -U user5
+#+END_SRC
+
+*** On the Client
+- add the users
+#+BEGIN_SRC sh
+adduser user5 
+adduser user6
+passwd user5
+paswd user6
+#+END_SRC
+
+- create group
+#+BEGIN_SRC sh
+groupadd -g 8765 smbgrp
+#+END_SRC
+
+- add users to the group
+#+BEGIN_SRC sh
+usermod -G smbgrp user5
+usermod -G smbgrp user6
+cat /etc/group | grep smbgrp
+#+END_SRC
+
+- view available shares
+#+BEGIN_SRC sh
+smbclient -L //172.31.125.229 -U user5
+#+END_SRC
+
+- create the share mount point
+#+BEGIN_SRC sh
+mkdir /sharepoint
+#+END_SRC
+
+- mount the share
+#+BEGIN_SRC sh
+mount //172.31.125.229/smbgroup /sharepoint -t cifs -o username=user5
+#+END_SRC
+
+- confirm the mount
+#+BEGIN_SRC sh
+df -hT
+#+END_SRC
+
+
+
 * Tutorial
 ** Linux Academy - Samba4 with Windows and Linux Client and Server
 LabGuide: [[file://home/crito/Documents/Linux/Labs/Samba4-lab.pdf][Samba Version 4 with Windows and Linux Client and Server]]
