@@ -3,6 +3,8 @@
 
 * MySQL
 HomePage: [[https://www.mysql.com/][mysql.com]]
+* Files
+/etc/my.cnf
 * Commands
 - [[file://home/crito/org/tech/cmds/mysqladmin.org][Mysqladmin]]
 - [[file://home/crito/org/tech/cmds/mysqldump.org][Mysqldump]]
@@ -14,8 +16,6 @@ HomePage: [[https://www.mysql.com/][mysql.com]]
 - [[file://home/crito/org/tech/cmds/myisamchk.org][myisamchk]]
 - [[file://home/crito/org/tech/cmds/mysqlcheck.org][mysqlcheck]]
 
-* Config Files
-/etc/my.cnf
 * Usage
 ** Administration
 *** Set root password
@@ -535,6 +535,11 @@ The query will output -
 Shouldn't be used anymore due to limitations. One of these is it only works for data stored in 'MyISAM' and 'Archive' storag eengines. It also has to be run on the local machine, so no backing up from a remote box.
 
 ** SQL Commands
+*** Inserting records into a table
+- simple single record entry
+#+BEGIN_EXAMPLE
+INSERT INTO users(user_id, first_name, last_name, user_email) VALUES(000, "fred", "flintstone", "flintstone.com");
+#+END_EXAMPLE
 *** Working with IN
 - return only customers that have the stated ages
 #+BEGIN_EXAMPLE
@@ -602,6 +607,128 @@ SELeCT * FROM tblCustomerInfo WHERE customerAge IN (SELECT MAX(customerAge) FROM
 #+BEGIN_EXAMPLE
 insert into customers(customerId,customerName,customerAge) values(111,"Lenny",31),(112,"Stretch",22);
 #+END_EXAMPLE
+** Install and Configure MariaDB
+- install the required packages
+#+BEGIN_SRC sh
+yum groupinstall mariadb mariadb-client
+#+END_SRC
+
+- bind the service to the local ip adress
+/etc/my.cnf
+#+BEGIN_EXAMPLE
+[mysqld]
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links=0
+# Settings user and group are ignored when systemd is used.
+# If you need to run mysqld under a different user or group,
+# customize your systemd unit file for mariadb according to the
+# instructions in http://fedoraproject.org/wiki/Systemd
+
+# this is the bind address that we added
+bind-address=172.31.24.43
+
+[mysqld_safe]
+log-error=/var/log/mariadb/mariadb.log
+pid-file=/var/run/mariadb/mariadb.pid
+
+#
+# include all files from the config directory
+#
+!includedir /etc/my.cnf.d
+#+END_EXAMPLE
+
+- enable the service
+#+BEGIN_SRC sh
+systemctl enable mariadb
+systemctl start mariadb
+#+END_SRC
+
+- run the mysql_secure_installation
+#+BEGIN_SRC sh
+mysql_secure_installation
+#+END_SRC
+this will prompt you some questions, main one being is setting the root password
+
+- restart the service
+#+BEGIN_SRC sh
+systemctl restart mariadb
+#+END_SRC
+
+- add the firewall rules
+#+BEGIN_SRC sh
+firewall-cmd --permanent --add-service=mysql
+firewall-cmd --reload
+#+END_SRC
+
+- test that you can connect
+#+BEGIN_SRC sh
+mysql -u root -p
+#+END_SRC
+
+- confirm that maria is listening on port 3306 
+#+BEGIN_SRC sh
+ss -tulpn | grep mysql
+#+END_SRC
+
+** Install and Configure Local and Remote MariaDB Clients
+   
+- install mariadb-client on the client machine
+#+BEGIN_SRC sh
+yum groupinstall mariadb mariadb-client
+#+END_SRC
+we add the whole group install, just for completeness, incase any of the tools are required in the future
+
+- add the user of the client to the server
+#+BEGIN_EXAMPLE
+GRANT ALL ON *.* TO root@'172.31.22.243' IDENTIFIED BY 'orange';
+FLUSH PRIVILEGES;
+#+END_EXAMPLE
+
+*** only allow local users to access the Database
+- edit /etc/my.cnf
+#+BEGIN_SRC sh
+skip-networking=1
+#+END_SRC
+this variable only allows the mysql.sock to be used to connect to the database, so only local users can access mysql
+
+- confirm
+#+BEGIN_SRC sh
+ss tulnp | grep mysql
+#+END_SRC
+this should return nothing
+
+
+** Backup and Restore a Database
+- create a directory to hold your backups
+#+BEGIN_SRC sh
+mkdir backup
+cd backup
+#+END_SRC
+
+- dump the database file and create a backup
+#+BEGIN_SRC sh
+mysqldump -u root -p email_db > email_db.sql
+#+END_SRC
+
+- backup more than one databases
+#+BEGIN_SRC sh
+mysqldump -u root -p --databases emails users accounts > email_users_accounts.sql
+#+END_SRC
+--databases - this is required if more than one database is being backed up
+
+- backup all databases
+#+BEGIN_SRC sh
+mysqldump -u root -p --all-databases > all_databases.sql
+#+END_SRC
+
+- restore a single database
+#+BEGIN_SRC sh
+mysql -u root -p emails < emails_db.sql
+#+END_SRC
+the emails database will have to be present before you attempt the restore
+
 * Engines
 URL: [[https://en.wikipedia.org/wiki/Comparison_of_MySQL_database_engines][Wiki - Engine Comparison]]
 ** MyISAM

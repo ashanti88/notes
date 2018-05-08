@@ -2,7 +2,13 @@
 
 
 * ntp
-* Serives
+* Files
+/etc/ntp.conf
+* Cmds
+- [[file://home/crito/org/tech/cmds/ntpq.org][ntpq]]
+- [[file://home/crito/org/tech/cmds/ntpstat.org][ntpstat]]
+
+* Services
 ntpd
 chrony
 * Description
@@ -12,6 +18,79 @@ chrony
 ntpq
 #+END_SRC
 This will provide information of the configured ntp pool that the machines time is being delivered from.
+
+** Synchronize Time Using Other NTP Peers - Set up Local Time Server
+- install required packages
+#+BEGIN_SRC sh
+yum install ntp
+#+END_SRC
+
+- enable and start the ntp service
+#+BEGIN_SRC sh
+systemctl enable ntpd
+systemctl start ntpd
+#+END_SRC
+
+- view information on who the ntpd is connected to
+#+BEGIN_SRC sh
+ntpq -p
+#+END_SRC
+
+- view stats on ntp
+#+BEGIN_SRC sh
+ntpstat
+#+END_SRC
+
+- edit /etc/ntp.conf to use local clock to provide ntp with it's own clock
+#+BEGIN_SRC sh
+
+#server 0.centos.pool.ntp.org iburst
+#server 1.centos.pool.ntp.org iburst
+#server 2.centos.pool.ntp.org iburst
+#server 3.centos.pool.ntp.org iburst
+
+server 127.127.1.0
+#+END_SRC
+
+- add the firewall rules
+#+BEGIN_SRC sh
+firewall-cmd --permanent --add-service=ntp
+firewall-cmd --reload
+#+END_SRC
+
+** Synchronize Time Using Other NTP Peers - Peer with New Time Server
+We are connecting to the above server to set our time
+
+- install the required packages
+#+BEGIN_SRC sh
+yum install ntpd
+#+END_SRC
+
+- edit the /etc/ntp.conf
+#+BEGIN_EXAMPLE
+#server 0.centos.pool.ntp.org iburst
+#server 1.centos.pool.ntp.org iburst
+#server 2.centos.pool.ntp.org iburst
+#server 3.centos.pool.ntp.org iburst
+peer 172.31.22.243
+#+END_EXAMPLE
+
+- add the firewall rules
+#+BEGIN_SRC sh
+firewall-cmd --permanent --add-service=ntp
+firewall-cmd --reload
+#+END_SRC
+
+- start and enable the ntpd service
+#+BEGIN_SRC sh
+systemctl enable ntpd
+systemctl start ntpd
+#+END_SRC
+
+- confirm that the connection is with the local machine
+#+BEGIN_SRC sh
+ntpq -p
+#+END_SRC
 
 * Lecture
 * Tutorial

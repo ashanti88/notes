@@ -1,0 +1,10 @@
+#+TAGS: ntp ntpq
+
+
+* ntpq
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

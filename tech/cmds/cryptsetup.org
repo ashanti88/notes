@@ -80,7 +80,12 @@ cryptsetup luksAddKey /dev/sdb1 --master-key-file <(cat existing_lukskey.bin)
 
 ** Mounting a second encrypted hdd
 
+** Encrypt a whole disk
+#+BEGIN_SRC sh
+cryptsetup -y -v luksFormat /dev/xvdc
+#+END_SRC
 * Lecture
 * Tutorial
 * Books
 * Links
+[[https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system#Simple_partition_layout_with_LUKS][Encrypting an entire system - ArchWiki]]

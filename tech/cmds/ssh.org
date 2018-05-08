@@ -11,7 +11,9 @@
 /home/user/.ssh/id_rsa          - this is the default private key, it needs privs of 600
 /home/user/.ssh/id_rsa.pub      - this is the public key and should have privs of 644
 
-** Cmds
+* Cmds
+- keychain  - this provides a fronted to ssh-agent and helps if you are using multiple keys
+- ssh-xfer  - this provides an in channel download solution (but only from the remote machine)
 *** ssh-copy-id
 #+BEGIN_SRC sh
 ssh-copy-id crito@192.168.0.5
@@ -34,10 +36,6 @@ ssh-copy-id uses the SSH protocol to connect to the target host and upload the S
 It also checks if the key already exists on the server. Unless the -f option is given, each key is only added to the authorized keys file once.
 
 It further ensures that the key files have appropriate permissions. Generally, the user's home directory or any file or directory containing keys files should not be writable by anyone else. Otherwise someone else could add new authorized keys for the user and gain access. Private key files should not be readable by anyone else.
-* Cmds
-- ssh-agent - this provides a single signin solution
-- keychain  - this provides a fronted to ssh-agent and helps if you are using multiple keys
-- ssh-xfer  - this provides an in channel download solution (but only from the remote machine)
 
 * Description
 * Usage
@@ -284,7 +282,6 @@ ssh-copy-id frank@78.87.56.34
     #+END_EXAMPLE
     hostname should correspond with the machines hostname
   
-
 ** Setting up ssh-agent as a sysd service
 #+BEGIN_EXAMPLE
 [Unit]
@@ -374,6 +371,30 @@ KerberosOrLocalPasswd yes
 GSSAPIAuthentication yes
 
 #+END_EXAMPLE
+** Configure Key-Based Authentication
+- install the required packages
+RHEL7
+#+BEGIN_SRC sh
+yum install openssl
+#+END_SRC
+RHEL6
+#+BEGIN_SRC sh
+yum install openssl-server
+#+END_SRC
+
+- generate ssh key
+#+BEGIN_SRC sh
+ssh-keygen
+#+END_SRC
+this will prompt you for a location and passphrase
+
+- copy ssh key to remote server
+#+BEGIN_SRC sh
+ssh-copy-id user@alickmitchell2.mylabserver.com
+#+END_SRC
+you will be prompted for user's password, then will copy the file to ~/.ssh/ on the remote server
+
+
 * Lecture
 * Tutorial
 ** Linux Academy - Server Application Requires a Secure SSH connection

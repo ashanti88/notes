@@ -3,7 +3,7 @@
 
 * postfix
 * Files
-/etc/postfix/main.cf
+/etc/postfix/main.cf - the main configuration file
 /etc/postfix/aliases - this holds aliases mail on the system
 /etc/postfix/main.cf - the main configuration (myorign and mydestination)
 /etc/postfix/transport
@@ -215,6 +215,74 @@ postmap /etc/postfix/transport
 systemct restart postfix
 systemct status postfix
 #+END_SRC
+
+** Configure a System to Forward All Email to a Central Mail Server
+- install requried packages
+#+BEGIN_SRC sh
+yum install postfix
+#+END_SRC
+
+- edit the /etc/postfix/main.cf
+#+BEGIN_EXAMPLE
+relayhost = [smtp.gmail.com]:587
+
+### GMail Specific Settings #######################
+smtp_use_tls = yes
+smtp_sasl_auth_enable = yes
+smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
+smtp_tls_CAfile = /etc/ssl/certs/ca-bundle.crt
+smtp_sasl_securtiy_options = noanonymous
+smtp_sasl_tls_secrutiy_options = noanonymous
+### End of GMail Specific Settings #################
+
+inet_interfaces = loopback-only
+
+mynetworks = 127.0.0.0/8 [::1]/128
+
+myorigin = $myhostname
+
+mydestination =
+local_transport = error: local delivery disabled
+#+END_EXAMPLE
+
+- create the /etc/postfix/sasl_passwd
+#+BEGIN_EXAMPLE
+[smtp.gmail.com]:587 username@gmail.com
+#+END_EXAMPLE
+
+- allow postfix to know of the sasl_passwd file
+#+BEGIN_SRC sh
+postmap sasl_passwd
+#+END_SRC
+
+- set permissions on sasl_passwd
+#+BEGIN_SRC sh
+chown root:postfix sasl_passwd
+chmod 640 sasl_passwd
+postmap sasl_passwd
+#+END_SRC
+
+- enable and start the postfix service
+#+BEGIN_SRC sh
+systemctl enable postfix
+systemctl start postfix
+#+END_SRC
+
+- Client Testing
+#+BEGIN_SRC 
+mail -s "This is a POSTFIX RHCE Forwading Test frank@protonmail.com
+Thsi is the subject
+
+frank
+.
+EOT
+#+END_SRC
+
+- tail the log file to see if the mail has been forwarded
+#+BEGIN_SRC sh
+tail -f /var/log/maillog
+#+END_SRC
+
 
 * Lecture
 * Tutorial
