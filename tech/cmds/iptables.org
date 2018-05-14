@@ -4,7 +4,7 @@
 * iptables
 Home Page: [[http://www.netfilter.org/][netfilter.org]]
 
-* Files 
+* Files
 /etc/sysconfig/iptables-config
 * Description
 * Usage

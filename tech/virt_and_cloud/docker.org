@@ -27,6 +27,7 @@ CheatSheet: [[https://github.com/wsargent/docker-cheat-sheet][github.com/docker-
 - [[https://github.com/kevana/ui-for-docker][DockerUI]]
 - [[https://github.com/shipyard/shipyard][Shipyard]]
 - [[https://github.com/gliderlabs/logspout][Logspout]]
+- Swarm
 ** [[https://github.com/jpetazzo/dind][DIND - Docker Inside Docker]] 
 
 * Description
@@ -37,19 +38,49 @@ man docker-network-create
 #+END_SRC
 docker network create
 
-** Start and Stop
-*** Start
+** Show Docker information
+- show version short
+#+BEGIN_SRC sh
+docker --version
+#+END_SRC
+
+- show version full
+#+BEGIN_SRC sh
+docker version
+#+END_SRC
+
+- show detailed information about the daemon
+#+BEGIN_SRC sh
+docker info
+#+END_SRC
+** Start and Stop Containers - Container Basics
+*** Start - run
 - starting a docker container that is running a command
 #+BEGIN_SRC sh
-docker run -itd ubuntu:xenial /bin/bash
+docker run -it ubuntu:xenial /bin/bash
 #+END_SRC
 i - interactive
-t - 
+t - attach to my terminal/tty
+
+- run a container in the background
+#+BEGIN_SRC sh
+docker -d --name test_container httpd
+#+END_SRC
 d - detattched
 
 - start the container but without specifying the cmd
 #+BEGIN_SRC sh
 docker start nginx:latest
+#+END_SRC
+
+- start a continer with a specific name
+#+BEGIN_SRC sh
+docker run -it --name test_container centos:6 /bin/bash
+#+END_SRC
+
+- start a container with an environment variable
+#+BEGIN_SRC sh
+docker run -it --env MYVAR=what_now --name test_container centos:6 /bin/bash
 #+END_SRC
 
 *** Stop
@@ -84,6 +115,18 @@ docker run ubuntu:xenial /bin/echo "Hello from this container"
 #+END_SRC
 once the container has run the command it will exit
 
+** Pull an Image from a Registry
+- pull each images and each tag
+#+BEGIN_SRC sh
+docker pull -a hello-world
+#+END_SRC
+
+- pull an images that hasn't been confirmed to be safe by the repo
+#+BEGIN_SRC sh
+docker pull --disable-content-trust hello-world
+#+END_SRC
+
+
 ** Removing containers
 - remove conatiner from memory
 #+BEGIN_SRC sh
@@ -99,6 +142,7 @@ you can mix container names with ids, just delimit with a space
 - remove all containers that are in memory
 #+BEGIN_SRC sh
 docker rm $(docker ps -a -q)
+docker rm `docker ps -a -q`
 #+END_SRC
 
 - force kill a running container
@@ -114,6 +158,13 @@ cd /var/lib/docker/containers
 rm -rf 39efceafa4f084ccc495b4eb40af351eb66029c4091723eae16ca38299fede93
 #+END_SRC
 this would remove the container from docker, and won't be present when docker is restarted
+
+- running a temporary container
+#+BEGIN_SRC sh
+docker run -it --rm --name test_container centos:6 /bin/bash
+#+END_SRC
+now when you quit it will remove the container from memory
+
 
 ** Removing Base Images
 - remove a base image
@@ -137,6 +188,117 @@ docker ps
 - list all containers that are still present in memory
 #+BEGIN_SRC sh
 docker ps -a
+#+END_SRC
+
+** List images
+- list all images
+#+BEGIN_SRC sh
+docker images --all
+docker images -a
+docker images
+#+END_SRC
+
+- list all the digests of the images
+#+BEGIN_SRC sh
+docker images --digests
+#+END_SRC
+
+- filter by creation 
+#+BEGIN_SRC sh
+docker images --filter "before=centos:6"
+#+END_SRC
+this will print to the screen all images that were created before the "centos:6" image
+
+- list all images with full images ID
+#+BEGIN_SRC sh
+docker images --no-trunc
+#+END_SRC
+
+- show only image ids
+#+BEGIN_SRC sh
+docker images --quiet
+#+END_SRC
+
+** Search docker hub from the cmd line
+- search for all apache images
+#+BEGIN_SRC sh
+docker search apache
+#+END_SRC
+this will return a list of all the images that contain apache in their description
+
+- limit the number of responses
+#+BEGIN_SRC sh
+docker search --filter stars=50 apache
+#+END_SRC
+this will now only return images that have 50> stars
+
+- only show images that are official releases
+#+BEGIN_SRC sh
+docker search --filter is-official=true apache
+#+END_SRC
+
+- get the top ten images
+#+BEGIN_SRC sh
+docker search --limit 10 apache
+#+END_SRC
+** Tagging an image
+- tag an image with my own tag
+#+BEGIN_SRC sh
+docker tag centos:6 mycentos:v1
+#+END_SRC
+this will create a duplicate of the original centos:6
+
+** Managing images
+- show the build history of a file
+#+BEGIN_SRC sh
+docker image history httpd:latest
+#+END_SRC
+this will show the build layers of the image
+
+- tar up an image to move to another machine/storage
+#+BEGIN_SRC sh
+docker image save centos:6 > mycentos.custom.tar
+#+END_SRC
+
+- importing a tared image
+#+BEGIN_SRC sh
+docker import mycentos.custom.tar localimport:centos6
+#+END_SRC
+this will allow us to set a new name:tag
+
+- load a tared image
+#+BEGIN_SRC sh
+docker load --input mycentos.custom.tar
+#+END_SRC
+this will assign the original name:tag
+
+- listing images
+#+BEGIN_SRC sh
+docker image ls
+#+END_SRC
+same as "docker images"
+
+** Inspecting an image
+- view all information of an image
+#+BEGIN_SRC sh
+docker image inspect centos:6
+#+END_SRC
+this will print a large json document to the screen
+
+- search for specific property
+#+BEGIN_SRC sh
+docker image inspect centos:6 --format '{{.ContainerConfig.Hostname}}'
+#+END_SRC
+
+- search for all properties in a section
+#+BEGIN_SRC sh
+docker image inspect centos:6 --format '{{.ContainerConfig}}'
+#+END_SRC
+This will just print all properties without their keys
+
+- search for all properties of a section and add the keys
+#+BEGIN_SRC sh
+docker image inspect centos:6 --format '{{json .ContainerConfig}}'
 #+END_SRC
 
 ** Get logs from container
@@ -177,28 +339,11 @@ this provides an updated overview of the container dynamically
 docker events --since '1h'
 #+END_SRC
 
-** Shows public facing port of container
-
 ** Clean up non-used network interfaces
 #+BEGIN_SRC sh
 docker network prune
 #+END_SRC
 
-** Show Docker information
-- show version short
-#+BEGIN_SRC sh
-docker --version
-#+END_SRC
-
-- show version full
-#+BEGIN_SRC sh
-docker version
-#+END_SRC
-
-- show detailed information about the daemon
-#+BEGIN_SRC sh
-docker info
-#+END_SRC
 ** Interacting with a running instance
 - attach, makesure that a shell is available, or you'll attach to the processes
 #+BEGIN_SRC sh
@@ -391,6 +536,167 @@ docker push alickmitchell/customapache
 docker logout
 #+END_SRC
 
+** Setting the storage driver
+Check the documentation for wich driver is currently support for the distro that you are using
+  - ubuntu - aufs
+  - centos/rhel - devicemapper
+  - sles - btrfs
+
+- create /etc/docker/daemon.json
+#+BEGIN_EXAMPLE
+{
+  "storage-driver":"devicemapper"
+}
+#+END_EXAMPLE
+this will create /var/lib/docker/devicemapper, this will be the new location where images are placed
+
+- restart the docker service
+#+BEGIN_SRC sh
+systemctl restart docker.service
+#+END_SRC
+
+** Configuring the logging driver
+- json is usally set as the default, but there are other options
+  - none
+  - json-file
+  - syslog
+  - journald
+  - gelf
+  - fluentd
+  - awslogs
+  - splunk
+  - etwlogs
+  - gcplogs
+  - logentries
+    
+- edit /etc/rsyslog.conf uncomment or add
+#+BEGIN_EXAMPLE
+# Provides UDP syslog reception
+$ModLoad imudp
+$UDPServerRun 514
+#+END_EXAMPLE
+
+- restart the rsyslog service
+#+BEGIN_SRC sh
+systemctl restart rsyslog.service
+#+END_SRC
+
+- edit /etc/docker/daemon.json we will set syslog 
+#+BEGIN_EXAMPLE
+{
+  "log-driver": "syslog",
+  "log-opts": {
+          "syslog-address": "udp://172.31.125.216:514"
+  }
+}
+#+END_EXAMPLE
+ip address being the private ip address and the port the one that was configured in /etc/rsyslog.conf
+
+- restartt the docker service
+#+BEGIN_SRC sh
+systemctl restart docker.service
+#+END_SRC
+
+- confirm that the logging driver has been changed
+#+BEGIN_SRC sh
+docker info | grp -i logging
+#+END_SRC
+
+** Setting logging at container level
+- setting a differnt logging driver for a specific container
+#+BEGIN_SRC sh
+docker container run -d --name testcontainer --log-driver json-file httpd
+#+END_SRC
+
+** Setting up Swarm
+- view the overview of the swarm
+#+BEGIN_SRC sh
+docker node ls
+#+END_SRC
+worker nodes will provide no output
+
+*** Configure Managers
+- initialize the swarm
+#+BEGIN_SRC sh
+docker swarm init --advertise-addr 172.31.16.218 
+#+END_SRC
+this will output a swarm token, this should be copied and stored as it's what will be used to allow nodes to join the swarm
+
+- get token if lost (perform on a manager)
+#+BEGIN_SRC sh
+docker swarm join-token worker
+#+END_SRC
+
+- create another manager
+#+BEGIN_SRC 
+docker swarm join-token manager
+#+END_SRC
+this token will be used to join more manager to the swarm
+
+*** Configure Workers
+- get worker token (manager)
+#+BEGIN_SRC sh
+docker swarm join-token worker
+#+END_SRC
+
+- adding a node
+#+BEGIN_SRC sh
+docker swarm join --token SWMTKN-1-462c9jrhopn4ph11ahxo58f0qf5ibk994ek78a3lk6bowt419k-2h5q0mvijb5wk3iuho2b53nkd 172.31.100.141:2377
+#+END_SRC
+
+- Trouble shooting "Error response from daemon: rpc error: code = Unavailable desc = grpc: the connection is unavailable"
+  - this error is related to firewall rules
+- solution
+#+BEGIN_SRC sh
+firewall-cmd --add-port=2376/tcp --permanent  
+firewall-cmd --add-port=2377/tcp --permanent  
+firewall-cmd --add-port=7946/tcp --permanent  
+firewall-cmd --add-port=7946/udp --permanent  
+firewall-cmd --add-port=4789/udp --permanent
+firewall-cmd --reload
+#+END_SRC
+
+*** Setting up Backup and Restore
+- create a web service in the cluster, with at least 2 running at all times
+#+BEGIN_SRC sh
+docker srevice create --name bkupweb --publish 80:80 --replicate 2 httpd
+#+END_SRC
+
+- confirm the creation of the service
+#+BEGIN_SRC sh
+docker service ls
+#+END_SRC
+this will tell us what nodes are providing the service
+
+- stop the docker service to create a backup
+#+BEGIN_SRC sh
+systemctl stop docker.service
+#+END_SRC
+
+- create a swarm backup directory
+#+BEGIN_SRC sh
+mkdir /root/swarm
+cp -rf /var/lib/docker/swarm/ .
+tar cvf swarm.tar /root/swarm/
+#+END_SRC
+
+- use the swarm.tar file to restore with a new manager node
+#+BEGIN_SRC sh
+systemctl stop docker.service
+rm -rf /var/lib/docker/swarm/
+tar xvf swarm.tar
+mv swarm /var/lib/docker
+systemctl start docker.service
+docker swarm init --force-new-cluster
+#+END_SRC
+
+- confirm the service has restored
+#+BEGIN_SRC sh
+docker service ls
+docker service ps bkupweb
+#+END_SRC
+
+
 * Installation on CentOS 7
 - first create a repo file to /etc/yum.repos.d/docker.repo
 #+BEGIN_EXAMPLE
@@ -443,19 +749,113 @@ docker run hello-world
 #+END_SRC
 this will pull the hello-world image from docker hub, print a blurb and exit
 
-* Creating Dockerfiles
+* Complete Docker Installation on RHEL7
+- install required packages
+#+BEGIN_SRC sh
+yum install -y device-mapper-persistent-data lvm2 yum-utils
+#+END_SRC
+yum-utils is for yum-config-manager
+
+- add the stable repo
+#+BEGIN_SRC sh
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+yum update
+#+END_SRC
+
+- for bledding edge
+#+BEGIN_SRC sh
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo --enable docker-ce-edge.repo
+yum update
+#+END_SRC
+
+- install docker
+#+BEGIN_SRC sh
+yum install -y docker-ce
+#+END_SRC
+
+- add users that require to access docker to the docker group 
+#+BEGIN_SRC sh
+usermod -aG docker user1
+usermod -aG docker user2
+usermod -aG docker user3
+#+END_SRC
+access is required to the /var/run/docker.sock file that has perms root:docker
+
+- enable docker service
+#+BEGIN_SRC sh
+systemctl enable docker.service
+systemctl start docker.service
+systemctl status docker.service
+#+END_SRC
+
+* Complete Debian Installation on Debian
+- add required packages
+#+BEGIN_SRC sh
+apt-get install apt-transport-https ca-certificates curl software-properties-common
+#+END_SRC
+
+- add the gpg key for docker repo
+#+BEGIN_SRC sh
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+#+END_SRC
+
+- add the repo
+#+BEGIN_SRC sh
+add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
+apt-get update
+#+END_SRC
+
+- for ubuntu
+#+BEGIN_SRC sh
+add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+apt-get udpate
+#+END_SRC
+
+- install the docker community edition
+#+BEGIN_SRC sh
+apt-get install docker-ce
+#+END_SRC
+
+- add the required users to the docker group
+#+BEGIN_SRC sh
+usermod -aG docker user1
+usermod -aG docker user2
+usermod -aG docker user3
+#+END_SRC
+
+- enable and start the service
+#+BEGIN_SRC sh
+systemctl enable docker.service
+systemctl start docker.service
+systemctl status docker.service
+#+END_SRC
+
+* Dockerfiles
+- using a different name than "Dockerfile"
+#+BEGIN_SRC sh
+docker build -t myubuntu:v1 --file myfile .
+docker build -t myubuntu:v1 -f myfile .
+#+END_SRC
+
+- build without caching
+#+BEGIN_SRC sh
+docker build --pull --no-cache --squash -t optimized:v1
+#+END_SRC
+if the image was to be rebuilt it would have no cache to speed it up
+-- squash - this is only available with the experimental features of docker (normally not found in produciton)
+
 ** Simple example where ubuntu has a few packages installed
 #+BEGIN_SRC sh
 # This is a custom ubuntu image with ssh already installed
 FROM ubuntu:xenial
-MAINTAINER amitchrll <mitchell.alick@gmail.com>
+MAINTAINER fflintstone<fflintstone@gmail.com>
 RUN apt-get update -y
 RUN apt-get install -y telnet openssh-server
 #+END_SRC
 
 - building the image
 #+BEGIN_SRC sh
-docker build -t="amitchell/ubuntusshdonly:v2" .
+docker build -t="fflintstone/ubuntusshdonly:v2" .
 #+END_SRC
 . - if not being run in the same directory a redirect to the Dockerfile location would take the place of the "."
 
@@ -556,9 +956,86 @@ ENTRYPOINT apachectl "-DFOREGROUND"
 #+END_EXAMPLE
 Without the EXPOSE, ports have to be explicitly selected at the cmd line by docker on creation of the container
 
+
+* Universal Control Plane (UCP) System Requirements
+
+ports
+  - managers, workers -  incomming TCP 443   - Port for the UCP web UI and API
+  - managers          -  incomming TCP 2376  - Port for the Docker Swarm manager, used for backwards compatibility
+  - managers          -  incomming TCP 2377  - Port for communication between swarm nodes
+  - workers           -  out-going TCP 2377  - Port for communication between swarm nodes
+  - managers, workers -  in/out    UDP 4789  - Port for overlay networking
+  - managers, workers -  in/out TCP/UDP 7946 - Port for gossip based networking
+  - managers, workers -  incomming TCP 12376 - Port for TLS proxy that provides access to UCP, Docker Engine and Docker Swarm
+  - managers,         -  in        TCP 12379 - Port for internal node configuration, cluster configuration and HA
+  - managers,         -  in        TCP 12380 - Port for internal node configuration, cluster configuration and HA
+  - managers,         -  in        TCP 12381 - Port for the Certificate Authority
+  - managers,         -  in        TCP 12382 - Port for the UCP Cert Auth
+  - managers,         -  in        TCP 12383 - Port for the authentication storage backend
+  - managers,         -  in        TCP 12384 - Port for the authentication storage backend for replication across managers
+  - managers,         -  in        TCP 12385 - Port for the authentication service API
+  - managers,         -  in        TCP 12386 - Port for the authentication worker
+  - managers,         -  in        TCP 12387 - Port for the metrics service
+    
+- Minimum Requirements
+  - 8gb RAM (Managers or DTR Nodes)
+  - 4gb RAM (Workers)
+  - 3gb Free Disk
+    
+- Recommaneded Requirements
+  - 16gb RAM (Managers or DTR Nodes)
+  - 4vCPUs (Workers or DTR Nodes)
+    
+* Set Up and Configure UCP and Docker Trusted Repository (DTR) for Secure Cluster Management
+- we need our cluster build first
+
+- now install ucp container on Manager node
+#+BEGIN_SRC sh
+docker container run --rm -it --name ucp -v /var/run/docker.sock:/var/run/docker.sock docker/ucp:2.2.4 install --host-address 172.31.116.158 --interactive
+#+END_SRC
+you will be prompted for a few answers  - managers,         -  in        TCP 12379 - Port for internal node configuration, cluster configuration and HA
+
+#+BEGIN_EXAMPLE
+Admin Username: admin
+Admin Password:
+You may enter additional aliases (SANs) now or press enter to proceed with the above list
+Additional aliases: ucp.example.com
+#+END_EXAMPLE
+
+- if doing this in the LA labs, edit the /etc/hosts file so that the hostnames are set to their private ip addrs
+#+BEGIN_EXAMPLE
+172.31.116.158 fredflintstone1.mylabserver.com
+172.31.116.158 ucp.example.com
+172.31.116.18 fredflintstone2.mylabserver.com
+172.31.116.18 dtr.example.com
+172.31.16.108 fredflintstone3.mylabserver.com
+#+END_EXAMPLE
+
+- now the UCP will be available, this can be connected to with https://ucp.example.com/login
+  
+- add the license
+
+- DTR is found in the Admin Settings
+  - choose the node you want to install DTR on in the dropdown menu
+    
+- the command to install DTR
+#+BEGIN_SRC sh
+docker run -it --rm docker/dtr install --ucp-node fredflintstone2.mylabserver.com --ucp-username admin --ucp-url https://fredflintstone1.mylabserver.com --ucp-insecure-tls
+#+END_SRC
+
 * Lecture
 * Tutorials
-*** Containers - Get Started Part 2
+** Linux Academy Lab - Installing Docker CE and Pulling Images
+[[file://home/crito/Documents/SysAdmin/Virt/Docker/installing_docker-ce_lab.pdf][Installing Docker CE and Pulling Images for Container Utilization]]
+
+* Books
+[[file://home/crito/Documents/SysAdmin/Virt/Docker/Using_Docker.pdf][Using Docker]]
+[[file://home/crito/Documents/SysAdmin/Virt/Docker/Pro_Docker.pdf][Pro Docker]]
+[[file://home/crito/Documents/SysAdmin/Virt/Docker/Learning_Docker.pdf][Learning Docker]]
+[[file://home/crito/Documents/SysAdmin/Virt/Docker/Monitoring_Docker.pdf][Monitoring Docker]]
+[[file://home/crito/Documents/SysAdmin/Virt/Docker/Orchestrating_Docker.pdf][Orchestrating Docker]]
+** [[file://home/crito/Documents/SysAdmin/Virt/Docker/Docker_Cookbook.pdf][Docker Cookbook]]
+** Containers - Get Started Part 2
 https://docs.docker.com/get-started/part2/
 - app.py
 #+BEGIN_EXAMPLE
@@ -674,7 +1151,7 @@ docker push username/repository:tag
 docker run username/repository:tag
 #+END_SRC
 
-*** Services - Get Started Part 3
+** Services - Get Started Part 3
 https://docs.docker.com/get-started/part2/
 
 docker-compose.yml
@@ -747,13 +1224,5 @@ docker stack ps getstartedlab
 #+BEGIN_SRC sh
 docker stack rm getstartedlab
 #+END_SRC
-
-* Books
-** [[file://home/crito/Documents/SysAdmin/Virt/Docker/Using_Docker.pdf][Using Docker]]
-** [[file://home/crito/Documents/SysAdmin/Virt/Docker/Pro_Docker.pdf][Pro Docker]]
-** [[file://home/crito/Documents/SysAdmin/Virt/Docker/Learning_Docker.pdf][Learning Docker]]
-** [[file://home/crito/Documents/SysAdmin/Virt/Docker/Monitoring_Docker.pdf][Monitoring Docker]]
-** [[file://home/crito/Documents/SysAdmin/Virt/Docker/Orchestrating_Docker.pdf][Orchestrating Docker]]
-** [[file://home/crito/Documents/SysAdmin/Virt/Docker/Docker_Cookbook.pdf][Docker Cookbook]]
 
 * Links

@@ -1584,7 +1584,7 @@ yum repolist
 yum repolist all
 #+END_SRC
 
-- adding a repo with yum
+- adding a repo with yum (yum-config-manager requires yum-utils package)
 #+BEGIN_SRC sh
 yum-config-manager --add-repo=http://dl.fedoraproject.org/pub/epel/7/x86_64
 #+END_SRC

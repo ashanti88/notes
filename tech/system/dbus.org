@@ -1,11 +1,16 @@
-#+TAGS: linux
+#+TAGS: dbus d-bus linux
 
 
-* D-Bus                                                               :linux:
+* D-Bus
 HomePage: [[https://www.freedesktop.org/wiki/Software/dbus/][freedesktop.org/dbus]]
+* Files
+/usr/share/dbus-1
+/etc/dbus-1
+
 * Description
 * Usage
 * Lecture
 * Tutorial
 * Books
 * Links
+[[https://www.softprayog.in/programming/d-bus-tutorial][D-Bus Tutorial - SoftPrayog]]

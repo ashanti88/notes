@@ -1,7 +1,7 @@
 #+TAGS: linux
 
 
-* Slackware                                                           :linux:
+* Slackware
 SlackBook: [[http://www.slackbook.org/html/index.html][slackbook.org/index.html]]
 * Description
 * Install
@@ -205,6 +205,87 @@ xstart
 id:4:initdefault:
 #+END_EXAMPLE
 runlevel 3(console) is default, and runlevel 5 is console not graphical
+
+* Installation with encrypted disk
+- partition with fdisk
+  1. /dev/sda1 32M /boot
+  2. /dev/sda2 29G /
+
+- now encrypt /dev/sda2 
+#+BEGIN_SRC sh
+cryptsetup luksFormat -c aes-xts-plain64:sha512 -h sha512 -s 256 /dev/sda2
+#+END_SRC
+
+- open the encrypted partition
+#+BEGIN_SRC sh
+cryptsetup luksOpen /dev/sda2 enc_root
+#+END_SRC
+
+- create the LVM
+#+BEGIN_SRC sh
+pvcreate /dev/mapper/enc_root
+vgcreate slack /dev/mapper/enc_root
+lvcreate -C y -L 4G -n swap slack
+lvcreate -C y -L 15G -n root slack
+lvcreate -C y -l 100%FREE home slack
+#+END_SRC
+
+- confirm the logical volumes
+#+BEGIN_SRC sh
+lvscan
+#+END_SRC
+
+- make the swap
+#+BEGIN_SRC sh
+mkswap /dev/slack/swap
+#+END_SRC
+
+- start the installation
+#+BEGIN_SRC sh
+setup
+#+END_SRC
+
+- once the installation has finished exit, but don't reboot. This will drop you back in the shell, we need to chroot /mnt
+#+BEGIN_SRC sh
+cd /mnt
+chroot . /bin/bash -l
+#+END_SRC
+
+- make an initrd
+#+BEGIN_SRC sh
+cd /boot
+mkinitrd -c -k 4.14 -m ext4 -f ext4 -r /dev/slack/root -C /dev/sda2 -L 
+#+END_SRC
+k - kernel version
+m - modules to load
+f - filesystem on /
+r - location of root partition
+C - location of the encrypted partition
+L - LVM
+
+- configure the bootloader
+/etc/lilo.conf
+#+BEGIN_EXAMPLE
+compact # 
+
+image = /boot/vmlinuz-generic
+  initrd = /boot/initrd.gz
+  root = /dev/slack/root
+  Label = Slackware
+  read-only
+#+END_EXAMPLE
+
+- now type lilo to add the changes
+#+BEGIN_SRC sh
+lilo
+#+END_SRC
+
+- exit the setup
+#+BEGIN_SRC sh
+exit
+cd
+unmount -l /mnt
+#+END_SRC
 
 * Lecture
 * Tutorial

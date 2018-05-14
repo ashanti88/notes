@@ -1,0 +1,15 @@
+#+TAGS: bootloader lilo
+
+
+* LILO
+HomePage: https://lilo.alioth.debian.org/
+* Files
+/etc/lilo.conf
+* Cmds
+- liloconfig
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -23,6 +23,17 @@ jobs
 bg 2
 #+END_SRC
 
+** restart a job in the foreground
+- first list the job ids
+#+BEGIN_SRC sh
+jobs -l
+#+END_SRC
+
+- restart the identified job
+#+BEGIN_SRC sh
+fg %3
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

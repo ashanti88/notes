@@ -1,7 +1,7 @@
 #+TAGS: net op
 
 
-* w3m								     :net:op:
+* w3m
 * Description
 
 This is a text based browser.
@@ -18,7 +18,7 @@ Normal vim key binds apply
 
 SPC - move forward a page
 b - move back a page
-\^ - begining of line
+^ - begining of line
 $ - end of line
 > - shift screen right
 < - shift screen left
@@ -27,7 +27,7 @@ $ - end of line
 TAB - move to next hyperlink
 [ - move to first hyperlink
 ] - move to last hyperlink
-B - move backfards
+B - move backwards
 + Hyperlink Operations
 RET - follow hyperlink
 a - save link to file

@@ -1,0 +1,19 @@
+#+TAGS: iwconfig wireless
+
+
+* iwconfig
+* Description
+* Usage
+- set the essid
+#+BEGIN_SRC sh
+iwconfig eth0 essid "mynetwork"
+#+END_SRC
+
+- set the channel
+#+BEGIN_SRC sh
+iwconfig eth0 channel 1
+#+END_SRC
+* Lecture
+* Tutorial
+* Books
+* Links

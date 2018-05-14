@@ -1,7 +1,7 @@
-#+TAGS: sec_d fw fwd gui
+#+TAGS: firewall-config firewalld
 
 
-* firewall-config					   :sec_d:fw:fwd:gui:
+* firewall-config
 * Description
 * Usage
 * Lecture

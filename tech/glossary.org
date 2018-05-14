@@ -1,6 +1,8 @@
 #+TAGS: glossary
 
 
+* APCI - Advanced Configuration and Power Interface
+Arch: https://wiki.archlinux.org/index.php/ACPI_modules
 * ASLR - Address Space Layout Randomization
 Wiki: https://en.wikipedia.org/wiki/Address_space_layout_randomization
 * BGP  - Border Gate Protocol
@@ -14,6 +16,12 @@ HomePage: https://dri.freedesktop.org/wiki/DRM/
 * FDT  - Flattened Device Tree
 * FD   - Fast Data Project
 Homepage: https://fd.io/
+* GIMP - GNU Image Manipulation Program
+HomePage: https://www.gnome.org/
+* GNOME - GNU Network Object Model Environment
+HomePage: https://www.gnome.org/
+* ISDN - Integrated Services Digital Network
+Wiki: https://en.wikipedia.org/wiki/Integrated_Services_Digital_Network
 * iSCSI - Internet Small Computer Systems Interface
 wiki: https://en.wikipedia.org/wiki/ISCSI
 * IIO  - Industrial I/O Subsystem
@@ -47,6 +55,7 @@ Homepage: http://pnda.io/
 * RAC  - Real Application Clustering (oracle)
 * RESTful API - Repressentational State Transfer
 Wiki: https://en.wikipedia.org/wiki/Representational_state_transfer
+* SMB  - Server Message Block
 * SNAS - Streaming Network Analytics System
 Homepage: http://www.snas.io/
 * SNI  - Server Name Indication

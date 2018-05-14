@@ -12,4 +12,14 @@
 * 1987 - Amiga 500
 * 1991 - Amiga 500 Plus
 * 1984 - Macintosh 128K
+* 2004 - Blue Gene
+Wiki: https://en.wikipedia.org/wiki/Blue_Gene
 * 2010 - Cray XE6
+* 2012 - SuperMUC
+Wiki: https://en.wikipedia.org/wiki/SuperMUC
+* 2012 - Vulcan
+HomePage: https://www.llnl.gov/news/lawrence-livermores-vulcan-brings-5-petaflops-computing-power-collaborations-industry-and
+* 2017 - GW4 Isambard
+HomePage: http://gw4.ac.uk/isambard/
+* 2017 - Iridis 5
+https://www.southampton.ac.uk/isolutions/news/2018/03/14-one-of-the-worlds-most-powerful-supercomputer.page

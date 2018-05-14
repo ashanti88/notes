@@ -1,9 +1,13 @@
 #+TAGS: fs lvm op
 
 
-* lvremove							  :fs:lvm:op:
+* lvremove
 * Description
 * Usage
+- delete a logical volume
+#+BEGIN_SRC sh
+lvremove 
+#+END_SRC
 * Lecture
 * Tutorial
 * Books
