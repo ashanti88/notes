@@ -1,7 +1,7 @@
 #+TAGS: newsbeuter rss work_flow
 
 
-* newsbeuter
+* newsbeuter/newsboat
 Home Page: [[http://newsbeuter.org/][newsbeuter.org]]
 * Description
 * Usage

@@ -562,6 +562,7 @@ emacs.devl
  />  | Add a filter by buffer size    |
  /<  | Add a filter by buffer size    |
  //  | Remove filters                 |
+ 
 
 *** Bookmarks
 + C-x rm - this provides for a name to be give to a point in a file to come back to.

@@ -1,0 +1,121 @@
+# Path to your oh-my-zsh installation.
+export ZSH=$HOME/.oh-my-zsh
+
+# Set name of the theme to load. Optionally, if you set this to "random"
+# it'll load a random theme each time that oh-my-zsh is loaded.
+# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
+#ZSH_THEME="robbyrussell"
+ZSH_THEME="muse"
+
+# Uncomment the following line to use case-sensitive completion.
+CASE_SENSITIVE="true"
+
+# Uncomment the following line to disable bi-weekly auto-update checks.
+DISABLE_AUTO_UPDATE="true"
+
+# Uncomment the following line to change how often to auto-update (in days).
+export UPDATE_ZSH_DAYS=13
+
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+#ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+# COMPLETION_WAITING_DOTS="true"
+
+# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(git)
+plugins=(vagrant)
+
+source $ZSH/oh-my-zsh.sh
+
+# User configuration
+HISTFILE=~/.zsh_history
+HISTSIZE=2000
+SAVEHIST=2000
+bindkey -v # keybinds set to vi
+bindkey '^R' history-incremental-search-backward
+
+#setopt PROMPT_SUBST # This is to a clean prompt
+
+#PS1=$'%F{def}%(?..%B%K{red}[%?]%K{def}%b )%(1j.%b%K{yel}%F{bla}%jJ%F{def}%K{def} .)%F{white}%B%*%b %F{m}%m:%F{white}%~%(!.#.$) %F{def}'
+
+# Short command aliases
+#alias la='exa -a'
+#alias ll='exa -l'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+alias suod='sudo'
+alias c='clear'
+alias autoclean='sudo pacman -R $(pacman -Qtdq)'
+# git
+alias git st='git status'
+alias gitssh='eval $(ssh-agent); ssh-add ~/.ssh/git_eurus'
+# applications
+alias w3m='w3m www.duckduckgo.com'
+alias emacs='emacs --no-window-system'
+alias mutt="neomutt -F ~/.muttrc/.muttrc"
+alias namp='nmap'
+alias curlip='curl icanhazip.com'
+alias vi='vim'
+alias svi='sudo vim'
+alias xmap="xmodmap ~/.Xmodmap2"
+alias nf='neofetch'
+alias sed='sed -E'
+#alias msfconsole='sudo msfconsole -y /home/crito/database.yml'
+# VMs
+#alias win10vm="VBoxManage startvm "windows10" --type headless"
+#alias openivm="VBoxManage startvm "OpenIndiana" --type headless"
+#alias solarisvm="VBoxManage startvm "Solaris" --type headless"
+#alias slackvm="VBoxManage startvm "Slackware" --type headless"
+#alias gentoovm="VBoxManage startvm "Gentoo" --type headless"
+#alias kalivm="VBoxManage startvm "Kali" --type headless"
+#alias freebsdvm="VBoxManage startvm "FreeBSD" --type headless"
+#alias fedoravm="VBoxManage startvm "Fedora" --type headless"
+#alias icarosvm="VBoxManage startvm "ICAROS" --type headless"
+#alias rdpvm="xfreerdp /w:1920 /h:1020 /v:192.168.0.10:3389"
+# cs
+alias denmark="sudo openvpn --config source/cryptostorm_client_configuration_files/linux/cstorm_linux-denmark_tcp.ovpn --auth-user-pass cs_login.conf"
+alias canada_e="sudo openvpn --config source/cryptostorm_client_configuration_files/linux/cstorm_linux-canadaeast_tcp.ovpn --auth-user-pass cs_login.conf"
+alias canada_w="sudo openvpn --config source/cryptostorm_client_configuration_files/linux/cstorm_linux-canadawest_tcp.ovpn --auth-user-pass cs_login.conf"
+alias germany_d="sudo openvpn --config source/cryptostorm_client_configuration_files/linux/cstorm_linux-dusseldorf_tcp.ovpn --auth-user-pass cs_login.conf"
+alias england="sudo openvpn --config source/cryptostorm_client_configuration_files/linux/cstorm_linux-england_tcp.ovpn --auth-user-pass cs_login.conf"
+alias finland="sudo openvpn --config source/cryptostorm_client_configuration_files/linux/cstorm_linux-finland_tcp.ovpn --auth-user-pass cs_login.conf"
+alias germany_f="sudo openvpn --config source/cryptostorm_client_configuration_files/linux/cstorm_linux-frankfurt_tcp.ovpn --auth-user-pass cs_login.conf"
+alias latvia="sudo openvpn --config source/cryptostorm_client_configuration_files/linux/cstorm_linux-latvia_tcp.ovpn --auth-user-pass cs_login.conf"
+alias portugal="sudo openvpn --config source/cryptostorm_client_configuration_files/linux/cstorm_linux-lisbon_tcp.ovpn --auth-user-pass cs_login.conf"
+alias moldova="sudo openvpn --config source/cryptostorm_client_configuration_files/linux/cstorm_linux-moldova_tcp.ovpn --auth-user-pass cs_login.conf"
+alias holland="sudo openvpn --config source/cryptostorm_client_configuration_files/linux/cstorm_linux-netherlands_tcp.ovpn --auth-user-pass cs_login.conf"
+alias france="sudo openvpn --config source/cryptostorm_client_configuration_files/linux/cstorm_linux-paris_tcp.ovpn --auth-user-pass cs_login.conf"
+alias poland="sudo openvpn --config source/cryptostorm_client_configuration_files/linux/cstorm_linux-poland_tcp.ovpn --auth-user-pass cs_login.conf"
+alias italy="sudo openvpn --config source/cryptostorm_client_configuration_files/linux/cstorm_linux-rome_tcp.ovpn --auth-user-pass cs_login.conf"
+alias spain="sudo openvpn --config source/cryptostorm_client_configuration_files/linux/cstorm_linux-spain_tcp.ovpn --auth-user-pass cs_login.conf"
+alias switzerland="sudo openvpn --config source/cryptostorm_client_configuration_files/linux/cstorm_linux-switzerland_tcp.ovpn --auth-user-pass cs_login.conf"
+alias america_n="sudo openvpn --config source/cryptostorm_client_configuration_files/linux/cstorm_linux-usnorth_tcp.ovpn --auth-user-pass cs_login.conf"
+alias america_e="sudo openvpn --config source/cryptostorm_client_configuration_files/linux/cstorm_linux-useast_tcp.ovpn --auth-user-pass cs_login.conf"
+alias america_s="sudo openvpn --config source/cryptostorm_client_configuration_files/linux/cstorm_linux-ussouth_tcp.ovpn --auth-user-pass cs_login.conf"
+alias amerida_w="sudo openvpn --config source/cryptostorm_client_configuration_files/linux/cstorm_linux-uswest_tcp.ovpn --auth-user-pass cs_login.conf"
+#gdrive
+alias gdrive_pic="gdrive sync upload /home/crito/Pictures/org 1mqrjzTb2rTxCnXQlng_4J2esfwn8HHdQ"
+
+export PATH=/home/crito/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/crito/bin:/home/crito/.rvm/scripts/rvm:/home/crito/anaconda3/bin/:/home/crito/.local/bin/:/home/crito/.cargo/bin:/home/crito/.gem/ruby/2.4.0/bin/:
+
+
+# Options
+setopt HIST_VERIFY # ask before execution of previous cmd
+#setopt EXTENDED_HISTORY # adds a timestap and duration for each hist entry
+#setopt HIST_IGNORE_ALL_DUPS # ignores all duplicate entries
+#setopt HIST_REDUCE_BLANKS # removes all extra white space
+set INC_APPEND_HISTORY # adds to hostory as typed
+set SHARE_HISTORY # share history between zsh processes
+export HISTIGNORE=":pwd:uptime:ls:la:clear:history:"
+
+# Sets the default editor
+export EDITOR=vim
+export VISUAL="$EDITOR"

@@ -1,0 +1,5 @@
+!! This is for the UK keyboard shift CAPS to ESC
+!! Lenovo silly up arrow where shift should should be. up to SHIF
+clear lock
+keycode 66 = Escape
+keycode 111 = Shift_L

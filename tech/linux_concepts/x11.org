@@ -4,7 +4,8 @@
 * X11
 Wiki: https://en.wikipedia.org/wiki/X_Window_System
 * Files
-/home/user/xorg.conf.d
+~/.xinitrc
+~/xorg.conf.d
 * Cmds
 - [[file://home/crito/org/tech/cmds/xwininfo.org][xwininfo]]
 - [[file://home/crito/org/tech/cmds/xdpyinfo.org][xdpyinfo]]

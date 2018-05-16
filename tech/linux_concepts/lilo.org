@@ -4,12 +4,57 @@
 * LILO
 HomePage: https://lilo.alioth.debian.org/
 * Files
-/etc/lilo.conf
+/etc/lilo.conf - example
+#+BEGIN_EXAMPLE
+boot=/dev/hda
+map=/boot/map
+install=/boot/boot.b
+compact
+prompt
+timeout=50
+image=/boot/vmlinuz-2.0.36
+    label=linux
+    root=/dev/hda2
+    read-only
+other=/dev/hda1
+    label=win
+#+END_EXAMPLE
+
+/etc/lilo.conf - Gentoo example
+#+BEGIN_EXAMPLE
+boot=/dev/sda             # Install LILO in the MBR
+prompt                    # Give the user the chance to select another section
+timeout=50                # Wait 5 (five) seconds before booting the default section
+default=gentoo            # When the timeout has passed, boot the "gentoo" section
+  
+image=/boot/vmlinuz-3.16.5-gentoo
+  label=gentoo            # Name we give to this section
+  read-only               # Start with a read-only root. Do not alter!
+  root=/dev/sda4          # Location of the root filesystem
+  
+image=/boot/vmlinuz-3.16.5-gentoo
+  label=gentoo.rescue     # Name we give to this section
+  read-only               # Start with a read-only root. Do not alter!
+  root=/dev/sda4         # Location of the root filesystem
+  append="init=/bin/bb"   # Launch the Gentoo static rescue shell
+  
+# The next two lines are for dual booting with a Windows system.
+# In this example, Windows is hosted on /dev/sda6.
+other=/dev/sda6
+  label=windows
+#+END_EXAMPLE
 * Cmds
 - liloconfig
 * Description
 * Usage
+- Install the lilo boot load on the "boot=" variable in /etc/lilo.conf
+#+BEGIN_SRC sh
+lilo -v -v
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books
+[[file://home/crito/Documents/Linux/Configuring_LILO_the_Linux_Loader.pdf][Configuring LILO the Linux Loader]]
 * Links
+[[http://www.control-escape.com/linux/lilo-cfg.html][Configuring LILO, the Linux Loader - Guide to Linux for Beginners]]

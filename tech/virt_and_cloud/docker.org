@@ -126,7 +126,6 @@ docker pull -a hello-world
 docker pull --disable-content-trust hello-world
 #+END_SRC
 
-
 ** Removing containers
 - remove conatiner from memory
 #+BEGIN_SRC sh
@@ -164,7 +163,6 @@ this would remove the container from docker, and won't be present when docker is
 docker run -it --rm --name test_container centos:6 /bin/bash
 #+END_SRC
 now when you quit it will remove the container from memory
-
 
 ** Removing Base Images
 - remove a base image
@@ -339,7 +337,37 @@ this provides an updated overview of the container dynamically
 docker events --since '1h'
 #+END_SRC
 
-** Clean up non-used network interfaces
+** Inspect
+- inspect a running container
+#+BEGIN_SRC sh
+docker container inspect testweb
+#+END_SRC
+though the word "container" could be emitted, as docker has grown with my other tools sometime you my have to be specific
+
+- pulling specific properties
+#+BEGIN_SRC sh
+docker container inspect --format="{{json .State}}" testweb
+#+END_SRC
+
+** Pruning
+- clean up the docker instance
+#+BEGIN_SRC sh
+docker system prune
+#+END_SRC
+- The message below will be displayed and aking would you like to continue
+WARNING! This will remove:
+        - all stopped containers
+        - all networks not used by at least one container
+        - all dangling images
+        - all build cache
+	  
+- clean up the system and volumes
+#+BEGIN_SRC sh
+docker system prune --volumes
+#+END_SRC
+you would get the same warning message as above, but warning that volumes not being used will also be removed
+
+- Clean up non-used network interfaces
 #+BEGIN_SRC sh
 docker network prune
 #+END_SRC
@@ -549,10 +577,16 @@ Check the documentation for wich driver is currently support for the distro that
 }
 #+END_EXAMPLE
 this will create /var/lib/docker/devicemapper, this will be the new location where images are placed
+  - an images that you want to retain will need to be exported before you restart the service, otherwise they will be lost
 
 - restart the docker service
 #+BEGIN_SRC sh
 systemctl restart docker.service
+#+END_SRC
+
+*** What storage driver am I using
+#+BEGIN_SRC sh
+docker info | grep -i storage
 #+END_SRC
 
 ** Configuring the logging driver
@@ -607,95 +641,6 @@ docker info | grp -i logging
 #+BEGIN_SRC sh
 docker container run -d --name testcontainer --log-driver json-file httpd
 #+END_SRC
-
-** Setting up Swarm
-- view the overview of the swarm
-#+BEGIN_SRC sh
-docker node ls
-#+END_SRC
-worker nodes will provide no output
-
-*** Configure Managers
-- initialize the swarm
-#+BEGIN_SRC sh
-docker swarm init --advertise-addr 172.31.16.218 
-#+END_SRC
-this will output a swarm token, this should be copied and stored as it's what will be used to allow nodes to join the swarm
-
-- get token if lost (perform on a manager)
-#+BEGIN_SRC sh
-docker swarm join-token worker
-#+END_SRC
-
-- create another manager
-#+BEGIN_SRC 
-docker swarm join-token manager
-#+END_SRC
-this token will be used to join more manager to the swarm
-
-*** Configure Workers
-- get worker token (manager)
-#+BEGIN_SRC sh
-docker swarm join-token worker
-#+END_SRC
-
-- adding a node
-#+BEGIN_SRC sh
-docker swarm join --token SWMTKN-1-462c9jrhopn4ph11ahxo58f0qf5ibk994ek78a3lk6bowt419k-2h5q0mvijb5wk3iuho2b53nkd 172.31.100.141:2377
-#+END_SRC
-
-- Trouble shooting "Error response from daemon: rpc error: code = Unavailable desc = grpc: the connection is unavailable"
-  - this error is related to firewall rules
-- solution
-#+BEGIN_SRC sh
-firewall-cmd --add-port=2376/tcp --permanent  
-firewall-cmd --add-port=2377/tcp --permanent  
-firewall-cmd --add-port=7946/tcp --permanent  
-firewall-cmd --add-port=7946/udp --permanent  
-firewall-cmd --add-port=4789/udp --permanent
-firewall-cmd --reload
-#+END_SRC
-
-*** Setting up Backup and Restore
-- create a web service in the cluster, with at least 2 running at all times
-#+BEGIN_SRC sh
-docker srevice create --name bkupweb --publish 80:80 --replicate 2 httpd
-#+END_SRC
-
-- confirm the creation of the service
-#+BEGIN_SRC sh
-docker service ls
-#+END_SRC
-this will tell us what nodes are providing the service
-
-- stop the docker service to create a backup
-#+BEGIN_SRC sh
-systemctl stop docker.service
-#+END_SRC
-
-- create a swarm backup directory
-#+BEGIN_SRC sh
-mkdir /root/swarm
-cp -rf /var/lib/docker/swarm/ .
-tar cvf swarm.tar /root/swarm/
-#+END_SRC
-
-- use the swarm.tar file to restore with a new manager node
-#+BEGIN_SRC sh
-systemctl stop docker.service
-rm -rf /var/lib/docker/swarm/
-tar xvf swarm.tar
-mv swarm /var/lib/docker
-systemctl start docker.service
-docker swarm init --force-new-cluster
-#+END_SRC
-
-- confirm the service has restored
-#+BEGIN_SRC sh
-docker service ls
-docker service ps bkupweb
-#+END_SRC
-
 
 * Installation on CentOS 7
 - first create a repo file to /etc/yum.repos.d/docker.repo
@@ -956,6 +901,44 @@ ENTRYPOINT apachectl "-DFOREGROUND"
 #+END_EXAMPLE
 Without the EXPOSE, ports have to be explicitly selected at the cmd line by docker on creation of the container
 
+** LA Docker Cert Associate - Dockerfile1
+#+BEGIN_EXAMPLE
+# Tihs is our first Dockerfile
+ARG TAGVERSION=6
+FROM centos:${TAGVERSION}
+
+LABEL maintainer="fred_flintstone@example.com"
+
+RUN yum update -y && \
+	yum install httpd net-tools -y && \
+	mkdir -p /run/httpd && \
+	rm -rf /run/http/* /tmp/httpd*
+	
+COPY index.html /var/www/html/
+
+CMD echo "Remember to check your container IP Address"
+
+ENV ENVIRONMENT="production"
+
+VOLUME /mymount
+
+EXPOSE 80
+
+ENTRYPOINT apachectl "-DFOREGROUND"
+#+END_EXAMPLE
+
+** Modify an image to a single layer
+- docker sqush - is an external tool that can be used
+Github: https://github.com/jwilder/docker-squash
+  
+- using docker
+#+BEGIN_SRC sh
+docker run --name testcontainer mybuild:v4
+docker ps -a
+docker export testcontainer > mybuild4.tar
+docker import mybuild4.tar mybuild:importv5
+#+END_SRC
+though it's not possible to squash an image to one layer with the docker client it does reduce the size
 
 * Universal Control Plane (UCP) System Requirements
 
@@ -1022,6 +1005,522 @@ Additional aliases: ucp.example.com
 #+BEGIN_SRC sh
 docker run -it --rm docker/dtr install --ucp-node fredflintstone2.mylabserver.com --ucp-username admin --ucp-url https://fredflintstone1.mylabserver.com --ucp-insecure-tls
 #+END_SRC
+
+* Secure Registry
+** Setting up a Docker Secure Registry
+- install openssl for cert creation
+#+BEGIN_SRC sh
+yum install -y openssl
+#+END_SRC
+
+- create auth and certs directories
+#+BEGIN_SRC sh
+mkdir ~/auth ~/certs
+#+END_SRC
+
+- create a self signed certificate
+#+BEGIN_SRC sh
+openssl req -newkey rsa:4096 -nodes -sha256 -keyout certs/dockerrepo.key -x509 -days 365 -out certs/dockerrepo.crt -subj /CN=myregistrydomain.com
+#+END_SRC
+
+- add entry to /etc/hosts
+#+BEGIN_EXAMPLE
+172.31.22.115 myregistrydomain.com
+#+END_EXAMPLE
+this wouldn't not be need in production as DNS would be configured for your domain
+
+- make directory to hold certificate
+#+BEGIN_SRC sh
+mkdir -p /etc/docker/certs.d/myregistrydomain.com:5000
+#+END_SRC
+
+- copy the created certificate from earlier
+#+BEGIN_SRC sh
+cp /home/user/certs/dockerrepo.crt /etc/docker/certs.d/myreistrydomain.com:5000/ca.crt
+#+END_SRC
+ensure that ownership is root:root
+
+- now pull the registry container
+#+BEGIN_SRC sh
+docker pull registry:2 
+#+END_SRC
+
+- now run the registry container
+#+BEGIN_SRC sh
+docker run --entrypoint htpasswd registry:2 -Bbn test password > auth/htpasswd
+#+END_SRC
+this will create a hash password to use to connect to the registry
+
+- Deploy
+#+BEGIN_SRC sh
+docker run -d -p 5000:5000 -v /home/user/certs:/certs -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/dockerrepo.crt -e REGISTRY_HTTP_TLS_KEY=/certs/dockerrepo.key -v /home/user/auth:/auth -e REGISTRY_AUTH=htpasswd -e REGISTRY_AUTH_HTPASSWD_REALM="Registry Realm" -e REGISTRY_AUTH_HTPASSWD=/auth/htpasswd registry:2
+#+END_SRC
+
+- tag an image to be used by our registry
+#+BEGIN_SRC sh
+docker tag busybox myregistrydomain.com:5000/my-busybox
+#+END_SRC
+
+- Log into the registry
+#+BEGIN_SRC sh
+docker login myregistrydomain.com:5000/my-busybox
+#+END_SRC
+prompted for username and password set earlier
+
+- now push the image to the registry
+#+BEGIN_SRC sh
+docker push myregistrydomain.com:5000/my-busybox
+#+END_SRC
+
+- confirm that the registry took the image
+#+BEGIN_SRC sh
+docker rmi busybox
+docker rmi myregistrydomain.com:5000/my-busybox
+#+END_SRC
+this remove the busybox image from our system, but not from the registry container
+
+- pull the busybox image from the registry container
+#+BEGIN_SRC sh
+docker pull myregistrydomain.com:5000/my-busybox
+#+END_SRC
+
+** Managing Images in the Registry
+- view what is in the registry
+#+BEGIN_SRC sh
+curl --insecure -u "test:password" https://myregistrydomain.com:5000/v2/_catalog
+#+END_SRC
+insecure is used as we set up our registry with a self signed cert
+
+- push an image to the registry
+#+BEGIN_SRC sh
+docker login myregistrydomain.com:5000
+docker tag centos:6 myregistrydomain.com:5000/my-centos
+docker push myregistrydomain.com:/my-centos
+#+END_SRC
+
+- using wget to view the catalog
+#+BEGIN_SRC sh
+wget --no-check-certificate --http-user=test --http-password=password https://myregistrydomain.com:5000/v2/_catalog
+#+END_SRC
+this will pull the catalog as a file
+
+- view tags for an image
+#+BEGIN_SRC sh
+curl --insecure -u "test:password" https://myregistrydomain.com:5000/v2/my-busybox/tags/list
+#+END_SRC
+
+- view the json output for the image
+#+BEGIN_SRC sh
+curl --insecure -u "test:password" https://myregistrydomain.com:5000/v2/my-busybox/manifest/latest
+#+END_SRC
+
+* Swarm
+** Setting up Swarm
+- view the overview of the swarm
+#+BEGIN_SRC sh
+docker node ls
+#+END_SRC
+worker nodes will provide no output
+
+*** Configure Managers
+- initialize the swarm
+#+BEGIN_SRC sh
+docker swarm init --advertise-addr 172.31.16.218 
+#+END_SRC
+this will output a swarm token, this should be copied and stored as it's what will be used to allow nodes to join the swarm
+
+- get token if lost (perform on a manager)
+#+BEGIN_SRC sh
+docker swarm join-token worker
+#+END_SRC
+
+- create another manager
+#+BEGIN_SRC 
+docker swarm join-token manager
+#+END_SRC
+this token will be used to join more manager to the swarm
+
+*** Configure Workers
+- get worker token (manager)
+#+BEGIN_SRC sh
+docker swarm join-token worker
+#+END_SRC
+
+- adding a node
+#+BEGIN_SRC sh
+docker swarm join --token SWMTKN-1-462c9jrhopn4ph11ahxo58f0qf5ibk994ek78a3lk6bowt419k-2h5q0mvijb5wk3iuho2b53nkd 172.31.100.141:2377
+#+END_SRC
+
+- Trouble shooting "Error response from daemon: rpc error: code = Unavailable desc = grpc: the connection is unavailable"
+  - this error is related to firewall rules
+- solution
+#+BEGIN_SRC sh
+firewall-cmd --add-port=2376/tcp --permanent  
+firewall-cmd --add-port=2377/tcp --permanent  
+firewall-cmd --add-port=7946/tcp --permanent  
+firewall-cmd --add-port=7946/udp --permanent  
+firewall-cmd --add-port=4789/udp --permanent
+firewall-cmd --reload
+#+END_SRC
+
+*** Setting up Backup and Restore
+- create a web service in the cluster, with at least 2 running at all times
+#+BEGIN_SRC sh
+docker srevice create --name bkupweb --publish 80:80 --replicate 2 httpd
+#+END_SRC
+
+- confirm the creation of the service
+#+BEGIN_SRC sh
+docker service ls
+#+END_SRC
+this will tell us what nodes are providing the service
+
+- stop the docker service to create a backup
+#+BEGIN_SRC sh
+systemctl stop docker.service
+#+END_SRC
+
+- create a swarm backup directory
+#+BEGIN_SRC sh
+mkdir /root/swarm
+cp -rf /var/lib/docker/swarm/ .
+tar cvf swarm.tar /root/swarm/
+#+END_SRC
+
+- use the swarm.tar file to restore with a new manager node
+#+BEGIN_SRC sh
+systemctl stop docker.service
+rm -rf /var/lib/docker/swarm/
+tar xvf swarm.tar
+mv swarm /var/lib/docker
+systemctl start docker.service
+docker swarm init --force-new-cluster
+#+END_SRC
+
+- confirm the service has restored
+#+BEGIN_SRC sh
+docker service ls
+docker service ps bkupweb
+#+END_SRC
+
+** Steps to Lock a Cluster
+- to lock the swarm
+#+BEGIN_SRC sh
+docker swarm update --autolock=true
+#+END_SRC
+this will provide a key that needs to be kept to unlock the swarm
+
+- lost the key, but have access to a manager
+#+BEGIN_SRC sh
+docker swarm unlock-key
+#+END_SRC
+
+- unlock the swarm
+#+BEGIN_SRC sh
+docker swarm update --autolock=false
+#+END_SRC
+
+- changing the key
+#+BEGIN_SRC sh
+docker swarm unlock-key --rotate
+#+END_SRC
+
+** Running Services Under Swarm
+- starting a service over the swarm
+#+BEGIN_SRC sh
+docker service create --name testweb --publish 80:80 httpd
+#+END_SRC
+by default it will run on a single node, no matter which node's ip is queryed the web page will be displayed
+
+- confirm service is running
+#+BEGIN_SRC sh
+docker service ls
+#+END_SRC
+this will provide information of the running service
+
+- stopping a service
+#+BEGIN_SRC sh
+docer service rm testweb
+#+END_SRC
+
+- scale up the number of replicas
+#+BEGIN_SRC sh
+docker service update --replicas 3 testweb
+#+END_SRC
+
+- limit the amount of CPU that is accessable
+#+BEGIN_SRC sh
+docker service update --limit-cpu=.5 --reserve-cpu=.75 --limit-memory=120m --reserve-memory=256m
+#+END_SRC
+--limit   - soft limit
+--reserve - hard limit
+memory can only be reserved to a low of 4m
+
+- interact with two services
+#+BEGIN_SRC sh
+docker service scale --detach=false testnginx=3 testweb=3
+#+END_SRC
+where update only works on a single service, scale can work on many
+
+- setting global mode
+#+BEGIN_SRC sh
+docker service create --name testweb -p 80:80 --mode global --detach=false httpd
+#+END_SRC
+global mode doesn't allow for the number of replicas to be set, but sets an instance on every node
+
+** Viewing details of nodes
+- view all details
+#+BEGIN_SRC sh
+docker node inspect alickmitchell4.mylabserver.com
+#+END_SRC
+this will output the details in json format
+
+- view details in a more readable format
+#+BEGIN_SRC sh
+docker node inspect --pretty alickmitchell4.mylabserver.com
+#+END_SRC
+
+** Adding labels to nodes
+- get the docker node id
+#+BEGIN_SRC sh
+docker node ls
+#+END_SRC
+
+- add the label to the node
+#+BEGIN_SRC sh
+docker node update --label-add mynode=testnode oref425j1yinimxelhlom7tbn
+#+END_SRC
+the string at the end is the node id
+
+- now using the label with constraint to start a service
+#+BEGIN_SRC sh
+docker service create --name constraints -p 80:80 --constraint 'node.labels.mynode == testnode' --replicas 3 httpd
+#+END_SRC
+this would force all 3 replicas on the node that we added the label too.
+
+** Storage and Volumes
+*** Showing that files are not replicated with basic docker volumes across clusters
+- view all volumes
+#+BEGIN_SRC sh
+docker volume ls
+#+END_SRC
+
+- create a volume
+#+BEGIN_SRC sh
+docker volume create my-mount
+#+END_SRC
+
+- view the details on the volume
+#+BEGIN_SRC sh
+docker volume inspect my-mount | less
+#+END_SRC
+
+- the location of the mount
+#+BEGIN_SRC sh
+cd /var/lib/docker/volumes/my-mount/_data/
+echo "this is the new mount" > hostfile.txt
+#+END_SRC
+
+- create a service that uses the volume
+#+BEGIN_SRC sh
+docker service create --name testweb -p 80:80 --mount source=my-mount,target=/internal-mount --detach=false --replicas 3 httpd
+#+END_SRC
+
+- attach to the container
+#+BEGIN_SRC sh
+docker ps
+docker exec -it 680c88428bd9 /bin/bash
+#+END_SRC
+
+- now check that the mount is there along with the file that we created
+#+BEGIN_SRC sh
+cd /internal-mount
+cat hostfile.txt
+#+END_SRC
+
+- connect to the second container(on other node)
+#+BEGIN_SRC sh
+docker exec -it gc8lrxv18xafrcy8ebgrqcubp /bin/bash
+#+END_SRC
+
+- now check the internal-mount
+#+BEGIN_SRC sh
+cd /internal-mount
+#+END_SRC
+you will notice that there is no file
+
+- now remove the mount
+#+BEGIN_SRC sh
+docker service rm testweb
+docker volume rm my-mount
+#+END_SRC
+
+*** Mounting a local directory on a container
+- tihs example uses the bind type, to bind a local dir to a dir in the container
+#+BEGIN_SRC sh
+mkdir content
+echo "this is in the content dir" > content/index.html
+docker run -d --name test-web -p 80:80 --mount type=bind,source=/home/user/content,target=/usr/local/apache2/htdocs httpd
+docker container inspect test-web | grep -i -B3 -A3 "ipaddr"
+w3m http://172.17.0.2
+#+END_SRC
+
+** Troubleshooting
+- these cmds can help when nodes are not working in the correct manner
+#+BEGIN_SRC sh
+docker node ls
+docker service ps service_name
+docker service inspcet service_name
+#+END_SRC
+
+- is the cluster locked
+  
+- SELinux issues - try "setenforce 0"
+  
+- Permissions - make sure any resources that you are allocating to the container, you as the user have permissions to access (partions, mounts, volumes, files etc)
+  
+- CPU/Mem - does the container have the required resouces to run the containers, are you using constraints to limit cpu and members
+
+- Routing - make sure that the end points are using the same network segment or have the necessary routing to get there
+  
+- Firewall - makesure that the appropriate ports and protocols are enabled to the destination IPs
+
+** Quorum
+- Manager Nodes
+  - Every Swarm has 1 to N 'Manager' nodes in it.
+  - they manage, direct, log and report on the lifecycle of the Swarm
+    
+- Raft Consensus Algorithm
+  - this is used to manage the swarm state
+  - it uses a 'consensus' method amongst the management nodes, that in the event of a manager node failure, any other manager node would have enough information to continue to operate the Swarm
+  - Raft tolerates up to (N-1)/2 failures and requies a majority (quorum) of (N/2)+1 to agree on any new instructions that are proposed to the cluster for execution
+    
+| swarm | majority | fault tolerance |
+|     1 |        1 |               0 |
+|     2 |        2 |               0 |
+|     3 |        2 |               1 |
+|     4 |        3 |               1 |
+|     5 |        3 |               2 |
+|     6 |        4 |               2 |
+|     7 |        4 |               3 |
+|     8 |        5 |               3 |
+|     9 |        5 |               4 |
+
+- Manager Node Requirements
+  - use static IPs
+  - immediately replace failed managers
+  - distribute managements nodes for HA
+  - monitor Swarm health - you should know if you lose a Manager
+  - have a backup and recovery plan for the Swarm
+    
+- Run 'Manager Ony' Nodes
+#+BEGIN_SRC sh
+docker node update --availability drain node_id
+#+END_SRC
+  
+* Compose
+** Convert an Application Deployment into a Stack File Using a YAML Compose File
+- install required packages
+#+BEGIN_SRC sh
+yum install python-pip
+pip install --upgrade pip
+#+END_SRC
+
+- install the compose
+#+BEGIN_SRC sh
+pip install docker-compose
+#+END_SRC
+had to uninstall "python-requests" to get it installed on centos7
+
+- create a directory to work in
+#+BEGIN_SRC sh
+mkdir docker
+cd docker
+#+END_SRC
+
+- create a Dockerfile
+#+BEGIN_EXAMPLE
+# simple webserver
+FROM centos:latest
+LABEL maintainer="fflintstone@example.com"
+
+RUN yum install -y httpd
+RUN echo "Our Container Website" >> /var/www/html/index.html
+
+EXPOSE 80
+
+ENTRYPOINT apachectl -DFOREGROUND
+#+END_EXAMPLE
+
+- build the image
+#+BEGIN_SRC sh
+docker build -t myhttpd:v1 .
+#+END_SRC
+
+- confirm that the image works
+#+BEGIN_SRC sh
+docker run -d --name testweb -p 80:80 myhttpd:v1
+w3m http://192.168.10.11
+#+END_SRC
+the ip being the localhost
+
+- remove the container now we know that it works
+#+BEGIN_SRC sh
+docker stop testweb
+docker rm testweb
+#+END_SRC
+
+- create the docker compose yaml file
+docker-compose.yml
+#+BEGIN_EXAMPLE
+---
+version: '3'
+services:
+  apiweb1:
+    image: myhttpd:v1
+    build: .
+    ports:
+      - "81:80"
+  apiweb2:
+    image: myhttpd:v1
+    ports:
+      - "82:80"
+  load-balancer:
+    image: nginx:latest
+    ports:
+      - "80:80"
+#+END_EXAMPLE
+
+- run the compose file
+#+BEGIN_SRC sh
+docker-compose up -d
+#+END_SRC
+
+- confirm the creation of the containers
+#+BEGIN_SRC sh
+docker ps
+docker-compose ps
+#+END_SRC
+
+- bring down the compose service
+#+BEGIN_SRC sh
+docker-compose down --volumes
+#+END_SRC
+
+- now we can deploy to the swarm
+#+BEGIN_SRC sh
+docker stack deploy --compose-file docker-compose.yml mycustomstack
+#+END_SRC
+each service can now be administer individually
+
+- confirm the services
+#+BEGIN_SRC sh
+docker service ls
+docker service ps mycustomstack_apiweb1
+docker service ps mycustomstack_apiweb2
+docker service ps mycustomstack_load-balancer
+#+END_SRC
+the service name applied in the compose file is appended to the end
 
 * Lecture
 * Tutorials

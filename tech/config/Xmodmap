@@ -1,0 +1,10 @@
+! This file works on US keyboards
+! switch caps to esc and alt_l to ctrl_l
+clear Lock
+keycode 66 = Escape
+remove Control = Control_R
+remove Mod1 = Alt_R
+keycode 108 = Control_R 
+keycode 105 = Alt_R
+add Control = Control_R
+add Mod1 = Alt_R
