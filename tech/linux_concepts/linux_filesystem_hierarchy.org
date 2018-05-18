@@ -68,7 +68,6 @@ This is the nerve center of your system, it contains all system related configur
 /etc/alternatives/ - this is used by debian to allow ease of switching between different versions of an application
 /etc/dhcpcd.conf   - this file is a config file for the dhcp client deamon
 /etc/exports       - this files is used to add NFS shares that are available for sharing
-/etc/fstab         - contains the devices to mounted at boot
 /etc/group         - contains all the groups on the system and who the members are
 /etc/hostname	   - this holds the hostname of the machine
 /etc/hosts         - this file is first read to find IP to hostname lookup
@@ -77,6 +76,7 @@ This is the nerve center of your system, it contains all system related configur
 /etc/httpd         - this is the directory that Red Hat uses to hold apache config files
 /etc/init.d        - this directory holds the runlevel scripts on Debian sysvinit machines
 /etc/inittab       - this file would tell sysvinit what run level to start by default - <identifier>:<runlevel>:<action>:<process>
+/etc/issue.net     - this is the sshd banner file - has to be enabled in sshd_config (Banner /etc/issue.net)
 /etc/login.defs    - this file holds the defaults for creating a new user
 /etc/named.conf    - this is the configuration file for the bind server(DNS)
 /etc/nologin       - if this file is present then no-one will be able to login, access can only be had through a rescue shell, single user login.
@@ -95,6 +95,23 @@ This is the nerve center of your system, it contains all system related configur
 *** /etc/default - contains some parameters that the end user or administrator is likely to change, rather than embedding the values in the actual boot scripts. In this way, changes will persist even if you upgrade the package and the boot script is replaced.
 /etc/default/grub - this file can be modified to make changes to the grub.cfg file
 /etc/default/useradd - this file holds the defaults to be applied to a newly created user
+*** /etc/fstab         - contains the devices to mounted at boot
+options
+  - async/sync - how data is stored whtn a write is made
+    - sync - writes to disk straight away
+    - asymc - data is kept in a buffer until it is written to the disk
+  - atime/notime - File accessed timestamp
+    - atime - writes - last time file was modified
+                     - last time meta-data was modified 
+		     - last time file was accessed
+    - notime - no file timestamps are written
+  - dev/nodev - whether to allow a device file on the drive
+  - rw/ro - Read write or read only (rw is deafult)
+  - suid/nosuid - allow a user to drun a program as root
+  - exec/noexec - turn off executable files on the file system
+  - defaults - rw,suid,dev,exec,auto,nouser,async
+    - auto   - mount the partition automatically
+    - nouser - only root can mount/umount the partition
 *** /etc/issue   - this is where a pre-login message can be configured
 https://www.cyberciti.biz/faq/howto-change-login-message/
 
@@ -275,6 +292,8 @@ Process accounting is the bookkeeping of process activity. The raw data of proce
 **** /var/log/samba
 This will create seperate logs for each created connection
 
+**** /var/log/secure
+Contains information related to authentication and authorization privileges. For example, sshd logs all the messages here, including unsuccessful login.
 **** /var/log/utmp
 Active user sessions. This is a data file and as such it can not be viewed normally. A human-readable form can be created via the dump-utmp command or through the w, who or users commands.
 

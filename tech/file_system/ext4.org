@@ -1,66 +1,67 @@
-#+TAGS: sys fs
+#+TAGS: ext4
 
 
-* ext4                                                               :sys:fs:
+* ext4
 Wiki: [[https://ext4.wiki.kernel.org/index.php/Main_Page][ext4.wiki.org]]
 * Files
-- /proc/fs/ext4
-- /sys/fs/ext4
-- delayed_allocation_blocks   This file is read-only and shows the number of
-                              blocks that are dirty in the page cache, but
-                              which do not have their location in the
-                              filesystem allocated yet.
-
-- inode_goal                  Tuning parameter which (if non-zero) controls
-                              the goal inode used by the inode allocator in
-                              preference to all other allocation heuristics.
-                              This is intended for debugging use only, and
-                              should be 0 on production systems.
-
-- inode_readahead_blks        Tuning parameter which controls the maximum
-                              number of inode table blocks that ext4's inode
-                              table readahead algorithm will pre-read into
-                              the buffer cache
-
-- lifetime_write_kbytes       This file is read-only and shows the number of
-                              kilobytes of data that have been written to this
-                              filesystem since it was created.
-
-- max_writeback_mb_bump       The maximum number of megabytes the writeback
-                              code will try to write out before move on to
-                              another inode.
-
-- mb_group_prealloc           The multiblock allocator will round up allocation
-                              requests to a multiple of this tuning parameter if
-                              the stripe size is not set in the ext4 superblock
-
-- mb_max_to_scan              The maximum number of extents the multiblock
-                              allocator will search to find the best extent
-
-- mb_min_to_scan              The minimum number of extents the multiblock
-                              allocator will search to find the best extent
-
-- mb_order2_req               Tuning parameter which controls the minimum size
-                              for requests (as a power of 2) where the buddy
-                              cache is used
-
-- mb_stats                    Controls whether the multiblock allocator should
-                              collect statistics, which are shown during the
-                              unmount. 1 means to collect statistics, 0 means
-                              not to collect statistics
-
-- mb_stream_req               Files which have fewer blocks than this tunable
-                              parameter will have their blocks allocated out
-                              of a block group specific preallocation pool, so
-                              that small files are packed closely together.
-                              Each large file will have its blocks allocated
-                              out of its own unique preallocation pool.
-
-- session_write_kbytes        This file is read-only and shows the number of
-                              kilobytes of data that have been written to this
-                              filesystem since it was mounted.
-
-- reserved_clusters           This is RW file and contains number of reserved
+/etc/mke2fs.conf - holds some of the configuration options for ext3/4 file system creation
+/proc/fs/ext4
+** /sys/fs/ext4
+  - delayed_allocation_blocks   This file is read-only and shows the number of
+                                blocks that are dirty in the page cache, but
+                                which do not have their location in the
+                                filesystem allocated yet.
+  
+  - inode_goal                  Tuning parameter which (if non-zero) controls
+                                the goal inode used by the inode allocator in
+                                preference to all other allocation heuristics.
+                                This is intended for debugging use only, and
+                                should be 0 on production systems.
+  
+  - inode_readahead_blks        Tuning parameter which controls the maximum
+                                number of inode table blocks that ext4's inode
+                                table readahead algorithm will pre-read into
+                                the buffer cache
+  
+  - lifetime_write_kbytes       This file is read-only and shows the number of
+                                kilobytes of data that have been written to this
+                                filesystem since it was created.
+  
+  - max_writeback_mb_bump       The maximum number of megabytes the writeback
+                                code will try to write out before move on to
+                                another inode.
+  
+  - mb_group_prealloc           The multiblock allocator will round up allocation
+                                requests to a multiple of this tuning parameter if
+                                the stripe size is not set in the ext4 superblock
+  
+  - mb_max_to_scan              The maximum number of extents the multiblock
+                                allocator will search to find the best extent
+  
+  - mb_min_to_scan              The minimum number of extents the multiblock
+                                allocator will search to find the best extent
+  
+  - mb_order2_req               Tuning parameter which controls the minimum size
+                                for requests (as a power of 2) where the buddy
+                                cache is used
+  
+  - mb_stats                    Controls whether the multiblock allocator should
+                                collect statistics, which are shown during the
+                                unmount. 1 means to collect statistics, 0 means
+                                not to collect statistics
+  
+  - mb_stream_req               Files which have fewer blocks than this tunable
+                                parameter will have their blocks allocated out
+                                of a block group specific preallocation pool, so
+                                that small files are packed closely together.
+                                Each large file will have its blocks allocated
+                                out of its own unique preallocation pool.
+  
+  - session_write_kbytes        This file is read-only and shows the number of
+                                kilobytes of data that have been written to this
+                                filesystem since it was mounted.
+  
+  - reserved_clusters           This is RW file and contains number of reserved
                               clusters in the file system which will be used
                               in the specific situations to avoid costly
                               zeroout, unexpected ENOSPC, or possible data
@@ -75,6 +76,11 @@ Wiki: [[https://ext4.wiki.kernel.org/index.php/Main_Page][ext4.wiki.org]]
 1EiB - Max File System Size
 16TiB - Max File Size
 48bit block addressing
+
+Features
+  - Backwards compatible with ext3
+  - unlimited number of folders
+  - journaled file system
 
 * Usage
 ** Create a ext4 File System

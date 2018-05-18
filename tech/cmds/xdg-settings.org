@@ -9,6 +9,11 @@
 Get/set various values for the desktop environment
 
 * Usage
+- view all currently set applications
+#+BEGIN_SRC sh
+xdg-settings --list
+#+END_SRC
+
 - show the default browser
 #+BEGIN_SRC sh
 xdg-settings get default-web-browser

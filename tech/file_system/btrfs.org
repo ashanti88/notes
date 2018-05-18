@@ -1,1 +1,30 @@
+#+TAGS: btrfs
 
+
+* Btrfs
+* Description
+  -Designed by Oracle
+  - Uses B-tree file system
+  - B-tree is optimized for system that read and write large blocks of data.
+  - B-trees are a good example of a data structure for external memory. It is commonly used in databases and filessytems.
+  - Access to data in afile is quick.
+  - Uses copy-on-write.
+    
+Features
+  - cloning
+  - snapshots
+  - subvolume (like a folder but can be mounted separately)
+  - Quota groups
+    
+
+* Usage
+- create a btrfs file system on partition
+#+BEGIN_SRC sh
+mkfs.btrfs /dev/sda2
+mkfs -t btrfs /dev/sda3
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

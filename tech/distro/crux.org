@@ -1,0 +1,102 @@
+#+TAGS: crux_linux distro
+
+
+* Crux
+HomePage: https://crux.nu/
+* Installation
+- first we need to partition the disk
+#+BEGIN_SRC sh
+fdisk /dev/sda
+#+END_SRC
+- kept it simple for the first time
+  - /dev/sda1 - /
+  - /dev/sda2 - swap
+    
+- add the filesystem to the partition
+#+BEGIN_SRC sh
+mkfs.ext4 /dev/sda1
+mkswap /dev/sda2
+#+END_SRC
+
+- mount the partitions
+#+BEGIN_SRC sh
+mount /dev/sda1 /mnt
+swapon /dev/sda2
+#+END_SRC
+
+- run the setup script
+#+BEGIN_SRC sh
+setup
+#+END_SRC
+this will lead you through an ncurses installer
+
+- chroot to /mnt
+#+BEGIN_SRC sh
+setup-chroot
+#+END_SRC
+
+this script is the same as running
+#+BEGIN_SRC sh
+mount --bind /dev /mnt/dev
+mount --bind /tmp /mnt/tmp
+mount -t proc proc /mnt/proc
+mount -t sysfs none /mnt/sys
+chroot /mnt /bin/bash
+#+END_SRC
+
+- set the password for root
+#+BEGIN_SRC sh
+passwd
+#+END_SRC
+
+- edit the fstab to reflect how you partitioned the disk
+/etc/fstab
+#+BEGIN_EXAMPLE
+
+#+END_EXAMPLE
+
+- edit the rc.conf to configure keyboard, font, timezone, hostname and services
+/etc/rc.conf
+#+BEGIN_EXAMPLE
+
+#+END_EXAMPLE
+
+- generate locales
+#+BEGIN_SRC sh
+localedef -i en_GB -f ISO-8859-1 en_GB
+localedef -i en_GB -f ISO-8859-1 en_GB.ISO-8859-1
+localedef -i en_GB -f UTF-8 en_GB.UTF-8 
+#+END_SRC
+
+- edit the /etc/rc.d/net
+#+BEGIN_EXAMPLE
+
+#+END_EXAMPLE
+
+- edit the /etc/hosts
+  
+- edit the /etc/resolv.conf
+#+BEGIN_EXAMPLE
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+#+END_EXAMPLE
+
+- compile the kernel
+#+BEGIN_SRC sh
+cd /usr/src/linux*
+make menuconfig
+make all
+make modules_install
+cp arch/x86/boot/bzImage /boot/vmlinuz
+#+END_SRC
+
+- edit the /etc/lilo.conf
+#+BEGIN_EXAMPLE
+
+#+END_EXAMPLE
+
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

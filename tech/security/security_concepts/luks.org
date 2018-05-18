@@ -4,6 +4,9 @@
 * Linux Unified Key Setup (LUKS)
 * Description
 * Usage
+default cipher is aes-cbc-essiv:sha256 - 256 bits
+default cipher used by Anaconda on RHEL/Centos is aes-xts-plain64 - 512 bits
+
 ** Unencrypt and mount a partition
 1. identify the partition that you want to unencrypt
 #+BEGIN_SRC sh
@@ -68,6 +71,22 @@ df -h
 mount | grep enc_partition
 #+END_SRC
 enc_partition is the name that we gave when opening the partition
+
+- to make the mount persistent over reboots edit the /etc/crypttab and /etc/fstab
+/etc/crypttab
+#+BEGIN_EXAMPLE
+enc_partition /dev/xvfd1 none
+#+END_EXAMPLE
+/etc/fstab
+#+BEGIN_EXAMPLE
+/dev/mapper/enc_partition /mnt/enc ext4 defaults 1 2
+#+END_EXAMPLE
+
+- with Linux distros that use SELinux the contexts have to be applied
+#+BEGIN_SRC sh
+/sbin/restorecon -v -R /mnt/enc
+#+END_SRC
+
 
 * Lecture
 * Tutorial

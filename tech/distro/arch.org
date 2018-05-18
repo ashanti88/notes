@@ -87,9 +87,6 @@ find -xtype l -print
 - make /etc/resolv.conf immutable
   - chattr +i /etc/resolv.conf
 
-** Package Management
-[[file:~/org/tech/linux_concepts/package_mgmt.org][Package Management]]
-
 ** PGP Keys
 write up on how to resolve a corrupt keyring
 ** Fonts
@@ -104,6 +101,56 @@ file://home/crito/org/tech/linux_concepts/hybrid_graphics.org
 #+BEGIN_SRC sh
 setxkbmap gb
 #+END_SRC
+
+** Setting default applications
+*** mimeapps.list
+/.config/mimeapps.list
+#+BEGIN_SRC sh
+[Default Applications]
+x-scheme-handler/http=chromium.desktop
+x-scheme-handler/https=chromium.desktop
+x-scheme-handler/ftp=userapp-chromium.desktop
+x-scheme-handler/chrome=userapp-chromium.desktop
+text/html=chromium.desktop
+application/x-extension-htm=userapp-chromium.desktop
+application/x-extension-html=userapp-chromium.desktop
+application/x-extension-shtml=userapp-chromium.desktop
+application/xhtml+xml=userapp-chromium.desktop
+application/x-extension-xhtml=userapp-chromium.desktop
+application/x-extension-xht=userapp-chromium.desktop
+image/jpeg=viewnior.desktop;gpicview.desktop;
+image/png=viewnior.desktop;gpicview.desktop;
+text/plain=mousepad.desktop
+x-scheme-handler/mailto=userapp-mutt.desktop
+message/rfc822=userapp-mutt.desktop
+application/pdf=epdfview.desktop
+application/x-bittorrent=transmission-gtk.desktop
+x-scheme-handler/about=chromium.desktop
+x-scheme-handler/unknown=chromium.desktop
+
+[Added Associations]
+x-scheme-handler/http=userapp-chromium.desktop;
+x-scheme-handler/https=userapp-chromium.desktop;
+x-scheme-handler/ftp=userapp-chromium.desktop;
+x-scheme-handler/chrome=userapp-chromium.desktop;
+text/html=userapp-chromium.desktop;
+application/x-extension-htm=userapp-chromium.desktop;
+application/x-extension-html=userapp-chromium.desktop;
+application/x-extension-shtml=userapp-chromium.desktop;
+application/xhtml+xml=userapp-chromium.desktop;
+application/x-extension-xhtml=userapp-chromium.desktop;
+application/x-extension-xht=userapp-chromium.desktop;
+image/jpeg=viewnior.desktop;gpicview.desktop;
+image/png=viewnior.desktop;gpicview.desktop;
+text/plain=mousepad.desktop;
+message/rfc822=userapp-mutt.desktop;
+application/pdf=epdfview.desktop;
+application/x-bittorrent=transmission-gtk.desktop;
+
+#+END_SRC
+
+*** xdg-settings
+[[file://home/crito/org/tech/cmds/xdg-settings.org][xdg-settings]]
 
 * Package Management
 ** Files
@@ -309,7 +356,7 @@ arch-audit
 
 * Manjaro
 * Description
-* Usage
+* Usakge
 ** Mirror List Error
 - this will update the mirror list /etc/pacman.d/mirrorlist
 #+BEGIN_SRC sh

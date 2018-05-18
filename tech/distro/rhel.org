@@ -1,8 +1,10 @@
-#+TAGS: rhel centos fedora
+#+TAGS: rhel centos fedora red_hat
 
 
 
 * Red Hat Enterprise Linux - Life Cycle 10yrs - Release Cycle 3-4yrs
+HomePage: https://access.redhat.com/
+Security Advisories: https://access.redhat.com/security/security-updates/#/security-advisories
 * RHEL Config Files
 *** /etc/sysconfig
 RHEL: [[https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/5/html/Deployment_Guide/ch-sysconfig.html][RHEL 5 /etc/sysconfig]]
@@ -1228,8 +1230,8 @@ firewall-cmd --reload
 elinks http://localhost
 #+END_SRC
 
-
 * Package Management
+[[file://home/crito/Documents/Linux/RHEL/yum_cheatsheet.pdf][YUM Command Cheat Sheet]]
 ** Files
 /etc/yum.conf  - this is the configuration file for the yum tool, repo definitions may be contained in here, but should be in /etc/yum.repos.d
 /etc/yum.repos.d/ - this is where repos can be added
@@ -1242,6 +1244,8 @@ elinks http://localhost
 ** Cmds
 *** rpm
 http://repoforge.org/
+
+- when installing a new kernel never use the -U as this will remove the previous kernel
 
 **** Basic Actions
 - List of all installed packages
@@ -1289,6 +1293,12 @@ rpm -Uvh xterm-295.3.el7.x86_64.rpm
 #+END_SRC
 the second version will update if present or install if not present
 h - hash (progress of the install)
+
+- install application, but check if it is newer than the already installed version
+#+BEGIN_SRC sh
+rpm -Fvh elinks-0.12-0.37.pre6.el7.x86_64.rpm
+rpm --freshen -vh elinks-0.12-0.37.pre6.el7.x86_64.rpm
+#+END_SRC
 
 - is a package installed
 #+BEGIN_SRC sh
@@ -1479,7 +1489,7 @@ yum repolist
 
 *** yum
 CheatSheet: [[file://home/crito/Documents/Linux/RHEL/yum_cheatsheet.pdf][YUM CheatSheet]]
-**** basic Administration
+**** Basic Administration
 - Install application
 #+BEGIN_SRC sh
 yum install nmap
@@ -1854,13 +1864,200 @@ dracut
 
 - confirm by reboot and check that grub has the new kernel available
 
+* Server Hardening
+[[file://home/crito/Documents/Linux/RHEL/Linux_Academy-Red_Hat_Server_Hardening_Study_Guide.pdf][Linux Academy - Red Hat Server Hardening Study Guide]]
+[[file://home/crito/Documents/Linux/RHEL/Red_Hat_Enterprise_Linux-6-Security_Guide.pdf][Red Hat Enterprise Linux 6 - Security Guide]]
+[[file://home/crito/Documents/Linux/RHEL/Red_Hat_Enterprise_Linux-6-Identity_Management_guide.pdf][Red Hat Enterprise Linux 6 - Identity Management Guide]]
+[[file://home/crito/Documents/Linux/RHEL/Red_Hat_Enterprise_Linux-6-Security-Enhanced_Linux-en-US.pdf][Red Hat Enterprise Linux 6 - Security-Enhanced Linux]]
+[[file://home/crito/Documents/Linux/RHEL/Red_Hat_Enterprise_Linux-7-Security_Guide-en-US.pdf][Red Hat Enterprise Linux 7 - Security Guide]]
+[[file://home/crito/Documents/Linux/RHEL/Red_Hat_Enterprise_Linux-7-System-Level_Authentication_Guide.pdf][Red Hat Enterprise Linux 7 - System-Level Authentication Guide]]
+[[file://home/crito/Documents/Linux/RHEL/Red_Hat_Enterprise_Linux-7-SELinux_Users_and_Aministrators_Guide-en-US.pdf][Red Hat Enterprise Linux 7 - SELinux User's and Administrator's Guide]]
+
+- with Red Hat you can set notifications/alerts for when any of your products have a known vulns
+
+** Using yum to check for vulns
+- install yum-plugin-security
+#+BEGIN_SRC sh
+yum install yum-plugin-security
+#+END_SRC
+
+- updateinfo allows for differnet levels of verbosity on your needs
+#+BEGIN_SRC sh
+yum updateinfo
+#+END_SRC
+this provides all the information on current updates
+
+#+BEGIN_SRC sh
+yum updateinfo list
+#+END_SRC
+this cuts down the output
+
+#+BEGIN_SRC sh
+yum updateinfo list --sec-severity=Critical
+#+END_SRC
+this allows us to specify what level of vuln to search
+  - has to have the capital "C" 
+
+- check for security only updates
+#+BEGIN_SRC sh
+yum update --security
+yum update --bugfix
+yum update --advisory
+yum update --sec-severity=Critical
+yum update --sec-severity=Moderate
+#+END_SRC
+
+** Verifying Packages with RPM
+- package is locked with the private gpg key, we use the public gpg key to unlock the package
+
+- view installed gpg keys
+#+BEGIN_SRC sh
+rpm -qa gpg-pubkey*
+#+END_SRC
+
+- view infomation on a key
+#+BEGIN_SRC sh
+rpm -qi gpg-pubkey-352c64e5-52ae6884
+#+END_SRC
+
+this will provide something like the following
+#+BEGIN_EXAMPLE
+Name        : gpg-pubkey
+Version     : 352c64e5
+Release     : 52ae6884
+Architecture: (none)
+Install Date: Fri 18 Mar 2016 06:21:34 PM UTC
+Group       : Public Keys
+Size        : 0
+License     : pubkey
+Signature   : (none)
+Source RPM  : (none)
+Build Date  : Mon 16 Dec 2013 02:42:12 AM UTC
+Build Host  : localhost
+Relocations : (not relocatable)
+Packager    : Fedora EPEL (7) <epel@fedoraproject.org>
+Summary     : gpg(Fedora EPEL (7) <epel@fedoraproject.org>)
+Description :
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+Version: rpm-4.11.3 (NSS-3)
+
+mQINBFKuaIQBEAC1UphXwMqCAarPUH/ZsOFslabeTVO2pDk5YnO96f+rgZB7xArB
+OSeQk7B90iqSJ85/c72OAn4OXYvT63gfCeXpJs5M7emXkPsNQWWSju99lW+AqSNm
+jYWhmRlLRGl0OO7gIwj776dIXvcMNFlzSPj00N2xAqjMbjlnV2n2abAE5gq6VpqP
+vFXVyfrVa/ualogDVmf6h2t4Rdpifq8qTHsHFU3xpCz+T6/dGWKGQ42ZQfTaLnDM
+jToAsmY0AyevkIbX6iZVtzGvanYpPcWW4X0RDPcpqfFNZk643xI4lsZ+Y2Er9Yu5
+S/8x0ly+tmmIokaE0wwbdUu740YTZjCesroYWiRg5zuQ2xfKxJoV5E+Eh+tYwGDJ
+n6HfWhRgnudRRwvuJ45ztYVtKulKw8QQpd2STWrcQQDJaRWmnMooX/PATTjCBExB
+9dkz38Druvk7IkHMtsIqlkAOQMdsX1d3Tov6BE2XDjIG0zFxLduJGbVwc/6rIc95
+T055j36Ez0HrjxdpTGOOHxRqMK5m9flFbaxxtDnS7w77WqzW7HjFrD0VeTx2vnjj
+GqchHEQpfDpFOzb8LTFhgYidyRNUflQY35WLOzLNV+pV3eQ3Jg11UFwelSNLqfQf
+uFRGc+zcwkNjHh5yPvm9odR1BIfqJ6sKGPGbtPNXo7ERMRypWyRz0zi0twARAQAB
+tChGZWRvcmEgRVBFTCAoNykgPGVwZWxAZmVkb3JhcHJvamVjdC5vcmc+iQI4BBMB
+AgAiBQJSrmiEAhsPBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRBqL66iNSxk
+5cfGD/4spqpsTjtDM7qpytKLHKruZtvuWiqt5RfvT9ww9GUUFMZ4ZZGX4nUXg49q
+ixDLayWR8ddG/s5kyOi3C0uX/6inzaYyRg+Bh70brqKUK14F1BrrPi29eaKfG+Gu
+MFtXdBG2a7OtPmw3yuKmq9Epv6B0mP6E5KSdvSRSqJWtGcA6wRS/wDzXJENHp5re
+9Ism3CYydpy0GLRA5wo4fPB5uLdUhLEUDvh2KK//fMjja3o0L+SNz8N0aDZyn5Ax
+CU9RB3EHcTecFgoy5umRj99BZrebR1NO+4gBrivIfdvD4fJNfNBHXwhSH9ACGCNv
+HnXVjHQF9iHWApKkRIeh8Fr2n5dtfJEF7SEX8GbX7FbsWo29kXMrVgNqHNyDnfAB
+VoPubgQdtJZJkVZAkaHrMu8AytwT62Q4eNqmJI1aWbZQNI5jWYqc6RKuCK6/F99q
+thFT9gJO17+yRuL6Uv2/vgzVR1RGdwVLKwlUjGPAjYflpCQwWMAASxiv9uPyYPHc
+ErSrbRG0wjIfAR3vus1OSOx3xZHZpXFfmQTsDP7zVROLzV98R3JwFAxJ4/xqeON4
+vCPFU6OsT3lWQ8w7il5ohY95wmujfr6lk89kEzJdOTzcn7DBbUru33CQMGKZ3Evt
+RjsC7FDbL017qxS+ZVA/HGkyfiu4cpgV8VUnbql5eAZ+1Ll6Dw==
+=hdPa
+-----END PGP PUBLIC KEY BLOCK-----
+#+END_EXAMPLE
+
+- check if an rpm correspondes to a key
+#+BEGIN_SRC sh
+rpm -K nss-3.28.4-1.el6_9.x86_64.rpm
+#+END_SRC
+this will check the md5 hash of the package and confirm if we have the gpg key available
+
+- verify a package on the system
+#+BEGIN_SRC sh
+rpm -Vf /bin/elinks
+#+END_SRC
+
+- verify all packages on the system
+#+BEGIN_SRC sh
+rpm -Va
+#+END_SRC
+
+- check the signature of a package
+#+BEGIN_SRC sh
+rpm -K --nosignature elinks-0.12-0.37.pre6.el7.x86_64.rpm
+#+END_SRC
+
+** RHEL 6 iptables
+-  
+#+BEGIN_SRC sh
+service iptables status
+service iptables start
+service iptables stop
+#+END_SRC
+
+- enable at boot
+#+BEGIN_SRC sh
+chkconfig iptables on
+#+END_SRC
+
+- view the set rules
+#+BEGIN_SRC sh
+iptables --list
+#+END_SRC
+
+** File Permisions and Administration
+- viewing what files have world write permissions
+#+BEGIN_SRC sh
+find / -perm o+w
+#+END_SRC
+it's a good idea to make a copy of these to enable a bench mark in-case of future investigations
+
+- sticky bit - this bit means only the user and the root may delete files that they create
+#+BEGIN_EXAMPLE
+drwxrwxrwt.   9 root root 4096 May 18 16:57 tmp
+#+END_EXAMPLE
+t - this indicates that the sticky bit is set
+
 * Lecture
 * Tutorial
 * Books
-[[file://home/crito/Documents/Linux/Red_Hat/Red_Hat_RHCSA_RHCE_7_Cert_Guide.pdf][RHCSA/RHCE 7 Cert Guide]]
+[[file://home/crito/Documents/Linux/RHEL/Beginning_Red_Hat_Linux_9.pdf][Beginning Red Hat Linux 9]]
+[[file://home/crito/Documents/Linux/RHEL/Red_Hat_Linux_Networking_and_System_Administration.pdf][Red Hat Linux Networking and System Administration (Legacy)]]
+[[file://home/crito/Documents/Linux/RHEL/The_Definitive_Guide_to_CentOS.pdf][The Definitive Guide to CentOS (5)]]
+** RHEL 6
+[[file://home/crito/Documents/Linux/RHEL/A_Practical_Guide_to_Fedora_and_Red_Hat_Enterprise_linux.pdf][A Practical Guide to Fedora and Red Hat enterprise Linux (Fedora 15/RHEL 6)]]
+[[file://home/crito/Documents/Linux/RHEL/RHEL_6_Administration.pdf][Red Hat Enterprise Linux 6 Administration - Real World Skills for Red Hat Administrators]]
 [[file://home/crito/Documents/Linux/Red_Hat/Red_Hat_RHCSA_RHCE_6_Cert_Guide.pdf][RHCSA/RHCE 6 Cert Guide]]
-[[file://home/crito/Documents/Linux/RHEL/RHEL_Server_Cookbook.pdf][Red Hat Enterprise Linux Server Cookbook]]
-[[file://home/crito/Documents/Linux/RHEL/The_Definitive_Guide_to_CentOS.pdf][The Definitive Guide to CentOS]]
+[[file://home/crito/Documents/Linux/RHEL/Red_Hat_Enterprise_Linux-6-Security_Guide.pdf][Red Hat Enterprise Linux 6 - Security Guide]]
+[[file://home/crito/Documents/Linux/RHEL/Red_Hat_Enterprise_Linux-6-Identity_Management_guide.pdf][Red Hat Enterprise Linux 6 - Identity Management Guide]]
+[[file://home/crito/Documents/Linux/RHEL/Red_Hat_Enterprise_Linux-6-Deployment_Guide-en-US.pdf][Red Hat Enterprise Linux 6 - Deployment Guide]]
+[[file://home/crito/Documents/Linux/RHEL/Red_Hat_Enterprise_Linux-6-Developer_Guide-en-US.pdf][Red Hat Enterprise Linux 6 - Developer Guide]]
+[[file://home/crito/Documents/Linux/RHEL/Red_Hat_Enterprise_Linux-6-Global_File_System_2-en-US.pdf][Red Hat Enterprise Linux 6 - Global File System 2]]
+[[file://home/crito/Documents/Linux/RHEL/Red_Hat_Enterprise_Linux-6-Load_Balancer_Administration-en-US.pdf][Red Hat Enterprise Linux 6 - Load Balancer Administration]]
+[[file://home/crito/Documents/Linux/RHEL/Red_Hat_Enterprise_Linux-6-Security-Enhanced_Linux-en-US.pdf][Red Hat Enterprise Linux 6 - Security-Enhanced Linux]]
+[[file://home/crito/Documents/Linux/RHEL/Red_Hat_Enterprise_Linux-6-Storage_Administration_Guide-en-US.pdf][Red Hat Enterprise Linux 6 - Storage Administration Guide]]
+[[file://home/crito/Documents/Linux/RHEL/Red_Hat_Enterprise_Linux-6-Virtualization_Administration_Guide-en-US.pdf][Red Hat Enterprise Linux 6 - Virtualization Administration Guide]]
+[[file://home/crito/Documents/Linux/RHEL/Red_Hat_Enterprise_Linux-6-Identity_Management_guide.pdf][Red Hat Enterprise Linux 6 - Identity Management Guide]]
+** RHEL 7
+[[file://home/crito/Documents/Linux/Red_Hat/Red_Hat_RHCSA_RHCE_7_Cert_Guide.pdf][RHCSA/RHCE 7 Cert Guide]]
+[[file://home/crito/Documents/Linux/RHEL/RHEL_Server_Cookbook.pdf][Red Hat Enterprise Linux Server Cookbook (7)]]
+[[file://home/crito/Documents/Linux/RHEL/Red_Hat_Enterprise_Linux-7-Security_Guide-en-US.pdf][Red Hat Enterprise Linux 7 - Security Guide]]
+[[file://home/crito/Documents/Linux/RHEL/Red_Hat_Enterprise_Linux-7-System-Level_Authentication_Guide.pdf][Red Hat Enterprise Linux 7 - System-Level Authentication Guide]]
+[[file://home/crito/Documents/Linux/RHEL/Red_Hat_Enterprise_Linux-7-SELinux_Users_and_Aministrators_Guide-en-US.pdf][Red Hat Enterprise Linux 7 - SELinux User's and Administrator's Guide]]
+[[file://home/crito/Documents/Linux/RHEL/Red_Hat_Enterprise_Linux-7-Global_File_System_2-en-US.pdf][Red Hat Enterprise Linux 7 - Global File System 2]]
+[[file://home/crito/Documents/Linux/RHEL/Red_Hat_Enterprise_Linux-7-Installation_Guide-en-US.pdf][Red Hat Enterprise Linux 7 - Installation Guide]]
+[[file://home/crito/Documents/Linux/RHEL/Red_Hat_Enterprise_Linux-7-Kernel_Administration_Guide-en-US.pdf][Red Hat Enterprise Linux 7 - Kernel Administration Guide]]
+[[file://home/crito/Documents/Linux/RHEL/Red_Hat_Enterprise_Linux-7-Kernel_Crash_Guide-en-US.pdf][Red Hat Enterprise Linux 7 - Kernel Crash Dump Guide]]
+[[file://home/crito/Documents/Linux/RHEL/Red_Hat_Enterprise_Linux-7-Linux_Domain_Identity_Authenication_and_Policy_Guide-en-US.pdf][Red Hat Enterprise Linux 7 - Linux Domain Identity Authentication and Policy Guide]]
+[[file://home/crito/Documents/Linux/RHEL/Red_Hat_Enterprise_Linux-7-Networking_Guide-en-US.pdf][Red Hat Enterprise Linux 7 - Networking Guide]]
+[[file://home/crito/Documents/Linux/RHEL/Red_Hat_Enterprise_Linux-7-Performance_Tuning_Guide-en-US.pdf][Red Hat Enterprise Linux 7 - Performance Tuning Guide]]
+[[file://home/crito/Documents/Linux/RHEL/Red_Hat_Enterprise_Linux-7-Power_Management_Guide-en-US.pdf][Red Hat Enterprise Linux 7 - Power Management Guide]]
+[[file://home/crito/Documents/Linux/RHEL/Red_Hat_Enterprise_Linux-7-System_Administrators_Guide-en-US.pdf][Red Hat Enterprise Linux 7 - System Administrator's Guide]]
+[[file://home/crito/Documents/Linux/RHEL/Red_Hat_Enterprise_Linux-7-Windows_Integration_Guide-en-US.pdf][Red Hat Enterprise Linux 7 - windows Integration Guide]]
+[[file://home/crito/Documents/Linux/RHEL/RHEL_Network_Performance_Tuning.pdf][Red Hat Enterprise Linux 7 - Network Performance Tuning]]
 
 * Links
 [[https://access.redhat.com/solutions/637583][How do I upgrade from RHEL6 to RHEL7 - Red Hat Customer Portal]]

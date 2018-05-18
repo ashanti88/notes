@@ -394,6 +394,18 @@ ssh-copy-id user@alickmitchell2.mylabserver.com
 #+END_SRC
 you will be prompted for user's password, then will copy the file to ~/.ssh/ on the remote server
 
+** Setting the Banner
+- edit /etc/issue.net
+#+BEGIN_EXAMPLE
+This is the sshd banner
+#+END_EXAMPLE
+
+- to enalbe edit the sshd_config
+/etc/ssh/sshd_config
+#+BEGIN_EXAMPLE
+Banner /etc/issue.net
+#+END_EXAMPLE
+on may distros this disabled by default
 
 * Lecture
 * Tutorial

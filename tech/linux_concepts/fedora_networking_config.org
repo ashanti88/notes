@@ -23,7 +23,6 @@
 - [[file://home/crito/org/tech/cmds/ifconfig.org][ifconfig (deprecate for ip)]]
 - [[file://home/crito/org/tech/cmds/netstat.org][netstat (deprecated for ss)]]
 
-
 * Network Configuration
 ** Example Interface Config
 /etc/sysconfig/network-scripts/interfaces/ifcfg-enp0s17
@@ -108,7 +107,6 @@ sysctl -w net.ipv4.ip_forward=1
 #+BEGIN_EXAMPLE
 net.ipv4.ip_forward = 1
 #+END_EXAMPLE
-
 
 * Lecture
 * Tutorial

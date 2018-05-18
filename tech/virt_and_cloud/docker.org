@@ -17,7 +17,8 @@ CheatSheet: [[https://github.com/wsargent/docker-cheat-sheet][github.com/docker-
 /var/lib/docker/volumes -
 /var/run/docker.pid
 /var/run/docker.sock
-/home/user/.docker/config.json - this contains the dockerhub login creds
+~/.docker/config.json - this contains the dockerhub login creds
+
 * Cmds
 - docker-compose
 
@@ -1006,6 +1007,122 @@ Additional aliases: ucp.example.com
 docker run -it --rm docker/dtr install --ucp-node fredflintstone2.mylabserver.com --ucp-username admin --ucp-url https://fredflintstone1.mylabserver.com --ucp-insecure-tls
 #+END_SRC
 
+* Networking
+- view the overall docker network
+#+BEGIN_SRC sh
+docker network ls
+#+END_SRC
+
+- detailed view of the docker network
+#+BEGIN_SRC sh
+docker network inspect bridge
+#+END_SRC
+this will provide the usual inspect json view
+
+- setting the network of the container
+#+BEGIN_SRC sh
+docker run -d --name testweb -p 80:80 --network=devel1 httpd
+#+END_SRC
+
+- add a running container to a network
+#+BEGIN_SRC sh
+docker network connect --ip=192.168.1.10 devel0 testweb
+#+END_SRC
+devel0 - this is the network name
+
+- remove a container from a network
+#+BEGIN_SRC sh
+docker network disconnect devel0
+#+END_SRC
+
+- create a bridge and confirm creation
+#+BEGIN_SRC sh
+docker network create --driver=bridge --subnet=192.168.1.0/24 --opt "com.docker.network.driver.mtu"="1501" devel0
+docker network ls
+docker network inspect devel0
+#+END_SRC
+
+** Network Drivers
+- Bridge
+  - Simple to use, trobleshott and is the default on stand-alone Docker hosts
+  - Consists of a private network that is internal to the host system; all containers implemented on thsi host using Bridge networking can communicate
+  - External access is granted by port exposure of the container's services and accessed by the host or static routes added with the host as the gateway for that network
+
+- None
+  - Used when the container needs absolutely no networking access at all
+  - Containers operating on this driver can onlly be accessed on the host they are running on.
+  - These containers can be attached to directley or with the relevent docker cmd(exec or attach).
+
+- Host
+  - Sometimes referred to as 'Host Only Networking'
+  - Only accessible via the underlying host
+  - Access to servicees can only be provided by exposing container service ports to the host system
+
+- Overlay
+  - Allow communication among all Docker Daemons that are participating in a Swarm
+  - It is a 'Swarm Scope' driver in that it extends itself(building previoulsy non-existent networks on Workers if needed) to all daemons in the Swarm cluster
+  - Allows the communication of multiple services that may have replicas running on any number of workers in the Swarm, regardless of their origin or destination.
+  - Default mode of Swarm communication
+
+- Ingress
+  - Special overlay network that load balances network traffic amongst a given service's working nodes. 
+  - Maintains a list of all IP addresses from nodes that participate in that service (using the IPVS module) and when a request comes in, routes to one of them for the indicated service.
+  - Provides the 'routing mesh' that allows services to be exposed to the external network without having a replica running on every node in the Swarm.
+
+- Docker Gateway Bridge
+  - Special bridge network that allows onverlay networks (including Ingress) access to an indvidual Docker daemon's physical network
+  - Every container run within a service is connected to the local Docker daemon's host network.
+  - Automatically created when a Swarm is initialized or joined.
+
+** Publishing ports
+- this will look at the image and use the information provided there
+#+BEGIN_SRC sh
+docker run -d --name testweb -P httpd
+docker ps
+#+END_SRC
+this will bind the container port to a host port above 32768
+
+- specify on the cmd line which ports to map 
+#+BEGIN_SRC sh
+docker run -d --name testweb -p 80:80 httpd
+docker run -d --name testweb --publish 80:80 httpd
+#+END_SRC
+
+** Overlay Network
+These networks allow all nodes in a swwarm to communicate, but can't be accessed from outside of the network. 
+
+- configure the network
+#+BEGIN_SRC sh
+docker network create --driver=overlay --subnet=192.168.1.0/24 overlay0
+#+END_SRC
+
+- confirm
+#+BEGIN_SRC sh
+docker network ls
+docker network inspect overlay0
+#+END_SRC
+
+- creating a service using the overlay network
+#+BEGIN_SRC sh
+docker service create --name testweb -p 80:80 --network=overlay0 --replicas 3 httpd
+#+END_SRC
+this will propagate the overlay0 network to the other nodes in the swarm
+
+** Setting DNS
+- setting dns on a container
+#+BEGIN_SRC sh
+docker run -d --name testweb --dns=8.8.8.8 --dns=8.8.4.4 httpd
+#+END_SRC
+
+- set docker configuration to use a different DNS with all containers
+/etc/docker/daemon.json
+#+BEGIN_EXAMPLE
+{
+	"dns": ["8.8.8.8", "8.8.4.4"]
+}
+#+END_EXAMPLE
+the service will have to be restarted for these changes to take effect
+
 * Secure Registry
 ** Setting up a Docker Secure Registry
 - install openssl for cert creation
@@ -1113,6 +1230,35 @@ curl --insecure -u "test:password" https://myregistrydomain.com:5000/v2/my-busyb
 #+BEGIN_SRC sh
 curl --insecure -u "test:password" https://myregistrydomain.com:5000/v2/my-busybox/manifest/latest
 #+END_SRC
+
+** Signing images
+- build the image
+#+BEGIN_SRC sh
+docker build -t myregistrydomain.com:5000/untrusted.latest .
+#+END_SRC
+
+- create environment variable $DOCKER_CONTENT_TRUST
+#+BEGIN_SRC sh
+export DOCKER_CONTENT_TRUST=1
+#+END_SRC
+
+- push the image to the repo, and because of $DOCKER_CONTENT_TRUST it will try to sign the image
+#+BEGIN_SRC sh
+docker push myregistrydomain.com:5000/untrusted.latest:latest
+#+END_SRC
+this will only sign non-self signed certs, but still push the image
+
+- try to pull client with $DOCKER_CONTENT_TRUST=0
+#+BEGIN_SRC sh
+docker pull myregistrydomain.com:5000/untrusted.latest:latest
+#+END_SRC
+this will pull the image
+
+- try to pull on client with $DOCKER_CONTENT_TRUST=1
+#+BEGIN_SRC sh
+docker pull myregistrydomain.com:5000/untrusted.latest:latest
+#+END_SRC
+this will fail to pull the image as the image isn't signed
 
 * Swarm
 ** Setting up Swarm
@@ -1522,12 +1668,31 @@ docker service ps mycustomstack_load-balancer
 #+END_SRC
 the service name applied in the compose file is appended to the end
 
+* Logs
+- first place to look is /var/log/message or journalctl
+#+BEGIN_SRC sh
+cat /var/log/messages | grep -i "docker"
+journal -e | grep -i "docker"
+#+END_SRC
+
+- check the logs of a specific container
+#+BEGIN_SRC sh
+docker container logs testweb
+#+END_SRC
+
+- check the logs of a whole service
+#+BEGIN_SRC sh
+docker service logs testweb
+#+END_SRC
+this will print the logs of all the nodes associated with the service
+
 * Lecture
 * Tutorials
 ** Linux Academy Lab - Installing Docker CE and Pulling Images
 [[file://home/crito/Documents/SysAdmin/Virt/Docker/installing_docker-ce_lab.pdf][Installing Docker CE and Pulling Images for Container Utilization]]
 
 * Books
+[[file://home/crito/Documents/SysAdmin/Virt/Docker/docker_cheat-sheet.pdf][Linux Academy - Docker - Cheatsheet]]
 [[file://home/crito/Documents/SysAdmin/Virt/Docker/Using_Docker.pdf][Using Docker]]
 [[file://home/crito/Documents/SysAdmin/Virt/Docker/Pro_Docker.pdf][Pro Docker]]
 [[file://home/crito/Documents/SysAdmin/Virt/Docker/Learning_Docker.pdf][Learning Docker]]

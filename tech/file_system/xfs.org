@@ -1,1 +1,15 @@
+#+TAGS: xfs
 
+
+* XFS
+* Description
+  - Default for RHEL7
+  - High performance
+  - journaled file system
+  - 64-bit (8 Exabyte limit)
+
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

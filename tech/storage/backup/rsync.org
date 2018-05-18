@@ -144,3 +144,4 @@ LabGuide: [[file://home/crito/Documents/Linux/Labs/Backup_With_Rsync-lab.pdf][En
 * Links
 [[https://www.digitalocean.com/community/tutorials/how-to-use-rsync-to-sync-local-and-remote-directories-on-a-vps][How to use Rsync to Sync Local and Remote Directories]]
 [[https://opensource.com/article/17/1/rsync-backup-linux?sc_cid=701600000011jJVAAY][Using rsync to back up your Linux system]]
+[[https://www.howtogeek.com/168009/how-to-exclude-files-from-rsync/][How to Exclude files from Rsync - howtogeek]]

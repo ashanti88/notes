@@ -1,7 +1,7 @@
-#+TAGS: virt cloud net devops
+#+TAGS: devops virtualization orchestration kubernetes
 
 
-* Kubernetes                                          :virt:cloud:net:devops:
+* Kubernetes
 HomePage: [[https://kubernetes.io/][kubernetes.io]]
 List of Materials: [[https://github.com/ramitsurana/awesome-kubernetes][github.com/awesome-kubernetes]]
 
@@ -20,7 +20,404 @@ List of Materials: [[https://github.com/ramitsurana/awesome-kubernetes][github.c
 - Service - an endpoint that provides load balancing across a replicated group of pods
 
 * Usage
+** Install Kubernetes on Ubuntu 16.04
+*** Master Node
+- first update the system
+#+BEGIN_SRC sh
+apt-get update && apt-get upgrage
+#+END_SRC
 
+- install docker 
+#+BEGIN_SRC sh
+apt-get install -y docker.io
+#+END_SRC
+
+- set docker to use systemd cgroupdriver
+#+BEGIN_SRC sh
+cat << EOF > /etc/docker/daemon.json
+{
+  "exec-opts: ["native.cgroupdriver=systemd"]
+}
+#+END_SRC
+
+- install the gpg key for the repo
+#+BEGIN_SRC sh
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+#+END_SRC
+
+- add the kubernetes sources
+#+BEGIN_SRC sh
+cat << EOF > /etc/apt/sources.list.d/kubernetes.list
+deb http://apt.kubernetes.io/ kubernetes-xenial main
+EOF
+#+END_SRC
+
+- update to grab new sources
+#+BEGIN_SRC sh
+apt-get update
+#+END_SRC
+
+- install the 3 main pieces of kubernetes
+#+BEGIN_SRC sh
+apt-get install -y kubelet kubeadm kubectl
+#+END_SRC
+
+- initialize kubernetes
+#+BEGIN_SRC sh
+kubeadm init --pod-network-cidr=10.244.0.0/16
+#+END_SRC
+--pod-network-cidr option is set as we will be using flannel as our CNI(Container Network Interface)
+- this will provide us with the cmd that is need to allow other nodes to join the cluster, save this in a file
+  
+- setting up kubernetes for the user
+#+BEGIN_SRC sh
+mkdir -p $HOME/.kube
+cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+chown $(id -u:$(id -g) /home/user/.kube/config
+#+END_SRC
+
+- install the CNI flannel
+#+BEGIN_SRC sh
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.9.1/Documentation/kube-flannel.yml
+#+END_SRC
+
+- show all currently installed services on kubernetes
+#+BEGIN_SRC sh
+kubectl get pods --all-namespaces
+#+END_SRC
+
+*** Worker Node
+- install docker 
+#+BEGIN_SRC sh
+apt-get install docker.io
+#+END_SRC
+
+- set docker to use systemd cgroupdriver
+#+BEGIN_SRC sh
+cat << EOF > /etc/docker/daemon.json
+{
+  "exec-opts: ["native.cgroupdriver=systemd"]
+}
+#+END_SRC
+
+- install the gpg key for the repo
+#+BEGIN_SRC sh
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+#+END_SRC
+
+- add the kubernetes sources
+#+BEGIN_SRC sh
+cat << EOF > /etc/apt/sources.list.d/kubernetes.list
+deb http://apt.kubernetes.io/ kubernetes-xenial main
+EOF
+#+END_SRC
+
+- update to grab new sources
+#+BEGIN_SRC sh
+apt-get update
+#+END_SRC
+
+- install the 3 main pieces of kubernetes
+#+BEGIN_SRC sh
+apt-get install -y kubelet kubeadm kubectl
+#+END_SRC
+kubectl can be installed on the worker node but isn't required, but will allow cmds to be issued from this node
+ 
+- join the worker to the master
+#+BEGIN_SRC sh
+kubeadm join 172.31.19.206:6443 --token v89vru.yypa0p30j8j2bgqx --discovery-token-ca-cert-hash sha256:d99c4ca5c79c14c4505f9791eb3833e25e291ff91ff82bc1102790980468fa5a
+#+END_SRC
+
+- confirm on the master node that the worker has joined
+#+BEGIN_SRC sh
+kubectl get nodes
+#+END_SRC
+
+** Install Kubernetes on Centos7
+*** Master Node
+- disable the swap partition
+#+BEGIN_SRC sh
+swapoff -a
+#+END_SRC
+remove or comment out any swap entries in /etc/fstab
+
+- update the system
+#+BEGIN_SRC sh
+yum update -y
+#+END_SRC
+
+- install required packages for docker
+#+BEGIN_SRC sh
+yum install -y device-mapper-persistent-data lvm2 yum-utils
+#+END_SRC
+yum-utils is for yum-config-manager
+
+- add the stable repo
+#+BEGIN_SRC sh
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+yum update
+#+END_SRC
+
+- for bledding edge
+#+BEGIN_SRC sh
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo --enable docker-ce-edge.repo
+yum update
+#+END_SRC
+
+- install docker
+#+BEGIN_SRC sh
+yum install -y docker-ce
+#+END_SRC
+
+- add users that require to access docker to the docker group 
+#+BEGIN_SRC sh
+usermod -aG docker user1
+usermod -aG docker user2
+usermod -aG docker user3
+#+END_SRC
+access is required to the /var/run/docker.sock file that has perms root:docker
+
+- enable docker service
+#+BEGIN_SRC sh
+systemctl enable docker.service
+systemctl start docker.service
+systemctl status docker.service
+#+END_SRC
+
+- add the kubernetes repo
+#+BEGIN_SRC sh
+cat <<EOf > /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+EOF
+#+END_SRC
+
+- disable selinux
+#+BEGIN_SRC sh
+setenforce 0
+#+END_SRC
+
+- set selinux to permissive
+/etc/selinux/config
+#+BEGIN_EXAMPLE
+SELINUX=premissive
+#+END_EXAMPLE
+
+- install the parts of kubernetes
+#+BEGIN_SRC sh
+yum install -y kubelet kubeadm kubectl
+#+END_SRC
+
+- start and enable kubelet
+#+BEGIN_SRC sh
+systemctl enable kubelet
+systemctl start kubelet
+systemctl status kubelet
+#+END_SRC
+
+- edit /etc/sysctl.d/k8s.conf
+#+BEGIN_SRC sh
+cat << EOF > /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+EOF
+#+END_SRC
+
+- enable the k8s.conf
+#+BEGIN_SRC sh
+sysctl --system
+#+END_SRC
+
+- initialize the kubernetes cluster
+#+BEGIN_SRC sh
+kubeadm init --pod-network-cidr=10.244.0.0/16
+#+END_SRC
+save the token provided at the end of the setup
+
+- configure kubernetes for the user
+#+BEGIN_SRC sh
+mkdir -p $HOME/.kube
+cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+choen $(id -u):$(id -g) $HOME/.kube/config
+#+END_SRC
+
+- install flannel
+#+BEGIN_SRC sh
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.9.1/Documentation/kube-flannel.yml
+#+END_SRC
+
+- confirm that the master is ready for workers to join
+#+BEGIN_SRC sh
+kubectl get nodes
+#+END_SRC
+STATUS should state "Ready"
+
+*** Worker Node 
+- disable the swap partition
+#+BEGIN_SRC sh
+swapoff -a
+#+END_SRC
+remove or comment out any swap entries in /etc/fstab
+
+- update the system
+#+BEGIN_SRC sh
+yum update -y
+#+END_SRC
+
+- install required packages for docker
+#+BEGIN_SRC sh
+yum install -y device-mapper-persistent-data lvm2 yum-utils
+#+END_SRC
+yum-utils is for yum-config-manager
+
+- add the stable repo
+#+BEGIN_SRC sh
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+yum update
+#+END_SRC
+
+- for bledding edge
+#+BEGIN_SRC sh
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo --enable docker-ce-edge.repo
+yum update
+#+END_SRC
+
+- install docker
+#+BEGIN_SRC sh
+yum install -y docker-ce
+#+END_SRC
+
+- add users that require to access docker to the docker group 
+#+BEGIN_SRC sh
+usermod -aG docker user1
+usermod -aG docker user2
+usermod -aG docker user3
+#+END_SRC
+access is required to the /var/run/docker.sock file that has perms root:docker
+
+- enable docker service
+#+BEGIN_SRC sh
+systemctl enable docker.service
+systemctl start docker.service
+systemctl status docker.service
+#+END_SRC
+
+- add the kubernetes repo
+#+BEGIN_SRC sh
+cat <<EOf > /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+EOF
+#+END_SRC
+
+- disable selinux
+#+BEGIN_SRC sh
+setenforce 0
+#+END_SRC
+
+- set selinux to permissive
+/etc/selinux/config
+#+BEGIN_EXAMPLE
+SELINUX=premissive
+#+END_EXAMPLE
+
+- install the parts of kubernetes
+#+BEGIN_SRC sh
+yum install -y kubelet kubeadm kubectl
+#+END_SRC
+
+- start and enable kubelet
+#+BEGIN_SRC sh
+systemctl enable kubelet
+systemctl start kubelet
+systemctl status kubelet
+#+END_SRC
+
+- edit /etc/sysctl.d/k8s.conf
+#+BEGIN_SRC sh
+cat << EOF > /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+EOF
+#+END_SRC
+
+- enable the k8s.conf
+#+BEGIN_SRC sh
+sysctl --system
+#+END_SRC
+
+- connect other nodes to the cluster, this is done on the other node
+#+BEGIN_SRC sh
+kubeadm join 172.31.19.206:6443 --token v89vru.yypa0p30j8j2bgqx --discovery-token-ca-cert-hash sha256:d99c4ca5c79c14c4505f9791eb3833e25e291ff91ff82bc1102790980468fa5a
+#+END_SRC
+
+- confirm on the master that the node has joined
+#+BEGIN_SRC sh
+kubectl get nodes
+#+END_SRC
+this will print all nodes that are currently in the cluster
+
+** Setting up a cluster
+- initialise the master
+#+BEGIN_SRC sh
+kubeadm init -- pod-network-cidr=10.244.0.0/16
+#+END_SRC
+this will create the token needed to allow nodes to join the cluster
+
+- configure the user
+#+BEGIN_SRC sh
+mkdir -p $HOME/.kube
+cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+chown $(id -u):$(id -g) $HOME/.kube/config
+#+END_SRC
+
+- install the networking package flannel
+#+BEGIN_SRC sh
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.9.1/Documentation/kube-flannel.yml
+#+END_SRC
+this provides networking between the pods
+
+- view everything that has been created in the cluster so far
+#+BEGIN_SRC sh
+kubectl get pods --all-namespaces
+#+END_SRC
+
+- connect other nodes to the cluster, this is done on the other node
+#+BEGIN_SRC sh
+kubeadm join 172.31.19.206:6443 --token v89vru.yypa0p30j8j2bgqx --discovery-token-ca-cert-hash sha256:d99c4ca5c79c14c4505f9791eb3833e25e291ff91ff82bc1102790980468fa5a
+#+END_SRC
+
+- confirm on the master that the node has joined
+#+BEGIN_SRC sh
+kubectl get nodes
+#+END_SRC
+this will print all nodes that are currently in the cluster
+
+** Reuired Ports
+Master node:
+  - TCP 6443      Kubernetes API server
+  - TCP 2379-2380 etcd server client API
+  - TCP 10250     Kubelet API
+  - TCP 10251     kube-scheduler
+  - TCP 10252     kube-controller-manager
+  - TCP 10255     Read-Only Kubelet API
+    
+Worker nodes:
+  - TCP 10250    Kubelet API
+  - TCP 10255    Read-Only Kubelet API
+  - TCP 30000-32767 NodePort Services
+
+** URLs for the different parts
 - Kubernetes UI
 https://<your_master_ip>/api/v1/proxy/namespaces/kube-system/services/kube-ui  
 

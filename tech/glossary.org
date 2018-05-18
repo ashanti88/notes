@@ -7,7 +7,11 @@ Arch: https://wiki.archlinux.org/index.php/ACPI_modules
 Wiki: https://en.wikipedia.org/wiki/Address_space_layout_randomization
 * BGP  - Border Gate Protocol
 wiki: https://en.wikipedia.org/wiki/Border_Gateway_Protocol
+* CNI  - Container Network Interface
+flannel 
 * CRUD - Create Read Update Delete
+* CVE  - Common Vulnerabilities and Exposures
+HomePage: https://cve.mitre.org/
 * DCCP - Datagram Congestion Control Protocol
 Wiki - https://en.wikipedia.org/wiki/Datagram_Congestion_Control_Protocol
 * DMA  - Direct Memory Access
@@ -38,6 +42,8 @@ maildrop
 * MMIO - Memory Mapped I/O
 * MPLS - Multiprotocol Label Switching
 Wiki: https://en.wikipedia.org/wiki/Multiprotocol_Label_Switching
+* NVN  - National Vulnerability Database
+https://nvd.nist.gov/
 * MTU  - Maximum Transmission Unit
 Wiki: https://en.wikipedia.org/wiki/Maximum_transmission_unit
 * NIS  - Network Information Service
