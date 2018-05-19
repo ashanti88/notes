@@ -446,6 +446,8 @@ snapcraft init
 
 * Articles
 * Books
+[[file://home/crito/Documents/Linux/Debian/Debian-Linux_Ref_Card.pdf][Debian Reference Card]]
+[[file://home/crito/Documents/Linux/Debian/Debian7_System_Administration_Best_Practices.pdf][Debian 7 - System Administration Best Practices]]
 [[file://home/crito/Documents/Linux/Debian/Debian7_System_Administration_Best_Practices.pdf][Debian 7: System Administration Best Practices]]
 [[file://home/crito/Documents/Linux/Debian/The_Debian_System-Concepts_and_Techniques.pdf][The Debian System - Concepts and Techniques - No Starch Press]]
 
@@ -567,7 +569,7 @@ apt-cache search git
 [[file://home/crito/Documents/Linux/Debian/Ubuntu_Linux_Toolbox_1000_Plus_Commands.pdf][Ubuntu Linux Toolbox]]
 [[file://home/crito/Documents/Linux/Debian/Ubuntu_Unleashed_2015.pdf][Ubuntu Unleashed 2015]]
 [[file://home/crito/Documents/Linux/Debian/Ubuntu_Linux_Secrets.pdf][Ubuntu Linux Secrets]]
-[[file://home/crito/Documents/Linux/Debian/ubuntu_server_guide.pdf][Ubuntu Server Guide]]
+[[file://home/crito/Documents/Linux/Debian/Troubleshooting_Ubuntu_Server.pdf][Troubleshooting Ubuntu Server]]
 
 * Links
 

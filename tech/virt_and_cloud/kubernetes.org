@@ -3,11 +3,16 @@
 
 * Kubernetes
 HomePage: [[https://kubernetes.io/][kubernetes.io]]
+Documentation: [[https://kubernetes.io/docs/home/?path=users&persona=app-developer&level=foundational][kubernetes.io/docs]]
 List of Materials: [[https://github.com/ramitsurana/awesome-kubernetes][github.com/awesome-kubernetes]]
 
+* Files
+/var/log/containers - this holds all the logs for each pod, and are ascii files that can be accessed with standard tools (cat, grep etc)
 * Cmds
 - kubectl
 - kubecfg
+- minikube - tool for creating a single node kubernetes deployment on local workstation
+- Flannel - https://coreos.com/flannel/docs/latest/kubernetes.html
 
 * Description
 ** Components
@@ -20,11 +25,119 @@ List of Materials: [[https://github.com/ramitsurana/awesome-kubernetes][github.c
 - Service - an endpoint that provides load balancing across a replicated group of pods
 
 * Usage
+- Overview of the cluster
+#+BEGIN_SRC sh
+kubectl cluster-info
+#+END_SRC
+
+- Pods overview
+#+BEGIN_SRC sh
+kubectl get pods -o wide
+#+END_SRC
+
+- starting a pod
+#+BEGIN_SRC sh
+kubectl run name-of-deployment --image=nginx:latest --port=8080
+#+END_SRC
+
+- accessing a container inside a pod with other containers
+#+BEGIN_SRC sh
+kubectl exec -it star-aaaaaaaaaa-bbbbb --container sidecar1 -- /bin/bash
+#+END_SRC
+
+** Kubectl
+*** get - list resources
+- list all nodes
+#+BEGIN_SRC sh
+kubectl get nodes
+#+END_SRC
+
+- check for pods on a node
+#+BEGIN_SRC sh
+kubectl get pods --all-namespaces -o wide
+#+END_SRC
+
+- what pods are running in the namespace
+#+BEGIN_SRC sh
+kubectl get pods -n kube-system
+#+END_SRC
+
+- list the current running deployments
+#+BEGIN_SRC sh
+kubectl get deployments
+#+END_SRC
+
+*** describe - show detailed information about a resource
+- check for pods on a node
+#+BEGIN_SRC sh
+kubectl describe node node-name
+#+END_SRC
+
+- get a detailed overview of a node
+#+BEGIN_SRC sh
+kubectl describe node fredflinstone1.mylabserver.com | less
+#+END_SRC
+this provides lots of information, such as OS information, disk usage, memory usage etc
+
+- get detailed information on a service
+#+BEGIN_SRC sh
+kubectl describe services/kubernetes-bootcamp
+#+END_SRC
+
+- get detailed detailed information on a deployment
+#+BEGIN_SRC sh
+kubectl describe deployment/kubernetes-bootcamp
+#+END_SRC
+
+*** logs - print the logs from a container in a pod
+- view the log
+#+BEGIN_SRC sh
+kubectl logs config-test-pod
+#+END_SRC
+
+*** exec - execute a cmd on a container in a pod
+- list the environment variables on a container
+#+BEGIN_SRC sh
+kubectl exec nginx-deployment-75675f5897-8ztt9 env
+#+END_SRC
+
+- start a bash shell in the container
+#+BEGIN_SRC sh
+kubectl exec nginx-deployment-75675f5897-8ztt9 bash
+#+END_SRC
+
+
+
+
+*** delete
+- delete a pod
+#+BEGIN_SRC sh
+kubectl delete pod nginx-deployment-75675f5897-8ztt9
+#+END_SRC
+this will cause kubenetes to create a new pod, to change the pod number use "scale"
+
+- delete a deployment
+#+BEGIN_SRC sh
+kubectl delete deployment kubernetes-bootcamp
+#+END_SRC
+
+- delete a service
+#+BEGIN_SRC sh
+kubectl delete service -l run=kubernetes-bootcamp
+#+END_SRC
+this will only remove the service, the deployment will still be available
+
+*** scale
+- change the current number of replicas to 4
+#+BEGIN_SRC sh
+kubectl scale deployments/kubernetes-bootcamp --replicas=4
+#+END_SRC
+
 ** Install Kubernetes on Ubuntu 16.04
 *** Master Node
 - first update the system
 #+BEGIN_SRC sh
-apt-get update && apt-get upgrage
+apt-get update && apt-get upgrade
 #+END_SRC
 
 - install docker 
@@ -38,6 +151,7 @@ cat << EOF > /etc/docker/daemon.json
 {
   "exec-opts: ["native.cgroupdriver=systemd"]
 }
+EOF
 #+END_SRC
 
 - install the gpg key for the repo
@@ -73,7 +187,7 @@ kubeadm init --pod-network-cidr=10.244.0.0/16
 #+BEGIN_SRC sh
 mkdir -p $HOME/.kube
 cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-chown $(id -u:$(id -g) /home/user/.kube/config
+chown $(id -u):$(id -g) /home/user/.kube/config
 #+END_SRC
 
 - install the CNI flannel
@@ -98,6 +212,7 @@ cat << EOF > /etc/docker/daemon.json
 {
   "exec-opts: ["native.cgroupdriver=systemd"]
 }
+EOF
 #+END_SRC
 
 - install the gpg key for the repo
@@ -403,7 +518,7 @@ kubectl get nodes
 #+END_SRC
 this will print all nodes that are currently in the cluster
 
-** Reuired Ports
+** Required Ports
 Master node:
   - TCP 6443      Kubernetes API server
   - TCP 2379-2380 etcd server client API
@@ -417,15 +532,362 @@ Worker nodes:
   - TCP 10255    Read-Only Kubelet API
   - TCP 30000-32767 NodePort Services
 
-** URLs for the different parts
-- Kubernetes UI
-https://<your_master_ip>/api/v1/proxy/namespaces/kube-system/services/kube-ui  
+** Deployments, Rolling Updates and Rollbacks
+- nginx-deployment.yml
+#+BEGIN_EXAMPLE
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.7.9
+        ports:
+        - containerPort: 80
+#+END_EXAMPLE
 
-- Grafana
-https://<your_master_ip>/api/v1/proxy/namespaces/kube-system/services/monitoring-grafana
+- deploy the yaml file
+#+BEGIN_SRC sh
+kubectl create -f nginx-deployment.yml
+#+END_SRC
 
-- Swagger
-https://<your_master_ip>/swagger-ui/
+- confirm deployment
+#+BEGIN_SRC sh
+kubectl get deployments
+#+END_SRC
+
+- view more information on the deployment
+#+BEGIN_SRC sh
+kubectl describe deployment nginx-deployment
+#+END_SRC
+
+- have kubectl output a deployment in yaml format
+#+BEGIN_SRC sh
+kubectl get deployment nginx-deployment -o yaml 
+#+END_SRC
+
+- update an image in a deployment
+#+BEGIN_SRC sh
+kubectl set image deployment/nginx-deployment nginx=nginx:1.8
+#+END_SRC
+this will update nginx from 1.7.9 to 1.8
+
+- view the rollout status
+#+BEGIN_SRC sh
+kubectl rollout status deployment/nginx-deployment
+#+END_SRC
+
+- update an image with a yml file
+#+BEGIN_EXAMPLE
+      containers:
+      - name: nginx
+        image: nginx:1.9.1
+        ports:
+        - containerPort: 80
+#+END_EXAMPLE
+just edit the image: tag to the image to be updated to
+
+#+BEGIN_SRC sh
+kubectl apply -f nginx-deployment.yml
+#+END_SRC
+
+- check the rollout history
+#+BEGIN_SRC sh
+kubectl rollout history deployment/nginx-deployment --revision=3
+#+END_SRC
+
+- rollback to a previous revision
+#+BEGIN_SRC sh
+kubectl rollout undo deployment/nginx-deployment --to-revision=2
+#+END_SRC
+
+** Configuration Maps
+- create a configuration map
+#+BEGIN_SRC sh
+kubectl create configmap my-map --from-literal=school=LinuxAcademy
+#+END_SRC
+
+- confirm creation
+#+BEGIN_SRC sh
+kubectl get configmaps
+#+END_SRC
+
+- detailed view of configmap
+#+BEGIN_SRC sh
+kubectl describe configmaps my-map
+#+END_SRC
+
+- create a pod with configmap
+pod-config.yml
+#+BEGIN_EXAMPLE
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: config-test-pod
+spec:
+  containers:
+    - name: test-container
+      image: busybox
+      command: [ "/bin/sh", "-c", "env" ]
+      env:
+        - name: WHAT_SCHOOL
+          valueFrom:
+            configMapKeyRef:
+              name: my-map
+              key: school
+  restartPolicy: Never
+#+END_EXAMPLE
+
+- create the pod
+#+BEGIN_SRC sh
+kubectl create -f pod-config.yml
+#+END_SRC
+
+- view the output
+#+BEGIN_SRC sh
+kubectl get pods --show-all
+#+END_SRC
+
+- view the log
+#+BEGIN_SRC sh
+kubectl logs config-test-pod
+#+END_SRC
+
+** Scaling Applications
+- adding replicas to deployment
+#+BEGIN_SRC sh
+kubectl scale deployment/nginx-deployment --replicas=3
+#+END_SRC
+this will change the current level of replicas to 3
+
+- confirm the change 
+#+BEGIN_SRC sh
+kubectl get deployments
+#+END_SRC
+
+** Labels and Selecors
+- setting a label to a pod
+#+BEGIN_SRC sh
+kubectl label pods mysql-544bbdcd6f-grtfk test=sure
+#+END_SRC
+
+- resetting a label to a pod
+#+BEGIN_SRC sh
+kubectl label pods mysql-544bbdcd6f-grtfk test=sure --overwrite
+#+END_SRC
+overwrite - this will reset a label
+
+- label many pods with a label
+#+BEGIN_SRC sh
+kubectl label pods -l app=nginx tier=frontend
+#+END_SRC
+
+- delete pods using labels
+#+BEGIN_SRC sh
+kubectl delete pods -l test=sure
+#+END_SRC
+
+- adding a label to a node
+#+BEGIN_SRC sh
+kubectl label node fredflintstone1.mylabserver.com colour=red
+#+END_SRC
+
+- List all running pods in the default namespace that have the key/value pair database=mysql
+#+BEGIN_SRC sh
+kubectl get pods -l database=mysql -n default
+#+END_SRC
+
+** DaemonSets
+Doc: [[https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/#updating-a-daemonset][kubernetes.io/daemonset]]
+Special scheduling case, when a particular pods has to be run on every node (things like flannel, monitoring tools etc)
+
+- to view them
+#+BEGIN_SRC sh
+kubectl get daemonsets -n kube-system
+#+END_SRC
+n - namespace
+
+- view detailed information
+#+BEGIN_SRC sh
+kubectl describe daemonset kube-flannel-ds -n kube-system
+#+END_SRC
+
+- delete a daemonset
+#+BEGIN_SRC sh
+kubectl delete ds name_of_ds
+kubectl delete daemonset name_of_ds
+#+END_SRC
+
+** Taints
+- view any taints that are set on a node
+#+BEGIN_SRC sh
+kubectl describe node fredflinstone1.mylabserver.com | grep -i -B3 -A3 "taints"
+#+END_SRC
+
+- remove a taint
+#+BEGIN_SRC sh
+kubectl taint nodes fredflinstone1.mylabserver.com node-role.kubernetes.io/master-
+#+END_SRC
+
+- add a taint
+#+BEGIN_SRC sh
+kubectl taint nodes fredflinstone1.mylabserver.com node-role.kubernetes.io/master:NoSchedule
+#+END_SRC
+
+** Manually Scheduling a Pod
+- label the node
+#+BEGIN_SRC sh
+kubectl label node fredflintstone3.mylabserver.com net=gigabit
+#+END_SRC
+
+- create the deployment that you are to schedule
+#+BEGIN_EXAMPLE
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: webhead
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: webhead
+  template:
+    metadata:
+      labels:
+        run: webhead
+    spec:
+      containers:
+      - image: nginx
+        name: webhead
+        port:
+        - containerPort: 80
+          portocol: TCP
+      nodeSelector:
+        net: gigabit
+#+END_EXAMPLE
+
+** Monitoring
+Applications
+  - heapset - cluster-wide aggregator of monitoring and event data
+  - cAdvisor - is an open source contianer resource usage and performance analysis agent
+  - Grafana with InfluxDB - these run in pods
+  - Google Cloud Monitoring - hosted monitoring service
+    
+- accessing logs in pods
+#+BEGIN_SRC sh
+kubectl logs name_of_pod
+#+END_SRC
+
+- only view the last 15 lines of the log
+#+BEGIN_SRC sh
+kubectl logs name_of_pod --tail=15
+#+END_SRC
+tail - defaults to 10 with no number specified
+
+
+
+
+** Upgrading Kubernetes without taking down the cluster
+- upgrade kubeadm
+#+BEGIN_SRC sh
+sudo apt-get upgrade kubeadm
+#+END_SRC
+we can only update kubenetes to the version that kubeadm is at
+
+- check the version of kubeadm
+#+BEGIN_SRC sh
+kubeadm version
+#+END_SRC
+
+- check what versions are currenlty available
+#+BEGIN_SRC sh
+kubeadm upgrade plan
+#+END_SRC
+this will provide a cmd that you can enter to update kubernetes
+
+- run the upgrade
+#+BEGIN_SRC sh
+kubeadm upgrade apply v1.10.2
+#+END_SRC
+
+- this then needs to be done on all the other nodes
+
+** Removing a node from the cluster
+- drain the node of active pods
+#+BEGIN_SRC sh
+kubectl drain node_name --ignore-daemonsets
+#+END_SRC
+
+- delete the node from the cluster
+#+BEGIN_SRC sh
+kubectl delete node node_name
+#+END_SRC
+
+- view current token list
+#+BEGIN_SRC sh
+kubeadm token list
+#+END_SRC
+
+- generate a token for a new user
+#+BEGIN_SRC sh
+kubeadm token generate
+kubeadm token create sty2qv.ovsxx34tfyxerv2n --ttl 3h --print-join-command
+#+END_SRC
+copy the cmd that is printed out
+
+- on the new node that is to be added to the cluster run
+#+BEGIN_SRC sh
+kubeadm join 172.31.103.9:6443 --token sty2qv.ovsxx34tfyxerv2n --discovery-token-ca-cert-hash sha256:7c90998c210b785274dcdff611848094ecf59f8d1540cd8f50a7a0d0c454043f
+#+END_SRC
+ 
+** Networking
+- binding deployment to host port
+#+BEGIN_SRC sh
+kubectl expose deployment webhead --type="NodePort" --port 80
+#+END_SRC
+
+- confirm what port the service bound to
+#+BEGIN_SRC sh
+kubectl get services
+#+END_SRC
+
+- confirm
+#+BEGIN_SRC sh
+w3m http://localhost:30589
+#+END_SRC
+
+*** Deploying a Load Balancer
+- /service-lb.yml
+#+BEGIN_EXAMPLE
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: la-lb-service
+spec:
+  selector:
+    app: la-lb
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 9376
+  clusterIP: 10.0.171.223
+  loadBalancerIP: 78.12.23.17
+  type: LoadBalance
+#+END_EXAMPLE
 
 * Lecture
 * Tutorial
@@ -433,3 +895,4 @@ https://<your_master_ip>/swagger-ui/
 ** [[file://home/crito/Documents/SysAdmin/Cloud/Getting_Started_with_Kubernetes.pdf][Getting Started with Kubernetes]]
 
 * Links
+https://www.techrepublic.com/article/how-to-quickly-install-kubernetes-on-ubuntu/

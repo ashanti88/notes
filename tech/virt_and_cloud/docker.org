@@ -745,7 +745,7 @@ apt-get install apt-transport-https ca-certificates curl software-properties-com
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 #+END_SRC
 
-- add the repo
+- add the repo for Debian
 #+BEGIN_SRC sh
 add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
 apt-get update
@@ -754,7 +754,7 @@ apt-get update
 - for ubuntu
 #+BEGIN_SRC sh
 add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-apt-get udpate
+apt-get update
 #+END_SRC
 
 - install the docker community edition

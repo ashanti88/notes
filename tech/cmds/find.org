@@ -86,7 +86,7 @@ find . -maxdepth 1 -type f -name "history"
 #+END_SRC
 1 will search in the set directory
 2 will move down one directory etc...
-** Find file of a certain permission
+** Find file of a permission
 #+BEGIN_SRC sh
 find /home -perm 777
 #+END_SRC
@@ -95,6 +95,12 @@ find /home -perm 777
 #+BEGIN_SRC sh
 find /home -perm 777 -exec chmod 555 {} \;
 #+END_SRC
+
+- find files with the suid set
+#+BEGIN_SRC sh
+find / -perm -4000
+#+END_SRC
+adding the - before the 4 means that it can have any combintion of permissions with the suid set
 
 ** Find by file age
 - files that have been accessed in less than a day

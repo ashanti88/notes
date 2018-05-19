@@ -14,7 +14,12 @@
 
 * Concepts
 ** Setuid
-The setuid (set user id) is a permission bit, that allows the users to exec a program with the permissions of its owner
+- The setuid (set user id) is a permission bit, that allows the users to exec a program with the permissions of the files owner
+- Often used to temporarily elevate privileges.
+- Is needed fpr proper system use.
+- Normal users who can execute the file gain the privileges associated with the file.
+- Useful but can be dangerous
+- Some filesystems can be set to ignore the setuid attribute
     
 [[file://home/crito/Pictures/org/setuid.png]]
   - the 's' in 'rws' for the user indicates that the setuid is configured for this file
@@ -24,6 +29,27 @@ The setuid (set user id) is a permission bit, that allows the users to exec a pr
 chmod u+s file
 chomd 4755 file
 #+END_SRC
+
+- check for files that have the suid set with the find cmd
+#+BEGIN_SRC sh
+find /usr/bin -perm -4000
+#+END_SRC
+
+- well known cmds that normally have suid
+  - passwd
+  - ping
+  - mount
+  - umount
+  - chage
+  - gpasswd
+  - newgrp
+  - chfn
+  - chsh
+  - su
+  - pkexec
+  - crontab
+  - Xorg
+  - sudo
     
 ** Setgid
 The setgid (set group id) is a bit that allows the user to exec a program with the permissions of the group owner.
@@ -37,6 +63,19 @@ chmod g+s guidexample
 chmod 2755 guidexample
 #+END_SRC
 
+- finding files that have the gid set
+#+BEGIN_SRC sh
+find / -perm -2000
+#+END_SRC
+
+- some cmds that usually have it set
+  - write
+  - mount.cifs
+  - wall
+  - locate
+  - mount.ecryptfs_private
+  - unix_chkpwd
+
 ** Sticky Bit
   - This prevents other users from deleting other users files
     - /tmp has the sticky bit set
@@ -49,6 +88,13 @@ chmod o+t stick_bit_dir
 chmod 1755 stick_bit_dir
 #+END_SRC
 
+- who can delete the file
+  - owner of the file can delete it
+  - owner of the directory can delete it
+  - root can delete it
+
+** File Access Control List - FACL
+- 
 * Lecture
 * Tutorial
 * Books

@@ -9,7 +9,45 @@
   - 64-bit (8 Exabyte limit)
 
 * Usage
+** Features
+- Quota journaling
+  - no need for quota consistency checks after crash
+    
+- Project/Directory quotas
+  - quota restrictions over a directory tree 
+    
+- Sub second timestamps
+  - allos timestamps to go to the subsecond
+    
+- Large disk support for inodes - inode64
+  
+- XFS quotas can be enabled at mount time
+  - includes a noenforce option
+
+** Options
+- attr2
+  - extended attributes available for xfs
+  attr2
+  noattr2
+
+- barrier
+  - enable or disable write barriers(only disabled with raid battery backup)
+  barrier
+  nobarrier
+  
+- discard
+  - how free space is reclaimed
+  discard
+  nodiscard
+  
+- grpid
+  - similar to SGID (set group id)
+  grpid
+  no grpid
+
+  
 * Lecture
 * Tutorial
 * Books
 * Links
+[[http://fibrevillage.com/storage/666-how-to-repair-a-xfs-filesystem][How to repair an xfs filesystem - Fibrevillage]]

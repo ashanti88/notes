@@ -15,6 +15,11 @@ mount -o loop file.iso /home/crito/mtp
 mount -a
 #+END_SRC
 
+- mount device so that everyone can read and write to it
+#+BEGIN_SRC sh
+mount -o umask=0 /dev/sdc1 /mnt/share
+#+END_SRC
+
 ** Mount using the uuid
 #+BEGIN_SRC sh
 blkid
