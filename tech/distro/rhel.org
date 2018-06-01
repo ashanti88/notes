@@ -343,6 +343,29 @@ from the cat we are looking for the ONBOOT variable, and it needs to be set to y
 nmcli con mod "ens3" connection.autoconnect yes
 #+END_SRC
 
+*** Internal Port Forwarding
+- install firewalld
+#+BEGIN_SRC sh
+yum install -y firewalld
+#+END_SRC
+
+- enable and start the firewall
+#+BEGIN_SRC sh
+systemctl enable firewalld
+systemctl start firewalld
+#+END_SRC
+
+- open the ssh port (so we don't get locked out)
+#+BEGIN_SRC sh
+firewall-cmd --permanent --add-port=22/tcp
+#+END_SRC
+
+- we will forward port 443 to 5901
+#+BEGIN_SRC sh
+firewall-cmd --permanent --add-forward-port=port433:proto=tcp:toport=5901
+firewall-cmd --reload
+#+END_SRC
+
 ** RHEL7 Logging
 Service - Direct write ---> /so/log/.log
         - systemctl    ---> journald
@@ -1624,6 +1647,11 @@ yum upgrade
 **** Search for application
 #+BEGIN_SRC sh
 yum search nmap
+#+END_SRC
+
+- too search for an earlier version
+#+BEGIN_SRC sh
+yum list --show-duplicates jenkins
 #+END_SRC
 
 - Know the binary but not the package

@@ -128,6 +128,8 @@ Software
 Software
 [[file://home/crito/org/tech/linux_concepts/cpanel.org][cPanel]]
 
+* 2368  - Ghost Blogging Platform
+Github: https://github.com/JohnONolan/Ghost-UI
 * 2379  - etcd
 * 2380  - etcd
 * 2601  - zebra/quagga routing suite

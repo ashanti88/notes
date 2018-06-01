@@ -79,7 +79,6 @@ yum update
 #+END_SRC
 
 **** Manual
-   
 **** Additional
 - set the oracle user password
 #+BEGIN_SRC sh
@@ -448,8 +447,6 @@ FROM dual;
 SELECT TO_DATE('2010/04/30', 'yyyy/mm/dd')
 FROM dual;
 #+END_EXAMPLE
-
-
 
 ** CBT Nuggets Oracle Database 11g 1Z0-052
 *** Lesson 3 - Preparing the DB Environment

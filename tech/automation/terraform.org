@@ -1,8 +1,9 @@
-#+TAGS: auto code
+#+TAGS: terraform automation infrastructure_as_code
 
 
 * Terraform
 HomePage: https://www.terraform.io/
+Docs: https://www.terraform.io/docs/index.html
 
 * Description
 Modules in the Terraform ecosystem are a way to organize the code to: 
@@ -15,5 +16,912 @@ If we compare them to a programming language, writing a Terraform module is the 
 * Usage
 * Lecture
 * Tutorial
+** Linux Academy - Managing Applications and Infrastructure with Terraform
+*** Overview
+- what is Terraform
+  - Terraform is a tool for building of infrastructure
+  - allows simple version control
+  - supports 
+    - AWS
+    - Openstack
+    - Azure
+    - GCP
+  
+- Features
+  - Infrastructure as Code
+  - Idempotent
+  - High-level syntax
+  - Easily reusable
+  - shows the intent of the deploy
+    
+- Use Cases
+  - Hybrid Clouds
+    - cloud-agnostic
+    - allows deployments to multiple providers simultaneously
+  - Mult-tier Architecture
+    - allows deployment of several layers of architecture
+    - is usually able to automatically deploy in the correct order
+  - Software Defined Networking
+    - Able to deploy networking architecture
+      
+*** Configure workstation Ubuntu 16.04
+- install terraform
+#+BEGIN_SRC sh
+sudo curl -O https://releases.hashicorp.com/terraform/0.11.5/terraform_0.11.5_linux_amd64.zip
+sudo apt-get install unzip
+sudo mkdir /bin/terraform
+sudo unzip terraform_0.11.5_linux_amd64.zip -d /usr/local/bin/
+#+END_SRC
+the above cmds are from the tutorial on Linux Academy, better to put the binary in /opt and make a symbolic link
+
+- install docker 
+[[file://home/crito/org/tech/virt_and_cloud/docker.org][Docker Installation Instructions for Ubuntu 16.04]]
+
+*** First Script
+main.tf
+#+BEGIN_EXAMPLE
+# Download the latest Ghost image
+
+resource "docker_image" "image_id" {
+  name = "ghost:latest"
+}
+#+END_EXAMPLE
+
+- initialise the script 
+#+BEGIN_SRC sh
+terraform init # this is to be done in the directory that the script is in
+#+END_SRC
+
+- view what the script will do
+#+BEGIN_SRC sh
+terraform plan
+#+END_SRC
+
+- run the script
+#+BEGIN_SRC sh
+terrafrom apply
+#+END_SRC
+
+*** Interpolation Syntax
+main.tf
+#+BEGIN_SRC sh
+# Download the latest Ghost image
+
+resource "docker_image" "image_id" {
+  name = "ghost:latest"
+}
+
+# Start the Container
+resource "docker_container" "container_id" {
+  name = "blog"
+  image = "${docker_image.image_id.latest}"
+  ports = {
+    internal = "2368"
+    external = "80"
+  }
+}
+#+END_SRC
+
+- show what the script will do
+#+BEGIN_SRC sh
+terraform plan
+#+END_SRC
+
+- apply the script
+#+BEGIN_SRC sh
+terraform apply
+#+END_SRC
+
+- confirm that the container was started
+#+BEGIN_SRC sh
+docker ps -a
+#+END_SRC
+
+- to destroy the container
+#+BEGIN_SRC sh
+terraform destroy
+#+END_SRC
+
+*** Tainting 
+- taint a resource
+#+BEGIN_SRC sh
+terraform taint docker_container.container_id
+#+END_SRC
+
+- view what the taint would do
+#+BEGIN_SRC sh
+terraform plan
+#+END_SRC
+
+- untaint a resource
+#+BEGIN_SRC sh
+terraform untaint docker_container.container_id
+#+END_SRC
+
+*** Terraform Console and Outputs
+- view all the information that terraform knows about our stack
+#+BEGIN_SRC sh
+terraform show
+#+END_SRC
+
+- entering the console
+#+BEGIN_SRC sh
+terraform console
+#+END_SRC
+
+- example use in the shell
+#+BEGIN_EXAMPLE
+> docker_container.container_id.name
+blog
+> docker_container.container_id.ip_address
+172.17.0.2
+#+END_EXAMPLE
+
+- we can create our own variables so as not to have to write so much in the shell
+main.tf
+#+BEGIN_EXAMPLE
+# Output name and ip address
+output "IP Address" {
+  value = "${docker_container.container_id.ip_address}"
+}
+
+output "container_name" {
+  value = "${docker_container.container_id.name}"
+}
+#+END_EXAMPLE
+
+- initialise the above variables
+#+BEGIN_SRC sh
+terraform apply
+#+END_SRC
+as the container is already running this will not effect the running just add the new variables
+
+*** Variables
+maint.tf
+#+BEGIN_SRC sh
+variable "image" {
+  description = "image for container"
+  default = "ghost:latest"
+}
+
+variable "container_name" {
+  description = "Name of deployed container"
+  default = "blog"
+}
+
+variable "int_port" {
+  description = "The internal ports"
+  default = "2368"
+}
+
+variable "ext_port" {
+  description = "The external port"
+  default = "80"
+}
+
+
+
+# Download the latest Ghost image
+
+resource "docker_image" "image_id" {
+  name = "${var.image}"
+}
+
+# Start the Container
+resource "docker_container" "container_id" {
+  name = "${var.container_name"
+  image = "${docker_image.image_id.latest}"
+  ports = {
+    internal = "${var.int_port"
+    external = "${var.ext_port"
+  }
+}
+#+END_SRC
+- if the image is not specified, terraform will prompt for an image at deployment
+  
+*** Breaking out Variables and Outputs
+variables.tf
+#+BEGIN_EXAMPLE
+variable "image" {
+  description = "image for container"
+  default = "ghost:latest"
+}
+
+variable "container_name" {
+  description = "Name of deployed container"
+  default = "blog"
+}
+
+variable "int_port" {
+  description = "The internal ports"
+  default = "2368"
+}
+
+variable "ext_port" {
+  description = "The external port"
+  default = "80"
+}
+#+END_EXAMPLE
+  
+outputs.tf
+#+BEGIN_EXAMPLE
+# Output name and ip address
+output "IP Address" {
+  value = "${docker_container.container_id.ip_address}"
+}
+
+output "container_name" {
+  value = "${docker_container.container_id.name}"
+}
+#+END_EXAMPLE
+
+main.tf
+#+BEGIN_EXAMPLE
+# Download the latest Ghost image
+
+resource "docker_image" "image_id" {
+  name = "${var.image}"
+}
+
+# Start the Container
+resource "docker_container" "container_id" {
+  name = "${var.container_name"
+  image = "${docker_image.image_id.latest}"
+  ports = {
+    internal = "${var.int_port"
+    external = "${var.ext_port"
+  }
+}
+#+END_EXAMPLE
+all files will be read, as long as the files end with .tf
+
+*** Modules
+This will allow us to further brake up our scirpts and use a logical file structure
+
+- Root
+  - main.tf variables.tf outputs.tf
+  - Image
+    - main.tf variables.tf outputs.tf
+  - Container
+    - main.tf variables.tf outputs.tf
+      
+- we would split the image and the container resourse out into their own directories
+#+BEGIN_SRC sh
+mkdir image
+cd image
+touch main.tf
+touch variables.tf
+touch outputs.tf
+cd ..
+mkdir container
+cd container
+touch main.tf
+touch variables.tf
+touch outputs.tf
+#+END_SRC
+
+**** Image module
+main.tf
+#+BEGIN_EXAMPLE
+# Download the Docker image
+
+resource "docker_image" "image_id" {
+  name = "${var.image}
+}
+#+END_EXAMPLE
+
+variables.tf
+#+BEGIN_EXAMPLE
+variable "image" {
+  description = "name of the image"
+}
+
+#+END_EXAMPLE
+
+outputs.tf
+#+BEGIN_EXAMPLE
+output "image_out" {
+  value = "${docker_image.image_id.latest}"
+}
+#+END_EXAMPLE
+
+**** Container module
+main.tf
+#+BEGIN_EXAMPLE
+# Start the container
+
+resource "docker_container" "container_id" {
+  name = "${var.name}"
+  image = "${var.image}"
+  ports {
+    internal = "${var.int_port}"
+    external = "${var.ext_port}"
+  }
+}
+#+END_EXAMPLE
+
+variables.tf
+#+BEGIN_EXAMPLE
+variable "image" {}
+variable "name" {}
+variable "int_port" {}
+variable "ext_port" {}
+#+END_EXAMPLE
+
+outputs.tf
+#+BEGIN_EXAMPLE
+# Output the IP Addr and name of the container
+output "ip" {
+  value = "${docker_container.container_id.ip_address}"
+}
+
+output "conatiner_name" {
+  value = "${docker_container.container_id.name}"
+}
+#+END_EXAMPLE
+
+**** Root Module
+main.tf
+#+BEGIN_EXAMPLE
+# Download the latest Ghost Image
+module "image" {
+  source = "./image"
+  image = "${var.image}"
+}
+
+# Start the container
+module "container" {
+  source = "./container"
+  image = "${module.image.image_out}"
+  name = "${var.container_name}"
+  int_port = "${var.int_port}"
+  ext_port = "${var.ext_port}"
+}
+#+END_EXAMPLE
+
+variables.tf
+#+BEGIN_EXAMPLE
+variable "image" {
+  description = "image for container"
+  default = "ghost:latest"
+}
+
+variable "container_name" {
+  description = "Name of deployed container"
+  default = "blog"
+}
+
+variable "int_port" {
+  description = "The internal ports"
+  default = "2368"
+}
+
+variable "ext_port" {
+  description = "The external port"
+  default = "80"
+}
+#+END_EXAMPLE
+
+outputs.tf
+#+BEGIN_EXAMPLE
+output "IP Address" {
+  value = "${module.container.ip}"
+}
+output "container_name" {
+  value = "${module.container.container_name}"
+}
+#+END_EXAMPLE
+
+*** Maps and Lookups
+These work similar to key value pairs
+
+- we will create a mapping for what image is to be deployed in development and production environments
+variables.tf
+#+BEGIN_EXAMPLE
+variable "env" {
+  description = "env: dev or prod"
+}
+
+variable "image" {
+  description = "image for container"
+  type = "map"
+  default = {
+    dev = "ghost:latest"
+    prod = "ghost:alpine"
+  }
+}
+
+variable "container_name" {
+  description = "Name of deployed container"
+  default = {
+    dev = "dev_blog"
+    prod = "prod_blog"
+  }
+}
+
+variable "int_port" {
+  description = "The internal ports"
+  default = {
+    dev = "2368"
+    prod = "2368"
+  }
+}
+
+variable "ext_port" {
+  description = "The external port"
+  default = {
+    dev = "8080"
+    prod = "80"
+  }
+}
+#+END_EXAMPLE
+
+main.tf
+#+BEGIN_EXAMPLE
+# Download the latest Ghost Image
+module "image" {
+  source = "./image"
+  image = "${lookup(var.image, var.env)}"
+}
+
+# Start the container
+module "container" {
+  source = "./container"
+  image = "${module.image.image_out}"
+  name = "${lookup(var.container_name, var.env)}"
+  int_port = "${lookup(var.int_port, var.env)}"
+  ext_port = "${lookup(var.ext_port, var.env)}"
+}
+#+END_EXAMPLE
+
+*** Workspaces
+This will allow many environments to be run from the same directory
+
+- create a dev workspace
+#+BEGIN_SRC sh
+terraform workspace new dev
+#+END_SRC
+this will place you in the dev workspace
+
+- create a prod workspace
+#+BEGIN_SRC sh
+terraform workspace new prod
+#+END_SRC
+this will place you in the prod workspace
+
+- to switch workspace
+#+BEGIN_SRC sh
+terraform workspace select dev
+#+END_SRC
+this switches back to dev
+
+*** Null Resources and Local-Exec
+This allows us to run a script(cmds) against our deployment
+
+main.tf
+#+BEGIN_EXAMPLE
+# Download the latest Ghost Image
+module "image" {
+  source = "./image"
+  image = "${var.image}"
+}
+
+# Start the container
+module "container" {
+  source = "./container"
+  image = "${module.image.image_out}"
+  name = "${var.container_name}"
+  int_port = "${var.int_port}"
+  ext_port = "${var.ext_port}"
+}
+
+resource "null_resource" "null_id" {
+  provisioner "local-exec" {
+    command = "echo ${module.container.container_name}:${module.container.ip} >> contianer.txt"
+  }
+}
+#+END_EXAMPLE
+*** AWS Project 
+
+
+[[file://home/crito/Pictures/org/aws_terraform_1.png]]
+
+- The Files
+  - Root
+      main.tf
+      variables.tf
+      outputs.tf
+      - networking
+	  main.tf
+	  variables.tf
+	  outputs.tf
+      - compute
+	  main.tf
+	  variables.tf
+	  outputs.tf
+	  userdata.tpl
+      - storage
+	  main.tf
+	  variables.tf
+	  outputs.tf
+
+**** Storage Module
+./storage/main.tf
+#+BEGIN_EXAMPLE
+# Create a random id
+
+resource "random_id" "tf_bucket_id" {
+  byte_length = 2
+}
+
+# Create the bucket
+
+resource "aws_s3_bucket" "tf_code" {
+  bucket = "${var.project_name}-${random_id.tf_bucket.id.dec}"
+  acl = "private"
+  force_destroy = true
+  tags {
+    Name = "tf_bucket"
+  }
+}
+#+END_EXAMPLE
+
+./storage/variables.tf
+#+BEGIN_EXAMPLE
+variable "project_name" {
+  defualt = "la-terraform"
+}
+#+END_EXAMPLE
+
+./storage/output.tf
+#+BEGIN_EXAMPLE
+output "bucketname" {
+  value = "${aws_s3_bucket.tf_code.id}"
+}
+#+END_EXAMPLE
+
+**** Root Module
+main.tf
+#+BEGIN_EXAMPLE
+provider "aws" {
+  region = "${var.aws_region}"
+}
+
+# Deploy Storage Resource
+module "storage" {
+  source = "./storage"
+  project_name = "${var.project_name}"
+}
+
+# Deploy Networking Resources
+module "networking" {
+  source = "./networking"
+  vpc_cidr = "${var.vpc_cidr}"
+  public_cidr = "${var.public_cidrs}"
+  accessip = "${var.accessip}"
+}
+
+# Deploy Compute Resources
+module "compute" {
+  source = "./compute"
+  instance_count = "${var.instance_count}"
+  key_name = "$var.key_name}"
+  public_key_path = "${var.public_key_path}"
+  instance_type = "${var.server_instance_type}"
+  subnets = "${module.networking.public_subnets}" 
+  security_group = "${module.networking.public_sg}"
+  subnet_ips = "${module.networking.subnet_ips}"
+}
+
+#+END_EXAMPLE
+
+outputs.tf
+#+BEGIN_EXAMPLE
+#------storage/outputs.tf------
+output "Bucket Name" {
+  value = "${module.storage.bucketname}"
+}
+#+END_EXAMPLE
+
+variables.tf
+#+BEGIN_EXAMPLE
+variable "aws_region" {}
+
+#------ Storage Variables
+variable "project_name" {}
+
+#------ Networking Variables
+variable "vpc_cidr" {}
+
+variable "public_cidrs" {
+  type = "list"
+}
+
+variable "accessip" {}
+
+#------ Compute Variables
+variable "key_name" {}
+
+variable "public_key_path" {}
+
+variable "server_instance_type" {}
+
+variable "instance_count" {
+  default = 1
+}
+#+END_EXAMPLE
+
+terraform.tfvars
+#+BEGIN_EXAMPLE
+aws_region = "us-west-2"
+project_name = "la-terraform"
+vpc_cidr = "10.123.0.0/16"
+public_cidrs = [
+    "10.123.1.0/24",
+    "10.123.2.0/24"
+    ]
+accessip = "0.0.0.0/0"
+key_name = "tf_key"
+public_key_path = "/home/ec2-user/.ssh/id_rsa.pub"
+server_instance_type = "t2.micro"
+instance_count = 2
+#+END_EXAMPLE
+
+**** Network Module
+./networking/main.tf
+#+BEGIN_EXAMPLE
+data "aws_availability_zones" "available" {}
+
+resource "aws_vpc" "tf_vpc" {
+  cidr_block = "${var.vpc_cidr}"
+  enable_dns_hostnames = true
+  enable_dns_support = true
+  
+  tags {
+    Name = "tf_vpc"
+  }
+}
+
+resource "aws_internet_gateway" "tf_internet_gateway" {
+  vpc_id = "${aws_vpc.tf_vpc.id}"
+
+  tags {
+    Name = "tf_igw"
+  }
+}
+
+resource "aws_route_table" "tf_public_rt" {
+  vpc_id = "${aws_vpc.tf_vpc.id}"
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = "${aws_internet_gateway.tf_internet_gateway.id}"
+  }
+
+  tags {
+    name = "tf_public"
+  }
+}
+
+resource "aws_default_route_table" "tf_private_rt" {
+  default_route_table_id = "{aws_vpc.tf_vpc.default_route_table.id}"
+
+  tags {
+    Name = "tf_private"
+  }
+}
+
+resource "aws_subnet" "tf_public_subnet" {
+  count = 2
+  vpc_id = "${aws_vpc.tf_vpc.id}"
+  cidr_block = "${var.public_cidrs[count.index]}"
+  map_public_ip_on_launch = true
+  availability_zone = "${data.aws_availability_zones.available.names[count.index]}"
+  
+  tags {
+    Name = "tf_public${count.index + 1}"
+  }
+}
+
+resource "aws_route_table_association" "tf_public_assoc" {
+  count = "${aws_subnet.tf_public_subnets.count}"
+  subnet_id = "${aws_subnet.tf_public_subnet.*.id[count.index]}"
+  route_table_id = "${aws_route_table.tf_public_rt.id}"
+}
+
+resource "aws_security_group" "tf_public_sg" {
+  name = "tf_public_sg"
+  description = "Used for access to the public instances"
+  vpc_id = "${aws_vc.tf_vpc.id}"
+
+  #SSH
+
+  ingress {
+    from_port = 22
+    to_port   = 22
+    protocol = "tcp"
+    cidr_blocks = ["${var.acceessip}"]
+  }
+  
+  # HTTP
+
+  ingress {
+    from_port = 80
+    to_port = 80
+    protocol = "tcp"
+    cidr_blocks = ["${var.accessip}"]
+  }
+
+  egress {
+    from_port = 0
+    to_port = 0     # all ports
+    protocol = "-1" # all protocols
+    cidr_blocks = ["0.0.0.0/0"] # all adress blocks
+}
+#+END_EXAMPLE
+
+./networking/variables.tf
+#+BEGIN_EXAMPLE
+variable "vpc_cidr" {}
+
+variable "public_cidrs" {
+  type = "list"
+}
+
+variable "accessip" {}
+#+END_EXAMPLE
+
+./networking/outputs.tf
+#+BEGIN_EXAMPLE
+output "public_subnets" {
+  value = "${aws_subnet.tf_public_subnet.*.id}"
+}
+
+output "public_sg" {
+  value = "${aws_security_group.tf_public_sg.id}"
+}
+
+output "subnet_ips2 {
+  value = "${aws_subnet.tf_public_subnet.*.cidr_block}"
+}
+#+END_EXAMPLE
+
+**** Compute Module
+./compute/main.tf
+#+BEGIN_EXAMPLE
+
+data "aws_ami" "server_ami" {
+  most_recent = true
+
+  filter {
+    name = "owner-alias"
+    values = ["amazon"]
+  }
+  
+  filter {
+    name = "name"
+    values = ["amzn-ami-hvm*-x86_64-gp2"]
+  }
+}
+
+resource "aws_key_pair" "tf_auth" {
+  key_name = "${var.key_name}"
+  public_key = "${file(var.public_key_path)}"
+}
+
+data "template_file" "user-init" {
+  count = 2
+  template = "${file("${path.module}/userdata.tpl")}"
+  
+  vars {
+    firewall_subnets = "${element(var.subnet_ips, countd.index)}"
+  }
+}
+
+resource "aws_instance" "tf_server" {
+  count = "${var.instance_count}"
+  instance_type = "${var.instance_type}"
+  ami = "${data.aws_ami.server_ami.id}"
+  
+  tags {
+    Name = "tf_server-${count.index +1}"
+  }
+
+  key_name = "${aws_key_pair.tf_auth.id}"
+  vpc_security_group_ids = ["${var.security_group}"]
+  subnet_id = "${element(var.subnets, count.index)}"
+  user_data = "${data.template_file.user-init.*.rendered[count.index]}" 
+
+}
+#+END_EXAMPLE
+
+./compute/variables.tf
+#+BEGIN_EXAMPLE
+variable "key_name" {}
+
+variable public_key_path" {}
+
+variable "subnet_ips" {
+  type = "list"
+}
+ 
+variable "instance_count" {}
+
+variable "instance_type" {} 
+
+variable "security_group" {}
+
+variable "subnets" {
+  type = "list"
+}
+#+END_EXAMPLE
+
+./compute/outputs.tf
+#+BEGIN_EXAMPLE
+
+#+END_EXAMPLE
+
+./compute/userdata.tpl
+#+BEGIN_EXAMPLE
+#!/bin/bash
+
+yum install httpd -y
+echo "Subnet for firewall: ${firewall_subnets}" >> /var/www/html/index.html
+service httpd start
+chkconfig httpd on
+#+END_EXAMPLE
+
+*** Terraform Formatting
+Terraform has a cmd that will clean up your code format
+#+BEGIN_SRC sh
+terraform fmt --diff
+#+END_SRC
+
+*** Remote State
+Using S3 backend to store our state files (usually required for compliance)
+
+- create an S3 bucket
+  
+- create a folder on the bucket for the files to be saved too
+  
+- add to the main.tf above the resources, below the provider
+#+BEGIN_EXAMPLE
+terraform {
+  backend "s3" {
+    bucket = "la-terraform-course-state"
+    key = "terraform/terraform.tfstate"
+    region = "us-west-2"
+}
+#+END_EXAMPLE
+
+- initailise the backend
+#+BEGIN_SRC sh
+terraform init
+terraform plan
+terraform apply
+#+END_SRC
+
+- view the created bucket and you will see that the state files are now stored there
+
+*** Deployin a Kubernetes pod
+-deploy one pod with the ghost blogging framework
+main.tf
+#+BEGIN_EXAMPLE
+resource "kubernetes_pod" "ghost_alpine" {
+  metadata {
+    name = "ghost-alpine"
+  }
+
+  spec {
+    host_network = "true"
+
+    container {
+      image = "ghost:alpine"
+      name  = "ghost-alpine"
+    }
+  }
+}
+#+END_EXAMPLE
+
 * Books
 * Links

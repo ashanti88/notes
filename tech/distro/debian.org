@@ -474,6 +474,41 @@ E: Unable to lock the administration directory (/var/lib/dpkg/) is another proce
 #+BEGIN_SRC sh
 update-alternatives --config editor
 #+END_SRC
+** Internal Port Forwarding with UFW Ubuntu 14.04
+- install the ufw firewall, if not already installed
+#+BEGIN_SRC sh
+apt-get install ufw
+update-rc.d ufw enable
+service ufw start
+#+END_SRC
+
+- edit /etc/ufw/before.rules add these lines at the top
+#+BEGIN_EXAMPLE
+*nat
+:PREROUTING ACCEPT [0:0]
+-A PREROUTING -p tcp --dport 443 -j REDIRECT --to-port 5901
+COMMIT
+#+END_EXAMPLE
+connect port 443 to port 5901
+
+- open up the required ports
+#+BEGIN_SRC sh
+ufw allow 22
+ufw allow 443
+ufw allow 5901
+#+END_SRC
+
+- enable ufw
+#+BEGIN_SRC sh
+ufw enable
+#+END_SRC
+
+- reboot the server
+#+BEGIN_SRC sh
+reboot
+#+END_SRC
+
+
 * Package Management
 ** Files
 /etc/apt/sources.list

@@ -1,0 +1,46 @@
+#+TAGS: sdn software_defined_networking
+
+
+* SDN - Software Defined Networking
+* Controller Software
+** OpenDaylight
+HomePage: https://www.opendaylight.org/
+Wiki: https://en.wikipedia.org/wiki/OpenDaylight_Project
+** ONOS
+HomePage: https://en.wikipedia.org/wiki/ONOS
+Wiki: https://en.wikipedia.org/wiki/ONOS
+** Calico
+HomePage: https://docs.projectcalico.org/v3.1/introduction/
+GitHub: https://github.com/projectcalico/calico
+
+** The Fast Data Project
+HomePage: https://fd.io/
+** Project Floodlight
+HomePage: http://www.projectfloodlight.org/floodlight/
+
+** NOX/POX
+GibHub: https://github.com/noxrepo/
+** Open vSwitch
+HomePage: http://www.openvswitch.org/
+Wiki: https://en.wikipedia.org/wiki/Open_vSwitch
+
+** Vne.io/SDNC
+Wiki: https://github.com/vneio/sdnc/wiki
+GitHub: https://github.com/vneio/sdnc
+
+** Ryu Controller
+GitHub: https://osrg.github.io/ryu/
+
+** Cherry
+GitHub: https://github.com/superkkt/cherry/
+
+** Faucet
+GitHub: https://github.com/faucetsdn/faucet
+
+** OpenContrail
+HomePage: http://www.opencontrail.org/
+
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -3,21 +3,57 @@
 
 * curl
 * Description
+curl is a command line tool which is used to transfer data over the internet. It began as a project by Daniel Stenberg to transfer data over HTTP but has now evolved into a very robust tool that transfers data not just over HTTP but also FTP, TELNET, IMAP, and many more.
 * Usage
 - fetch the website html
 #+BEGIN_SRC sh
 curl www.bbc.co.uk
 #+END_SRC
 
-- fetch the head information for weebsite
+- fetch the head information for website
 #+BEGIN_SRC sh
 curl -I www.bbc.co.uk
+curl --head www.bbc.co.uk
 #+END_SRC
 
-- uploading a file
+- using verbose output
 #+BEGIN_SRC sh
-curl -F "file=@file.txt" httpbin.org/post
+curl -vI www.bbc.co.uk
 #+END_SRC
+this will create extra output with *, > and < prepended
+. * - indicates additional work curl has done
+  > - indicates the data curl has sent
+  < - indicates the data curl has recieved
+
+- sending multiple requests
+#+BEGIN_SRC sh
+curl -I example.com/status/418 example.com/status/418
+#+END_SRC
+this will send two requests one after the other, providing two sets of results
+
+- sending a post request
+#+BEGIN_SRC sh
+curl -d 'name=john+doe&course=linux' httpbin.org/post
+curl -d '{"name":"John Doe","course":"Linux"}' httpbin.org/post
+#+END_SRC
+d - data
+
+- uploading a file with the form flag
+#+BEGIN_SRC sh
+echo "test file" > file.txt
+curl -F "file=@file.txt" example.org/post
+#+END_SRC
+
+- uploading a file using the ReST API endpoint
+#+BEGIN_SRC sh
+curl -d @file.txt example.com/post
+#+END_SRC
+
+- download a file and keep the remote filename
+#+BEGIN_SRC sh
+sudo curl -O https://releases.hashicorp.com/terraform/0.11.5/terraform_0.11.5_linux_amd64.zip
+#+END_SRC
+this creates a files called "terraform_0.11.5_linux_amd64.zip"
 
 * Lecture
 * Tutorial

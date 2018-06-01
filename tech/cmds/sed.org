@@ -383,4 +383,5 @@ sed -E ':a ; $!N ; s/\n\s+/ / : ta ; P : D' lines.txt
 * Lecture
 * Tutorial
 * Books
+[[file://home/crito/Documents/Tools/sed_manual.pdf][Sed Manual]]
 * Links

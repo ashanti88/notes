@@ -1,7 +1,7 @@
-#+TAGS: net web pro
+#+TAGS: http http_headers
 
 
-* HTTP                                                          :net:web:pro:
+* HTTP
 [[https://www.ietf.org/rfc/rfc2616.txt][RFC 2616 - Hypertext Transfer Protocol]]
 [[https://tools.ietf.org/html/rfc7230][RFC 7230 - HTTP - Meassage Syntax and Routing]]
 [[https://tools.ietf.org/html/rfc7231][RFC 7231 - HTTP - Semantics and Content]]
@@ -10,6 +10,58 @@
 [[https://tools.ietf.org/html/rfc7234][RFC 7234 - HTTP - Caching]]
 [[https://tools.ietf.org/html/rfc7235][RFC 7235 - HTTP - Authenication]]
 * Cmds
+- [[file://home/crito/org/tech/cmds/curl.org][curl]]
+- [[file://home/crito/org/tech/cmds/wget.org][wget]]
+
+* Headers
+- Authorization Header
+The Authorization header is used to provide authentication information such as bearer tokens.The server then uses this information to find out if the request should be processed further or not, depending on the validity of the authentication information provided. Example:
+#+BEGIN_EXAMPLE
+Authorization: Bearer 3beca038a248ff027d0445342fe285
+#+END_EXAMPLE
+
+- Cache Control Header
+The Cache-Control header decides how long applications, such as the browser, can keep a local copy of the data. This helps improve the efficiency since it helps avoid a round-trip to the server. Cache-Control has various directives that control various aspects of caching, such as the length of time data may be cached or if it shouldn't be cached at all. Example:
+#+BEGIN_EXAMPLE
+Cache-Control: max-age=100
+#+END_EXAMPLE
+
+- Expires Header
+The Expires header is also used for caching and specifies the date and time after which a particular cached resource is considered stale. When both Expires and Cache-Control header are set, the Cache-Control header takes higher priority. Example:
+#+BEGIN_EXAMPLE
+Expires: Wed, 21 Oct 2015 07:28:00 GMT
+#+END_EXAMPLE
+
+- Connection Header
+The Connection header specifies whether a connection should last for the duration of the request or if it should stay open, allowing it to be reused for subsequent requests. The default value is "close" which creates a connection that only lasts for the duration of the request. Setting the header to "keep-alive" allows it to be persistent. Example:
+#+BEGIN_EXAMPLE
+Connection: keep-alive
+#+END_EXAMPLE
+
+- Accept Header
+The Accept header tells the server what kind of content the client is expecting. The value of this header is the MIME type of the content. Example:
+#+BEGIN_EXAMPLE
+Accept: application/json
+#+END_EXAMPLE
+
+- Cookie Header
+The cookie header contains all the cookies and their values. Cookies are used to identify the users, maintain sessions, and so on. Example:
+#+BEGIN_EXAMPLE
+Cookie: name=John;course=Linux
+#+END_EXAMPLE
+
+- Content-Length Header
+The Content-Length header specifies the length of the content in bytes. Example:
+#+BEGIN_EXAMPLE
+Content-Length: 111020
+#+END_EXAMPLE
+
+- Content-Type
+The Content-Type header tells the client the MIME-type of the content that it has received. Example:
+#+BEGIN_EXAMPLE
+Content-Type: application/json
+#+END_EXAMPLE
+
 * Overview
 ** REST
 ** WSDL

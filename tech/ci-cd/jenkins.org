@@ -5,6 +5,8 @@
 Home Page: [[https://jenkins.io/][jenkins.io]]
 
 * Description
+Automation server, jenkins provides hundreds of plugins to support building, deploying and automating any project.
+
 * Installation
 ** SysV
 1. > sudo wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo
@@ -163,9 +165,396 @@ Defaults !requiretty
 - Builds are able to be chained from a slave to another machine
   - ensure that ssh keys have been sent up to allow ssh-keys(without passphrase)
 
+** Linux Academy - Certified Jenkins Engineer
+*** Continous Integration and Continuous Delivery
+- Basic Workflow
+  
+
+Checkout from SCM (like git)
+           |
+Branch and make local changes 
+           |
+Add or change tests as necessary
+           |
+Trigger automated build locally
+           |
+If successful, consider committing
+           |
+Update with latest from mainline
+           |
+Push changes, build and test on integration machine
+
+
+- Best Practices
+  - maintain a single source repo
+  - have a common mainline branch (usually master)
+  - automate the build
+  - minimize potential for user error, automate everyting possible
+  - make the build self-testing - self-testing code
+  - everyone commits frequently (at least daily preferably)
+  - frequent merges help with conflicts
+  - build every commit
+  - prioritize fixing broken builds
+  - testing environment should be as close to production as possible
+  - make it easy for anyone to get the latest
+  - keep it open, everyone should see what's happening
+  - automate the deployment
+
+
+Continuous Deployment Pipeline
+
+[[file://home/crito/Pictures/org/cd_pipeline.png]]
+
+*** Installing and Configuring
+
+- check no service is using tomcat port(8080)
+#+BEGIN_SRC sh
+netstat -tulpn | grep 8080
+#+END_SRC
+
+- download and install java from the oracle website jdk8u121 (copy the download to the server with scp)
+#+BEGIN_SRC sh
+rpm -Uvh jdk-8u121-linux-x64.rpm
+#+END_SRC
+
+- confirm the install
+#+BEGIN_SRC sh
+which java
+#+END_SRC
+
+- setup alternatives for java
+#+BEGIN_SRC sh
+alternatives --install /usr/bin/java java /usr/java/latest/bin/java 200000
+alternatives --install /usr/bin/javac javac /usr/java/latest/bin/javac 200000
+alternatives --install /usr/bin/jar jar /usr/java/latest/bin/jar 200000
+#+END_SRC
+
+- specifiy the java home variable
+/etc/rc.local
+#+BEGIN_EXAMPLE
+export JAVA_HOME="/usr/java/latest"
+#+END_EXAMPLE
+
+- download and install jenkins 
+#+BEGIN_SRC sh
+wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+rpm --import http://pkg.jenkins.io/redhat-stable/jenkins.io.key
+yum install -y jenkins-2.19.4-1.1
+#+END_SRC
+
+- now disable the jenkins repo
+#+BEGIN_SRC sh
+yum-config-manager --disable jenkins
+#+END_SRC
+this will stop any accidental upgrades
+
+- start and enable the jenkins
+#+BEGIN_SRC sh
+systemctl start jenkins
+systemctl enable jenkins
+systemctl status jenkins
+netstat -tulpn | grep 8080 # confirm that the service has bound to the correct port
+#+END_SRC
+
+- set up the web portal by visting x.x.x.x:8080
+  
+[[file://home/crito/Pictures/org/jenkins_web_1.png]]
+
+you will require the password found at /var/lib/jenkins/secrets/initialAdminPassword
+
+
+- the next section we can either install suggested plugins or select for ourselves
+
+[[file://home/crito/Pictures/org/jenkins_web_2.png]]
+
+
+- next we will see the installation taking place
+
+[[file://home/crito/Pictures/org/jenkins_web_3.png]]
+
+
+- we now have to create our Admin User
+  
+[[file://home/crito/Pictures/org/jenkins_web_4.png]]
+
+
+- that is our Jenkins install completed
+
+[[file://home/crito/Pictures/org/jenkins_web_5.png]]
+
+*** User Management and Security
+
+- setting up authorisation the admin user
+
+[[file://home/crito/Pictures/org/jenkins_user_1.png]]
+
+
+- this will lead us to a page where authoriazation privileges can be set
+  
+[[file://home/crito/Pictures/org/jenkins_user_2.png]]
+
+by defualt any logged in user can do anything, though this may be fine if there is only one Admin, we are going to use the matrix
+  - this allows granular privilege section for users and groups
+
+
+- we first need to add our user, and then select the permissions that they should have
+
+[[file://home/crito/Pictures/org/jenkins_user_3.png]]
+
+click apply to add the changes and stay on the page
+click save to add the changes and leave the page
+
+
+- for none administrators, users such as devs they should not have all privileges
+
+[[file://home/crito/Pictures/org/jenkins_user_4.png]]
+
+these would be considered resonable permissions for a dev
+
+
+
+Adding a user
+
+- click the manage users link
+  
+[[file://home/crito/Pictures/org/jenkins_add_user_1.png]]
+
+
+- from within the manage users page click the create users link
+
+[[file://home/crito/Pictures/org/jenkins_add_user_2.png]]
+
+
+- enter the credentials of the new user
+
+[[file://home/crito/Pictures/org/jenkins_add_user_3.png]]
+
+
+- our new user will now be visable in the useer list
+
+[[file://home/crito/Pictures/org/jenkins_add_user_4.png]]
+
+*** Adding a Jenkins Slave
+
+- on the master node we need to switch to the jenkins user and create ssh key
+#+BEGIN_SRC sh
+su jenkins -s /bin/bash
+ssh-keygen
+#+END_SRC
+
+- on the slave add jenkins user
+#+BEGIN_SRC sh
+useradd -d /var/lib/jenkins jenkins
+#+END_SRC
+
+- copy the ssh key from the master to the slave
+#+BEGIN_SRC sh
+ssh-copy-id jenkins@jenkins-slave
+#+END_SRC
+
+- download and install java from the oracle website jdk8u121 (copy the download to the server with scp)
+#+BEGIN_SRC sh
+rpm -Uvh jdk-8u121-linux-x64.rpm
+#+END_SRC
+
+- confirm the install
+#+BEGIN_SRC sh
+which java
+#+END_SRC
+
+- setup alternatives for java
+#+BEGIN_SRC sh
+alternatives --install /usr/bin/java java /usr/java/latest/bin/java 200000
+alternatives --install /usr/bin/javac javac /usr/java/latest/bin/javac 200000
+alternatives --install /usr/bin/jar jar /usr/java/latest/bin/jar 200000
+#+END_SRC
+
+- specifiy the java home variable
+/etc/rc.local
+#+BEGIN_EXAMPLE
+export JAVA_HOME="/usr/java/latest"
+#+END_EXAMPLE
+
+- use the web portal on the master enter the manage nodes section
+
+[[file://home/crito/Pictures/org/jenkins_slave_1.png]]
+
+
+- then select new node
+  
+[[file://home/crito/Pictures/org/jenkins_slave_2.png]]
+
+
+- now name the new node
+    
+[[file://home/crito/Pictures/org/jenkins_slave_3.png]]
+
+makesure to select the permanent radio button
+
+
+- now add the details of the slave
+
+[[file://home/crito/Pictures/org/jenkins_slave_4.png]]
+
+
+- within the same screen click on the "add" button next to credentials, to add the ssh key details
+  
+[[file://home/crito/Pictures/org/jenkins_slave_5.png]]
+  
+
+- once all necassary fields have been completed click the save button
+
+[[file://home/crito/Pictures/org/jenkins_slave_6.png]]
+
+
+- back on the node screen will now see that our new slave has been added
+  
+[[file://home/crito/Pictures/org/jenkins_slave_7.png]]
+
+
+- if there is an "x" next to the new node, click on it and view the log for details
+
+[[file://home/crito/Pictures/org/jenkins_slave_8.png]]
+
+*** Setting up GitHub
+
+- we will add the master ssh public key to github
+#+BEGIN_SRC sh
+cat /var/lib/jenkins/.ssh/id_rsa.pub
+#+END_SRC
+copy the output, this will be added to github settings
+
+
+- click on ssh and gpg keys in settings on GitHub
+
+[[file://home/crito/Pictures/org/jenkins_git_1.png]]
+
+
+- click on the "new ssh key" button
+
+[[file://home/crito/Pictures/org/jenkins_git_2.png]]
+
+
+- add the copied ssh public key in the box provided
+
+[[file://home/crito/Pictures/org/jenkins_git_3.png]]
+
+- jenkins will now be able to communicate with you github repos
+
+*** Plugin Manager
+
+- 3 options for plugin management
+  - web ui - Plugin Manager
+  - hpi file (this is a file that contains the code for the plugin, this is done in the web ui)
+  - jenkins cli
+    
+**** Installing a plugin with the Plugin Manager 
+     
+- with in the plugin manager click the available tab
+  
+[[file://home/crito/Pictures/org/jenkins_plugin_1.png]]
+
+This will show you all the currently avaible plugins
+
+
+- select the plugin to install by checking the tick box, and then press the download and install button
+
+[[file://home/crito/Pictures/org/jenkins_plugin_2.png]]
+
+
+- for the plugin to become active, jenkins has to restart. Do this by ticking the check box
+  
+[[file://home/crito/Pictures/org/jenkins_plugin_3.png]]
+
+jenkins will restart once it has stopped any running jobs
+
+
+  
+
+
+**** Uninstalling a plugin with the Plugin Manager
+     
+- click on the installed tab in the Plugin Manager section
+  
+[[file://home/crito/Pictures/org/jenkins_plugin_4.png]]
+
+- mark the checkbox to the left of the plugin title, and this will un-grey the uninstall button on the far right
+  
+[[file://home/crito/Pictures/org/jenkins_plugin_5.png]]
+
+
+- clicking the uninstall, takes us to a confrimation screen
+
+[[file://home/crito/Pictures/org/jenkins_plugin_6.png]]
+
+
+- After being confirmed, you will notice back in the installed plugins tab, the plugin is pending uninstallation
+
+[[file://home/crito/Pictures/org/jenkins_plugin_7.png]]
+
+for the uninstallation to occur jenkins needs to be restarted
+
+- On the front page of Manage Jenkins we want to select "Prepare for Shutdown"
+
+[[file://home/crito/Pictures/org/jenkins_plugin_8.png]]
+
+
+- we will then be informed that jenkins is about to shutdown
+
+[[file://home/crito/Pictures/org/jenkins_plugin_9.png]]
+
+
+- from the cmd line restart the service
+#+BEGIN_SRC sh
+systemctl restart jenkins
+#+END_SRC
+
+**** Installing an earlier plugin version
+
+- click on the name of the plugin in the available tab
+
+[[file://home/crito/Pictures/org/jenkins_plugin_10.png]]
+
+
+- we need to click on the archives link
+
+[[file://home/crito/Pictures/org/jenkins_plugin_11.png]]
+
+
+- copy the link of the version you need
+
+[[file://home/crito/Pictures/org/jenkins_plugin_12.png]]
+
+
+- using wget we can pull the version that we need in hpi format
+#+BEGIN_SRC sh
+wget http://updates.jenkins-ci.org/download/plugins/thinBackup/1.8/thinkBackup.hpi
+#+END_SRC
+
+- in the plugins manger select the Advanced tab
+
+[[file://home/crito/Pictures/org/jenkins_plugin_13.png]]
+
+
+- scroll to the upload plugin section and select where you placed the hpi file
+
+[[file://home/crito/Pictures/org/jenkins_plugin_14.png]]
+
+
+then hit the upload button
+
+
+- As with the usual method of installation, a restart is required for the plugin to become active
+  
+[[file://home/crito/Pictures/org/jenkins_plugin_15.png]]
+
+
+
+
 
 * Books
-[[file:~/Documents/Tools/jenkins-the-definitive-guide.pdf][Jenkins - Definitive Guide]]
+[[file:~/Documents/DevOps/Linux_Academy-Jenkins_Cert_Engineer.pdf][Linux Academy - Jenkins Cert Engineer]]
+[[file://home/crito/Documents/Code/Devops/Jenkins-The_Definitive_Guide.pdf][Jenkins - The Definitive Guide]]
 [[file://home/crito/Documents/Code/Devops/Jenkins_on_AWS.pdf][Jenkins on AWS]]
 
 * Links

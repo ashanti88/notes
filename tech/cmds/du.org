@@ -34,6 +34,13 @@ a - all files
 du -ach /home/user/bash*
 #+END_SRC
 
+- max-depth will allow use to only dig to so many sub-directories
+#+BEGIN_SRC sh
+du -d 2 ~/Documents
+du --max-depth=2 ~/Documents
+#+END_SRC
+
+
 * Lecture
 * Tutorial
 * Books
