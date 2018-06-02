@@ -1,10 +1,30 @@
-#+TAGS: sys
+#+TAGS: lsb_release distro_information
 
 
-* lsb_release								:sys:
+* lsb_release	
 * Description
 This provides distribution specific information
 * Usage
+- show all the information
+#+BEGIN_SRC sh
+lsb_release -a
+#+END_SRC
+
+- show the description of the distro
+#+BEGIN_SRC sh
+lsb_release -d
+#+END_SRC
+
+- show the release number of the distro
+#+BEGIN_SRC sh
+lsb_release -r
+#+END_SRC
+
+- show the codename of the distro
+#+BEGIN_SRC sh
+lsb_release -c
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

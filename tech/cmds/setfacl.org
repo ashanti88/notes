@@ -3,12 +3,24 @@
 
 * setfacl
 * Description
+This sets the File Access Control List attributes
+
 * Usage
+FACL may need to be enabled in /etc/fstab to be used, option "acl"
+
+- set rw- perms on a file
+#+BEGIN_SRC sh
+setfacl -m user:sue:rw- file.txt
+setfacl -m u:sue:rw- file.txt
+setfacl -m u:sue:6 file.txt
+#+END_SRC
+
 - add multiple groups to a directory
 #+BEGIN_SRC sh
 setfacl -m g:finance /home/user/finance/
 #+END_SRC
 m - modifiy
+g - group
 
 - add an other named user
 #+BEGIN_SRC sh
@@ -23,6 +35,20 @@ setfacl -Rb /usr/bin/core_perl/
 #+END_SRC
 R - recursivly on all underlying files
 b - remove all extented acl enteries
+
+- set default facl on directory, and any future files in that directory 
+#+BEGIN_SRC sh
+setfacl -m d:user:sue:rw- payroll
+setfacl -m d:u:sue:rw- payroll
+setfacl -m d:u:sue:6 payroll
+#+END_SRC
+
+-delete an facl on a file
+#+BEGIN_SRC sh
+setfacl -x u:sue file.txt
+#+END_SRC
+this will remove all facl for a user on a file
+
 
 * Lecture
 * Tutorial

@@ -104,7 +104,6 @@ e2fsck /dev/sda1
 resize2fs /dev/sda1 
 #+END_SRC
 ** Journaling
-
 ** Options for Mounting
 ro - read only
 journal_checksum - Enable checksuming of the journal transactions. 
@@ -134,7 +133,6 @@ errors=panic - panic and halt the machine on error
   - how disk blocks are allocated
   delalloc
   nodelalloc
-
 
 * Lecture
 * Tutorial

@@ -471,7 +471,6 @@ jenkins will restart once it has stopped any running jobs
 
   
 
-
 **** Uninstalling a plugin with the Plugin Manager
      
 - click on the installed tab in the Plugin Manager section

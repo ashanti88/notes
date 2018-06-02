@@ -4,9 +4,47 @@
 * AIDE
 HomePage: http://aide.sourceforge.net/
 * Files
-/etc/aide.conf
+/etc/aide.conf           - main configuration file
+/var/lib/aide/aide.db.gz - this is our baseline db
+/var/lib/aide.db.new.gz  - this is the newly created db
+
 * Description
 * Usage
+- run an integrity check
+#+BEGIN_SRC sh
+/usr/sbin/aide --check
+#+END_SRC
+
+- each check will show the same files that have changed until the baseline db is reinitialized
+#+BEGIN_SRC sh
+/usr/sbin/aide --init
+#+END_SRC
+only do this is you are certain the the changed files are legitimate
+
+** Install on RHEL 6/7
+
+- install with yum
+#+BEGIN_SRC sh
+yum install aide
+#+END_SRC
+aide is in the epel repo
+
+- build the initial baseline database
+#+BEGIN_SRC sh
+/usr/sbin/aide --init
+#+END_SRC
+this creates /var/lib/aide/adie.db.new.gz
+
+- copy the created db to /var/lib/aide/aide.db.gz
+#+BEGIN_SRC sh
+cp /var/lib/aide.db.new.gz /var/lib/aide/aide.db.gz
+#+END_SRC
+
+- maybe have a cronjob run everyday to check integrity
+#+BEGIN_EXAMPLE
+0 1 * * * /usr/sbin/aide --check
+#+END_EXAMPLE
+
 * Lecture
 * Tutorial
 * Books

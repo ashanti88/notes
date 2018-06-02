@@ -1,0 +1,31 @@
+#+TAGS: motd message_of_the_day issue_net
+
+
+* System Notifications
+* 
+* Usage
+** Use a shell script to customize a message viewed on login
+- create the file /etc/profile.d/message.sh
+#+BEGIN_EXAMPLE
+#!/bin/bash
+
+echo -e "
+##########################
+#
+# Welcome to $(hostname)
+# This system is running $(cat /etc/redhat-release)
+# 
+# You are logged in as $(whoami)
+#
+##########################
+"
+#+END_EXAMPLE
+
+- edit /etc/ssh/sshd_config
+#+BEGIN_EXAMPLE
+PrintMotd no
+#+END_EXAMPLE
+* Lecture
+* Tutorial
+* Books
+* Links

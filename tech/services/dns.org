@@ -77,3 +77,4 @@ information.
 [[file://home/crito/Documents/SysAdmin/DNS/Pro_DNS_and_BIND_10.pdf][Pro DNS and BIND 10]]
 * Links
 [[http://www.linuxjournal.com/article/4597][linuxjournal.com - An Introduction to DNS and DNS tools]]
+[[https://www.digitalocean.com/community/tutorials/how-to-configure-dns-round-robin-load-balancing-for-high-availability][How To Configure DNS Round-Robin Load-Balancing For High-Availability - DigitalOcean]]

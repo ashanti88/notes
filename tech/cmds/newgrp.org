@@ -9,6 +9,7 @@ This command will let you log into another group
 #+BEGIN_SRC sh
 newgrp new_group
 #+END_SRC
+This will set this group as your new primary group, so any files reated will have this as their group owner
 
 * Lecture
 * Tutorial

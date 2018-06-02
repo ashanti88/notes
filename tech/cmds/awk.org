@@ -76,7 +76,7 @@ awk 'BEGIN { count = 0; } { print; } { count++; } END { print count; }'
 
 ** Setting the delimiter
 #+BEGIN_SRC sh
-awk -F":" { print $1; } access.log
+awk -F":" "{ print $1; }" access.log
 #+END_SRC
 
 ** Print first line instance and keep order

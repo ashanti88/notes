@@ -1,0 +1,29 @@
+#+TAGS: groups gpasswd group_password
+
+
+* gpasswd
+* Description
+This will add a password to a group.
+
+Users that are not members of that group dcan gain access to the group privs with the password
+* Usage
+- add a password to a group
+#+BEGIN_SRC sh
+gpasswd marketing
+#+END_SRC
+
+- make a user a Group Administrator (these can add users to the group)
+#+BEGIN_SRC sh
+gpasswd -A frank marketing
+#+END_SRC
+only root can make group admins
+
+- as a group admin add another user to the group
+#+BEGIN_SRC sh
+gpasswd -a fred marketing
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

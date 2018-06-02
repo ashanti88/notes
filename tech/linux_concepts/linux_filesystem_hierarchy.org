@@ -68,7 +68,6 @@ This is the nerve center of your system, it contains all system related configur
 /etc/alternatives/ - this is used by debian to allow ease of switching between different versions of an application
 /etc/dhcpcd.conf   - this file is a config file for the dhcp client deamon
 /etc/exports       - this files is used to add NFS shares that are available for sharing
-/etc/group         - contains all the groups on the system and who the members are
 /etc/hostname	   - this holds the hostname of the machine
 /etc/hosts         - this file is first read to find IP to hostname lookup
 /etc/hosts.allowed - this is an Access Control File that specifies allowed hosts
@@ -77,12 +76,11 @@ This is the nerve center of your system, it contains all system related configur
 /etc/init.d        - this directory holds the runlevel scripts on Debian sysvinit machines
 /etc/inittab       - this file would tell sysvinit what run level to start by default - <identifier>:<runlevel>:<action>:<process>
 /etc/issue.net     - this is the sshd banner file - has to be enabled in sshd_config (Banner /etc/issue.net)
-/etc/login.defs    - this file holds the defaults for creating a new user
+/etc/motd          - this is where we set the message that users see after logging in
 /etc/named.conf    - this is the configuration file for the bind server(DNS)
 /etc/nologin       - if this file is present then no-one will be able to login, access can only be had through a rescue shell, single user login.
 /etc/nologin.txt   - if this file is present it is printed to the screen when a login is attempted, instead of the default message.
 /etc/pacman.cof    - this is the main configuration file for the pacman package management system
-/etc/passwd        - this file contains all the systems users
 /etc/pki           - this is the default directory for certificates
 /etc/rc.d/         - this directory holds the runlevel scripts on Red Hat sysvinit machines (rc = run commands)
 /etc/rc.d/rc.local - this file is run after the runlevel script has finished
@@ -94,7 +92,16 @@ This is the nerve center of your system, it contains all system related configur
 /etc/xinetd.d/     - this directory is used to control services on a system
 *** /etc/default - contains some parameters that the end user or administrator is likely to change, rather than embedding the values in the actual boot scripts. In this way, changes will persist even if you upgrade the package and the boot script is replaced.
 /etc/default/grub - this file can be modified to make changes to the grub.cfg file
-/etc/default/useradd - this file holds the defaults to be applied to a newly created user
+**** /etc/default/useradd - this file holds the defaults to be applied to a newly created user
+# This is the default for rhel7
+GROUP=100               
+HOME=/home
+INACTIVE=-1      
+EXPIRE=
+SHELL=/bin/bash
+SKEL=/etc/skel
+CREATE_MAIL_SPOOL=yes
+
 *** /etc/fstab         - contains the devices to mounted at boot
 options
   - async/sync - how data is stored whtn a write is made
@@ -112,6 +119,44 @@ options
   - defaults - rw,suid,dev,exec,auto,nouser,async
     - auto   - mount the partition automatically
     - nouser - only root can mount/umount the partition
+*** /etc/group         - contains all the groups on the system and who the members are
+    
+wheel:x:10:centos,user
+
+f1 - group name
+f2 - group password
+f3 - group id
+f4 - users that are part of the group (comma seperated)
+
+*** /etc/gshadow       - this holds the hashes for the group passwords
+    
+marketing:$6$B0OQvO8mtjPL$0EfR0xGn8HcwWjDM0mH2g22T3kd.57xBMn9jn2cb6sLMqLeLBiHXItnbmqtx5B8YIROGc4CikZsLbmRPyVCYB/::
+
+f1 - group name
+f2 - password hash
+f3 -
+f4 - group members
+
+*** /etc/login.defs    - this file holds the defaults for creating a new user
+Here we can set password expiration 
+#+BEGIN_EXAMPLE
+PASS_MAX_DAYS   99999
+PASS_MIN_DAYS   0
+PASS_MIN_LEN    5
+PASS_WARN_AGE   7
+#+END_EXAMPLE
+
+Here we can set the UID number limits
+#+BEGIN_EXAMPLE
+UID_MIN                  1000
+UID_MAX                 60000
+#+END_EXAMPLE
+
+Create a home directory
+#+BEGIN_EXAMPLE
+CREATE_HOME     yes
+#+END_EXAMPLE
+
 *** /etc/issue   - this is where a pre-login message can be configured
 https://www.cyberciti.biz/faq/howto-change-login-message/
 
@@ -138,10 +183,23 @@ netctl uses profiles to manage network connections and different modes of operat
 **** /examples
 To use any of the example just copy the file to /etc/netctl and edit
 
-*** /etc/pam.d/
-The /etc/pam.d/ directory contains the PAM configuration files for each PAM-aware application
+*** /etc/pam.d/        - this holds all the Pluggable Authentication Modules 
+*** /etc/passwd        - this file contains all the systems users
 *** /etc/polkit-1/  - this contains the policy rules 
 **** /etc/polkit-1/rules.d/ - this contains rule files
+*** /etc/shadow    - this file holds all the hases and other password information
+
+user:$6$1b0OzIM9$fY4UD1JKlqXrDO3RAd2sUvCuYfR0NP5Gsu4v0g6Rcy3NwVWPBgOBB7MmaZet1StyasZR/aFI85VdVTvrUiLO1.:17683:0::7:::
+
+f1 - name
+f2 - password hash
+f3 - date password was last changed (days from january 1 1970 to last password change)
+f4 - date the password was last changed
+f5 - number of days before the password must be changed
+f6 - number of days warning, before password expires
+f7 - number of days before the account becomes disabled after password expires
+f8 - days since epoch since the account was disabled
+
 *** /etc/X11/
 ** /dev - holds information on machine devices (block|character)  
 /dev is the location of special or device files. It is a very interesting directory that highlights one important aspect of the Linux filesystem - everything is a file or a directory. Look through this directory and you should hopefully see sda1, sda2 etc.... which represent the various partitions on the first master drive of the system and /dev/sr0 represent your CD-ROM drive.

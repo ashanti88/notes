@@ -1,0 +1,65 @@
+#+TAGS: console_security
+
+
+* Console Security
+* Description
+* Usage
+- configure the Bios to disable booting from cd/dvd, external devices
+** Disable Ctrl-Alt-Del
+*** Centos 6 
+
+- find the upstart version
+#+BEGIN_SRC sh
+rpm -q upstart
+#+END_SRC
+
+- prior to upstart-0.6.5-12 then modify /etc/init/control-alt-delete.conf
+
+- edit the the config file
+/etc/init/control-alt-delete.conf
+#+BEGIN_EXAMPLE
+#exec /sbin/shutdown -r nwo "Control-Alt-Delete"
+exec /usr/bin/logger -p authpriv.notice -t init "Ctrl-Alt-Del was pressed and ignored"
+#+END_EXAMPLE
+  
+- after upstart-0.6.5-12 was enhanced to parse /ect/init/*.override files.
+
+- create /etc/init/control-alt-delete.override
+#+BEGIN_SRC sh
+cp -v /etc/init/control-alt-delete /etc/init/control-alt-delete.override
+#+END_SRC
+
+- edit the new file
+#+BEGIN_EXAMPLE
+#exec /sbin/shutdown -r nwo "Control-Alt-Delete"
+exec /usr/bin/logger -p authpriv.notice -t init "Ctrl-Alt-Del was pressed and ignored"
+#+END_EXAMPLE
+
+*** Centos 7
+- mask the system service
+#+BEGIN_SRC sh
+systemctl mask ctrl-alt-del.target
+#+END_SRC
+this is only for none gui
+
+- for gui we remap the keys
+Application -> System Tools -> Settings -> Keyboard -> Shortcuts -> System Set value of `Logout` as Disabled
+
+** Configure GRUB password to protect server (legacy grub)
+   
+- first creat a hash
+#+BEGIN_SRC sh
+grub-md5-crypt
+#+END_SRC
+
+- edit /boot/grub/grub.conf
+#+BEGIN_EXAMPLE
+password --md5 <password hash>
+#+END_EXAMPLE
+
+- next time the system boots, the GRUB menu prevents access to the editor or command interface without first pressint p followed by the GRUB password
+
+* Lecture
+* Tutorial
+* Books
+* Links

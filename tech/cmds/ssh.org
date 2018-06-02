@@ -407,6 +407,11 @@ Banner /etc/issue.net
 #+END_EXAMPLE
 on may distros this disabled by default
 
+- for it to take effect the service needs to be restarted
+#+BEGIN_SRC sh
+systemctl restart sshd
+#+END_SRC
+
 * Lecture
 * Tutorial
 ** Linux Academy - Server Application Requires a Secure SSH connection

@@ -144,29 +144,6 @@ mount /dev/sda1
 grub-install
 #+END_SRC
 
-** Grub (Legacy)
-grub went out around the time of RHEL6
-
-/boot/grub - in here there are all the stage files (this is the file that is edited to make changes)
-  - menu.lst -> grub.conf - menu.lst is usally a sym link, and it's this file that creates the menu that starts with grub, and details what OS is available, what kernel to use, and what partition holds the boot partition
-  
-Each option is configured in blocks
-#+BEGIN_EXAMPLE
-title CentOS (2.6.18-419.el5)
-	root (hd0,0)
-	kernel /boot/vmlinuz-2.6.18-419.el5 ro root=LABEL=/ rhgb quiet
-	initrd /boot/initrd-2.6.18-419.el5.img
-#+END_EXAMPLE
-title - can be any name that you like
-root  - disk and partition that the boot sector can be found (count starts at 0)
-kernel - which kernel to boot and its location, also add any kernel parameters here
-initrd - which initrd.img to boot and its location
-
-- Re-install Grub
-#+BEGIN_SRC sh
-grub-install /dev/sda
-#+END_SRC
-
 ** Interrupt the boot process to gain Access to a system
 This can be handy if a system root password need to be changed after being compromised
   - In Grub enter the edit section for the kernel
@@ -330,3 +307,40 @@ grub> linux /vmlinuz root='hd0,msdos2'
 * Links
 [[https://www.linux.com/learn/how-rescue-non-booting-grub-2-linux][How to Rescue a Non-Booting GRUB 2 on Linux]]
 [[https://opensource.com/article/17/3/introduction-grub2-configuration-linux?sc_cid=70160000001273HAAQ][An Introduction to GRUB2 configuration for your Linux machine]]
+
+* Grub (Legacy)
+grub went out around the time of RHEL6
+
+/boot/grub - in here there are all the stage files (this is the file that is edited to make changes)
+  - menu.lst -> grub.conf - menu.lst is usally a sym link, and it's this file that creates the menu that starts with grub, and details what OS is available, what kernel to use, and what partition holds the boot partition
+  
+Each option is configured in blocks
+#+BEGIN_EXAMPLE
+title CentOS (2.6.18-419.el5)
+	root (hd0,0)
+	kernel /boot/vmlinuz-2.6.18-419.el5 ro root=LABEL=/ rhgb quiet
+	initrd /boot/initrd-2.6.18-419.el5.img
+#+END_EXAMPLE
+title - can be any name that you like
+root  - disk and partition that the boot sector can be found (count starts at 0)
+kernel - which kernel to boot and its location, also add any kernel parameters here
+initrd - which initrd.img to boot and its location
+
+- Re-install Grub
+#+BEGIN_SRC sh
+grub-install /dev/sda
+#+END_SRC
+
+** Configure GRUB password to protect server (legacy grub)
+   
+- first creat a hash
+#+BEGIN_SRC sh
+grub-md5-crypt
+#+END_SRC
+
+- edit /boot/grub/grub.conf
+#+BEGIN_EXAMPLE
+password --md5 <password hash>
+#+END_EXAMPLE
+
+- next time the system boots, the GRUB menu prevents access to the editor or command interface without first pressint p followed by the GRUB password

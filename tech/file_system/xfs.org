@@ -45,7 +45,6 @@
   grpid
   no grpid
 
-  
 * Lecture
 * Tutorial
 * Books
