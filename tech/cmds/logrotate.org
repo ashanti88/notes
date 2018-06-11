@@ -2,8 +2,20 @@
 
 
 * logrotate
+* Files
+/etc/logrotate.conf - this is the main configuration file
+/etc/logrotate.d/   - this is where you place your own files
 * Description
 * Usage
+- Options
+  - rotate     - No. of logs to keep e.g. rotate 5
+  - compress   - compress old log files to save disk space
+  - daily, weekly, monthly or yearly - specified periodicity
+  - size       - of log file e.g size 500M
+  - minsize    - like size but monthly, weekly etc. Rotate log files if period reached and log file larger than the minsize
+  - prerotate  - commands run before log rotation
+  - postrotate - commands run after log rotation
+
 * Lecture
 * Tutorial
 * Books

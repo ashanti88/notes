@@ -3,8 +3,54 @@
 
 * Rsyslog
 HomePage: [[http://www.rsyslog.com/][rsyslog.com]]
+* Files
+/etc/rsyslog.conf  - this is the main rsyslog configuration file
+
 * Description
 * Usage
+** Setting up remote logging RHEL6
+*** logging server
+- install required packages
+#+BEGIN_SRC sh
+yum install rsyslog
+#+END_SRC
+
+- edit /etc/rsyslog.conf, uncomment these two lines under "Provide TCP syslog reception"
+#+BEGIN_EXAMPLE
+$MOdLoad imtcp
+$InputTCPServerRun 514
+#+END_EXAMPLE
+514 - this is the port that it is listening on
+
+- enable the service
+#+BEGIN_SRC sh
+chkconfig rsyslog on
+#+END_SRC
+
+- restart the rsyslog service
+#+BEGIN_SRC sh
+service rsyslog restart
+#+END_SRC
+
+- open the required ports with iptables
+
+*** Remote Client
+- edit /etc/rsyslog.conf, add at the bottom of the Rules section
+#+BEGIN_EXAMPLE
+*.* @@172.31.99.29:514
+#+END_EXAMPLE
+this will send all messages to the logging server
+
+- only info messages
+#+BEGIN_EXAMPLE
+*.info @@172.31.99.29:514
+#+END_EXAMPLE
+
+- restart the service
+#+BEGIN_SRC sh
+service rsyslog restart
+#+END_SRC
+
 * Lecture
 ** [[https://www.youtube.com/watch?v%3DpecYc0-9DQw][Setup Rsyslog Server]]
 This on a centos6 machine

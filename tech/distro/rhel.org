@@ -10,6 +10,9 @@ Security Advisories: https://access.redhat.com/security/security-updates/#/secur
 RHEL: [[https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/5/html/Deployment_Guide/ch-sysconfig.html][RHEL 5 /etc/sysconfig]]
 Fedora: [[https://docs.fedoraproject.org/en-US/Fedora/12/html/Deployment_Guide/ch-sysconfig.html#s1-sysconfig-files][Fedora - /etc/sysconfig]]
 * Usage
+** RHEL6 Logging
+
+
 ** RHEL7 Networking
 *** Files
 /etc/sysconfig/network-scripts/
@@ -1253,6 +1256,17 @@ firewall-cmd --reload
 elinks http://localhost
 #+END_SRC
 
+* Trouble-shooting
+** Installation of the kernel headers but yum can't find "kernel-devel" package
+- Installing IdM and needed the kernel headers.
+  - yum was telling me that there wasn't a package known as "kernel-devel"
+  - check in /etc/yum.conf
+    #+BEGIN_EXAMPLE
+    exclude=kernel*
+    #+END_EXAMPLE
+    if present comment out and update yum
+  - kernel-devel should now be available
+
 * Package Management
 [[file://home/crito/Documents/Linux/RHEL/yum_cheatsheet.pdf][YUM Command Cheat Sheet]]
 ** Files
@@ -1891,6 +1905,86 @@ dracut
 #+END_SRC
 
 - confirm by reboot and check that grub has the new kernel available
+
+** Common Repos
+*** EPEL
+HomePage: https://fedoraproject.org/wiki/EPEL
+Extra Packages for Enterprise Linux (or EPEL) is a Fedora Special Interest Group that creates, maintains, and manages a high quality set of additional packages for Enterprise Linux, including, but not limited to, Red Hat Enterprise Linux (RHEL), CentOS and Scientific Linux (SL), Oracle Linux (OL).
+
+- Install RHEL7
+#+BEGIN_SRC sh
+sudo yum localinstall --nogpgcheck http://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/e/epel-release-7-11.noarch.rpm
+#+END_SRC
+
+- Install RHEL6
+#+BEGIN_SRC sh
+sudo yum localinstall --nogpgcheck  http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+#+END_SRC
+
+*** RPMFusin
+HomePage: https://rpmfusion.org/
+RPM Fusion provides software that the Fedora Project or Red Hat doesn't want to ship. That software is provided as precompiled RPMs for all current Fedora versions and current Red Hat Enterprise Linux or clones versions; you can use the RPM Fusion repositories with tools like yum and PackageKit
+
+- Install RHEL7
+#+BEGIN_SRC sh
+yum localinstall --nogpgcheck https://download1.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm 
+yum localinstall --nogpgcheck https://download1.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-7.noarch.rpm
+#+END_SRC
+
+- Install RHEL6
+#+BEGIN_SRC sh
+yum localinstall --nogpgcheck https://download1.rpmfusion.org/free/el/rpmfusion-free-release-6.noarch.rpm
+yum localinstall --nogpgcheck https://download1.rpmfusion.org/nonfree/el/rpmfusion-nonfree-release-6.noarch.rpm
+#+END_SRC
+
+- Install Fedora
+#+BEGIN_SRC sh
+dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
+dnf install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+#+END_SRC
+
+*** Remi's RPM Repository
+HomePage: http://rpms.famillecollet.com/
+REMI is also a useful yum repository contains updated packages for Enterprise Linux systems. Use the following commands to install REMI yum repository on your CentOS/RHEL 7/6 and Fedora 27/26/25/24 systems.
+
+- Install RHEL7
+#+BEGIN_SRC sh
+yum localinstall --nogpgcheck http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
+#+END_SRC
+
+- Install RHEL6
+#+BEGIN_SRC sh
+yum localinstall --nogpgcheck http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+#+END_SRC
+
+*** ELRepo Repository
+HomePage: https://elrepo.org/tiki/tiki-index.php
+ELRepo is an RPM repository for Enterprise Linux packages.It supports Red Hat Enterprise Linux (RHEL) and its derivatives like CentOS, Scientific Linux etc. This Project focuses on hardware related packages to enhance your experience with Enterprise Linux. This includes filesystem drivers, graphics drivers, network drivers, sound drivers, webcam and video drivers.
+
+- Install RHEL7
+#+BEGIN_SRC sh
+rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-3.el7.elrepo.noarch.rpm
+#+END_SRC
+
+- Install RHEL6
+#+BEGIN_SRC sh
+rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+rpm -Uvh  http://www.elrepo.org/elrepo-release-6-8.el6.elrepo.noarch.rpm
+#+END_SRC
+
+*** Webtatic Yum Repository
+HomePage: https://webtatic.com/projects/yum-repository/
+
+- Install RHEL7
+#+BEGIN_SRC sh
+yum localinstall --nogpgcheck http://repo.webtatic.com/yum/el7/webtatic-release.rpm
+#+END_SRC
+
+- Install RHEL6
+#+BEGIN_SRC sh
+yum localinstall --nogpgcheck http://repo.webtatic.com/yum/el6/latest.rpm
+#+END_SRC
 
 * Server Hardening
 [[file://home/crito/Documents/Linux/RHEL/Linux_Academy-Red_Hat_Server_Hardening_Study_Guide.pdf][Linux Academy - Red Hat Server Hardening Study Guide]]

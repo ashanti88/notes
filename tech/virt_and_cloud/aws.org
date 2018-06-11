@@ -2148,6 +2148,10 @@ A container is exactly what you might expect it to be based on the general defin
   - Throttle on task definition registration rate- 1 per second/60 max per minute
 
 * Books
+[[file://home/crito/Documents/SysAdmin/Cloud/AWS/AWS_Storage_Services.pdf][AWS Storage Services]]
+[[file://home/crito/Documents/SysAdmin/Cloud/AWS/LA_Lab_Guide_CloudFormation_Walk_Through.pdf][Linux Academy - Lab Guide CloudFormation Walk Through]]
+[[file://home/crito/Documents/SysAdmin/Cloud/AWS/LA_Lab_Guide_NAT_in_VPC.pdf][Linux Academy - Lab Guide NAT in VPC]]
+[[file://home/crito/Documents/SysAdmin/Cloud/AWS/LA_Lab_Guide_VPC_from_Scratch.pdf][Linux Academy - Lab Guide VPC from Scratch]]
 ** SysOps Associate
 [[file://home/crito/Documents/SysAdmin/Cloud/AWS/sysops/AWS_Auditing_Security_Checklist.pdf][AWS Auditing Security Checklist]]
 [[file://home/crito/Documents/SysAdmin/Cloud/AWS/sysops/AWS_Backup_Recovery.pdf][AWS Backup Recovery]]

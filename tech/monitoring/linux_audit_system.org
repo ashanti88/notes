@@ -1,0 +1,60 @@
+#+TAGS: linux_audit_system audit
+
+
+* Linux Audit System
+* Files
+/etc/audit/auditd.conf - this is the main configuration file
+/etc/audit/rules       - here is where permanent rules should be placed
+
+* Cmds
+auditctl - cmd line tool to interact with auditd
+ausearch - provides formating and search abilities to make it easier than reading the log file
+aureport - this tool helps to create reports using the audit logs
+
+* Description
+* Usage
+- installation of audit
+#+BEGIN_SRC sh
+yum install audit
+#+END_SRC
+default config should be suitable for most environments
+
+- start and enable the service
+#+BEGIN_SRC sh
+service auditd start
+chkconfig auditd on
+#+END_SRC
+
+- rotate the audit log files
+#+BEGIN_SRC sh
+service auditd rotate
+#+END_SRC
+
+- search for USER_LOGIN fails
+#+BEGIN_SRC sh
+ausearch --message USER_LOGIN --success no --interpret
+#+END_SRC
+
+- get a summary report
+#+BEGIN_SRC sh
+aureport -x --summary
+#+END_SRC
+
+- show all failed events for all users
+#+BEGIN_SRC sh
+aureport -u --failed --summary -i
+#+END_SRC
+i - interpret
+
+- report on all failed login attempts
+#+BEGIN_SRC sh
+aureport --login --summary -i
+#+END_SRC
+
+
+* Lecture
+* Tutorial
+* Books
+[[file://home/crito/Documents/Linux/RHEL/Red_Hat_Enterprise_Linux-6-Security_Guide.pdf][Red Hat Enterprise Linux 6 - Security Guide]]
+[[file://home/crito/Documents/Linux/RHEL/Red_Hat_Enterprise_Linux-7-Security_Guide-en-US.pdf][Red Hat Enterprise Linux 7 - Security Guide]]
+* Links

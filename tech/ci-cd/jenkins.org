@@ -550,6 +550,86 @@ then hit the upload button
 
 
 
+*** Freestyle Itial Project Configuration
+- click on the add a new item
+  
+file://home/crito/Pictures/org/jenkins_free_1.png
+
+
+- then enter the item name and click on freestyle project
+
+file://home/crito/Pictures/org/jenkins_free_2.png
+
+then click the ok at the bottom of the screen
+
+
+- now we have the option of discarding and retaining builds
+  
+file://home/crito/Pictures/org/jenkins_free_3.png
+
+
+- we have the ability to set a GitHub project url
+
+file://home/crito/Pictures/org/jenkins_free_4.png
+
+
+- we also have some other options that are available to us
+
+file://home/crito/Pictures/org/jenkins_free_5.png
+
+paramiterized - 
+throttle builds - allowes us to set the number of builds allowed to run over a given timeframe
+disable this project - 
+execute concurrent builds if necessary - allow multiple builds to run in parralle, but think about compute power
+restrict where this project can be run - set an expresstion for where this build can be run
+
+
+- we'll now decide our source code management
+
+- for git it needs to be installed on all the nodes that will be building
+#+BEGIN_SRC sh
+yum install git
+#+END_SRC
+
+- select Git as the source code management tool
+  
+[[file://home/crito/Pictures/org/jenkins_free_6.png]]
+
+
+- the repo url need to be added along with the ssh creds (makesure that the ssh url is used not the https)
+  
+[[file://home/crito/Pictures/org/jenkins_free_7.png]]
+
+
+- we also have to set which branch is to be built
+
+[[file://home/crito/Pictures/org/jenkins_free_8.png]]
+
+
+- there's also the option setting other build triggers
+  
+[[file://home/crito/Pictures/org/jenkins_free_9.png]]
+
+
+- poll scm will have the master poll the repo and if any changees have been made then a new build will be created
+
+[[file://home/crito/Pictures/org/jenkins_free_10.png]]
+
+- * * * * * would have the master poll the repo every minute (cron job syntax)
+- H/15 * * * * every 15 minutes
+- H(0-29)/10 * * * * every 10 minutes of the first half hour of the hour
+- H/15 * * * 1-5 every 15 minutes mon - fri
+- 45 9-16 * * 1-5 run every 45 minutes from 9am through 4pm, only mon - fri
+  
+- now save, and the job is ready to run
+  
+[[file://home/crito/Pictures/org/jenkins_free_11.png]]
+
+
+- back at the main menu we should now see a job being processed in the build history section
+  
+[[file://home/crito/Pictures/org/jenkins_free_12.png]]
+
 
 * Books
 [[file:~/Documents/DevOps/Linux_Academy-Jenkins_Cert_Engineer.pdf][Linux Academy - Jenkins Cert Engineer]]

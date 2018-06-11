@@ -671,6 +671,10 @@ LabGuide: [[file://home/crito/Documents/Linux/Labs/ubuntu-nfs4-lab.pdf][Ubuntu N
 
 * Books
 [[file://home/crito/Documents/SysAdmin/NFS-HOWTO.pdf][Linux NFS HowTo]]
+[[file://home/crito/Documents/Linux/RHEL/Red_Hat_Enterprise_Linux-6-Storage_Administration_Guide-en-US.pdf][Red Hat Enterprise Linux 6 - Storage Administration Guide]]
+[[file://home/crito/Documents/Linux/RHEL/Red_Hat_RHCSA_RHCE_6_Cert_Guide.pdf][RHCSA and RHCE Cert Guide and Lab Manual - RHEL 6]]
+[[file://home/crito/Documents/Linux/RHEL/Red_Hat_RHCSA_RHCE_7_Cert_Guide.pdf][RHCSA and RHCE Cert Guide and Lab Manual - RHEL 7]]
+[[file://home/crito/Documents/Linux/Linux_Network_Administration_TCP-IP_Learning_Course_Code.pdf][Linux Administration - TCP/IP and TCP/IP Services Student Exercises]]
 * Links
 [[https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nfs-mount-on-centos-6][How To Set Up an NFS Mount on CentOS 6 - DigitalOcean]]
 [[https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nfs-mount-on-ubuntu-16-04][How To Set Up an NFS Mount on Ubuntu 16.04]]

@@ -3,6 +3,7 @@
 
 * Dracut
 Wiki: https://dracut.wiki.kernel.org/index.php/Main_Page
+RedHat: https://people.redhat.com/harald/dracut.html
 
 * Description
 Initramfs generation tools

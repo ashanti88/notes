@@ -157,6 +157,8 @@ Create a home directory
 CREATE_HOME     yes
 #+END_EXAMPLE
 
+*** /etc/init/
+/control-alt-delete.conf - rhel6 prior to upstart-0.6.5-12 this is where you would disable ctl-alt-del from rebooting the system
 *** /etc/issue   - this is where a pre-login message can be configured
 https://www.cyberciti.biz/faq/howto-change-login-message/
 

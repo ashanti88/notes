@@ -5,7 +5,25 @@
 Home Page: [[http://www.netfilter.org/][netfilter.org]]
 
 * Files
-/etc/sysconfig/iptables-config
+/etc/sysconfig/iptables-config - this is where the iptable config is kept (rhel)
+/etc/sysconfig/iptables - this is where the iptable rules are set
+#+BEGIN_EXAMPLE
+*filter
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+-A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+-A INPUT -p icmp -j ACCEPT
+-A INPUT -i lo -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport 22 -j ACCEPT
+-A INPUT -j REJECT --reject-with icmp-host-prohibited
+-A FORWARD -j REJECT --reject-with icmp-host-prohibited
+COMMIT
+#+END_EXAMPLE
+
+* Cmds
+- iptables
+- system-config-firewall - this is a gui configration tool
 * Description
 * Usage
 ** List current rules
@@ -56,9 +74,16 @@ iptables -P FORWARD DROP
 this will drop all packets attempting to forward on to another machine
 
 ** Saving iptables (RHEL)
+- redirect method
 #+BEGIN_SRC sh
 iptables-save > /etc/sysconfig/iptables
 #+END_SRC
+
+- service method
+#+BEGIN_SRC sh
+service iptables save
+#+END_SRC
+
 ** Restore iptables (RHEL)
 #+BEGIN_SRC sh
 iptables-restore < /etc/sysconfig/iptables

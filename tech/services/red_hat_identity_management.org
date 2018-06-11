@@ -1,7 +1,7 @@
-#+TAGS:
+#+TAGS: idm freeipa ipa ldap
 
 
-* Red Hat Identity Management (FreeIPA Server)
+* Red Hat Identity Management Service (FreeIPA Server)
 HomePage: [[https://www.freeipa.org/page/Main_Page][freeipa.org/Main_Page]]
 Docs: [[https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/7/html/Linux_Domain_Identity_Authentication_and_Policy_Guide/installing-ipa.html][redhat.com/documentation/7/Linux_Domain_Identity_Authentication]]
 RHEL: https://access.redhat.com/products/identity-management
@@ -26,6 +26,114 @@ systemctl enable haveged.service
 #+END_SRC
 
 another option is the rngd service which pulls entropy from hardware
+
+** Installation of IdM RHEL6
+- Recommended prerequisites:
+  - For 10,000 users & 100 groups
+  - at least 2GB RAM and 1GB swap
+  - hostname must be a fully-qualified domain name e.g. ipaserver.example.com
+    
+*** Server
+    
+- install the required packages
+#+BEGIN_SRC sh
+yum install ipa-server bind bind-dyndb-ldap
+#+END_SRC
+
+- edit hosts
+#+BEGIN_SRC sh
+172.31.38.175  fredflinstone5.mylabserver.com
+#+END_SRC
+
+- run the install script
+#+BEGIN_SRC sh
+ipa-server-install
+#+END_SRC
+
+- make sure that the script picks up the hostname
+
+[[file://home/crito/Pictures/org/idm_1.png]]
+
+if not add it
+
+- confirm the information, and add a directory manager password
+
+[[file://home/crito/Pictures/org/idm_2.png]]
+
+
+- now create an admin password and confirm the system conf values 
+
+[[file://home/crito/Pictures/org/idm_3.png]]
+
+
+- On completion idm tells us what ports are required to be open
+  
+[[file://home/crito/Pictures/org/idm_4.png]]
+
+
+- restart the sshd
+#+BEGIN_SRC sh
+service sshd restart
+#+END_SRC
+
+- confirm that the idm serrvice is running
+#+BEGIN_SRC sh
+kinit admin
+ipa user-find admin
+#+END_SRC
+use the admin password provided during installation
+
+- also confirm that the web ui is working 
+
+*** Client
+    
+- install required packages
+#+BEGIN_SRC sh
+yum install ipa-client
+#+END_SRC
+if this client is going to do any admin of idm, then ipa-admin-tools
+
+- edit /etc/hosts
+#+BEGIN_SRC sh
+172.34.54.101  fredflinstone1.mylabserver.com
+172.31.38.175  fredflinstone5.mylabserver.com
+#+END_SRC
+
+- now run the client install script
+#+BEGIN_SRC sh
+ipa-client-install -h
+ipa-client-install --mkhomedir
+#+END_SRC
+h - this provides help options 
+mkhomedir - this will create a home directory on the idm server
+
+- now add the idm server details and confirm values
+
+[[file://home/crito/Pictures/org/idm_5.png]]
+
+*** Create a group and user
+This is to be done on the admin server
+
+- create a group
+#+BEGIN_SRC sh
+ipa group-add accounts --desc="accounting"
+#+END_SRC
+
+- add a user
+#+BEGIN_SRC sh
+ipa user-add
+#+END_SRC
+this will walk you through some questions
+
+- add a user to a group
+#+BEGIN_SRC sh
+ipa group-add-member accounts --user=fredf
+#+END_SRC
+
+- give the user a password
+#+BEGIN_SRC sh
+ipa user-mod fredf --password
+#+END_SRC
 
 * Lecture
 * Tutorial
