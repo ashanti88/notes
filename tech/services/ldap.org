@@ -3,22 +3,33 @@
 
 * LDAP
 OpenLDAP: [[https://www.openldap.org/][openldap.org]]
+
 * Cmds
-- ldapsearch
-- ldapadd
-- ldapdelete
-- ldapmodify
-- slaptest
-- slapcat
-- slapadd
+** Client Utils
+- ldapadd     - Allows you to add entries to an LDaP directory, wither from a file, or fromm standard input. It is a symbolic link to ldapmodify -a
+- ldacompare  - Allows you to compare given attribure with an LDAP directory entry
+- ldapdelete  - Allows you to delete entries from an LDAP directory    
+- ldapexop    - Allows you to perform extended LDAP operations
+- ldapmodify  - Allows you to modify entries in an LDAP directory, wither from a file, or from standard input
+- ldamodrdn   - Allows you to modify the RDN value of an LDAP directory entry
+- ldappasswd  - Allows you to set or change the password for an LDAP user
+- ldapsearch  - Allows you to search LDAP directory entries
+- ldapurl     - Allows you to compose or decompose LDAP URLs
+- ldapwhoami  - Allows you to perform a whoami operation on an LDAP server
 
 ** Server Utils
-[[file://home/crito/Pictures/org/openldap_utils.png]]
+- slapacl     - Allows you to check the access to a list of attributes
+- slapadd     - allows you to add entires from ann LDIF file to an LDAP directory
+- slapauth    - Allows you to checka list of IDs for authentication and authorization permissions
+- slapcat     - Allows you to pull entries from an LDAP directory in the default format and save them in an LDIF file
+- slapdn      - Allows you to check a list of Distinguished Names (DNs) based on available schema syntax
+- slapindex   - Allows you to re-index the slapd directory based on the current content. Run this utility whenever you change indexing options in the configuration file
+- slappasswd  - Allows you to create an encrypted user password to be used with the ldapmodify utility, or in the slapd configuration file
+- slapschema  - Allows you to check the compliance of a database with the corresponding schema
+- slaptest    - Allows you to check the LDAP server configuration
 
-** Client Utils
-[[file://home/crito/Pictures/org/openldap_client_utils.png]]
 * Server
-** OpenLDAP
+** OpenLDAP - slapd
 ** 389 Directory Server
 - possible to handle thousands of operations
 - TLS
@@ -34,8 +45,23 @@ rpm -ivh epel-release-7-9.noarch.rpm
 2. ensure that the host file is configured correctly
    
 3. set appropriate /etc/sysctl.conf
+
 * Overview
 LDAP uses the Sleepycat Berkley DB, 
+
+String X.500 AttributeType
+dn     - distinguished name
+cn     - common name
+l      - locality name
+st     - state or province name
+o      - organisation name
+ou     - organisational unit name
+c      - country name
+street - street name
+dc     - domain component
+uid    - userid
+mail   - email address
+
 * Lecture
 ** [[https://www.youtube.com/watch?v%3DjZs4p_e6H1c][What about the LDAP directory life after Sun?]]
 - good explanation of migration of directories, methodology
@@ -48,8 +74,11 @@ LDAP uses the Sleepycat Berkley DB,
 [[file://home/crito/Documents/SysAdmin/Addison_Wesley-LDAP_Directories_Explained.pdf][LDAP Directories Explained - Addison Wesley]]
 [[file://home/crito/Documents/SysAdmin/Understanding_LDAP.pdf][Understanding LDAP - IBM]]
 [[file://home/crito/Documents/SysAdmin/Red_Hat_Directory_Server-8.1-Deployment_Guide-en-US.pdf][Red Hat Directory Server 8.1]]
+file://home/crito/Documents/SysAdmin/OpenLDAP_Admin_Guide_2-4.pdf
 * Links
 https://wiki.debian.org/LDAP
 [[http://www.thegeekstuff.com/2017/07/ldap-389-directory-server-install/][How to Install LDAP 389 Directory Server On Linux]]
 [[https://www.howtoforge.com/linux_openldap_setup_server_client][Step-by-Step OpenLDAP Installation and Configuration]]
 [[https://www.linuxtechi.com/integrate-rhel7-centos7-windows-active-directory/][How to Integrate RHEL7 or CentOS7 with Windows Active Directory - Linux Techi]]
+[[https://www.linux.com/learn/making-ldap-easy-linux-phpldapadmin][Making LDAP Easy on Linux with phpLDAPadmin - Linux.com]]
+[[https://www.linux.com/learn/managing-ldap-command-line-linux][Managing LDAP from the Command Line on Linux - Linux.com]]

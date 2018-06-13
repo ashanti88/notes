@@ -5,57 +5,66 @@
 * Cmds
 - [[file:~/org/tech/cmds/service.org][service]]
 - [[file:~/org/tech/cmds/chkconfig.org][chkconfig]]
+* Description
 
 * Configuration
 /etc/init
 /etc/init.d
 /etc/rc.d
 
-* Overview
-** Shutdown, reboot and suspend
-- reboot
+* Use
+- List Services
+#+BEGIN_SRC sh
+ls /etc/init.d/
+#+END_SRC
+
+- Start a Service
+#+BEGIN_SRC sh
+/etc/init.d/sshd start
+service sshd start
+#+END_SRC
+
+- Stop a Service
+#+BEGIN_SRC sh
+/etc/init.d/sshd stop
+service sshd stop
+#+END_SRC
+
+- Enable a Service
+#+BEGIN_SRC sh
+cd /etc/rc3.d
+ln -s ../init.d/sshd S95sshd
+#+END_SRC
+
+- Remove a Service
+#+BEGIN_SRC sh
+rm /etc/rc3.d/S95sshd
+#+END_SRC
+
+** Shutdown and Reboot
+- Reboot
 #+BEGIN_SRC sh
 reboot
 #+END_SRC
 
-- poweroff
+- Poweroff
 #+BEGIN_SRC sh
 shutdown -P now
 #+END_SRC
 
-- halt
+- Halt
 #+BEGIN_SRC sh
 shutdown -h now
 shutdown -h +0
 #+END_SRC
 both occur immediately
 
-- cancel a shutdown
+- Cancel a shutdown
 #+BEGIN_SRC sh
 shutdown -c
 #+END_SRC
 
-
 ** Runlevels
-+ Red Hat
-0 - halt
-1 - Single User (Rescue)
-2 - multi-user (no-networking)
-3 - multi-user (networking)
-4 - Not used
-5 - multi-user (Gui)
-6 - restart
-
-+ Debian
-0 - halt
-1 - Single User (Rescue)
-2 - multi-user 
-3 - Not used
-4 - multi-user
-5 - multi-user
-6 - restart
-
-- Changing the default run-level is done by ammending /etc/inittab
 ** Configuring Network Services to Run on Boot
 - configure telnet-server
 #+BEGIN_SRC sh

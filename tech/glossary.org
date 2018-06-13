@@ -3,12 +3,16 @@
 
 * AMI  - Amazon Machine Image
 AWS:https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html
+* API  - Application Programming Interface
+Wiki: https://en.wikipedia.org/wiki/Application_programming_interface
 * APCI - Advanced Configuration and Power Interface
 Arch: https://wiki.archlinux.org/index.php/ACPI_modules
 * ASLR - Address Space Layout Randomization
 Wiki: https://en.wikipedia.org/wiki/Address_space_layout_randomization
 * BGP  - Border Gate Protocol
 wiki: https://en.wikipedia.org/wiki/Border_Gateway_Protocol
+* CIDR - Classless Inter-Domain Routing
+Wiki: https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing
 * CNI  - Container Network Interface
 flannel 
 * CRUD - Create Read Update Delete
@@ -41,6 +45,9 @@ ManPage: https://man.openbsd.org/ldpd
 [[file://home/crito/org/tech/mail/procmail.org][Procmail]]
 maildrop
 
+* LMDB - Lightnig Memory-Mapped Database
+Wiki: https://en.wikipedia.org/wiki/Lightning_Memory-Mapped_Database
+HomePage: http://www.lmdb.tech/doc/
 * LUN  - Logical Unit Number
 * MMIO - Memory Mapped I/O
 * MPLS - Multiprotocol Label Switching
@@ -50,6 +57,10 @@ https://nvd.nist.gov/
 * MTU  - Maximum Transmission Unit
 Wiki: https://en.wikipedia.org/wiki/Maximum_transmission_unit
 * NIS  - Network Information Service
+* NNTP - News Network Transport Protocol
+Wiki: https://en.wikipedia.org/wiki/Network_News_Transfer_Protocol
+* NTP  - Network Time Protocol
+HomePage: http://www.ntp.org/
 * NUMA - Non Uniform Memory Access 
 Wiki: https://en.wikipedia.org/wiki/Non-uniform_memory_access
 Non-uniform memory access (NUMA) is a computer memory design used in multiprocessing, where the memory access time depends on the memory location relative to the processor. Under NUMA, a processor can access its own local memory faster than non-local memory (memory local to another processor or memory shared between processors). The benefits of NUMA are limited to particular workloads, notably on servers where the data is often associated strongly with certain tasks or users.
@@ -62,10 +73,21 @@ wiki: https://en.wikipedia.org/wiki/Open_Shortest_Path_First
 * PNDA - Platform for Network Data Analysis
 Homepage: http://pnda.io/
 * RAC  - Real Application Clustering (oracle)
-* RESTful API - Repressentational State Transfer
+* RHEL - Red Hat Enterprise Linux
+* RESTful API - Repressentational State Transfer Application Programming Interface
 Wiki: https://en.wikipedia.org/wiki/Representational_state_transfer
+* SSSD - System Security Services Daemon
+Fedora - https://fedoraproject.org/wiki/Features/SSSD
+
+* SAML - Security Assertion Markup Language
+Wiki: https://en.wikipedia.org/wiki/Security_Assertion_Markup_Language
+* SASL - Simple Authentication and Security Layer
+Wiki: https://en.wikipedia.org/wiki/Simple_Authentication_and_Security_Layer
+
 * SCM  - Source Code Management
 refers to tools such as git and subversion
+* SDK  - Software Development Kit
+Wiki: https://en.wikipedia.org/wiki/Software_development_kit
 * SDLC - Software Development Life Cycle
 * SMB  - Server Message Block
 * SNAS - Streaming Network Analytics System
@@ -76,8 +98,18 @@ Server Name Indication (SNI) is an extension to the TLS computer networking prot
 * SSO  - Single Sign On
 * SSSD - System Security Services Daemon
 RHEL: [[https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/5/html/5.7_Release_Notes/sssd.html][redhat.com/5/sssd]]
+* SLES - SUSE Linux Enterprise Server
+* STS  - Security Token Service
+Doc: https://docs.aws.amazon.com/STS/latest/APIReference/Welcome.html
+
+The AWS Security Token Service (STS) is a web service that enables you to request temporary, limited-privilege credentials for AWS Identity and Access Management (IAM) users or for users that you authenticate (federated users)
+
+* TLS  - Transport Layer Security
+Wiki: https://en.wikipedia.org/wiki/Transport_Layer_Security
 * TWM  - Tab Window Manager
 Wiki: https://en.wikipedia.org/wiki/Twm
 * UAT  - User Acceptence Testing
+* UUCP - Unix-to-Unix Copy
+Wiki: https://en.wikipedia.org/wiki/UUCP
 * UCE  - Unsolicited Commercial Email
 * VTL  - Virtual Tape Library

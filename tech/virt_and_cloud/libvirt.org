@@ -197,6 +197,33 @@ mkfs.ext4 /dev/vdc1
 mount /dev/vdc1 /mnt/new_disk
 #+END_SRC
 
+** Error with loading '/usr/lib/libvirt/storage-backend/libvirt_storage_backend_rbd.so'
+- this occured after an upgrade issue 
+  
+- as other applications had been having issues with python I assumed that this could have been the problem (barking up the wrong tree)
+  
+- edited the logging level in /etc/libvirt/libvirtd.conf
+#+BEGIN_EXAMPLE
+# WARNING: USE OF THIS IS STRONGLY DISCOURAGED.
+log_level = 1 
+#+END_EXAMPLE
+
+- then ran the cmd
+#+BEGIN_SRC ssh
+libvirtd -v
+#+END_SRC
+
+- this showed that libvirtd was trying to access librbd.so.1, but couldn't find it
+  
+- this lead me to finding out that this shared lib was needed by ceph
+  
+- on checking the ceph package, and updating it
+#+BEGIN_SRC sh
+yaourt -Su ceph
+#+END_SRC
+
+- this solved the issue
+
 * Lecture
 * Tutorial
 * Books

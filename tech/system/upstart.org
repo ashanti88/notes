@@ -4,6 +4,36 @@
 * Upstart
 * Description
 * Usage
+- List Services
+#+BEGIN_SRC sh
+initctl list
+#+END_SRC
+
+- Start Service
+#+BEGIN_SRC sh
+initctl start sshd
+#+END_SRC
+
+- Stop Service
+#+BEGIN_SRC sh
+initctl stop sshd
+#+END_SRC
+
+- Enable Service
+/etc/default/sshd
+#+BEGIN_EXAMPLE
+ENABLED=1
+#+END_EXAMPLE
+/etc/init/sshd.override
+#+BEGIN_EXAMPLE
+start
+#+END_EXAMPLE
+
+- Disable Service
+#+BEGIN_SRC sh
+echo manual > /etc/init/sshd.override
+#+END_SRC
+
 ** Boot Sequence
 1  /sbin/init
 

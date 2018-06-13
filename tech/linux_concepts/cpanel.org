@@ -152,6 +152,7 @@ postcat -q F1B4CE7A87
 * Lecture
 * Tutorial
 * Books
-** [[file://home/crito/Documents/SysAdmin/Mgmt/cpanel_big.pdf][Cpanel 11 User Guide]]
+[[file://home/crito/Documents/SysAdmin/Mgmt/Cpanel/cPanel_User_Guide_and_Tutorial-Packt_2006.pdf][cPanel User Guide and Tutorial - 2006]]
+[[file://home/crito/Documents/SysAdmin/Mgmt/Cpanel/cpanel_big.pdf][Cpanel 11 User Guide]]
 
 * Links

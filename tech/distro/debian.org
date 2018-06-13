@@ -1,9 +1,9 @@
-#+TAGS: debian .deb kali
+#+TAGS: debian .deb kali ubuntu
 
 
 * Debian - 3-4yrs Life Cycle - Release Cycle 2yrs
 * Usage
-** General System Configuration					   :deb:conf:
+** General System Configuration
 *** Setting the default text editor
 > set EDITOR=<txt\_editor>
 > set VISUAL=<txt\_editor>
@@ -26,7 +26,7 @@ or in older debian
 or on X11
 > setxkbmap gb
 
-** Configuring Networking					    :deb:net:
+** Configuring Networking
 [[https://wiki.debian.org/NetworkConfiguration#Setting_up_an_Ethernet_Interface][Network Configuration]]
 Files:
 *** /etc/interfaces
@@ -68,7 +68,7 @@ Set the bridge device up <ip link set up dev <bridge\_name>
 Deleting a bridge requires that the bridge is down <ip link set dev
 <bridge\_name> down <brctl delbr <bridge\_name>
 
-** Desktop User Configuration					     :deb:de:
+** Desktop User Configuration
 
 ** resolv.conf keeps being over-written
 - NetworkManager
@@ -78,6 +78,197 @@ Deleting a bridge requires that the bridge is down <ip link set dev
   - removed the sym link /etc/resolv.conf -> /var/NetworkManager/resolv.conf
   - created a new /etc/resolv.conf and then made immutable
     - chattr +i /etc/resolv.conf
+** Setting up iptables Debian
+
+- create a test set of rules
+/etc/iptables.test.rules
+#+BEGIN_EXAMPLE
+*filter
+
+# Allows all loopback (lo0) traffic and drop all traffic to 127/8 that doesn't use lo0
+-A INPUT -i lo -j ACCEPT
+-A INPUT ! -i lo -d 127.0.0.0/8 -j REJECT
+
+# Accepts all established inbound connections
+-A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+# Allows all outbound traffic
+# You could modify this to only allow certain traffic
+-A OUTPUT -j ACCEPT
+
+# Allows HTTP and HTTPS connections from anywhere (the normal ports for websites)
+-A INPUT -p tcp --dport 80 -j ACCEPT
+-A INPUT -p tcp --dport 443 -j ACCEPT
+
+# Allows SSH connections 
+# The --dport number is the same as in /etc/ssh/sshd_config
+-A INPUT -p tcp -m state --state NEW --dport 22 -j ACCEPT
+
+# Now you should read up on iptables rules and consider whether ssh access 
+# for everyone is really desired. Most likely you will only allow access from certain IPs.
+
+# Allow ping
+#  note that blocking other types of icmp packets is considered a bad idea by some
+#  remove -m icmp --icmp-type 8 from this line to allow all kinds of icmp:
+#  https://security.stackexchange.com/questions/22711
+-A INPUT -p icmp -m icmp --icmp-type 8 -j ACCEPT
+
+# log iptables denied calls (access via 'dmesg' command)
+-A INPUT -m limit --limit 5/min -j LOG --log-prefix "iptables denied: " --log-level 7
+
+# Reject all other inbound - default deny unless explicitly allowed policy:
+-A INPUT -j REJECT
+-A FORWARD -j REJECT
+
+COMMIT
+#+END_EXAMPLE
+
+- activate the new rules
+#+BEGIN_SRC sh
+iptables-restore < /etc/iptables.test.rules
+#+END_SRC
+
+- confirm that the rules are correct
+#+BEGIN_SRC sh
+iptables -L
+#+END_SRC
+
+- if the rules are correct save to the master iptables file
+#+BEGIN_SRC sh
+iptables-save > /etc/iptables.up.rules
+#+END_SRC
+
+- create a file to start the iptable file on boot
+/etc/network/if-pre-up.d/iptables
+#+BEGIN_EXAMPLE
+#!/bin/sh
+
+/sbin/iptables-restore < /etc/iptables.up.rules
+#+END_EXAMPLE
+
+- set the file to executable
+#+BEGIN_SRC sh
+chmod +x /etc/network/if-pre-up.d/iptables
+#+END_SRC
+
+** Setting up LDAP
+- install the required packages
+#+BEGIN_SRC sh
+apt-get install slapd ldap-utils
+#+END_SRC
+
+- will we be droped into an ncurses configuration process
+  
+1. We want to continue with the configuration proceess to create the requierd config and db 
+
+[[file://home/crito/Pictures/org/deb_ldap_2.png]]
+
+
+2. provide the DNS name 
+
+[[file://home/crito/Pictures/org/deb_ldap_3.png]]
+
+
+3. provide the organisation name
+
+[[file://home/crito/Pictures/org/deb_ldap_4.png]]
+
+
+4. now we need to provide an admin password 
+
+[[file://home/crito/Pictures/org/deb_ldap_5.png]]
+
+
+5. confirm the password
+
+[[file://home/crito/Pictures/org/deb_ldap_6.png]]
+
+
+6. Now want to choose the type of database to use
+
+[[file://home/crito/Pictures/org/deb_ldap_7.png]]
+
+MDB - uses LMDB high performance replacement for Berkeley DB
+BDB - deprecated, high-performance transactional database that uses Berkeley DB
+HDB - deprecated, hierarchical transactional database that uses Berkeley DB
+
+7. No point in risking losing the db in case of a mistake
+
+[[file://home/crito/Pictures/org/deb_ldap_8.png]]
+
+
+8. we want the old db to be moved
+
+[[file://home/crito/Pictures/org/deb_ldap_9.png]]
+
+
+- now confirm the configuration
+#+BEGIN_EXAMPLE
+root@alickmitchell4:~# ldapsearch -x
+# extended LDIF
+#
+# LDAPv3
+# base <dc=mylabserver, dc=com> (default) with scope subtree
+# filter: (objectclass=*)
+# requesting: ALL
+#
+
+# mylabserver.com
+dn: dc=mylabserver,dc=com
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+o: mylabserver.com
+dc: mylabserver
+
+# admin, mylabserver.com
+dn: cn=admin,dc=mylabserver,dc=com
+objectClass: simpleSecurityObject
+objectClass: organizationalRole
+cn: admin
+description: LDAP administrator
+
+# search result
+search: 2
+result: 0 Success
+
+# numResponses: 3
+# numEntries: 2
+#+END_EXAMPLE
+
+- We can now add our enteries
+  - 2 options  
+    i) individual on the cmd line
+    ii) multiple entries with a file
+    
+- build the file
+#+BEGIN_EXAMPLE
+# User Entry
+dn: cn=fred,dc=mylabserver,dc=com
+cn: fred
+objectClass: person
+sn: last
+
+# User Entry
+dn: cn=phil,dc=mylabserver,dc=com
+cn: phil
+objectClass: person
+sn: last
+
+# User Entry
+dn: cn=alice,dc=mylabserver,dc=com
+cn: alice
+objectClass: person
+sn: last
+
+# User Entry
+dn: cn=milly,dc=mylabserver,dc=com
+cn: milly
+objectClass: person
+sn: last
+#+END_EXAMPLE
+
+
 * Package Management
 ** Files
 /etc/apt/sources.list    - this is the list of repos that debian will use for package installation
@@ -450,6 +641,7 @@ snapcraft init
 [[file://home/crito/Documents/Linux/Debian/Debian7_System_Administration_Best_Practices.pdf][Debian 7 - System Administration Best Practices]]
 [[file://home/crito/Documents/Linux/Debian/Debian7_System_Administration_Best_Practices.pdf][Debian 7: System Administration Best Practices]]
 [[file://home/crito/Documents/Linux/Debian/The_Debian_System-Concepts_and_Techniques.pdf][The Debian System - Concepts and Techniques - No Starch Press]]
+[[file://home/crito/Documents/Linux/Debian/Debian_Handbook_Jessie.pdf][Debian Handbook Jessie]]
 
 * Links
 
@@ -507,7 +699,6 @@ ufw enable
 #+BEGIN_SRC sh
 reboot
 #+END_SRC
-
 
 * Package Management
 ** Files

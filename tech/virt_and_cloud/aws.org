@@ -2147,6 +2147,19 @@ A container is exactly what you might expect it to be based on the general defin
   - Task definition max containers               - 10
   - Throttle on task definition registration rate- 1 per second/60 max per minute
 
+** AWS Certified Solutions Architect - Associate - Linux Academy
+OrionPaper: file:///home/crito/Documents/SysAdmin/Cloud/AWS/orionpapers_cert_solutions_arch.html
+BluePrint: [[file://home/crito/Documents/SysAdmin/Cloud/AWS/aws-certified-solutions-architect-associate-blueprint.pdf][AWS Certified Solutions Architect Associate - Blueprint]]
+WhitePapers:
+file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/aws-cloud-best-practices.pdf
+file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/aws-storage-services-whitepaper.pdf
+file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/aws-security-best-practices.pdf
+file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/aws-building-fault-tolerant-applications.pdf
+file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/aws-disaster-recovery.pdf
+file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/aws-emr-best-practices.pdf
+
+Subnetting: file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/subnetting-guide.pdf
+
 * Books
 [[file://home/crito/Documents/SysAdmin/Cloud/AWS/AWS_Storage_Services.pdf][AWS Storage Services]]
 [[file://home/crito/Documents/SysAdmin/Cloud/AWS/LA_Lab_Guide_CloudFormation_Walk_Through.pdf][Linux Academy - Lab Guide CloudFormation Walk Through]]

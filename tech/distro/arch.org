@@ -152,6 +152,33 @@ application/x-bittorrent=transmission-gtk.desktop;
 *** xdg-settings
 [[file://home/crito/org/tech/cmds/xdg-settings.org][xdg-settings]]
 
+** Reinstall python
+- update the system
+#+BEGIN_SRC sh
+pacman -Syu
+#+END_SRC
+
+- download the python packages into cache
+#+BEGIN_SRC sh
+pacman -Sw python python2
+#+END_SRC
+
+- close any running applications
+  
+- exit your WM or DE
+  
+- log into a tty and stop any none essential services
+  
+- remove the python
+#+BEGIN_SRC sh
+pacman -Rddn python python2
+#+END_SRC
+
+- install the python packages
+#+BEGIN_SRC sh
+pacman -S --asdeps python python2
+#+END_SRC
+
 * Package Management
 ** Files
 /etc/pacman.conf         - this is the pacman configuration
@@ -356,7 +383,7 @@ arch-audit
 
 * Manjaro
 * Description
-* Usakge
+* Usage
 ** Mirror List Error
 - this will update the mirror list /etc/pacman.d/mirrorlist
 #+BEGIN_SRC sh

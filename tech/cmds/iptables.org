@@ -2,7 +2,8 @@
 
 
 * iptables
-Home Page: [[http://www.netfilter.org/][netfilter.org]]
+HomePage: [[http://www.netfilter.org/][netfilter.org]]
+Debian:  [[https://wiki.debian.org/iptables][debian iptables]]
 
 * Files
 /etc/sysconfig/iptables-config - this is where the iptable config is kept (rhel)
@@ -94,6 +95,79 @@ iptables-restore < /etc/sysconfig/iptables
 IPTABLES_SAVE_ON_STOP=yes
 #+END_SRC
 this should only be set once the rules are correct and tested
+** Setting up iptables Debian
+
+- create a test set of rules
+/etc/iptables.test.rules
+#+BEGIN_EXAMPLE
+*filter
+
+# Allows all loopback (lo0) traffic and drop all traffic to 127/8 that doesn't use lo0
+-A INPUT -i lo -j ACCEPT
+-A INPUT ! -i lo -d 127.0.0.0/8 -j REJECT
+
+# Accepts all established inbound connections
+-A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+# Allows all outbound traffic
+# You could modify this to only allow certain traffic
+-A OUTPUT -j ACCEPT
+
+# Allows HTTP and HTTPS connections from anywhere (the normal ports for websites)
+-A INPUT -p tcp --dport 80 -j ACCEPT
+-A INPUT -p tcp --dport 443 -j ACCEPT
+
+# Allows SSH connections 
+# The --dport number is the same as in /etc/ssh/sshd_config
+-A INPUT -p tcp -m state --state NEW --dport 22 -j ACCEPT
+
+# Now you should read up on iptables rules and consider whether ssh access 
+# for everyone is really desired. Most likely you will only allow access from certain IPs.
+
+# Allow ping
+#  note that blocking other types of icmp packets is considered a bad idea by some
+#  remove -m icmp --icmp-type 8 from this line to allow all kinds of icmp:
+#  https://security.stackexchange.com/questions/22711
+-A INPUT -p icmp -m icmp --icmp-type 8 -j ACCEPT
+
+# log iptables denied calls (access via 'dmesg' command)
+-A INPUT -m limit --limit 5/min -j LOG --log-prefix "iptables denied: " --log-level 7
+
+# Reject all other inbound - default deny unless explicitly allowed policy:
+-A INPUT -j REJECT
+-A FORWARD -j REJECT
+
+COMMIT
+#+END_EXAMPLE
+
+- activate the new rules
+#+BEGIN_SRC sh
+iptables-restore < /etc/iptables.test.rules
+#+END_SRC
+
+- confirm that the rules are correct
+#+BEGIN_SRC sh
+iptables -L
+#+END_SRC
+
+- if the rules are correct save to the master iptables file
+#+BEGIN_SRC sh
+iptables-save > /etc/iptables.up.rules
+#+END_SRC
+
+- create a file to start the iptable file on boot
+/etc/network/if-pre-up.d/iptables
+#+BEGIN_EXAMPLE
+#!/bin/sh
+
+/sbin/iptables-restore < /etc/iptables.up.rules
+#+END_EXAMPLE
+
+- set the file to executable
+#+BEGIN_SRC sh
+chmod +x /etc/network/if-pre-up.d/iptables
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

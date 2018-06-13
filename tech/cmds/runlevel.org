@@ -14,6 +14,7 @@ The runlevels
 4 - none
 5 - graphical
 6 - reboot
+N - None
 
 * Lecture
 * Tutorial
