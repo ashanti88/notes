@@ -20,47 +20,8 @@ This directory contains everything required for the boot process except for conf
 ** /bin
 Unlike /sbin, the bin directory contains several useful commands that are of use to both the system administrator as well as non-privileged users. It usually contains the shells like bash, csh, etc.... and commonly used commands like cp, mv, rm, cat, ls. For this reason and in contrast to /usr/bin, the binaries in this directory are considered to be essential. The reason for this is that it contains essential system programs that must be available even if only the partition containing / is mounted. This situation may arise should you need to repair other partitions but have no access to shared directories (ie. you are in single user mode and hence have no network access). It also contains programs which boot scripts may depend on.
 
-** /sbin
-Linux discriminates between 'normal' executables and those used for system maintenance and/or administrative tasks. The latter reside either here or - the less important ones - in /usr/sbin. Locally installed system administration programs should be placed into /usr/local/sbin. 
-
-Some distro's have now symlinked this directory to /bin .
-
 ** /lib - b
 The /lib directory contains kernel modules and those shared library images (the C programming code library) needed to boot the system and run the commands in the root filesystem, ie. by binaries in /bin and /sbin. Libraries are readily identifiable through their filename extension of *.so.
-
-** /usr - Secondary hierarchy for read-only user data
-*** /usr/bin
-This directory contains the vast majority of binaries on your system. Executables in this directory vary widely.
-
-*** /usr/sbin - Non-essential system binaries 
-This directory contains programs for administering a system, meant to be run by 'root'. Like '/sbin', it's not part of a user's $PATH. Examples of included binaries here are chroot, useradd, in.tftpd and pppconfig.
-
-*** /usr/include
-The directory for 'header files', needed for compiling user space source code.
-
-*** /usr/lib
-This directory contains program libraries. Libraries are collections of frequently used program routines.
-
-*** /usr/lib32
-*** /usr/lib64
-*** /usr/local
-The original idea behind '/usr/local' was to have a separate ('local') '/usr' directory on every machine besides '/usr', which might be just mounted read-only from somewhere else. It copies the structure of '/usr'. These days, '/usr/local' is widely regarded as a good place in which to keep self-compiled or third-party programs. The /usr/local hierarchy is for use by the system administrator when installing software locally. It needs to be safe from being overwritten when the system software is updated. It may be used for programs and data that are shareable amongst a group of hosts, but not found in /usr. Locally installed software must be placed within /usr/local rather than /usr unless it is being installed to replace or upgrade software in /usr.
-
-*** /usr/share
-This directory contains 'shareable', architecture-independent files (docs, icons, fonts etc). Note, however, that '/usr/share' is generally not intended to be shared by different operating systems or by different releases of the same operating system. Any program or package which contains or requires data that doesn't need to be modified should store that data in '/usr/share' (or '/usr/local/share', if installed locally). It is recommended that a subdirectory be used in /usr/share for this purpose."
-
-**** /usr/share/fonts
-**** /usr/share/hwdata/
-  - pci.ids - this file holds the id information of vendors
-**** /usr/share/man
-**** /usr/share/doc
-**** /usr/share/info
-
-*** /usr/src
-The 'linux' sub-directory holds the Linux kernel sources, header-files and documentation.
-
-**** /usr/src/linux
-Contains the source code for the Linux kernel.
 
 ** /etc - host specific configuration files (no binaries should be stored here) 
 This is the nerve center of your system, it contains all system related configuration files in here or in its sub-directories. A "configuration file" is defined as a local file used to control the operation of a program; it must be static and cannot be an executable binary. For this reason, it's a good idea to backup this directory regularly. It will definitely save you a lot of re-configuration later if you re-install or lose your current installation. Normally, no binaries should be or are located here.
@@ -90,6 +51,11 @@ This is the nerve center of your system, it contains all system related configur
 /etc/skel/         - skel directory, short for skeleton is copied into new users home directories on creation
 /etc/sudoers       - this file is where user privileges can be added, such as sudo, or giving a user access to certain applications
 /etc/xinetd.d/     - this directory is used to control services on a system
+*** /etc/apt     - this is the apt package management configuration directory
+/etc/apt/apt.conf.d/ -
+/etc/apt/source.list - this file holds all the url's that the system will interact with for package software
+/etc/apt/trusted.gpg - this is a gpg key ring for the sources
+/etc/apt/prefrences  - this can be used to make sure that certain versions of a package are installed (man 5 apt_preferences)
 *** /etc/default - contains some parameters that the end user or administrator is likely to change, rather than embedding the values in the actual boot scripts. In this way, changes will persist even if you upgrade the package and the boot script is replaced.
 /etc/default/grub - this file can be modified to make changes to the grub.cfg file
 **** /etc/default/useradd - this file holds the defaults to be applied to a newly created user
@@ -235,6 +201,11 @@ This is a generic mount point under which you mount your filesystems or devices.
 - /run/media/user/ - this is where external drives are added with Gnome
 - /run/log/journal/ - this is where systemd stores its logging information
 ** /root  - This is the home directory of the System Administrator, 'root'.
+** /sbin
+Linux discriminates between 'normal' executables and those used for system maintenance and/or administrative tasks. The latter reside either here or - the less important ones - in /usr/sbin. Locally installed system administration programs should be placed into /usr/local/sbin. 
+
+Some distro's have now symlinked this directory to /bin .
+
 ** /srv   - contains site-specific data which is served by this system.
 
 This main purpose of specifying this is so that users may find
@@ -267,6 +238,40 @@ The /sys/ directory utilizes the new sysfs virtual file system specific to the 2
 ** /tmp   - holds files that will be removed on reboot
 This directory contains mostly files that are required temporarily. Many programs use this to create lock files and for temporary storage of data. Do not remove files from this directory unless you know exactly what you are doing! Many of these files are important for currently running programs and deleting them may result in a system crash.
 
+** /usr - Secondary hierarchy for read-only user data
+*** /usr/bin
+This directory contains the vast majority of binaries on your system. Executables in this directory vary widely.
+
+*** /usr/sbin - Non-essential system binaries 
+This directory contains programs for administering a system, meant to be run by 'root'. Like '/sbin', it's not part of a user's $PATH. Examples of included binaries here are chroot, useradd, in.tftpd and pppconfig.
+
+*** /usr/include
+The directory for 'header files', needed for compiling user space source code.
+
+*** /usr/lib
+This directory contains program libraries. Libraries are collections of frequently used program routines.
+
+*** /usr/lib32
+*** /usr/lib64
+*** /usr/local
+The original idea behind '/usr/local' was to have a separate ('local') '/usr' directory on every machine besides '/usr', which might be just mounted read-only from somewhere else. It copies the structure of '/usr'. These days, '/usr/local' is widely regarded as a good place in which to keep self-compiled or third-party programs. The /usr/local hierarchy is for use by the system administrator when installing software locally. It needs to be safe from being overwritten when the system software is updated. It may be used for programs and data that are shareable amongst a group of hosts, but not found in /usr. Locally installed software must be placed within /usr/local rather than /usr unless it is being installed to replace or upgrade software in /usr.
+
+*** /usr/share
+This directory contains 'shareable', architecture-independent files (docs, icons, fonts etc). Note, however, that '/usr/share' is generally not intended to be shared by different operating systems or by different releases of the same operating system. Any program or package which contains or requires data that doesn't need to be modified should store that data in '/usr/share' (or '/usr/local/share', if installed locally). It is recommended that a subdirectory be used in /usr/share for this purpose."
+
+**** /usr/share/fonts
+**** /usr/share/hwdata/
+  - pci.ids - this file holds the id information of vendors
+**** /usr/share/man
+**** /usr/share/doc
+**** /usr/share/info
+
+*** /usr/src
+The 'linux' sub-directory holds the Linux kernel sources, header-files and documentation.
+
+**** /usr/src/linux
+Contains the source code for the Linux kernel.
+
 ** /var - Variable files whose content is expected to change during normal system use and operation
 Contains variable data like system logging files, mail and printer spool directories, and transient and temporary files. Some portions of /var are not shareable between different systems. For instance, /var/log, /var/lock, and /var/run. Other portions may be shared, notably /var/mail, /var/cache/man, /var/cache/fonts, and /var/spool/news. Why not put it into /usr? Because there might be circumstances when you may want to mount /usr as read-only, e.g. if it is on a CD or on another computer. '/var' contains variable data, i.e. files and directories the system must be able to write to during operation, whereas /usr should only contain static data. Some directories can be put onto separate partitions or systems, e.g. for easier backups, due to network topology or security concerns.
 
@@ -277,16 +282,18 @@ Directory containing backups of various key system files such as /etc/shadow, /e
 Is intended for cached data from applications. Such data is locally generated as a result of time-consuming I/O or calculation. This data can generally be regenerated or be restored. Unlike /var/spool, files here can be deleted without data loss. This data remains valid between invocations of the application and rebooting of the system. The existence of a separate directory for cached data allows system administrators to set different disk and backup policies from other directories in /var.
 /var/cache/pacman/pkg/ - is the location that pacman downloads tarball files to for installation.
 
+**** /var/cache/apt/  - this is the location where apt, apt-get will store cached packages from installations and downloads
+/var/cache/apt/archives - this contains all the installed and downloaded .deb files since that last clean up
 **** /var/cache/fonts
 Locally-generated fonts. In particular, all of the fonts which are automatically generated by mktexpk must be located in appropriately-named subdirectories of /var/cache/ fonts.
 
-*** /var/cache/man
+**** /var/cache/man
 A cache for man pages that are formatted on demand. The source for manual pages is usually stored in /usr/share/man/; some manual pages might come with a pre-formatted version, which is stored in /usr/share/man/cat* (this is fairly rare now). Other manual pages need to be formatted when they are first viewed; the formatted version is then stored in /var/man so that the next person to view the same page won't have to wait for it to be formatted (/var/catman is often cleaned in the same way temporary directories are cleaned).
 
-*** /var/cache/'package'
+**** /var/cache/'package'
 Package specific cache data.
 
-*** /var/cache/www
+**** /var/cache/www
 WWW proxy or cache data.
 
 *** /var/crash
@@ -304,6 +311,8 @@ Any variable data relating to games in /usr is placed here. It holds variable da
 *** /var/lib
 Holds dynamic data libraries/files like the rpm/dpkg database and game scores. Furthermore, this hierarchy holds state information pertaining to an application or the system. State information is data that programs modify while they run, and that pertains to one specific host. Users shouldn't ever need to modify files in /var/lib to configure a package's operation. State information is generally used to preserve the condition of an application (or a group of inter-related applications) between invocations and between different instances of the same application. An application (or a group of inter-related applications) use a subdirectory of /var/lib for their data. There is one subdirectory, /var/lib/misc, which is intended for state files that don't need a subdirectory; the other subdirectories should only be present if the application in question is included in the distribution. /var/lib/'name' is the location that must be used for all distribution packaging support. Different distributions may use different names, of course.
 
+**** /var/lib/apt      - this holds data related to apt
+/var/lib/apt/lists     - contains a copy of the last apt-get update in the format of a file for each source
 **** /var/lib/libvirt/ - this holds variable data for libvirt
 /var/lib/libvirt/images/ - default home for OS images for VM creation
 

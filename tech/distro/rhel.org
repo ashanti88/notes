@@ -12,7 +12,6 @@ Fedora: [[https://docs.fedoraproject.org/en-US/Fedora/12/html/Deployment_Guide/c
 * Usage
 ** RHEL6 Logging
 
-
 ** RHEL7 Networking
 *** Files
 /etc/sysconfig/network-scripts/
@@ -942,7 +941,7 @@ default_principal_flags = +preauth
 - edit the file to use the your domain
 /etc/krb5.conf
 #+BEGIN_EXAMPLE
-default_realllm = MYLABSERVER.COM
+default_realm = MYLABSERVER.COM
 
 [realms]
  MYLABSERVER.COM = {
@@ -1100,6 +1099,7 @@ kinit
 klist
 ssh alickmitchell1.mylabserver.com
 #+END_SRC
+
 ** RHEL7 iSCSI Target
 - install packages
 #+BEGIN_SRC sh
@@ -2184,6 +2184,7 @@ t - this indicates that the sticky bit is set
 * Links
 [[https://access.redhat.com/solutions/637583][How do I upgrade from RHEL6 to RHEL7 - Red Hat Customer Portal]]
 [[https://access.redhat.com/articles/1211223][How do I migrate from RHEL5 to RHEL7]]
+[[https://gist.github.com/ashrithr/4767927948eca70845db][Set up Kerberos on Redhat/CentOS 7]]
 
 
 * Fedora - Life Cycle 1yr - Release Cycle 6mth

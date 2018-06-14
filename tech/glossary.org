@@ -20,6 +20,8 @@ flannel
 HomePage: https://cve.mitre.org/
 * DCCP - Datagram Congestion Control Protocol
 Wiki - https://en.wikipedia.org/wiki/Datagram_Congestion_Control_Protocol
+* DDC  - Display Data Channel
+Wiki: https://en.wikipedia.org/wiki/Display_Data_Channel
 * DMA  - Direct Memory Access
 * DRM  - Direct Rendering Manager
 HomePage: https://dri.freedesktop.org/wiki/DRM/
@@ -31,12 +33,15 @@ Homepage: https://fd.io/
 HomePage: https://www.gnome.org/
 * GNOME - GNU Network Object Model Environment
 HomePage: https://www.gnome.org/
+* GSSAPI - Generic Security Services Application Programming Interface
+Wiki: https://en.wikipedia.org/wiki/Generic_Security_Services_Application_Program_Interface
 * ISDN - Integrated Services Digital Network
 Wiki: https://en.wikipedia.org/wiki/Integrated_Services_Digital_Network
 * iSCSI - Internet Small Computer Systems Interface
 wiki: https://en.wikipedia.org/wiki/ISCSI
 * IIO  - Industrial I/O Subsystem
 https://wiki.analog.com/software/linux/docs/iio/iio
+* KDC  - Key Distribution Centre
 * LDAP - Lightweight Directory Access Protocol
 - setting the daemon to i
 * LDPD - Label Distributed Protocol Daemon
@@ -52,13 +57,15 @@ HomePage: http://www.lmdb.tech/doc/
 * MMIO - Memory Mapped I/O
 * MPLS - Multiprotocol Label Switching
 Wiki: https://en.wikipedia.org/wiki/Multiprotocol_Label_Switching
-* NVN  - National Vulnerability Database
-https://nvd.nist.gov/
 * MTU  - Maximum Transmission Unit
 Wiki: https://en.wikipedia.org/wiki/Maximum_transmission_unit
+* NVN  - National Vulnerability Database
+https://nvd.nist.gov/
 * NIS  - Network Information Service
 * NNTP - News Network Transport Protocol
 Wiki: https://en.wikipedia.org/wiki/Network_News_Transfer_Protocol
+* NSS  - Name Service Switch
+Wiki: https://en.wikipedia.org/wiki/Name_Service_Switch
 * NTP  - Network Time Protocol
 HomePage: http://www.ntp.org/
 * NUMA - Non Uniform Memory Access 
@@ -70,6 +77,10 @@ Homepage: https://www.onap.org/
 Homepage: https://www.opnfv.org/
 * OSPF - Open Shortest Path First protocol
 wiki: https://en.wikipedia.org/wiki/Open_Shortest_Path_First
+* PAM  - Pluggable Authenication Module
+Wiki: https://en.wikipedia.org/wiki/Pluggable_authentication_module
+Red hat: https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/managing_smart_cards/pluggable_authentication_modules
+
 * PNDA - Platform for Network Data Analysis
 Homepage: http://pnda.io/
 * RAC  - Real Application Clustering (oracle)

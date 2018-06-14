@@ -221,3 +221,5 @@ ipa user-find frank
 [[file://home/crito/Documents/Linux/Linux_Security_Cookbook.pdf][Linux Security Cookbook]]
 
 * Links
+[[https://gist.github.com/ashrithr/4767927948eca70845db][Set up Kerberos on Redhat/CentOS 7]]
+[[https://debian-administration.org/article/570/MIT_Kerberos_installation_on_Debian][MIT Kerberos Installation on Debian]]

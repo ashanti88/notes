@@ -5,6 +5,11 @@
 * Description
 This command with return all the man pages that a command has.
 * Usage
+- get a short definition of what an application does
+#+BEGIN_SRC sh
+whatis scp
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

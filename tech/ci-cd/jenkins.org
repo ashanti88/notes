@@ -548,9 +548,7 @@ then hit the upload button
 [[file://home/crito/Pictures/org/jenkins_plugin_15.png]]
 
 
-
-
-*** Freestyle Itial Project Configuration
+*** Freestyle Intial Project Configuration
 - click on the add a new item
   
 file://home/crito/Pictures/org/jenkins_free_1.png
@@ -629,6 +627,89 @@ yum install git
 - back at the main menu we should now see a job being processed in the build history section
   
 [[file://home/crito/Pictures/org/jenkins_free_12.png]]
+
+*** Git Hooks and Other Build Triggers (Freestyle Project)
+
+- we can also set our builds to occur at set times even if no changes have been made
+
+[[file://home/crito/Pictures/org/jenkins_trig_1.png]]
+
+Similar to poll scm this trigger also uses the cron syntax for sprcifying timings
+
+
+**** Setting Git Hook
+
+- first select poll scm, but don't set any timings
+  
+[[file://home/crito/Pictures/org/jenkins_trig_2.png]]
+
+save this as the trigger with nothing else
+
+- on your github repo we want to add the Jenkins (Git Plugin) service
+  
+[[file://home/crito/Pictures/org/jenkins_trig_4.png]]
+
+- this will then take you to a page to provide your Jenkins master URL
+  
+file://home/crito/Pictures/org/jenkins_trig_5.png
+
+click add service
+
+- now with any changes to the repo will trigger a build
+  
+**** Setting GitHub Hook
+     
+- first select the Github trigger
+  
+[[file://home/crito/Pictures/org/jenkins_trig_6.png]]
+
+then save the project
+
+- now in our GitHub repo we need to select the GitHub service
+  
+[[file://home/crito/Pictures/org/jenkins_trig_7.png]]
+
+- add the URL for the master Jenkins node
+  
+[[file://home/crito/Pictures/org/jenkins_trig_8.png]]
+
+makesure to add the /github-webhook/
+
+- with this set up we will see a GitHub Hook log on our main page
+  
+[[file://home/crito/Pictures/org/jenkins_trig_9.png]]
+
+
+*** Workspace Environment Variables
+
+$BUILD_NUMBER    - this a sequential number that is associated with the build
+$NODE_NAME       - this is the node that the build was run on
+$JOB_NAME        - name of the job
+$EXECUTOR_NUMBER - number of the node that it was run on
+$WORKSPACE       - this is an absolute path of where the build is being executed
+
+$GIT_COMMIT          - this is the sha of the commit you are building from
+$GIT_BRANCH          - the branch that is being built
+$GIT_PREVIOUS_COMMIT - print the previous commit to that is being built
+$GIT_URL             - ssh url of the repo
+
+- when added as extra build step in a shell script this is what the variables look like
+  
+[[file://home/crito/Pictures/org/jenkins_var_1.png]]
+
+**j
+
+*** Parameterized Projects
+    
+- on the general tab we need to select "This project is parameterized"
+  
+file://home/crito/Pictures/org/jenkins_para_1.png
+
+- we click on the add parameter and this provides a drop down menu to select the parameter
+  
+[[file://home/crito/Pictures/org/jenkins_para_2.png]]
+
+two of the most common are "string" and "file"
 
 
 * Books

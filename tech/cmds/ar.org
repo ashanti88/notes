@@ -5,6 +5,27 @@
 * Description
 A utility for creating, modifying and extracting from archives.
 * Usage
+ar is part of binutils
+
+** Accidental deletion of the dpkg package means that .debs are no long able to be installed
+- we would first down load a copy of dpkg_1.17.23_amd64.deb (whatever the current version is)
+#+BEGIN_SRC sh
+wget http://ftp.uk.debian.org/debian/pool/main/d/dpkg/dpkg-dev_1.19.0.5_all.deb
+#+END_SRC
+
+- we can now extract the data.tar.gz
+#+BEGIN_SRC sh
+tar -xzf data.tar.gz
+#+END_SRC
+this may be in xz compression
+
+- copy the binary for the data.tar.gz to /usr/bin
+#+BEGIN_SRC sh
+cp ./usr/bin/dpkg /usr/bin/
+#+END_SRC
+
+- you should have a working version of dpkg
+
 * Lecture
 * Tutorial
 * Books

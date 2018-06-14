@@ -102,6 +102,17 @@ find / -perm -4000
 #+END_SRC
 adding the - before the 4 means that it can have any combintion of permissions with the suid set
 
+- find file with read set for user, group, other
+#+BEGIN_SRC sh
+find . -perm /222
+#+END_SRC
+/ - this indicates that the respective bit has at least what is requested
+
+- find file where owner(7), group (2), other (2)
+#+BEGIN_SRC sh
+find . -perm /722
+#+END_SRC
+
 ** Find by file age
 - files that have been accessed in less than a day
 #+BEGIN_SRC sh
@@ -162,3 +173,4 @@ rm $(find . -type l -exec sh -c "file -b {} | grep -q ^broken" \; -print)
 * Tutorial
 * Books
 * Link
+[[https://www.tutonics.com/2012/12/find-files-based-on-their-permissions.html][Find Files Based On Their Permissions - Tutonics]]

@@ -1,4 +1,4 @@
-#+TAGS: debian .deb kali ubuntu
+#+TAGS: debian .deb ubuntu
 
 
 * Debian - 3-4yrs Life Cycle - Release Cycle 2yrs
@@ -268,6 +268,212 @@ objectClass: person
 sn: last
 #+END_EXAMPLE
 
+** Setting up Kerberos Server
+Debian: https://debian-administration.org/article/570/MIT_Kerberos_installation_on_Debian
+
+- installing the packages   
+#+BEGIN_SRC sh
+apt-get install krb5-{admin-server,kdc}
+#+END_SRC
+
+- this will drop us into an ncurses config process
+
+- we will be asked for the Realm
+  
+file://home/crito/Pictures/org/deb_krb_1.png
+
+
+- provide the hostname of the kerberos server
+
+file://home/crito/Pictures/org/deb_krb_2.png
+
+
+- enter the hostname of the administrative kerberos server
+
+file://home/crito/Pictures/org/deb_krb_3.png
+
+
+- confirm the configuration
+
+file://home/crito/Pictures/org/deb_krb_4.png
+
+
+- this will create a config file /etc/krb5.conf
+#+BEGIN_EXAMPLE
+[realms]                                                                                      
+        MYLABSERVER.COM = {                  
+                kdc = alickmitchell4.mylabserver.com
+                admin_server = alickmitchell4.mylabserver.com
+                default_domain = mylabserver.com
+        }                                  
+
+[domain_realm]
+        .mylabserver.com = MYLABSERVER.COM
+        mylabserver.com = MYLABSERVER.COM
+
+[logging]
+        kdc = /var/log/kerberos/krb5kdc.log
+        admin_server = /var/log/kerberos/kadmin.log
+        default = /var/log/kerberos/krb5lib.log
+#+END_EXAMPLE  
+
+- make the logging directory
+#+BEGIN_SRC sh
+mkdir /var/log/kerberos
+#+END_SRC
+
+- restart the kerberos admin server
+#+BEGIN_SRC sh
+systemctl restart krb5-admin-server
+#+END_SRC
+
+- restart the kdc
+#+BEGIN_SRC sh
+systemctl restart krb5-kdc
+#+END_SRC
+
+- Intial test of kerberos
+#+BEGIN_EXAMPLE
+root@alickmitchell4:~# kadmin.local 
+kadmin.local: cannot parse </var/log/kerberos/kadmin.log>
+kadmin.local: warning - logging entry syntax error
+Authenticating as principal root/admin@MYLABSERVER.COM with password.
+kadmin.local:  listprincs
+K/M@MYLABSERVER.COM
+kadmin/admin@MYLABSERVER.COM
+kadmin/changepw@MYLABSERVER.COM
+kadmin/ec2-34-244-249-41.eu-west-1.compute.amazonaws.com@MYLABSERVER.COM
+kiprop/ec2-34-244-249-41.eu-west-1.compute.amazonaws.com@MYLABSERVER.COM
+krbtgt/MYLABSERVER.COM@MYLABSERVER.COM
+kadmin.local:  quit
+#+END_EXAMPLE
+the difference between kadmin.local and kadmin is that kadmin.local can only be run on the admin server and doesn't use the kerberos protocol to connect. You won't need a password for kadmin
+
+- now edit the /etc/krb5kdc/kadm5.acl
+#+BEGIN_EXAMPLE
+*/admin *
+#+END_EXAMPLE
+
+- we can now create root/admin
+#+BEGIN_EXAMPLE
+root@alickmitchell4:~# kadmin.local
+kadmin.local: cannot parse </var/log/kerberos/kadmin.log>
+kadmin.local: warning - logging entry syntax error
+Authenticating as principal root/admin@MYLABSERVER.COM with password.
+kadmin.local:  addprinc root/admin
+WARNING: no policy specified for root/admin@MYLABSERVER.COM; defaulting to no policy
+Enter password for principal "root/admin@MYLABSERVER.COM": 
+Re-enter password for principal "root/admin@MYLABSERVER.COM": 
+Principal "root/admin@MYLABSERVER.COM" created.
+kadmin.local:  quit
+#+END_EXAMPLE
+
+- makesure that you have the ip machine in /etc/hosts
+#+BEGIN_SRC sh
+172.31.107.9 alickmitchell4.mylabserver.com
+#+END_SRC
+
+- restart the admin server
+#+BEGIN_SRC sh
+systemctl restart krb5-admin-server
+#+END_SRC
+
+- now test that we can connect with kadmin
+#+BEGIN_EXAMPLE
+root@alickmitchell4:~# kadmin
+Authenticating as principal root/admin@MYLABSERVER.COM with password.
+Password for root/admin@MYLABSERVER.COM: 
+kadmin:  listprincs 
+K/M@MYLABSERVER.COM
+kadmin/admin@MYLABSERVER.COM
+kadmin/changepw@MYLABSERVER.COM
+kadmin/ec2-34-244-249-41.eu-west-1.compute.amazonaws.com@MYLABSERVER.COM
+kiprop/ec2-34-244-249-41.eu-west-1.compute.amazonaws.com@MYLABSERVER.COM
+krbtgt/MYLABSERVER.COM@MYLABSERVER.COM
+root/admin@MYLABSERVER.COM
+kadmin:  quit
+#+END_EXAMPLE
+
+- now create a newuser that we will add as a principle
+#+BEGIN_EXAMPLE
+root@alickmitchell4:~# adduser fred
+Adding user `fred' ...
+Adding new group `fred' (1002) ...
+Adding new user `fred' (1002) with group `fred' ...
+Creating home directory `/home/fred' ...
+Copying files from `/etc/skel' ...
+Enter new UNIX password: 
+Retype new UNIX password: 
+passwd: password updated successfully
+You are required to change your password immediately (root enforced)
+chfn: PAM: Authentication token is no longer valid; new one required
+adduser: `/usr/bin/chfn fred' returned error code 1. Exiting.
+#+END_EXAMPLE
+
+- add the newuser to kerberos
+#+BEGIN_EXAMPLE
+root@alickmitchell4:~# kadmin
+Authenticating as principal root/admin@MYLABSERVER.COM with password.
+Password for root/admin@MYLABSERVER.COM: 
+kadmin:  addprinc fred
+WARNING: no policy specified for fred@MYLABSERVER.COM; defaulting to no policy
+Enter password for principal "fred@MYLABSERVER.COM": 
+Re-enter password for principal "fred@MYLABSERVER.COM": 
+Principal "fred@MYLABSERVER.COM" created.
+kadmin:  quit
+#+END_EXAMPLE
+
+- check the ticket cache for issued tickets
+#+BEGIN_EXAMPLE
+root@alickmitchell4:~# klist 
+klist: No credentials cache found (filename: /tmp/krb5cc_0)
+#+END_EXAMPLE
+This is okay. There are no tickets and there's no credentials cache created, since we didn't authenticate yet :) So let's run 
+
+- lets get a ticket for fred
+#+BEGIN_EXAMPLE
+root@alickmitchell4:~# su fred
+fred@alickmitchell4:/root$ kinit
+Password for fred@MYLABSERVER.COM: 
+fred@alickmitchell4:/root$ klist
+Ticket cache: FILE:/tmp/krb5cc_1002
+Default principal: fred@MYLABSERVER.COM
+
+Valid starting       Expires              Service principal
+06/13/2018 08:23:04  06/13/2018 18:23:04  krbtgt/MYLABSERVER.COM@MYLABSERVER.COM
+        renew until 06/14/2018 08:22:58
+#+END_EXAMPLE
+
+- destory fred's ticket
+#+BEGIN_SRC sh
+kdestroy
+#+END_SRC
+
+- we will now test this will ssh
+I was having problems connecting over ssh with kerberos(kept asking for password) due to not having a host/alickmitchell4.com principle
+#+BEGIN_EXAMPLE
+root@alickmitchell4:~# kadmin.local
+Authenticating as principal root/admin@MYLABSERVER.COM with password.
+kadmin.local:  addprinc -randkey host/alickmitchell4.mylabserver.com
+WARNING: no policy specified for host/alickmitchell4.mylabserver.com@MYLABSERVER.COM; defaultin
+g to no policy
+Principal "host/alickmitchell4.mylabserver.com@MYLABSERVER.COM" created.
+kadmin.local:  quit
+#+END_EXAMPLE
+
+- I also had to use the ktadd, to create the keyfile
+#+BEGIN_EXAMPLE
+root@alickmitchell4:~# kadmin.local 
+Authenticating as principal root/admin@MYLABSERVER.COM with password.
+kadmin.local:  ktadd host/alickmitchell4.mylabserver.com
+Entry for principal host/alickmitchell4.mylabserver.com with kvno 2, encryption type aes256-cts
+-hmac-sha1-96 added to keytab FILE:/etc/krb5.keytab.
+Entry for principal host/alickmitchell4.mylabserver.com with kvno 2, encryption type aes128-cts
+-hmac-sha1-96 added to keytab FILE:/etc/krb5.keytab.
+kadmin.local:  quit            
+#+END_EXAMPLE
+
+- this then allowed password free ssh
 
 * Package Management
 ** Files
@@ -277,7 +483,6 @@ sn: last
 
 ** Cmds
 *** dpkg
-**** Basic Administration
 Install
 #+BEGIN_SRC sh
 dpkg -i application.deb
@@ -324,31 +529,14 @@ dpkg -L linux-headers-generic
 dpkg --content telnet.deb
 #+END_SRC
 
-***** Dealing with missing dependencies with .deb files
-#+BEGIN_SRC sh
-dpkg -i google-chrome-stable_current_amd64.deb
-#+END_SRC
-this will inform us that we are missing certain dependencies, we could now go and find all the missing dependencies or run
-#+BEGIN_SRC sh
-apt update
-apt -f upgrade
-#+END_SRC
-the system is intelligent to know that we were searching for the previous missing depencies and will go and pull the packages
-#+BEGIN_SRC sh
-dpkg -i google-chrome-stable_current_amd64.deb
-#+END_SRC
-now the installation will complete
-
-**** Adding an additional architecture
-this comes in handy when you need to install a 32bit application on a
-64bit machine
+- Adding an additional architecture
 #+BEGIN_SRC sh
 dpkg --add-architecture i386
 apt-get update
 #+END_SRC
+this comes in handy when you need to install a 32bit application on a 64bit machine
 
 *** apt-get
-**** Basic Actions
 - Update available software database
 #+BEGIN_SRC sh
 apt-get update
@@ -384,27 +572,6 @@ apt-get purge apllication
 #+END_SRC
 This will attempt to remove all configuration files
 
-- Search for an application
-#+BEGIN_SRC sh
-apt-cache search vsftpd
-#+END_SRC
-
-- show information of an application
-#+BEGIN_SRC sh
-apt-cache show vsftpd
-#+END_SRC
-
-- show more detailed information of an application
-#+BEGIN_SRC sh
-apt-cache showpkg vsftpd
-#+END_SRC
-
-- Show all installed applications
-#+BEGIN_SRC sh
-apt-cache pkgnames
-#+END_SRC
-Apt only will not know about software installed with dpkg or from source unless told
-
 - Fix broken dependencies
 #+BEGIN_SRC sh
 apt-get -f install
@@ -427,20 +594,59 @@ apt-get download nano
 apt-get build-dep application
 #+END_SRC
 
+*** apt-cache
+- Search for an application
+#+BEGIN_SRC sh
+apt-cache search vsftpd
+#+END_SRC
+
+- show information of an application
+#+BEGIN_SRC sh
+apt-cache show vsftpd
+#+END_SRC
+
+- show more detailed information of an application
+#+BEGIN_SRC sh
+apt-cache showpkg vsftpd
+#+END_SRC
+
+- Show all installed applications
+#+BEGIN_SRC sh
+apt-cache pkgnames
+#+END_SRC
+Apt only will not know about software installed with dpkg or from source unless told
+
+- view statistics on the current number of packages and their package attributes
+#+BEGIN_SRC sh
+apt-cache stats
+#+END_SRC
+
+- view what dependencies a pkg has
+#+BEGIN_SRC sh
+apt-cache depends w3m
+#+END_SRC
+
+- show reverse dependencies of a pkg
+#+BEGIN_SRC sh
+apt-cache rdpends
+#+END_SRC
+
+*** apt-file
 - list all infomation on a package
 #+BEGIN_SRC sh
 apt-file find tmux
 #+END_SRC
 
-**** Advanced Actions
-- apt-key
+*** apt-key
+- to add a gpg key to a repository, first download the key and save as a file.
 #+BEGIN_SRC sh
 apt-key add saved_gpg_key
 #+END_SRC
-to add a gpg key to a repository, first download the key and save as a file.
 
-- apt-Src
-!Think this just brings both "apt-get" and "dpkg" togeather
+- list all keys in the /etc/apt/trusted
+
+*** apt-src
+- Think this just brings both "apt-get" and "dpkg" togeather
 
 Downloading the source
 
@@ -455,23 +661,71 @@ Downloading the source
   #+END_SRC
 
 - Updating debian kernel
-#+BEGIN_SRC 
-apt-cache search linux-image
-#+END_SRC
 this will provide all available debian linux kernels
 
-**** rollback an apt-get upgrade
+*** apt
+*** axi-cache
+This is a more sophisticated tool than apt-cache, it tends to return more positive results
+
+- to install
+#+BEGIN_SRC sh
+apt-get install atp-xapian-index
+#+END_SRC
+
+- search for an application
+#+BEGIN_SRC sh
+axi-cache search w3m
+#+END_SRC
+
+*** Frontends
+- aptitude
+  - Debian: https://wiki.debian.org/Aptitude
+- synaptic
+  - Debian: https://wiki.debian.org/Synaptic
+
+** Dealing with missing dependencies with .deb files
+#+BEGIN_SRC sh
+dpkg -i google-chrome-stable_current_amd64.deb
+#+END_SRC
+this will inform us that we are missing certain dependencies, we could now go and find all the missing dependencies or run
+
+#+BEGIN_SRC sh
+apt update
+apt -f upgrade
+#+END_SRC
+the system is intelligent to know that we were searching for the previous missing depencies and will go and pull the packages
+
+#+BEGIN_SRC sh
+dpkg -i google-chrome-stable_current_amd64.deb
+#+END_SRC
+now the installation will complete
+
+** rollback an apt-get upgrade
 Article: [[https://www.cyberciti.biz/howto/debian-linux/ubuntu-linux-rollback-an-apt-get-upgrade/][nixcraft]]
 1. search the apt history for the date of the upgrade to rollback from
-  > grep -A 2 'Start-Date: YYYY-MM-DD HH:MM:SS' /var/log/apt/history.log
+#+BEGIN_SRC sh
+grep -A 2 'Start-Date: YYYY-MM-DD HH:MM:SS' /var/log/apt/history.log
+#+END_SRC
+
 2. create list of programs that are to be removed
-  > grep -A 2 'Start-Date: YYYY-MM-DD HH:MM:SS' /var/log/apt/history.log | tail -1 >/tmp/packages.txt
+#+BEGIN_SRC sh
+grep -A 2 'Start-Date: YYYY-MM-DD HH:MM:SS' /var/log/apt/history.log | tail -1 >/tmp/packages.txt
+#+END_SRC
+
 3. edit the /tmp/packages.txt and delete the Install: word
-  > sed -i 's/Install://' /tmp/packages.txt
+#+BEGIN_SRC sh
+sed -i 's/Install://' /tmp/packages.txt
+#+END_SRC
+
 4. Final clean up
-  > tr ',' '\n' < /tmp/packages.txt | sed '/automatic)/d' | awk '{ print $1}' > /tmp/final.packages.txt
-  > wc -l /tmp/packages.txt - this will give the number packages that were installed
+#+BEGIN_SRC sh
+tr ',' '\n' < /tmp/packages.txt | sed '/automatic)/d' | awk '{ print $1}' > /tmp/final.packages.txt
+wc -l /tmp/packages.txt - this will give the number packages that were installed
+#+END_SRC
+
 5. run this script as root
+#+BEGIN_EXAMPLE
+#!/bin/bash
 # Run as root
 # Store packages name in $p
 p="$(</tmp/final.packages.txt)"
@@ -487,8 +741,51 @@ apt-get autoremove
  
 # Verify disk space
 df -H
+#+END_EXAMPLE
 
-*** apt
+** Updating the debian kernel
+- first find what kernels are avialable
+#+BEGIN_SRC 
+apt-cache search linux-image
+#+END_SRC
+
+- install the required kernel
+#+BEGIN_SRC sh
+apt-get install linux-image-4.9.0-5-amd64
+#+END_SRC
+
+** Accidental deletion of the dpkg package means that .debs are no long able to be installed
+- we would first down load a copy of dpkg_1.17.23_amd64.deb (whatever the current version is)
+#+BEGIN_SRC sh
+wget http://ftp.uk.debian.org/debian/pool/main/d/dpkg/dpkg-dev_1.19.0.5_all.deb
+#+END_SRC
+
+- we can now extract the data.tar.gz
+#+BEGIN_SRC sh
+tar -xzf data.tar.gz
+#+END_SRC
+this may be in xz compression
+
+- copy the binary for the data.tar.gz to /usr/bin
+#+BEGIN_SRC sh
+cp ./usr/bin/dpkg /usr/bin/
+#+END_SRC
+
+- you should have a working version of dpkg
+
+** Checking Package Authenticity
+With 3rd party applications you will have to import the key from the provider
+
+- first download the public key, that is usually a text file
+  
+- we have to import this file
+#+BEGIN_SRC sh
+apt-key add < key.asc
+#+END_SRC
+key.asc is the downloaded file
+
+
+
 * Lectures
 ** Anatomy of a Debian Package - Google Tech Talk
 url: [[https://www.youtube.com/watch?v%3DlFzPrzY2KFM&index%3D28&list%3DWL][Anatomy of a Debian Package]]
