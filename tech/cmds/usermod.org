@@ -20,11 +20,10 @@ expiredate - is set to the date it is expired till. If it is to be lock
 indefinite set to 1.
 
 ** Enable a user's account
-
-> usermod --unlock --expiredate <YYYY-MM-DD> <username>
-
-unlock or U -this enables a locked account 
-
+#+BEGIN_SRC sh
+usermod --unlock --expiredate "" test_user
+#+END_SRC
+unlock or U -this enables a locked account
 expiredate - to set date for indefinite use "" and empty string.
 
 ** Change the user shell

@@ -248,13 +248,20 @@ This will return a message that github doesn't allow shell access, but allows yo
 - check the .git/config makesure that it is connecting over ssh not https
   - url = git@github.com:AlickMitchell/notes.git
 
+*** adding the ssh url to your project
+setting the ssh url
+#+BEGIN_SRC sh
+git remote set-url origin git@github.com:AlickMitchell/content-jenkins-freestyle.git
+#+END_SRC
+If the remote is set to https github will always ask for your username and password.
+
 *** Pushing a new branch to Github
 #+BEGIN_SRC sh
 git push origin development
 #+END_SRC
 where development is the new branch being pushed to Github
 
-*** Error
+*** Error with ssh keys as ssh-agent was needed
 #+BEGIN_EXAMPLE
 19:13:43 ajax:~/org$ git push origin master
 Permission denied (publickey).

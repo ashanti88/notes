@@ -29,6 +29,8 @@ HomePage: https://dri.freedesktop.org/wiki/DRM/
 * FDT  - Flattened Device Tree
 * FD   - Fast Data Project
 Homepage: https://fd.io/
+* FPU  - Floating Point Unit
+Wiki: https://en.wikipedia.org/wiki/Floating-point_unit
 * GIMP - GNU Image Manipulation Program
 HomePage: https://www.gnome.org/
 * GNOME - GNU Network Object Model Environment
@@ -59,8 +61,7 @@ HomePage: http://www.lmdb.tech/doc/
 Wiki: https://en.wikipedia.org/wiki/Multiprotocol_Label_Switching
 * MTU  - Maximum Transmission Unit
 Wiki: https://en.wikipedia.org/wiki/Maximum_transmission_unit
-* NVN  - National Vulnerability Database
-https://nvd.nist.gov/
+* NACL - Network Access Control Lists
 * NIS  - Network Information Service
 * NNTP - News Network Transport Protocol
 Wiki: https://en.wikipedia.org/wiki/Network_News_Transfer_Protocol
@@ -71,6 +72,8 @@ HomePage: http://www.ntp.org/
 * NUMA - Non Uniform Memory Access 
 Wiki: https://en.wikipedia.org/wiki/Non-uniform_memory_access
 Non-uniform memory access (NUMA) is a computer memory design used in multiprocessing, where the memory access time depends on the memory location relative to the processor. Under NUMA, a processor can access its own local memory faster than non-local memory (memory local to another processor or memory shared between processors). The benefits of NUMA are limited to particular workloads, notably on servers where the data is often associated strongly with certain tasks or users.
+* NVN  - National Vulnerability Database
+https://nvd.nist.gov/
 * ONAP - Open Network Automation Platform
 Homepage: https://www.onap.org/
 * OPNFV - Open Platform Network Function Virtulization

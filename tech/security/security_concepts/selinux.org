@@ -350,7 +350,10 @@ OpenShift - account
 
 * Tutorial
 * Books
+[[file://home/crito/Documents/Linux/Security/The_SELinux_Coloring_Book.pdf][The SELinux Coloring Book]]
+[[file://home/crito/Documents/Linux/Security/The_SELinux_Notebook-4th_Edition.pdf][The SELinux Notebook 4ed]]
+[[file://home/crito/Documents/Linux/Security/First_Steps_with_SELinux-IBM.pdf][First Steps with SELinux - IBM]]
 [[file://home/crito/Documents/Linux/Security/SELinux_System_Administration.pdf][SELinux System Administration]]
-** [[file://home/crito/Documents/Linux/Security/Fedora-25-SELinux.pdf][SELinux-Fedora 25]]
+[[file://home/crito/Documents/Linux/Security/Fedora-25-SELinux.pdf][SELinux-Fedora 25]]
 * Links
 [[http://www.thegeekstuff.com/2017/07/chcon-command-examples/][15 SELinux chcon Cmd Examples to Change Security Context]]

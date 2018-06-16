@@ -166,6 +166,11 @@ Defaults !requiretty
   - ensure that ssh keys have been sent up to allow ssh-keys(without passphrase)
 
 ** Linux Academy - Certified Jenkins Engineer
+Docs: [[file:~/Documents/DevOps/Linux_Academy-Jenkins_Cert_Engineer.pdf][Linux Academy - Jenkins Cert Engineer]]
+Labs:
+  [[file://home/crito/Documents/DevOps/LA_Configure_Freestyle_Project_in_Jenkins_Lab.pdf][Configure Freestyle Project in Jenkins]]
+  [[file://home/crito/Documents/DevOps/LA_Configure_Freestyle_Project_in_Jenkins_Lab.pdf][Configure Freestyle Project in Jenkins]]
+  
 *** Continous Integration and Continuous Delivery
 - Basic Workflow
   
@@ -547,33 +552,32 @@ then hit the upload button
   
 [[file://home/crito/Pictures/org/jenkins_plugin_15.png]]
 
-
 *** Freestyle Intial Project Configuration
 - click on the add a new item
   
-file://home/crito/Pictures/org/jenkins_free_1.png
+[[file://home/crito/Pictures/org/jenkins_free_1.png]]
 
 
 - then enter the item name and click on freestyle project
 
-file://home/crito/Pictures/org/jenkins_free_2.png
+[[file://home/crito/Pictures/org/jenkins_free_2.png]]
 
 then click the ok at the bottom of the screen
 
 
 - now we have the option of discarding and retaining builds
   
-file://home/crito/Pictures/org/jenkins_free_3.png
+[[file://home/crito/Pictures/org/jenkins_free_3.png]]
 
 
 - we have the ability to set a GitHub project url
 
-file://home/crito/Pictures/org/jenkins_free_4.png
+[[file://home/crito/Pictures/org/jenkins_free_4.png]]
 
 
 - we also have some other options that are available to us
 
-file://home/crito/Pictures/org/jenkins_free_5.png
+[[file://home/crito/Pictures/org/jenkins_free_5.png]]
 
 paramiterized - 
 throttle builds - allowes us to set the number of builds allowed to run over a given timeframe
@@ -651,7 +655,7 @@ save this as the trigger with nothing else
 
 - this will then take you to a page to provide your Jenkins master URL
   
-file://home/crito/Pictures/org/jenkins_trig_5.png
+[[file://home/crito/Pictures/org/jenkins_trig_5.png]]
 
 click add service
 
@@ -679,7 +683,6 @@ makesure to add the /github-webhook/
   
 [[file://home/crito/Pictures/org/jenkins_trig_9.png]]
 
-
 *** Workspace Environment Variables
 
 $BUILD_NUMBER    - this a sequential number that is associated with the build
@@ -697,8 +700,6 @@ $GIT_URL             - ssh url of the repo
   
 [[file://home/crito/Pictures/org/jenkins_var_1.png]]
 
-**j
-
 *** Parameterized Projects
     
 - on the general tab we need to select "This project is parameterized"
@@ -711,6 +712,379 @@ file://home/crito/Pictures/org/jenkins_para_1.png
 
 two of the most common are "string" and "file"
 
+*** Upstream/Downstream Projects
+
+- Downstream is a job that is triggered when another job has been built
+- Upstream project is the one that initiates the Downstream project on completion
+  
+- we create a new project, that is to be the downstream project
+  
+- we then select that it be built after another project
+
+file://home/crito/Pictures/org/jenkins_down_1.png
+
+- in the console out put of the upstream build you will notice once it's run it will now start the downstream build
+  
+file://home/crito/Pictures/org/jenkins_down_2.png
+
+
+
+
+*** Installing Docker on the Slave node
+
+- remove any existing docker pkg and selinux
+#+BEGIN_SRC sh
+yum remove docker docker-common container-selinux
+#+END_SRC
+
+- install yum utils
+#+BEGIN_SRC sh
+yum install yum-utils
+#+END_SRC
+
+- add the docker repo
+#+BEGIN_SRC sh
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+#+END_SRC
+
+- install docker-ce
+#+BEGIN_SRC sh
+yum install docker-ce
+#+END_SRC
+
+- add the jenkins user to the docker group
+#+BEGIN_SRC sh
+usermod -a -G docker jenkins
+# or
+gpasswd -a jenkins docker
+#+END_SRC
+
+- start and enable the docker service
+#+BEGIN_SRC sh
+systemctl start docker.service
+systemctl enable docker.service
+#+END_SRC
+
+- on the master restart jenkins
+#+BEGIN_SRC sh
+systemctl restart jenkins
+systemctl status jenkins
+#+END_SRC
+
+- To test that docker is working we can run the hello world on our test freestyle project by adding another build step
+
+[[file://home/crito/Pictures/org/jenkins_docker_1.png]]
+
+just click build and check the console output for the hello world that docker prints
+
+
+- Repeat this for the master and any other slave nodes
+  
+*** Installing and Configuring Ant
+    
+- This is to be done on all nodes
+
+- pull the ant tar file from apache
+#+BEGIN_SRC ssh
+wget http://apache.mirror.anlx.net/ant/binaries/apache-ant-1.10.3-bin.tar.gz
+#+END_SRC
+
+- unpack the tar file
+#+BEGIN_SRC sh
+tar xzf apache-ant-1.10.3-bin.tar.gz -C /opt
+#+END_SRC
+
+- create a sym link in opt
+#+BEGIN_SRC sh
+ln -s /opt/apache-ant-1.10.3/ /opt/ant
+#+END_SRC
+
+- set the ant environment variables
+#+BEGIN_SRC sh
+sh -c 'echo ANT_HOME=/opt/ant >> /etc/environment'
+#+END_SRC
+
+- create a sym link between ant in /opt and in /usr/bin
+#+BEGIN_SRC sh
+ln -s /opt/ant/bin/ant /usr/bin/ant
+#+END_SRC
+
+- test that ant is working
+#+BEGIN_SRC sh
+ant -version
+#+END_SRC
+
+*** The Jenkinsfile
+
+- Defines your sontinuous delivery pipeline
+- Lives with your source code
+- 2 Styles
+  - Declarative
+  - Scripted (groovy programming language)
+    
+- Basic Declarative Example
+#+BEGIN_EXAMPLE
+pipepline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building..'
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Testing..'
+            }
+        }
+	stage('Deploy') {
+            steps {
+                echo 'Deploying....'
+            }
+        }
+    }
+}
+#+END_EXAMPLE
+
+- Agent Directive
+  - any - any node
+  - none - no node - you would find the label directive later in the script inside a stage (this is to allow for specific OS/distro
+  - { label 'CentOS' } - this uses the label feature of jenkins
+  - { docker 'openjdk:8u121-jre' } - allows docker containers to be used
+    
+- step directive
+  - lots of different "steps" associated with plugins
+  - "sh" for a shell script is the most commonly used
+  - "echo" prints a string
+    
+- Environment Directive
+  - set at the top, same scope as the overall agent
+#+BEGIN_EXAMPLE
+environment {
+  ENV_VAR = "my value"
+}
+#+END_EXAMPLE
+
+*** Cingfiguring and Running a Pipeline
+    
+-Jenkinsfile
+#+BEGIN_EXAMPLE
+pipeline {
+  agent any
+
+  stages {
+    stage('build') {
+      steps {
+        sh 'ant -f build.xml -v'
+      }
+    }
+  }
+}
+#+END_EXAMPLE
+
+- now commit our Jenkins file to the java-project
+#+BEGIN_SRC sh
+git commit -am "setting up the Jenkinsfile"
+git push origin development
+#+END_SRC
+
+- Create a new pipeline project
+  
+[[file://home/crito/Pictures/org/jenkins_file_1.png]]
+
+
+- set the build trigger to GitHub Hook
+
+[[file://home/crito/Pictures/org/jenkins_file_2.png]]
+
+
+- set the pipeline to use SCM and enter the details
+
+[[file://home/crito/Pictures/org/jenkins_file_3.png]]
+
+
+- it will be ready to build
+
+*** Artifacts and Fingerprints
+    
+Artifact - something that you want to keep after the build
+
+- Example pipeline
+#+BEGIN_EXAMPLE
+pipeline {
+  agent any
+
+  stages {
+    stage('build') {
+      steps {
+        sh 'ant -f build.xml -v'
+      }
+    }
+  }
+  
+  post {
+    always {
+      archive 'dist/*.jar'
+    }
+  }
+}
+#+END_EXAMPLE
+post - this would be a post build step in the webui
+
+- all archived files are stored on the master
+  
+- to make the archive and artifact and fingerprint
+#+BEGIN_EXAMPLE
+post {
+  always {
+    archiveArtifacts artifacts: 'dist/*.jar', fingerprint: true
+  }
+}
+  
+#+END_EXAMPLE
+
+*** Testing with Jenkins
+    
+- Common Types of Testing
+  - Unit Testing
+  - Smoke Test
+  - Integration Testing
+  - Acceptance Testing
+  - Code Coverage
+    
+- Unit
+  - Test a small part of the code set. 
+  - Usually with an individual class if applicable
+    
+#+BEGIN_EXAMPLE
+@Test
+public void testGetArea() {
+  assertEquals(myRectangle.getArea(), 6):
+}
+#+END_EXAMPLE
+
+- Smoke Testing
+  - also known as Sanity, Verification or Functional testing
+  - It's a smaller subset of tests that ensure the software's primary functionality still works
+  - After Unit Testing
+    
+- Integreaton Testing
+  - Integreation testng ensures major units or modules all still work together
+  - Happens after function testing usually
+
+- Acceptance Testing
+  - determins the overall acceptability of the software based on the business requirements
+
+- Code Coverage
+  - Testing on the testing
+  - Code coverage is a measure of the degree of testing on your codeset
+  - cobertura plugin for Java that tests for code coverage
+
+*** Deploying to Apache
+
+- install apache on the master node
+#+BEGIN_SRC sh
+yum install httpd
+#+END_SRC
+
+- add a directory to /var/www/html and give jenkins premissions
+#+BEGIN_SRC sh
+mkdir -p /var/www/html/rectangles/{all,green}
+chown -R jenkins:jenkins /var/www/html/rectangles/{all,green}
+#+END_SRC
+
+- start and enable apache
+#+BEGIN_SRC sh
+systemctl start httpd
+systemctl enablehttpd
+#+END_SRC
+
+- add a deploy stage to the jenkins file
+#+BEGIN_EXAMPLE
+stage('deploy') {
+  steps {
+    sh "cp dist/rectangle_${env.BUILD_NUMBER}.jar /var/www/html/rectangles/all/"
+  }
+}
+#+END_EXAMPLE
+
+- build file needs the deest to be set to dist/rectangle_${env.BUILD_NUMBER}.jar
+  
+- git add, commit and push
+  
+
+
+
+
+*** Multi-branch pipeline
+A normal pipeline won't allow for the merging of branches as it hasn't the logic to deal with this type of operation.
+
+- in the multi-branch pipeline we want to select git as our source
+
+[[file://home/crito/Pictures/org/jenkins_multi_1.png]]
+
+GitHub is not selected as the source as it uses https not ssh
+
+- for a basic setup all other options are fine and we can save
+
+*** Tagging
+Tagging helps with creating a versioning standard
+
+- within Jenkinsfile add the environment variable
+#+BEGIN_EXAMPLE
+environment {
+  MAJOR_VERSION = 1
+}
+#+END_EXAMPLE
+
+- this variable will also be available in the build.xml
+#+BEGIN_EXAMPLE
+<jar destfile="${dist.dir}\rectangle_${env.MAJOR_VERSION}${env.BUILD_NUMBER}.jar" basedir="${build.dir}">
+#+END_EXAMPLE
+
+- in the Jenkins file the $MAJOR_VERSION will also need to be added to any file creation steps
+#+BEGIN_EXAMPLE
+sh "cp dist/rectangle_${env.major_version}.${env.build_number}.jar /var/www/html/rectangles/all/${env.BRANCH_NAME}/"
+#+END_EXAMPLE
+
+- add the tagging cmd
+#+BEGIN_EXAMPLE
+steps {
+  echo 'Tagging the Release'
+  sh "git tag rectangle-${env.MAJOR_VERSION}.${env.BUILD_NUMBER}"
+  sh "git push origin rectangle-${env.MAJOR_VERSION}.${env.BUILD_NUMBER}"
+}
+#+END_EXAMPLE
+
+*** Notifications
+    
+- for notifications to be emailed you have to setup SMTPd, we first go to "congifure system"
+
+file://home/crito/Pictures/org/jenkins_notifications_1.png
+
+
+- in the extended email section add the smtpd(in this case using google), and add default recipient
+  
+file://home/crito/Pictures/org/jenkins_notifications_2.png
+
+- we need to set and admin email in the "Jenkins Location" section  
+
+file://home/crito/Pictures/org/jenkins_notifications_3.png
+
+
+- to be informed of any failures during a build we can ddo that in the Jenkinsfile
+#+BEGIN_EXAMPLE
+post {
+  failure {
+    emailext(
+      subject: "${env.JOB_NAME} [${env.BUILD_NUMBER}] Failed!",
+      body: "Check Console",
+      to: "frank@example.com"
+    )
+  }
+}
+#+END_EXAMPLE
 
 * Books
 [[file:~/Documents/DevOps/Linux_Academy-Jenkins_Cert_Engineer.pdf][Linux Academy - Jenkins Cert Engineer]]

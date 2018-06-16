@@ -1,7 +1,7 @@
-#+TAGS: net op
+#+TAGS: netcat secuirty_tool
 
 
-* netcat							     :net:op:
+* netcat
 * Description
 * Usage
 
@@ -125,6 +125,14 @@ Host: example.com
 
 END
 #+END_SRC
+** Banner Grabbing
+#+BEGIN_EXAMPLE
+netcat 192.168.121.50 80 
+GET HTTP 1/1
+HTTP/1.1 400 Bad Request
+Server: Microsoft-IIS/5.1
+#+END_EXAMPLE
+
 * Lecture
 * Tutorial
 ** [[https://www.youtube.com/watch?v%3Dqo_sFS2A-mI][Introduction to Data Transfer with NetCat]]
