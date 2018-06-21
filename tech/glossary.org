@@ -7,14 +7,21 @@ AWS:https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html
 Wiki: https://en.wikipedia.org/wiki/Application_programming_interface
 * APCI - Advanced Configuration and Power Interface
 Arch: https://wiki.archlinux.org/index.php/ACPI_modules
+* ASG  - Auto Scaling Group (AWS)
+Docs: https://aws.amazon.com/autoscaling/
 * ASLR - Address Space Layout Randomization
 Wiki: https://en.wikipedia.org/wiki/Address_space_layout_randomization
 * BGP  - Border Gate Protocol
 wiki: https://en.wikipedia.org/wiki/Border_Gateway_Protocol
+* BOFH - Bastard Operator From Hell
+* CAM  - Content Addressable Memory
+Wiki: https://en.wikipedia.org/wiki/Content-addressable_memory
 * CIDR - Classless Inter-Domain Routing
 Wiki: https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing
 * CNI  - Container Network Interface
 flannel 
+* CORS - Cross Origin Resource Sharing
+Wiki: https://en.wikipedia.org/wiki/Cross-origin_resource_sharing
 * CRUD - Create Read Update Delete
 * CVE  - Common Vulnerabilities and Exposures
 HomePage: https://cve.mitre.org/
@@ -26,17 +33,25 @@ Wiki: https://en.wikipedia.org/wiki/Display_Data_Channel
 * DRM  - Direct Rendering Manager
 HomePage: https://dri.freedesktop.org/wiki/DRM/
 * DRY  - Don't Repeat Yourself
+* ETL  - Extract Transform Load
+Wiki: https://en.wikipedia.org/wiki/Extract,_transform,_load
 * FDT  - Flattened Device Tree
 * FD   - Fast Data Project
 Homepage: https://fd.io/
 * FPU  - Floating Point Unit
 Wiki: https://en.wikipedia.org/wiki/Floating-point_unit
+* GA   - General Availability (Software Cycle)
+Wiki: https://en.wikipedia.org/wiki/Software_release_life_cycle
 * GIMP - GNU Image Manipulation Program
 HomePage: https://www.gnome.org/
 * GNOME - GNU Network Object Model Environment
 HomePage: https://www.gnome.org/
 * GSSAPI - Generic Security Services Application Programming Interface
 Wiki: https://en.wikipedia.org/wiki/Generic_Security_Services_Application_Program_Interface
+* HPC  - High Performance Computing
+Wiki: https://en.wikipedia.org/wiki/Supercomputer
+* ISA  - Instruction Set Architecture
+Wiki: https://en.wikipedia.org/wiki/Instruction_set_architecture
 * ISDN - Integrated Services Digital Network
 Wiki: https://en.wikipedia.org/wiki/Integrated_Services_Digital_Network
 * iSCSI - Internet Small Computer Systems Interface
@@ -61,6 +76,8 @@ HomePage: http://www.lmdb.tech/doc/
 Wiki: https://en.wikipedia.org/wiki/Multiprotocol_Label_Switching
 * MTU  - Maximum Transmission Unit
 Wiki: https://en.wikipedia.org/wiki/Maximum_transmission_unit
+* MVC  - Model View Controller
+Wiki: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller
 * NACL - Network Access Control Lists
 * NIS  - Network Information Service
 * NNTP - News Network Transport Protocol
@@ -74,6 +91,8 @@ Wiki: https://en.wikipedia.org/wiki/Non-uniform_memory_access
 Non-uniform memory access (NUMA) is a computer memory design used in multiprocessing, where the memory access time depends on the memory location relative to the processor. Under NUMA, a processor can access its own local memory faster than non-local memory (memory local to another processor or memory shared between processors). The benefits of NUMA are limited to particular workloads, notably on servers where the data is often associated strongly with certain tasks or users.
 * NVN  - National Vulnerability Database
 https://nvd.nist.gov/
+* MMU  - Memmory Management Unit
+Wiki: https://en.wikipedia.org/wiki/Memory_management_unit
 * ONAP - Open Network Automation Platform
 Homepage: https://www.onap.org/
 * OPNFV - Open Platform Network Function Virtulization
@@ -87,9 +106,15 @@ Red hat: https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/
 * PNDA - Platform for Network Data Analysis
 Homepage: http://pnda.io/
 * RAC  - Real Application Clustering (oracle)
-* RHEL - Red Hat Enterprise Linux
 * RESTful API - Repressentational State Transfer Application Programming Interface
 Wiki: https://en.wikipedia.org/wiki/Representational_state_transfer
+* RHEL - Red Hat Enterprise Linux
+* RISC - Reduced Instruction Set Computer
+Wiki: https://en.wikipedia.org/wiki/Reduced_instruction_set_computer
+* RPO  - Recovery Point Objective
+Acceptable amount of data lass measured in time
+* RTO  - Recovery Time Objective
+The time it takes after a disruption to restore operations back to its regular service level, as defined by the companies operational level agreeement.
 * SSSD - System Security Services Daemon
 Fedora - https://fedoraproject.org/wiki/Features/SSSD
 
@@ -108,6 +133,8 @@ Wiki: https://en.wikipedia.org/wiki/Software_development_kit
 Homepage: http://www.snas.io/
 * SNI  - Server Name Indication
 Server Name Indication (SNI) is an extension to the TLS computer networking protocol[1] by which a client indicates which hostname it is attempting to connect to at the start of the handshaking process. This allows a server to present multiple certificates on the same IP address and TCP port number and hence allows multiple secure (HTTPS) websites (or any other Service over TLS) to be served by the same IP address without requiring all those sites to use the same certificate. It is the conceptual equivalent to HTTP/1.1 name-based virtual hosting, but for HTTPS. The desired hostname is not encrypted,[2] so an eavesdropper can see which site is being requested.
+* SOA  - Start of Authority (DNS record)
+Wiki: https://en.wikipedia.org/wiki/SOA_record
 * SPI  - Serial Peripheral Interface bus
 * SSO  - Single Sign On
 * SSSD - System Security Services Daemon
@@ -118,6 +145,8 @@ Doc: https://docs.aws.amazon.com/STS/latest/APIReference/Welcome.html
 
 The AWS Security Token Service (STS) is a web service that enables you to request temporary, limited-privilege credentials for AWS Identity and Access Management (IAM) users or for users that you authenticate (federated users)
 
+* TLB  - Translation Lookaside Buffer
+Wiki: https://en.wikipedia.org/wiki/Translation_lookaside_buffer
 * TLS  - Transport Layer Security
 Wiki: https://en.wikipedia.org/wiki/Transport_Layer_Security
 * TWM  - Tab Window Manager
@@ -127,3 +156,5 @@ Wiki: https://en.wikipedia.org/wiki/Twm
 Wiki: https://en.wikipedia.org/wiki/UUCP
 * UCE  - Unsolicited Commercial Email
 * VTL  - Virtual Tape Library
+* XML  - Extensible Markup Language
+Wiki: https://en.wikipedia.org/wiki/XML

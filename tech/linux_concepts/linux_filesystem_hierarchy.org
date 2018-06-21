@@ -28,6 +28,7 @@ This is the nerve center of your system, it contains all system related configur
 
 /etc/alternatives/ - this is used by debian to allow ease of switching between different versions of an application
 /etc/dhcpcd.conf   - this file is a config file for the dhcp client deamon
+/etc/environment   - this is where environment variables are stored
 /etc/exports       - this files is used to add NFS shares that are available for sharing
 /etc/hostname	   - this holds the hostname of the machine
 /etc/hosts         - this file is first read to find IP to hostname lookup
@@ -38,6 +39,7 @@ This is the nerve center of your system, it contains all system related configur
 /etc/inittab       - this file would tell sysvinit what run level to start by default - <identifier>:<runlevel>:<action>:<process>
 /etc/issue.net     - this is the sshd banner file - has to be enabled in sshd_config (Banner /etc/issue.net)
 /etc/motd          - this is where we set the message that users see after logging in
+/etc/my.cnf        - the main mysql configuration file
 /etc/named.conf    - this is the configuration file for the bind server(DNS)
 /etc/nologin       - if this file is present then no-one will be able to login, access can only be had through a rescue shell, single user login.
 /etc/nologin.txt   - if this file is present it is printed to the screen when a login is attempted, instead of the default message.

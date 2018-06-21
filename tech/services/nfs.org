@@ -336,7 +336,6 @@ systemctl restart rpcbind
 systemctl restart nfs-server
 #+END_SRC
 
-
 ** Provide Network Shares to Specific Clients - Client Installation and Configuration
 - install required packages
 #+BEGIN_SRC sh

@@ -492,7 +492,6 @@ elinks http://alickmitchell5.mylabserver.com/private
 #+END_SRC
 you will be challenged for a username and password before being taken to the shared content
 
-
 ** Configure a Virtual Host(RHCE RHEL7)
 - ensure that the directory that you are going to place your vhosts in is added to the httpd.conf
 #+BEGIN_EXAMPLE

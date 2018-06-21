@@ -1,24 +1,17 @@
-#+TAGS: jenkins ci devops
+#+TAGS: jenkins ci devops continous_intergration
 
 
 * Jenkins
 Home Page: [[https://jenkins.io/][jenkins.io]]
 
+* Files
+/etc/init.d/jenkins          - init file
+/etc/sysconfig/jenkins       - configuration file
+/var/log/jenkins/jenkins.log - log file
+/var/lib/jenkins             - this holds the jenkins data
+
 * Description
 Automation server, jenkins provides hundreds of plugins to support building, deploying and automating any project.
-
-* Installation
-** SysV
-1. > sudo wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo
-2. > sudo rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
-3. > sudo yum install jenkins
-4. > sudo yum install java - Ensure that the Openjdk version is installed not the gij version
-5. log into UI localhost:8080 - password is placed in /var/log/jenkins/secrets/initialAdminPassword5. log into UI localhost:8080 - password is placed in /var/log/jenkins/secrets/initialAdminPassword5. log into UI localhost:8080 - password is placed in /var/log/jenkins/secrets/initialAdminPassword5. log into UI localhost:8080 - password is placed in /var/log/jenkins/secrets/initialAdminPassword5. log into UI localhost:8080 - password is placed in /var/log/jenkins/secrets/initialAdminPassword
-
-** Configuration
-init file          - /etc/init.d/jenkins
-configuration file - /etc/sysconfig/jenkins
-log file - /etc/var/log/jenkins/jenkins.log
 
 ** System Requirements
 *** Minimum 
@@ -31,6 +24,91 @@ log file - /etc/var/log/jenkins/jenkins.log
 - 50GB+ free disk space
 
 * Usage
+** Installation on RHEL6
+- pull the jenkins repo
+#+BEGIN_SRC sh
+wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo
+#+END_SRC
+
+- import the gpg keys
+#+BEGIN_SRC sh
+rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
+#+END_SRC
+
+- install java (Openjdk)
+#+BEGIN_SRC sh
+yum install java 
+#+END_SRC
+Ensure that the Openjdk version is installed not the gij version
+
+- install the jenkins package
+#+BEGIN_SRC sh
+yum install jenkins
+#+END_SRC
+
+- login to the ui at  http://localhost:8080 
+  - the password can be found at /var/lib/jenkins/secrets/initialAdminPassword
+
+- Now follow the simple installation steps
+
+** Installation on RHEL7/CentOS7
+   
+- Determine if java is installed, and if, what version 
+#+BEGIN_SRC sh
+which java
+#+END_SRC
+if not a recent version of jdk remove
+
+- makesure that no service is running on 8080 (the port that tomcat requires)
+#+BEGIN_SRC sh
+nmap -p 8080 192.168.0.10
+#+END_SRC
+or
+#+BEGIN_SRC sh
+ss -tunlpen | grep 8080
+#+END_SRC
+
+- download the jdk-8 from oracle
+  
+- install the jdk rpm
+#+BEGIN_SRC sh
+rpm -Uvh jdk-8u25-linux-x64.rpm
+#+END_SRC
+
+- use the alternatives to set Java default
+#+BEGIN_SRC sh
+alternatives --install /usr/bin/java java /usr/java/latest/bin/java 200000
+alternatives --install /usr/bin/javac javac /usr/java/latest/bin/javac 200000
+alternatives --install /usr/bin/jar jar /usr/java/latest/bin/jar 200000
+#+END_SRC
+
+- add Java variables to /etc/rc.d/rc.local
+#+BEGIN_EXAMPLE
+export JAVA_HOME="/usr/java/latest"
+#+END_EXAMPLE
+
+- add the Jenkins repo and gpg key
+#+BEGIN_SRC sh
+wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo
+rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key
+yum update
+#+END_SRC
+
+- install jenkins
+#+BEGIN_SRC sh
+yum install jenkins
+#+END_SRC
+this will pull down the latest lts
+
+- start and enable the service
+#+BEGIN_SRC sh
+systemctl start jenkins
+systemctl enable jenkins
+systemctl status jenkins
+#+END_SRC
+
+- Connect to the web UI to start the Jenkins setup http://localhost:8080 (in older version you would be dropped straight into Jenkins, with newer versions a password is required that is found in /var/lib/jenkins/initialAdminPassword)
+
 * Lecture
 * Tutorial
 ** Linux Academy - Jenkins Quick Start
@@ -728,8 +806,6 @@ file://home/crito/Pictures/org/jenkins_down_1.png
 file://home/crito/Pictures/org/jenkins_down_2.png
 
 
-
-
 *** Installing Docker on the Slave node
 
 - remove any existing docker pkg and selinux
@@ -1015,8 +1091,6 @@ stage('deploy') {
   
 
 
-
-
 *** Multi-branch pipeline
 A normal pipeline won't allow for the merging of branches as it hasn't the logic to deal with this type of operation.
 
@@ -1085,6 +1159,56 @@ post {
   }
 }
 #+END_EXAMPLE
+
+*** Jenkins CLI
+Doc: https://jenkins.io/doc/book/managing/cli/
+    
+- we need to first add our public key to our account on the master node
+  
+
+- now we download the jenkins cli from the master node into the /var/lib/jenkins directory
+#+BEGIN_SRC sh
+wget -P /var/lib/jenkins http://localhost:8080/jnlpJars/jenkins-cli.jar
+#+END_SRC
+
+- add an environment variable for the Jenkins URL
+#+BEGIN_SRC sh
+echo "JENKINS_URL='http://localhost:8080'" >> /etc/environment
+#+END_SRC
+
+- create an alias to the jenkins-cli
+#+BEGIN_SRC sh
+echo "alias jenkins-cli='java -jar /var/lib/jenkins/jenkins-cli.jar'" >> ~/.bashrc
+alias jenkins-cli='java -jar /var/lib/jenkins/jenkins-cli.jar'
+#+END_SRC
+the reason for the second cmd is that the alias in the .bashrc would need to be reread
+
+- test that the jenkins-cli works
+#+BEGIN_SRC sh
+jenkins-cli help
+jenkins-cli -s http://localhost:8080 -auth admin:44d0260a6f91fee4208ae1064498e51f help
+#+END_SRC
+this will provide you with a large list of all the available cmds
+
+- start a build
+#+BEGIN_SRC ssh
+jenkins-cli build "Freestyles/My_Freestyle_Project"
+jenkins-cli -s http://localhost:8080 -auth admin:44d0260a6f91fee4208ae1064498e51f build "Freestyles/My_Freestyle_Project"
+#+END_SRC
+
+- install a plugin
+#+BEGIN_SRC sh
+jenkins-cli install-plugin thinBackup -restart
+jenkins-cli -s http://localhost:8080 -auth admin:44d0260a6f91fee4208ae1064498e51f install-plugin thinBackup -restart
+#+END_SRC
+this will install the plugin and restart the instance of Jenkins
+
+- print the console output from a build
+#+BEGIN_SRC sh
+jenkins-cli console "Freestyles/My_Freestyle_Project" 51
+jenkins-cli -s http://localhost:8080 -auth admin:44d0260a6f91fee4208ae1064498e51f console "Freestyles/My_Freestyle_Project" 51
+#+END_SRC
+51 is the build number
 
 * Books
 [[file:~/Documents/DevOps/Linux_Academy-Jenkins_Cert_Engineer.pdf][Linux Academy - Jenkins Cert Engineer]]

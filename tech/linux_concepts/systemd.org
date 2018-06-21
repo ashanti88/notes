@@ -47,7 +47,6 @@ WantedBy=multi.user.target
 file://home/crito/org/tech/cmds/systemd-networkd.org
 
 
-
 * Overview of Systemd Parts
 
 [[file://home/crito/Pictures/org/systemd_main_parts.png]]

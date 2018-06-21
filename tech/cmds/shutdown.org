@@ -1,0 +1,26 @@
+#+TAGS: shutdown power_down power_off
+
+
+* shutdown
+* Description
+* Usage
+- power down the system
+#+BEGIN_SRC sh
+shutdown -p now
+#+END_SRC
+
+- halt the machine in 20 minutes
+#+BEGIN_SRC sh
+shutdown -h +20
+#+END_SRC
+
+- cancel the shutdown
+#+BEGIN_SRC sh
+shutdown -c
+#+END_SRC
+
+
+* Lecture
+* Tutorial
+* Books
+* Links

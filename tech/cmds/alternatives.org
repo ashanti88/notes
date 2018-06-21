@@ -10,7 +10,12 @@ This command enables of the switching between of differnet versions of applicati
 alternatives --install /usr/bin/java java /opt/java/bin/java 200000
 #+END_SRC
 
-- for ubntu
+- selecting a version of java
+#+BEGIN_SRC sh
+alternatives --config java
+#+END_SRC
+this will show you all installed versions of java that have been set with alternatives, and will allow you to change to a different version
+
 * Lecture
 * Tutorial
 * Books

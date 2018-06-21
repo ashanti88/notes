@@ -7,6 +7,11 @@
 
 > zip filename.zip file_to_zip
 
+** zip a file
+#+BEGIN_SRC sh
+zip name_of_new_zipfile.zip file_to_zip.php
+#+END_SRC
+
 ** Zip a directory
 #+BEGIN_SRC sh
 zip -r filename.zip dir_to_zip

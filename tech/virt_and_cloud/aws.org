@@ -5,19 +5,51 @@
 HomePage: https://aws.amazon.com/
 AWS Documentation: https://aws.amazon.com/documentation/
 * Description
-* Components
+* Services
 ** VPC
+Docs: https://aws.amazon.com/vpc/
 ** EC2
+Docs: https://aws.amazon.com/ec2/
 ** ECS (EC2 Container Service)
-** S3
-** RDB
-** Dynamo
-** SNS
-** Cloudwatch
-** ELB
-** Route53
+Docs: https://aws.amazon.com/ecs/
 ** Lambda
+Docs: https://aws.amazon.com/lambda/
+** EBS
+Docs: https://aws.amazon.com/ebs/
+** EFS
+Docs: https://aws.amazon.com/s3/
+** S3
+Docs: https://aws.amazon.com/rds/
+** RDB 
+Docs: https://aws.amazon.com/rds/
+** Dynamo
+Docs: https://aws.amazon.com/dynamodb/
+** Redshift
+** Elasticache
+** ELB (Elastic Load Balancer)
+Docs: https://aws.amazon.com/elasticloadbalancing/
+
+- Classic Elastic LB
+- Application Load Balancer
+** Route53
+Docs: https://aws.amazon.com/route53/
 ** CloudFormation
+Docs: https://aws.amazon.com/cloudformation/
+** Elastic Beanstalk
+Docs: https://aws.amazon.com/elasticbeanstalk/
+** SNS
+Docs: https://aws.amazon.com/sns/
+** SQS
+** SWF
+** API Gateway
+** Cloudwatch
+Docs: https://aws.amazon.com/cloudwatch/
+** Cloudtrail
+Docs: https://aws.amazon.com/cloudtrail/
+** Kinesis
+** EMR (Elastic MapReduce)
+** AWSCLI
+Docs: https://aws.amazon.com/cli/
 * Lecture
 ** [[https://www.youtube.com/watch?v%3DeKyS9rvbj40][Introduction to Database Services - Brian Rice]]
 + If you host your DB on-site
@@ -2148,17 +2180,56 @@ A container is exactly what you might expect it to be based on the general defin
   - Throttle on task definition registration rate- 1 per second/60 max per minute
 
 ** AWS Certified Solutions Architect - Associate - Linux Academy
-OrionPaper: file:///home/crito/Documents/SysAdmin/Cloud/AWS/orionpapers_cert_solutions_arch.html
+OrionPaper: file:///home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/orionpapers_cert_solutions_arch.html
 BluePrint: [[file://home/crito/Documents/SysAdmin/Cloud/AWS/aws-certified-solutions-architect-associate-blueprint.pdf][AWS Certified Solutions Architect Associate - Blueprint]]
 WhitePapers:
-file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/aws-cloud-best-practices.pdf
-file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/aws-storage-services-whitepaper.pdf
-file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/aws-security-best-practices.pdf
-file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/aws-building-fault-tolerant-applications.pdf
-file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/aws-disaster-recovery.pdf
-file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/aws-emr-best-practices.pdf
+[[file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/aws-cloud-best-practices.pdf][AWS Cloud Best Practices]]
+[[file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/aws-storage-services-whitepaper.pdf][AWS Storage Services]]
+[[file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/aws-security-best-practices.pdf][AWS Security Best Practices]]
+[[file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/aws-building-fault-tolerant-applications.pdf][AWS Building Fault Tolerant Applications]]
+[[file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/aws-disaster-recovery.pdf][AWS Disaster Recovery]]
+[[file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/aws-emr-best-practices.pdf][AWS EMR Best Practices]]
 
-Subnetting: file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/subnetting-guide.pdf
+Subnetting: [[file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/subnetting-guide.pdf][Subnetting Guide]]
+
+VPC Labs:
+file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/LA_Lab_Guide-VPC_from_Scratch_2.pdf
+
+EC2 Labs:
+file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/LA_Lab_Guide-Provisioning_an_EC2_Instance.pdf
+file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/LA_Lab_Guide-EC2_Backup_Solutions_with_AMIs_and_Snapshots.pdf
+file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/LA_Lab_Guide-Access_Usermetadata.pdf
+
+ELB Labs:
+file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/LA_Lab_Guide-Setting_Up_an_ELB_and_Auto_Scaling_Group.pdf
+
+Bastion Host NAT Gateway Lab:
+file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/LA_Lab_Guide-Bastion_Host_and_NAT.pdf
+
+Connectivity Issue Labs:
+file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/LA_Lab_Guide-TS_Connectivity_Issue_One.pdf
+file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/LA_Lab_Guide-TS_Connectivity_Issue_Two.pdf
+file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/LA_Lab_Guide-TS_Connectivity_Issue_Three.pdf
+
+S3 Labs:
+file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/LA_Lab_Guide-S3_Static_Web_Hosting.pdf
+file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/LA_Lab_Guide-S3_Backup_and_Archiving_Solutions.pdf
+
+Route53 and CloudFront Labs:
+file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/LA_Lab_Guide-Configure_Route53_DNS_Record_Sets.pdf
+file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/LA_Lab_Guide-Configuring_a_Cloudfront_Distribution.pdf
+
+VPC Labs:
+file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/LA_Lab_Guide-VPC_Peering.pdf
+
+RDB Labs:
+file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/LA_Lab_Guide-Create_and_Configure_an_RDS_DB.pdf
+
+CloudFormation Labs:
+file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/LA_Lab_Guide-S3_Bucket_with_CloudFormation.pdf
+
+Elastic Beanstalk Labs:
+file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/LA_Lab_Guide-Deploying_a_Simple_Web_Application_with_Elastic_Beanstalk.pdf
 
 * Books
 [[file://home/crito/Documents/SysAdmin/Cloud/AWS/AWS_Storage_Services.pdf][AWS Storage Services]]
