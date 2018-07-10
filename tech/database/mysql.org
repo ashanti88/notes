@@ -699,7 +699,6 @@ ss tulnp | grep mysql
 #+END_SRC
 this should return nothing
 
-
 ** Backup and Restore a Database
 - create a directory to hold your backups
 #+BEGIN_SRC sh

@@ -257,7 +257,6 @@ GRANT ALL ON tblTest TO mytestuser;
 #+END_EXAMPLE
 now the user can use the select cmd to view data
 
-
 ** Installing phppgadmin (CentOS 7)
    
 - install epel repo

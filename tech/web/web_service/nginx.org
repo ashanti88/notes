@@ -8,6 +8,7 @@ HomePage: [[https://www.nginx.com/resources/wiki/][nginx.com]]
 /etc/nginx/conf.d/    - this contains the config files for virtual servers, ssl etc
 /etc/nginx/nginx.conf - this is the main configuration file
 /usr/share/nginx/html - this is the location of the default page
+/usr/lib64/nginx/modules - this is where nginx keeps it's modules (there is a symbolic link in /etc/nginx)
 
 ** /etc/nginx/conf.d/ssl.conf
 #+BEGIN_EXAMPLE
@@ -212,6 +213,23 @@ sudo systemctl restart nginx.service
 *** Link
 [[https://www.godaddy.com/garage/tech/config/how-to-install-and-configure-nginx-on-centos-6/][Install and Configure NGINX on CentOS 6]]
 * Usage
+- view nginx version
+#+BEGIN_SRC sh
+nginx -v
+#+END_SRC
+
+- view all version and module details
+#+BEGIN_SRC sh
+nginx -V
+nginx -V 2>&1 | tr -- - '\n' | grep _module
+#+END_SRC
+the second line provides the output in a more sane manner
+
+- testing the nginx configuration syntax
+#+BEGIN_SRC sh
+nginx -t
+#+END_SRC
+
 ** Installation (RHEL)
 - Install epel repository 
 #+BEGIN_SRC sh
@@ -240,7 +258,76 @@ lynx http://localhost
 #+END_SRC
 This should show the default nginx page if installed correctly
 
-** Basic Configuration of a New Installation
+** Installation on CentOS7
+
+- add the Nginx repo
+/etc/yum.repos.d/nginx.repo
+#+BEGIN_EXAMPLE
+[nginx]
+name=nginx repo
+baseurl=http://nginx.org/packages/centos/7/$basearch/
+gpgcheck=0
+enabled=1
+#+END_EXAMPLE
+
+- update the system to allow the new repo to be acknowledged
+#+BEGIN_SRC sh
+yum install -y nginx
+#+END_SRC
+
+- start and enable the service
+#+BEGIN_SRC sh
+systemctl start nginx
+systemctl enable nginx
+#+END_SRC
+
+- curl the localhost and we will see the nginx test page
+#+BEGIN_SRC sh
+curl http://localhost
+#+END_SRC
+
+** Installation on Ubuntu 16.04
+   
+- update the machine
+#+BEGIN_SRC sh
+apt-get update
+#+END_SRC
+
+- though we could use the available version of Nginx it came sometimes be date, so it's better to use Nginx's own repo
+#+BEGIN_SRC sh
+curl -o nginx_signing.key http://nginx.org/keys/nginx_signing.key
+apt-key add nginx_signing.key
+#+END_SRC
+
+/etc/apt/sources.list
+#+BEGIN_EXAMPLE
+# Official Nginx repo
+deb http://nginx.org/packages/ubuntu/ xenial nginx
+deb-src http://nginx.org/packages/ubuntu/ xenial nginx
+#+END_EXAMPLE
+
+- update date the system to acknowledged the new repo
+#+BEGIN_SRC sh
+apt-get update
+#+END_SRC
+
+- install the Nginx package
+#+BEGIN_SRC sh
+apt-get install -y nginx
+#+END_SRC
+
+- start and enable the service
+#+BEGIN_SRC sh
+systemctl start nginx
+systemctl enable nginx
+#+END_SRC
+
+- confirm the installation
+#+BEGIN_SRC sh
+curl http://localhost
+#+END_SRC
+
+** Basic Configuration vhost.d and /var/www/html
 /etc/nginx/nginx.conf
 
 - adding a vhost.d directory to the configuration
@@ -282,6 +369,890 @@ service nginx restart
 lynx http://localhost
 #+END_SRC
 this should now print the new index.html
+
+** Setting up our own default.conf and a virtual host
+- create a new default /etc/nginx/conf.d/default.conf
+#+BEGIN_EXAMPLE
+server {
+    listen 80 default_server;
+    server_name _;
+    root /usr/share/nginx/html;
+}
+#+END_EXAMPLE
+
+- crate a virtual host /etc/nginx/conf.d/example.conf
+#+BEGIN_EXAMPLE
+server {
+    listen 80;
+    server_name example.com www.example.com;
+    root /var/www/example.com/html;
+}
+#+END_EXAMPLE
+
+- create example.com/html directory
+#+BEGIN_SRC sh
+mkdir -p /var/www/example.com/html
+echo "<h1>Hello, Example.com</h1>" > /var/www/example.com/html/index.html
+#+END_SRC
+
+- test and reload nginx
+#+BEGIN_SRC sh
+nginx -t
+systemctl reload nginx
+#+END_SRC
+
+- use curl to test example.com
+#+BEGIN_SRC sh
+curl --header "Host: example.com" localhost
+#+END_SRC
+this would cause an SELinux error if enabled
+
+- set the correct SELinux context on the example.com directory
+#+BEGIN_SRC sh
+semanage fcontext -a -t httpd_sys_content_t '/var/www/(/.*)?'
+restorecon -R -v /var/www
+#+END_SRC
+
+- our page should now be available
+#+BEGIN_SRC sh
+curl --header "Host: example.com" localhost
+#+END_SRC
+
+** Setting up Customized Error Pages
+- setting a default error page
+/etx/nginx/conf.d/default.conf
+#+BEGIN_EXAMPLE
+server {
+    listen 80 default_server;
+    server_name _;
+    root /var/www/html;
+    
+    error_page 404 /404.html;
+    error_page 500 501 502 503 504 /50x.html;
+}
+#+END_EXAMPLE
+
+- create the error_page
+#+BEGIN_SRC sh
+echo "<h1>404 Page Not Found</h1>" > /var/www/html/404.html
+#+END_SRC
+
+- reload the nginx service
+#+BEGIN_SRC sh
+nginx -t
+systemctl reload nginx
+#+END_SRC
+
+** Setting up Admin section with password (auth_basic)
+- add the location directive
+#+BEGIN_EXAMPLE
+server {
+    listen 80 default_server;
+    server_name _;
+    root /var/www/html;
+    
+    location = /admin.html {
+        auth_basic "Login Required";
+        auth_basic_user_file /etc/nginx/.htpasswd;
+    }
+    
+    error_page 404 /404.html;
+    error_page 500 501 502 503 504 /50x.html;
+}
+#+END_EXAMPLE
+
+- create a temp admin page
+#+BEGIN_SRC sh
+echo "<h1>Admin Page </h1>" > /var/www/html/admin.html
+#+END_SRC
+
+- install the htpasswd package
+#+BEGIN_SRC sh
+yum install -y httpd-tools
+apt-get install apache2-utils
+#+END_SRC
+
+- generate the .htpasswd
+#+BEGIN_SRC sh
+htpasswd -c /etc/nginx/.htpasswd admin
+#+END_SRC
+this will prompt you for a password and add it to the file
+
+- confirm the config and reload
+#+BEGIN_SRC sh
+nginx -t
+systemctl reload nginx
+#+END_SRC
+
+- confirm that authentication is required
+#+BEGIN_SRC sh
+curl -u admin:password localhost/admin.html
+#+END_SRC
+with a gui browser a popup will challenge for the username and password 
+
+** Generating Self-Signed Certificates
+
+- create a directory to hold the certs
+#+BEGIN_SRC sh
+mkdir /etc/nginx/ssl
+#+END_SRC
+
+- create a certifiacte
+#+BEGIN_SRC sh
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/private.key -out /etc/nginx/ssl/public.pem
+#+END_SRC
+we will be prompted for company infromation but this isn't compulsory
+
+** Configuring the Host for SSL/TLS/HTTPS
+
+- edit the default.conf to accept ssl traffic
+#+BEGIN_EXAMPLE
+server {
+    listen 80 default_server;
+    listen 443 ssl;
+    server_name _;
+    root /var/www/html;
+    
+    ssl_certificate /etc/nginx/ssl/public.pem;
+    ssl_certificate_key /etc/nginx/ssl/private.key;
+    
+    location = /admin.html{
+        auth_basic "Login Required";
+        auth_basic_user_file /etc/nginx/.htpasswd;
+    }
+    
+    error_page 404 /404.html;
+    error_page 500 501 502 503 504 /50x.html;
+}
+#+END_EXAMPLE
+- the following lines need to be added to enable https
+listen 443 ssl
+ssl_certificate /etc/nginx/ssl/public.pem
+ssl_certificate_key /etc/nginx/ssl/private.key
+
+- test and reload nginx
+#+BEGIN_SRC sh
+nginx -t
+systemctl reload nginx
+#+END_SRC
+
+- confirm with curl
+#+BEGIN_SRC sh
+curl -k https://localhost
+#+END_SRC
+k - insecure (will allow self signed certs without warning)
+
+** Force HTTP to HTTPS
+   
+- create an individual server block for both http and https
+#+BEGIN_EXAMPLE
+server {
+    listen 80 default_server;
+    server_name _;
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl default_server;
+    server_name _;
+    root /var/www/html;
+    
+    ssl_certificate /etc/nginx/ssl/public.pem;
+    ssl_certificate_key /etc/nginx/ssl/private.key;
+    
+    # Remove the .html from files
+    rewrite ^(/.*)\.html(\?.*)?$ $1$2 redirect;
+    # this removes any trailing / on requests
+    rewrite ^/(.*)/$ /$1 redirect;
+    
+    location / {
+        try_files $uri/idex.html $uri.html $uri/ $uri =404;
+    }
+
+    location = /admin.html{
+        auth_basic "Login Required";
+        auth_basic_user_file /etc/nginx/.htpasswd;
+        try_files $uri/idex.html $uri.html $uri/ $uri =404;
+    }
+    
+    error_page 404 /404.html;
+    error_page 500 501 502 503 504 /50x.html;
+}
+#+END_EXAMPLE
+
+- test and reload
+#+BEGIN_SRC sh
+nginx -t
+systemctl reload nginx
+#+END_SRC
+
+** SSL Certification Management
+   
+- create an ssl directory
+#+BEGIN_SRC sh
+mkdir -p /etc/nginx/ssl
+cd ssl
+#+END_SRC
+
+- create the server csr and key files
+#+BEGIN_SRC sh
+openssl genrsa -des3 -out server.key 1024
+openssl req -new -key server.key -out server.csr
+#+END_SRC
+
+- remove passphrase from server.key as a restart of nginx will always prompt for the key
+#+BEGIN_SRC sh
+cp server.key server.key.org
+openssl rsa -in server.key.org -out server.key
+#+END_SRC
+
+- create the self signed certificate
+#+BEGIN_SRC sh
+openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+#+END_SRC
+
+- add the certificate to the vhost file
+#+BEGIN_EXAMPLE
+server {
+	listen 80;
+
+	root /var/www/html/myexample;
+	index index.html index.htm index.php;
+	
+	server_name myexample.local www.myexample.local;
+}
+
+server {
+	listen 443;
+
+	root /var/www/html/myexample;
+	index index.html index.htm index.php
+	
+	server_name www.myexample.local myexample.local
+	
+	ssl on;
+	ssl_certificate /etc/nginx/ssl/server.crt;
+	ssl_certificate_key /etc/nginx/ssl/server.key;
+}
+#+END_EXAMPLE
+
+- test configuration and restart service
+#+BEGIN_SRC sh
+nginx -t
+service nginx restart
+lynx https://www.myexample.local
+#+END_SRC
+
+** Improving SSL Configuration
+https://wiki.mozilla.org/Security/Server_Side_TLS
+   
+#+BEGIN_EXAMPLE
+server {
+    listen 80 default_server;
+    server_name _;
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl default_server;
+    server_name _;
+    root /var/www/html;
+    
+    ssl_certificate /etc/nginx/ssl/public.pem;
+    ssl_certificate_key /etc/nginx/ssl/private.key;
+
+    ssl_session_timeout 1d; # this variables stop the ssl handshake having to take place everytime they visit (5 minutes default)
+    ssl_session_cache  shared:SSL:50m; # 1m can store about 4000 sessions
+    ssl_seesion_tickets off;
+    
+    ssl_protocols TLSv1.2;
+    ssl_ciphers 'ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256';
+    ssl_prefer_server_ciphers on;
+    
+    # do not allow port 80 for 6mths
+    add header Strict-Transport-Security max-age=15768000;
+    
+    # OSCP - Online Cerificate Status Protocol - The server can make the request to the Cert auth and cache it saving the client having to perform this request
+ 
+    ssl_stapling on;
+    
+    # Remove the .html from files
+    rewrite ^(/.*)\.html(\?.*)?$ $1$2 redirect;
+    # this removes any trailing / on requests
+    rewrite ^/(.*)/$ /$1 redirect;
+    
+    location / {
+        try_files $uri/idex.html $uri.html $uri/ $uri =404;
+    }
+
+    location = /admin.html{
+        auth_basic "Login Required";
+        auth_basic_user_file /etc/nginx/.htpasswd;
+        try_files $uri/idex.html $uri.html $uri/ $uri =404;
+    }
+    
+    error_page 404 /404.html;
+    error_page 500 501 502 503 504 /50x.html;
+}
+#+END_EXAMPLE
+
+** Adding ModSecurity to Nginx
+
+- install required tools and dependencies
+#+BEGIN_SRC sh
+yum groupinstall 'Development tools'
+yum install -y \
+geoip-devel \
+gperftools-devel \
+libcurl-devel \
+libxml2-devel \
+libxslt-devel \
+libgd-devel \
+lmdb-devel \
+openssl-devel \
+pcre-devel \
+perl-ExtUtils-Embed \
+yajl-devel \
+zlib-devel
+#+END_SRC
+
+- clone ModSecurity, compile and install
+#+BEGIN_SRC sh
+cd /opt
+git clone --depth 1 -b v3/master https://github.com/SpiderLabs/ModSecurity
+cd ModSecurity
+git submodule init 
+git submodule update
+./build.sh
+./configure
+make
+make install
+#+END_SRC
+
+- now we can build the a dynamic module using the ModSecurity-nginx project
+#+BEGIN_SRC sh
+cd /opt
+git clone --depth 1 https://github.com/SpiderLabs/ModSecurity-nginx.git
+#+END_SRC
+
+- download and unpack Nginx Source
+#+BEGIN_SRC sh
+nginx -v
+wget http://nginx.org/download/nginx-1.12.2.tar.gz
+tar xvzf nginx-1.12.2.tar.gz
+#+END_SRC
+
+- Configure and build the dynamic module
+#+BEGIN_SRC sh
+cd nginx-1.12.2
+./configure --with-compat --add-dynamic-module=../ModSecurity-nginx
+make modules
+cp objs/ngx_http_modsecurity_module.so /etc/nginx/modules/
+#+END_SRC
+
+- Load the Modsecurity Module
+/etc/nginx/nginx.conf
+#+BEGIN_EXAMPLE
+user  nginx;
+worker_processes  1;
+
+error_log  /var/log/nginx/error.log warn;
+pid        /var/run/nginx.pid;
+
+
+# Load ModSecurity dynamic module
+load_module /etc/nginx/modules/ngx_http_modsecurity_module.so;
+
+
+events {
+    worker_connections  1024;
+}
+
+#+END_EXAMPLE
+the module has to be loaded before the events section
+
+- now copy the default configuration and amend for SELinux
+#+BEGIN_SRC sh
+mkdir /etc/nginx/modsecurity
+cp /opt/ModSecurity/modsecurity.conf-recommended /etc/nginx/modsecurity/modsecurity.conf
+#+END_SRC
+
+/etc/nginx/modsecurity/modsecurity.conf
+#+BEGIN_EXAMPLE
+SecAuditLog /var/log/nginx/modsec_audit.log
+#+END_EXAMPLE
+this needs to be altered as SELinux will not allow Nginx to write to /var/log/modsec_audit.log
+
+- enable ModSecurity in the primary server block
+#+BEGIN_EXAMPLE
+server {
+    listen 80 default_server;
+    server_name _;
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl default_server;
+    server_name _;
+    root /usr/share/nginx/html;
+
+    modsecurity on;
+    modsecurity_rules_file /etc/nginx/modsecurity/modsecurity.conf;
+
+    ssl_certificate /etc/nginx/ssl/public.pem;
+    ssl_certificate_key /etc/nginx/ssl/private.key;
+
+    rewrite ^(/.*)\.html(\?.*)?$ $1$2 redirect;
+    rewrite ^/(.*)/$ /$1 redirect;
+
+    location / {
+        try_files $uri/index.html $uri.html $uri/ $uri =404;
+    }
+
+    location = /admin {
+        auth_basic "Login Required";
+        auth_basic_user_file /etc/nginx/.htpasswd;
+        try_files $uri/index.html $uri.html $uri/ $uri =404;
+    }
+
+    error_page 404 /404.html;
+    error_page 500 501 502 503 504 /50x.html;
+}
+#+END_EXAMPLE
+
+- test and reload to enable the module
+#+BEGIN_SRC sh
+nginx -t
+systemctl reload nginx
+#+END_SRC
+
+** Setting up LEMP Stack with Wordpress using FastCGI Proxy
+   
+- add the "Software Collections" repo for php7
+#+BEGIN_SRC sh
+yum install -y centos-release-scl
+yum update
+#+END_SRC
+
+- install php7 and required packages
+#+BEGIN_SRC sh
+yum install -y rh-php71-php rh-php71-php-fpm rh-php71-php-mysqlnd
+#+END_SRC
+
+- we need to let the nginx user have access and set up sockets instead of a port for simplicity
+/etc/opt/rh/rh-php71/php-fpm.d/www.conf
+#+BEGIN_EXAMPLE
+; Set user and group
+user = nginx
+group = nginx
+; Set to listen on a socket instead of port.
+listen = /var/run/php-fpm.sock
+; Set permissions on Unix socket.
+listen.owner = nginx
+listen.group = nginx
+listen.mode = 0660
+#+END_EXAMPLE
+
+- start and enable php-fpm
+#+BEGIN_SRC sh
+systemctl start rh-php71-php-fpm
+systemctl enable rh-php71-php-fpm
+#+END_SRC
+
+- add the mariadb repo to get the most stable up to date version
+/etc/yum.repos.d/mariadb.repo
+#+BEGIN_EXAMPLE
+[mariadb]
+name = Mariadb
+baseurl = http://yum.mariadb.org/10.2/centos7-amd64
+gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+gpgcheck=1
+#+END_EXAMPLE
+
+- update the system
+#+BEGIN_SRC sh
+yum update
+#+END_SRC
+
+- add MariaDB with developer tools
+#+BEGIN_SRC sh
+yum install -y MariaDB-server MariaDB-client MariaDB-devel MariaDB-shared
+#+END_SRC
+
+- start and enable MariaDB
+#+BEGIN_SRC sh
+systemctl start mariadb
+systemctl enable mariadb
+#+END_SRC
+
+- set up mariadb
+#+BEGIN_SRC sh
+mysql_secure_installation
+#+END_SRC
+
+- login to mariadb
+#+BEGIN_SRC sh
+mysql -u root -p
+#+END_SRC
+
+- create a wordpress database
+#+BEGIN_EXAMPLE
+> CREATE DATABASE wordpress;
+> GRANT ALL PRIVILEGES ON wordpress.* TO wpuser@localhost IDENTIFIED BY "password";
+> FLUSH PRIvILEGES;
+#+END_EXAMPLE
+
+- create directory to hold wordpress and pull down wp
+#+BEGIN_SRC sh
+mkdir /var/www/blog.example.com
+wget -q -O - http://wordpress.org/latest.tar.gz | tar -xzf - --strip 1 -C /var/www/blog.example.com
+#+END_SRC
+
+- create wp configuration and add permissions
+#+BEGIN_SRC sh
+cp /var/www/blog.example.com/wp-config{-sample,}.php
+chown -R nginx:nginx /var/www/blog.example.com
+#+END_SRC
+
+- edit to wp configuration file so that it knows about the database
+/var/www/blog.example.com/wp-config.php
+#+BEGIN_EXAMPLE
+define('DB_NAME', 'wordpress');
+
+/** MySQL database username */
+define('DB_USER', 'wpuser');
+
+/** MySQL database password */
+define('DB_PASSWORD', 'p@ssw0rd');
+
+/** MySQL hostname */
+define('DB_HOST', 'localhost');
+#+END_EXAMPLE
+
+- the salts will also need to be added, these can be added by using the url in the config
+#+BEGIN_EXAMPLE
+define('AUTH_KEY',         '6VW:yG:KG]xlfZ=!Fogh -Ah6HORan0Ofb.vCKS:<]H9m$#ea+x2<kl/S.ZN+<+G');
+define('SECURE_AUTH_KEY',  '1LtNz(+7i-tUg<=b/8hYaY,5n0{eH0xZi|2EMdDhx<0HF1I3IURcjDoY{v+iuI|*');
+define('LOGGED_IN_KEY',    'qb+CoRB&m9gtx)GO!8/dqNmor]ocXEqly-U*.w&jdkg1a]BY/ByFVyQz-[^?u $2');
+define('NONCE_KEY',        'j(&yUln(xFht>1$cn.RGM)w&30G 99AszB|5,RXc,ikxmU}M6$c]_i tAH<Y{1i.');
+define('AUTH_SALT',        'T)QJ}O/a/mRYz?U;af!ZQ0`Mo{zVprr%=AYIT%@yfVc}pbrLC`9eQ~mkOn73>^%a');
+define('SECURE_AUTH_SALT', '+I,~I`].d:3.VB|#&lsMux/cWb]Qe=S-bM&`xQ[rD:eWZ|2Q5G7( i8A8$Z5-T`o');
+define('LOGGED_IN_SALT',   'HDa$<u)=csEUg!_+A#Bs#7|sTmhBNzm7{CA^1SfX!p|Y%xd-P|AZ>@l/!BXnt5.4');
+define('NONCE_SALT',       'K,pM8b62Rw>a_[46olsBnqN)?IM8It/E2({2(Bqr7NK Ol+_f68ot=!;%+n6>S!|');
+#+END_EXAMPLE
+above is an example of what they will look like
+
+- now need to create a new file for wp
+/etc/nginx/conf.d/blog.example.com.conf
+#+BEGIN_EXAMPLE
+server {
+    listen 80;
+    server_name blog.example.com;
+
+    root /var/www/blog.example.com;
+    index index.php;
+    
+    location / {
+        try_file $uri $uri/ $index.php?args;
+    }
+    
+    location ~ \.php$ {
+        fastcgi_index index.php;
+        fastcgi_pass unix:/var/run/php-fpm.sock;
+        include fastcgi_params;
+	fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    }
+}
+#+END_EXAMPLE
+
+- test and reload nginx
+#+BEGIN_SRC sh
+nginx -t 
+systemctl reload nginx
+#+END_SRC
+
+** MariaDB for LEMP
+
+- installation (CentOS requires remi repo, but CentOS MariDB is the default)
+#+BEGIN_SRC sh
+wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+rpm -Uvh remi-release-6.rpm
+yum --enablerepremi-test --disablerepo=remi install compat-mysql55
+#+END_SRC
+
+- add maria repo
+/etc/yum.repos.d/maria.repo
+#+BEGIN_EXAMPLE
+[mariadb]
+name=MariaDB
+baseurl=http://yum.mariadb.org/5.5/centos6-amd64
+gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+gpgcheck=1
+#+END_EXAMPLE
+
+- update the system
+#+BEGIN_SRC sh
+yum update
+yum install MariaDB-devel MariaDB-cient MariaDB-server perl-DBD-MySQL
+#+END_SRC
+
+- start the service
+#+BEGIN_SRC sh
+service mysql start
+#+END_SRC
+
+- secure setup
+#+BEGIN_SRC sh
+mysql_secure_installation
+#+END_SRC
+this will run you through a set of questions that will allow you to set and remove passwords and users
+
+- confirm that you can connect to db
+#+BEGIN_SRC sh
+mysql -u root -p
+#+END_SRC
+
+- restart php-fpm
+#+BEGIN_SRC sh
+service php-fpm restart
+#+END_SRC
+this has to be do as php-fpm my have a few problems recognizing the newly installed Mariadb
+
+** php-fpm
+   
+- install php
+#+BEGIN_SRC sh
+yum install php
+#+END_SRC
+
+- create a php-fpm socket file
+/etc/php-fpm.d/www.conf
+#+BEGIN_EXAMPLE
+listen = /var/run/php-fpm/www.sock
+#+END_EXAMPLE
+
+- add the correct ownership to the new sock file
+#+BEGIN_SRC sh
+chown nginx:nginx /var/run/php-fpm/www.sock
+#+END_SRC
+
+- start and enable php-fpm
+#+BEGIN_SRC sh
+chkconfig php-fpm on
+service php-fpm start
+#+END_SRC
+
+** Proxying a uWSGI Application
+
+- creating the configuration file
+/etc/nginx/conf.d/notes.example.com.conf (the example application provided by LA)
+#+BEGIN_EXAMPLE
+server {
+    listen 80;
+    server_name notes.example.com;
+
+    location /static {
+        root /var/www/notes.example.com;
+    }
+
+    location / {
+        include uwsgi_params;
+        uwsgi_pass unix:/var/run/uwsgi/notes.sock;
+    }
+}
+#+END_EXAMPLE
+   
+- test and reload nginx
+#+BEGIN_SRC sh
+nginx -t
+systemctl reload nginx
+#+END_SRC
+
+- if SELinux is enabled then you will need to set the correct contexts
+#+BEGIN_SRC sh
+grep nginx /var/log/audit/audit.log | audit2allow -m nginx
+#+END_SRC
+this will show us the policy file that will be created based on the errors in the audit file
+
+- to create the policy file
+#+BEGIN_SRC sh
+grep nginx /var/log/audit/audit.log | audit2allow -M nginx
+#+END_SRC
+this will generate the policy file (.pp data, .te this is a plain text file of .pp will inplement)
+
+- implement the policy file
+#+BEGIN_SRC sh
+semodule -i nginx.pp
+semodule --enable nginx
+restorecon -Rv /var/www/example.com/
+restorecon -Rv /run/uwsgi/
+#+END_SRC
+
+** Simple Caching for Static Content (php)
+Though this is for php, it is also available for most other languages
+
+- setting fastcgi_cache_path in the configuration
+/etc/ngnx/conf.d/blog.example.com.conf
+#+BEGIN_EXAMPLE
+fastcgi_cache_path /var/cache/nginx/blog levels=1:2
+                   keys_zone=blog:10m size=1g inactive=60m;
+server {
+    listen 80;
+    server_name blog.example.com;
+
+    root /var/www/blog.example.com;
+    index index.php;
+    
+    fastcgi_cache_key $scheme$request_method$host$request_uri; # this is required by both fastcgi and uwsgi
+    
+    location / {
+        try_file $uri $uri/ $index.php?args;
+    }
+    
+    location ~ \.php$ {
+        fastcgi_index index.php;
+        fastcgi_pass unix:/var/run/php-fpm.sock;
+        fastcgi_cache blog;
+        fastcgi_cache_valid 60m 
+        include fastcgi_params;
+	fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    }
+}
+#+END_EXAMPLE
+/var/cache/nginx/blog - specifies the directory to store the cached objects
+levels=1:2 - specifies the number of subdirectory levels used in the cache. This is the recommended setting, yet not the default
+keys_zone=blog:10m - Allows us to specify the name of the cache and the size of the memory space that will hold the keys and metadata information. The name and size of the lookup table so NGINX can quickly know if a request is a cache hit or miss
+max_size=1g - Defines the maximum amount of storage we’re allowing NGINX to use for this cache. If not set it will keep caching new keys only limited by storage
+inactive=60m - Defines the maximum cache lifetime of an item if it’s not accessed again. The cache will be populated on the first hit, and then after that, it will have 60 minutes to receive another request or the item will be removed from the cache
+
+- adding additional cache header
+#+BEGIN_EXAMPLE
+    location ~ \.php$ {
+        add_header X-Cache-Status $upstream_cache_status;
+        fastcgi_index index.php;
+        fastcgi_pass unix:/var/run/php-fpm.sock;
+        fastcgi_cache blog;
+        fastcgi_cache_valid 60m 
+        include fastcgi_params;
+	fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    }
+#+END_EXAMPLE
+this will allow us to know if the request was a cache hit or miss from the browser's response information
+
+
+- Not Caching Content
+We wouldn't want information that is in the /wp-admin to be cached as it's dynamic
+#+BEGIN_EXAMPLE
+fastcgi_cache_path /var/cache/nginx/blog levels=1:2
+                   keys_zone=blog:10m max_size=1g inactive=60m;
+
+server {
+    listen 80;
+    server_name blog.example.com;
+
+    root /var/www/blog.example.com;
+    index index.php;
+
+    fastcgi_cache_key $scheme$request_method$host$request_uri;
+
+    set $skip_cache 0;
+
+    if ($request_uri ~* "/wp-admin") {
+        set $skip_cache 1;
+    }
+
+    location / {
+        try_files $uri $uri/ /index.php?$args;
+    }
+
+    location ~ \.php$ {
+        add_header X-Cache-Status $upstream_cache_status;
+        fastcgi_index index.php;
+        fastcgi_pass unix:/var/run/php-fpm.sock;
+        fastcgi_cache_bypass $skip_cache;
+        fastcgi_no_cache $skip_cache;
+        fastcgi_cache blog;
+        fastcgi_cache_valid 60m;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    }
+}
+#+END_EXAMPLE
+if wp-admin is accessed $skip_cache is set to 1 and fastcgi_no_cache and fastcgi_cache_bypass will interpret this
+
+
+- Purging the Cache
+#+BEGIN_SRC sh
+rm -rf /var/cache/nginx/blog
+#+END_SRC
+
+** Basic Rewrites
+   
+- change from /forum to /forums on site
+
+#+BEGIN_EXAMPLE
+server {
+	listen 80;
+
+	index index.html index.htm index.php;
+	
+	server_name myexample.local www.myexample.local;
+
+	location /forum {
+		rewrite ^/forum/(.*)$ http://www.myexample.local/forums/$1 permanent;
+	}
+
+	location / {
+		root /var/www/html/myexample
+	}
+	
+}
+
+#+END_EXAMPLE
+
+** Use Rewrite Rules
+
+- remove the suffix from pages (this example removes .html from files and
+#+BEGIN_EXAMPLE
+server {
+    listen 80 default_server;
+    listen 443 ssl;
+    server_name _;
+    root /var/www/html;
+    
+    ssl_certificate /etc/nginx/ssl/public.pem
+    ssl_certificate_key /etc/nginx/ssl/private.key
+    
+    # Remove the .html from files
+    rewrite ^(/.*)\.html(\?.*)?$ $1$2 redirect;
+    # this removes any trailing / on requests
+    rewrite ^/(.*)/$ /$1 redirect;
+    
+    location / {
+        try_files $uri/idex.html $uri.html $uri/ $uri =404;
+    }
+
+    location = /admin.html{
+        auth_basic "Login Required";
+        auth_basic_user_file /etc/nginx/.htpasswd;
+        try_files $uri/idex.html $uri.html $uri/ $uri =404;
+    }
+    
+    error_page 404 /404.html;
+    error_page 500 501 502 503 504 /50x.html;
+}
+#+END_EXAMPLE
+
+- test and reload
+#+BEGIN_SRC sh
+nginx -t
+systemctl reload nginx
+#+END_SRC
+
+** Check rewrites in nginx.conf
+#+BEGIN_SRC sh
+grep -i rewrite /etc/nginx/conf.d/tinygreenpc.com.conf | wc -l
+#+END_SRC
 
 ** Vhost File
    
@@ -385,64 +1356,75 @@ server {
 #+END_EXAMPLE
 weights are proportional, weight=4 should get four times as much traffic as weight=1
 
-** SSL Certification Management
-   
-- create an ssl directory
-#+BEGIN_SRC sh
-mkdir -p /etc/nginx/ssl
-cd ssl
-#+END_SRC
+** Load Balancing to Multiple Servers
+here we are using the same server using different applications
 
-- create the server csr and key files
-#+BEGIN_SRC sh
-openssl genrsa -des3 -out server.key 1024
-openssl req -new -key server.key -out server.csr
-#+END_SRC
-
-- remove passphrase from server.key as a restart of nginx will always prompt for the key
-#+BEGIN_SRC sh
-cp server.key server.key.org
-openssl rsa -in server.key.org -out server.key
-#+END_SRC
-
-- create the self signed certificate
-#+BEGIN_SRC sh
-openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
-#+END_SRC
-
-- add the certificate to the vhost file
+- edit conf.d/photos.example.conf   
 #+BEGIN_EXAMPLE
-server {
-	listen 80;
-
-	root /var/www/html/myexample;
-	index index.html index.htm index.php;
-	
-	server_name myexample.local www.myexample.local;
+upstream photos {
+    server 127.0.0.1:3000;
+    server 127.0.0.1:3100;
+    server 127.0.0.1:3101;
 }
 
 server {
-	listen 443;
+    listen 80;
+    server_name photos.example.com;
 
-	root /var/www/html/myexample;
-	index index.html index.htm index.php
-	
-	server_name www.myexample.local myexample.local
-	
-	ssl on;
-	ssl_certificate /etc/nginx/ssl/server.crt;
-	ssl_certificate_key /etc/nginx/ssl/server.key;
+    client_max_body_size 5m;
+
+    location / {
+        proxy_pass http://photos;
+        proxy_http_version 1.1;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Real-IP  $remote_addr;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
+
+    location ~* \.(js|css|png|jpe?g|gif) {
+        root /var/www/photos.example.com;
+    }
+}
+#+END_EXAMPLE
+this would use the round robin method as it is the default
+
+- the three lines commented out are the other LB delivery methods
+#+BEGIN_EXAMPLE
+upstream photos {
+    #leat_conn;
+    #ip_hash;
+    #hash $request_uri;
+
+    server 127.0.0.1:3000;
+    server 127.0.0.1:3100;
+    server 127.0.0.1:3101;
 }
 #+END_EXAMPLE
 
-- test configuration and restart service
+- priorities servers with weights
 #+BEGIN_SRC sh
-nginx -t
-service nginx restart
-lynx https://www.myexample.local
+upstream photos {
+    server 127.0.0.1:3000 weight=2;
+    server 127.0.0.1:3100;
+    server 127.0.0.1:3101;
+}
 #+END_SRC
+- This would make server using port 3000 recieve twice as many connections as the other two servers(2 out of 4).
+- By default weight is 1.
+  
+- Passive Health Cheking
+#+BEGIN_SRC sh
+upstream photos {
+    server 127.0.0.1:3000;
+    server 127.0.0.1:3100 max_fails=3 fail_timeout=20s;
+    server 127.0.0.1:3101 max_fails=3 fail_timeout=20s;
+}
+#+END_SRC
+if you have 3 failures within 20s Nginx will mark the server as down
 
-** Location Directive 
+
+** Location Directive
 /etc/nginx/vhost.d/myexample.local.conf
 - nginx allows different content to be served by the set URI
 #+BEGIN_EXAMPLE
@@ -501,30 +1483,6 @@ server {
 	# this will redirect /forum to google.com
 	location /forum {
 		return 301 http://www.google.com;
-	}
-
-	location / {
-		root /var/www/html/myexample
-	}
-	
-}
-
-#+END_EXAMPLE
-
-** Basic Rewrites
-   
-- change from /forum to /forums on site
-
-#+BEGIN_EXAMPLE
-server {
-	listen 80;
-
-	index index.html index.htm index.php;
-	
-	server_name myexample.local www.myexample.local;
-
-	location /forum {
-		rewrite ^/forum/(.*)$ http://www.myexample.local/forums/$1 permanent;
 	}
 
 	location / {
@@ -782,105 +1740,6 @@ http {
 }
 #+END_EXAMPLE
 
-** PHP
-   
-- install php
-#+BEGIN_SRC sh
-yum install php
-#+END_SRC
-
-- create a php-fpm socket file
-/etc/php-fpm.d/www.conf
-#+BEGIN_EXAMPLE
-listen = /var/run/php-fpm/www.sock
-#+END_EXAMPLE
-
-- add the correct ownership to the new sock file
-#+BEGIN_SRC sh
-chown nginx:nginx /var/run/php-fpm/www.sock
-#+END_SRC
-
-- start and enable php-fpm
-#+BEGIN_SRC sh
-chkconfig php-fpm on
-service php-fpm start
-#+END_SRC
-
-** MariaDB for LEMP
-
-- installation (CentOS requires remi repo, but CentOS MariDB is the default)
-#+BEGIN_SRC sh
-wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
-rpm -Uvh remi-release-6.rpm
-yum --enablerepremi-test --disablerepo=remi install compat-mysql55
-#+END_SRC
-
-- add maria repo
-/etc/yum.repos.d/maria.repo
-#+BEGIN_EXAMPLE
-[mariadb]
-name=MariaDB
-baseurl=http://yum.mariadb.org/5.5/centos6-amd64
-gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-gpgcheck=1
-#+END_EXAMPLE
-
-- update the system
-#+BEGIN_SRC sh
-yum update
-yum install MariaDB-devel MariaDB-cient MariaDB-server perl-DBD-MySQL
-#+END_SRC
-
-- start the service
-#+BEGIN_SRC sh
-service mysql start
-#+END_SRC
-
-- secure setup
-#+BEGIN_SRC sh
-mysql_secure_installation
-#+END_SRC
-this will run you through a set of questions that will allow you to set and remove passwords and users
-
-- confirm that you can connect to db
-#+BEGIN_SRC sh
-mysql -u root -p
-#+END_SRC
-
-- restart php-fpm
-#+BEGIN_SRC sh
-service php-fpm restart
-#+END_SRC
-this has to be do as php-fpm my have a few problems recognizing the newly installed Mariadb
-
-** Nginx configtest
-#+BEGIN_SRC sh
-nginx -t
-#+END_SRC
-
-** Check rewrites in nginx.conf
-#+BEGIN_SRC sh
-grep -i rewrite /etc/nginx/conf.d/tinygreenpc.com.conf | wc -l
-#+END_SRC
-
-** Too Many Open Files Error And Solution
-[[http://www.cyberciti.biz/faq/linux-unix-nginx-too-many-open-files/]]
-
-** Check to see what sites are running on 443
-#+BEGIN_SRC sh
-grep 443 /etc/nginx/conf.d/*
-#+END_SRC
-or
-#+BEGIN_SRC sh
-httpd -S 2>&1|grep "port 443 name"|grep -v =hostname=| awk {'print $4'}httpd -S 2>&1|grep "port 443 name"|grep -v =hostname=| awk {'print $4'}
-#+END_SRC
-
-** If a site randomy returns 403's and then 200 when curling
-
-Add Options +Indexes to the .htaccess file and you will get 200 on curls
-
-[[https://stackoverflow.com/questions/10365520/error-directory-index-forbidden-by-options-directive][Stackoverflow - error directory index forbidden]]
-
 ** Speed up Nginx Performance with Ngx_Pagespeed on CentOS 7
 1. These tools will be required
 [[file://home/crito/Pictures/org/ngx_pagespeed_1.png]]
@@ -1043,13 +1902,24 @@ root   html;
 }
 #+END_EXAMPLE
 
-** Cpanel
-*** Restart Apache Service with CPanel
+** Too Many Open Files Error And Solution
+[[http://www.cyberciti.biz/faq/linux-unix-nginx-too-many-open-files/]]
+
+** Check to see what sites are running on 443
 #+BEGIN_SRC sh
-/scripts/restartsrv\_apache
+grep 443 /etc/nginx/conf.d/*
+#+END_SRC
+or
+#+BEGIN_SRC sh
+httpd -S 2>&1|grep "port 443 name"|grep -v =hostname=| awk {'print $4'}httpd -S 2>&1|grep "port 443 name"|grep -v =hostname=| awk {'print $4'}
 #+END_SRC
 
-** Plesk
+** If a site randomy returns 403's and then 200 when curling
+
+Add Options +Indexes to the .htaccess file and you will get 200 on curls
+
+[[https://stackoverflow.com/questions/10365520/error-directory-index-forbidden-by-options-directive][Stackoverflow - error directory index forbidden]]
+
 * Lecture
 * Tutorial
 ** Linux Academy Lab - Nginx installation of SSL Certificate

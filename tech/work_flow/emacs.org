@@ -110,6 +110,14 @@ Article: [[https://www.masteringemacs.org/article/running-shells-in-emacs-overvi
   C-x 8 C-h
 - Characters can be added using the unicode
   C-x 8 <ret>
+  
+*** Font/Face and Foreground/Background
+    
+- you can use the emacs "M-x customize-saved" (this shows all variables that have been configured through easy customization)
+  
+- manually they can be set with the 
+
+
 
 *** Increase and decrease font size
 Increase     - C-x C-+ 

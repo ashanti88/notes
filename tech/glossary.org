@@ -46,10 +46,14 @@ Wiki: https://en.wikipedia.org/wiki/Software_release_life_cycle
 HomePage: https://www.gnome.org/
 * GNOME - GNU Network Object Model Environment
 HomePage: https://www.gnome.org/
+* GPT  - GUID Partition Table
+Wiki: https://en.wikipedia.org/wiki/GUID_Partition_Table
 * GSSAPI - Generic Security Services Application Programming Interface
 Wiki: https://en.wikipedia.org/wiki/Generic_Security_Services_Application_Program_Interface
 * HPC  - High Performance Computing
 Wiki: https://en.wikipedia.org/wiki/Supercomputer
+* HSTS - HTTP Strict Transport Security
+Wiki: https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security
 * ISA  - Instruction Set Architecture
 Wiki: https://en.wikipedia.org/wiki/Instruction_set_architecture
 * ISDN - Integrated Services Digital Network
@@ -58,6 +62,8 @@ Wiki: https://en.wikipedia.org/wiki/Integrated_Services_Digital_Network
 wiki: https://en.wikipedia.org/wiki/ISCSI
 * IIO  - Industrial I/O Subsystem
 https://wiki.analog.com/software/linux/docs/iio/iio
+* JWT  - JSON Web Token
+Wiki: https://en.wikipedia.org/wiki/JSON_Web_Token
 * KDC  - Key Distribution Centre
 * LDAP - Lightweight Directory Access Protocol
 - setting the daemon to i
@@ -93,6 +99,8 @@ Non-uniform memory access (NUMA) is a computer memory design used in multiproces
 https://nvd.nist.gov/
 * MMU  - Memmory Management Unit
 Wiki: https://en.wikipedia.org/wiki/Memory_management_unit
+* OCSP - Online Certifiacte Status Protocol
+Wiki: https://en.wikipedia.org/wiki/Online_Certificate_Status_Protocol
 * ONAP - Open Network Automation Platform
 Homepage: https://www.onap.org/
 * OPNFV - Open Platform Network Function Virtulization

@@ -412,6 +412,13 @@ on may distros this disabled by default
 systemctl restart sshd
 #+END_SRC
 
+** SELinux
+- when you will have to run the following cmd to allow ssh access with keys
+#+BEGIN_SRC sh
+restorecon -R -v /home/user/.ssh
+#+END_SRC
+otherwise the password will continue to be asked for
+
 * Lecture
 * Tutorial
 ** Linux Academy - Server Application Requires a Secure SSH connection

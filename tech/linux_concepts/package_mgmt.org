@@ -9,7 +9,7 @@
 [[file://home/crito/org/tech/distro/ubuntu.org][Ubuntu distribution page]]
 
 * Redhat
-[[file://home/crito/org/tech/distro/rhel.org][Red Hat Enterpirse Linux distribution page]]
+  [[file://home/crito/org/tech/distro/rhel.org][Red Hat Enterpirse Linux distribution page]]
 
 * Suse
 [[file://home/crito/org/tech/distro/opensuse.org][SUSE Linux Enterprise Server distribution page]]

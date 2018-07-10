@@ -5,13 +5,13 @@
 HomePage: [[https://www.ansible.com/][ansible.com]]
 Galaxy: [[https://galaxy.ansible.com/][galaxy.ansible.com]]
 
-* cmds
-- [[file://home/crito/org/tech/cmds/ansible.org][ansible]]
-- [[file://home/crito/org/tech/cmds/ansible-playbook.org][ansible-playbook]]
-
 * Files
 /etc/ansible/ansible.cfg - this file contains local settings for ansible
 /etc/ansible/hosts       - this file is the default hosts file that ansible will use
+
+* cmds
+- [[file://home/crito/org/tech/cmds/ansible.org][ansible]]
+- [[file://home/crito/org/tech/cmds/ansible-playbook.org][ansible-playbook]]
 
 * Description
 - RHEL 6 and below can't support Control Persist feature of OpenSSH so falls back to using a python implementation of OpenSSH, 'paramiko'. It is advised if this is the case to use another implementation of Linux as the control machine (fedora, ubuntu etc)
@@ -67,7 +67,7 @@ first is an exact string match, second is a wildcard match and thrid is a regex 
 #+BEGIN_SRC sh
 ansible testserver -i hosts -m ping
 #+END_SRC
--i -this indicates the hosts file to be used, if none set /etc/hosts is used
+-i -this indicates the hosts file to be used, if none set /etc/hosts is used 
 use the --private-key option to select which which private key to use
 
 - check uptime of testserver
@@ -305,6 +305,25 @@ Docs: https://docs.ansible.com/ansible/latest/modules/service_module.html
 #+BEGIN_SRC sh
 ansible dbserver -m setup -a "filter=ansible_hostname"
 #+END_SRC
+
+- view the ip addresses of a host
+#+BEGIN_SRC sh
+ansible apacheweb -m setup -a "filter=ans*ipv4*"
+#+END_SRC
+we can use wildcards to cut down on the amount of typing needed, this will pull "ansible_all_ipv4_addresses"
+
+
+- create a file that contains the output from the setup module
+#+BEGIN_SRC sh
+ansible apacheweb -m setup --tree /tmp/fasts_apacheweb
+#+END_SRC
+this will create a json file with all the system details
+
+- to view the setup output in a more viewable format
+#+BEGIN_SRC sh
+ansible apacheweb -m setup -a "filter
+#+END_SRC
+
 *** shell
 Docs: https://docs.ansible.com/ansible/latest/modules/shell_module.html
 
@@ -431,6 +450,41 @@ host_key_checking = False
 #+BEGIN_EXAMPLE
 vm-ubuntu ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222 ansible_ssh_user=ubuntu ansible_ssh_private_key_file=/home/crito/vagrant_boxes/ansible/.vagrant/machines/default/virtualbox/private_key
 #+END_EXAMPLE
+
+** Installation in CentOS7
+   
+- create the ansible user on each node
+#+BEGIN_SRC sh
+useradd ansible
+passwd ansible
+#+END_SRC
+
+- this user will require root privs
+/etc/sudoers
+#+BEGIN_EXAMPLE
+ansible ALL=(ALL) NOPASSWD: ALL
+#+END_EXAMPLE
+
+- makesure that ssh keys have been swapped between each node
+#+BEGIN_SRC sh
+su - ansible
+ssh-key-gen
+ssh-copy-id frank1@172.168.0.10
+ssh-copy-id frank2@172.168.0.10
+#+END_SRC
+copy the ssh key to each node, that will be having playbooks run against it
+
+- install epel
+#+BEGIN_SRC sh
+yum install epel-release
+yum update
+#+END_SRC
+
+- install ansible
+#+BEGIN_SRC sh
+yum install ansible
+#+END_SRC
+this needs to be installed on any node that will be executing plays
 
 * Lecture
 ** Learn you some Ansible for great good! - OpenStack Summit May 2015
@@ -1348,9 +1402,8 @@ ansible databases -m copy -a "src=/home/.zshrc dest=/home/.zshrc"
 ansilbe databases -m file -a "dest=./testfile mode=600"
 #+END_SRC
 
-*** Overview of Static and Dynamic Inventories in Ansible 
-
 * Books
+[[file://home/crito/Documents/DevOps/Automation/Ansible/Ansible-From_Beginner_to_Pro.pdf][Ansible - From Beginner to Pro]]
 ** [[file://home/crito/Documents/SysAdmin/Mgmt/Ansible/Ansible_Playbook_Essentials.pdf][Ansible Playbook Essentials - Packt]]
      - [[https://github.com/schoolofdevops/ansible-playbook-essentials][Github - files for book]]
 
@@ -1361,6 +1414,8 @@ ansilbe databases -m file -a "dest=./testfile mode=600"
 ** [[file://home/crito/Documents/SysAdmin/Mgmt/Ansible/Ansible_for_DevOps.pdf][Ansible for DevOps]]
 
 ** [[file://home/crito/Documents/SysAdmin/Mgmt/Ansible/LA-Redhat_Ansible_Automation_Study_Guide.pdf][Linux Academy Red Hat Certificate of Expertise in Ansible Automation]]
+** [[file://home/crito/Documents/DevOps/Automation/Ansible/Linux_Academy-Example_Roles.pdf][Linux Academy - Example Roles]]
+** [[file://home/crito/Documents/DevOps/Automation/Ansible/Linux_Academy-Ansible_Playbooks.pdf][Linux Academy - Ansible Playbooks]]
 * Links
 [[https://galaxy.ansible.com/][Ansible Galaxy - A git for sharing roles]]
 [[https://www.ansible.com/get-started][Ansible - Get Started]]
@@ -1370,7 +1425,12 @@ ansilbe databases -m file -a "dest=./testfile mode=600"
 
 * ansible-playbook 
 * Playbooks
-*** Simple file copy
+- check the syntax of the playbook before running
+#+BEGIN_SRC sh
+ansible-playbook example.yml --check
+#+END_SRC
+
+** Simple file copy
 #+BEGIN_EXAMPLE
 ---
 - hosts: local
@@ -1378,7 +1438,7 @@ ansilbe databases -m file -a "dest=./testfile mode=600"
     - name: Copy ansible inventory file to client
       copy: src=/etc/ansible/hosts dest=/home/ansible/hosts
 #+END_EXAMPLE
-*** Create the file if it doesn't exist and add the line to the file
+** Create the file if it doesn't exist and add the line to the file
 #+BEGIN_EXAMPLE
 ---
 - hosts: databases
@@ -1394,7 +1454,7 @@ ansilbe databases -m file -a "dest=./testfile mode=600"
       line: Hostname= {{ ansible_hostname }}
 #+END_EXAMPLE
  
-*** Install apache and add an index.html file with text
+** Install apache and add an index.html file with text
 #+BEGIN_EXAMPLE
 ---
 - hosts: databases
@@ -1419,7 +1479,7 @@ ansilbe databases -m file -a "dest=./testfile mode=600"
       state: reloaded
 #+END_EXAMPLE
 
-*** Using stdout and stderr to print messages
+** Using stdout and stderr to print messages
 #+BEGIN_EXAMPLE
 ---
 - hosts: databases
@@ -1431,7 +1491,7 @@ ansilbe databases -m file -a "dest=./testfile mode=600"
    - debug: msg="stderr={{ hello.stderr }}"
 #+END_EXAMPLE
 
-*** Print the motd, if empty tell us
+** Print the motd, if empty tell us
 #+BEGIN_EXAMPLE
 ---
 - hosts: databases
@@ -1443,7 +1503,7 @@ ansilbe databases -m file -a "dest=./testfile mode=600"
      when: motd_contents.stdout == ""
 #+END_EXAMPLE
 
-*** Copying a file to a target machine and set the privs
+** Copying a file to a target machine and set the privs
 mainapp1.yml
 #+BEGIN_EXAMPLE
 ---
@@ -1475,7 +1535,7 @@ HOSTNAME=
 echo "Our hostname is $HOSTNAME"
 #+END_EXAMPLE
 
-*** If a redhat server install a certain application
+** If a redhat server has installed a certain application
 #+BEGIN_EXAMPLE
 ---
 - hosts: databases
@@ -1488,7 +1548,7 @@ echo "Our hostname is $HOSTNAME"
      when: ansible_os_family == "RedHat"
 #+END_EXAMPLE
 
-*** Creating multiple files on target machine
+** Creating multiple files on target machine
 #+BEGIN_EXAMPLE
 ---
 - hosts: databases
@@ -1503,7 +1563,7 @@ echo "Our hostname is $HOSTNAME"
      - file_no_3
 #+END_EXAMPLE
 
-*** On try to install a service, even if it fails try to start the service
+** On try to install a service, even if it fails try to start the service
 #+BEGIN_EXAMPLE
 ---
 - hosts = databases
@@ -1519,7 +1579,7 @@ echo "Our hostname is $HOSTNAME"
 #+END_EXAMPLE
 ignore_errors - this means that the script will continue even if it initially fails
 
-*** Install applications with the {{ item }} variable
+** Install applications with the {{ item }} variable
 #+BEGIN_EXAMPLE
 ---
 - hosts: local
@@ -1531,7 +1591,7 @@ ignore_errors - this means that the script will continue even if it initially fa
       - php-mysql
       - httpd
 #+END_EXAMPLE
-*** Create a new user and copy a file to their home dir
+** Create a new user and copy a file to their home dir
 #+BEGIN_EXAMPLE
 ---
 - hosts: local
@@ -1547,7 +1607,7 @@ ignore_errors - this means that the script will continue even if it initially fa
       mode: 0755
 #+END_EXAMPLE
 
-*** Copy a file and check the contents for a specific line, if not there add it
+** Copy a file and check the contents for a specific line, if not there add it
 #+BEGIN_EXAMPLE
 ---
 - hosts: local
@@ -1564,7 +1624,7 @@ ignore_errors - this means that the script will continue even if it initially fa
       regexp: '^hostname2='
       line: hostname2={{ ansible_hostname }}
 #+END_EXAMPLE
-*** setup a Wordpress site with
+** setup a Wordpress site with
 The database is already configured on the remote host and httpd is up and running
 wp-config.j2 is a copy of wp-config.php with the following changed and the salts added
 #+BEGIN_EXAMPLE
@@ -1614,7 +1674,7 @@ playbook
     template: src=wp-config.j2 dest=/var/www/html/wp-config.php
 #+END_EXAMPLE
 
-*** Pulling the servers date and time facts
+** Pulling the servers date and time facts
 #+BEGIN_EXAMPLE
 ---
 - hosts: databases
@@ -1622,7 +1682,7 @@ playbook
     - debug: msg="The Server Date is {{ ansible_date_time.date }} Time is {{ ansible_date_time.hour }}:{{ ansible_date_time.minute }}"
 #+END_EXAMPLE
 
-*** Pulling the OS distribution and Version
+** Pulling the OS distribution and Version
 #+BEGIN_EXAMPLE
 ---
 - hosts: databases
@@ -1630,7 +1690,7 @@ playbook
     - debug: msg="The Server OS at {{ ansible_default_ipv4.address }} is {{ ansible_distribution }} Version {{ ansible_distribution_major_version }}"
 #+END_EXAMPLE
 
-*** Find the ip address of a group of servers
+** Find the ip address of a group of servers
 #+BEGIN_EXAMPLE
 ---
 - hosts: all
@@ -1638,7 +1698,7 @@ playbook
     - debug: msg="The Server's IP address is {{ ansible_default_ipv4.address }}"
 #+END_EXAMPLE
 
-*** Using your own facts
+** Using your own facts
 - create your own facts in /etc/ansible/facts.d/preference.fact
 #+BEGIN_EXAMPLE
 [general]
@@ -1675,7 +1735,7 @@ PLAY RECAP *********************************************************************
 localhost                  : ok=2    changed=0    unreachable=0    failed=0   
 #+END_EXAMPLE
 
-*** Serialization/Parallelism of processors
+** Serialization/Parallelism of processors
 - make the playbook connect to more machines at once
 #+BEGIN_EXAMPLE
 ---
@@ -1713,6 +1773,37 @@ Now instead of ansible using the default 5, it will connect to 10 at a time
     yum: name=elinks state=lastest
 #+END_EXAMPLE
 - first would only run one machine, then 5, then 10 and continue with this sequence until all the hosts have been administered
+
+** Adding Variables to a playbook
+- setting variables using a vars section
+#+BEGIN_EXAMPLE
+---
+- hosts: appserver
+  vars:
+    control_server: frank1.mylabserver.com
+    web_root: /var/www/html
+  tasks:
+  - name: Install elinks on App
+    yum: pkg=elinks state=installed update_cache=true
+#+END_EXAMPLE
+
+- setting variables using a variable file
+#+BEGIN_EXAMPLE
+---
+- hosts: appserver
+  vars_files:
+  - vars.yml
+  tasks:
+  - name: Install elinks on App
+#+END_EXAMPLE
+
+vars.yml
+#+BEGIN_EXAMPLE
+---
+control_server: frank1.mylabserver.com
+web_root: /var/www/html
+
+#+END_EXAMPLE
 
 * Roles
 ** Install an apache webserver

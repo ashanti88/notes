@@ -1,10 +1,12 @@
-#+TAGS: mkfifo coreutils
+#+TAGS: mkfifo coreutils named_pipes
 
 
 * mkfifo
+Wiki: https://en.wikipedia.org/wiki/Named_pipe#In_Unix
 * Description
 * Usage
 * Lecture
 * Tutorial
 * Books
 * Links
+[[https://www.linuxjournal.com/article/2156][Introduction to Named Pipes - Linux Journal]]
