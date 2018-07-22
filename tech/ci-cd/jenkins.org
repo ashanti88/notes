@@ -107,7 +107,7 @@ systemctl enable jenkins
 systemctl status jenkins
 #+END_SRC
 
-- Connect to the web UI to start the Jenkins setup http://localhost:8080 (in older version you would be dropped straight into Jenkins, with newer versions a password is required that is found in /var/lib/jenkins/initialAdminPassword)
+- Connect to the web UI to start the Jenkins setup http://localhost:8080 (in older version you would be dropped straight into Jenkins, with newer versions a password is required that is found in /var/lib/jenkins/secrets/initialAdminPassword)
 
 * Lecture
 * Tutorial
@@ -805,7 +805,6 @@ file://home/crito/Pictures/org/jenkins_down_1.png
   
 file://home/crito/Pictures/org/jenkins_down_2.png
 
-
 *** Installing Docker on the Slave node
 
 - remove any existing docker pkg and selinux
@@ -1089,7 +1088,6 @@ stage('deploy') {
   
 - git add, commit and push
   
-
 
 *** Multi-branch pipeline
 A normal pipeline won't allow for the merging of branches as it hasn't the logic to deal with this type of operation.

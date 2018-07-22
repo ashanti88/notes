@@ -11,6 +11,13 @@ HomePage: https://git-scm.com/
 
 * Description
 * Usage
+- installation
+#+BEGIN_SRC sh
+yum install -y git
+apt-get install git
+pacman -S git
+#+END_SRC
+
 ** Git Configuration
 - setting cedentials for user
 #+BEGIN_SRC sh

@@ -1,0 +1,11 @@
+#+TAGS: xmpp_chat_client
+
+
+* profanity
+HomePage: http://www.profanity.im/userguide.html
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links

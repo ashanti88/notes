@@ -372,7 +372,7 @@ mysql -u root -p blue_levers_wp < blue_levers_wp.bakup.sql
 #+END_SRC
 
 *** How to backup a table to a text file
-mysql> SELECT * INTO OUTFILE 'table\_backup\_file' FROM name\_of\_table';
+mysql> SELECT * INTO OUTFILE 'table_backup_file' FROM name_of_table';
 
 *** Import
 first create the database on the machine. Otherwise the database will make on the name of the sql file.
@@ -461,9 +461,9 @@ mysqlcheck -uroot -p $databases is used for innodb.
 [http://www.techrepublic.com/article/checking-and-repairing-mysql-tables/]]
 heck the size of a databases
 
-ELECT table\_schema AS "Database name", SUM(data\_length +
-ndex\_length) / 1024 / 1024 AS "Size (MB)" FROM
-nformation\_schema.TABLES GROUP BY table\_schema;
+ELECT table_schema AS "Database name", SUM(data\_length +
+ndex_length) / 1024 / 1024 AS "Size (MB)" FROM
+nformation_schema.TABLES GROUP BY table_schema;
 
  database that uses a lot of transactions may cause fragmentation. This
 eans a lot of unused space. Recommended that the tables are defraged on

@@ -826,6 +826,52 @@ nginx -t
 systemctl reload nginx
 #+END_SRC
 
+- OWASP does provide a rule set that can be pulled to add to Modsecurity
+#+BEGIN_SRC sh
+cd /etc/nginx/modsecurity
+git clone https:/github.com/SpiderLabs/owasp-modsecurity-crs.git
+cd owasp-modsecurity-crs
+#+END_SRC
+
+- copy all the rules and remove the .example from the name
+#+BEGIN_SRC sh
+cp crs-setup.conf{.example,}
+cp rules/REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf{.example,}
+cp rules/RESPONSE-999-EXCLUSION-RULES-AFTER-CRS.conf{.example,}
+#+END_SRC
+
+- create the ModSecurity includes file that will list all Modsecurity rule files
+/etc/nginx/modsecurity/modsecurity_includes.conf
+#+BEGIN_EXAMPLE
+include modsecurity.conf
+include owasp-modsecurity-crs/crs-setup.conf
+#+END_EXAMPLE
+
+- include the REQUEST and RESPONSE lines
+#+BEGIN_SRC sh
+or f in $(ls -1 owasp-modsecurity-crs/rules/ | grep -E "^(RESPONSE|REQUEST)-.*\.conf$"); do \
+  echo "include owasp-modsecurity-crs/rules/${f}" >> modsecurity_includes.conf; done
+#+END_SRC
+
+- edit the vhost file
+/etc/nginx/conf.d/blog.example.com
+#+BEGIN_EXAMPLE
+root /var/www/blog.example.com;
+    index index.php;
+
+    modsecurity on;
+    modsecurity_rules_file /etc/nginx/modsecurity/modsecurity_includes.conf;
+
+    access_log syslog:server=unix:/dev/log vhost;
+#+END_EXAMPLE
+
+- testing the WAF
+#+BEGIN_SRC sh
+tail -f /var/log/nginx/modsecurity_audit.log
+#+END_SRC
+from a browseer type "http://blog.example.com/?params"><script>alert(1);</script>
+  - this should log that a xss attack was attemptedk
+
 ** Setting up LEMP Stack with Wordpress using FastCGI Proxy
    
 - add the "Software Collections" repo for php7
@@ -1423,7 +1469,6 @@ upstream photos {
 #+END_SRC
 if you have 3 failures within 20s Nginx will mark the server as down
 
-
 ** Location Directive
 /etc/nginx/vhost.d/myexample.local.conf
 - nginx allows different content to be served by the set URI
@@ -1739,6 +1784,145 @@ http {
 	send_timeout 10;
 }
 #+END_EXAMPLE
+
+** Content Compressions and Decompression
+ngx_http_gzip_module
+ngx_http_gunzip_module
+
+/etc/nginx/nginx.conf
+#+BEGIN_EXAMPLE
+gzip on;
+# disable cmpression for Internet Explorer 6 (old browser), there are more options in the docs
+gzip_disable msie6;
+# Specify that we only want to compress responses from proxied servers if we normally wouldn’t cache them
+gzip_proxied no-cache no-store private expired auth;
+# the types of content that we want to compress
+gzip_types text/plain text/css application/x-javascript application/javascript application/xml application/xml+rss text/javascript image/x-icon image/bmp image/svg+xml
+# by default this is set to 20 bytes, this may casue the cpu to become to occupied with compression
+gzip_min_length 1024;
+# Adds a Vary: Accept-Encoding header. This tells intermediate caches (like CDNs) to treat the compressed and uncompressed version of the same resource as 2 separate entities
+gzip_vary on;
+# this allows decompression server end
+gunzip on;
+#+END_EXAMPLE
+jpg can't be compressed more that it already is (trying to will waste cpu cycles).
+
+** Workers and Connections
+
+- worker processors has an "auto" value that means nginx will automatically determine the cpu number and set that as the worker process
+#+BEGIN_EXAMPLE
+worker_processes auto;
+#+END_EXAMPLE
+
+- connections is a little more tricky as it depends on the content that is being delivered, this can be tweaked over time
+#+BEGIN_EXAMPLE
+worker_connections 2048;
+#+END_EXAMPLE
+better to have number too high than too low, better to serve connections slow than dropping
+
+- we may also run into the problem of having too may connections for the OS
+#+BEGIN_SRC sh
+su -s /bin/sh -c "ulimit -Sn"
+su -s /bin/sh -c "ulimit -Hn"
+#+END_SRC
+this tells us our hard and soft limits 
+
+- we can edit our conf to reflect these hard and soft limits
+#+BEGIN_SRC sh
+worker_rlimit_nofile 4096;
+#+END_SRC
+4096 would be the limit that is set by the OS
+
+
+- kkeepalive_request sets the number of requests that can be sent over a single connection
+#+BEGIN_SRC sh
+keepalive_reuests 100; #100 is the default
+#+END_SRC
+if you had a lot of images over 100 on a page, this would be too low, but 100 is usually fine
+
+** HTTP/2
+   
+- you have to be serving content over ssl
+#+BEGIN_EXAMPLE
+server {
+    listen 443 ssl http2 default_server;
+    ssl_certificate /etc/nginx/ssl/public.pem;
+    ssl_certificate_key /etc/nginx/ssl/private.key;
+    
+    root /var/www/html;
+    
+}
+#+END_EXAMPLE
+
+** PageSpeed by Google
+HomePage: https://developers.google.com/speed/  
+
+- build pagespeed
+#+BEGIN_SRC sh
+cd /opt
+bash <(curl -f -L -sS https://ngxpagespeed.com/install) -b . --dynamic-module --ngx-pagespeed-version latest-stable
+cd nginx-1.12.2 # this is the source code for nginx
+./configure --with-compat --add-dynamic-module=../incubator-pagespeed-ngx-latest-stable
+make modules
+cp objs/ngx_pagespeed.so /etc/nginx/modules/
+#+END_SRC
+
+/etc/nginx/nginx.conf
+#+BEGIN_EXAMPLE
+user  nginx;
+worker_processes  1;
+
+error_log  /var/log/nginx/error.log warn;
+pid        /var/run/nginx.pid;
+
+# Load ModSecurity dynamic module
+load_module /etc/nginx/modules/ngx_http_modsecurity_module.so;
+
+# Load PageSpeed dynamic module
+load_module /etc/nginx/modules/ngx_pagespeed.so;
+#+END_EXAMPLE
+
+/etc/nginx/conf.d/blog.example.com
+#+BEGIN_EXAMPLE
+astcgi_cache_path /var/cache/nginx/blog levels=1:2
+                   keys_zone=blog:10m max_size=1g inactive=60m;
+server {
+    listen 80;
+    server_name blog.example.com;
+    root /var/www/blog.example.com;
+    index index.php;
+    modsecurity on;
+    modsecurity_rules_file /etc/nginx/modsecurity/modsecurity_includes.conf;
+
+# Before - 11 requests 437.29 KB / 268.15 KB transferred Finish: 584 ms
+
+pagespeed on;
+
+# Needs to exist and be writable by nginx.  Use tmpfs for best performance.
+pagespeed FileCachePath /var/cache/nginx/ngx_pagespeed_cache;
+
+# Ensure requests for pagespeed optimized resources go to the pagespeed handler
+# and no extraneous headers get set.
+location ~ "\.pagespeed\.([a-z]\.)?[a-z]{2}\.[^.]{10}\.[^.]+" {
+  add_header "" "";
+}
+location ~ "^/pagespeed_static/" { }
+location ~ "^/ngx_pagespeed_beacon$" { }
+
+    access_log /var/log/nginx/access.log vhost;
+
+    fastcgi_cache_key $scheme$request_method$host$request_uri;
+
+    # Configuration continued ...
+#+END_EXAMPLE
+
+- makesure that the ngx_pagespeed_cache directory is created
+#+BEGIN_SRC sh
+mkdir -p /var/cache/nginx/ngx_pagespeed_cache
+chown -R nginx:nginx /var/cache/nginx/ngx_pagespeed_cache
+nginx -t
+systemctl reload nginx
+#+END_SRC
 
 ** Speed up Nginx Performance with Ngx_Pagespeed on CentOS 7
 1. These tools will be required

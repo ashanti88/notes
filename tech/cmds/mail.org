@@ -6,6 +6,11 @@
 * MTA
 * MDA
 * Usage
+- install mail
+#+BEGIN_SRC sh
+apt-get install mailutils
+#+END_SRC
+
 - send mail to admin
 #+BEGIN_SRC sh
 mail admin

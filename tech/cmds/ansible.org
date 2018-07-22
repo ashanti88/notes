@@ -274,89 +274,6 @@ ansible app -s -m git -a "repo=https://github.com/hephaest0s/usbkill.git dest=/o
 #+END_SRC
 version=1.2.4 - this will ensure that the 1.2.4 branch is checked out, or a specific commit can be used
 
-** Modules
-*** user
-Docs: http://docs.ansible.com/ansible/latest/modules/user_module.html
-
-*** group
-Docs: http://docs.ansible.com/ansible/latest/modules/group_module.html
-
-*** copy
-Docs: https://docs.ansible.com/ansible/latest/modules/copy_module.html
-
-*** get_url
-Docs: https://docs.ansible.com/ansible/latest/modules/get_url_module.html
-
-*** htpasswd
-Docs: https://docs.ansible.com/ansible/latest/modules/htpasswd_module.html
-
-*** lineinfile
-Used to replace and add lines to a file
-Doce: http://docs.ansible.com/ansible/latest/modules/lineinfile_module.html
-
-*** script
-Docs: https://docs.ansible.com/ansible/latest/modules/script_module.html
-
-*** service
-Docs: https://docs.ansible.com/ansible/latest/modules/service_module.html
-
-*** setup
-- view the current setup of a system
-#+BEGIN_SRC sh
-ansible dbserver -m setup -a "filter=ansible_hostname"
-#+END_SRC
-
-- view the ip addresses of a host
-#+BEGIN_SRC sh
-ansible apacheweb -m setup -a "filter=ans*ipv4*"
-#+END_SRC
-we can use wildcards to cut down on the amount of typing needed, this will pull "ansible_all_ipv4_addresses"
-
-
-- create a file that contains the output from the setup module
-#+BEGIN_SRC sh
-ansible apacheweb -m setup --tree /tmp/fasts_apacheweb
-#+END_SRC
-this will create a json file with all the system details
-
-- to view the setup output in a more viewable format
-#+BEGIN_SRC sh
-ansible apacheweb -m setup -a "filter
-#+END_SRC
-
-*** shell
-Docs: https://docs.ansible.com/ansible/latest/modules/shell_module.html
-
-Examples:
-- place data into a file
-#+BEGIN_EXAMPLE
----
-- hosts: all
-  tasks:
-    - name: data into file
-      shell: echo "testing" > testfile
-#+END_EXAMPLE
-
-*** command
-Docs: https://docs.ansible.com/ansible/latest/modules/command_module.html
-
-Examples:
-- disable selinux
-#+BEGIN_EXAMPLE
----
-- hosts: all
-  become: yes
-  tasks:
-    - name: disable selinux
-      command: /sbin/setenforce 0
-#+END_EXAMPLE
-
-*** archive
-Docs: http://docs.ansible.com/ansible/latest/modules/archive_module.html
-
-*** yum
-Docs: https://docs.ansible.com/ansible/latest/modules/yum_module.html
-
 ** Vagrant
 *** Configure
 to use playbooks with a vm the following needs to be added to the Vagrantfile
@@ -1424,11 +1341,844 @@ ansilbe databases -m file -a "dest=./testfile mode=600"
 
 
 * ansible-playbook 
+* Modules
+** acl
+
+#+BEGIN_EXAMPLE
+--- # ACL Module Example
+- hosts: apacheweb
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Install Access Control List Utilities
+    yum: pkg=acl state=present
+  - name: Get ACL information on the /etc/test.acl.txt remote file
+    acl: name=/etc/test.acl.txt
+    register: aclinfo
+  - debug: msg={{ aclinfo }}
+  - name: change permissions on the /etc/test.acl.txt remote file
+    acl: name=/etc/test.acl.txt entity=ansible etype=user permissions="rw" state=present
+    register: new_acl
+  - debug: msg={{ new_acl }}
+#+END_EXAMPLE
+
+** apache2_module
+docs: https://docs.ansible.com/ansible/latest/modules/apache2_module_module.html
+
+This is used for debian/ubuntu machines, and does the actions of a2enmod and a2dismod
+
+#+BEGIN_EXAMPLE
+--- # Apache2 Module Example
+- hosts: aptserver
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Disable the alias module in Apache2
+    apache2_module: state=absent name=alias force=yes
+  - name: Enable the alias module in Apache2
+    apache2_module: state=present name=alias force=yes
+#+END_EXAMPLE 
+
+** at
+docs: https://docs.ansible.com/ansible/latest/modules/at_module.html
+
+This will require that you install "at" on the remote machine
+#+BEGIN_EXAMPLE
+--- # At Module Example
+- hosts: apacheweb
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Example of a future command with the AT module                                      
+    at:
+      command: /usr/bin/uptime > /home/ansible/at.log                                         
+      count: 1
+      units: minutes
+#+END_EXAMPLE
+
+** apt
+
+#+BEGIN_EXAMPLE
+--- # Apt Module Example
+- hosts: aptserver
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Install Apache Web Server
+    apt: pkg=apache2 state=present
+#+END_EXAMPLE
+- state
+  - present (apt-get install)
+  - installed - this is deprecated and will not be available after V2.0(apt-get install)
+  - absent (apt-get install)
+    
+- update and upgrade
+#+BEGIN_EXAMPLE
+--- # Apt Module Example
+- hosts: aptserver
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: apt-get update
+    apt: update_cache=yess
+  - name: apt-get upgrade
+    apt: upgrade=dist
+#+END_EXAMPLE
+
+** apt_key and apt_repository
+
+These two keys normally work together   
+
+#+BEGIN_EXAMPLE
+--- # Apt_Repository and Apt_Key Modules Example
+- hosts: aptserver
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Install a sependency needed for apt_repository
+    apt: pkg=python-apt state=present
+  - name: Add the key
+    apt_key: url=https://dl-ssl.google.com/linux/linux_signing_key.pub state=present
+  - name: Add the Google Repo for Ubuntu
+    apt_repository: repo='deb http://dl.google.com/linux/deb/ stable main non-free' state=present
+#+END_EXAMPLE
+
+** archive
+Docs: http://docs.ansible.com/ansible/latest/modules/archive_module.html
+
+** command
+Docs: https://docs.ansible.com/ansible/latest/modules/command_module.html
+
+Examples:
+- disable selinux
+#+BEGIN_EXAMPLE
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: disable selinux
+      command: /sbin/setenforce 0
+#+END_EXAMPLE
+
+- running a script on a remote server
+#+BEGIN_EXAMPLE
+--- # Command Module Example
+- hosts: apacheweb
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Check for python packages
+    command: /home/ansible/testing/test.sh
+    args:
+      chdir: /home/ansible/testing
+#+END_EXAMPLE
+- args - we add here the chdir as it would be run in the users ~/ if not specified
+
+** copy
+Docs: https://docs.ansible.com/ansible/latest/modules/copy_module.html
+
+- copy a file on the same machine
+#+BEGIN_EXAMPLE
+[ansible@fredflintstone Playbooks]$ ansible apacheweb -m copy -a 'src=/etc/fstab dest=/tmp/fstab'
+fredflinstone5.mylabserver.com | SUCCESS => {
+    "changed": true, 
+    "checksum": "b206c32ffa57f21effc2310c5f3840b90e7a9a51",                                   
+    "dest": "/tmp/fstab", 
+    "gid": 1003, 
+    "group": "ansible", 
+    "md5sum": "575dd077c549bf827cd7e6b7857a1f8f",                                             
+    "mode": "0664", 
+    "owner": "ansible", 
+    "secontext": "unconfined_u:object_r:user_home_t:s0",                                      
+    "size": 342, 
+    "src": "/home/ansible/.ansible/tmp/ansible-tmp-1532119740.98-124969415580287/source",     
+    "state": "file", 
+    "uid": 1002
+}
+#+END_EXAMPLE
+
+- copy a file to a remote host/s
+copy.yml
+#+BEGIN_EXAMPLE
+--- # Copy Module Example
+- hosts: apacheweb
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Copy from the files directory test file
+    copy: src=/tmp/test4.txt dest=/home/ansible/test4.txt mode=0655 owner="ansible" group="ansible" backup=yes
+#+END_EXAMPLE
+- backup - this will makesure that if a file with the same name is found on the remote host it will be mv to <original_name><time_stamp> so files won't just be over written
+
+** cron
+
+#+BEGIN_EXAMPLE
+--- # Cron Module Example
+- hosts: apacheweb
+  user: ansible
+  connection: ssh
+  gather_facts: no
+  tasks:
+  #- name: Add a CRON job to the ansible user
+   # cron: name="list files" minute="0" hour="1" job="ls -al /etc > /home/ansible/cronresult.log"
+  - name: Remove the cronjob
+    cron: name="list files" state=absent
+#+END_EXAMPLE
+makesure that become isn't set as this will cause the cronjob to be set as root and not as the user
+
+** dnf
+Similar to the yum module in use
+#+BEGIN_EXAMPLE
+--- # DNF Module Example
+- hosts: apacheweb
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Installing Apache Web Server with DNF
+    dnf: pkg=httpd state=present
+  - name: Remove the Apache Web Server
+    dnf: pkg=httpd state=absent
+  - name: dnf update
+    dnf: name=* state=latest
+#+END_EXAMPLE
+
+** debug
+
+- We can use the debug module to provide more information to our playbooks
+#+BEGIN_EXAMPLE
+--- # Debug Module Example
+- hosts: apacheweb
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Install Apache Web Server
+    yum: pkg=httpd state=installed
+  - debug: msg="Equivalent of sudo yum install httpd"
+  - name: How Long has the system been up?
+    shell: /usr/bin/uptime 
+    register: result
+  - name: Print result 
+    debug: var=result
+#+END_EXAMPLE
+in the second example uptime would have run but we would have seen no output, so we use register to save the output to a variable and use this variable with debug to provide us with the information
+
+** fetch
+   
+#+BEGIN_EXAMPLE
+--- # Fetch Module Example
+- hosts: apacheweb
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: yes
+  tasks:
+  - name: Copy remote hosts file to control server
+    fetch: src=/etc/hosts dest=/home/ansible/prefix-{{ ansible_hostname }} flat=yes
+#+END_EXAMPLE
+- flat - if not used we would have had /home/ansible/{{ ansible_hostname }}/etc/hosts, this ensures that we just get the file
+
+** filesystem
+docs: https://docs.ansible.com/ansible/latest/modules/filesystem_module.html   
+
+#+BEGIN_EXAMPLE
+--- # Filesystem Module Example
+- hosts: aptserver
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Format the remote data partition
+    filesystem: fstype=ext3 dev=/dev/xvdf1 opts="-cc"
+#+END_EXAMPLE
+- cc - this performs a block check read write test, and can cause the format to be slow
+
+** file
+- view the info/state of a file
+#+BEGIN_EXAMPLE
+[ansible@fredflintstone4 Playbooks]$ ansible apacheweb -m file -a 'path=/etc/fstab'
+fredflintsonte5.mylabserver.com | SUCCESS => {
+    "changed": false, 
+    "gid": 0, 
+    "group": "root", 
+    "mode": "0644", 
+    "owner": "root", 
+    "path": "/etc/fstab", 
+    "secontext": "system_u:object_r:etc_t:s0", 
+    "size": 342, 
+    "state": "file", 
+    "uid": 0
+}
+#+END_EXAMPLE
+
+- create a directory on a remote server
+#+BEGIN_EXAMPLE
+[ansible@alickmitchell4 Playbooks]$ ansible apacheweb -m file -a 'path=/tmp/test state=directory mode=0700 owner=ansible'
+alickmitchell5.mylabserver.com | SUCCESS => {
+    "changed": true, 
+    "gid": 1003, 
+    "group": "ansible", 
+    "mode": "0700", 
+    "owner": "ansible", 
+    "path": "/tmp/test", 
+    "secontext": "unconfined_u:object_r:user_tmp_t:s0",                                       
+    "size": 6, 
+    "state": "directory", 
+    "uid": 1002
+}
+#+END_EXAMPLE
+
+** get_url
+Docs: https://docs.ansible.com/ansible/latest/modules/get_url_module.html
+
+This will pull down the specified url
+#+BEGIN_EXAMPLE
+--- # Get_url Module Example
+- hosts: aptserver
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Get and download the INI file from the web server
+    get_url: url=http://alickmitchell3.mylabserver.com/mytest.ini dest=/home/ansible/mytest.ini mode=0440
+#+END_EXAMPLE
+
+** git
+   
+#+BEGIN_EXAMPLE
+--- # Git Module Example
+- hosts: apacheweb
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Install git on remote machine
+    yum: pkg=git state=present
+  - name: Checking out a git repo on the remote server
+    git: repo=https://github.com/linuxacademy/cicd-pipeline-train-schedule-git.git dest=/home/ansible/git_repo
+  - shell: /usr/bin/chown -R ansible:ansible git_repo
+#+END_EXAMPLE
+
+** group
+Docs: http://docs.ansible.com/ansible/latest/modules/group_module.html
+
+#+BEGIN_EXAMPLE
+--- # Group Module Example
+- hosts: apacheweb
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Add a new group called newgroup
+    group: name=newgroup state=present gid=1050
+  - name: Remove a group
+    group: name=newgroup state=absent
+#+END_EXAMPLE
+- system=yes - this can be added if the group is a system group
+
+** htpasswd
+Docs: https://docs.ansible.com/ansible/latest/modules/htpasswd_module.html
+
+This module requires python-passlib on the target machine
+
+#+BEGIN_EXAMPLE
+--- # HTPasswd Module Example
+- hosts: aptserver
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Install the python dependencies
+    apt: pkg=python-passlib state=present
+  - name: Adding a user to web site authentication
+    htpasswd: path=/etc/apache2/.htpasswd name=test2 password=password owner=test2 group=test2 mode=0640 state=present
+  - name: Removing a user from the web authentication
+    htpasswd: path=/etc/apache2/.htpasswd name=test2 state=absent
+#+END_EXAMPLE
+
+** lineinfile
+Used to replace and add lines to a file
+Doce: http://docs.ansible.com/ansible/latest/modules/lineinfile_module.html
+
+** mail
+Docs: https://docs.ansible.com/ansible/latest/modules/mail_module.html
+
+#+BEGIN_EXAMPLE
+
+#+END_EXAMPLE
+
+** mount
+   
+#+BEGIN_EXAMPLE
+
+#+END_EXAMPLE
+
+** mysql_db
+   
+#+BEGIN_EXAMPLE
+--- # MYSQL_db Module Example
+- hosts: apacheweb
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Install the Python MySQL Support Libraries
+    yum: pkg=MySQL-python state=present
+  - name: Create a New Test DB called MyNewDB
+    mysql_db: name=MyNewDB state=present login_user=root login_password=123
+  - name: Drop the MyNewDB database
+    mysql_db: name=MyNewDB state=absent login_user=root login_password=123
+  - name: Create a Dump of a DB
+    mysql_db: name=MyNewDB state=dump target=/var/lib/mysql/mydbtestbkup.sql login_user=root login_password=123
+  - name: Import a Dump to create a New DB
+    mysql_db: name=MyImportDB state=import target=/var/lib/mysql/mydbtestbkup.sql login_user=root login_password=123
+
+#+END_EXAMPLE
+
+** mysql_user
+
+#+BEGIN_EXAMPLE
+--- # MYSQL_user Module Example
+- hosts: apacheweb
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Install the MySQL Python Support Library
+    yum: pkg=MySQL-python state=latest
+  - name: Create a new user called Bob and give him all access
+    mysql_user: name=bob password=123password priv=*.*:ALL state=present login_user=root login_password=123
+  - name: Remove user called Bob
+    mysql_user: name=bob password=123password priv=*.*:ALL state=absent login_user=root login_password=123
+#+END_EXAMPLE
+
+** notify
+
+#+BEGIN_EXAMPLE
+--- # Notify Module Example
+- hosts: apacheweb
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+    - name: Install Apache Web Server
+      yum: pkg=httpd state=present
+      notify: Restart HTTPD
+  handlers:
+    - name: Restart HTTPD # This has to be the same as the notify
+      service: name=httpd state=restarted
+#+END_EXAMPLE
+
+** pause
+- set a pause to confirm the installation of apache
+pause.yml
+#+BEGIN_EXAMPLE
+--- # Pause Example
+- hosts: apacheweb
+  user: ansible
+  become: yes
+  gather_facts: no
+  tasks:
+  - name: Install HTTPD
+    yum: pkg=httpd state=installed
+  - name: Pausing
+    pause:
+      prompt: "Make sure the installation is complete..."
+  - name: Verifiy lynx installation
+    yum: pkg=lynx state=installed
+#+END_EXAMPLE
+
+- output
+#+BEGIN_EXAMPLE
+[ansible@alickmitchell4 Playbooks]$ ansible-playbook pause.yml 
+
+PLAY [apacheweb] ******************************************************************************
+
+TASK [Install HTTPD] **************************************************************************
+changed: [alickmitchell5.mylabserver.com]
+
+TASK [Pausing] ********************************************************************************
+[Pausing]
+Make sure the installation is complete...:
+ok: [alickmitchell5.mylabserver.com]
+
+TASK [Verifiy lynx installation] **************************************************************
+ok: [alickmitchell5.mylabserver.com]
+
+PLAY RECAP ************************************************************************************
+alickmitchell5.mylabserver.com : ok=3    changed=1    unreachable=0    failed=0   
+#+END_EXAMPLE
+at the [Pausing] ansible will wait until you hit the enter key
+
+- we could also set a timer instead of waiting for user to press the enter key
+#+BEGIN_EXAMPLE
+--- # Pause Example
+- hosts: apacheweb
+  user: ansible
+  become: yes
+  gather_facts: no
+  tasks:
+  - name: Install HTTPD
+    yum: pkg=httpd state=installed
+  - name: Pausing
+    pause:
+      seconds: 3
+  - name: Verifiy lynx installation
+    yum: pkg=lynx state=installed
+#+END_EXAMPLE
+this will now wait 3 seconds before continuing
+
+** ping
+Ping doesn't take any parameters   
+#+BEGIN_EXAMPLE
+--- # Ping Module Example
+- hosts: all
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Ping all the hosts
+    ping:
+#+END_EXAMPLE
+
+** raw
+This is just executes on the system, but unlike the shell we can't register the output to provide more information (quick dirty method)
+#+BEGIN_EXAMPLE
+--- # Raw Module Example
+- hosts: apacheweb
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Find the system uptime for the 'hosts' above
+    raw: /usr/bin/uptime > uptime.log
+#+END_EXAMPLE
+
+** script
+Docs: https://docs.ansible.com/ansible/latest/modules/script_module.html
+
+#+BEGIN_EXAMPLE
+--- # Script Module Example
+- hosts: apacheweb
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: run a script against a remote machine
+    script: /home/ansible/system_uptime.sh
+  - name: run a script but only create the output file if the file doesn't exist
+    script: /home/ansible/system_uptime.sh creates=/home/ansible/uptime.log
+#+END_EXAMPLE
+
+** seboolean
+
+#+BEGIN_EXAMPLE
+--- # SEboolean Module Example
+- hosts: apacheweb
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Changing the Boolean for Anonymous Writes on the Web Server that is Persistent
+    seboolean: name=httpd_anon_write state=yes persistent=yes
+#+END_EXAMPLE
+
+** selinux
+   
+#+BEGIN_EXAMPLE
+--- # SELinux Module Example
+- hosts: apacheweb
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Changing SELinux Configuration to Permissive
+    selinux: policy=targeted state=permissive
+  - name: Changing SELinux Configuration to Disabled
+    # This will change to permissive until a reboot has occured for disabled to take effect.
+    selinux: state=disabled
+#+END_EXAMPLE
+
+** service
+Docs: https://docs.ansible.com/ansible/latest/modules/service_module.html
+
+#+BEGIN_EXAMPLE
+--- # Service Module Example
+- hosts: apacheweb
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: yes
+  tasks:
+  - name: Install Apache Web Server
+    yum: pkg=httpd state=installed
+  - name: Start the HTTPD service
+    service: name=httpd state=started
+  - name: Enable service to start on boot
+    service: name=httpd enabled=yes
+#+END_EXAMPLE
+- state
+  - started
+  - stopped
+  - restarted
+  - reloaded
+
+** setfact
+   
+#+BEGIN_EXAMPLE
+--- # Setfact Module Example
+- hosts: appserver
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: no
+  vars:
+    playbook_version: 0.1
+  tasks:
+  - name: Local Variable Display
+    set_fact:
+      singlefact: SOMETHING
+  - name: Print the playbook variable
+    debug: msg={{ playbook_version }}
+  - name: Print the set_fact variable
+    debug: msg={{ singlefact }}
+#+END_EXAMPLE
+
+** setup
+- view the current setup of a system
+#+BEGIN_SRC sh
+ansible dbserver -m setup -a "filter=ansible_hostname"
+#+END_SRC
+
+- view the ip addresses of a host
+#+BEGIN_SRC sh
+ansible apacheweb -m setup -a "filter=ans*ipv4*"
+#+END_SRC
+we can use wildcards to cut down on the amount of typing needed, this will pull "ansible_all_ipv4_addresses"
+
+- view the fqdn
+#+BEGIN_SRC sh
+ansible apacheweb -m setup -a "filter=ansible_fqdn"
+#+END_SRC
+
+- view interfaces
+#+BEGIN_SRC sh
+ansible apacheweb -m setup -a "filter=ansible_interfaces"
+#+END_SRC
+
+- view distribution information
+#+BEGIN_SRC sh
+ansible apacheweb -m setup -a "filter=ansible_dist*"
+ansible apacheweb -m setup -a "filter=ansible_distribution"
+#+END_SRC
+
+- view available memory on a system
+#+BEGIN_SRC sh
+ansible all -m setup -a 'filter=ansible_memtotal_mb'
+#+END_SRC
+
+- view the number of processors
+#+BEGIN_SRC sh
+ansible all -m setup -a 'filter=ansible_processor_count'
+#+END_SRC
+
+- is the machine virtualised
+#+BEGIN_SRC sh
+ansible all -m setup -a 'filter=ansible_virt*'
+#+END_SRC
+
+- create a file that contains the output from the setup module
+#+BEGIN_SRC sh
+ansible apacheweb -m setup --tree /tmp/fasts_apacheweb
+#+END_SRC
+this will create a json file with all the system details
+
+- to view the setup output in a more viewable format
+#+BEGIN_SRC sh
+ansible apacheweb -m setup -a "filter
+#+END_SRC
+
+** shell
+Docs: https://docs.ansible.com/ansible/latest/modules/shell_module.html
+
+Examples:
+- place data into a file
+#+BEGIN_EXAMPLE
+---
+- hosts: all
+  tasks:
+    - name: data into file
+      shell: echo "testing" > testfile
+#+END_EXAMPLE
+
+- using a shell cmd with arguments
+#+BEGIN_EXAMPLE
+--- # Shell Module Example
+- hosts: apacheweb
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Executing a remote command - uptime
+    shell: /usr/bin/uptime >> uptime.log
+    args:
+      # move to the logs directory from current position (/home/ansible/logs)
+      chdir: logs/
+      # only create the file if it doesn't exist (the append will not take place)
+      creates: uptime.log
+#+END_EXAMPLE
+
+** stat
+This module performs similar to the stat cmd
+#+BEGIN_EXAMPLE
+--- # Stat Module Example
+- hosts: apacheweb
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Does a file/directory in a path exist or not?
+    stat: path=/home/ansible/abc
+    register: p
+  - debug: msg="The Path exists and is a Directory"
+    when: p.stat.isdir is defined and p.stat.isdir
+#+END_EXAMPLE
+
+** unarchive
+
+
+- This will unarchive a tar file on control to a directory on the target
+#+BEGIN_EXAMPLE
+--- # Unarchive Module Example 
+- hosts: aptserver
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: copy and unarchive a file
+    unarchive: src=test.tar.gz dest=/home/ansible/unarchive
+#+END_EXAMPLE
+- unarchive - this is the directory that the tar file will be extracted to
+
+** user
+Docs: http://docs.ansible.com/ansible/latest/modules/user_module.html
+
+#+BEGIN_EXAMPLE
+--- # User Module Example
+- hosts: apacheweb
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Add the user called tstapache to the apache web client
+    user: name=tstapache comment="Test Apache" group=wheel
+  - name: Add the user called tstapsche2
+    user: name=tstapache2 comment="Test Apache 2" shell=/usr/bin/zsh
+  - name: Remove user tstapach2 
+    user: name=tstapache2 state=absent remove=yes
+#+END_EXAMPLE
+
+** waitfor
+- install tomcat and wait until it has started until it continues
+#+BEGIN_EXAMPLE
+-- # Wait For Module Example
+- hosts: apacheweb
+  user: ansible
+  become: yes
+  gather_facts: no
+  tasks:
+  - name: Installing Apache Tomcat
+    yum: pkg=tomcat state=installed
+  - name: Waiting for Port 8080 to Listen
+    wait_for:
+      port: 8080
+      state: started
+  - name: Verifying Lynx installation
+    yum: pkg=lynx state=installed
+#+END_EXAMPLE
+once we start the tomcat on the apacheweb ansible will continue
+
+** yum
+Docs: https://docs.ansible.com/ansible/latest/modules/yum_module.html
+
+#+BEGIN_EXAMPLE
+--- # Yum Module Example
+- hosts: apacheweb
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Install Apache Web Server
+    yum: name=httpd state=present
+#+END_EXAMPLE
+state
+- present/installed (yum install) 
+- absent (yum remove) 
+- latest(yum upgrade)
+  
+- Do a system upgrade (yum upgrade)
+#+BEGIN_EXAMPLE
+--- # Yum Module Example
+- hosts: apacheweb
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Update System
+    yum: name=* state=latest
+#+END_EXAMPLE
+this will do a full system upgrade
+
 * Playbooks
 - check the syntax of the playbook before running
 #+BEGIN_SRC sh
 ansible-playbook example.yml --check
 #+END_SRC
+
+- delimiter for hosts in playbooks
+#+BEGIN_EXAMPLE
+---
+- hosts: apacheweb:debian_group:redhat_group
+#+END_EXAMPLE
+this playbook will be run against all three groups
 
 ** Simple file copy
 #+BEGIN_EXAMPLE
@@ -1803,6 +2553,289 @@ vars.yml
 control_server: frank1.mylabserver.com
 web_root: /var/www/html
 
+#+END_EXAMPLE
+
+** Steping through a playbook
+we can decide to start our play book from a specific point
+#+BEGIN_EXAMPLE
+--- # Start At Playbook Example
+- hosts: apacheweb
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Install Telnet
+    yum: pkg=telnet state=latest
+  - name: Install Lynx
+    yum: pkg=lynx state=latest
+  - name: List Home
+    command: ls -la /home/ansible
+    register: result
+  - debug: var=result
+#+END_EXAMPLE
+
+- to start at "Install Lynx"
+#+BEGIN_SRC sh
+ansible-playbook startat.yml --start-at-task='Install Lynx'
+#+END_SRC
+
+- have ansible ask if we would like a step to be run
+#+BEGIN_SRC sh
+ansible-playbook startat.yml --step
+#+END_SRC
+
+** Passing variables to a playbook from the command line
+we will create a playbook that will require variables to provided at the cmd line
+
+#+BEGIN_EXAMPLE
+--- # Variables at the cmd line passing example
+- hosts: '{{ hosts }}'
+  user: '{{ user }}'
+  become: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Install some pkg
+    yum: pkg={{ pkg }} state=latest
+#+END_EXAMPLE
+
+- we would run this at the cmd line as follows
+#+BEGIN_SRC sh
+ansible-playbook fromcmdline.yml --extra-vars "hosts=apacheweb user=ansible pkg=telnet"
+#+END_SRC
+this will use the host apacheweb, user ansbile and install telnet
+
+** Runonce
+This will run a command against the first server that "ansible all --list-hosts" prints only
+
+#+BEGIN_EXAMPLE
+--- # RUNONCE PLAYBOOK EXAMPLE
+- hosts: all
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+    - name: Run the uptime command on all hosts and log it
+      raw: /usr/bin/uptime >> /home/ansible/uptime.log
+    - name: List the /var directory and log it
+      raw: ls -al /var >> /home/ansible/dir.list
+      run_once: true
+#+END_EXAMPLE
+this will run uptime on all the servers, but only "ls -al /var" on one server
+
+** Local Actions
+These are playbooks that are run on the local machine and will not run over ssh
+
+#+BEGIN_EXAMPLE
+--- # LOCAL ACTION PLAYBOOK
+- hosts: 127.0.0.1
+  connection: local
+  tasks:
+    - name: Install Telnet Client
+      yum: pkg=telnet state=latest
+#+END_EXAMPLE
+This will be run as the user that calls it, they will require root privs as yum is used (or sudo, or add -b to the ansbile-playbook cmd)
+
+*** Perform an action on localhost before hosts
+- from localhost ping frankflintstone5
+#+BEGIN_EXAMPLE
+--- # LOCALACTION DEMO
+- hosts: apacheweb
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+  - name: Ping application server before we run our install                                   
+    local_action: command ping -c 5 frankflintstone5
+  - name: Install Lynx on remote server
+    yum: pkg=lynx state=latest
+#+END_EXAMPLE
+
+- output
+#+BEGIN_EXAMPLE
+[ansible@alickmitchell4 Playbooks]$ ansible-playbook localaction.yml
+                           
+PLAY [apacheweb] ******************************************************************************
+
+TASK [Ping application server before we run our install] **************************************
+changed: [frankflintstone5.mylabserver.com -> localhost]
+
+TASK [Install Lynx on remote server] **********************************************************
+changed: [frankflintstone5.mylabserver.com]
+
+PLAY RECAP ************************************************************************************
+frankflintstone5.mylabserver.com : ok=2    changed=2    unreachable=0    failed=0
+#+END_EXAMPLE
+we can see with the -> localhost that instead of running the ping on the remote host it was performed on the localhost
+
+** Delegate to
+- this is similar to local actions
+#+BEGIN_EXAMPLE
+--- # DELEGATE TO FUNCTION DEMO
+- hosts: apacheweb
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: yes
+  tasks:
+  - name: Run a remote ping against the application server
+    command: ping -c 4 alickmitchell6
+    delegate_to: 127.0.0.1
+  - name: Install a package
+    yum: pkg=lynx state=latest
+#+END_EXAMPLE
+we could delegate to any server other than the localhost though
+
+** Loops
+
+** Conditionals
+
+** Until
+This will continue to check the remote server until it response the the service is running
+#+BEGIN_EXAMPLE
+--- # Until Example
+- hosts: apacheweb
+  sudo: yes
+  connection: ssh
+  user: ansible
+  gather_facts: no
+  tasks:
+    - name: Install Apache Web Server
+      yum: pkg=httpd state=latest
+    - name: Verify Server Status
+      shell: systemctl status httpd
+      register: result
+      until: result.stdout.find("active (running)") != -1
+      retries: 5
+      delay: 5
+    - debug: var=result
+#+END_EXAMPLE
+this will be tried 5 times
+
+** Notify
+#+BEGIN_EXAMPLE
+--- # My First YAML Playbook
+- hosts: apacheweb
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: no
+  vars:
+    playbook_version: 0.1b
+  vars_files:
+    - conf/copyright.yml
+    - conf/webdefaults.yml
+  vars_prompt:
+    - name: pkg_name
+      prompt: Web Domain
+  tasks:
+    - name: Install Apache Web Server
+      action: yum name=httpd state=installed
+      notify: Restart HTTPD
+  handlers:
+    - name: Restart HTTPD # This has to be the same as the notify                             
+      action: service name=httpd state=restarted
+#+END_EXAMPLE
+
+** Prompt
+- this will prompt the user to enter the required pkg and install it, if no pkg is entered then telnet is installed by default
+#+BEGIN_EXAMPLE
+--- # PROMPT FOR USER PACKAGE EXAMPLE
+- hosts: apacheweb
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: no
+  vars:
+    playbook_version: 0.01b
+  vars_prompt:
+    - name: pkgToInstall
+      prompt: Install With Package?
+      default: telnet
+      private: no # if yes it wouldn't be echoed to the screen
+  tasks:
+    - name: Install the indicated package
+      yum: pkg={{ pkgToInstall }} state=latest
+#+END_EXAMPLE
+
+** Includes
+We will use a file to provide a more module approach to creating a playbook
+
+#+BEGIN_EXAMPLE
+--- # INCLUDE TASKS EXAMPLE
+- hosts: apacheweb
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+    - include: plays/packages.yml
+    - name: Verify the telnet package is installed
+      raw: yum list installed | grep telnet > /home/ansible/pkgs.log
+#+END_EXAMPLE
+
+plays/packages.yml
+#+BEGIN_EXAMPLE
+- name: Install the telnet client
+  yum: pkg=telnet state=latest
+- name: Install the lynx web browser
+  yum: pkg=lynx state=latest
+#+END_EXAMPLE
+
+** Tags
+Tags allow us to just run specific sections of a playbook
+
+tags.yml
+#+BEGIN_EXAMPLE
+--- # TAG Functionality Example
+- hosts: apacheweb
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+    - name: Install the telnet and lynx packages
+      yum: pkg={{ item }} state=latest
+      with_items:
+        - telnet
+        - lynx
+      tags:
+        - packages
+    - name: Verify that telnet was installed
+      raw: yum list installed | grep telnet > /home/ansible/pkg.log
+      tags:
+        - verification
+#+END_EXAMPLE
+
+- just run the verification section
+#+BEGIN_SRC sh
+ansible-playbook tags.yml --tags "verification"
+#+END_SRC
+this wouldn't install the pkgs, but would run the verification section
+
+- skip the verification section
+#+BEGIN_SRC sh
+ansible-playbook tags.yml --skip-tags "verification"
+#+END_SRC
+
+** Basic Error Handling
+Using the ignore_erors variable we can makesure that if our playbook was to fail at a specific point it would continue with the play and not dump out
+#+BEGIN_EXAMPLE
+--- # Error Handling Example
+- hosts: apacheweb
+  user: ansible
+  become: yes
+  connection: ssh
+  gather_facts: no
+  tasks:
+    - name: Execute a command that will fail
+      command: /bin/false
+      ignore_errors: yes
+    - name: Install telnet
+      yum: pkg=telnet state=latest
 #+END_EXAMPLE
 
 * Roles

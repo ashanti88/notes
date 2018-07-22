@@ -603,7 +603,6 @@ ScriptAlias /cgi-bin/ "var/www/webscripts/"
 systemctl restart httpd
 #+END_SRC
 
-
 ** Configure TLS Security - Generating Key Files, CSRs and SelfSigned Certificates
 - install mod_ssl and openssl
 #+BEGIN_SRC sh

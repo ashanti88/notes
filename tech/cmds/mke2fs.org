@@ -34,6 +34,17 @@ F - force flag
 mke2fs -L label /dev/sdb1
 #+END_SRC
 
+** Check for Bad Blocks on a Device
+- using -c before the filesystem is create the sytem will check for any bad blocks
+#+BEGIN_SRC sh
+mke2fs -c /dev/sda2
+#+END_SRC
+
+- using -cc will be much slower than -c, but also performs a read-write test
+#+BEGIN_SRC sh
+mke2fs -cc /dev/sda2
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

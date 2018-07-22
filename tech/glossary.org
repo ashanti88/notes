@@ -1,6 +1,9 @@
 #+TAGS: glossary
 
 
+* A2DP - Advanced Audio Distribution Profile
+Wiki: https://en.wikipedia.org/wiki/List_of_Bluetooth_profiles#Advanced_Audio_Distribution_Profile_(A2DP)
+
 * AMI  - Amazon Machine Image
 AWS:https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html
 * API  - Application Programming Interface
@@ -33,6 +36,8 @@ Wiki: https://en.wikipedia.org/wiki/Display_Data_Channel
 * DRM  - Direct Rendering Manager
 HomePage: https://dri.freedesktop.org/wiki/DRM/
 * DRY  - Don't Repeat Yourself
+* EC3  - Europol's European Cybercrime Centre
+HomePage: https://www.europol.europa.eu/about-europol/european-cybercrime-centre-ec3
 * ETL  - Extract Transform Load
 Wiki: https://en.wikipedia.org/wiki/Extract,_transform,_load
 * FDT  - Flattened Device Tree
@@ -114,6 +119,8 @@ Red hat: https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/
 * PNDA - Platform for Network Data Analysis
 Homepage: http://pnda.io/
 * RAC  - Real Application Clustering (oracle)
+* RAT  - Remote Access Trojan
+MalwarebytesLabs: https://blog.malwarebytes.com/threats/remote-access-trojan-rat/
 * RESTful API - Repressentational State Transfer Application Programming Interface
 Wiki: https://en.wikipedia.org/wiki/Representational_state_transfer
 * RHEL - Red Hat Enterprise Linux

@@ -21,6 +21,7 @@ mkfs -t ext4 -b 8192 -m 10 -L LargeData
 b - block size
 m - reserve a certain percentage for the superuser
 
+
 * mkfs.ext
 ** Create filesystem on device
 #+BEGIN_SRC sh

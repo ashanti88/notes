@@ -1,4 +1,4 @@
-#+TAGS: ci cd java code build devops
+#+TAGS: ci cd java code build devops build_automation
 
 
 * Gradle
@@ -14,6 +14,63 @@ Initially, Gradle used Apache Ivy for its dependency management. Later own it mo
 Gradle effort can be summed as “convention is good and so is flexibility”.
 
 * Usage
+  
+** Installation of Gradle CentOS7
+
+- we will need Java JDK 7 or higher
+#+BEGIN_SRC sh
+yum install java-1.8.0-openjdk unzip
+#+END_SRC  
+
+- pull gradle
+#+BEGIN_SRC sh
+wget -O ~/gradle-4.7 https://services.gradle.org/distributions/gradle-4.7-bin.zip
+#+END_SRC
+
+- unzip gradle file
+#+BEGIN_SRC sh
+mkdir /opt/gradle
+unzip -d /opt/gradle ~/gradle-4.7-bin.zip
+#+END_SRC
+
+- create /etc/profile.d/gradle.sh
+#+BEGIN_EXAMPLE
+export PATH=$PATH:/opt/gradle/gradle-4.7/bin
+#+END_EXAMPLE
+
+-set correct permissions on the gradle.sh file
+#+BEGIN_SRC sh
+chmod 755 /etc/profile.d/gradle.sh
+#+END_SRC
+
+- logout and back in for the $PATH variable to take effect
+  
+- confirm that gradle has sucessfully installed
+#+BEGIN_SRC sh
+gradle --version
+#+END_SRC
+
+
+
+** Installing the Gradle Wrapper (this is with a version of Gradle already installed)
+
+- inside project directory run the gradle wrapper cmd
+#+BEGIN_SRC sh
+cd my-project
+gradle wrapper
+#+END_SRC
+
+- this will create few files and directories
+  - gradlew
+  - gradlew.bat (windows)
+  - gradle
+    
+- to build the project just run gradlew
+#+BEGIN_SRC sh
+./gradlew build
+#+END_SRC
+this will download the correct version of gradle and build the project
+
 * Lecture
 * Tutorial
 * Books
