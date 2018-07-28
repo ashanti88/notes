@@ -61,8 +61,7 @@ ansible app -s -a "service ntpd restart" --limit ~".*\.4"
 This cmd will only be run on the .4 server
 first is an exact string match, second is a wildcard match and thrid is a regex match.
 
-** Ad-hoc cmds
-*** System Analysis
+** System Analysis
 - ping testserver that is specified in hosts file
 #+BEGIN_SRC sh
 ansible testserver -i hosts -m ping
@@ -121,39 +120,45 @@ ansible multi -s -m service -a "name=ntpd state=started enabled=yes"
 ansible testserver -i hosts -m command -a "cat /etc/passwd"
 #+END_SRC
 
-*** Install
+** Installing and Removing Packages
 - install nginx
 #+BEGIN_SRC sh
-ansible testserver -i hosts -m apt -a name=nginx
+ansible testserver -i hosts -m apt -a "name=nginx state=present"
+#+END_SRC
+i - this is indicating the hosts file to use (if i is missing /etc/ansible/hosts is used)
+
+- remove nginx
+#+BEGIN_SRC sh
+ansible testserver -i hosts -m apt -a "name=nginx state=absent"
 #+END_SRC
 
 - install ntp on servers
 #+BEGIN_SRC sh
 ansible multi -s -m yum -a "name=ntp state=present"
 #+END_SRC
--s this tells ansilble to use sudo
+-s this tells ansilble to use sudo - this will become deprecated in V2.6 -b (become) should now be used)
 If sudo password is required add the -k (--ask-sudo-pass) option and this will prompt for the password
 
 - installing django on application server
 #+BEGIN_SRC sh
-ansible app -s -m yum -a "name=MySQL-python state=present"
-ansible app -s -m yum -a "name=python-setuptools state=present"
-ansible app -s -m easy_install -a "name=django"
+ansible app -b -m yum -a "name=MySQL-python state=present"
+ansible app -b -m yum -a "name=python-setuptools state=present"
+ansible app -b -m easy_install -a "name=django"
 ansible app -a "python -c 'import django; print django.get_version()'"
 #+END_SRC
 The final line is to confirm the django install
 
 - installing mariadb on database server
 #+BEGIN_SRC sh
-ansible db -s -m yum -a "name=mariadb-server state=present"
-ansible db -s -m service -a "name=mariadb state=started enabled=yes"
-ansible db -s -a "iptables -F"
+ansible db -b -m yum -a "name=mariadb-server state=present"
+ansible db -b -m service -a "name=mariadb state=started enabled=yes"
+ansible db -b -a "iptables -F"
 ansible db -s -a "iptables -A INPUT -s 192.168.60.0/24 -p tcp -m tcp --dport 3306 -j ACCEPT"
 #+END_SRC
 - add the MySQL-python module to allow django to connect to the db
 #+BEGIN_SRC sh
-ansible db -s -m yum -a "name=MySQL-python state=present"
-ansible db -s -m mysql_user -a "name=django host=% password=12345 priv=*.*:ALL state=present"
+ansible db -b -m yum -a "name=MySQL-python state=present"
+ansible db -b -m mysql_user -a "name=django host=% password=12345 priv=*.*:ALL state=present"
 #+END_SRC
 This would this configuration is only for dev environments.
 For Production:
@@ -161,38 +166,31 @@ Remove test db
 Add root user account password
 Restrict the IP addr that can connect to 3306
 
-*** Ops
-- Sync NTP servers
-#+BEGIN_SRC sh
-ansible multi -s -a "service ntpd stop"
-ansible multi -s -a "ntpdate -q 0.rhel.pool.ntp.org"
-ansible multi -s -a "service ntpd start"
-#+END_SRC
-
-**** Manage users and Groups
+** Manage Users and Groups
 - add an admin group
 #+BEGIN_SRC sh
-ansible app -s -m group -a "name=admin state=present"
+ansible app -b -m group -a "name=admin state=present"
 #+END_SRC
 To remove a group change the state=absent
-system=yes indicates that the group is a system group
+system=yes indicates that the group is a system group 0-1000
 gid=[gid] this is to set a specific gid
 
 - add the user frank to the app servers
 #+BEGIN_SRC sh
-ansible app -s -m user -a "name=frank group=admin createhome=yes"
+ansible app -b -m user -a "name=frank group=admin createhome=yes"
 #+END_SRC
-generate_ssh_key=yes will create an ssh key for the user
-uid=[uid] this sets a specific uid for the user
-shell=[shell] this sets the specific shell for the user
-password=[encrypted-password] this sets the users password
+generate_ssh_key=yes - will create an ssh key for the user
+uid=[uid]            - this sets a specific uid for the user
+shell=[shell]        - this sets the specific shell for the user
+password=[encrypted-password] - this sets the users password
 
 - remove the user frank from the app servers
 #+BEGIN_SRC sh
-ansible app -s -m user -a "name=frank state=absent remove=yes"
+ansible app -b -m user -a "name=frank state=absent remove=yes"
 #+END_SRC
+remove - this will remove the home dir of the user
 
-**** Manage files and directories
+** Manage files and directories
 - get infomation about a file
 #+BEGIN_SRC sh
 ansible multi -m stat -a "path=/etc/environment"
@@ -229,16 +227,31 @@ ansible multi -m file -a "dest=/src/symlink dest=/tmp/symlink owner=root group=r
 ansible multi -m file -a "dest=/tmp/test state=absent"
 #+END_SRC
 
-
-**** Update system
+** Update system
 - Run the update in the background
 #+BEGIN_SRC sh
-ansible multi -s -B 3600 -a "yum -y update"
+ansible multi -b -B 3600 -m yum -a "pkg=* state=latest"
 #+END_SRC
 -B <seconds> - max amount of time to let the job run
 -P <seconds> - amount of time between polling the servers, if absent defaults to 10 secs
 
-**** Check log files
+** Manage Services
+- start the httpd service
+#+BEGIN_SRC sh
+ansible apacheweb -u ansible -b -m service -a "name=httpd state=restarted"
+#+END_SRC
+  
+- stop the httpd service
+#+BEGIN_SRC sh
+ansible apacheweb -u ansible -b -m service -a "name=httpd state=stopped"
+#+END_SRC
+  
+- restart the httpd service
+#+BEGIN_SRC sh
+ansible apacheweb -u ansible -b -m service -a "name=httpd state=restarted"
+#+END_SRC
+
+** Check log files
 tail -f is not possible with ansible, and large amounts of data shouldn't be accessed(> a few KB) by ansible logon to the server individually to get this data if required
 
 - view last few lines of messages log file
@@ -251,10 +264,10 @@ ansible multi -s -a "tail /var/log/messages"
 ansible multi -s -m shell -a "tail /var/log/messages | grep ansible-command | wc -l"
 #+END_SRC
 
-**** Manage cron jobs
+** Manage cron jobs
 - add a cron job to run everyday at 4am
 #+BEGIN_SRC sh
-ansible multi -s -m cron -a "name='daily-cron-all-servers' hour=4 job='/path/to/daily-script.sh'"
+ansible multi -b -m cron -a "name='daily-cron-all-servers' minute=45 hour=4 job='/path/to/daily-script.sh'"
 #+END_SRC
 Ansible assumes * for all values you don't specify (valid values day, hour, minute, month and weekday)
 special_time=[value] reboot, yearly or monthly
@@ -262,15 +275,15 @@ user=[user] this specifies which user for the cron job to run under
 
 - remove a cron job
 #+BEGIN_SRC sh
-ansible multi -s -m cron -a "name='daily-cron-all-servers' state=absent"
+ansible multi -b -m cron -a "name='daily-cron-all-servers' state=absent"
 #+END_SRC
 
-**** VCS
+** VCS
 Playbooks should be used for complicated application deployment
 
 - simple application deployment with git module
 #+BEGIN_SRC sh
-ansible app -s -m git -a "repo=https://github.com/hephaest0s/usbkill.git dest=/opt/myapp"
+ansible app -b -m git -a "repo=https://github.com/hephaest0s/usbkill.git dest=/opt/myapp"
 #+END_SRC
 version=1.2.4 - this will ensure that the 1.2.4 branch is checked out, or a specific commit can be used
 
@@ -368,7 +381,14 @@ host_key_checking = False
 vm-ubuntu ansible_ssh_host=127.0.0.1 ansible_ssh_port=2222 ansible_ssh_user=ubuntu ansible_ssh_private_key_file=/home/crito/vagrant_boxes/ansible/.vagrant/machines/default/virtualbox/private_key
 #+END_EXAMPLE
 
-** Installation in CentOS7
+** Sync NTP Servers
+#+BEGIN_SRC sh
+ansible multi -s -a "service ntpd stop"
+ansible multi -s -a "ntpdate -q 0.rhel.pool.ntp.org"
+ansible multi -s -a "service ntpd start"
+#+END_SRC
+
+** Installation on CentOS7
    
 - create the ansible user on each node
 #+BEGIN_SRC sh
@@ -402,6 +422,19 @@ yum update
 yum install ansible
 #+END_SRC
 this needs to be installed on any node that will be executing plays
+
+** Installing AWS CLI Tools
+   
+- makesure that pypi is installed (this may require the epel repo)
+#+BEGIN_SRC sh
+yum install python-pip
+#+END_SRC
+
+- install the aws cli
+#+BEGIN_SRC sh
+pip install awscli
+#+END_SRC
+
 
 * Lecture
 ** Learn you some Ansible for great good! - OpenStack Summit May 2015
@@ -2167,6 +2200,223 @@ state
 #+END_EXAMPLE
 this will do a full system upgrade
 
+* AWS
+Running a simple shell cmd on an ec2 instance
+awsshell.yml
+#+BEGIN_EXAMPLE
+--- # AWS EC2 Instance Communication Shell Command Example
+- hosts: aws
+  remote_user: ec2-user
+  become: yes
+  become_method: sudo
+  connection: ssh
+  gather_facts: yes
+  tasks:
+  - name: Execute a shell command for listing the directory on remote host
+    shell: ls -al ~
+    register: result
+  - name: Display the reults in JSON format
+    debug: var=result
+#+END_EXAMPLE
+
+** ec2_facts/ec2_metadata_facts
+ec2_facts has been renamed ec2_metadata_facts, it will become deprecated as of 2.7
+
+- pull all the aws variables from an instance
+#+BEGIN_SRC sh
+ansible aws -u ec2-user -b -m ec2_metadata_facts
+#+END_SRC
+
+
+- view what type of instance is being run
+awsec2instance.yml
+#+BEGIN_EXAMPLE
+--- # Gather EC2 Facts from the remote instance(s)
+- hosts: aws
+  remote_user: ec2-user
+  become: yes
+  become_method: sudo
+  connection: ssh
+  gather_facts: yes
+  tasks:
+  - name: Gather the EC2 Facts about running instance(s)
+    action: ec2_metadata_facts
+  - name: Display the instance type
+    debug: msg='{{ ansible_ec2_instance_type }}'
+#+END_EXAMPLE
+
+- Only print if the instance is of a certain type
+#+BEGIN_EXAMPLE
+--- # Gather EC2 Facts from the remote instance(s)
+- hosts: aws
+  remote_user: ec2-user
+  become: yes
+  become_method: sudo
+  connection: ssh
+  gather_facts: yes
+  tasks:
+  - name: Gather the EC2 Facts about running instance(s)
+    action: ec2_metadata_facts
+  - name: Conditional Display of Instance Type
+    debug: msg="This Instance is of type t2.micro"
+    when: ansible_ec2_instance_type == 't2.micro'
+#+END_EXAMPLE
+
+** ec2_key
+#+BEGIN_EXAMPLE
+--- # EC2 Key Module Example
+- hosts: aws
+  remote_user: ec2-user
+  become: yes
+  become_method: sudo
+  connection: ssh
+  gather_facts: no
+  vars_files:
+  - files/awscreds.yml
+  tasks:
+  - name: Create a New Key Pair - MyKeyPairTestAWS
+    ec2_key:
+      aws_access_key: "{{ aws_id }}"
+      aws_secret_key: "{{ aws_key }}"
+      name: MyKeyPairTestAWS
+      region: us-east-1
+      state: present
+#+END_EXAMPLE   
+to remove this key just change the state to absent
+
+** ec2
+
+- manage state of an instance
+#+BEGIN_EXAMPLE
+--- # EC2 Start, Stop, Terminate Module Use Example
+- hosts: localhost
+  remote_user: ec2-user
+  become: yes
+  become_method: sudo
+  connection: local
+  gather_facts: yes
+  vars_files:
+  #- files/awscreds.yml
+  tasks:
+  - name: Manage the state of an instance
+    ec2:
+      aws_access_key "{{ aws_id }}"
+      aws_access_key "{{ aws_key }}"
+      region: "{{ aws_region }}"
+      instance_ids: i-07853e7b6b2a5e517
+      state: running
+#+END_EXAMPLE
+
+- provisioning a new instance
+#+BEGIN_EXAMPLE
+--- # EC2 Module Provisioning Example
+- hosts: localhost
+  connection: local
+  remote_user: ec2-user
+  become: yes
+  become_method: sudo
+  gather_facts: yes
+  var_files:
+  - files/awscreds.yml
+  tasks:
+  - name: Basic provisioning of two t2.micro EC2 instances
+    ec2:
+      aws_access_key: "{{ aws_id }}"
+      aws_secret_key: "{{ aws_key }}"
+      region: "{{ aws_region }}"
+      image: ami-f0091d91
+      instance_type: t2.micro
+      count: 2
+      assign_public_ip: yes
+#+END_EXAMPLE
+
+** ec2_ami
+- creat an AMI from an existing instance
+#+BEGIN_EXAMPLE
+--- # EC2_AMI Example for creating a basic AMI template from an existing image                
+- hosts: localhost
+  remote_user: ec2-user
+  become: yes
+  become_method: sudo
+  connection: local
+  gather_facts: no
+  vars_files:
+  - files/awscreds.yml
+  tasks:
+  - name: Basic Provisioning of an AMI from our Instance                                      
+    ec2_ami:
+      aws_access_key: "{{ aws_id }}"
+      aws_secret_key: "{{ aws_key }}"
+      region: "{{ aws_region }}"
+      instance_id: i-1da8b9d9
+      wait: no
+      name: mynewami
+      tags:
+        Name: MyNewAMI
+        Service: TestAMIService
+    register: isntance
+#+END_EXAMPLE
+
+- A more advanced AMI creation
+#+BEGIN_EXAMPLE
+--- # EC2_AMI Example for customizing an AMI
+- hosts: localhost
+  remote_user: ec2-user
+  become: yes
+  become_method: sudo
+  connection: local
+  gather_facts: no
+  vars_files:
+  - files/awscreds.yml
+  tasks:
+  - name: More Advanced Provisioning of an AMI from our Instance
+    ec2_ami:
+      aws_access_key: "{{ aws_id }}"
+      aws_secret_key: "{{ aws_key }}"
+      region: "{{ aws_region }}"
+      instance_id: i-1da8b9d9
+      wait: no
+      name: mynewami2
+      tags:
+        Name: MyNewAMI2
+        Service: TestAMIService2
+      device_mapping:
+        - device_name: /dev/sdb1
+          size: 100
+          delete_on_termination: true
+          volume_type: gp2
+    register: instance
+#+END_EXAMPLE
+
+** ec2_ami_copy
+- copy an AMI to another region
+#+BEGIN_EXAMPLE
+--- # ec2_ami_copy Exampl
+- hosts: localhost
+  remote_user: ec2-user
+  become: yes
+  become_method: sudo
+  connection: local
+  gather_facts: no
+  vars_files:
+  - files/awscreds.yml
+  tasks:
+  - name: Copy AMI from one region to another
+    ec2_ami_copy:
+      aws_access_key: "{{ aws_id }}"
+      aws_secret_key: "{{ aws_key }}"
+      region: "{{ aws_region }}"
+      source_region: "{{ aws_region }}"
+      dest_region: us-west-1
+      source_image_id: ami-91b6aff0
+      wait: no
+      name: useastami1
+      tags:
+        Name: MyNewEastAMI1
+        Service: TestEastAMIService1
+    register: instance
+#+END_EXAMPLE
+
 * Playbooks
 - check the syntax of the playbook before running
 #+BEGIN_SRC sh
@@ -2840,21 +3090,8 @@ Using the ignore_erors variable we can makesure that if our playbook was to fail
 
 * Roles
 ** Install an apache webserver
-~/roles/apache-webserver/tasks/main.yml
-#+BEGIN_EXAMPLE
-- name: Install apache
-  yum: pkg=httpd state=latest
-  notify: Restart HTTPD
-#+END_EXAMPLE
-
-~/roles/apache-webserver/handlers/main.yml
-#+BEGIN_EXAMPLE
-- name: Restart HTTPD
-  service: name=httpd state=restarted
-#+END_EXAMPLE
-
-- bring the above to files together into a playbook to install an apache server
-~/roles/webservers
+*** roles
+~/roles/webservers.yml
 #+BEGIN_EXAMPLE
 --- # Master playbook to install apache
 
@@ -2864,7 +3101,38 @@ Using the ignore_erors variable we can makesure that if our playbook was to fail
     - apache-webserver
 #+END_EXAMPLE
 
+**** apache-webserver
+***** tasks
+~/roles/apache-webserver/tasks/main.yml
+#+BEGIN_EXAMPLE
+- name: Install apache
+  yum: pkg=httpd state=latest
+  notify: Restart HTTPD
+#+END_EXAMPLE
+***** handlers
+~/roles/apache-webserver/handlers/main.yml
+#+BEGIN_EXAMPLE
+- name: Restart HTTPD
+  service: name=httpd state=restarted
+#+END_EXAMPLE
+
+- bring the above to files together into a playbook to install an apache server
+
 ** Customize apache
+*** roles
+- pulling in the install apache from above we will change /var/www/html/index.html to show the hostsname
+~/roles/update_apache.yml
+#+BEGIN_EXAMPLE
+--- # put the hostname in the index.html
+- hosts: single
+  become: yes
+  roles:
+    - apache-webserver
+    - customize-apache
+#+END_EXAMPLE
+
+**** customize-apache
+***** tasks
 ~/roles/customize-apache/tasks/main.yml
 #+BEGIN_EXAMPLE
 - name: create file if it doesnt exist
@@ -2877,29 +3145,8 @@ Using the ignore_erors variable we can makesure that if our playbook was to fail
     line: Hostname={{ansible_hostname}}
 #+END_EXAMPLE
 
-- pulling in the install apache from above we will change /var/www/html/index.html to show the hostsname
-~/roles/update_apache.yml
-#+BEGIN_EXAMPLE
---- # put the hostname in the index.html
-- hosts: single
-  become: yes
-  roles:
-    - apache-webserver
-    - customize-apache
-#+END_EXAMPLE
-
 ** Install php along with apache
-~/roles/install_php/tasks/main.yml
-#+BEGIN_EXAMPLE
- name: Install php onto server
-  yum: name={{itme}} state=latest
-  with_items:
-    - php
-    - php-gd
-    - php-pear
-    - php-mysql
-#+END_EXAMPLE
-
+*** roles
 - Using role webservers from above and the task, we can create a webserver with php installed
 ~/roles/install_php.yml
 #+BEGIN_EXAMPLE
@@ -2913,7 +3160,33 @@ Using the ignore_erors variable we can makesure that if our playbook was to fail
     - customize-apache
 #+END_EXAMPLE
 
-** Install word press
+**** install_php
+~/roles/install_php/tasks/main.yml
+#+BEGIN_EXAMPLE
+ name: Install php onto server
+  yum: name={{itme}} state=latest
+  with_items:
+    - php
+    - php-gd
+    - php-pear
+    - php-mysql
+#+END_EXAMPLE
+
+** Install Word Press
+*** roles
+~/roles/setup-wordpress.yml
+#+BEGIN_EXAMPLE
+---
+- hosts: single
+  become: yes
+  roles:
+    - apache-webserver
+    - install_php
+    - wordpress
+#+END_EXAMPLE
+
+**** wordpress
+***** tasks
 ~/roles/wordpress/tasks/main.yml
 #+BEGIN_EXAMPLE
 - unarchive:
@@ -2928,6 +3201,7 @@ Using the ignore_erors variable we can makesure that if our playbook was to fail
   template: src=wp-config.j2 dest=/var/www/html/wp-config.php
 #+END_EXAMPLE
 
+***** templates
 ~/roles/wordpress/templates/wp-config.j2
 #+BEGIN_EXAMPLE
 <?php
@@ -3021,6 +3295,7 @@ if ( !defined('ABSPATH') )
 require_once(ABSPATH . 'wp-settings.php');
 #+END_EXAMPLE
 
+***** vars
 ~/roles/wordpress/vars/main.yml
 #+BEGIN_EXAMPLE
 database_name_here: wordpress
@@ -3028,17 +3303,38 @@ username_here: wordpress
 password_here: mypassword
 dbhost_here: 172.31.29.21
 #+END_EXAMPLE
-
 - the vars will be placed in the template, and the template will be mv into the wp home dir
-~/roles/setup-wordpress.yml
+
+** Install on both RHEL and Debian
+*** roles
+webservers.yml
 #+BEGIN_EXAMPLE
----
-- hosts: single
+--- # Master Playbook for Web Servers
+- hosts: apacheweb
+  user: ansible
   become: yes
+  connection: ssh
+  gather_facts: yes
+  pre_tasks:
+  - name: When did the ROLE start
+    raw: date > /home/ansible/startofrole.log
   roles:
-    - apache-webserver
-    - install_php
-    - wordpress
+    - webservers
+  post_tasks:
+  - name: When did the role end
+    raw: date > /home/ansible/endofrole.log
+#+END_EXAMPLE
+**** webservers
+***** tasks
+main.yml
+#+BEGIN_EXAMPLE
+- name: Install Apache Web Server - RHEL
+  yum: pkg=httpd state=latest
+  when: "ansible_os_family == 'RedHat'"
+  ignore_errors: yes
+- name: Install Apache Web Server - Debian
+  apt: pkg=apache2 state=latest
+  when: "ansible_os_family == 'Debian'"
 #+END_EXAMPLE
 
 * Lecture

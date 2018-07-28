@@ -36,6 +36,10 @@ Wiki: https://en.wikipedia.org/wiki/Display_Data_Channel
 * DRM  - Direct Rendering Manager
 HomePage: https://dri.freedesktop.org/wiki/DRM/
 * DRY  - Don't Repeat Yourself
+* DSL  - Domain Specific Language
+Wiki: https://en.wikipedia.org/wiki/Domain-specific_language
+* EBS  - Elastic Block Storage (AWS)
+Docs: https://aws.amazon.com/ebs/
 * EC3  - Europol's European Cybercrime Centre
 HomePage: https://www.europol.europa.eu/about-europol/european-cybercrime-centre-ec3
 * ETL  - Extract Transform Load
@@ -59,6 +63,8 @@ Wiki: https://en.wikipedia.org/wiki/Generic_Security_Services_Application_Progra
 Wiki: https://en.wikipedia.org/wiki/Supercomputer
 * HSTS - HTTP Strict Transport Security
 Wiki: https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security
+* IAM  - Identity and Access Management (AWS)
+Docs: https://aws.amazon.com/iam/
 * ISA  - Instruction Set Architecture
 Wiki: https://en.wikipedia.org/wiki/Instruction_set_architecture
 * ISDN - Integrated Services Digital Network
@@ -67,6 +73,9 @@ Wiki: https://en.wikipedia.org/wiki/Integrated_Services_Digital_Network
 wiki: https://en.wikipedia.org/wiki/ISCSI
 * IIO  - Industrial I/O Subsystem
 https://wiki.analog.com/software/linux/docs/iio/iio
+* JSON - JavaScript Object Notation
+Wiki: https://en.wikipedia.org/wiki/JSON
+
 * JWT  - JSON Web Token
 Wiki: https://en.wikipedia.org/wiki/JSON_Web_Token
 * KDC  - Key Distribution Centre

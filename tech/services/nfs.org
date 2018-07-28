@@ -112,6 +112,7 @@ cd /mnt
 mkdir nfs_home
 mkdir nfs_share
 #+END_SRC
+As of RHEL 7.2 nfs-utils-lib was rolled into nfs-utils
 
 - manually mount the nfs shares
 #+BEGIN_SRC sh

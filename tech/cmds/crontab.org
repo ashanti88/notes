@@ -15,7 +15,7 @@ crontab -e
 #+END_SRC
 after editing the crontab you don't need to restart the crond
 
-** Example
+** Examples
 #+BEGIN_EXAMPLE
 0 1 * * 1-5 /home/user/bin/myscript.sh
 #+END_EXAMPLE

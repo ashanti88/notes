@@ -4,16 +4,6 @@
 * Apache
 HomePage: [[https://www.apache.org/][apache.org]]
 
-* Cmds
-- apachectl
-- a2enmod
-- a2dismod
-- a2ensite
-- a2disite
-- a2enconf
-- a2disconf
-- httpd
-
 * Files
 ** Debian
 /etc/apache2 - server root
@@ -34,6 +24,19 @@ HomePage: [[https://www.apache.org/][apache.org]]
 /var/www/html - Default document root
 /usr/share/httpd/noindex/ - the default test page directory
 /etc/httpd/logs - sometimes logs are placed here instead of using /var/log
+/urs/lib/systemd/system/httpd.service - systemd unit file
+
+* Cmds
+- apachectl
+** Debian
+- a2enmod
+- a2dismod
+- a2ensite
+- a2disite
+- a2enconf
+- a2disconf
+** RedHat
+- httpd
 
 * Description
 * Usage

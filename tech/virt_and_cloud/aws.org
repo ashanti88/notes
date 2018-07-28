@@ -50,6 +50,42 @@ Docs: https://aws.amazon.com/cloudtrail/
 ** EMR (Elastic MapReduce)
 ** AWSCLI
 Docs: https://aws.amazon.com/cli/
+
+
+*** Installing AWS CLI Tools
+   
+- makesure that pypi is installed (this may require the epel repo)
+#+BEGIN_SRC sh
+yum install python-pip
+#+END_SRC
+
+- install the aws cli
+#+BEGIN_SRC sh
+pip install awscli
+#+END_SRC
+
+*** User Authentication Configuration
+    
+- run the configuration cmd
+#+BEGIN_SRC sh
+aws configure
+#+END_SRC
+- this will ask for:
+    - AWS Access Key ID [None]: 
+    - AWS Secret Access Key [None]: 
+    - Default region name [None]: 
+    - Default output format [None]: 
+
+- You will require the correct privileges to be assigned to your user in IAM
+
+- Add both to your .bashrc: 
+    - AWS Access Key ID [None]: 
+    - AWS Secret Access Key [None]: 
+#+BEGIN_EXAMPLE
+export AWS_ACCESS_KEY_ID="add your key here"
+export AWS_SECRET_ACCESS_KEY="add your secret here"
+#+END_EXAMPLE
+
 * Lecture
 ** [[https://www.youtube.com/watch?v%3DeKyS9rvbj40][Introduction to Database Services - Brian Rice]]
 + If you host your DB on-site
@@ -2230,6 +2266,111 @@ file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/LA_Lab_Guide-
 
 Elastic Beanstalk Labs:
 file://home/crito/Documents/SysAdmin/Cloud/AWS/cert_solutions_arch/LA_Lab_Guide-Deploying_a_Simple_Web_Application_with_Elastic_Beanstalk.pdf
+
+** AWS Security Essentials - Linux Academy
+- AWS Security Essentials Course Supplement - https://www.lucidchart.com/documents/view/dfe09ce1-c62b-4834-b2af-15dcba040219/0
+  
+Docs:
+  - [[file://home/crito/Documents/SysAdmin/Cloud/AWS/NIST_Special_Publication-800-88.pdf][NIST Special Publication - 800-88]]
+  - [[file://home/crito/Documents/SysAdmin/Cloud/AWS/Security_Best_Practices.pdf][Security Best Practices]]
+  - [[file://home/crito/Documents/SysAdmin/Cloud/AWS/National_Industrial_Security_Program-Operating_Manual.pdf][National Industrial Security Program - Operating Manual]]
+   
+*** Secure Global Infrastructure and Compliance
+- regions
+  - largest geographical area in AWS
+  - largest organizational unit in AWS
+    
+- Availability Zone
+  - a region is broken down into AZs
+  - AZs use an alpha code to denote differnet zones i.e us-east-1b region [us-east-1] az [b] 
+    
+- Endpoints
+  - AWS Console
+  - AWS CLI
+  - AWS API
+  - ClouldFront (CDN)
+    
+- VPC Endpoints
+  - this means that services don't have to leave your AWS VPC
+  - so an EC2 instances doesn't leave the VPC to access an S3 bucket
+  - 2 types
+    - interface
+      - EC2 API
+      - ELB
+      - Kinesis Streams
+      - EC2 Systems Manager
+      - Service Catalog
+    - gateway
+      - S3
+      - DynamoDB
+  - Limitations
+    - ipv4 only
+    - same region only
+    - an interface endpoint cannot be accessed through a VPN or VPC Peering connection
+      
+- IAM
+  - Global scope
+  - is very granular in how permissions are given to users
+  - allows central management of:
+    - users
+    - passwords
+    - access keys
+    - permissions
+    - groups
+    - roles
+      
+*** Shared Responsibility and Trusted Advisor
+
+- Shared Reponsibility Model
+  -Infrastructure services
+    - Amazon is responsible for:
+      - global Infrastructure (Region, AZs, Edge Locations)
+      - foundation Services (Compute, Storage, Databases, Networking)
+    - User/Customer is responsible for:
+      - customer data
+      - platfroms and applications 
+      - OS and Network configuration
+      - customer iam
+  - Container Services
+    - Amazon is responsible for:
+      - Platforms and applications 
+      - OS and network configurations
+      - global infrastructure
+      - foundation services
+    - User/Customer is responsible for:
+      - customer data
+      - customer iam
+  - Abstracted Services(DynamoDB, S3, Lambda)
+    - Amazon is responsible for:
+      - Network traffic protection
+      - Platforms and applications
+      - OS and Network configurations
+      - global infrastructure
+      - foundation services
+    - User/Customer is responsible for:
+      - data in transit and client-side
+      - customer iam
+	
+- Trusted Advisor (tool)
+  - gives reports on AWS environment including:
+    - cost optimization
+    - performance
+    - security
+    - fault tolerance
+  - services available to all customers
+    - six core checks 
+      - security groups - lets you know if there are any security holes
+      - iam 
+      - MFA on root accounts
+      - EBS snapshots - avaialbe to the public
+      - RDS snapshots - avaialbe to the public
+      - service limits - will alert if limits are hit
+  - services available to business customers
+    - all checks
+      - weekly updates
+      - get api access to create reporting tools
+
+
 
 * Books
 [[file://home/crito/Documents/SysAdmin/Cloud/AWS/AWS_Storage_Services.pdf][AWS Storage Services]]

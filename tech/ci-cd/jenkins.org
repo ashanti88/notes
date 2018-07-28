@@ -891,7 +891,7 @@ ant -version
 
 *** The Jenkinsfile
 
-- Defines your sontinuous delivery pipeline
+- Defines your continuous delivery pipeline
 - Lives with your source code
 - 2 Styles
   - Declarative
@@ -1088,7 +1088,6 @@ stage('deploy') {
   
 - git add, commit and push
   
-
 *** Multi-branch pipeline
 A normal pipeline won't allow for the merging of branches as it hasn't the logic to deal with this type of operation.
 
@@ -1209,9 +1208,10 @@ jenkins-cli -s http://localhost:8080 -auth admin:44d0260a6f91fee4208ae1064498e51
 51 is the build number
 
 * Books
-[[file:~/Documents/DevOps/Linux_Academy-Jenkins_Cert_Engineer.pdf][Linux Academy - Jenkins Cert Engineer]]
-[[file://home/crito/Documents/Code/Devops/Jenkins-The_Definitive_Guide.pdf][Jenkins - The Definitive Guide]]
-[[file://home/crito/Documents/Code/Devops/Jenkins_on_AWS.pdf][Jenkins on AWS]]
+[[file://home/crito/Documents/Code/Devops/Jenkins/Jenkins-The_Definitive_Guide.pdf][Jenkins - The Definitive Guide]]
+[[file://home/crito/Documents/Code/Devops/Jenkins/Jenkins_on_AWS.pdf][Jenkins on AWS]]
+[[file:~/Documents/DevOps/Jenkins/Linux_Academy-Jenkins_Cert_Engineer.pdf][Linux Academy - Jenkins Cert Engineer]]
+[[file:~/Documents/DevOps/Jenkins/Jenkins-User_Handbook.pdf][Jenkins - User Handbook]]
 
 * Links
 Wiki: [[https://wiki.jenkins-ci.org/display/JENKINS/Installing%2BJenkins%2Bon%2BUbuntu][Ubuntu Installation]]

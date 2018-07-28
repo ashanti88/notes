@@ -1,0 +1,105 @@
+#+TAGS: grafana monitoring
+
+
+* Grafana
+* Description
+* Usage
+
+** Helm Installation Method
+- On the kubernetes master
+  
+- download and install helm
+#+BEGIN_SRC sh
+curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get > /tmp/get_helm.sh
+chmod 700 /tmp/get_helm.sh
+DESIRED_VERSION=v2.8.2 /tmp/get_helm.sh
+helm init --wait
+#+END_SRC
+
+- setup permissions for helm
+#+BEGIN_SRC sh
+kubectl --namespace=kube-system create clusterrolebinding add-on-cluster-admin --clusterrole=cluster-admin --serviceaccount=kube-system:default
+#+END_SRC
+
+- confirm the helm install
+#+BEGIN_SRC sh
+helm ls
+#+END_SRC
+this should return nothing if everything was installed correctly
+
+
+- clone the kubernetes charts from github
+#+BEGIN_SRC sh
+cd ~/
+git clone https://github.com/kubernetes/charts
+#+END_SRC
+
+- create the yml files that will add the required functionality to Prometheus
+~/prometheus-values.yml
+#+BEGIN_EXAMPLE
+alertmanager:
+  persistentVolume:
+      enabled: false
+server:
+  persistentVolume:
+      enabled: false
+#+END_EXAMPLE
+persistentVolume - this is where data is saved, for availability after reboot
+
+- Install promethus
+#+BEGIN_SRC sh
+helm install -f prometheus-values.yml charts/stable/prometheus --name prometheus --namespace prometheus
+#+END_SRC
+
+- confirm installation of promethus
+#+BEGIN_SRC sh
+kubectl get pods -n prometheus
+#+END_SRC
+
+- create the yml files that will add the required functionality to grafana
+grafana-values.yml
+#+BEGIN_EXAMPLE
+adminPassword: password
+#+END_EXAMPLE
+maybe use a stronger password in production
+
+- Install grafana
+#+BEGIN_SRC sh
+helm install -f grafana-values.yml charts/stable/grafana/ --name grafana --namespace grafana
+#+END_SRC
+
+- confirm grafana install with a simple node port service
+grafana-ext.yml
+#+BEGIN_EXAMPLE
+kind: Service
+apiVersion: v1
+metadata:
+  namespace: grafana
+  name: grafana-ext
+spec:
+  type: NodePort
+  selector:
+    app: grafana
+  ports:
+  - protocol: TCP
+    port: 3000
+    nodePort: 8080
+#+END_EXAMPLE
+
+- with kubernetes run the file
+#+BEGIN_SRC sh
+kubectl apply -f grafana-ext.yml
+kubectl get pods -n grafana
+#+END_SRC
+
+- through the browser access port 8080 with nodes ip and you should see the grafana login
+  
+- we also have to set the data source
+
+[[file://home/crito/Pictures/org/ci_cd_grafana.png]]
+
+
+* Lecture
+* Tutorial
+* Books
+* Links

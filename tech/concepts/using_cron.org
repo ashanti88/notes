@@ -39,7 +39,7 @@ Features of sys-process/bcron:
 ** anacron
 Anacron is not a cron daemon, it is something that usually works in conjunction with one. It executes commands at intervals specified in days and it does not assume that the system is running continuously; it will run jobs that were missed while the system was down. Anacron usually relies on a cron daemon to run it each day.
 * Cmds
-- crontab
+- [[file://home/crito/org/tech/cmds/crontab.org][crontab]]
 
 * Files
 /etc/crontab - shouldn't normally be edited as it can be over written, user/admin should use crontab cmd 
@@ -53,7 +53,8 @@ Anacron is not a cron daemon, it is something that usually works in conjunction 
 
 * Alternative
 - Systemd timers
-- at
+- [[file://home/crito/org/tech/cmds/at.org][at]]
+
 * Description
 * Usage
 - schedule a cron job with the current user
@@ -65,6 +66,17 @@ This opens the users default editor
 30 14 * * * logger hello
 #+END_EXAMPLE
 This will write hello to the log at 2:30pm each day
+
+minute | hour | day | month | dotw
+
+*/15 - every 15 minutes/hours
+*/2  - every 2 minutes/hours
+
+- view your current cron jobs
+#+BEGIN_SRC sh
+crontab -l
+#+END_SRC
+this will show the user that ran the cmd their cron jobs
 
 * Lecture
 * Tutorial
