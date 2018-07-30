@@ -23,6 +23,8 @@ Wiki: https://en.wikipedia.org/wiki/Content-addressable_memory
 Wiki: https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing
 * CNI  - Container Network Interface
 flannel 
+* COA  - Certificate of Authenticity
+Microsoft: https://www.msembedded.biz/en/licensing/license-sticker/
 * CORS - Cross Origin Resource Sharing
 Wiki: https://en.wikipedia.org/wiki/Cross-origin_resource_sharing
 * CRUD - Create Read Update Delete
@@ -42,6 +44,8 @@ Wiki: https://en.wikipedia.org/wiki/Domain-specific_language
 Docs: https://aws.amazon.com/ebs/
 * EC3  - Europol's European Cybercrime Centre
 HomePage: https://www.europol.europa.eu/about-europol/european-cybercrime-centre-ec3
+* EFS  - Elastic File System (AWS)
+Docs: https://aws.amazon.com/efs/
 * ETL  - Extract Transform Load
 Wiki: https://en.wikipedia.org/wiki/Extract,_transform,_load
 * FDT  - Flattened Device Tree
@@ -99,6 +103,8 @@ Wiki: https://en.wikipedia.org/wiki/Maximum_transmission_unit
 * MVC  - Model View Controller
 Wiki: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller
 * NACL - Network Access Control Lists
+* NIDS - Network Intrusion Detection System
+Wiki: https://en.wikipedia.org/wiki/Intrusion_detection_system
 * NIS  - Network Information Service
 * NNTP - News Network Transport Protocol
 Wiki: https://en.wikipedia.org/wiki/Network_News_Transfer_Protocol
@@ -139,6 +145,9 @@ Wiki: https://en.wikipedia.org/wiki/Reduced_instruction_set_computer
 Acceptable amount of data lass measured in time
 * RTO  - Recovery Time Objective
 The time it takes after a disruption to restore operations back to its regular service level, as defined by the companies operational level agreeement.
+* S3   - Simple Storage Service (AWS)
+Docs: https://aws.amazon.com/s3/
+
 * SSSD - System Security Services Daemon
 Fedora - https://fedoraproject.org/wiki/Features/SSSD
 

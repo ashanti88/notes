@@ -1,0 +1,17 @@
+#+TAGS: pulseaudio pactl
+
+
+* pactl
+HomePage: https://www.freedesktop.org/wiki/Software/PulseAudio/
+* Description
+* Usage
+- load a pulseaudio module
+#+BEGIN_SRC sh
+pactl pactl load-module module-bluetooth-policy
+pactl load-module module-bluetooth-discover
+#+END_SRC
+the above tunes on bluetooth 
+* Lecture
+* Tutorial
+* Books
+* Links

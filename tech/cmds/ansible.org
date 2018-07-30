@@ -2417,6 +2417,402 @@ to remove this key just change the state to absent
     register: instance
 #+END_EXAMPLE
 
+** ec2_ami_find
+- find an ami based on the given text name   
+#+BEGIN_EXAMPLE
+--- # EC2_AMI_ FiNd Module Example
+- hosts: localhost
+  connection: local
+  become: yes
+  remote_user: ansible
+  gather_facts: no
+  vars_files:
+  - files/awscreds.yml
+  tasks:
+  - name: Find our AMI ID
+    ec2_ami_find:
+      aws_access_key: "{{ aws_id }}"
+      aws_secret_key: "{{ aws_key }}"
+      region: "{{ aws_region }}"
+      owner: self
+      ami_tags:
+        Name: MyNewAMI
+      no_result_action: fail
+    register: ami_find
+  - debug: msg={{ ami_find.results[0].ami_id }}
+  - debug: msg={{ ami_find.result[0].name }}
+#+END_EXAMPLE
+
+** ec2_group
+- create a new security group   
+#+BEGIN_EXAMPLE
+--- # EC2_Group Module Example
+- hosts: localhost
+  remote_user: ansible
+  become: yes
+  become_method: sudo
+  connection: ssh
+  gather_facts: no
+  vars_files:
+  - files/awscreds.yml
+  tasks:
+  - name: Basic Security Group Creation
+    ec2_group:
+      aws_access_key: "{{ aws_id }}"
+      aws_secret_key: "{{ aws_key }}"
+      region: "{{ aws_region }}"
+      name: MyTestLinuxAcademyGroup
+      description: This is the EC2_group Demo
+      vpc_id: vpc-25f7c249
+      rules:
+        - proto: tcp
+          from_port: 80
+          to_port: 80
+          cidr_ip: 0.0.0.0/0
+      rules_egress:
+        - proto: tcp
+          from_port: 80
+          to_port: 80
+          cidr_ip: 0.0.0.0/0
+#+END_EXAMPLE
+
+** ec2_metric_alarm
+- set up a cloudwatch alert   
+#+BEGIN_EXAMPLE
+--- # EC2 Metric Alarm Module Example
+- hosts: localhost
+  remote_user: ansible
+  become: yes
+  become_method: sudo
+  connection: local
+  gather_facts: no
+  vars_files:
+  - files/awscreds.yml
+  tasks:
+  - name: Create a Basic CPU Alarm
+    ec2_metric_alarm:
+      aws_access_key: "{{ aws_id }}"
+      aws_secret_key: "{{ aws_key }}"
+      region: "{{ aws_region }}"
+      state: present
+      name: ourFirstAlarmTest
+      metric: "CPUUtilisation"
+      namespace: "AWS/EC2"
+      statistic: Average
+      comparison: ">="
+      threshold: 25.0 # percent
+      period: 300 #seconds
+      evaluation_periods: 6
+      unit: "Percent"
+      description: "This alarm fires when CPU is greater than 25% for 30 minutes"
+      dimensions: {'InstanceID':'i-lda8b9d9'}
+#+END_EXAMPLE
+
+** ec2_remote_facts
+- get the facts on all the ec2 instances   
+#+BEGIN_EXAMPLE
+--- # EC2 Remote Facts Module Example
+- hosts: localhost
+  remote_user: ansible
+  become: yes
+  become_method: sudo
+  connection: local
+  gather_facts: no
+  vars_files:
+  - files/awscreds.yml
+  tasks:
+  - name: Gather facts of all running EC2 instances
+    ec2_remote_facts:
+      aws_access_key: "{{ aws_id }}"
+      aws_secret_key: "{{ aws_key }}"
+      region: "{{ aws_region }}"
+    register: remote_facts
+  - debug: msg={{ remote_facts }}
+#+END_EXAMPLE
+
+** ec2_snapshot
+- create a snapshot of the root volume of an instance   
+#+BEGIN_EXAMPLE
+--- # EC2 Snapshot Module Example
+- hosts: localhost
+  remote_user: ansible
+  become: yes
+  become_method: sudo
+  connection: local
+  gather_facts: no
+  vars_files:
+  - files/awscreds.yml
+  tasks:
+  - name: Take a snapshot of the running instance root volume
+    ec2_snapshot:
+      aws_access_key: "{{ aws_id }}"
+      aws_secret_key: "{{ aws_key }}"
+      region: "{{ aws_region }}"
+      instance_id: i-1da8b9d9
+      device_name: /dev/xvda
+      description: Root Volume Snapshot Taken During Ansible Course
+      wait: no
+    register: snapshot
+#+END_EXAMPLE
+
+- delete the snapshot
+#+BEGIN_EXAMPLE
+--- # EC2 Snapshot Module Example
+- hosts: localhost
+  remote_user: ansible
+  become: yes
+  become_method: sudo
+  connection: local
+  gather_facts: no
+  vars_files:
+  - files/awscreds.yml
+  tasks:
+  - name: Take a snapshot of the running instance root volume
+    ec2_snapshot:
+      aws_access_key: "{{ aws_id }}"
+      aws_secret_key: "{{ aws_key }}"
+      region: "{{ aws_region }}"
+      snapshot_id: snap-707a342a
+      state: absent
+      wait: no
+    register: snapshot
+#+END_EXAMPLE
+
+** ec2_vol
+
+- create a vol and attache to an instance   
+#+BEGIN_EXAMPLE
+--- # EC2 VOL Module Example
+- hosts: localhost
+  remote_user: ansible
+  become: yes
+  become_method: sudo
+  connection: local
+  gather_facts: no
+  vars_files:
+  - files/awscreds.yml
+  tasks:
+  - name: Create a new volume and attach to running instance
+    ec2_vol:
+      aws_access_key: "{{ aws_id }}"
+      aws_secret_key: "{{ aws_key }}"
+      region: "{{ aws_region }}"
+      instance: i-1da8b9d9
+      volume_size: 1
+      device_name: sde
+    register: volume_result
+#+END_EXAMPLE
+
+- pull the infomation on instance volumes 
+#+BEGIN_EXAMPLE
+--- # EC2 VOL Module Example
+- hosts: localhost
+  remote_user: ansible
+  become: yes
+  become_method: sudo
+  connection: local
+  gather_facts: no
+  vars_files:
+  - files/awscreds.yml
+  tasks:
+  - name: Create a new volume and attach to running instance
+    ec2_vol:
+      aws_access_key: "{{ aws_id }}"
+      aws_secret_key: "{{ aws_key }}"
+      region: "{{ aws_region }}"
+      instance: i-1da8b9d9
+      state: list
+    register: volume_result
+  - debug: msg={{ volume_result }}
+#+END_EXAMPLE
+
+** ec2_tags
+- add a tag to a volume   
+#+BEGIN_EXAMPLE
+--- # EC2 Tag Module Example
+- hosts: localhost
+  remote_user: ansible
+  become: yes
+  become_method: sudo
+  connection: lcoal
+  gather_facts: no
+  vars_files:
+  - files/awscreds.yml
+  tasks:
+  - name: Label an existing volume so we know what it is
+    ec2_tags:
+      aws_access_key: "{{ aws_id }}"
+      aws_secret_key: "{{ aws_key }}"
+      region: "{{ aws_region }}"
+      resource: vol-8baa327c
+      state: present
+      tags:
+        Name: data_volume
+    register: voltags
+#+END_EXAMPLE
+
+** ec2_vpc
+- create a new vpc that uses 10.2.1.0/24 subnet    
+#+BEGIN_EXAMPLE
+--- # EC2 VPC Module Example
+- hosts: localhost
+  remote_user: ansible
+  become: yes
+  become_method: sudo
+  connection: local
+  gather_facts: no
+  vars_files:
+  - files/awscreds.yml
+  tasks:
+  - name: Create a Basic VPC using the 10.x.x.x Private network range
+    ec2_vpc:
+      aws_access_key: "{{ aws_id }}"
+      aws_secret_key: "{{ aws_key }}"
+      region: "{{ aws_region }}"
+      state: present
+      cidr_block: 10.2.1.0/24
+   register: vpcblock
+#+END_EXAMPLE
+
+** ec2_vpc_net
+- create a new vpc    
+#+BEGIN_EXAMPLE
+--- # EC2 VPC_NET Module Example
+- hosts: localhost
+  remote_user: ansible
+  become: yes
+  become_method: sudo
+  connection: local
+  gather_facts: no
+  vars_files:
+  - files/awscreds.yml # this is used due to a bug at the time
+  tasks:
+  - name: Create a new vpc called myNewVPC
+    ec2_vpc_net:
+      aws_access_key: "{{ aws_id }}"
+      aws_secret_key: "{{ aws_key }}"
+      region: "{{ aws_region }}"
+      name: myNewVPC
+      state: present
+      cidr_block: 172.17.1.0/24
+    register: vpcnetblock
+  - debug: msg=vpcnetblock
+#+END_EXAMPLE
+
+** ec2_vpc_net_facts
+- print all information on VPCs to the screen in JSON format   
+#+BEGIN_EXAMPLE
+--- # EC2 VPC Net Facts Example
+- hosts: localhost
+  remote_user: ansible
+  become: yes
+  become_method: sudo
+  connection: local
+  gather_facts: no
+  vars_files:
+  - files/awscreds.yml
+  tasks:
+  - name: Get Information about our VPCs
+    ec2_vpc_net_facts:
+      aws_access_key: "{{ aws_id }}"
+      aws_secret_key: "{{ aws_key }}"
+      region: "{{ aws_region }}"
+    register: vpcnetfacts
+  - debug: msg=vpcnetfacts
+#+END_EXAMPLE
+
+- print the facts of a specific vpc
+#+BEGIN_EXAMPLE
+--- # EC2 VPC Net Facts Example
+- hosts: localhost
+  remote_user: ansible
+  become: yes
+  become_method: sudo
+  connection: local
+  gather_facts: no
+  vars_files:
+  - files/awscreds.yml
+  tasks:
+  - name: Get Information about our VPCs
+    ec2_vpc_net_facts:
+      aws_access_key: "{{ aws_id }}"
+      aws_secret_key: "{{ aws_key }}"
+      region: "{{ aws_region }}"
+      filters:
+        vpc-id: vpc-11727674
+    register: vpcnetfacts
+  - debug: msg=vpcnetfacts
+#+END_EXAMPLE
+
+** iam
+- creating new iam users and capturing their secret access keys   
+#+BEGIN_EXAMPLE
+--- # AWS IAM Module example
+- hosts: localhost
+  remote_user: ansible
+  become: yes
+  become_method: sudo
+  connection: local
+  gather_facts: no
+  vars_files:
+  - files/awscreds.aws
+  tasks:
+  - name: Create a couple of IAM Users
+    iam:
+      aws_access_key: "{{ aws_id }}"
+      aws_secret_key: "{{ aws_key }}"
+      region: "{{ aws_region }}"
+      iam_type: user
+      name: "{{ itme }}"
+      state: present
+      password: "password"
+      access_key_state: create
+    with_items:
+    - user1
+    - user2
+    register: output
+  - name: Show the JSON Results # we need this to capture the secret_access_keys on creation
+    debug: var=output
+#+END_EXAMPLE
+
+** s3
+- create an S3 bucket and copy files to bucket   
+#+BEGIN_EXAMPLE
+--- # AWS S3 Module Example
+- hosts: localhost
+  remote_user: ansible
+  become: yes
+  become_method: sudo
+  connection: local
+  gather_facts: no
+  vars_files:
+  - files/awscreds.yml
+  tasks:
+  - name: Create an S3 Bucket
+    s3:
+      aws_access_key: "{{ aws_id }}"
+      aws_sectet_key: "{{ aws_key }}"
+      region: "{{ aws_region }}"
+      bucket: uniquename123 # bucket names have to be unique right across AWS
+      mode: create
+      permission: public-read-write
+    register: create_bucket
+  - name: Copy the files to the bucket
+    s3:
+      aws_access_key: "{{ aws_id }}"
+      aws_sectet_key: "{{ aws_key }}"
+      region: "{{ aws_region }}"
+      bucket: uniquename123 
+      object: /Playbooks/aws_iam.yml
+      src: /home/ansible/Playbooks/aws_iam.yml
+      mode: put
+    register: copy_files
+  - name: Output of Creation
+    debug: var=create_bucket
+  - name: Output of Copy
+    debug: var=copy_files
+#+END_EXAMPLE
+
 * Playbooks
 - check the syntax of the playbook before running
 #+BEGIN_SRC sh
@@ -3088,6 +3484,150 @@ Using the ignore_erors variable we can makesure that if our playbook was to fail
       yum: pkg=telnet state=latest
 #+END_EXAMPLE
 
+** Deploy an apache webserver to an EC2 instance, and create an AMI image
+*** Initial playbook
+aws_apachesrv_pb.yml
+#+BEGIN_EXAMPLE
+--- # Ansible Playbook to Configure Static Web Server and Use it to Create a new Template
+- hosts: aws
+  remote_user: ec2-user
+  become: yes
+  become_method: sudo
+  connection: ssh
+  gather_facts: yes
+  tasks:
+  - name: Connect to the remote host, update system
+    yum: pkg=* state=latest
+  - name: Install the HTTPD Server
+    yum: name=httpd state=latest
+  - name: Deploy the static website
+    copy: src=files/index.html dest=/var/www/html/index.html owner=root group=root mode=0655 backup=yes
+  - name: Restart the httpd service
+    service: name=httpd state=restarted
+  - name: Wait for the http port 80 to be listening
+    wait_for: host=ec2-54-200-206-39.us-west-2.compute.amazonaws.com port=80 delay=5
+  - name: Install WGET to test the site
+    yum: pkg=wget state=latest
+  - name: Test the site
+    shell: /usr/bin/wget http://localhost
+    register: site_result
+  - name: Display the site output results
+    debug: var=site_result
+
+
+- hosts: localhost
+  remote_user: ansible
+  become: yes
+  become_method: sudo
+  connection: local
+  gather_facts: no
+  vars_files:
+  - ../files/awscreds.yml
+  tasks:
+  - name: Take a snapshot backup of the website directory
+    ec2_snapshot:
+      aws_access_key: "{{ aws_id }}"
+      aws_secret_key: "{{ aws_key }}"
+      region: "{{ aws_region }}"
+      instance_id: i-fea24039
+      device_name: /dev/sdb
+      description: Initial Playbook Static Site Deployment Backup
+      wait: no
+    register: snapshot_results
+  - name: Display the snapshot results
+    debug: var=snapshot_results
+  - name: Create a New Template AMI from our Instance
+    ec2_ami:
+      aws_access_key: "{{ aws_id }}"
+      aws_secret_key: "{{ aws_key }}"
+      region: "{{ aws_region }}"
+      instance_id: i-fea24039
+      wait: no
+      name: myAnsibleAmiTemplate223
+      tags:
+        Name: myAnsibleAmiTemplate223
+        Service: testAMINTemplatePlaybook223
+    register: ami_results
+  - name: Display the AMI Creation Results
+    debug: var=ami_results
+#+END_EXAMPLE
+*** Optimized
+- this is the optimized version of the playbook    
+#+BEGIN_EXAMPLE
+--- # Ansible Playbook to Configure Static Web Server and Use it to Create a new Template
+- hosts: aws
+  remote_user: ec2-user
+  become: yes
+  become_method: sudo
+  connection: ssh
+  gather_facts: yes
+  tasks:
+  - name: Execute all Installations
+    yum: pkg={{ itme }} state=latest
+    with_items:
+      - httpd
+      - wget
+    notify:
+      - copySiteFiles
+      - restartHTTPD
+      - waitForSite
+      - testSite
+      - displayResults
+  handlers
+  - name: copySiteFiles
+    copy: src=files/index.html dest=/var/www/html/index.html owner=root group=root mode=0655 backup=yes
+  - name: restartHTTPD
+    service: name=httpd state=restarted
+  - name: waitForSite
+    wait_for: host=ec2-54-200-206-39.us-west-2.compute.amazonaws.com port=80 delay=5
+  - name: testSite
+    shell: /usr/bin/wget http://localhost
+    register: site_result
+  - name: displayResults
+    debug: var=site_result
+
+
+- hosts: localhost
+  remote_user: ansible
+  become: yes
+  become_method: sudo
+  connection: local
+  gather_facts: no
+  vars_files:
+  - ../files/awscreds.yml
+  tasks:
+  - name: Take a snapshot backup of the website directory
+    ec2_snapshot:
+      aws_access_key: "{{ aws_id }}"
+      aws_secret_key: "{{ aws_key }}"
+      region: "{{ aws_region }}"
+      instance_id: i-fea24039
+      device_name: /dev/sdb
+      description: Initial Playbook Static Site Deployment Backup
+      wait: no
+    register: snapshot_results
+    notify:
+    - displaySnapshotResults
+    - createNewAmiTemplate
+    - displayAmiCreationResults
+  handlers:
+  - name: displaySnapshotResults
+    debug: var=snapshot_results
+  - name: createNewAmiTemplate
+    ec2_ami:
+      aws_access_key: "{{ aws_id }}"
+      aws_secret_key: "{{ aws_key }}"
+      region: "{{ aws_region }}"
+      instance_id: i-fea24039
+      wait: no
+      name: myAnsibleAmiTemplate223
+      tags:
+        Name: myAnsibleAmiTemplate223
+        Service: testAMINTemplatePlaybook223
+    register: ami_results
+  - name: displayAmiCreationResults
+    debug: var=ami_results
+#+END_EXAMPLE
 * Roles
 ** Install an apache webserver
 *** roles

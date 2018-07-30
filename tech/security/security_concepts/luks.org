@@ -89,7 +89,72 @@ enc_partition /dev/xvfd1 none
 /sbin/restorecon -v -R /mnt/enc
 #+END_SRC
 
+
+** Checking the key slots for the luks partition
+
+#+BEGIN_SRC sh
+cryptsetup luksDump /dev/<partition> | grep -i "slot"
+#+END_SRC
+
+output:
+Enabled - this means that a key has been assigned
+Disabled - no key has been assigned
+
+** Adding new LUKS key
+
+#+BEGIN_SRC sh
+cryptsetup luksAddKey 
+#+END_SRC
+- Enter any passphrase - this means enter one of the already existing passphrases
+- Enter new passphrase - now enter the new passphrase
+- Verify passphrase
+
+everytime a key is added it is placed in the next key slot.
+
+** Add new luks key to a specific slot
+
+#+BEGIN_SRC sh
+cryptsetup luksAddKey  -S 5
+#+END_SRC
+this would add the new key to slot 5
+
+** Delete an existing luks key
+
+#+BEGIN_SRC sh
+cryptsetup luksRemoveKey 
+#+END_SRC
+you will be prompted to enter the passphrase that's to be deleted
+
+** Delete a luks key using luksKillSlot
+
+#+BEGIN_SRC sh
+cryptsetup luksKillSlot /dev/sdb1 2
+#+END_SRC
+this will delete the key in slot 2
+
+** Add new luks key from a file
+
+#+BEGIN_SRC sh
+cryptsetup luksAddKey /dev/sdb1 masterkeyfile.key
+#+END_SRC
+
+file - this is a luks key file. This should be a binary file.
+
+It will not prompt for a new password just to authenticate.
+
+** Reset forgotten luks key - Get existing key
+
+If the machine is rebooted and the partition is not able to mount
+becasue the passphrase has been forgotten, shit bust, can't get the key.
+
+If the machine is mounted, but you can't remember the password you can
+reset the key.
+
 * Lecture
 * Tutorial
 * Books
 * Links
+[[https://www.lisenet.com/2013/install-luks-and-create-an-encrypted-luks-partition-on-debian/][Install LUKS and Create an Encrypted LUKS Partition on Debian - Lisenet.com]]
+[[https://www.lisenet.com/2013/luks-add-keys-backup-and-restore-volume-header/][Add a Backup Key, Backup, Restore and Delete LUKS Volume Header - Lisenet.com]]
+[[http://www.thegeekstuff.com/2016/03/cryptsetup-lukskey/][Cryptsetup - lukskey - Geekstuff]]
+[[https://www.howtoforge.com/automatically-unlock-luks-encrypted-drives-with-a-keyfile][Automatically Unlock LUKS Encrypted Drives With A Keyfile - HowtoForge.com]]

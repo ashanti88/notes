@@ -1,0 +1,16 @@
+#+TAGS: pulseaudio pacmd
+
+
+* pacmd
+HomePage: https://www.freedesktop.org/wiki/Software/PulseAudio/
+* Description
+* Usage
+- list loaded modules
+#+BEGIN_SRC sh
+pacmd list-modules
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

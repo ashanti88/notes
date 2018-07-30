@@ -1,15 +1,35 @@
-#+TAGS: net bt
+#+TAGS: bluetooth bluez
 
 
-* Bluetooth                                                          :net:bt:
+* Bluetooth
 * Cmds
-- bluetoothctl
-- blueman-manager
+- bluetoothctl (cmd-line)
+- blueman-manager (gui)
 
 * Description
 * Usage
+** Using bluetooth headset
+/etc/bluetooth/audio.conf
+#+BEGIN_EXAMPLE
+[General]
+Enable=Source
+#+END_EXAMPLE
+
+- start the bluetooth service
+#+BEGIN_SRC sh
+systemctl start bluetooth
+#+END_SRC
+
+- load the bluetooth modules
+#+BEGIN_SRC sh
+pactl pactl load-module module-bluetooth-policy
+pactl load-module module-bluetooth-discover
+#+END_SRC
+these should allow the headset to pair/connect
+
 * Lecture
 * Tutorial
 * Books
 * Links
 http://www.linuxjournal.com/content/bluetooth-hacks
+http://people.csail.mit.edu/albert/bluez-intro/

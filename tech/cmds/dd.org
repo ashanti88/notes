@@ -105,6 +105,7 @@ dd if=mbrbkup.img of=/dev/sda count=1 bs=512
 dd if=/dev/zero of=filename bs=1M count=1024
 #+END_SRC
 
+
 * Lecture
 * Tutorial
 * Books

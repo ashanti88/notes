@@ -2371,6 +2371,93 @@ Docs:
       - get api access to create reporting tools
 
 
+*** Identity and Access Management (IAM)
+- Root User
+  - this user is created when an account is created 
+  - by default the root user has full admin permissions and access to all the services that account is using
+  - best practices:
+    - the root user shouldn't be used for daily administration
+    - the root user should not have access keys
+    - the root user should have to have MFA
+      
+- Users and Groups
+  - a new user has an implicit deny on all services
+  - users can have IAM polices directly attached to them or they can be part of a group have as certain policies attached
+  - explicit deny always over-rules explicit allow
+  - groups allow us to group users together by a criteria and makes administration much easier as user permisions don't have to be set individually
+    
+- Roles
+  - Temporary security creds that are mangaed by STS (Secure Token Service)
+  - an entity can assume the permission of the created role for a set amount of time
+  - such entities can be:
+    - aws resources(such as EC2)
+    - a user with our AWS Account that requires permissions for a limited time to a none privileged resource
+    - a user outside of the AWS account that requires temporary access(contractor)
+    - SAML - this is most commonly seen in Enterprise environments, Directory systems (Active Directory)
+  - The STS token can be set from 15mins - 1hr (defaults to 1hr)
+  - STS uses a single endpoint
+    - https://sts.amazonaws.com - this is in us-east-1
+      
+- Access Advisor
+  - this tool allows us to audit what services a user has accessed
+  - with the access information we can make a more informed dicision on what privileges a user requires (principle of least privilege) 
+    
+*** Encryption Essentials
+    
+- HSM (Hardware Security Module)
+  - physical device used for secure key storage and management
+  - dedicated device managed by AWS(they don't have access to keys)
+  - In the VPC but seperate from other networks for latency and security
+  - the keys are manged and controlled by the user
+
+- KMS (Key Management Service)
+  - Managed service that allows you create and control your encrypted keys
+  - advantages over HSM:
+    - can use IAM policies for KMS access
+    - AWS Services intergrate directly with with KMS
+
+*** KMS Intergration with S3
+- KMS Integration with S3
+Before getting started, make sure you're logged in to the AWS web console and have selected the N. Virginia region (us-east-1). You'll also need a few document files – you can use text files or PDFs that you already have on your computer.
+
+- Create an Encrypted S3 Bucket
+From the main AWS page, navigate to S3 from the services menu.
+Next, click Create Bucket. For the bucket name, enter mytestbucket followed by several random digits to make it unique. Click Next, then click Versioning and select Enable versioning. Click Save to apply this setting.
+Click Default encryption and select AWS-KMS. From the dropdown menu, select aws/s3. This will be our master key name. Click Next.
+Finally, make sure both the "Read" and "Write" checkboxes are set on the permissions screen for the bucket. Click Next, review the settings, and click Create bucket.
+
+- Upload a File
+From the services menu, navigate to IAM. There will be several errors displayed on the screen, but we can ignore them for this lab. From the menu on the left side of the page, select Encryption keys. Notice the encryption key specified in the previous step hasn't been created. To explore this, we'll navigate back to S3 from the services menu.
+Click Upload and select a document from your computer. Click Next, making sure that the owner has both "Read" and "Write" permissions and that public access is turned off, then click Next again. On the properties screen, leave the default settings (encryption will be set to "None") and click Next, then Upload.
+From the S3 bucket, select the document you just uploaded. The object's "Overview" screen will indicate that it's encrypted with a KMS key. This happens because we set KMS encryption on the bucket itself.
+Navigate back to IAM from the services menu, and select Encryption keys from the menu on the left. This time, we'll see our aws/s3 key, which was created when we uploaded our first file.
+
+- Creating Multiple Master KMS Keys
+We can also use the KMS console to create multiple master keys. To start, click Create key at the top of the page. Enter a name of your choosing, such as my_s3_key for the Alias as well as the Description. Click Next Step.
+We won't be adding tags, so click Next Step. We'll also skip adding key administrators and usage permissions; click Next Step two more times.
+On the final screen, we can review our key policy and click Finish. On the list of keys, we'll now see the my_s3_key we just created.
+
+- Using a Created KMS Master Key
+Next, we'll learn how to use the key we created.
+Navigate back to S3 from the services menu. Click Create Folder and enter a name like myFolder. Below the name field, choose the AWS-KMS encryption setting and select my_s3_key from the dropdown menu. Click Save.
+We'll navigate into our newly created folder by clicking its name in our S3 bucket. Click Upload and select another file from your computer. Click Next, make sure that the owner has "Read" and "Write" permissions and that public access is turned off, and click Next again. Leave the default properties (encryption will again be set to "None") and click Next, then Upload.
+Click the object's name once it has been uploaded, and we'll see that it has been encrypted with KMS as well. To check its encryption settings, note the last few digits of the KMS key ID, and compare it to the ID of the original document we uploaded. The keys' IDs will match, meaning that both documents are encrypted using the same key - the default aws/s3 key.
+This happens because the bucket policy overrides that of the folder within it. In order to use our created key, we'll need to set encryption on the document itself.
+Select the second document you uploaded to S3 (within myFolder) and select the Properties tab at the top of the screen. Click Encryption. Below the AWS-KMS option, select my_s3_key from the dropdown menu. Click Save.
+Click the Overview tab at the top of the page. This time, the KMS key ID will be different, indicating that the document has been encrypted with the key we created.
+
+
+*** OS-Level Access
+    
+
+
+*** Data Security
+    
+*** OS Security
+
+*** Infrastructure Security
+    
+*** Monitoring, Alerting, and Auditing
 
 * Books
 [[file://home/crito/Documents/SysAdmin/Cloud/AWS/AWS_Storage_Services.pdf][AWS Storage Services]]
