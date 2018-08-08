@@ -1,19 +1,22 @@
-#+TAGS: uptime coreutils system_load
+#+TAGS: uptime coreutils system_load utmp
 
 
 * uptime
 * Description
+The uptime cmd provide the amount of time since the machine was last booted, number of users on the system, and the load average. The data the uptime uses is pulled from the /var/run/utmp which is a binary file
+
+- Example output
+#+BEGIN_EXAMPLE
+[user@alickmitchell1 ~]$ uptime
+ 17:11:52 up 11 min,  1 user,  load average: 0.01, 0.03, 0.00
+#+END_EXAMPLE
+CentOS6
+
 * Usage
 - show uptime, number of users, and load averages (1m, 5m, 15m)
 #+BEGIN_SRC sh
 uptime
 #+END_SRC
-
-- just output the uptime
-#+BEGIN_SRC sh
-uptime
-#+END_SRC
-will be given in days, hours, minutes
 
 * Lecture
 * Tutorial

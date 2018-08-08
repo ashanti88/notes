@@ -37,6 +37,11 @@ v - verbose
 vv- more verbose
 vvv - even more verbose
 
+- display the kernel modules that the device is using
+#+BEGIN_SRC sh
+lspci -k
+#+END_SRC
+
 ** Display vendor codes with output
 This will display device and vendor code only
 #+BEGIN_SRC sh

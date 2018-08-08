@@ -4,13 +4,20 @@
 * ps
 * Description
 * Usage
-- view current processors on the system
+- view current processors on the system this is using the BSD syntax
 #+BEGIN_SRC sh
 ps aux
 #+END_SRC
 a - select all processes
 u - use username not uid
 x - lifts the "must have a tty" restriction
+
+- view current processors on the systm this is using the gnu syntax
+#+BEGIN_SRC sh
+ps ef
+#+END_SRC
+e - every process
+f - forest
 
 - using forest to link parents and children
 #+BEGIN_SRC sh

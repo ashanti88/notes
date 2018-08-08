@@ -4,10 +4,17 @@
 * lsdev
 * Description
 * Usage
+- installation on ubuntu
+#+BEGIN_SRC sh
+apt install procinfo
+#+END_SRC
+
 - list all installed hardware
 #+BEGIN_SRC sh
 lsdev
 #+END_SRC
+this has to be run as root to get the memory location info
+
 * Lecture
 * Tutorial
 * Books

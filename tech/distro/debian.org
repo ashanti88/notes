@@ -785,7 +785,6 @@ apt-key add < key.asc
 key.asc is the downloaded file
 
 
-
 * Lectures
 ** Anatomy of a Debian Package - Google Tech Talk
 url: [[https://www.youtube.com/watch?v%3DlFzPrzY2KFM&index%3D28&list%3DWL][Anatomy of a Debian Package]]
@@ -1119,6 +1118,59 @@ To exit ctrl c
 7. Check "Enable USB Controller"; click on the icon with the USB plug and the plus, and click on the devices you want to be automatically mounted in the VM. Click "Ok".
 8. Click on "Start" toolbar button, and ensure your USB devices are recognized and mounted by the VM. Remember that you have to unmount them in the host OS too if you have to disconnect them after you exit the VM.
 * Usage
+** Ubuntu 18.04 remove nouveau
+This was causing an issue on shutdown, decided just to remove as didn't require the primus
+
+- blacklist the nouveau module for the kernel
+#+BEGIN_SRC sh
+sudo bash -c "echo blacklist nouveau > /etc/modprobe.d/blacklist-nvidia-nouveau.conf"
+sudo bash -c "echo options nouveau modeset=0 >> /etc/modprobe.d/blacklist-nvidia-nouveau.conf"
+#+END_SRC
+
+- confirm the contents of the blacklist
+#+BEGIN_SRC sh
+cat /etc/modprobe.d/blacklist-nvidia-nouveau.conf
+#+END_SRC
+
+- output
+#+BEGIN_EXAMPLE
+blacklist nouveau
+options nouveau modeset=0
+#+END_EXAMPLE
+
+- update the kernel intramfs
+#+BEGIN_SRC sh
+sudo update-initramfs -u
+#+END_SRC
+
+- reboot the system
+#+BEGIN_SRC sh
+reboot
+#+END_SRC
+
+** Ubuntu 18.04 setting static dns (/etc/resolv.conf)
+   
+- disable the systemd-resolved.service
+#+BEGIN_SRC sh
+systemctl disable systemd-resolved.service
+#+END_SRC
+
+- remove the symbolic link /etc/resolv.conf
+#+BEGIN_SRC sh
+rm /etc/resolv.conf
+#+END_SRC
+
+- create a new /etc/resolv.conf
+#+BEGIN_EXAMPLE
+nameserver 208.67.222.222
+nameserver 208.67.220.220
+#+END_EXAMPLE
+
+- make the file immutable
+#+BEGIN_SRC sh
+chattr +i /etc/resolv.conf
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

@@ -1,7 +1,7 @@
-#+TAGS: sys anal sysstat
+#+TAGS: iostat sysstat
 
 
-* iostat						   :sys:anal:sysstat:
+* iostat
 HomePage: [[http://sebastien.godard.pagesperso-orange.fr/][sebastien.godard.fr/sysstat]]
 Github: [[https://github.com/sysstat/sysstat][github.com/sysstat]]
 * Description
@@ -20,12 +20,6 @@ t - Display timestamp information
 x - Display extended information
 m - output in mb/s
 
-** Show only the disk every 2 seconds for 10 times
-#+BEGIN_SRC sh
-iostat -d /dev/sda 2 10
-#+END_SRC
-
-
 ** Output
 %user - The percentage of CPU utilization that occurred while executing at the user level (this is the application usage).
 %nice - The percentage of CPU utilization that occurred while executing at the user level with nice priority.
@@ -33,6 +27,19 @@ iostat -d /dev/sda 2 10
 %iowait - The percentage of time that the CPU or CPUs were idle during which the system had an outstanding disk I/O request.
 %steal - The percentage of time spent in involuntary wait by the virtual CPU or CPUs while the hypervisor was servicing another virtual processor.
 %idle - The percentage of time that the CPU or CPUs were idle and the systems did not have an outstanding disk I/O request.
+
+** Install iostat
+   - CentOS6
+     #+BEGIN_SRC sh
+     yum install sysstat
+     #+END_SRC
+     this package contains the iostat tool
+
+** Show only the disk every 2 seconds for 10 times
+#+BEGIN_SRC sh
+iostat -d /dev/sda 2 10
+#+END_SRC
+The first line of output is the value since boot, then each iteration after the initial will be the delta between the previous and it's self
 
 * Lecture
 * Tutorial

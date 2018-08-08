@@ -6,22 +6,83 @@ Manual: [[https://www.gnu.org/software/grub/manual/grub.html][gnu.org/grub]]
 Manual: [[https://www.gnu.org/software/grub/manual/grub.html][gnu.org]]
 * Overview
 * Files
-/boot/grub/grubenv - this shows the default kernel to be booted
-/boot/grub/grub.cfg - this file is automatically created from /etc/grub.d/ and /etc/default/grub
+** Grub(legacy) - Last used fully with RHEL5(RHEL6 started to implement features of Grub2)
+/boot/grub - the main configuration directory for grub
+*** /boot/grub/grub.conf - this is the main grub configuration file
+#+BEGIN_EXAMPLE
+default=0
+timeout=60
+splashimage=(hd0,0)/boot/grub/splash.xpm.gz
+#hiddenmenu
+password --md5 $1$R4X05/$AKK0e0II/Dcz0nHHo..dJi0
+
+title CentOS (2.6.32-754.2.1.el5.x86_64)
+        root (hd0,0)
+        kernel /boot/vmlinuz-2.6.32-754.2.1.el5.x86_64 root=LABEL=centos_root ro crashkernel=auto LANG=en_US.UTF-8 KEYTABLE=us
+	initrd /boot/initrd-2.6.32-754.2.1.el5.img
+#+END_EXAMPLE
+default     - this is which entry will be run as default (0 is the first entry)
+timeout     - time until linux will proceed with the default options
+splashimage - this is the background image that is show with the grub options
+hiddenmenu  - if uncommented the grub menu is hidden from the user
+password    - this will prompt the user for a password before the options are displayed, if set after the title then the user will be prompted for a password if that option is selected
+title       - this is the name that is visable in the grub menu at boot
+root        - (hd0,0) is equal to hda1
+
+
+
+** Grub2
+/boot/grub - the main configuration directory for grub2 (debian/ubuntu)
+/boot/grub2 - the main configuration directory for grub2 (RHEL/CentOS)
+/boot/grub.cfg - this is the main configuration file(this file should never be edited), and is created automatically from /etc/grub.d/ and /etc/default/grub on each reboot
 /etc/sysconfig/grub - this contains the options used to create the grub.cfg (redhat)
-/etc/default/grub - this contains the options used to create the grub.cfg (debian)
-/etc/grub.d/ - the files in here are used to build the grub.cfg file, they indicate individual kernels and OSs
+*** /etc/default/grub - this is where grub options are configured (timeout,default kernel etc)
+#+BEGIN_EXAMPLE
+GRUB_DEFAULT=0
+GRUB_TIMEOUT_STYLE=hidden
+GRUB_TIMEOUT=15
+GRUB_DISTRIBUTOR=`lsb_release -i -s 2> /dev/null || echo Debian`
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash" # this option will hide the boot process from the user
+GRUB_CMDLINE_LINUX=""
+#+END_EXAMPLE
+any changes to this file means that the grub-mkconfig/grub2-mkconfig needs to be run to recreate the /boot/grub/grub.cfg
+
+*** /etc/grub.d/ - the files in here are used to build the grub.cfg file, they indicate individual kernels and OSs - if any file in this dir is edited the grub2-mkconfig has to be run
+/etc/grub.d/XX_name - this is where the boot options are specified one per file, and are usually automatically created during installation and with the grub-probe
 
 * Cmds
 - grub2-mkconfig (centOS7) - this builds the grub.cfg from the grub.d/* and /etc/default/grub
 - grub-mkconfig  (manjaro) - same as grub2-mkconfig
 - grub-install
+- grub-probe
 
 * Usage
 ** what version do I have?
 #+BEGIN_SRC sh
 grub-install --version
 #+END_SRC
+
+** Adding a password to Grub(legacy)
+- first create an md5 hash of your selected password
+#+BEGIN_SRC sh
+grub-md5-crypt
+#+END_SRC
+this will prompt you to enter a password, and spit out a hash -  $1$h1QQz/$LrhPknEalwfhx5N8TP4Yg1
+
+- add this hash to the /boot/grub/grub.conf
+#+BEGIN_EXAMPLE
+default=0
+timeout=60
+splashimage=(hd0,0)/boot/grub/splash.xpm.gz
+#hiddenmenu
+password --md5 $1$R4X05/$AKK0e0II/Dcz0nHHo..dJi0
+
+title CentOS (2.6.32-754.2.1.el5.x86_64)
+        root (hd0,0)
+        kernel /boot/vmlinuz-2.6.32-754.2.1.el5.x86_64 root=LABEL=centos_root ro crashkernel=auto LANG=en_US.UTF-8 KEYTABLE=us
+	initrd /boot/initrd-2.6.32-754.2.1.el5.img
+#+END_EXAMPLE
+if set before the titles, then the user will have to enter the password before viewing the options at grub, if set under a title, then the password will be prompted for when that option is selected
 
 ** Grub Shell
 *** Cmds

@@ -1,4 +1,4 @@
-#+TAGS: kernel_runtime_parameters sysctl
++TAGS: kernel_runtime_parameters sysctl
 
 
 * sysctl
@@ -34,8 +34,7 @@ sysctl -w pid_max=50000
 #+END_SRC
 
 ** Make a new variable value persistent
-- write a new file in the /etc/sysctl.d directory that contains the varible and its new value
-50-ipforward.conf
+- write a new file in the /etc/sysctl.d directory that contains the varible and its new value 50-ipforward.conf
 #+BEGIN_EXAMPLE
 net.ipv4.ip_forward=1
 #+END_EXAMPLE
@@ -52,7 +51,6 @@ this will read the sysctl conf file and set new value, if no file is given /etc/
 kernel.threads-max = 7550
 #+END_EXAMPLE
 this can be done for any varible that need to be altered
-
 
 * Lecture
 * Tutorial

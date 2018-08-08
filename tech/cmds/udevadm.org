@@ -1,10 +1,16 @@
-#+TAGS:
+#+TAGS: udevadm
 
 
 * udevadm
 * Description
 This is the utility provided by udev to manage devices device nodes in a system.
 * Usage
+- monitor device acitvity
+#+BEGIN_SRC sh
+udevadm monitor
+#+END_SRC
+this print to the screen any changes to added or removed devices (eg usb being added or removed)
+
 * Lecture
 * Tutorial
 * Books

@@ -3,7 +3,14 @@
 
 * sync
 * Description
+This tool is used to makesure that the filesystem buffers have been written to disk
+
 * Usage
+- push the current buffer to disk
+#+BEGIN_SRC sh
+sync 
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

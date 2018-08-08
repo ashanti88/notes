@@ -1,7 +1,7 @@
-#+TAGS: auto deploy
+#+TAGS: fabric automation deployment_tool
 
 
-* fabric							:auto:deploy:
+* fabric
 HomePage: [[http://www.fabfile.org/][fabfile.org]]
 * Description
 * Usage

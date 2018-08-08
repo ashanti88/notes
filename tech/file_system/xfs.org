@@ -2,6 +2,7 @@
 
 
 * XFS
+* Cmds
 * Description
   - Default for RHEL7
   - High performance
@@ -9,6 +10,16 @@
   - 64-bit (8 Exabyte limit)
 
 * Usage
+- install pkg to create xfs filesystems
+#+BEGIN_SRC sh
+yum install xfsdump
+#+END_SRC
+
+- install the xfs admin utils
+#+BEGIN_SRC sh
+yum install xfsprogs
+#+END_SRC
+
 ** Features
 - Quota journaling
   - no need for quota consistency checks after crash
@@ -44,6 +55,11 @@
   - similar to SGID (set group id)
   grpid
   no grpid
+
+** Backup xfs directory
+#+BEGIN_SRC sh
+xfsdump -f /mnt/backup/data2 /mnt/xfsdata
+#+END_SRC
 
 * Lecture
 * Tutorial

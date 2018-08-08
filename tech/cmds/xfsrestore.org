@@ -1,0 +1,58 @@
+#+TAGS:
+
+
+* xfsrestore
+* Description
+* Usage
+- view label/id of all bakups on the system
+#+BEGIN_SRC sh
+xfsrestore -I
+#+END_SRC
+
+- example output
+#+BEGIN_EXAMPLE
+root@alickmitchell1 /]# xfsrestore -I
+file system 0:
+        fs id:          92b8aefe-d7b0-457f-b9f9-46fa97157ad2
+        session 0:
+                mount point:    alickmitchell1.mylabserver.com:/mnt/data2
+                device:         alickmitchell1.mylabserver.com:/dev/xvdj2
+                time:           Mon Aug  6 15:55:09 2018
+                session label:  "xfsbackup"
+                session id:     1e3711af-6a7c-4733-b72c-19a43466f89b
+                level:          0
+                resumed:        NO
+                subtree:        NO
+                streams:        1
+                stream 0:
+                        pathname:       /mnt/xfs_bakup
+                        start:          ino 131 offset 0
+                        end:            ino 134 offset 0
+                        interrupted:    NO
+                        media files:    1
+                        media file 0:
+                                mfile index:    0
+                                mfile type:     data
+                                mfile size:     21952
+                                mfile start:    ino 131 offset 0
+                                mfile end:      ino 134 offset 0
+                                media label:    "xfsdata"
+                                media id:       9feb4151-476b-466e-a4ed-294954df071b
+xfsrestore: Restore Status: SUCCESS
+#+END_EXAMPLE
+
+- simple restore of xfs bakup
+#+BEGIN_SRC sh
+xfsrestore -f /mnt/xfs_bakup -L xfsbackup /mnt/new_xfs
+#+END_SRC
+f - location of dump
+L - label of xfsbackup to restore
+
+- cumulative mode bakup restore
+#+BEGIN_SRC sh
+xfsrestore -f /mnt/xfs_bakup
+#+END_SRC
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -71,7 +71,24 @@ SKEL=/etc/skel
 CREATE_MAIL_SPOOL=yes
 
 *** /etc/fstab         - contains the devices to mounted at boot
-options
+- how a mount is added
+#+BEGIN_EXAMPLE
+UUID=3e05857b-7c5a-4d81-842e-400cf9d77f1f /      ext4    errors=remount-ro 0 1
+sda2                                     /mnt/data xfs   defaults 0 0 
+#+END_EXAMPLE
+- UUID or device where the partition to be mounted can be found
+- location the partition is to be mounted at
+- filesystem type
+- options to be added to the device at mount
+- DUMP Column (rarely used)
+  - 0 - don't dump (bakup)
+    1 - do dump (bakup)
+- PASS Column(fsck) 
+  -  0 - disable fsck(don't check fs)
+     1 - check disk with fsck first (highest priority, usually / ) 
+     2 - all other partition that are to be checked
+
+- options
   - async/sync - how data is stored whtn a write is made
     - sync - writes to disk straight away
     - asymc - data is kept in a buffer until it is written to the disk
@@ -82,11 +99,12 @@ options
     - notime - no file timestamps are written
   - dev/nodev - whether to allow a device file on the drive
   - rw/ro - Read write or read only (rw is deafult)
-  - suid/nosuid - allow a user to drun a program as root
+  - suid/nosuid - allow a user to run a program as root
   - exec/noexec - turn off executable files on the file system
   - defaults - rw,suid,dev,exec,auto,nouser,async
     - auto   - mount the partition automatically
     - nouser - only root can mount/umount the partition
+  - users - this means anyone can mount or umount the mount
 *** /etc/group         - contains all the groups on the system and who the members are
     
 wheel:x:10:centos,user

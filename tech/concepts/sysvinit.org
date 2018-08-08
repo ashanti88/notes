@@ -2,15 +2,31 @@
 
 
 * Sysvinit
+RedHat: https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/installation_guide/s1-boot-init-shutdown-sysv
+* Files
+/etc/inittab - this file dictates what runlevel is to used as default
+#+BEGIN_EXAMPLE
+id:3:initdefault:
+#+END_EXAMPLE
+this would set runlevel 3 as the defualt runlevel
+** Debian
+/etc/rcX.d - this will hold symbolic link files to files in /etc/init.d. Depending up on the runlevel determines which service files are run 
+/etc/rc.d/rc - this is a shell script that is responsible for starting and stopping services when the runlevel changes
+
+** RHEL
+/etc/rc.d - this directory is used to store each runlevel specification
+/etc/rc.d/rcX.d/ - this will hold symbolic link files to files in /etc/init.d. Depending up on the runlevel determines which service files are run 
+/etc/rc.d/rc     - this is a shell script that is responsible for starting and stopping services when the runlevel changes
+/etc/rc.d/rc.local - this script is run last and allows for administrator to add any service initialization that they required
+
 * Cmds
 - [[file:~/org/tech/cmds/service.org][service]]
 - [[file:~/org/tech/cmds/chkconfig.org][chkconfig]]
-* Description
+- [[file://home/crito/org/tech/cmds/telinit.org][telinit]]
+- [[file://home/crito/org/tech/cmds/runlevel.org][runlevel]]
+- [[file://home/crito/org/tech/cmds/update-rc.d.org][update-rc.d]]
 
-* Configuration
-/etc/init
-/etc/init.d
-/etc/rc.d
+* Description
 
 * Use
 - List Services
@@ -41,6 +57,41 @@ ln -s ../init.d/sshd S95sshd
 rm /etc/rc3.d/S95sshd
 #+END_SRC
 
+** Service management with Debian/Ubuntu (update-rc.d)
+- enable a service to start on Debian/Ubuntu system
+#+BEGIN_SRC sh
+update-rc.d sshd defaults
+#+END_SRC
+this would enable sshd to start on runlevels that were set as defaults in the /etc/init.d/sshd startup script 
+
+- set none default runlevels for init script for Debian/Ubuntu
+#+BEGIN_SRC sh
+update-rc.d collectd start 85 3 5 . stop 85 0 1 6 .
+#+END_SRC
+here we are specifying exactly which runlevel should be used
+85 would create it as S85 in the rc3.d directory
+
+- disable a service using the defaults on Debian/Ubuntu
+#+BEGIN_SRC sh
+update-rc.d collectd remove
+#+END_SRC
+
+** Service management with RHEL/CentOS (chkconfig)
+
+
+** Runlevels
+- check current runlevel
+#+BEGIN_SRC sh
+runlevel
+#+END_SRC
+this will show the previous runlevel and the current runlevel
+
+- to change the current runlevel
+#+BEGIN_SRC sh
+telinit 5
+#+END_SRC
+this would change the current runlevel to runlevel 5
+
 ** Shutdown and Reboot
 - Reboot
 #+BEGIN_SRC sh
@@ -64,7 +115,6 @@ both occur immediately
 shutdown -c
 #+END_SRC
 
-** Runlevels
 ** Configuring Network Services to Run on Boot
 - configure telnet-server
 #+BEGIN_SRC sh

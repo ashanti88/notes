@@ -1,4 +1,4 @@
-#+TAGS: sys sysv runlevel
+#+TAGS: telinit sysvinit runlevel
 
 
 * telinit
@@ -18,6 +18,11 @@ The runlevels
 - change system to runlevel 3
 #+BEGIN_SRC sh
 telinit 3
+#+END_SRC
+
+- set the system to reboot in 10 seconds
+#+BEGIN_SRC sh
+telinit -t 10 6
 #+END_SRC
 * Alternative
 sysd: [[file://home/crito/org/tech/cmds/systemctl.org][systemctl]]

@@ -44,7 +44,7 @@ this would set the default runlevel to 3
   - TTY sessions are loaded (as listed in /etc/inittab)
   - System login prompt is displayed on the console, system is ready for login
     
-- Runlevels
+- Runlevels (LBS/RHEL)
   0 - Halt(shutdown
   1 - Single User
   2 - Multi-User (no network or remote filesystems)

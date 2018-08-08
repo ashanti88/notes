@@ -1,0 +1,22 @@
+#+TAGS: smart disk_health disk_monitoring
+
+
+* SMART (Self-Monitoring Analysis and Reporting Tech)
+* Description
+Built into may ATA, IDE and SCSI-3 hard drives.
+Designed to monitor the reliability of the drive and attempts to predict drive failures
+It does this by running self-tests
+
+* Cmds
+- smartd - this is the deamon that linux uses to interface with SMART
+* Usage
+
+- this  can be run to test if smartd is installed and working
+#+BEGIN_SRC sh
+smartctl -i /dev/sda
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

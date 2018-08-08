@@ -6,10 +6,26 @@
 /etc/ssh/ssh_config             - the config file for the ssh client
 /etc/ssh/sshd_config            - the config file for the ssh daemon
 /home/user/.ssh/authorized_keys - this holds remote hosts public keys
-/home/user/.ssh/config          - this is a way to save host configs
 /home/user/.ssh/known_hosts     - this file holds hashes for all known hosts, hosts that we have previously connected to and authorize that we trust them to be the correct machine.
 /home/user/.ssh/id_rsa          - this is the default private key, it needs privs of 600
 /home/user/.ssh/id_rsa.pub      - this is the public key and should have privs of 644
+** /home/user/.ssh/config          - this is a way to save host configs
+#+BEGIN_EXAMPLE
+Host frank1
+        HostName frank.myserver.com
+    User user
+    ServerAliveInterval 60
+    serverAliveCountMax 10
+
+Host frank2
+        HostName 223.34.45.10
+    User user
+    ServerAliveInterval 60
+    serverAliveCountMax 10
+#+END_EXAMPLE
+User - this is the user name to connect with
+ServerAliveInterval - this option sends a packet to the server to keep the connection alive
+serverAliveCountMax - this will allow 10 attempts of the "ServerAliveInterval" before bringing the tunnel down
 
 * Cmds
 - keychain  - this provides a fronted to ssh-agent and helps if you are using multiple keys

@@ -1,7 +1,7 @@
-#+TAGS: net anal mon
+#+TAGS: mrtg network_monitoring network_reporting
 
 
-* MRTG							       :net:anal:mon:
+* MRTG
 Home Page: [[http://oss.oetiker.ch/mrtg/][MRTG]]
 * Description
 * Usage

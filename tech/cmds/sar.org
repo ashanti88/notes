@@ -14,7 +14,7 @@ System Activity Reporter
 The sar command writes to standard output the contents of selected cumulative activity counters in the operating system. The accounting system, based on the values in the count and interval parameters, writes information the specified number of times spaced at the specified intervals in seconds. 
 
 * Setup
-** First Me/thod (no service mgmt)
+** First Method (no service mgmt)
 These two files have to be changed for sar to be used
 
 /etc/default/sysstat # Should sadc collect system activity informations? Valid values # are "true" and "false". Please do not put other values, they # will be overwritten by debconf! ENABLED="true"
@@ -26,6 +26,9 @@ To
 
 ** Second Method (sysv)
 - Install sysstat if not already installed
+#+BEGIN_SRC sh
+yum install sysstat
+#+END_SRC
 
 - Start and enable the service
 #+BEGIN_SRC sh

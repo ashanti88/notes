@@ -1,0 +1,28 @@
+#+TAGS: xfsdump xfs_filesystem backup
+
+
+* xfsdump
+* Description
+This is the xfs specific tool for backing up xfs filesystems.
+
+* Usage
+Though you can only have 9 incremental levels, you can have multiple level 1s. So backups can be thought of in series', once the 9th is reached start with a new L1 and this will contain all the previous L2-L9 changes
+
+- perfrom a full backup
+#+BEGIN_SRC sh
+xfsdump -l 0 -f /mnt/xfs_backup /dev/xvdj2
+#+END_SRC
+l - level of backup (0-9)
+f - destination of backup
+copy the data at xfs_data to the device at /dev/xvdj3
+
+- perform the first incremental backup
+#+BEGIN_SRC sh
+xfsdump -l 1 -f /dev/st0 /dev/xvdj2
+#+END_SRC
+
+
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -30,6 +30,17 @@ fuser -m /mnt/flash
 fuser -v -n tcp 80
 #+END_SRC
 
+- find the open files on a partition
+#+BEGIN_SRC sh
+fuser /mnt/data
+#+END_SRC
+this will return a list of pids
+
+- kill the pids of open files on a partition
+#+BEGIN_SRC sh
+fuser -k /mnt/data
+#+END_SRC
+
 * Lecture
 * Tutorial
 ** [[https://www.digitalocean.com/community/tutorials/how-to-use-the-linux-fuser-command][How To Use the Linux Command]]

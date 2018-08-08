@@ -10,6 +10,28 @@ This tool will provide detailed information on a kernel module.
 modinfo bonding
 #+END_SRC
 
+
+- examplf of module infomation that is provided 
+#+BEGIN_EXAMPLE
+~ ᐅ modinfo lp  
+filename:       /lib/modules/4.15.0-29-generic/kernel/drivers/char/lp.ko
+license:        GPL
+alias:          char-major-6-*
+srcversion:     FAF30E745A490C27014E0BA
+depends:        parport
+retpoline:      Y
+intree:         Y
+name:           lp
+vermagic:       4.15.0-29-generic SMP mod_unload 
+signat:         PKCS#7
+signer:         
+sig_key:        
+sig_hashalgo:   md4
+parm:           parport:array of charp
+parm:           reset:bool
+#+END_EXAMPLE
+we can use this infomation to determine the required dependencies that it required before loading with insmod
+
 * Lecture
 * Tutorial
 * Books

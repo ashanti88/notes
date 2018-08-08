@@ -4,14 +4,20 @@
 * init
 * Description
 * Usage
-The runlevels
-0 - halt
-1 - single-user mode
-2 - multi-user no networking
-3 - multi-user
-4 - none
-5 - graphical
-6 - reboot
+The runlevels | RHEL            | Debain
+0 - halt                        | halt   
+1 - single-user mode            | single-user mode
+2 - multi-user no networking    | multi-user no networking
+3 - multi-user                  | multi-user(graphical, if configured)
+4 - none                        | multi-user(graphical, if configured)
+5 - multi-user(graphical)       | multi-user(graphical, if configured)
+6 - reboot                      | reboot
+
+- change the current runlevel
+#+BEGIN_SRC sh
+init 5
+#+END_SRC
+this would change the runlevel to 5
 
 * Lecture
 * Tutorial

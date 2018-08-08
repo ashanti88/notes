@@ -1,0 +1,113 @@
+#+TAGS: collectd
+
+
+* Collectd 
+HomePage: https://collectd.org/
+* Files
+/etc/collectd      - main configration directory
+/etc/collectd.conf - main config file
+/usr/share/collectd/types.db - plain text flat database with all the data source types
+
+* Description
+* Usage
+** Installation of collectd on Ubuntu, using Lighttpd to display information
+
+- first install the required packages
+#+BEGIN_SRC sh
+apt install collectd
+#+END_SRC
+
+- makesure that collectd is started and enabled at boot 
+#+BEGIN_SRC sh
+service collectd start
+update-rc.d enable collectd
+#+END_SRC
+
+- install lighttpd, git, php5 and php5-cgi to provide a platform to display collectd information 
+#+BEGIN_SRC sh
+apt install lighttpd git php5 php5-cgi
+#+END_SRC
+
+- uncomment the cgi.fix_pathinfo variable
+/etc/php5/cgi/php.ini
+#+BEGIN_EXAMPLE
+cgi.fix_pathinfo=1
+#+END_EXAMPLE
+
+- enable fastcgi for lighttpd
+#+BEGIN_SRC sh
+lighttpd-enable-mod fastcgi
+#+END_SRC
+
+- enalbe fastcgi-php for lighttpd
+#+BEGIN_SRC sh
+lighttpd-enable-mod fastcgi-php
+#+END_SRC
+
+- restart lighttpd
+#+BEGIN_SRC sh
+service lighttpd restart
+#+END_SRC
+
+- confirm that lighttpd is running
+#+BEGIN_SRC sh
+w3m http://localhost
+#+END_SRC
+this will return the lighttpd default index.html is running
+
+- clone the nethuis repo to the /var/www
+#+BEGIN_SRC sh
+cd /var/www
+git clone http://git.nethuis.nl/pub/cgp.git
+#+END_SRC
+
+- restart the lighttpd
+#+BEGIN_SRC sh
+service lighttpd restart
+#+END_SRC
+
+- connect to the server to view the current findings of collectd
+#+BEGIN_SRC sh
+w3m http://localhost/cgp/
+#+END_SRC
+to view the information in a more user friendly manner use a GUI browser
+
+** Installation of collectd on CentOS6
+   
+- install the required pkgs
+#+BEGIN_SRC sh
+yum localinstall --nogpgcheck  http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+yum install collectd git rrdtool rrdtool-devel rrdtool-perl perl-HTML-Parser perl-JSON
+#+END_SRC
+
+- start and enable the collectd service
+#+BEGIN_SRC sh
+chkconfig collectd on
+service collectd start
+#+END_SRC
+
+- import the collectd-web git repo 
+#+BEGIN_SRC sh
+cd /usr/local
+git clone https://github.com/httpdss/collectd-web.git
+#+END_SRC
+
+- add execution perms to graphdefs.cgi
+#+BEGIN_SRC sh
+cd collectd-web
+chmod +x cgi-bin/graphdefs.cgi
+#+END_SRC
+
+- the python server is set to run on localhost only, edit runserver.py to allow remote access
+#+BEGIN_EXAMPLE
+    else:
+        httpd = BaseHTTPServer.HTTPServer(("0.0.0.0", PORT), Handler)
+        print "Collectd-web server running at http://%s:%s/" % ("0.0.0.0", PORT)
+    httpd.serve_forever()
+#+END_EXAMPLE
+
+
+* Lecture
+* Tutorial
+* Books
+* Links

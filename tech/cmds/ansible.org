@@ -435,7 +435,6 @@ yum install python-pip
 pip install awscli
 #+END_SRC
 
-
 * Lecture
 ** Learn you some Ansible for great good! - OpenStack Summit May 2015
 url:[[url][https://www.youtube.com/watch?v=qEuk65few9I]]

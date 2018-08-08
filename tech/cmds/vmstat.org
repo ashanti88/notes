@@ -20,31 +20,29 @@ IO - bi: Blocks in (for every second)
 IO - bo: Blocks out (for every second)
 System - in: interupts per second
 System - cs: context switches
-CPU - us, sy, id, wa, st - user time, system time, idle, wait time,
-stolen time from a virtual machine.
+CPU - us, sy, id, wa, st - user time, system time, idle, wait time, stolen time from a virtual machine.
 
-** Examples
+- Display active and inactive memory
+#+BEGIN_SRC sh
+vmstat -a
+#+END_SRC
 
-Display active and inactive memory*
-
-> vmstat -a
-
-** Display number of forks since last boot
+- Display number of forks since last boot
 #+BEGIN_SRC sh
 vmstat -f
 #+END_SRC
 this command displays the count of all fork, vfork and clone system calls since the last boot.
 
-** Execute every 2 seconds
+- Execute every 2 seconds
 #+BEGIN_SRC sh
 vmstat 2
 #+END_SRC
 to exit CTRL-C
 
+- Execute ever 2 seconds for 10 iterations
 #+BEGIN_SRC sh
 vmstat 2 10
 #+END_SRC
-this will execute vmstat 2 seconds 10 times
 
 ** Display the slabinfo
 #+BEGIN_SRC sh

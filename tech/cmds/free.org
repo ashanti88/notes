@@ -61,6 +61,10 @@ free -m
 free -g
 #+END_SRC
 
+** Show in 5 second intervals for 5 iterations
+   #+BEGIN_SRC sh
+   free -h -s 5 -c 5
+   #+END_SRC
 * Lecture
 * Tutorial
 * Books

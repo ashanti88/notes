@@ -177,3 +177,5 @@ chmod +x /etc/network/if-pre-up.d/iptables
 [[http://www.thegeekstuff.com/category/iptables/][GeekStuff - iptables]]
 [[https://wiki.debian.org/iptables][Debian - iptable]]
 https://www.linux.com/blog/learn/2017/9/redirecting-network-traffic-part-2
+[[https://www.frozentux.net/iptables-tutorial/chunkyhtml/index.html][Iptables Tutorial - Frozentux.net]]
+dwd

@@ -1,9 +1,31 @@
-#+TAGS: fs op
+#+TAGS: umount unmount mount
 
 
-* umount							      :fs:op:
+* umount
 * Description
 * Usage
+- unmount a partition
+#+BEGIN_SRC sh
+umount /mnt/data
+#+END_SRC
+
+- force an unmount
+#+BEGIN_SRC sh
+umount -f /mnt/data
+#+END_SRC
+you many not be able to unmount normally due to a user having files open on the mount
+
+- find open files on the partiton
+#+BEGIN_SRC sh
+fuser /mnt/data
+#+END_SRC
+this will provide a list ot pids
+
+- kill the pids of the open files
+#+BEGIN_SRC sh
+fuser -k /mnt/data
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

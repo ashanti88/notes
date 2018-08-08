@@ -4,7 +4,7 @@
 * history
 * Description
 * Usage
-- clear the history
+- clear the history of current seesion
 #+BEGIN_SRC sh
 history -c
 #+END_SRC
@@ -14,6 +14,11 @@ history -c
 history
 #+END_SRC
 
+- clear current session and previous history
+#+BEGIN_SRC sh
+history -c && history -w
+echo "" > .bash_history
+#+END_SRC
 
 * Lecture
 * Tutorial

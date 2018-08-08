@@ -4,6 +4,8 @@
 * A2DP - Advanced Audio Distribution Profile
 Wiki: https://en.wikipedia.org/wiki/List_of_Bluetooth_profiles#Advanced_Audio_Distribution_Profile_(A2DP)
 
+* ACPI - Advanced Configuration and Power Interface
+HomePage: http://www.acpi.info/
 * AMI  - Amazon Machine Image
 AWS:https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html
 * API  - Application Programming Interface
@@ -46,6 +48,12 @@ Docs: https://aws.amazon.com/ebs/
 HomePage: https://www.europol.europa.eu/about-europol/european-cybercrime-centre-ec3
 * EFS  - Elastic File System (AWS)
 Docs: https://aws.amazon.com/efs/
+* EOL  - End Of Life (Linux)
+Debian - https://wiki.debian.org/DebianReleases
+Ubuntu - https://www.ubuntu.com/info/release-end-of-life
+RHEL   - https://access.redhat.com/support/policy/updates/errata/
+CentOS - https://endoflife.software/operating-systems/linux/centos
+
 * ETL  - Extract Transform Load
 Wiki: https://en.wikipedia.org/wiki/Extract,_transform,_load
 * FDT  - Flattened Device Tree
@@ -94,6 +102,8 @@ maildrop
 * LMDB - Lightnig Memory-Mapped Database
 Wiki: https://en.wikipedia.org/wiki/Lightning_Memory-Mapped_Database
 HomePage: http://www.lmdb.tech/doc/
+* LSB  - Linux Standard Base
+Wiki: https://en.wikipedia.org/wiki/Linux_Standard_Base
 * LUN  - Logical Unit Number
 * MMIO - Memory Mapped I/O
 * MPLS - Multiprotocol Label Switching
@@ -103,9 +113,12 @@ Wiki: https://en.wikipedia.org/wiki/Maximum_transmission_unit
 * MVC  - Model View Controller
 Wiki: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller
 * NACL - Network Access Control Lists
+AWS_Docs: https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_ACLs.html
 * NIDS - Network Intrusion Detection System
 Wiki: https://en.wikipedia.org/wiki/Intrusion_detection_system
 * NIS  - Network Information Service
+* NIST - National Institure of Standards and Technology
+HomePage: https://www.nist.gov/
 * NNTP - News Network Transport Protocol
 Wiki: https://en.wikipedia.org/wiki/Network_News_Transfer_Protocol
 * NSS  - Name Service Switch
@@ -148,6 +161,8 @@ The time it takes after a disruption to restore operations back to its regular s
 * S3   - Simple Storage Service (AWS)
 Docs: https://aws.amazon.com/s3/
 
+* SMP  - Symetrical Multi-Processor
+This is a type of kernel that is used for systems that have multi-core processors
 * SSSD - System Security Services Daemon
 Fedora - https://fedoraproject.org/wiki/Features/SSSD
 
@@ -185,9 +200,14 @@ Wiki: https://en.wikipedia.org/wiki/Transport_Layer_Security
 * TWM  - Tab Window Manager
 Wiki: https://en.wikipedia.org/wiki/Twm
 * UAT  - User Acceptence Testing
+* UCE  - Unsolicited Commercial Email
+* UEFI - Unified Extensible Firmware Interface
+HomePage: http://www.uefi.org/
+Wiki: https://en.wikipedia.org/wiki/Unified_Extensible_Firmware_Interface
 * UUCP - Unix-to-Unix Copy
 Wiki: https://en.wikipedia.org/wiki/UUCP
-* UCE  - Unsolicited Commercial Email
+* UUID - Universal Unique ID
+Linux.com: https://www.linux.com/news/what-uuids-can-do-you
 * VTL  - Virtual Tape Library
 * XML  - Extensible Markup Language
 Wiki: https://en.wikipedia.org/wiki/XML

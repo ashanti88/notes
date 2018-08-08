@@ -1642,6 +1642,11 @@ this will create the repo file in /etc/yum.repo.d/ for the repository
 yum-config-manager --disable dl.fedoraproject.org_pub_epel_7_x86_64_
 #+END_SRC
 
+- enable a repo
+#+BEGIN_SRC sh
+yum-config-manager --enable dl.fedoraproject.org_pub_epel_7_x86_64_
+#+END_SRC
+
 **** Check for system wide upgrades
 - check what has an available update     
 #+BEGIN_SRC sh
@@ -1984,6 +1989,22 @@ yum localinstall --nogpgcheck http://repo.webtatic.com/yum/el7/webtatic-release.
 - Install RHEL6
 #+BEGIN_SRC sh
 yum localinstall --nogpgcheck http://repo.webtatic.com/yum/el6/latest.rpm
+#+END_SRC
+
+** Clean up orphaned pkgs
+- install the required pkgs
+#+BEGIN_SRC sh
+yum install yum-utils
+#+END_SRC
+
+- obtain the orphan list
+#+BEGIN_SRC sh
+package-cleanup --leaves
+#+END_SRC
+
+- remove the orphan pkgs
+#+BEGIN_SRC sh
+yum remove $(package-cleanup --leaves)
 #+END_SRC
 
 * Server Hardening
@@ -2477,6 +2498,177 @@ dnf upgrade vim
 HomePage: [[https://www.centos.org/][centos.org]]
 Wiki: [[https://wiki.centos.org/][wiki.centos.org]]
 Placed notes for Centos in RHEL
+
+* Usage
+** How to remove old unused kernels
+
+- confirm the current kernel
+#+BEGIN_SRC sh
+uname -a
+#+END_SRC
+
+- list all the installed kernels
+#+BEGIN_SRC sh
+rpm -q kernel
+#+END_SRC
+
+
+- remove the old kernels manually
+#+BEGIN_SRC sh
+yum remove kernel-3.10.0-862.2.3.el7.x86_64 kernel-3.10.0-862.3.2.el7.x86_64
+#+END_SRC
+
+
+- remove the old kernels automatically
+#+BEGIN_SRC sh
+package-cleanup --oldkernels --count=1
+#+END_SRC
+- package-cleanup is part of the yum-utils
+- count - this is the number of duplicates to keep on the system
+  
+
+- configure yum to auto-remove old kernels
+/etc/yum.conf
+#+BEGIN_EXAMPLE
+[main]
+cachedir=/var/cache/yum/$basearch/$releasever
+keepcache=0
+debuglevel=2
+logfile=/var/log/yum.log
+exactarch=1
+obsoletes=1
+gpgcheck=1
+plugins=1
+installonly_limit=2
+bugtracker_url=http://bugs.centos.org/set_project.php?project_id=23&ref=http://bugs.centos.org/bug_report_page.php?category=yum
+distroverpkg=centos-release
+#+END_EXAMPLE
+- by default CentOS keeps 5 kerenels 
+- installonly_limit - sets the numbe of kernels to keep on the system(min number is 2)
+
+** Setup Secure ProFTPD server on CentOS7 with TLS
+   
+- Install the proftpd pkg
+#+BEGIN_SRC sh
+yum install epel-release
+yum install proftpd
+#+END_SRC
+
+- start and enable the service
+#+BEGIN_SRC sh
+systemctl start proftpd 
+systemctl enable proftpd 
+#+END_SRC
+
+- confirm that the service has started
+#+BEGIN_SRC sh
+systemctl status proftpd 
+ss -nlt
+#+END_SRC
+
+- open the required port
+#+BEGIN_SRC sh
+firewall-cmd --add-port=21/tcp --permanent
+firewall-cmd --reload
+#+END_SRC
+
+- confirm the port is open
+#+BEGIN_SRC sh
+firewall-cmd --list-ports
+#+END_SRC
+
+- create a newuser for ftp(any current user can also connect to ftp)
+#+BEGIN_SRC sh
+useradd ftp_user -s /sbin/nologin -d /var/ftp-share
+passwd ftp_user
+chmod -R 750 /var/ftp-share
+setsebool -P allow_ftpd_full_access=1
+#+END_SRC
+
+- client connection test
+#+BEGIN_EXAMPLE
+$ ftp -p ftp.mylabserver.com
+Connected to ftp.mylabserver.com.
+220 FTP Server ready.
+Name (ftp.mylabserver.com:ftp_user): ftp_user
+331 Password required for ftp_user
+Password:
+230 User ftp_user logged in
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp> ls
+227 Entering Passive Mode (192,168,1,111,209,252).
+150 Opening ASCII mode data connection for file list
+226 Transfer complete
+ftp>
+#+END_EXAMPLE
+this will be the hostname of the server
+
+*** Configuring Passive Mode
+
+- add the passive ports to /etc/proftpd.conf
+#+BEGIN_SRC sh
+echo "PassivePorts 49152 65534" >> /etc/proftpd.conf
+#+END_SRC
+
+- restart the service
+#+BEGIN_SRC sh
+systemctl restart proftpd
+#+END_SRC
+
+- add the passive ports to /etc/sysconfig/proftpd
+#+BEGIN_SRC sh
+firewall-cmd --add-port=49152-65534/tcp --permanent
+firewall-cmd --reload
+#+END_SRC
+
+- confirm the ports have been opened 
+#+BEGIN_SRC sh
+firewall-cmd --list-ports
+#+END_SRC
+
+*** Configure SSL
+
+- setting up SSL
+#+BEGIN_SRC sh
+yum install openssl
+#+END_SRC
+
+- create the openssl key 
+#+BEGIN_SRC sh
+openssl req -x509 -nodes -newkey rsa:1024 -keyout /etc/pki/tls/certs/proftpd.pem -out /etc/pki/tls/certs/proftpd.pem
+#+END_SRC
+
+- set the ssl variable in /etc/sysconfig/proftpd
+#+BEGIN_EXAMPLE
+PROFTPD_OPTIONS="-DTLS"
+#+END_EXAMPLE
+
+- restart the ftp server
+#+BEGIN_SRC sh
+systemctl restart proftpd
+#+END_SRC
+
+*** add anonymous user
+
+- edit the /etc/sysconfig/proftpd
+#+BEGIN_EXAMPLE
+PROFTPD_OPTIONS="-DTLS -DANONYMOUS_FTP"
+#+END_EXAMPLE
+
+- restart the proftpd
+#+BEGIN_SRC sh
+systemctl restart proftpd
+#+END_SRC
+
+*** Block/Refuse User's FTP access
+    
+- add the username to /etc/ftpusers, one per line
+#+BEGIN_EXAMPLE
+frank
+#+END_EXAMPLE
+if the user attemps to login to the ftp server they will get a 530 error
+
 
 * Trouble Shooting
 ** YUM: Thread died in Berkeley DB library, Fatal error - Fedora

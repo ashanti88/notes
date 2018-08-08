@@ -46,7 +46,6 @@ WantedBy=multi.user.target
 [[file://home/crito/org/tech/cmds/machinectl.org][machinectl]]
 file://home/crito/org/tech/cmds/systemd-networkd.org
 
-
 * Overview of Systemd Parts
 
 [[file://home/crito/Pictures/org/systemd_main_parts.png]]
@@ -169,7 +168,26 @@ Add to the end of the kernel line (that's the line with the vmlinuz)
 #+BEGIN_EXAMPLE
 systemd.unit=rescue.target
 #+END_EXAMPLE
-Any target can be added here and it will enter into that Target
+- Any target can be added here and it will enter into that Target
+- rescue launches a shell shortly after the root filesystem is mounted read/write
+- will only mount /
+  
+- entering emergency target
+#+BEGIN_EXAMPLE
+systemd.unit=emergency.target
+#+END_EXAMPLE
+launches a shell before most filesystems are mounted
+
+- run a root shell (this is a last resort and can be used if systemd is broken)
+#+BEGIN_EXAMPLE
+init=/bin/sh
+#+END_EXAMPLE
+
+- debug shell
+#+BEGIN_EXAMPLE
+
+#+END_EXAMPLE
+- launches a debug root shell on tty9 on boot, makesure that this is removed as soon as not need as it will leave a running root shell on the system
 
 ** Exit resuce mode
 In this mode you need to type "exit" and take you to the grub screen
@@ -209,6 +227,16 @@ ss -tnlp | grep 23
 telnet localhost
 #+END_SRC
 use your users details to login
+
+** Limit the size of the journal files
+   https://wiki.manjaro.org/index.php?title=Limit_the_size_of_.log_files_%26_the_journal
+
+   - edit the /etc/systemd/journal.conf 
+   #+BEGIN_EXAMPLE
+   [Journal]
+   SystemMaxUse=250M
+   SystemMaxFileSize=50M
+   #+END_EXAMPLE
 
 * Lecture
 ** [[https://www.youtube.com/watch?v=VIPonFvPlAs&index=64&list=WL][Systemd at the Core of the OS - CoreOS Fest 2015]]
@@ -315,5 +343,6 @@ WantedBy=multi-user.target
 [[https://www.linux.com/learn/cleaning-your-linux-startup-process][Cleaning up your linux startup process]]
 [[https://www.linux.com/learn/intro-systemd-runlevels-and-service-management-commands][Intro to Systemd Runlevels and Service Management Commands]]
 [[https://www.digitalocean.com/community/tutorials/understanding-systemd-units-and-unit-files][Understanding Systemd Units and Unit Files - DigitalOcean]]
+[[https://linuxconfig.org/how-to-boot-ubuntu-18-04-into-emergency-and-rescue-mode][How to boot Ubuntu 18.04 into emergency and rescue mode - LinuxConfig.org]]
 man 5 system.resource-control - this explains how systemd uses cgroups
 man 5 systemd.unit - this will explain all the available variables that unit files can use

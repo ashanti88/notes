@@ -2,6 +2,8 @@
 
 
 * mount
+* Files
+/proc/mounts - this file is where the kernel stores its mounts information
 * Description
 * Usage
 - mount dvd/cdrom

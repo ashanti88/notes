@@ -1,4 +1,4 @@
-#+TAGS: init sys service sysv deb ubuntu
+#+TAGS: update-rc.d sysvinit
 
 
 * update-rc.d
@@ -6,16 +6,19 @@
 * Usage
 - enable a service
 #+BEGIN_SRC sh
-update-rc.d mysql enable
+update-rc.d mysql defaults
 #+END_SRC
+this will use the recommended runlevels 
 
 - disable a service
 #+BEGIN_SRC sh
-update-rc.d mysql disable
+update-rc.d mysql remove
 #+END_SRC
+f can be used to force the remove of any sym links
 
 * Lecture
 * Tutorial
 * Books
 * Links
 https://www.jamescoyle.net/cheat-sheets/791-update-rc-d-cheat-sheet
+https://www.debuntu.org/how-to-managing-services-with-update-rc-d/

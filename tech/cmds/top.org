@@ -9,9 +9,17 @@ This can be viewed interactively, or output to the terminal.
 
 * Usage
 ** Interactive Commands
+h - help screen
 r - Renice a process
 k - kill a process
-shift + p - Show processors by cpu usage
+f - this brings up the fields selection screen
+l - add or remove the system load information
+t - add or remove the system task information
+m - add or remove the system mem information
+u - will be prompted for the specific user who's processors you would like to view
+d - set the update interval
+shift + p - Shows processors by cpu usage
+shift + m - Shows processors by mem usage
 shift + w - write current configuration to /home/$USER/.toprc
 
 ** Fields

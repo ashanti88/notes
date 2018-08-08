@@ -91,6 +91,7 @@ systemctl enable systemd-swap.service
 #+BEGIN_SRC sh
 fdisk -l
 #+END_SRC
+the partion type should be set to Swap(82 in fdisk)
 
 - make the partition a of type swap
 #+BEGIN_SRC sh

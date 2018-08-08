@@ -1,0 +1,15 @@
+#+TAGS: mkisofs
+
+
+* mkisofs
+* Description
+* Usage
+- create an iso image of a directory
+#+BEGIN_SRC sh
+mkisofs --quiet -o new_iso.iso /root/backup
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

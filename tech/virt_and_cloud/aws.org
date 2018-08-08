@@ -2370,7 +2370,6 @@ Docs:
       - weekly updates
       - get api access to create reporting tools
 
-
 *** Identity and Access Management (IAM)
 - Root User
   - this user is created when an account is created 
@@ -2416,7 +2415,7 @@ Docs:
     - can use IAM policies for KMS access
     - AWS Services intergrate directly with with KMS
 
-*** KMS Intergration with S3
+**** KMS Intergration with S3
 - KMS Integration with S3
 Before getting started, make sure you're logged in to the AWS web console and have selected the N. Virginia region (us-east-1). You'll also need a few document files – you can use text files or PDFs that you already have on your computer.
 
@@ -2446,18 +2445,306 @@ This happens because the bucket policy overrides that of the folder within it. I
 Select the second document you uploaded to S3 (within myFolder) and select the Properties tab at the top of the screen. Click Encryption. Below the AWS-KMS option, select my_s3_key from the dropdown menu. Click Save.
 Click the Overview tab at the top of the page. This time, the KMS key ID will be different, indicating that the document has been encrypted with the key we created.
 
-
 *** OS-Level Access
-    
-
+    - Bastion Host
+      - these function as a "jumperbox"
+      - allows us to securely access instances in private subnets without making these instances public in anyway
+      - Best Practives     
+        - deploy in two available zones
+        - use auto scaling to ensure the number of bastion hosts
+        - access is locked down and only allowed from known CIDRanges
+        - ports are limited to only ports the bastion host needs
+        - Do not copy keys or access information to the bastion host or any other instance
+          
+    [[file://home/crito/Pictures/org/bastion01.png]]
+   
+   - when using bastion hosts we need to set up ssh forwarding 
+     #+BEGIN_SRC sh
+     chmod 400 key_bastion.pem
+     ssh-agent bash
+     ssh -A ec2-user@34.222.10.52 # connected to bastion host
+     ssh ec2-user@10.11.54.125    # connected to the server in the private subnet 
+     #+END_SRC
+     - A - use ssh-agent
+     - ssh forwarding only allows two hops (bastion -> next server)
 
 *** Data Security
-    
-*** OS Security
+    - Protectecting data at rest
+      - S3
+        - Permissions
+          - Bucket level
+          - Rule of least priv
+          - MFA delete
+        - Versioning
+          - store new versions for every modified or deleted file
+          - helps with accidental deletion
+        - Replication
+          - Replication happens across availability zones automatically
+        - Backup
+          - replication and versioning make backups unneccessary
+        - Server-side Encryption
+          - use either S3 master-key or KMS master-key
+          - assists with accidental data exposure as long as the keys are not compromised
+        - VPC Endpoint
+          - can use data inside the VPC without making it public
+    - Glacier
+      - All data stored is encrypted using AES-256
+      - Each archive gets a unique key
+      - A master key is then created and stored securely
+    - EBS
+      - Replication
+        - EBS stores two copies of each volme in the same Availability Zone
+        - Helps with hardware failure, but is not intended to help availability
+      - Backup
+        - snapshots
+        - can use IAM to control access to these snapshot objects
+      - Server-side encryption
+        - AWS KMS master-key
+        - Microsoft Encrypted File System
+        - Microsoft Bitlocker
+        - Linux dmcrypt
+    - RDS
+      - Permissions
+        - use IAM policies on users, groups and roles to limit access
+        - rule of least priv
+      - Encryption
+        - KMS is integrated for most instance sizes (not t2 micro)
+        - MySQL, Oracle and MSSQL have cryptographic functions at the platform level
+    - DynamoDB
+      - Permissions
+        - use IAM policies on users, groups and roles to limit access
+        - rule of least priv
+      - Encryption
+        - Same as RDS, can encrypt at the application layer
+        - best practice is to use raw binary or Base64-encoded fields when storing encrypted fields
+      - VPC Endpoint
+        - can use data inside the VPC without making it public
+    - EMR
+      - amazon-managed service
+        - AWS provides the AMIs
+        - EMR instances do not encrypt at rest
+      - Data Store
+        - S3 or DynamoDB
+        - HDFS(Hadoop Distributed File System), if used AWS defaults to Hadoop KMS
+      - Techniques to improve data security
+        - S3 servre-side encryption
+        - Application-level encryption
+        - hybrid
 
+*** OS Security
+    - Custom AMIs
+      - AMIs can be public or private
+      - Allows for a base configuration to be deployed on instances
+        - OS
+        - Apps
+        - Security settings(authorized_keys, loocalaccounts, file and directory perms)
+      - Before publishing an AMI:
+        - disable any insecure applications (telnet)
+        - disable all ports that are not necessary
+        - protect credentials:
+          - access keys, certs, or third-party creds are deleted
+          - software shouldn't be using default accounts
+          - ssh keys must not be published
+          - disable guest account(windows)
+        - Protect data:
+          - delete shell history and logs(event log on windows)
+        - remove printer and file sharing or any other sharing service that is on by default(windows)
+    - AWS System Manager Features
+      - Resource Groups
+        - Allows you to group your resources logically(Prod, Test, Dev, DMZ)
+      - Insights
+        - Aggregates CloudTrail, CloudWatch, TrustedAdvisor, and more into a single dashboard for each resource group
+      - Inventory
+        - A listing of your instances and software installed on them.
+        - Can collect data on applications, files network configs, services and more
+      - Automation
+        - Automate IT operations and management tasks through scheduling triggering from an alarm or directly
+      - Run Cmds
+        - secure remote managerment replacing need for bastion hosts or ssh
+      - Patch Manager
+        - helps deploy OS and software patches across EC2 or on-prem
+      - Maintenance Window
+        - Allows for scheduling administrative and maintenance tasks
+      - State Manager and Parameter Store
+        - Used for configuration management
+**** 
+      - Preparing an Instance for a Custom AMI
+      In this lab, we learn how to prepare an EC2 instance we want to create an AMI out of so that no sensitive information is being shared.
+      
+      Before getting started, make sure you're logged in to the AWS web console and have selected the N. Virginia region (us-east-1).
+      
+      - Configure the EC2 Instance
+      To begin, navigate to EC2 from the services menu, go to the Instances section, and select AMISource from the list of instances. Copy its IPv4 public IP address to your clipboard.
+      
+      Next, open a terminal window and connect to the instance via SSH:
+      
+      #+BEGIN_SRC sh
+      ssh cloud_user@12.34.56.78
+      #+END_SRC
+      Be sure to substitute the actual IP address of the instance for the one in the command. The instance login password can be found on the lab page with the other credentials for this lab.
+      
+      - Configure the AWS CLI
+      Once logged in, run the following command:
+      
+      #+BEGIN_SRC sh
+      aws configure
+      #+END_SRC
+      We'll be prompted for an Access Key ID and a Secret Access Key, both of which can be found on the lab page with the other credentials for this lab. For the default region name, enter us-east-1. Press enter when prompted for the default output format.
+      
+      - Remove Sensitive Data
+      Before we create our AMI, we need to ensure it will not contain any sensitive information. Start by checking the contents of the cloud_user home directory:
+      
+      #+BEGIN_SRC sh
+      ls -la
+      #+END_SRC
+      SSH Keys
+      First, let's examine our .ssh directory. Navigate there and check the contents:
+      
+      #+BEGIN_SRC sh
+      cd .ssh
+      ls
+      #+END_SRC
+      We'll see that this directory includes a private key file, myPrivateSSHKey.pem, which should not be included in our AMI. To securely delete this file, run:
+      
+      #+BEGIN_SRC sh
+      sudo shred myPrivateSSHKey.pem
+      rm myPrivateSSHKey.pem
+      #+END_SRC
+      Next, let's check the contents of the other file in the .ssh directory, authorized_hosts:
+      
+      #+BEGIN_SRC sh
+      more authorized_hosts
+      #+END_SRC
+      The file contains two public keys. The second one, myUnusedKeyPair is no longer in use, so we should remove it before creating our AMI. Open the file in a text editor:
+      
+      #+BEGIN_SRC sh
+      vim authorized_hosts
+      #+END_SRC
+      Remove the second keypair, save and exit the file.
+      
+      - AWS Configuration
+      Navigate back up to the cloud_user home directory and into the .aws directory:
+      
+      #+BEGIN_SRC sh
+      cd ..
+      cd .aws
+      ls
+      #+END_SRC
+      This directory contains configuration for the AWS CLI that we set up earlier. Check the contents of the credentials file:
+      
+      #+BEGIN_SRC sh
+      more credentials
+      #+END_SRC
+      We'll see that the credentials are stored on the instance in plain text. The simplest way to remove this information is to run aws configure again. This time, enter "None" at each prompt rather than the actual keys and region information. We can then run more credentials again, and we'll see that the access keys have been removed.
+      
+      - Bash History
+      Finally, we'll check our Bash history for sensitive information. Navigate back up to the cloud_user home directory:
+      
+      #+BEGIN_SRC sh
+      cd ..
+      #+END_SRC
+      We want to ensure that we're clearing the history for not only the current session, but for all sessions. Run the following commands to clear both of these, respectively:
+      
+      #+BEGIN_SRC sh
+      history -c
+      history -w
+      echo "" > .bash_history
+      #+END_SRC
+      If we check our history after running these commands, we'll see only the commands that have been run since clearing the current session's history:
+      
+      #+BEGIN_EXAMPLE
+      $ history
+        1 history -w
+        2 history
+      #+END_EXAMPLE
+      - Create an AMI
+      Now that we've removed sensitive data from our instance, we can create an AMI from it.
+      
+      Go back to the EC2 dashboard in the AWS web console and select the AMISource instance. Click Actions at the top of the page, select Image, and then select Create Image. Enter "myAMI" for the image name and click the Create Image button.
+      
+      From the menu on the left side of the page, select AMIs. We should see the myAMI image we just created in this list. We can now use this image to create launch configurations or launch new instances.
+      
+      - Review
+      In this lab, we learned how to identify and remove some commonly seen pieces of sensitive data from an EC2 instance so that we can create a more secure AMI from it.
+      
+      Congratulations! You've successfully completed the lab on preparing an instance for a custom AMI!
+         
 *** Infrastructure Security
-    
-*** Monitoring, Alerting, and Auditing
+    - VPC
+      - Internet only
+        file://home/crito/Pictures/org/aws_sec_vpc1.png
+
+        - Scenarios
+          - No connection between your infrastructure and the VPC
+          - No on-premises infrastructure
+        - Best Practice
+          - use ssl/tls endpoints for applications
+          - build your own vpn solutions
+          - routing and placement must be planned(public and private subnets)
+          - security groups and network access control lists (NACLs)
+
+      - IPSec tunnel over internet
+        file://home/crito/Pictures/org/aws_sec_vpc2.png
+        
+        - Scenarios
+          - Your Organisation requires secured communications
+          - Lesser need for dedicated throughput
+        - Best Practice
+          - Deploy vpn using standard AWS vpn components (vpn gateway, customer gateway, vpn connection) 
+          - can also use custom vpn solutions if required
+          - vpc networking(subnets, security groups, NACLs)
+
+      - AWS Direct Connect
+        file://home/crito/Pictures/org/aws_sec_vpc3.png
+      
+        - Scenarios
+          - Your organisation requires dedicated links to peer to AWS
+          - There is a need for dedicated throughput(1Gbps and 10Gbps)
+        - Best Practice
+          - Using a private peered connection like this might not need additional security
+          - check your organisation's requirements
+          - vpc networking(subnets, security groups, NACLs)
+
+      - Hybrid
+        file://home/crito/Pictures/org/aws_sec_vpc4.png
+        
+        - Scenarios
+          - Your organisation might have Direct Connect, but some users connect with internet only
+          - Your organisation might require IPSec tunnels be used over Direct Connect
+        - Best Practice
+          - refer to best practices for each type of connection  you are using in a hybrid environment
+          - vpc networking(subnets, security groups, NACLs)
+            
+    - Network Segmentation
+      - VPC
+        - isolate workloads into separate VPCs (based on application, department, test, dev, etc)
+      - Security Groups
+        - group instances with similar functions
+        - stateful = every allowed TCP or UDP port will be allowed in both directions
+      - NACLs
+        - stateless - inbound and outbound rules are separate, no dependencies
+        - granular cntrol over IP protocols(allow and deny rules for inbound and outbound evaluated in order)
+        - work with security groups (NACL applies for the subnet, security groups apply to members)
+        - ephemeral ports - client requests depending on OS(ports1024-65535)
+      - Host-based Firewall
+        - OS-level firewalls
+          
+    - Protecting Web Applications
+      - AWS Web Application Firewall(WAF)
+        - Allows for conditions or rules to be set on web traffic on CloudFront or an Application Load Balancer
+        - WAF can watch for x-site scripting, ip addrs, location of requests, query strings and SQL injection
+      - AWS Shield Standard
+        - The basic level of DDos protection for your web application
+        - included with WAF, no additional cost
+      - AWS Shield Advanced
+        - Expands services protected to include Elastic Load Balancers, CloudFront Distributions, Route53 hosted zones and resources with Elastic IPs
+        - Contact 24x7 DDos reponse Team (DRT) for assistance during an attack
+        - Some cost protection against spikes in a bill from DDos attacks
+        - Expanded protection against many types of attacks
+        - WAF is included in Shield Advanced pricing
+
+
+
 
 * Books
 [[file://home/crito/Documents/SysAdmin/Cloud/AWS/AWS_Storage_Services.pdf][AWS Storage Services]]
