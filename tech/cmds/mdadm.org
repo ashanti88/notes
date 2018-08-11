@@ -1,0 +1,20 @@
+#+TAGS: mdadm raid_administration
+
+
+* mdadm
+* Description
+* Usage
+- detailed inspection of a RAID device
+#+BEGIN_SRC sh
+mdadm --detail /dev/md0
+#+END_SRC
+
+- scan the system and output all RAID devices
+#+BEGIN_SRC sh
+mdadm --detail --scan --verbose
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

@@ -1,17 +1,129 @@
-#+TAGS: fs disk io
+#+TAGS: raid disk_fault_tolerance disk_management
 
 
-* RAID
+* RAID (Redundant Array of Independent Disks)
+* Files
+/ect/mdadm.conf -
+/proc/mdstat    - this contains information on system RAID devices
+* Cmds
+- [[file://home/crito/org/tech/cmds/mdadm.org][mdadm]]
+
 * Description
-** RAID 0
-** RAID 1
-** RAID 2
-** RAID 3
-** RAID 4
-** RAID 5
-** RAID 6
-** RAID 10
+- Hardware vs Software
+  - Hardware RAID - Controlled by a hardware controller(an add in card or special implementation on the motherboard). Typically in server class systems in the enterprise and adds cost to the overall infrastructure. Generally appears to the underlying OS as a normal disk type (SCSI generally).
+  - Software RAID - the kernel will replace the hardware controller in configuration and management of the RAID array. No hardware is needed to control the device(s). The LPIC-2 exam focuses on software RAID configuration and is what is testable on the exam(focusing on RAID 0, 1 and 5).
+
+- RAID 0
+  - Designed for speed rather than redundancy or increased fault tolerance, and is more common on desktop/laptops.
+  - Writes all data to multiple disk devices as though they were a single device. This is often called "striping", where some data is written to the first then some to the second.
+  - This is both to combine multiple storage devices into a larger singlw storage device as well as increase speed through multiple device I/O capabilities.
+
+- RAID 1
+  - Generally referred to as "mirroring", although two or more devices will appear to be a single device, data that is written to one disk will be duplicated entirely on all other disks.
+  - This greatly increases redundancy and fault tolerance, but is at the expense of performance.
+
+- RAID 2
+
+- RAID 3
+
+- RAID 4
+  - Same as RAID 5 except that a single device is used to store parity data.
+
+- RAID 5 
+  - Requires at least three devices in order to implement. All the drives in the array will be used with parity data spread throughout all other disks in a "round robin" approach.
+  - Paity data is derived from the data on all other devices and can be used to rebuild any of the active devices in the storage pool in the event of a failure.
+
+- RAID 6
+
+- RAID 10
+  - combines both RAID 1 and RAID 0 advantages and redundancy into a larger storage device.
+  
+- RAID 50
+  - like RAID 10 execpt that it uses RAID 5 devices to build the RAID 0 portion
+
 * Usage
+** Creating a RAID 5
+- Preparing disks for RAID
+#+BEGIN_SRC sh
+fdisk /dev/xvdf
+fdisk /dev/xvdg
+fdisk /dev/xvdh
+#+END_SRC
+- for RAID 5 3 devices is a minimum
+- partition each disk with the same partion setup, take spare raid devices into consideration
+- makesure that the type is set to RAID(type fd)
+  
+- create a new device
+#+BEGIN_SRC sh
+mdadm -C /dev/md0 -l raid5 -n 3 /dev/xvdf1 /dev/xvdg1 /dev/xvdj1 -x 3 /dev/xvdf2 /dev/xvdg2 /dev/xvdj2
+#+END_SRC
+n - the number of devices
+x - extra devices to be used in case of any failures on the initial devices
+
+- inspect and confirm the creation of the device
+#+BEGIN_SRC sh
+mdadm --detail /dev/md0
+#+END_SRC
+
+- create the /etc/mdadm.conf
+#+BEGIN_SRC sh
+mdadm --detail --scan --verbose > /etc/mdadm.conf
+#+END_SRC
+this will makesure that the device is active after a reboot
+
+- create the filesystem on the RAID device
+#+BEGIN_SRC ssh
+mkfs -t ext4 /dev/md0
+#+END_SRC
+we work with the RAID device not the individual devices/partitions
+
+- mount the RAID device
+#+BEGIN_SRC sh
+mkdit /mnt/data
+mount -t ext4 /dev/md0 /mnt/data
+#+END_SRC
+
+- confirm that the mount
+#+BEGIN_SRC sh
+df -hT
+#+END_SRC
+
+- edit the /etc/fstab to enable mount on boot
+#+BEGIN_EXAMPLE
+/dev/md0	/mnt/data	ext4	defaults	0 2
+#+END_EXAMPLE
+
+** Managing RAID failover and recovery
+   
+- force a fail of a device
+#+BEGIN_SRC sh
+mdadm --fail /dev/md0 /dev/xvdg1
+#+END_SRC
+
+- view the current status of the RAID device
+#+BEGIN_SRC sh
+mdadm --detail /dev/md0
+#+END_SRC
+you will notice that a spare device will have been marked as rebuilding the failed device, and the failed device moved to the spares section and State set to faulty
+
+- view the /proc/mdstat
+#+BEGIN_SRC sh
+cat /proc/mdstat
+#+END_SRC
+depending on the size of the device will determine how long it will take the spare device to rebuild 
+
+- adding a new device to the RAID device
+#+BEGIN_SRC sh
+mdadm --add /dev/md0 /dev/xvdf3
+mdadm --add /dev/md0 /dev/xvdg3
+mdadm --add /dev/md0 /dev/xvdh3
+#+END_SRC
+
+- the /etc/config will have to be recreated
+#+BEGIN_SRC sh
+mdadm --detail --scan --verbose > /etc/mdadm.conf
+#+END_SRC
+
 * Lecture
 ** [[https://www.youtube.com/watch?v=yAuEgepZG_8][RAID: Obsolete? - Part 1]]
 zfs assumes that errors are caused by faulty disk not ram.

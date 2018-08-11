@@ -1,13 +1,115 @@
 #+TAGS: iscsi storage
 
 
-* iSCSI
+* iSCSI (internet Small Computer System Interface)
 * Files
+/etc/iscsi/initiatorname.iscsi
+/etc/tgt/targets.conf
 * Cmds
-- iscsiadm
+- [[file://home/crito/org/tech/cmds/lvscan.org][lvscan]]
+- [[file://home/crito/org/tech/cmds/lvcreate.org][lvcreate]]
+- [[file://home/crito/org/tech/cmds/iscsiadm.org][iscisiadm]]
+- [[file://home/crito/org/tech/cmds/lsscsi.org][lsscsi]]
+- tgt
+
 * Description
+- iSCSI is a protocol that allows you to connect with the host storage remotely. 
+- iSCSI works on the TCP/IP layer by sending the SCSI data over TCP packets. 
+- These packets will be transported over LAN between iSCSI target and iSCSI initiator. 
+- Typically, iSCSI is implemented in the storage area network (SAN). 
+
+** Terminology
+iSCSI Initiator: iSCSI initiators are clients that authenticate to an iSCSI target and get the authorization of block level storage access. Clients can have multiple iSCSI devices access the initiator.
+
+iSCSI Target: An iSCSI target is a server that provides storage to an iSCSI Initiator. You can create a LUN in a target and provide block storage to the iSCSI initiator.
+
+LUN (Logical Unit Number): A LUN is a SCSI concept that allows us to divide a large number of the storage into a sizable chunk. A LUN is a logical representation of a physical disk. Storage which has been assigned to the iSCSI initiator will be the LUN.
+
+IQN (iSCSI qualified name): An IQN is a unique name that is assigned to the iSCSI target and iSCSI initiator to identify each other. IQN format looks like:
+
+Iqn.yyyy-mm.<domain or naming>:unique name
+
+Example:
+
+Iqn.2017-08.com.example:server
+
+Portal: The iSCSI portal is a network portal within the iSCSI network where the iSCSI network initiates. iSCSI works over TCP/IP, so the portal can be identified by IP address. There can be one or more Portal.
+
+ACL: An access control list will allow the iSCSI initiator to connect to an iSCSI target. The ACL will restrict access for the iSCSI target so unauthorized initiators cannot connect
+
 * Usage
-** RHEL7 iSCSI Target
+** RHEL6 iSCSI Target - manual configuration(LPIC2 LA)
+- install the required pkgs
+#+BEGIN_SRC sh
+yum install scsi-target-utils
+#+END_SRC
+
+- edit /etc/tgt/targets.conf
+#+BEGIN_EXAMPLE
+<target iqn.2018-08-08.localdomain.localhost:myiscsi>
+	baking-store /dev/xvdf
+	iniator-address 192.168.1.10 192.168.1.11
+</target>
+#+END_EXAMPLE
+within the file is a lot of examples, that provide a look at the more complex options
+
+- enable and start the system
+#+BEGIN_SRC sh
+systemctl enable tgtd
+systemctl start tgtd
+#+END_SRC
+
+** RHEL6 iSCSI Initiator(LPIC2 LA)
+   
+- install the required pkgs
+#+BEGIN_SRC sh
+yum install iscsi-initiator-utils
+#+END_SRC
+
+- discover the target on the remote target
+#+BEGIN_SRC ssh
+iscsiadm -m discovery -t sendtargets -p 10.0.0.176
+#+END_SRC
+the ip being that of the target
+
+- we now have to restart the iscsi daemon
+#+BEGIN_SRC sh
+systemctl restart iscsi
+#+END_SRC
+the daemon will not know about the found target until it is restarted
+
+- now view all available block devices
+#+BEGIN_SRC sh
+fdisk -l
+#+END_SRC
+if the discovery process was run correctly you should see the iscsi device listed
+
+- this device can now be used as any other block device
+  - partition
+  - create a fs
+  - mount
+
+** RHEL6 iSCSI Mount On Boot(LPIC2 LA)
+
+- edit /etc/fstab
+#+BEGIN_EXAMPLE
+/dev/sda1	/mnt/data	ext4	_netdev	0 0
+#+END_EXAMPLE
+_netdev - wait for network device to be available until mount is attempted
+
+- unmount the iSCSI device
+#+BEGIN_SRC sh
+umount /mnt/data
+#+END_SRC
+
+- confirm that the fstab edit is working correctly
+#+BEGIN_SRC sh
+mount -a
+df -hT
+#+END_SRC
+the iSCSI should now be seen in the output 
+
+** RHEL7 iSCSI Target - configure with targetcli
 - install packages
 #+BEGIN_SRC sh
 yum install -y targetcli
@@ -138,10 +240,261 @@ isciadm -m session -P 3
 #+END_SRC
 this will provide information on the iSCSI mount
 
+** Configuring an iSCSI target
+To create an iSCSI target, we should have extra storage available to assign it to the initiator. I have a 20 GB hard disk added to my machine from which we will create a partition and assign it to the iSCSI LUN. 
+
+[[file://home/crito/Pictures/org/iscsi_0.jpg]]
+
+- Creating the partition
+  - We will create a partition from /dev/xvdb disk. You should select the proper disk to create a partition. Enter the partition wizard by using the below command:
+#+BEGIN_SRC sh
+fdisk /dev/xvdb
+#+END_SRC
+Now, using fdisk we will create 10 GB partition. To create a new partition, enter the character “n”.
+
+[[file://home/crito/Pictures/org/iscsi_1.jpg]]
+
+- It will ask input for partition type, partition number, and first sector. We are going to keep default values here. Hit enter for all three options. For the last sector, we give a value of “+10G”. This means we are creating a partition of 10 GB out of the available 20 GBs.
+
+[[file://home/crito/Pictures/org/iscsi_2.jpg]]
+
+- Now, as you can see, we have 10 GB partition ready. You can print the number of the partition available for the disk by entering “p” character.
+
+[[file://home/crito/Pictures/org/iscsi_3.jpg]]
+
+- We have the “/dev/xvdb1” partition ready to use. This partition will be used to create a LUN in the targetcli utility. Exit the wizard, and enter command “partprobe”. This command will apply the changes immediately so we do not need to reboot the machine to reflect changes.
+#+BEGIN_SRC sh
+partprobe
+#+END_SRC
+
+[[file://home/crito/Pictures/org/iscsi_4.jpg]]
+
+- Target configuration
+1. Now we will start configuring the target. We require the targetcli tool to perform target configuration. This will provide you the CLI environment for updating and viewing target configuration. This configuration exports the local disk storage to the remote machine. Update your system and install targetcli
+#+BEGIN_SRC sh
+yum update && yum install targetcli -y
+#+END_SRC
+
+2. Before using targetcli, we need to start target service. By enabling the service, targetcli will automatically start at boot time.
+#+BEGIN_SRC sh
+systemctl start target.service
+systemctl enable target.service
+#+END_SRC
+
+3.Now we can use the targetcli utility. 
+#+BEGIN_SRC sh
+targetcli
+#+END_SRC
+
+4. After entering in targetcli, browse to the /backstore/block path. We will create the backstore here. We can create different types of storage, such as block, pscsi, and FileIO. For this guide, we will use block storage, which is a simple block device like harddisk. 
+#+BEGIN_EXAMPLE
+/> /backstores/block
+/backstores/block> create disk /dev/xvdb1
+#+END_EXAMPLE
+
+[[file://home/crito/Pictures/org/iscsi_5.jpg]]
+
+5. Now, browse to “iscsi”. We will create the iSCSI target with an IQN and iSCSI target name (“server”). If you don’t want to enter an IQN and target name, then you can just type “create” and it will automatically take the default IQN and target name. 
+#+BEGIN_EXAMPLE
+/backstores/block> /iscsi
+/iscsi> create iqn.2017-08.com.example:server
+#+END_EXAMPLE
+
+[[file://home/crito/Pictures/org/iscsi_6.jpg]]
+
+6. Now we need to create an ACL so only our iSCSI initiator can access this target. Here I am keeping the initiator’s IQN as “iqn.2017-08.com.example.com:client”. We will set the IQN at the time of initiator configuration. 
+#+BEGIN_EXAMPLE
+/iscsi> iqn.2017-08.com.example:server/tpg1/acls
+/iscsi/iqn.20...ver/tpg1/acls> create iqn.2017-08.com.example:client
+#+END_EXAMPLE
+
+[[file://home/crito/Pictures/org/iscsi_7.jpg]]
+
+7. Now, we will create the LUN from the disk we created in step 4. This LUN will have read-write permissions by default. 
+
+/iscsi/iqn.20...ver/tpg1/acls> /iscsi/iqn.2017-08.com.example:server/tpg1/luns
+/iscsi/iqn.20...ver/tpg1/luns> create /backstores/block/disk
+[[file://home/crito/Pictures/org/iscsi_8.jpg]]
+
+8. For the final step, we will create a portal. This portal will initiate the iSCSI network. We are going to give the private IP address of the current machine, which will be the IP address of iSCSI target.
+#+BEGIN_EXAMPLE
+/> /iscsi/iqn.2017-08.com.example:server/tpg1/portals/
+/iscsi/iqn.20.../tpg1/portals> create 172.31.3.109
+#+END_EXAMPLE
+
+Remember that if you have any default portal, then it will not allow you to create a new portal. Most default portals would be “0.0.0.0”. You can keep that one, or you can delete the old portal and create a new portal as shown below. You can view the current portal with “ls” command. 
+#+BEGIN_EXAMPLE
+/iscsi/iqn.20.../tpg1/portals> ls
+/iscsi/iqn.20.../tpg1/portals> delete 0.0.0.0 3260
+/iscsi/iqn.20.../tpg1/portals> create 172.31.3.109
+#+END_EXAMPLE
+[[file://home/crito/Pictures/org/iscsi_10.png]]
+
+Now we have the configuration ready for the iSCSI target.
+
+
+- Configure the iscsi initiator
+1. Log in to the iSCSI initiator where you want to mount your storage from the iSCSI target. Here we are going to install the “iscsi-initiator-utilits” package. Update the system, and install the package with the below command.
+#+BEGIN_SRC sh
+yum update && yum install iscsi-initiator-utils
+#+END_SRC
+
+2. Set up the IQN for the initiator. We are going to set “iqn.2017-08.com.example:client” as initiator’s IQN. You can set the IQN in the initiatorname.iscsi file.
+/etc/iscsi/initiatorname.iscsi
+#+BEGIN_EXAMPLE
+InitiatorName=iqn.2017-08.com.example:client
+#+END_EXAMPLE
+
+3. Save and exit the file. Enable and start the iSCSI service.
+#+BEGIN_SRC sh
+systemctl start iscsid iscsi
+systemctl enable iscsid iscsi
+#+END_SRC
+
+4.	We need to discover the target with the private IP address of the target server and see what the target is offering. In this case, the target IP address is “172.31.3.109”.
+#+BEGIN_SRC sh
+iscsiadm --mode discovery -t st -p 172.31.3.109:3260
+#+END_SRC
+
+5.	We can see the available target from the client. We must log in to the target to use it.
+#+BEGIN_SRC sh
+iscsiadm -m node -T iqn.2017-08.com.example:server -p 172.31.3.109:3260 -l
+#+END_SRC
+
+6.	You can view the active iSCSI session using the below command.
+#+BEGIN_SRC sh
+iscsiadm -m session -P
+#+END_SRC
+
+7.	The block disk shared from the iSCSI target is now available to the iSCSI initiator, as shown below. 
+
+#+BEGIN_SRC sh
+fdisk -l
+#+END_SRC
+[[file://home/crito/Pictures/org/iscsi_11.png]]
+The partition is mounted as the “/dev/sda” device. You can create a partition, format it as an ext4 or xfs file system, and mount it to a directory.
+
+
+- Things to remember
+1. After mounting the file system to a directory, you can make an entry in “/etc/fstab” to mount it automatically at boot time. Remember to use the “_netdev” attribute, as shown below, in the “/etc/fstab” entry.
+
+[[file://home/crito/Pictures/org/iscsi_12.png]]
+
+2. To log out of the iSCSI target, first unmount the disk from the directory, remove the entry from “/etc/fstab”, and execute the command below:
+#+BEGIN_SRC sh
+[root@client ec2-user]# iscsiadm -m node -u
+#+END_SRC
+3. If you have not mounted the disk properly, and you are rebooting the server without logging out, then there is a chance of a server crash.
+
+4. The iSCSI target is using port 3260 for communication, so enable it from the firewall.
+   
+** Setting up the iSCSI SAN
+1. check block device|partition, decide which device is to be used as the SAN
+2. place this device into the volume group that will be used by the SAN 
+- vgcreate
+- vgscan
+3. create the logical groups in the volume group
+- lvcreate
+- lvscan
+4. install the iSCSI software
+#+BEGIN_SRC sh
+yum -y install targetcli
+#+END_SRC
+
+5. Add storage to targetcli 
+i)   Enter targetcli on the cmd line this will drop you into an interactive shell
+ii)  Move to the /backstores
+iii) Create the SAN store
+using block device
+#+BEGIN_EXAMPLE
+/backstores> block/ create block1 /dev/vgsan/lvsan1
+#+END_EXAMPLE
+here we are saying create "block1" and add lvsan1 to this SAN store
+
+using file
+#+BEGIN_EXAMPLE
+/backstores> fileio/ create file1 /root/diskfile1 1G
+#+END_EXAMPLE
+if the file is not created, target will create it
+
+iv)  Create iSCSI targets
+#+BEGIN_EXAMPLE
+/> cd iscsi
+/iscsi> create iqn.2017-10.com.example:target1
+#+END_EXAMPLE
+
+v)  Configure the new target
+#+BEGIN_EXAMPLE
+cd iqn.2017-10.com.example:target1/
+cd tpg1/
+acls/ create iqn.2017-10.com.example:server2
+luns/ create /backstores/block1
+luns/ create /backstores/block2
+luns/ create /fileio/file1
+#+END_EXAMPLE
+always create acl before the lun, as default behaviour is to assign luns to the created acl
+
+vi) Configure the portals
+#+BEGIN_EXAMPLE
+/iscsi/iqn.2017-10...:target1/tpg1> portals/ create 192.168.4.101
+#+END_EXAMPLE
+this is the ip address that can connect to the SAN (default port is 3260)
+
+vii) Configure the FW
+#+BEGIN_SRC sh
+firewall-cmd --add-port=3260/tcp --permanent
+firewall-cmd reload
+#+END_SRC
+
+viii) Start and enable target service
+#+BEGIN_SRC sh
+systemctl enable target
+systemctl start target
+#+END_SRC
+
+** Setting up the Connecting Server
+i)  First install the software
+#+BEGIN_SRC sh
+yum install -y iscsi-initiator-utils
+yum install -y lsscsi
+#+END_SRC
+
+ii) Set the initiator name
+/etc/iscsi/initiatorname.iscsi
+#+BEGIN_EXAMPLE
+InitiatorName=iqn.2017-10.com.example:server2
+#+END_EXAMPLE
+
+iii) Discover the SAN
+#+BEGIN_SRC sh
+iscsiadm --mode discoverydb --type sendtargets --portal 192.168.4.101 --discover
+#+END_SRC
+this will discover all targets on the sepcified ip address
+
+iv)  Login to the found target
+#+BEGIN_SRC sh
+iscsiadm --mode node --targetname iqn.2017-10.com.example:target1 --portal 192.168.4.101 --login
+#+END_SRC
+
+v)  Confirm that the SAN is connected
+#+BEGIN_SRC sh
+lsscsi
+#+END_SRC
+this should show the SAN devices|files etc
+
+vi) viewing the new iSCSI configuration created by this process
+/var/lib/iscsi/nodes/iqn.2017-10.com.example:target1/default
+This file is automatically created and contains all of the configrable options for the SAN
+
 * Lecture
 * Tutorial
 * Books
+[[file://home/crito/Documents/Linux/RHEL/Red_Hat_RHCSA_RHCE_6_Cert_Guide.pdf][RHCSA and RHCE 6 Cert Guide]]
+[[file://home/crito/Documents/Linux/RHEL/Red_Hat_RHCSA_RHCE_7_Cert_Guide.pdf][RHCSA and RHCE 7 Cert Guide]]
 * Links
-[[https://www.tecmint.com/create-centralized-secure-storage-using-iscsi-targetin-linux/][Create Centralized Secure Storage Using iSCSI Target on RHEL Part 1]]
-[[https://www.tecmint.com/create-luns-using-lvm-in-iscsi-target/][Create Centralized Secure Storage Using iSCSI Target on RHEL Part 2]]
-[[https://www.tecmint.com/iscsi-initiator-client-setup/][Create Centralized Secure Storage Using iSCSI Target on RHEL Part 3]]
+[[https://www.tecmint.com/create-centralized-secure-storage-using-iscsi-targetin-linux/
+]][[https://www.tecmint.com/create-luns-using-lvm-in-iscsi-target/
+]][[https://www.tecmint.com/iscsi-initiator-client-setup/][iSCSI Initiator Client Setup - Tecmint]]
+[[http://www.linuxjournal.com/magazine/use-linux-san-provider][Use Linux as a SAN Provider - Linux Journal]]
+[[https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/storage_administration_guide/ch-iscsi#iscsi-target-setup][Setup an iSCSI Target and Initiator - RedHat Documentation RHEL6]]
+[[https://fedoraproject.org/wiki/Scsi-target-utils_Quickstart_Guide][Scsi-target-utils Quickstart Guide - Fedora Wiki]]

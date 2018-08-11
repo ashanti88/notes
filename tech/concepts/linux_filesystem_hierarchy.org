@@ -202,10 +202,21 @@ f8 - days since epoch since the account was disabled
 This directory is reserved for all the software and add-on packages that are not part of the default installation. Here is where packages are placed that are not installed by the distro's package management tool.
 
 ** /proc - kernel and process files
-/proc is very special in that it is also a virtual filesystem. It's sometimes referred to as a process information pseudo-file system. It doesn't contain 'real' files but runtime system information (e.g. system memory, devices mounted, hardware configuration, etc). For this reason it can be regarded as a control and information centre for the kernel. In fact, quite a lot of system utilities are simply calls to files in this directory. For example, 'lsmod' is the same as 'cat /proc/modules' while 'lspci' is a synonym for 'cat /proc/pci'. By altering files located in this directory you can even read/change kernel parameters (sysctl) while the system is running.
 /proc/X/         - proc holds a directory for every process on the system, and the dir contains a set of properties about the process
-/proc/interrupts - this shows the cpu interrupts and how they are being used
 /proc/dma        - dma (direct memory access), this is issued to allow access to the memory
+/proc/interrupts - this shows the cpu interrupts and how they are being used
+/proc/mdstat     - this file contains the current system RAID status
+#+BEGIN_EXAMPLE
+[root@LinuxAcademy linuxacademy]# cat /proc/mdstat 
+Personalities : [raid6] [raid5] [raid4] 
+md0 : active raid5 xvdj1[6] xvdj2[5] xvdg2[4] xvdf2[3](S) xvdg1[1](F) xvdf1[0](F)
+      399360 blocks super 1.2 level 5, 512k chunk, algorithm 2 [3/2] [_UU]
+      [==========>..........]  recovery = 54.7% (109636/199680) finish=0.2min speed=5481K/sec
+      
+unused devices: <none>
+#+END_EXAMPLE
+- (F) failed partition/device (S) spare partition/device
+/proc/partitions - this file holds the running machines currently available paprtitions
 
 ** /lost+found
 As was explained earlier during the overview of the FSSTND, Linux should always go through a proper shutdown. Sometimes your system might crash or a power failure might take the machine down. Either way, at the next boot, a lengthy filesystem check (the speed of this check is dependent on the type of filesystem that you actually use. ie. ext3 is faster than ext2 because it is a journalled filesystem) using fsck will be done. Fsck will go through the system and try to recover any corrupt files that it finds. The result of this recovery operation will be placed in this directory. The files recovered are not likely to be complete or make much sense but there always is a chance that something worthwhile is recovered.
