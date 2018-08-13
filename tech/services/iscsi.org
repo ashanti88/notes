@@ -2,12 +2,11 @@
 
 
 * iSCSI (internet Small Computer System Interface)
+tgt Project: http://stgt.sourceforge.net/
 * Files
 /etc/iscsi/initiatorname.iscsi
 /etc/tgt/targets.conf
 * Cmds
-- [[file://home/crito/org/tech/cmds/lvscan.org][lvscan]]
-- [[file://home/crito/org/tech/cmds/lvcreate.org][lvcreate]]
 - [[file://home/crito/org/tech/cmds/iscsiadm.org][iscisiadm]]
 - [[file://home/crito/org/tech/cmds/lsscsi.org][lsscsi]]
 - tgt

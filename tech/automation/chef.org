@@ -1,10 +1,385 @@
-#TAGS: auto code ruby
+#+TAGS: chef automation
 
 
-* chef							     :auto:code:ruby:
+* Chef
 HomePage: [[https://www.chef.io/chef/][chef.io]]
+* Files
+/cookbook_name/readme.md - this is a markdaown file that describes what the cookboook performs
+** /cookbook_name/metadata.rb
+#+BEGIN_EXAMPLE
+name 'mycookbook'
+maintainer 'The Authors'
+maintainer_email 'you@example.com'
+license 'all_rights'
+description 'Installs/Configures mycookbook'
+long_description 'Installs/Configures mycookbook'
+version '0.1.0'
+depends 'mysql','>=1.0'
+#+END_EXAMPLE
 * Cmds
-* Overview
+Chef Solo(good for a single node setup) 
+  - does not rely on a Chef server for centalized distribution but instead runs off of local cookbooks
+  - does not have any type of authentication in order for it to run
+  - is run idependently on a node
+    
+Chef Zero(lightweight Chef Server that runs in-memory on the local node)
+  - allows chef-client to run against the chef-repo as if it was running against Chef Server
+  - Useful for testing and validating the behaviour of chef-client against our cookbooks, recipes and run-lists before uploading those to the Chef Server for usage
+
+Cher Server(Central point of management for nodes within an environment)
+  - Authentication is required for the nodes to communicate with the Chef Server
+  - During a convergence the chef-client pulls updated cookbook, recipe, roles and environment information from Chef Server
+  - is used for managing many different nodes and different node scenario configurations within an environment.
+
+** chef generate [option]
+    - app            - generate an application repo
+    - cookbook       - generate a single cookbook
+    - recipe         - generate a new recipe
+    - attribute      - generate an attributes file
+    - template       - generate a file template
+    - file           - generate a cookbook file
+    - lwrp           - generate a lightweight recourse/provider
+    - repo           - generate a Chef code repository
+    - policyfile     - generate a Policyfile for use with install/push commands
+    - generator      - copy ChefDK's generator cookbook to customize
+    - build-cookbook - generate a build cookbook for delivery command
+
+* Description
+Chef is a configuration management and deployment tool.
+
+It is designed for configuration management of nodes within an environment.
+
+** Anatomy of a Chef "Convergence"
+   
+1. Pre-convergence - Phase before a node is configured
+   - lint tests occur in this phase
+     - lint tests run tools to analyze source code to identify stylistic problems
+   - food critic the tool used for this in chef
+     
+2. Convergence - Occurs when Chef runs on the node
+   - Test the defined resources to ensure they are in the desired state
+   - If they are not, then the resources are put in the desired state(repaired)
+   - "Providers" are what do the work to enforce the desired configuration
+   - Chef can be run over and over again without chainging configurations if configurations are already in place(Idempotency)
+     
+3. Post-convergence - Occurs after the Chef convergence
+   - Run tests that verifies a node is in the desired state of configuration also known as Unit testing
+
+* Usage
+** Install the Chef Development Kit
+- update the system
+#+BEGIN_SRC sh
+yum update
+#+END_SRC
+
+- get the download link from https://downloads.chef.io/chefdk
+#+BEGIN_SRC sh
+wget https://packages.chef.io/files/stable/chefdk/3.1.0/el/7/chefdk-3.1.0-1.el7.x86_64.rpm
+#+END_SRC
+
+- now install the rpm
+#+BEGIN_SRC sh
+rpm -ivh chefdk-3.1.0-1.el7.x86_64.rpm
+#+END_SRC
+
+- start chef
+#+BEGIN_SRC sh
+chef-client --local-mode
+#+END_SRC
+this will throw an error as there are currently no cookbooks available
+
+** Installing the Chef Server
+- install the rpm file
+#+BEGIN_SRC sh
+wget https://packages.chef.io/files/stable/chefdk/3.1.0/el/7/chefdk-3.1.0-1.el7.x86_64.rpm
+rpm -ivh chefdk-3.1.0-1.el7.x86_64.rpm
+#+END_SRC
+
+- now allow the reconfiguration run
+#+BEGIN_SRC sh
+chef-server-ctl reconfigure
+#+END_SRC
+
+- add the admin user for chef
+#+BEGIN_SRC sh
+chef-server-ctl user-create fred fred flintstone fred@example.com 'pa$$w0rd' --filename fred-user.rsa
+#+END_SRC
+
+- add the organisation
+#+BEGIN_SRC sh
+chef-server-ctl org-create bedrock 'Bedrock Quarry and Gravel' --association_user fred --filename bedrock-validator.pem
+#+END_SRC
+- the organisation name can only use lowercase alpha, numbers, hyphens, underscores and between 1-255 chars
+  
+- install the the web-ui chef-manage
+#+BEGIN_SRC sh
+chef-server-ctl install chef-manage
+#+END_SRC
+
+- reconfigure chef-manage
+#+BEGIN_SRC sh
+chef-manage-ctl reconfigure --accept-license
+#+END_SRC
+accept-license - without this we would have to manually agree to the license when prompted
+
+- we will now be able to connect to chef-manage over https and have a UI to interact with nodes, cookbooks etc
+
+** Configure the Workstation and Bootstrapping a Node
+- we first need to login to chef-manage
+[[file://home/crito/Pictures/org/chef_node_conf01.png]]
+
+- then download the starter kit
+[[file://home/crito/Pictures/org/chef_node_conf02.png]]
+
+- now this file will have to be moved to the workstation
+#+BEGIN_SRC sh
+scp Downloads/chef-starter.zip fred@example.com:~/
+#+END_SRC
+this was done, due to using LA cloud servers. Normally you would be downloading direct to workstation
+
+- unzip the file
+#+BEGIN_SRC sh
+yum install unzip
+unzip chef-starter.zip
+#+END_SRC
+
+- recognize the self-signed certificate
+#+BEGIN_SRC sh
+knife ssl fetch
+#+END_SRC
+- output
+#+BEGIN_EXAMPLE
+[user@fred .chef]$ knife ssl fetch
+WARNING: Certificates from fred.mylabserver.com will be fetched and placed in your trusted_cert
+directory (/home/user/chef-repo/.chef/trusted_certs).
+
+Knife has no means to verify these are the correct certificates. You should
+verify the authenticity of these certificates after downloading.
+
+Adding certificate for fred_mylabserver_com in /home/user/chef-repo/.chef/trusted_certs/fred_mylabserver_com.crt
+#+END_EXAMPLE
+
+- add our first node to the server from the workstation
+on node
+- give root privs to the chef_user
+#+BEGIN_SRC sh
+useradd -m -d /home/chef -s /bin/bash chef
+passwd chef
+usermod -g wheel chef
+#+END_SRC
+- wheel for RHEL, sudo for Deb
+  
+- start the bootstrap on the node
+#+BEGIN_SRC sh
+cd chef-repo
+knife bootstrap 172.31.100.51 -N alickmitchell3.mylabserver.com --ssh-user chef --sudo
+#+END_SRC
+N - node name - if not set then the hostname is used by default
+#+BEGIN_EXAMPLE
+[user@fred2 chef-repo]$ knife bootstrap 172.31.100.51 -N fred3.mylabserver.com --ssh-user chef --sudo
+Creating new client for fred3.mylabserver.com
+Creating new node for fred3.mylabserver.com
+Connecting to 172.31.100.51
+chef@172.31.100.51's password:
+172.31.100.51 knife sudo password: 
+Enter your password: 
+172.31.100.51 
+172.31.100.51 -----> Installing Chef Omnibus (-v 14)
+172.31.100.51 downloading https://omnitruck-direct.chef.io/chef/install.sh
+172.31.100.51   to file /tmp/install.sh.2047/install.sh
+172.31.100.51 trying wget...
+172.31.100.51 el 7 x86_64
+172.31.100.51 Getting information for chef stable 14 for el...
+172.31.100.51 downloading https://omnitruck-direct.chef.io/stable/chef/metadata?v=14&p=el&pv=7&m=x86_64
+172.31.100.51   to file /tmp/install.sh.2052/metadata.txt
+172.31.100.51 trying wget...
+172.31.100.51 sha1      3229e44c1136741be7df65d1441732bae55a2a02
+172.31.100.51 sha256    1807c453c5a16fd2cb0941f98847a0031c3812ccb9e3a628b2f8fba8335f485c
+172.31.100.51 url       https://packages.chef.io/files/stable/chef/14.3.37/el/7/chef-14.3.37-1.el7.x86_64.rpm
+172.31.100.51 version   14.3.37
+172.31.100.51 downloaded metadata file looks valid...
+172.31.100.51 downloading https://packages.chef.io/files/stable/chef/14.3.37/el/7/chef-14.3.37-1.el7.x86_64.rpm
+172.31.100.51   to file /tmp/install.sh.2052/chef-14.3.37-1.el7.x86_64.rpm
+172.31.100.51 trying wget...
+172.31.100.51 Comparing checksum with sha256sum...
+172.31.100.51 Installing chef 14
+172.31.100.51 installing with rpm...
+172.31.100.51 warning: /tmp/install.sh.2052/chef-14.3.37-1.el7.x86_64.rpm: Header V4 DSA/SHA1 Signature, key ID 83ef826a: NOKEY
+172.31.100.51 Preparing...                          ################################# [100%]
+172.31.100.51 Updating / installing...
+172.31.100.51    1:chef-14.3.37-1.el7               ################################# [100%]
+172.31.100.51 Thank you for installing Chef!
+172.31.100.51 Starting the first Chef Client run...
+172.31.100.51 Starting Chef Client, version 14.3.37
+172.31.100.51 resolving cookbooks for run list: []
+172.31.100.51 Synchronizing Cookbooks:
+172.31.100.51 Installing Cookbook Gems:
+172.31.100.51 Compiling Cookbooks...
+172.31.100.51 [2018-08-13T21:44:50+00:00] WARN: Node fred3.mylabserver.com has an empty run list.
+172.31.100.51 Converging 0 resources
+172.31.100.51 
+172.31.100.51 Running handlers:
+172.31.100.51 Running handlers complete
+172.31.100.51 Chef Client finished, 0/0 resources updated in 02 seconds
+#+END_EXAMPLE
+
+- now on chef-mange will be able to view the new node
+[[file://home/crito/Pictures/org/chef_node_conf03.png]]
+
+** Configuring Git
+   
+- create a repo on github
+[[file://home/crito/Pictures/org/chef_git01.png]]
+
+- install git
+#+BEGIN_SRC sh
+yum install git
+git config --global user.email "fred@example.com"
+git config --global user.name "Fred Flintstone"
+#+END_SRC
+
+- add yor ssh-key to github
+
+- create and push the repo
+#+BEGIN_SRC sh
+echo "# chef-fluency-badge" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin git@github.com:fredflintstone/chef-fluency-badge.git
+git push -u origin master
+#+END_SRC
+
+
+* Resources
+- Package Resource Type
+#+BEGIN_EXAMPLE
+package 'httpd' do
+	action :install
+end
+#+END_EXAMPLE
+- Package actions
+  - :install  - install a package
+  - :nothing  - do nothing until notified by another resource to perform an action
+  - :purge    - removes the confgiration files as well as the package (Only for Debian)
+  - :reconfig - reconfigures a package
+  - :remove   - removes a package
+  - :upgrade  - install a package, if it is already installed, ensure that is the latest version
+
+- Service Resource Type
+#+BEGIN_EXAMPLE
+service 'apache' do
+	service_name 'httpd'
+	action [:enable,:start]
+End
+#+END_EXAMPLE
+- Service actions
+  - :disable - Disalbe a service so it does not start at boot
+  - :enable  - Enable a service to start at boot time
+  - :nothing - Does nothing to the service
+  - :reload  - Reloads the service configuration
+  - :start   - Starts the service and keeps it running until stopped or disabled
+  - :restart - Restart a service
+  - :stop    - stop a service
+
+** A Simple Chef File
+learn.rb
+#+BEGIN_EXAMPLE
+package 'apache' do
+        package_name 'httpd'
+end
+
+service 'httpd' do
+        action [:enable, :start]
+end
+
+file '/var/www/index.html' do
+        action :delete
+end
+
+file '/var/www/html/index.html' do
+        content 'Hello, World!'
+        mode '0755'
+        owner 'root'
+        group 'apache'
+end
+#+END_EXAMPLE
+- If the pkg name isn't set chef will try to use the resource name, in this case 'apache'
+- by default the service resource will start the service, but not enable.
+- default behaviour for the file resource is to create the file if it isn't present
+  - premissions will be set to root:root by default
+  - chef will also check the checksum of the file to see if the new file that is to be created, echoes what is in the same named file. If not chef will change the file for the new one.
+
+- check the ruby syntax
+#+BEGIN_SRC sh
+ruby -c learn.rb
+#+END_SRC
+
+- check the chef syntax
+#+BEGIN_SRC sh
+foodcritic learn.rb
+#+END_SRC
+
+- run the chef file
+#+BEGIN_SRC sh
+chef-client --local-mode learn.rb
+#+END_SRC
+
+** not_if and only_if Guards
+learn.rb
+#+BEGIN_EXAMPLE
+package 'apache' do
+	package_name 'httpd'
+	action :install
+end
+
+service httpd' do
+	action [:enable, :start]	
+end
+
+file '/var/www/index.html do
+	action :delete
+end
+
+file '/var/www/html/index.html do
+	content 'Hello, World!"
+	mode '0755'
+	owner 'root'
+	group 'apache'
+end
+
+file '/etc/motd' do
+	content 'Welcome Home'
+end
+
+execute 'command-test' do
+	command 'echo blah >> /etc/motd'
+	only_if 'test -r /etc/motd'
+	# not_if 'test -r /etc/motd'
+end
+#+END_EXAMPLE
+- only_if is using the 'test' cmd to check that the file is present and readable
+- if the file resouces was commented out, and the not_if uncommented then, the /etc/motd, would just conatin 'blah'
+
+* Recipes
+* Cookbook
+- generating a cookbook
+#+BEGIN_SRC sh
+chef generate cookbook /root/workstation
+#+END_SRC
+- this will create:
+  - Berksfile     - specifiy any public or private supermarkets
+  - CHANGELOG.md
+  - chefignore
+  - metadata.rb
+  - README.md
+  - recipes/
+    - default.rb
+  - spec/
+  - test/
+
+
+
 * Lecture
 * Tutorial
 * Books

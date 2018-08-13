@@ -1,4 +1,4 @@
-#+TAGS: sys
+#+TAGS: sysstat sar iostat pidstat sadf
 
 
 * sysstat

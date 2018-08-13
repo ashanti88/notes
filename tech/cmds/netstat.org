@@ -9,7 +9,7 @@ Netstat shows all opened ports tcp, udp and unix.
 $ netstat [options]
 #+END_EXAMPLE
 
-** Options
+- Options
 n - no host look up
 a - all ports
 l - listen
@@ -20,6 +20,7 @@ s - statistics
 e - extended information
 
 ** Tuna plz
+- provides a good overview of the connection status on the system
 #+BEGIN_SRC sh
 netstat -tunapl
 #+END_SRC

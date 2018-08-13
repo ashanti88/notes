@@ -2,11 +2,13 @@
 
 
 * arp
+* Files
+/proc/net/arp - this is where the tool pulls the information from
 * Description
 This command is used to dump the kernel arp cache (/proc/net/arp).
 
 * Usage
-- this is provide the arp cache
+- this provides the arp cache
 #+BEGIN_SRC sh
 arp 
 #+END_SRC

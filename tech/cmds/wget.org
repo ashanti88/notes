@@ -4,9 +4,16 @@
 * wget
 * Files
 /etc/wgetrc - this is the wget system-wide config file
+~/.wgetrc   - this is the user specific config file
 
 * Description
+allows the puling of files from remote machines
 * Usage
+- options
+
+o - output filename
+a - append to specified file
+
 ** Download a single file
 #+BEGIN_SRC sh
 wget http://file.com
@@ -16,6 +23,8 @@ wget http://file.com
 #+BEGIN_SRC sh
 wget -o newfilename http://file.com
 #+END_SRC
+o - output filename
+
 
 ** Download file at specific speed
 #+BEGIN_SRC sh

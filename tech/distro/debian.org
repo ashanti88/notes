@@ -784,7 +784,6 @@ apt-key add < key.asc
 #+END_SRC
 key.asc is the downloaded file
 
-
 * Lectures
 ** Anatomy of a Debian Package - Google Tech Talk
 url: [[https://www.youtube.com/watch?v%3DlFzPrzY2KFM&index%3D28&list%3DWL][Anatomy of a Debian Package]]

@@ -2,8 +2,47 @@
 
 
 * ifconfig
+* Files
 * Description
+This tool is used to view the network devices.
+
+It is now deprecated in preference for "ss" 
 * Usage
+- view all the network devices that are up
+#+BEGIN_SRC sh
+ifconfig
+#+END_SRC
+
+- view all network devices that are detected (up or down)
+#+BEGIN_SRC sh
+ifconfig -a
+#+END_SRC
+
+- cofiguring an interface
+#+BEGIN_SRC sh
+ifconfig eth1 192.168.1.11 netmask 255.255.255.0 broadcast 192.168.1.255
+#+END_SRC
+
+- bring down an interface
+#+BEGIN_SRC sh
+ifconfig eth1 down
+#+END_SRC
+
+- bring an interface up
+#+BEGIN_SRC sh
+ifconfig eth1 up
+#+END_SRC
+
+- turn promiscuous mode on
+#+BEGIN_SRC sh
+ifconfig eth1 promics
+#+END_SRC
+
+- turn promiscuous mode off
+#+BEGIN_SRC sh
+ifconfig eth1 -promics
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

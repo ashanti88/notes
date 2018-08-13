@@ -1,0 +1,27 @@
+#+TAGS: wall messages
+
+
+* wall
+* Description
+This is a tool that allows all users to post messages across the network. By default anyone can use this tool.
+
+* Usage
+- send a message to everyone on the network
+#+BEGIN_SRC sh
+wall this is a message to everyone
+#+END_SRC
+
+- turn off recieving messages (messages can cause iritation when working in terminal applications, ad it will print to regardless)
+#+BEGIN_SRC sh
+mesg no
+#+END_SRC
+
+- to turn messages back on
+#+BEGIN_SRC sh
+mesg yes
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

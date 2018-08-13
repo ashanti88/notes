@@ -99,6 +99,11 @@ ManPage: https://man.openbsd.org/ldpd
 [[file://home/crito/org/tech/mail/procmail.org][Procmail]]
 maildrop
 
+* LILO - Linux Loader
+wiki: https://en.wikipedia.org/wiki/LILO_%28boot_loader%29
+* LKM  - Loadable Kernel Module
+Wiki: https://en.wikipedia.org/wiki/Loadable_kernel_module
+tlpd: http://tldp.org/HOWTO/Module-HOWTO/x73.html
 * LMDB - Lightnig Memory-Mapped Database
 Wiki: https://en.wikipedia.org/wiki/Lightning_Memory-Mapped_Database
 HomePage: http://www.lmdb.tech/doc/
@@ -163,9 +168,6 @@ Docs: https://aws.amazon.com/s3/
 
 * SMP  - Symetrical Multi-Processor
 This is a type of kernel that is used for systems that have multi-core processors
-* SSSD - System Security Services Daemon
-Fedora - https://fedoraproject.org/wiki/Features/SSSD
-
 * SAML - Security Assertion Markup Language
 Wiki: https://en.wikipedia.org/wiki/Security_Assertion_Markup_Language
 * SASL - Simple Authentication and Security Layer
@@ -176,6 +178,7 @@ refers to tools such as git and subversion
 * SDK  - Software Development Kit
 Wiki: https://en.wikipedia.org/wiki/Software_development_kit
 * SDLC - Software Development Life Cycle
+* SLES - SUSE Linux Enterprise Server
 * SMB  - Server Message Block
 * SNAS - Streaming Network Analytics System
 Homepage: http://www.snas.io/
@@ -184,10 +187,10 @@ Server Name Indication (SNI) is an extension to the TLS computer networking prot
 * SOA  - Start of Authority (DNS record)
 Wiki: https://en.wikipedia.org/wiki/SOA_record
 * SPI  - Serial Peripheral Interface bus
-* SSO  - Single Sign On
 * SSSD - System Security Services Daemon
+Fedora - https://fedoraproject.org/wiki/Features/SSSD
 RHEL: [[https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/5/html/5.7_Release_Notes/sssd.html][redhat.com/5/sssd]]
-* SLES - SUSE Linux Enterprise Server
+* SSO  - Single Sign On
 * STS  - Security Token Service
 Doc: https://docs.aws.amazon.com/STS/latest/APIReference/Welcome.html
 

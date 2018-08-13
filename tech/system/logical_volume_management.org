@@ -2,6 +2,8 @@
 
 
 * Logical Volume Management
+* Files
+/dev/mapper - this is where the lv symbolic links(the link name is what the user named the lv ) are stored.
 * Cmds
 ** Physical Volumes
 ** Volume Groups
@@ -188,6 +190,162 @@ Advantages of LVM
 - Snapshots
   - make point in time backups of your LV
   - These can then be used for easy backups, restores, migrations, testing - all without affecting the live FS
+** LVM RHEL7 - Linux Academy LPIC 2
+*** Pysical Volume Group Creation
+
+We will be using 3 - 25G disks xvdf xvdg xvdj
+
+- create phycial device
+#+BEGIN_SRC sh
+pvcreate /dev/xvdf
+pvcreate /dev/xvdg
+#+END_SRC
+
+- confirm that they have been added
+#+BEGIN_SRC sh
+pvdisplay
+#+END_SRC
+each will output the details of the pyhsical devices
+
+*** Create the Volume Groups
+  
+- view what devices we have available
+#+BEGIN_SRC sh
+pvdisplay
+#+END_SRC
+
+- create the first volume group
+#+BEGIN_SRC sh
+vgcreate -s 8MB VG0 /dev/xvdf /dev/xvdg
+#+END_SRC
+s - physical exent size (default is 4MB)
+
+- view the newly created volume 
+#+BEGIN_SRC sh
+vgdisplay VG0
+#+END_SRC
+
+*** Create the Logical Volume Groups
+  
+- create the first logical volume
+#+BEGIN_SRC sh
+lvcreate -L 500M -n log_vol0 VG0
+#+END_SRC
+
+- view the newly created logical volume
+#+BEGIN_SRC sh
+lvdisplay log_vol0
+#+END_SRC
+
+- add filesystem to the logical volume
+#+BEGIN_SRC sh
+mkfs -t ext4 /dev/mapper/VG0-log_vol0
+#+END_SRC
+
+- mount the lv
+#+BEGIN_SRC sh
+mount -t ext4 /dev/mapper/VG0-log_vol0 /mnt/data
+#+END_SRC
+
+- confirm mount
+#+BEGIN_SRC sh
+df -hT
+#+END_SRC
+
+*** Force Stripping of the LV
+#+BEGIN_SRC sh
+lvcreate -i 3 -L 500M -n log_vol0 VG0
+#+END_SRC
+i - how many of the physical volumes should be used to stripe too(can cause a performance issue if many devices are used or there is a large number of small files(10^6))
+
+*** Remove a Logical Volume
+#+BEGIN_SRC sh
+umount /mnt/data
+lvremove log_vol0
+#+END_SRC
+
+*** Extend the LV
+- view how much in the VG is available 
+#+BEGIN_SRC sh
+vgdispaly
+#+END_SRC
+
+- extend the lv
+#+BEGIN_SRC sh
+lvextend -L +40G /dev/mapper/VG0-log_vol0
+#+END_SRC
+
+- if ext
+#+BEGIN_SRC sh
+resize2fs /dev/mapper/VG0-log_vol0
+#+END_SRC
+
+- if xfs 
+#+BEGIN_SRC sh
+xfs_growfs /dev/mapper/VG0-log_vol0
+#+END_SRC
+
+- confirm the change
+#+BEGIN_SRC sh
+lvdisplay log_vol0
+df -hT
+#+END_SRC
+
+*** Shrink the LV
+- this cannot be performed on xfs(xfs can only be extented)    
+  
+- unmount the filesystem
+#+BEGIN_SRC sh
+umount /mnt/data
+#+END_SRC
+
+- run a filesystem check
+#+BEGIN_SRC sh
+fsck -f /dev/mapper/VG0-log_vol0
+#+END_SRC
+this is done to prevent any errors that my arise from dirty sectors after the shrinking
+
+- let the system know that the filesystem is going to be shrunk
+#+BEGIN_SRC sh
+resize2fs /dev/mapper/VG0-log_vol0 500M
+#+END_SRC
+unlike extending the filesystem "resize2fs" is run before the action
+
+- resize the filesystem
+#+BEGIN_SRC sh
+lvreduce -L -40G /dev/mapper/VG0-log_vol0
+#+END_SRC
+
+- remount the filesystem
+#+BEGIN_SRC sh
+mount /dev/mapper/VG0-log_vol0 /mnt/data
+#+END_SRC
+
+- confirm the changes
+#+BEGIN_SRC sh
+df -hT
+#+END_SRC
+
+*** Snapshots
+    
+- create a snapshot of the current moment in time
+#+BEGIN_SRC sh
+lvcreate -L 500M -s -n vol_snap1 /dev/mapper/VG0-log_vol0
+#+END_SRC
+s - snapshot
+- size doesn't have to mirror that of the filesystem being snapped, but needs to be large enough to hold all the current data
+
+- mount the snapshot
+#+BEGIN_SRC sh
+mkdit /mnt/data_bakup
+mount -o ro /dev/mapper/VG0-log_snap0 /mnt/data_bakup
+#+END_SRC
+
+- remove the snapshot
+#+BEGIN_SRC sh
+lvremove /dev/mapper/VG0-log_snap0
+#+END_SRC
+
 * Lecture
 * Tutorial
 ** Linux Academy Lab - Add and Remove Volumes, Partition Disks and Working with LVM

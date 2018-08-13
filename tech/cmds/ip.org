@@ -21,6 +21,12 @@ ip -4 a
 ip -6 a
 #+END_SRC
 
+** Bringing interfaces up/down
+#+BEGIN_SRC sh
+ip link set wlp2s0 down
+ip link set wlp2s0 up
+#+END_SRC
+
 ** View an specific interface details
 #+BEGIN_SRC sh
 ip a show wlp2s0 
@@ -49,12 +55,6 @@ ip a del 192.168.0.6/24 dev wlp2s0
 ** Flush all ip addresses from all interfaces
 #+BEGIN_SRC sh
 ip -S -s a f to <ipaddress\_range>/<netmask>
-#+END_SRC
-
-** Bringing interfaces up/down
-#+BEGIN_SRC sh
-ip link set wlp2s0 down
-ip link set wlp2s0 up
 #+END_SRC
 
 ** Viewing Routing Information
@@ -91,12 +91,12 @@ The deleted machine will now show as FAILED and need an arp request to be set to
 #+BEGIN_SRC sh
 ip rule list
 #+END_SRC
-** Show interface statistics
+** Show Interface Statistics
 #+BEGIN_SRC sh
 ip -s link show eth0
 #+END_SRC
 
-** static route
+** Configuring a Static Route
 - check the current routing information
 #+BEGIN_SRC sh
 ip route list
@@ -118,6 +118,12 @@ ip route del 216.58.217.0/24 via 10.208.192.1 dev eth1
 #+BEGIN_EXAMPLE
 any net 172.192.201.0 netmask 255.255.255.0 gw 162.242.253.1 dev eth0
 #+END_EXAMPLE
+
+
+** View the multi-cast address for each interface
+#+BEGIN_SRC sh
+ip maddr
+#+END_SRC
 
 * Lecture
 * Tutorial

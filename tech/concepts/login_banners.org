@@ -1,0 +1,50 @@
+#+TAGS: login_banner sshd_banner ssh_banner motd
+
+
+* Login Banners
+* Files
+/etc/issue     - this is the login banner for local login
+/etc/issue.net - this is the sshd login banner (has to be enabled in /etc/sshd_conf "Banner /etc/issue.net")
+/etc/motd      - this prints a message to the user after login
+
+* Usage
+- make a customized local login banner
+/etc/issue
+#+BEGIN_EXAMPLE
+CentOS release 6.8 (Final)
+Kernel \r on an \m
+
+Current Date: \d
+Version: \v
+
+Logged in User Count: \u
+#+END_EXAMPLE
+\r - kernel release
+\m - machine architeture
+\d - date and time
+\v - kernel version
+\u - user count
+
+
+- make a customized remote login(ssh) banner
+/etc/issue.net
+#+BEGIN_EXAMPLE
+Greetings from example.com
+#+END_EXAMPLE
+- as sshd doesn't know what type of terminal will be used to connect, none of the variables which can be used with the local login can be used with issue.net
+- also the Banner variable in /etc/sshd_config has to be uncommented and set to /etc/issue.net
+  
+
+- create a message that is viewed after login
+/etc/motd
+#+BEGIN_EXAMPLE
+These are the rules of the system:
+1. The system administrator is always right
+2. If the system administrator is wrong, see rule 1
+#+END_EXAMPLE
+
+
+* Lecture
+* Tutorial
+* Books
+* Links

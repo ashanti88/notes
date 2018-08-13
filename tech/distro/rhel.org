@@ -56,15 +56,40 @@ PERSISTENT_DHCLIENT="1"
 #+END_EXAMPLE
 
 *** Setting an Interface to DHCP
-BOOTPROTO=dhcp
-ONBOOT=yes
+/etc/network-scripts/ifcfg-eth0
+#+BEGIN_EXAMPLE
+DEVICE=eth0     #required if not Static
+BOOTPROTO=dhcp  #required if 
+ONBOOT=yes      #required if to be up at boot
+TYPE=Ethernet   #optional, system can configure this
+USERCTL=yes
+PEERDNS=yes
+IPV6INIT=no
+#+END_EXAMPLE
+
+- after any change to an interface file a service restart is required
+#+BEGIN_SRC sh
+service network restart
+#+END_SRC
+
 *** Setting an Interface to a Static ip
-BOOTPROTO=static
-ONBOOT=yes
-IPADDR=172.27.0.32
-NETMASK=255.255.255.0
-GATEWAY=172.27.0.1
-DNS1=172.27.0.5
+/etc/network-scripts/ifcfg-eth0
+#+BEGIN_EXAMPLE
+DEVICE=eth0
+BOOTPROTO=none           #none or static can be set as both are functionally equivalent 
+ONBOOT=yes               #required if to be up at boot
+IPADDR=172.27.0.32       #required if not DHCP
+NETMASK=255.255.255.0    #required if not DHCP
+GATEWAY=172.27.0.1       #required if not DHCP
+DNS1=172.27.0.5          #required if not DHCP
+#+END_EXAMPLE
+[[https://access.redhat.com/solutions/41630][What is the difference between BOOTPROTO=none|static - RedHat.com]]
+
+- after any change to an interface file a service restart is required
+#+BEGIN_SRC sh
+service network restart
+#+END_SRC
+
 *** Setting up /etc/hosts
 This file is read before a request is made to the dns server 
 add here any hostname => ip
@@ -1318,25 +1343,6 @@ the long name is required if the application isn't installed
 rpm -qRp telnet-0.17-48.el6.x86_64.rpm
 #+END_SRC
 
-- install application ignoring dependencies
-#+BEGIN_SRC sh
-rpm -ivh --nodeps mysql-server-5.1.73-8.el6_8.x86_64
-#+END_SRC
-
-- insall application
-#+BEGIN_SRC sh
-rpm -ivh xterm-295.3.el7.x86_64.rpm
-rpm -Uvh xterm-295.3.el7.x86_64.rpm
-#+END_SRC
-the second version will update if present or install if not present
-h - hash (progress of the install)
-
-- install application, but check if it is newer than the already installed version
-#+BEGIN_SRC sh
-rpm -Fvh elinks-0.12-0.37.pre6.el7.x86_64.rpm
-rpm --freshen -vh elinks-0.12-0.37.pre6.el7.x86_64.rpm
-#+END_SRC
-
 - is a package installed
 #+BEGIN_SRC sh
 rpm -q openssh-server
@@ -1345,11 +1351,6 @@ rpm -q openssh-server
 - what packages were installed with a package
 #+BEGIN_SRC sh
 rpm -ql opwnssh-server
-#+END_SRC
-
-- remove a package
-#+BEGIN_SRC sh
-rpm -evv nmap
 #+END_SRC
 
 - query package documentation
@@ -1366,6 +1367,36 @@ rpm --rebuilddb
 - Verify the signature on a package
 #+BEGIN_SRC sh
 rpm --checksig
+#+END_SRC
+
+**** Installation and Removal of Pkgs
+- insall application
+#+BEGIN_SRC sh
+rpm -ivh xterm-295.3.el7.x86_64.rpm
+rpm -Uvh xterm-295.3.el7.x86_64.rpm
+#+END_SRC
+
+the second version will update if present or install if not present
+h - hash (progress of the install)
+- install application ignoring dependencies
+#+BEGIN_SRC sh
+rpm -ivh --nodeps mysql-server-5.1.73-8.el6_8.x86_64
+#+END_SRC
+
+- install application, but check if it is newer than the already installed version
+#+BEGIN_SRC sh
+rpm -Fvh elinks-0.12-0.37.pre6.el7.x86_64.rpm
+rpm --freshen -vh elinks-0.12-0.37.pre6.el7.x86_64.rpm
+#+END_SRC
+
+- force the reinstallation of package
+#+BEGIN_SRC sh
+rpm -ihv --replacepkgs chefdk-3.1.0-1.el7.x86_64.rpm
+#+END_SRC
+
+- remove a package
+#+BEGIN_SRC sh
+rpm -evv nmap
 #+END_SRC
 
 **** Repo Administration

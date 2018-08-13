@@ -1,6 +1,7 @@
-#+TAGS: code txt vim vi text file text_editor
+#+TAGS: vim vi text_editor
 
-* vim
+* Vim
+HomePage: https://www.vim.org/
 * Description
 * Usage
 - Re-soucing vimrc 
@@ -282,3 +283,4 @@ this allows actions from previous sessions to be undo. This is done by creating 
 [[file://home/crito/Documents/Tools/Vim/vimbook-OPL.pdf][Vim Book]]
 * Links
 https://en.wikibooks.org/wiki/Learning\_the\_vi\_Editor/Vim
+http://vim.wikia.com/wiki/Substitute

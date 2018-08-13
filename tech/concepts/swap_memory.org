@@ -12,7 +12,6 @@
 /proc/sys/vm/swappiness - swappiness value is kept here
 /etc/sysctl.d/99-sysctl.conf - this is where you change the swappiness value permanently
 
-* Overview
 * Usage
 - Determine the amount of existing swap space
 #+BEGIN_SRC sh

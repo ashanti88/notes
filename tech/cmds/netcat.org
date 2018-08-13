@@ -2,7 +2,9 @@
 
 
 * netcat
+HomePage: http://nc110.sourceforge.net/
 * Description
+The networking swiss army knife
 * Usage
 
 > netcat <options> host port
@@ -62,10 +64,15 @@ tar -czf - * | netcat $DOMAIN 4444
 #+BEGIN_SRC sh
 netcat -l 4444 < index.html
 #+END_SRC
+l - listen
 
 - To continually server page after first connection is closed
 #+BEGIN_SRC sh
 while true; do netcat -l 4444 < index.html; done
+#+END_SRC
+or
+#+BEGIN_SRC sh
+netcat -k -l 4444 < index.html
 #+END_SRC
 
 ** Redirect a windows shell

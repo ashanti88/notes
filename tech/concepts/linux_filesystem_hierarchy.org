@@ -39,6 +39,7 @@ This is the nerve center of your system, it contains all system related configur
 /etc/inittab       - this file would tell sysvinit what run level to start by default - <identifier>:<runlevel>:<action>:<process>
 /etc/issue.net     - this is the sshd banner file - has to be enabled in sshd_config (Banner /etc/issue.net)
 /etc/motd          - this is where we set the message that users see after logging in
+/etc/mtab          - this file handles the mounted devices and is automatically updated by the mount command
 /etc/my.cnf        - the main mysql configuration file
 /etc/named.conf    - this is the configuration file for the bind server(DNS)
 /etc/nologin       - if this file is present then no-one will be able to login, access can only be had through a rescue shell, single user login.
