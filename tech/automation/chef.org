@@ -3,7 +3,11 @@
 
 * Chef
 HomePage: [[https://www.chef.io/chef/][chef.io]]
+LearnChef: https://learn.chef.io/#/
+Chef-Docs: https://docs.chef.io/
+Supermarket: https://supermarket.chef.io/users/chef
 * Files
+/etc/chef/client.rb - this is the chef-client default config file
 /cookbook_name/readme.md - this is a markdaown file that describes what the cookboook performs
 ** /cookbook_name/metadata.rb
 #+BEGIN_EXAMPLE
@@ -17,6 +21,158 @@ version '0.1.0'
 depends 'mysql','>=1.0'
 #+END_EXAMPLE
 * Cmds
+** berkshelf
+** chef 
+  - generate [option]
+    - app            - generate an application repo
+    - cookbook       - generate a single cookbook
+    - recipe         - generate a new recipe
+    - attribute      - generate an attributes file
+    - template       - generate a file template
+    - file           - generate a cookbook file
+    - lwrp           - generate a lightweight recourse/provider
+    - repo           - generate a Chef code repository
+    - policyfile     - generate a Policyfile for use with install/push commands
+    - generator      - copy ChefDK's generator cookbook to customize
+    - build-cookbook - generate a build cookbook for delivery command
+
+** chefspec(unit testing)
+** habitat
+HomePage: https://www.habitat.sh/
+** inspec(compliance testing) 
+HomePage: https://www.inspec.io/
+- commands:
+  - init [TEMPLATE] - scaffolds a new project
+  - check [PATH] - verify all tests at the specified path
+  - exec [PATHS] - run all test files at the specified PATH
+  - inspec shell - open an interactive debugging shell
+    
+*** Using InSpec to Scan
+Using docker containers as the nodes
+
+- install the required pkgs and Docker community edition repo 
+#+BEGIN_SRC sh
+sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+sudo yum-config-manager https://download.docker.com/linux/centos/docker-ce.repo
+#+END_SRC
+
+- install Docker-CE
+#+BEGIN_SRC sh
+yum install -y docker-ce
+#+END_SRC
+
+- start and enable the Docker Service
+#+BEGIN_SRC sh
+systemctl start docker
+systemctl enable docker
+#+END_SRC
+
+- add the user to the docker group
+#+BEGIN_SRC sh
+usermod -aG docker $(whoami)
+#+END_SRC
+log out and back in for the change to take effect
+
+- install the gem that is used to communicate with docker
+#+BEGIN_SRC sh
+chef gem install kitchen-docker
+#+END_SRC
+
+- move to the cookbook that you will be testing
+#+BEGIN_SRC sh
+cd ~/chef-repo/cookbooks/brq_nginx
+#+END_SRC
+
+- open the hidden file .kitchen.yml and edit for docker
+#+BEGIN_SRC sh
+---
+driver:
+  name: docker
+  use_sudo: false
+
+provisioner:
+  name: chef_zero
+  # You may wish to disable always updating cookbooks in CI or other testing environments.
+  # For example:
+  #   always_update_cookbooks: <%= !ENV['CI'] %>
+  always_update_cookbooks: true
+  product_name: chef
+  product_version: 13.9.4
+
+verifier:
+  name: inspec
+
+platforms:
+  - name: centos-7
+    driver_config:
+      run_command: /usr/sbin/init
+      privileged: true
+      provision_command:
+        - systemctl enable sshd.service
+
+suites:
+  - name: default
+    run_list:
+      - recipe[brq_nginx::default]
+    verifier:
+      inspec_tests:
+        - test/integration/default
+    attributes:
+#+END_SRC
+more than one platform can be specified
+
+- test the configuration
+#+BEGIN_SRC sh
+kitchen test
+#+END_SRC
+this should finish without any failures, if errors occur they need to be resolved as not to cause further issues with testing
+
+- configure the tests that inpec will run against our cookbook
+~/chef-repo/cookbooks/brq_nginx/test/integration/default/default_test.rb
+#+BEGIN_EXAMPLE
+describe service('nginx') do
+        it { should be_installed }
+        it { should be_running }
+        it { should be_enabled }
+end
+#+END_EXAMPLE
+
+- now run the test
+#+BEGIN_SRC sh
+kitchen test
+#+END_SRC
+
+** knife
+- view overview of a node
+#+BEGIN_SRC sh
+knife node show fred1.mylabserver.com
+#+END_SRC
+
+- detailed overview of a node
+#+BEGIN_SRC sh
+knife node show -l fred1.mylabserver.com
+#+END_SRC
+
+** kitchen
+
+- Comes installed with ChefDK or can be install with
+#+BEGIN_SRC sh
+gem install test-kitchen
+#+END_SRC
+- Commands:
+  - init   - create a boilerplate .kitchen.yml
+  - list   - list all instances
+  - create - create one or more instances
+  - verify - verify one or more instances
+  - destroy - destroy one or more instances 
+  - test    - executes kitchen {destroy, create, converge, verify} all-in-one
+  - login   - log in to one instance
+  - help    - provides a list of available kitchen cmds
+** ohai
+** stove
+Docs: https://supermarket.chef.io/tools/stove
+
+* Implementations
 Chef Solo(good for a single node setup) 
   - does not rely on a Chef server for centalized distribution but instead runs off of local cookbooks
   - does not have any type of authentication in order for it to run
@@ -30,24 +186,14 @@ Cher Server(Central point of management for nodes within an environment)
   - Authentication is required for the nodes to communicate with the Chef Server
   - During a convergence the chef-client pulls updated cookbook, recipe, roles and environment information from Chef Server
   - is used for managing many different nodes and different node scenario configurations within an environment.
-
-** chef generate [option]
-    - app            - generate an application repo
-    - cookbook       - generate a single cookbook
-    - recipe         - generate a new recipe
-    - attribute      - generate an attributes file
-    - template       - generate a file template
-    - file           - generate a cookbook file
-    - lwrp           - generate a lightweight recourse/provider
-    - repo           - generate a Chef code repository
-    - policyfile     - generate a Policyfile for use with install/push commands
-    - generator      - copy ChefDK's generator cookbook to customize
-    - build-cookbook - generate a build cookbook for delivery command
-
 * Description
 Chef is a configuration management and deployment tool.
 
 It is designed for configuration management of nodes within an environment.
+
+- The Pieces and Process of Chef
+[[file://home/crito/Pictures/org/chef_overview.png]]
+
 
 ** Anatomy of a Chef "Convergence"
    
@@ -88,7 +234,7 @@ chef-client --local-mode
 #+END_SRC
 this will throw an error as there are currently no cookbooks available
 
-** Installing the Chef Server
+** Installing the Chef-Server (LA 1st course)
 - install the rpm file
 #+BEGIN_SRC sh
 wget https://packages.chef.io/files/stable/chefdk/3.1.0/el/7/chefdk-3.1.0-1.el7.x86_64.rpm
@@ -159,9 +305,7 @@ verify the authenticity of these certificates after downloading.
 Adding certificate for fred_mylabserver_com in /home/user/chef-repo/.chef/trusted_certs/fred_mylabserver_com.crt
 #+END_EXAMPLE
 
-- add our first node to the server from the workstation
-on node
-- give root privs to the chef_user
+- on the node create and give root privs to the chef_user
 #+BEGIN_SRC sh
 useradd -m -d /home/chef -s /bin/bash chef
 passwd chef
@@ -169,12 +313,15 @@ usermod -g wheel chef
 #+END_SRC
 - wheel for RHEL, sudo for Deb
   
-- start the bootstrap on the node
+- add our first node to the server from the workstation
 #+BEGIN_SRC sh
 cd chef-repo
 knife bootstrap 172.31.100.51 -N alickmitchell3.mylabserver.com --ssh-user chef --sudo
 #+END_SRC
 N - node name - if not set then the hostname is used by default
+P - we can add the password as part of the cmd, instead of entering during the bootstrap
+
+- sample output of the bootstrap
 #+BEGIN_EXAMPLE
 [user@fred2 chef-repo]$ knife bootstrap 172.31.100.51 -N fred3.mylabserver.com --ssh-user chef --sudo
 Creating new client for fred3.mylabserver.com
@@ -250,6 +397,277 @@ git remote add origin git@github.com:fredflintstone/chef-fluency-badge.git
 git push -u origin master
 #+END_SRC
 
+** Working with Ohai and Node Attributes
+- list all the nodes information
+#+BEGIN_SRC sh
+ohai
+#+END_SRC
+
+- list the hostnames of the nodes
+#+BEGIN_SRC sh
+ohai hostnames
+#+END_SRC
+
+- view the os of the nodes
+#+BEGIN_SRC sh
+ohai os
+#+END_SRC
+
+- view the platform(rhel/deb/suse)
+#+BEGIN_SRC sh
+ohai platform_family
+#+END_SRC
+
+- we can also use grep to pull all information that is related
+#+BEGIN_SRC sh
+ohai | grep os
+#+END_SRC
+
+*** Using attributes to set package to install
+- this will check the platform before installing apache
+#+BEGIN_EXAMPLE
+#
+# Cookbook:: apache
+# Recipe:: default
+#
+# Copyright:: 2018, The Authors, All Rights Reserved.
+
+if node['platform_family'] == "rhel"
+        package = "httpd"
+elsif node['platform_family'] == "debian"
+        package = "apache2"
+end
+
+package 'apache2' do
+        package_name package
+        action :install
+end
+
+service 'apache2' do
+        service_name 'httpd'
+        action [:start, :enable]
+end
+
+include_recipe 'apache::websites'
+#+END_EXAMPLE
+
+*** Using attributes to create a motd
+#+BEGIN_EXAMPLE
+hostname = node['hostname']
+file '/etc/motd' do
+	content "Hostname is this: #{hostname}"
+end
+#+END_EXAMPLE
+** Searching with knife
+- knife gets its information from the chef-server that stores the node information, not from the nodes themselves
+- search flags
+  - i - will show the node ID
+  - a - attribute_name will display the specified attribute from the search query results
+  - r - will show the run-lists for the query results
+    
+- list all nodes that have a platform of "rhel"
+#+BEGIN_SRC sh
+knife search 'platform_family:rhel'
+#+END_SRC
+
+- list all nodes that have a specific recipe assigned
+#+BEGIN_SRC sh
+knife search 'recipes:apache'
+knife search 'recipes:apache\:\:websites'
+#+END_SRC
+if looking for a specific recipe then when using "::" we have to escape the characters
+
+- search all nodes for all recipes
+#+BEGIN_SRC sh
+knife search "*:*" -a recipes
+#+END_SRC
+
+- view node details in json
+#+BEGIN_SRC sh
+knife node show -F json node_name
+knife node show -F json node_name --long
+#+END_SRC
+the second cmd show a lot of detail
+
+** Resetting workstation ssh key
+- enter the web console under the "Administraiton" tab
+file://home/crito/Pictures/org/chef_admin_ssh01.png
+select the administrative user that is associated with your workstation
+
+- click on the reset button in the "Public Key" section
+file://home/crito/Pictures/org/chef_admin_ssh02.png
+this will provide a private ssh key that you can download or copy
+
+- add the key to the admins home directory
+#+BEGIN_SRC sh
+mv Download/fred.pem ~/.chef
+#+END_SRC
+or the file can be created by copying and pasting(makesure that the file corresponds to that set in .chef/credentials
+
+** Installing the Chef-Server (LA 2nd course)
+- download the chef-server-core
+#+BEGIN_SRC sh
+wget wget https://packages.chef.io/files/stable/chef-server/12.17.33/el/7/chef-server
+-core-12.17.33-1.el7.x86_64.rpm
+#+END_SRC
+
+- install the chef-server-core
+#+BEGIN_SRC sh
+rpm -ivh chef-server-core-12.17.33-1.el7.x86_64.rpm
+#+END_SRC
+
+- setup the chef configuration
+#+BEGIN_SRC sh
+chef-server-ctl reconfigure
+#+END_SRC
+this can take quite sometime
+
+- view what services chef has running
+#+BEGIN_SRC sh
+chef-server-ctl service-list
+#+END_SRC
+
+- create our first user
+#+BEGIN_SRC sh
+chef-server-ctl user-create fred Fred Flintstone fred@example.com 'pa$$w0rd' --filename /home/user/fred.pem
+#+END_SRC
+
+- create an organisation and add the user
+#+BEGIN_SRC sh
+chef-server-ctl org-create bedrock 'Bedrock Quarry and Gravel' --association_user fred --filename /home/user/bedrock-validator.pem
+#+END_SRC
+
+- add the chef plugin chef-manage (web-ui)
+#+BEGIN_SRC sh
+chef-server-ctl install chef-manage
+#+END_SRC
+
+- we now re-run the reconfiguration tool 
+#+BEGIN_SRC sh
+chef-server-ctl reconfigure
+#+END_SRC
+
+- reconfigure the chef-manage
+#+BEGIN_SRC sh
+chef-manage-ctl reconfigure --accept-license
+#+END_SRC
+we have to agree to the license agreement
+
+** Installing ChefDK on the workstation - Manually (LA 2nd course)
+   
+- download the ChefDK rpm file
+#+BEGIN_SRC sh
+curl -O https://packages.chef.io/files/stable/chefdk/2.5.3/el/7/chefdk-2.5.3-1.el7.x86_64.rpm
+#+END_SRC
+
+- install the rpm
+#+BEGIN_SRC sh
+rpm -ivh chefdk-2.5.3-1.el7.x86_64.rpm
+#+END_SRC
+
+- check that it has installed correctly
+#+BEGIN_SRC sh
+chef --version
+#+END_SRC
+this will provide the version for all the tools that were installed
+
+- chef comes with it's own ruby and certain env variables that shoudl be created
+#+BEGIN_SRC sh
+eval "$(chef shell-init bash)"
+#+END_SRC
+this will point ruby to chef's own, and set the required variables
+
+- confirm that we are using chef's ruby
+#+BEGIN_SRC sh
+which ruby
+#+END_SRC
+this should now point to /opt/chefdk/embedded/bin/ruby
+
+- also add the eval cmd to the .bashrc
+#+BEGIN_SRC sh
+echo 'eval "$(chef shell-init bash"' >> ~/.bash_profile
+#+END_SRC
+
+- create the chef-repo(the cook-book store)
+#+BEGIN_SRC sh
+chef generate repo generated-chef-repo
+#+END_SRC
+this will create a repo named "generated-chef-repo"
+
+- connect the workstation to the chef-server
+#+BEGIN_EXAMPLE
+[user@alickmitchell2 ~]$ knife configure
+WARNING: No knife configuration file found. See https://docs.chef.io/config_rb_knife.html for details.
+Please enter the chef server URL: [https://alickmitchell2.mylabserver.com/organizations/myorg] https://fred1.mylabserver.com/organizations/bedrock
+Please enter an existing username or clientname for the API: [user] fred
+*****
+
+You must place your client key in:
+  /home/user/.chef/fred.pem
+Before running commands with Knife
+
+*****
+Configuration file written to 
+#+END_EXAMPLE
+
+- now pull the pem file(that we created during the chef-server install) from the chef-server 
+#+BEGIN_SRC sh
+scp user@fred1.mylabserver.com:/home/fred/fred.pem /home/fred/.chef
+#+END_SRC
+
+- need to pull the self-signed cert from the chef-server
+#+BEGIN_SRC sh
+knife ssl fetch
+#+END_SRC
+
+- confirm that knife is connecting to the server
+#+BEGIN_SRC sh
+knife node list
+#+END_SRC
+if you recieve a "404", makesure that the url in the .chef/credentials file is correct(contaions the organisations name)
+
+** Installing ChefDK on the workstation - Using the Starter Kit (LA 2nd course)
+   
+- login into chef-manage
+[[file://home/crito/Pictures/org/chef_workstation_install01.png]]
+
+- navigate to the "Administration" tab and select your organisation
+[[file://home/crito/Pictures/org/chef_workstation_install02.png]]
+
+- select the Starter Kit option from the menu on the left
+[[file://home/crito/Pictures/org/chef_workstation_install03.png]]
+this will download a zip file to your machine
+
+- unzip the file
+#+BEGIN_SRC sh
+yum -y install unzip
+mv Downloads/chef-starter.zip ~/
+unzip chef-starter.zip
+#+END_SRC
+
+- confirm that you can connect to the chef-server
+#+BEGIN_SRC sh
+cd chef-repo
+knife ssl fetch
+knife node list
+#+END_SRC
+- the .chef directory is now in side of the uzipped chef-repo
+- this means that you have to be within the "chef-repo" to interact with the chef-server connected with this organisation
+
+** Bootstrapping a Node with Knife and chef-client
+- all node configuration is done from the workstation   
+  
+- bootstrap the node
+#+BEGIN_SRC sh
+knife bootstrap fred1.mylabserver.com -N web-node1 -x user -P 'pa$$w0rd' --sudo
+#+END_SRC
+- P - this is the ssh password
+
+- confirm the node bootstrp
+#+BEGIN_SRC sh
+knife node list
+#+END_SRC
+this should now return the node name that we just configured
 
 * Resources
 - Package Resource Type
@@ -378,9 +796,552 @@ chef generate cookbook /root/workstation
   - spec/
   - test/
 
+** Create a simple apache cookbook and deploy to a node(LA Basic 2nd course)
+- generate the initial cookbook
+#+BEGIN_SRC sh
+chef generate cookbook cookbooks/apache
+#+END_SRC
 
+- edit the metadata.rb, by adding all your information
+apache/metadata.rb
+#+BEGIN_EXAMPLE
+name 'apache'
+maintainer 'Fred'
+maintainer_email 'fred@example.com'
+license 'All Rights Reserved'
+description 'Installs/Configures apache'
+long_description 'Installs/Configures apache'
+version '0.1.0'
+chef_version '>= 12.14' if respond_to?(:chef_version)
+
+# The `issues_url` points to the location where issues for this cookbook are
+# tracked.  A `View Issues` link will be displayed on this cookbook's page when
+# uploaded to a Supermarket.
+#
+# issues_url 'https://github.com/<insert_org_here>/apache/issues'
+
+# The `source_url` points to the development repository for this cookbook.  A
+# `View Source` link will be displayed on this cookbook's page when uploaded to
+# a Supermarket.
+#
+# source_url 'https://github.com/<insert_org_here>/apache'
+#+END_EXAMPLE
+
+- edit the default.rb file
+apache/recipes/default.rb
+#+BEGIN_EXAMPLE
+#
+# Cookbook:: apache
+# Recipe:: default
+#
+# Copyright:: 2018, The Authors, All Rights Reserved.
+
+package 'apache2' do
+        package_name 'httpd'
+        action :install
+end
+
+service 'apache2' do
+        service_name 'httpd'
+        action [:start, :enabled]
+end
+
+include_recipe 'apache::websites'
+#+END_EXAMPLE
+
+- confrim the syntax of the recipe
+#+BEGIN_SRC sh
+ruby -c default.rb
+foodcritic default.rb
+#+END_SRC
+
+- now create the websites recipe mentioned in the default.rb 
+apache/recipes/websites.rb
+#+BEGIN_EXAMPLE
+file 'default www' do
+	path 'var/www/html/index.html
+	content 'Hello, World!'
+end
+#+END_EXAMPLE
+
+- confirm the syntax of the recipe
+#+BEGIN_SRC sh
+ruby -c websites.rb
+foodcritic websites.rb
+#+END_SRC
+
+- upload the cookbook to the server with knife
+#+BEGIN_SRC sh
+knife cookbook upload
+#+END_SRC
+
+- add the changes to the git repo
+#+BEGIN_SRC sh
+cd ~/cookbooks
+git add *
+git commit -am "Added the basic Apache cookbook"
+git push origin master
+#+END_SRC
+
+*** Adding the cookbook to the node (with chef-manage)
+
+- if we now login to chef-manage we will seen your new cookbook under the policy tab
+[[file://home/crito/Pictures/org/chef_basic_apache01.png]]
+
+
+- assign the cookbook to the node run list, this can be found under the Node tab
+file://home/crito/Pictures/org/chef_basic_apache02.png
+
+- click edit for a runlist window to pop-up where we can add our new cookbook
+file://home/crito/Pictures/org/chef_basic_apache03.png
+
+*** Adding the cookbook to the node (with knife at the cmd line)
+- on the workstation, view the node list
+#+BEGIN_SRC sh
+knife node list
+#+END_SRC
+
+- now add the cookbook to the node
+#+BEGIN_SRC sh
+knife node run_list add fred3.mylabserver.com 'recipe[apache]'
+#+END_SRC
+
+- if we look at chef-manage we will now see that the apache cookbook has been added to the runlist
+file://home/crito/Pictures/org/chef_basic_apache04.png
+
+- run a test convergence on the node machine
+#+BEGIN_SRC sh
+chef-client --why-run
+#+END_SRC
+
+- if all looks correct run the convergence
+#+BEGIN_SRC sh
+chef-client
+#+END_SRC
+we will now have apache on the node running
+
+** Creating a postgres cookbook(LA Basic 2nd course)(LA Basic 2nd course)
+- generate the cookbook template
+#+BEGIN_SRC sh
+chef generate cookbook postgresql
+#+END_SRC
+
+- edit the default.rb
+postgresql/recipes/default.rb
+#+BEGIN_EXAMPLE
+#
+# Cookbook:: postgresql
+# Recipe:: default
+#
+# Copyright:: 2018, The Authors, All Rights Reserved.
+
+package 'postgresql-server' do
+        notifies :run, 'execute[postgresql-init]', :immediately
+end
+
+execute 'postgresql-init' do
+        command 'postgresql-setup initdb'
+        action :nothing
+end
+
+service 'postgresql' do
+        action [:enable, :start]
+end
+#+END_EXAMPLE
+
+- confirm the syntax
+#+BEGIN_SRC sh
+ruby -c default.rb
+foodcritic default.rb
+#+END_SRC
+
+- an alternative using a downloaded rpm file
+#+BEGIN_EXAMPLE
+cookbook_file "/opt/pgdg-redhat96-9.6-3.noarch.rpm" do
+	source "pgdg-redhat96-9.6-3.noarch.rpm"
+end
+
+package "pgdf-redhat96-9.6-3.noarch.rpm" do
+	source "/opt/pgdg-redhat96-9.6-3.noarch.rpm"
+end
+
+package "postgresql96-server"
+package "postgresql96-contrib"
+
+execute "initdb" do
+	command "/usr/pgsql-9.6/bin/postgresql96-setup initdb"
+	# test using bash
+	not_if 'test "$(ls -A /var/lib/pgsql/9.6/data/)"'
+	# test using ruby 
+	# not_if { Dir.exists?("/var/lib/pgsql/9.6/data/") && !Dir.empty?('/var/lib/pgsql/9.6/data') }
+end
+
+service "postgresql-9.6" do
+	action [:enable, :start]
+end
+#+END_EXAMPLE
+test - this will test if the data dir is already present before initialising the postgres
+
+- upload the cookbook to the chef-server
+#+BEGIN_SRC sh
+knife  cookbook upload postgresql
+#+END_SRC
+it can now be deployed to a node
+
+** Createing an Nginx cookbook(LA Basic 2nd course)
+   
+- install git(or a SCM system)
+#+BEGIN_SRC sh
+yum -y install git
+git config --global user.email "fred@example.org"
+git config --global user.name "Fred Flintstone"
+ssh -T git@github.com
+#+END_SRC
+also if using github add a ssh key to the account
+   
+- generate the cookbook
+#+BEGIN_SRC sh
+cd chef-repo/cookbooks
+chef generate cookbook brq_nginx
+#+END_SRC
+
+- create the default.rb recipe
+cookbooks/brq_nginx/recipes/default.rb
+#+BEGIN_EXAMPLE
+package "nginx"
+
+service "nginx" do
+        action [:enable, :start]
+end
+
+file "/usr/share/nginx/html/index.html" do
+        content "<h1>Hello World!</h1>"
+        action :create
+        not_if { ::File.exists?("/usr/share/nginx/html/index.html") }
+end
+#+END_EXAMPLE
+
+- edit the metadata.rb to reflect the correct author and cookbook details
+cookbooks/brq_nginx/metadata.rb
+#+BEGIN_EXAMPLE
+name 'brq_nginx'
+maintainer 'Fred Flintstone'
+maintainer_email 'fred@example.com'
+license 'All Rights Reserved'
+description 'Installs/Configures NGINX'
+long_description 'Installs/Configures NGINX'
+version '1.0.0'
+chef_version '>= 12.14' if respond_to?(:chef_version)
+#+END_EXAMPLE
+
+- upload the cookbook to chef-server 
+#+BEGIN_SRC sh
+knife upload cookbooks/brq_nginx
+#+END_SRC
+
+- add the run_list
+#+BEGIN_SRC sh
+knife node run_list add web-node1 'recipe[brq_nginx::default]'
+#+END_SRC
+
+- confirm that the run_list has been set
+#+BEGIN_SRC sh
+knife node show web-node1
+#+END_SRC
+
+- run the chef-client on the node from the workstation using knife
+#+BEGIN_SRC sh
+knife ssh 'name:web-node1' 'sudo chef-cient -x user
+#+END_SRC
+
+* Roles
+** Creating a web role- set the default editor for the chef user
+#+BEGIN_SRC sh
+export EDITOR=vim
+#+END_SRC
+also add this to the chef users .bashrc to make it persistent
+
+- create the default role template
+#+BEGIN_SRC sh
+cd chef-repo
+knife role create web
+#+END_SRC
+- this will pop open a JSON file in the editor specified the step before
+  
+- add the to the run_list the recipes that you need to add
+#+BEGIN_EXAMPLE
+{
+  "name": "web",
+  "description": "",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+
+  },
+  "override_attributes": {
+
+  },
+  "chef_type": "role",
+  "run_list": [
+	"recipe[apache]",	
+  ],
+  "env_run_lists": {
+
+  }
+}
+#+END_EXAMPLE
+save and exit, but no file will be created
+
+- assign the role to a node
+#+BEGIN_SRC sh
+knife node run_list set alickmitchell3.mylabserver.com "role[web]"
+#+END_SRC
+
+- if the role ever has to be edited all we have to do is
+#+BEGIN_SRC sh
+knife role edit web
+#+END_SRC
+like before this will open the JSON role file for you to edit
+
+- run the convergence on the node after the role change
+#+BEGIN_SRC sh
+knife ssh "role:web" "sudo chef-client" -x chef -P
+#+END_SRC
+this will connect to every node that is running the "role:web" and run the chef-client to update the node with any changes
+
+** Creating a DB role
+- set the default editor for the chef user
+#+BEGIN_SRC sh
+export EDITOR=vim
+#+END_SRC
+also add this to the chef users .bashrc to make it persistent
+
+- create the default role template
+#+BEGIN_SRC sh
+cd chef-repo
+knife role create database
+#+END_SRC
+- this will pop open a JSON file in the editor specified the step before
+  
+- add the recipes that wre required for the role
+#+BEGIN_EXAMPLE
+{
+  "name": "database",
+  "description": "",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+
+  },
+  "override_attributes": {
+
+  },
+  "chef_type": "role",
+  "run_list": [
+        "recipe[postgresql]"
+  ],
+  "env_run_lists": {
+
+  }
+}
+#+END_EXAMPLE
+
+- add the role to the node
+#+BEGIN_SRC sh
+knife node run_list set alickmitchell5.mylabserver.com "role[database]"
+#+END_SRC
+
+- update the node with any changes that my have occured to its run_list
+#+BEGIN_SRC sh
+knife ssh "role:database" "sudo chef-client" -x chef -P
+#+END_SRC
+
+** Creating a Base role(LA Basic 2)
+   
+- Going to create a role that pulls in two cookbooks
+  - brq_essentials - install tools such as vim
+  - brq_users      - create default required users
+Generate the cookbooks
+#+BEGIN_SRC sh
+cd chef-repo
+chef generate cookbook cookbooks/brq_essentials
+chef generate cookbook cookbooks/brq_users
+#+END_SRC
+
+- generate the recipe vim
+#+BEGIN_SRC sh
+chef generate recipe cookbooks/brq_essential vim
+#+END_SRC
+
+- edit the vim recipe
+#+BEGIN_EXAMPLE
+package "vim"
+
+cookbook_file "/etc/vimrc" do
+  source "default/vimrc"
+end
+#+END_EXAMPLE
+
+- generate the source file mentioned in the vim recipe
+#+BEGIN_SRC sh
+chef generate file cookbooks/brq_essentials vimrc
+#+END_SRC
+this will generate the file in the "default" postion that was used in the recipe
+
+- edit the newly created vimrc
+~/chef-repo/cookbooks/brq_essentials/file/default/vimrc
+#+BEGIN_EXAMPLE
+set nocompatible
+
+filetype off
+filetype plugin indent on
+
+syntax on
+
+set number
+set autoindent
+set backspace=indent,eol,start
+set noswapfile
+#+END_EXAMPLE
+
+- now add the recipe to the default.rb
+~/chef-repo/cookbooks/brq_essentials/recipes/default.rb
+#+BEGIN_EXAMPLE
+include_recipe "brq_essentials::vim"
+#+END_EXAMPLE
+
+- Creating the brq_users cookbook
+~/chef-repo/cookbooks/brq_users/default.rb
+#+BEGIN_SRC sh
+user "jenkins" do
+	comment "a user for CI/CD"
+	password "p@$$w0rd"
+end
+#+END_SRC
+using the password variable is not good practices, but is used here only as an example
+
+- create the base role
+#+BEGIN_SRC sh
+export EDITOR=vim
+knife role create base
+#+END_SRC
+this will drop us into our editor rady to create the role
+
+- edit the role file
+#+BEGIN_EXAMPLE
+{
+  "name": "base",
+  "description": "Sets up the essential tools and users. Should be used by all nodes.",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+
+  },
+  "override_attributes": {
+
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[bcf_essentials]",
+    "recipe[bcf_users]"
+  ],
+  "env_run_lists": {
+
+  }
+}
+#+END_EXAMPLE
+
+- confrim the roles creation
+#+BEGIN_SRC sh
+knife role list
+knife role show base
+#+END_SRC
+first cmd will print the names of the roles, and the second cmd will print a detailed attributes list of the role
+
+- assign the role to a node
+#+BEGIN_SRC sh
+knife node run_list add web-node1 'role[base]' --before 'recipe[brq_nginx]'
+#+END_SRC
+before - this is used to set the role to be run before another 
+
+- now we can upload the newly created cookbooks
+#+BEGIN_SRC sh
+knife upload cookbooks/brq_essentials cookbooks/brq_users
+#+END_SRC
+
+* Environments
+** Creating Staging and Production environments
+- create the staging environment
+#+BEGIN_SRC sh
+knife environment create staging --description 'Pre-production, staging environment for internal access only.'
+#+END_SRC
+
+- this will drop us into our default text editor, where we can edit attributes if required
+#+BEGIN_EXAMPLE
+{
+  "name": "staging",
+  "description": "Pre-production, staging environment for internal access only.",
+  "cookbook_versions": {
+
+  },
+  "json_class": "Chef::Environment",
+  "chef_type": "environment",
+  "default_attributes": {
+
+  },
+  "override_attributes": {
+
+  }
+}
+#+END_EXAMPLE
+
+- create the production environment
+#+BEGIN_SRC sh
+knife environment create production --description 'Production environment'
+#+END_SRC
+
+- again we will be droped into the template that we can edit
+
+- confirm that the environments have been created
+#+BEGIN_SRC sh
+knife environment list
+#+END_SRC
+there will be a third environment lists _default, this is created with the organisation and cannot be deleted
+
+- change the the web-node1 to the "Staging" environment
+#+BEGIN_SRC sh
+knife node environment_set web-node1 staging
+#+END_SRC
+
+- confirm the change
+#+BEGIN_SRC sh
+knife node show web-node1 -a environment
+#+END_SRC
+a - attribute - this will only print the selected attribute
+
+** Deploying cookbooks with different Versions
+- first we create our Environment(tihs is under the policy tab
+[[file://home/crito/Pictures/org/chef_env01.png]]
+add the name and a brief description
+
+- now select the version that will be deployed to the Staging server
+[[file://home/crito/Pictures/org/chef_env02.png]]
+if the version is available the "Add" button will become active
+
+- click "Add" and "Create Environment", and the Environment will be added to the Environments list
+[[file://home/crito/Pictures/org/chef_env03.png]]
+
+- on the nodes tab we can now assign an environment to the node that will be used for staging
+[[file://home/crito/Pictures/org/chef_env04.png]]
+the drop down menu contains all the available environments
+
+- run the chef-client for the change to take effect
+#+BEGIN_SRC sh
+chef-client
+#+END_SRC
+
+* Attributes
+[[file://home/crito/Pictures/org/chef_attr01.png]]
 
 * Lecture
 * Tutorial
 * Books
+[[file://home/crito/Documents/DevOps/Automation/Chef/Learning_Chef-Packt.pdf][Learning Chef - Packt]]
 * Links

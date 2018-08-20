@@ -1,4 +1,4 @@
-#+TAGS: terminal tmux terminal_multiplexer
+#+TAGS: tmux terminal_multiplexer
 
 
 * Tmux
@@ -201,6 +201,13 @@ tmux detatch
 #+END_SRC
 prefix + d also detaches the current session
 
+** Copy/Paste On Ubuntu 18.01
+- I found that gpaste didn't seem to play with tmux, so needed to install xclip
+#+BEGIN_SRC sh
+apt install xclip
+#+END_SRC
+
+** Using panes
 ** Reload the config file
 #+BEGIN_EXAMPLE
 :source ~/.tmux.conf
@@ -223,20 +230,35 @@ Prefix + ,
 - splitting wingows
 #+BEGIN_EXAMPLE
 :tmux split-window
+prefix + " 
+prefix + |       # vi key-bindings
 #+END_EXAMPLE
-prefix + " (my config prefix + | )
 
 - splitting on the horizontal
 #+BEGIN_EXAMPLE
 :tmux split-window -h
+prefix + % 
+prefix + -      # vi key-bindings
 #+END_EXAMPLE
-prefix + % (my config prefix + - )
 
 - rotate the panes
 prefix + o
 
 - move to another pane
-prefix + [UDLR] (my config prefix + [hljk]
+#+BEGIN_EXAMPLE
+prefix + [UDLR] 
+prefix + [hljk] # vi key-bindings
+#+END_EXAMPLE
+
+- maximise pane
+#+BEGIN_EXAMPLE
+[pre-fix] + z
+#+END_EXAMPLE
+
+- rejoin maximsed pane
+#+BEGIN_EXAMPLE
+[pre-fix] + [jkhl]
+#+END_EXAMPLE
 
 ** Copying to Clipboard
 I was having problems with tmux-yank and found this as a work around
@@ -281,3 +303,4 @@ github: https://github.com/tmux-plugins/tmux-sidebar
 [[file://home/crito/Documents/Tools/Getting_Started_with_tmux.pdf][Getting Started with Tmux]]
 [[file://home/crito/Documents/Tools/Pragmatic_tmux.pdf][Pragmatic Tmux]]
 * Links
+[[https://leanpub.com/the-tao-of-tmux/read][The Tao of tmux - online book]]

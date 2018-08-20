@@ -1,4 +1,4 @@
-#+TAGS: net op
+#+TAGS: w3m
 
 
 * w3m
@@ -42,6 +42,7 @@ Q - quit without confirmation
 * Tutorial
 * Books
 * Links
-
+https://github.com/janosgyerik/cheatsheets/wiki/W3m-cheat-sheet
+http://emacs-w3m.namazu.org/
 
 

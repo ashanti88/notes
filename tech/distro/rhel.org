@@ -1281,6 +1281,84 @@ firewall-cmd --reload
 elinks http://localhost
 #+END_SRC
 
+** RHEL7 Installing PHP7.*
+- [[http://php.net/manual/en/migration70.php][Migrating from PHP 5.6.x to PHP 7.0.x]]
+- [[http://php.net/manual/en/migration71.php][Migrating from PHP 7.0.x to PHP 7.1.x]]
+- [[http://php.net/manual/en/migration72.php][Migrating from PHP 7.1.x to PHP 7.2.x]]
+  
+- add the epel repo
+#+BEGIN_SRC sh
+yum install epel-release
+#+END_SRC
+
+- add the webtatic repo
+#+BEGIN_SRC sh
+rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm
+#+END_SRC
+
+*** PHP 7.0
+- if you need to use PHP with apache
+#+BEGIN_SRC sh
+yum install php70w
+#+END_SRC
+
+- if fpm is required
+#+BEGIN_SRC sh
+yum install php70w-fpm
+#+END_SRC
+
+- if you want the new PHP-opcache
+#+BEGIN_SRC sh
+yum install php70w-opcache
+#+END_SRC
+
+- if you need the PHP-cli
+#+BEGIN_SRC sh
+yum install php70w-cli
+#+END_SRC
+
+*** PHP 7.1
+- if you need to use PHP with apache
+#+BEGIN_SRC sh
+yum install mod_php71w php71w-common
+#+END_SRC
+
+- if you need PHP-FPM
+#+BEGIN_SRC sh
+yum install php71w-fpm
+#+END_SRC
+
+- if you want to use the new PHP-opcache
+#+BEGIN_SRC sh
+yum install php71w-opcache
+#+END_SRC
+
+- if you need PHP-cli
+#+BEGIN_SRC sh
+yum install php71w-cli
+#+END_SRC
+
+*** PHP 7.2
+- if you need to use PHP with apache
+#+BEGIN_SRC sh
+yum install mod_php72w php72w-common
+#+END_SRC
+
+- if you need PHP-FPM
+#+BEGIN_SRC sh
+yum install php72w-fpm
+#+END_SRC
+
+- if you want to use the new PHP-opcache
+#+BEGIN_SRC sh
+yum install php72w-opcache
+#+END_SRC
+
+- if you need PHP-cli
+#+BEGIN_SRC sh
+yum install php72w-cli
+#+END_SRC
+
 * Trouble-shooting
 ** Installation of the kernel headers but yum can't find "kernel-devel" package
 - Installing IdM and needed the kernel headers.

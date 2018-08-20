@@ -912,4 +912,5 @@ Check Constraint - confirms colum values based on Boolean criteria: - CHECK (exp
 
 * Links
 [[https://www.if-not-true-then-false.com/2012/install-postgresql-on-fedora-centos-red-hat-rhel/][Install PostgreSQL 9.6 on Fedora 26/25]]
+[[https://www.digitalocean.com/community/tutorials/how-to-move-a-postgresql-data-directory-to-a-new-location-on-ubuntu-16-04][How to move a postgresql data directory - Digital Ocean]]
 

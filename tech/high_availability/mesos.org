@@ -1,0 +1,12 @@
+#+TAGS: mesos
+
+
+* Mesos
+Homepage: https://mesos.apache.org/
+* Description
+* Usage
+* Lecture
+* Tutorial
+* Books
+* Links
+[[https://linuxacademy.com/cp/socialize/index/type/community_post/id/25034][Introduction to Apache Mesos - Linux Academy]]

@@ -30,7 +30,6 @@ title       - this is the name that is visable in the grub menu at boot
 root        - (hd0,0) is equal to hda1
 
 
-
 ** Grub2
 /boot/grub - the main configuration directory for grub2 (debian/ubuntu)
 /boot/grub2 - the main configuration directory for grub2 (RHEL/CentOS)
@@ -140,7 +139,7 @@ There are two methods
    
 [[file://home/crito/Pictures/org/grub_runlevel_07.png]]
 
-** Changing the default kernel
+** Changing the default boot option(OS)
 /boot/grub/grubenv - this shows which kernel is currently being booted
 
 1. Query which kernels and OSs are available
