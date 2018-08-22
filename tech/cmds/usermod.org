@@ -4,7 +4,7 @@
 * usermod
 * Description
 * Usage
-** Adding a user to the sudoers group
+** Ading a user to the sudoers group
 #+BEGIN_SRC sh
 usermod -aG sudo <username>
 #+END_SRC

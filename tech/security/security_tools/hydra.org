@@ -1,12 +1,19 @@
-#+TAGS: sec_o pass crk
+#+TAGS: hydra multiple_password_checking
 
 
-* hydra							     :sec_o:pass:crk:
+* hydra
 * Description
 * Usage
 - cracking ssh
 #+BEGIN_SRC sh
 hydra -L warner.txt -P pass-word-list.txt 192.168.56.101 ssh
+#+END_SRC
+L - list of usernames
+P - list of passwords
+
+ftp
+#+BEGIN_SRC sh
+hydra -L userlist.txt -P passlist.txt -e nsr ftp://192.168.20.10
 #+END_SRC
 
 * Lecture

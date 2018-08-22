@@ -53,6 +53,7 @@ SRV   - Hosts that provide a specific service
 [[file://home/crito/org/tech/services/dns-servers/nsd.org][NSD]]
 [[file://home/crito/org/tech/services/dns-servers/unbound.org][Unbound]]
 [[file://home/crito/org/tech/services/dns-servers/maradns.org][MaraDNS]]
+djbdns
 
 * Authoritative Vs Non-authoritative Answer
 

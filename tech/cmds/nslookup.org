@@ -1,7 +1,7 @@
 #+TAGS: net anal recon
 
 
-* nslookup						     :net:anal:recon:
+* nslookup
 * Description
 * Usage
 
@@ -9,6 +9,10 @@
 or
 > nslookup <domain.com>
 
+** Install on RHEL7
+#+BEGIN_SRC sh
+yum install bind-utils
+#+END_SRC
 ** Query with another name server
 > nslookup <ipaddress> <dns\_ip>
 

@@ -25,7 +25,6 @@ wget -o newfilename http://file.com
 #+END_SRC
 o - output filename
 
-
 ** Download file at specific speed
 #+BEGIN_SRC sh
 wget --limit-rate=200k http://file.com

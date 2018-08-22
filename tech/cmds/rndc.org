@@ -1,0 +1,76 @@
+#+TAGS: rndc dns bind
+
+
+* rndc
+* Files
+/etc/rndc.key - this is the key that rndc uses to connect to the named service securely. On RHEL this is created when the named service is started
+* Description
+* Usage
+  
+- flush the named cache
+#+BEGIN_SRC sh
+rndc flush
+#+END_SRC
+this will flush all stored domain information
+
+- flush a specific domain
+#+BEGIN_SRC sh
+rndc flushname cnn.com
+#+END_SRC
+  
+** Create a new rndc.key
+#+BEGIN_SRC sh
+rndc-confgen -r /dev/urandom -a
+#+END_SRC
+a random seed is required for the key to be created
+  
+- this will then need to be added to the /etc/named.conf
+#+BEGIN_SRC sh
+zone "." IN {
+        type hint;
+        file "named.ca";
+};
+
+key "rndc-key" {
+      algorithm hmac-md5;
+      secret "U7/L4YKs4Fg4wQ8eL5IKmg==";
+};
+
+controls {
+      inet 127.0.0.1 port 953
+              allow { 127.0.0.1; } keys { "rndc-key"; };
+};
+
+include "/etc/named.rfc1912.zones";
+include "/etc/named.root.key";
+#+END_SRC
+
+- the rndc.conf has to be changed to the named group
+#+BEGIN_SRC sh
+chgrp named /etc/rndc.conf
+#+END_SRC
+
+- the key by default will allow read access to all this need to be changed
+#+BEGIN_SRC sh
+chmod 640
+#+END_SRC
+
+- restart the named service and the new key should be available 
+#+BEGIN_SRC sh
+systemctl restart named
+#+END_SRC
+
+- confirm that you can connect to the named server
+#+BEGIN_SRC sh
+rndc status
+#+END_SRC
+
+- you may get an error indicating that an /etc/rndc.key is present but the /etc/rndc.conf is being used. If this occurs just delete the rndc.key
+#+BEGIN_SRC sh
+rm /etc/rndc.key
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links

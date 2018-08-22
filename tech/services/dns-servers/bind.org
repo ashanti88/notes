@@ -2,10 +2,7 @@
 
 
 * BIND
-* Cmds
-named-checkzone - this will check zone file syntax for errors
-
-* Files 
+* Files
 /etc/bind - this holds all the configuration files
 /etc/bind/named.conf.options - this files has options such as setting forwarding dns servers
 /etc/bind/named.conf.local   - this is where we configure the base zones
@@ -259,9 +256,13 @@ version.bind.   CHAOS  TXT "BIND 9.1.3+robhacks"
 authors.bind.   CHAOS  TXT "are better coders than I. :)" 
 #+END_EXAMPLE
 
+* Cmds
+named-checkzone - this will check zone file syntax for errors
+- [[file://home/crito/org/tech/cmds/rndc.org][rndc]]
+
 * Description
 * Usage
-** Configure a Caching-Only Name Server
+** Configure a Caching-Only Name Server - RHEL7
 - install bind and it's utils
 #+BEGIN_SRC sh
 yum install -y bind bind-utils
@@ -280,6 +281,7 @@ options {
         statistics-file "/var/named/data/named_stats.txt";
         memstatistics-file "/var/named/data/named_mem_stats.txt";
         allow-query     { any; }; // edited from localhost to any
+	// allow-query { any; !172.63.0.0/24; } this would allow anyone but the 172.63.0.0/24 network to query the server
 
         /* 
          - If you are building an AUTHORITATIVE DNS server, do NOT enable recursion.
@@ -294,7 +296,7 @@ options {
         recursion yes;
 
         dnssec-enable yes;
-        dnssec-validation no; //edited for yes to no
+        dnssec-validation no; //edited from yes to no
 
         /* Path to ISC DLV key */
         bindkeys-file "/etc/named.iscdlv.key";
@@ -308,7 +310,7 @@ options {
 logging {
         channel default_debug {
                 file "data/named.run";
-                severity dynamic;
+                severity dynamic; // level of logging
         };
 };
 
@@ -343,6 +345,283 @@ systemctl enable named
 nslookup linuxacademy.com 127.0.0.1
 #+END_SRC
 if no output is produced that means that the dns isn't working correctly
+
+** Install and Configure a Caching-Only Name Server - RHEL7 (LA LPIC2)
+   
+- install the required pkgs
+#+BEGIN_SRC sh
+yum -y install bind-utils bind
+#+END_SRC
+
+- start the service and enable
+#+BEGIN_SRC sh
+systemctl start named
+systemctl enable named
+systemctl status named
+#+END_SRC
+
+- configure the rndc.conf
+#+BEGIN_SRC sh
+rndc-confgen -r /dev/urandom -a
+#+END_SRC
+a random seed is required for the key to be created
+  
+- this will then need to be added to the /etc/named.conf
+#+BEGIN_SRC sh
+zone "." IN {
+        type hint;
+        file "named.ca";
+};
+
+key "rndc-key" {
+      algorithm hmac-md5;
+      secret "U7/L4YKs4Fg4wQ8eL5IKmg==";
+};
+
+controls {
+      inet 127.0.0.1 port 953
+              allow { 127.0.0.1; } keys { "rndc-key"; };
+};
+
+include "/etc/named.rfc1912.zones";
+include "/etc/named.root.key";
+#+END_SRC
+
+- the rndc.conf has to be changed to the named group
+#+BEGIN_SRC sh
+chgrp named /etc/rndc.conf
+#+END_SRC
+
+- the key by default will allow read access to all this need to be changed
+#+BEGIN_SRC sh
+chmod 640
+#+END_SRC
+
+- restart the named service and the new key should be available 
+#+BEGIN_SRC sh
+systemctl restart named
+#+END_SRC
+
+- confirm that you can connect to the named server
+#+BEGIN_SRC sh
+rndc status
+#+END_SRC
+
+- you may get an error indicating that an /etc/rndc.key is present but the /etc/rndc.conf is being used. If this occurs just delete the rndc.key
+#+BEGIN_SRC sh
+rm /etc/rndc.key
+#+END_SRC
+
+** Install and Configure a Name Server - RHEL7
+
+- install the required pkgs
+#+BEGIN_SRC sh
+yum -y install bind-utils bind
+#+END_SRC
+
+- start the service and enable
+#+BEGIN_SRC sh
+systemctl start named
+systemctl enable named
+systemctl status named
+#+END_SRC
+
+- check that the rndc key entry is in the /etc/named.conf
+#+BEGIN_SRC sh
+less /etc/named.conf
+#+END_SRC
+
+- add the domain forward and reverse zone files to /etc/named.conf
+#+BEGIN_EXAMPLE
+zone "mydomain.com" {
+	type master;
+	file "fwd.mydomain.com.db"; //forward lookup zone database file
+	allow-update { none; }; // this is where you would specify the server the update would come from
+};
+
+zone "25.31.172.in-addr.arpa" {
+	type master;
+	file "25.31.172.db"; // reverse lookkup zone database file
+	allow-update { none; }; // this is where you would specify the server the update would come from
+};
+
+// how a slave would be added
+zone "mydomain.com" {
+	type slave;
+	masters { 172.31.44.88; }; //this is the master node ip-addr
+	file "fwd.mydomain.com.db";
+};
+#+END_EXAMPLE
+
+- create the forward zone file
+/var/named/fwd.mydomain.com.db
+#+BEGIN_EXAMPLE
+$TTL 86400
+@	IN	SOA	named.mydomain.com.	root.mydomain.com. (
+				10030			;Serial
+				3600			;Refresh
+				1800			;Retry
+				604800			;Expire
+				86400			;Minimum TTL
+)
+; Name Server
+@	IN	NS	named.mydomain.com.
+; A Record Definitions
+named	IN	A	172.31.25.190
+mailprod	IN	A	172.31.25.30
+mailbkup	IN	A	172.31.25.31
+; Canonical Name/Alias
+dns	IN	CNAME	named.mydomain.com.
+; Mail Exchange Records
+@	IN	MX	10	mailprod.mydomain.com.
+@	IN	MX	20	mailbkup.mydomain.com.
+#+END_EXAMPLE
+
+- create the reverse zone file
+/var/named/25.31.172.db
+#+BEGIN_EXAMPLE
+$TTL 86400
+@	IN	SOA	named.mydomain.com.	root.mydomain.com. (
+				10030			;Serial
+				3600			;Refresh
+				1800			;Retry
+				604800			;Expire
+				86400			;Minimum TTL
+)
+; Name Server
+@	IN	NS	named.mydomain.com.
+; Pointer Records
+172.31.25.190	IN	PTR	named.mydomain.com.
+;190	IN	PTR	named.mydomain.com. this is the same as above, but using relative octet
+30	IN	PTR	mailprod.mydomain.com.
+31	IN	PTR	mailbkup.mydomain.com.
+#+END_EXAMPLE
+
+- test that the configurations are formatted correctly
+#+BEGIN_SRC sh
+named-checkconf
+#+END_SRC
+no output indicates no configuration syntax errors
+
+- check that the zone files are correctly configured
+#+BEGIN_SRC sh
+named-checkzone mydomain.com fwd.mydomain.com.db
+named-checkzone 25.31.172.in-addr.arpa 25.31.172.db
+#+END_SRC
+this will indicate if all is "OK"
+
+- restart the named service for the changes to take effect
+#+BEGIN_SRC sh
+systemctl restart named
+#+END_SRC
+
+- test he named by checking named.mydomain.com
+#+BEGIN_SRC sh
+dig @localhoost named.mydomain.com
+#+END_SRC
+@ - this specifies to dig what name server to use
+
+** Running BIND in a Chroot Jail (LA LPIC2 this is not complete, it doesn't run the jail when configured(video is incorrect))
+   
+- stop the named service
+#+BEGIN_SRC sh
+systemctl stop named
+#+END_SRC
+
+- edit the named configuration file telling the named service where to start
+/etc/sysconfig/named
+#+BEGIN_EXAMPLE
+-t /chroot/named
+#+END_EXAMPLE
+this needs to be added at the end
+
+- create the /chroot dir
+#+BEGIN_SRC sh
+mkdir -p /chroot/named/{dev,etc}
+mkdir -p /chroot/named/var/{named,run}
+#+END_SRC
+
+- copy the configuration files to the jail
+#+BEGIN_SRC sh
+cp /etc/named.conf /chroot/named/etc
+cp /etc/localtime /chroot/named/etc
+cp -rf /var/named/* /chroot/named/var/named
+#+END_SRC
+
+- set the premission on the new files
+#+BEGIN_SRC sh
+chown named:named -R /chroot/named
+#+END_SRC
+
+- create the need device files
+#+BEGIN_SRC sh
+mknod /chroot/named/dev/random c 1 8
+mknod /chroot/named/dev/null c 1 3
+#+END_SRC
+
+- add the correct permissions to the newly created devices
+#+BEGIN_SRC sh
+chmod 666 /chroot/named/dev
+#+END_SRC
+
+- restart the named service
+#+BEGIN_SRC sh
+systemctl restart named
+#+END_SRC
+
+- confirm with the changes have taken with dig
+#+BEGIN_SRC sh
+dig @localhost mailprod.mydomain.com
+#+END_SRC
+
+- to confirm that it's running in the jail remove the zone files from /var/named
+
+** Configuring DNS Keys (needs tidying up)
+   
+- install the rng-tools
+#+BEGIN_SRC sh
+yum install rng-tools
+#+END_SRC
+this will provide us with the rngd tool that creates random data for the key creation(saves having to create data with random mouse and key presses)
+
+- creating the keys
+#+BEGIN_SRC sh
+rngd -r /dev/urandom -o /dev/random -b
+dnssec-keygen -a RSASHA1 -b 2048 -n ZONE -f KSK mydomain.com
+dnssec-keygen -a RSASHA1 -b 1024 -n ZONE mydomain.com
+#+END_SRC
+
+- create a signed zone file
+#+BEGIN_SRC sh
+cp /var/named/fwd.mydomain.com.db .
+dnssec-signzone -o mydomain.com -S fwd.mydomain.com.db
+#+END_SRC
+this will create a signed file fwd.mydoman.com.db.signed
+
+** Configuring DANE, TLSA records
+DANE - DNS-based Authentication of Named Entities   
+
+TLSA record are used to hold the CA data
+  - record has a basic syntax of:
+  #+BEGIN_EXAMPLE
+  certificate_usage selector matching_type content
+  #+END_EXAMPLE
+  
+- certificate_usage filed is a single digit ranging from 0 - 3:
+  - 0 - the record specifies an authorized and public CA. It offers no additional security so is not recommended. 
+  - 1 - the record specifies a trusted cert or public key. It offers no additional security so is not recommended. 
+  - 2 - the record specifies a non-public CA cert or its public key. Typically used when acting as your own CA. Often called a trust anchor assertion, this usage type does offer additional security.
+  - 3 - the record specifies a server cert issued by the BIND administrator. This usage often called a domain-issued crtificate and allows the bypass of a third-party CA. This usage type does offer additional security.
+
+- selector field is either 0 or 1:
+  - 0 - indicates that the record is a digital cert
+  - 1 - indicates that the record is a public key
+    
+- matching_type field is 0 - 2:
+  - 0 - indicates that the content of the record is not hashed
+  - 1 - indicates a SHA-256 hash
+  - 2 - indicates a SHA-512 hash
+the same hash should be used that the certs digital signature uses
 
 * Lecture
 * Tutorial

@@ -6,48 +6,7 @@ HomePage: https://aws.amazon.com/
 AWS Documentation: https://aws.amazon.com/documentation/
 * Description
 * Services
-** VPC
-Docs: https://aws.amazon.com/vpc/
-** EC2
-Docs: https://aws.amazon.com/ec2/
-** ECS (EC2 Container Service)
-Docs: https://aws.amazon.com/ecs/
-** Lambda
-Docs: https://aws.amazon.com/lambda/
-** EBS
-Docs: https://aws.amazon.com/ebs/
-** EFS
-Docs: https://aws.amazon.com/s3/
-** S3
-Docs: https://aws.amazon.com/rds/
-** RDB 
-Docs: https://aws.amazon.com/rds/
-** Dynamo
-Docs: https://aws.amazon.com/dynamodb/
-** Redshift
-** Elasticache
-** ELB (Elastic Load Balancer)
-Docs: https://aws.amazon.com/elasticloadbalancing/
-
-- Classic Elastic LB
-- Application Load Balancer
-** Route53
-Docs: https://aws.amazon.com/route53/
-** CloudFormation
-Docs: https://aws.amazon.com/cloudformation/
-** Elastic Beanstalk
-Docs: https://aws.amazon.com/elasticbeanstalk/
-** SNS
-Docs: https://aws.amazon.com/sns/
-** SQS
-** SWF
 ** API Gateway
-** Cloudwatch
-Docs: https://aws.amazon.com/cloudwatch/
-** Cloudtrail
-Docs: https://aws.amazon.com/cloudtrail/
-** Kinesis
-** EMR (Elastic MapReduce)
 ** AWSCLI
 Docs: https://aws.amazon.com/cli/
 
@@ -86,6 +45,101 @@ export AWS_ACCESS_KEY_ID="add your key here"
 export AWS_SECRET_ACCESS_KEY="add your secret here"
 #+END_EXAMPLE
 
+** CloudFormation
+Docs: https://aws.amazon.com/cloudformation/
+** Cloudtrail
+Docs: https://aws.amazon.com/cloudtrail/
+** Cloudwatch
+Docs: https://aws.amazon.com/cloudwatch/
+** CodeCommit
+A managed, source code version control service that hosts private Git based repos
+
+- creating a git repo
+#+BEGIN_SRC sh
+aws codecommit create-repository --repository-name TestRepo --repository-description "My test Repo"
+#+END_SRC
+
+- list all available the repos
+#+BEGIN_SRC sh
+aws codecommit list-repositories
+#+END_SRC
+
+- get details of a repo
+#+BEGIN_SRC sh
+aws codecommit get-repository --repository-name TestRepo
+#+END_SRC
+this will fetch a attributes in json format
+
+- get the details of more than one repo 
+#+BEGIN_SRC 
+aws codecommit batch-get-repository --repository-name TestRepo1 TestRepo2
+#+END_SRC
+
+- change a repo name
+#+BEGIN_SRC sh
+aws codecommit update-repository-name --old-name TestRepo --new-name MyTestRepo
+#+END_SRC
+tihs will change the ssh/https url for the repo, this will have to be changed before you can access the repo again
+
+- change a repo description
+#+BEGIN_SRC sh
+aws codecommit update-repository-description --repository-name MyTestRepo --repository-description "This is the new description"
+#+END_SRC
+
+- delete a repo
+#+BEGIN_SRC sh
+aws codecommit delete-repository --repository-name MyTestRepo
+#+END_SRC
+
+** Cloning a repo
+
+- cloning a repo from codecommit
+#+BEGIN_SRC sh
+aws codecommit get-repository --repository-name MyTestRepo
+git clone https://git-codecommit.us-east-1.amazonaws.com/v1/repo/MyTestRepo local-mytestrepo
+#+END_SRC
+this first cmd will retrieve the required url to clone the repo
+
+
+** CodeDeploy
+A code deployment automation service to EC2 or on-premise instances
+** CodePipeline
+A continous delivery service that provides tools to model, visualize and automate the software release process
+** Dynamo
+Docs: https://aws.amazon.com/dynamodb/
+** EBS
+Docs: https://aws.amazon.com/ebs/
+** EC2
+Docs: https://aws.amazon.com/ec2/
+** ECS (EC2 Container Service)
+Docs: https://aws.amazon.com/ecs/
+** EFS
+Docs: https://aws.amazon.com/s3/
+** ELB (Elastic Load Balancer)
+Docs: https://aws.amazon.com/elasticloadbalancing/
+
+- Classic Elastic LB
+- Application Load Balancer
+** Elastic Beanstalk
+** Elasticache
+** EMR (Elastic MapReduce)
+** Kinesis
+** Lambda
+Docs: https://aws.amazon.com/lambda/
+** RDB 
+Docs: https://aws.amazon.com/rds/
+** Redshift
+** Route53
+Docs: https://aws.amazon.com/route53/
+Docs: https://aws.amazon.com/elasticbeanstalk/
+** S3
+Docs: https://aws.amazon.com/rds/
+** SNS
+Docs: https://aws.amazon.com/sns/
+** SQS
+** SWF
+** VPC
+Docs: https://aws.amazon.com/vpc/
 * Lecture
 ** [[https://www.youtube.com/watch?v%3DeKyS9rvbj40][Introduction to Database Services - Brian Rice]]
 + If you host your DB on-site
@@ -1716,7 +1770,6 @@ Click the Overview tab at the top of the page. This time, the KMS key ID will be
         - Some cost protection against spikes in a bill from DDos attacks
         - Expanded protection against many types of attacks
         - WAF is included in Shield Advanced pricing
-
 
 * Books
 [[file://home/crito/Documents/SysAdmin/Cloud/AWS/AWS_Storage_Services.pdf][AWS Storage Services]]

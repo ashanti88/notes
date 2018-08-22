@@ -18,6 +18,10 @@ apt-get install git
 pacman -S git
 #+END_SRC
 
+- view a less verbose "git status"
+#+BEGIN_SRC sh
+git status -sb
+#+END_SRC
 ** Git Configuration
 - setting cedentials for user
 #+BEGIN_SRC sh

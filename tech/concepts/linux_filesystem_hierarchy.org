@@ -49,7 +49,6 @@ This is the nerve center of your system, it contains all system related configur
 /etc/rc.d/         - this directory holds the runlevel scripts on Red Hat sysvinit machines (rc = run commands)
 /etc/rc.d/rc.local - this file is run after the runlevel script has finished
 /etc/rc.d/rc.sysinit - this file is run before the runlevel script is run, and performs some initial house keeping
-/etc/resolv.conf   - this file read after /etc/hosts to find a nameserver that will be able to resolve our search.
 /etc/services      - this file contains a list of services and the common ports that are associated with it
 /etc/skel/         - skel directory, short for skeleton is copied into new users home directories on creation
 /etc/sudoers       - this file is where user privileges can be added, such as sudo, or giving a user access to certain applications
@@ -176,6 +175,13 @@ To use any of the example just copy the file to /etc/netctl and edit
 *** /etc/passwd        - this file contains all the systems users
 *** /etc/polkit-1/  - this contains the policy rules 
 **** /etc/polkit-1/rules.d/ - this contains rule files
+*** /etc/resolv.conf   - this file read after /etc/hosts to find a nameserver that will be able to resolve our search.
+#+BEGIN_EXAMPLE
+domain example.com
+search mylabserver.com
+#+END_EXAMPLE
+- if a none fqdn is requested, the client will append the domain url and attempt to connect; if this fails the search url will be appeneded and attempted
+- only one domain can be set, but multiple search lines can be set
 *** /etc/shadow    - this file holds all the hases and other password information
 
 user:$6$1b0OzIM9$fY4UD1JKlqXrDO3RAd2sUvCuYfR0NP5Gsu4v0g6Rcy3NwVWPBgOBB7MmaZet1StyasZR/aFI85VdVTvrUiLO1.:17683:0::7:::
@@ -306,7 +312,6 @@ Contains the source code for the Linux kernel.
 
 ** /var - Variable files whose content is expected to change during normal system use and operation
 Contains variable data like system logging files, mail and printer spool directories, and transient and temporary files. Some portions of /var are not shareable between different systems. For instance, /var/log, /var/lock, and /var/run. Other portions may be shared, notably /var/mail, /var/cache/man, /var/cache/fonts, and /var/spool/news. Why not put it into /usr? Because there might be circumstances when you may want to mount /usr as read-only, e.g. if it is on a CD or on another computer. '/var' contains variable data, i.e. files and directories the system must be able to write to during operation, whereas /usr should only contain static data. Some directories can be put onto separate partitions or systems, e.g. for easier backups, due to network topology or security concerns.
-
 *** /var/backups
 Directory containing backups of various key system files such as /etc/shadow, /etc/group, /etc/inetd.conf and dpkg.status. They are normally renamed to something like dpkg.status.0, group.bak, gshadow.bak, inetd.conf.bak, passwd.bak, shadow.bak
 
@@ -413,6 +418,9 @@ The 'system' log file. The contents of this file is managed via the syslogd daem
 *** /var/mail
 Contains user mailbox files. The mail files take the form /var/mail/'username' (Note that /var/mail may be a symbolic link to another directory). User mailbox files in this location are stored in the standard UNIX mailbox format. The reason for the location of this directory was to bring the FHS inline with nearly every UNIX implementation (it was previously located in /var/spool/mail). This change is important for inter-operability since a single /var/mail is often shared between multiple hosts and multiple UNIX implementations (despite NFS locking issues).
 
+*** /var/named
+This directory contains the bind dns server zone files and authority files
+named.ca - this is the cert authority file that is created on the install of bind, this should never be manually edited and is updated automatically
 *** /var/opt
 Variable data of the program packages in /opt must be installed in /var/opt/'package-name', where 'package-name' is the name of the subtree in /opt where the static data from an add-on software package is stored, except where superceded by another file in /etc. No structure is imposed on the internal arrangement of /var/opt/'package-name'.
 
