@@ -2105,6 +2105,85 @@ Add Options +Indexes to the .htaccess file and you will get 200 on curls
 [[https://stackoverflow.com/questions/10365520/error-directory-index-forbidden-by-options-directive][Stackoverflow - error directory index forbidden]]
 
 * Lecture
+** PHP-FPM - Andrew Lechowicz
+yt: https://www.youtube.com/watch?v=a4A0HzAEiRo
+
+- php-FPM is an altrnative to php-fastcgi
+
+- FastCGI
+  - binary protocal for interfacing interactive programs with a web server
+  - an improvement on CGI
+  - reduces the overhead on the server
+  - a seperation of web server and application
+  - doesn't create a new process for each request(CGI would)
+  - Uses persistent processesto handle to handle a series of requests
+  - the processors are owned by FastCGI server not the web server 
+    
+- PHP-FPM
+  - is all of FastCGI plus
+  - included in 5.5.3
+  - emergency restart - will gracefully shutdown cgi process
+  - support for "slowlog"
+  - ability to start workers with different uid/gid/chroot environment and different php.ini
+    
+- Why Use PHP-FPM
+  - seperates PHP from the web server
+  - use less resources than mod_php 
+
+- Installation
+#+BEGIN_SRC sh
+apt-get update
+apt-get install php5-fpm nginx
+#+END_SRC
+
+- configure nginx
+/etc/nginx/sites-available/default
+#+BEGIN_EXAMPLE
+Server {
+  listen 80;
+  server_name example.com;
+  
+  root /var/www/example.com
+  index index.php;
+
+  location / {
+    try_files $uri $uri/ /index.php?$args;
+  }
+
+  location ~ \.php$ {
+    try_files $uri =404;
+    include /usr/local/etc/nginx/fastcgi_paras;
+    fastcgi_pass	127.0.0.1:9000;
+    fastcgi_index	index.php
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+  }
+#+END_EXAMPLE
+- add "index.php"
+- change server_name to IP
+- uncomment lines in 'location ~ \.php$'
+  
+- restart nginx
+#+BEGIN_SRC sh
+nginx -s restart
+#+END_SRC
+
+- configure php-fpm
+/etc/php5/fpm/php.ini
+  - ensure that "cgi.fix_pathinfo" is set to 0
+    
+/etc/php5/fpm/pool.d/www.conf
+  - change "Listen" value from "127.0.0.1:9000" to "/var/run/php5-fpm.sock"
+    
+- restart php-fpm
+#+BEGIN_SRC sh
+service php5-fpm restart
+#+END_SRC
+
+- create and index.php file with a phpinfo() call;
+#+BEGIN_SRC sh
+echoo 2<?php phpinfo() ?>" > /usr/share/nginx/www/index.php
+#+END_SRC
+
 * Tutorial
 ** Linux Academy Lab - Nginx installation of SSL Certificate
    LabGuide: [[file://home/crito/Documents/Linux/Labs/Nginx-ssl.pdf][Nginx and Self Signed SSL Certificates]]

@@ -32,6 +32,38 @@ acl box_block 192.168.0.15/32  # ip addr to exclude from squid access
 #+END_EXAMPLE
 the name can be anything
 
+** Implementing Squid Forward Proxy Configuration
+
+*** Squid
+- install the required pkgs   
+#+BEGIN_SRC sh
+yum install squid telnet w3m
+#+END_SRC
+
+- start and enable the squid service
+#+BEGIN_SRC sh
+systemctl start squid
+systemctl enable squid
+#+END_SRC
+
+- edit the /etc/squid.conf to allow the private network that the client belongs to
+#+BEGIN_EXAMPLE
+acl localnet src 10.0.0.0/8     # RFC1918 possible internal network
+acl localnet src 172.16.0.0/12  # RFC1918 possible internal network
+acl localnet src 192.168.0.0/16 # RFC1918 possible internal network
+#+END_EXAMPLE
+they are usually set by default
+
+
+*** Client
+- set the proxy server 
+#+BEGIN_SRC sh
+export http_proxy=http://172.31.18.240:3128
+#+END_SRC
+
+- confirm that squid is being used by editing the /etc/squid/squid.conf and comment out all the prvt networks 
+  - you will now face an "access denied"
+
 * Squid Guard
 HomePage: http://squidguard.org/index.html
 Blacklists: http://squidguard.org/blacklists.html
@@ -62,6 +94,7 @@ just remove all of this element from the config and db creation should stop hang
 * Tutorial
 * Books
 [[file://home/crito/Documents/SysAdmin/Web/Squid_Proxy_Server3.1-Beginners_Guide.pdf][Squid Proxy Server 3.1 - Beginners Guide]]
+[[file:~/Documents/OReilly_Book_Collection/OReilly-Squid-The_Definitive_Guide.pdf][O'Reilly - Squid - The Definitive Guide]]
 
 * Links
 [[file://home/crito/Documents/SysAdmin/Web/Squid_Proxy_Server3.1-Beginners_Guide.pdf][Squid Proxy Server 3.1 - Beginners Guide]]
