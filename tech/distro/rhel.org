@@ -2029,6 +2029,10 @@ Extra Packages for Enterprise Linux (or EPEL) is a Fedora Special Interest Group
 #+BEGIN_SRC sh
 sudo yum localinstall --nogpgcheck http://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/e/epel-release-7-11.noarch.rpm
 #+END_SRC
+or
+#+BEGIN_SRC sh
+yum install epel-release
+#+END_SRC
 
 - Install RHEL6
 #+BEGIN_SRC sh

@@ -187,6 +187,8 @@ Server Name Indication (SNI) is an extension to the TLS computer networking prot
 * SOA  - Start of Authority (DNS record)
 Wiki: https://en.wikipedia.org/wiki/SOA_record
 * SPI  - Serial Peripheral Interface bus
+* SRE  - Site Reliability Engineering/Engineer
+Google: https://landing.google.com/sre/
 * SSSD - System Security Services Daemon
 Fedora - https://fedoraproject.org/wiki/Features/SSSD
 RHEL: [[https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/5/html/5.7_Release_Notes/sssd.html][redhat.com/5/sssd]]

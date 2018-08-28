@@ -230,7 +230,7 @@ the second line provides the output in a more sane manner
 nginx -t
 #+END_SRC
 
-** Installation (RHEL)
+** Installation - RHEL6
 - Install epel repository 
 #+BEGIN_SRC sh
 yum update
@@ -2098,11 +2098,52 @@ or
 httpd -S 2>&1|grep "port 443 name"|grep -v =hostname=| awk {'print $4'}httpd -S 2>&1|grep "port 443 name"|grep -v =hostname=| awk {'print $4'}
 #+END_SRC
 
-** If a site randomy returns 403's and then 200 when curling
+** If a site randomly returns 403's and then 200 when curling
 
 Add Options +Indexes to the .htaccess file and you will get 200 on curls
 
 [[https://stackoverflow.com/questions/10365520/error-directory-index-forbidden-by-options-directive][Stackoverflow - error directory index forbidden]]
+
+** Implementing Nginx as a Reverse Proxy
+   
+*** Reverse Proxy
+- install the required pkgs
+#+BEGIN_SRC sh
+yum install nginx
+#+END_SRC
+
+- edit /etc/nginx/nginx.conf
+#+BEGIN_EXAMPLE
+server {
+	listen 80;
+	location / {
+		proxy_pass http://172.31.111.21;
+	}
+}
+#+END_EXAMPLE
+- ensure that any other server configuration has been commented out
+- the ip is that of the Apache server
+
+- start and enable the service
+#+BEGIN_SRC sh
+systemctl start nginx.service
+systemctl enable nginx.service
+#+END_SRC
+
+*** Apache Server
+- install the required pkgs
+#+BEGIN_SRC sh
+yum install httpd w3m
+#+END_SRC
+
+- use w3m to connect to the reverse proxy and you should see the apache test page
+
+
+- start and enable the service
+#+BEGIN_SRC sh
+systemctl start httpd
+systemctl enablehttpd
+#+END_SRC
 
 * Lecture
 ** PHP-FPM - Andrew Lechowicz

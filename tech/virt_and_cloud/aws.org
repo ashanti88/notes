@@ -52,6 +52,7 @@ Docs: https://aws.amazon.com/cloudtrail/
 ** Cloudwatch
 Docs: https://aws.amazon.com/cloudwatch/
 ** CodeCommit
+LinuxAcademy: 
 A managed, source code version control service that hosts private Git based repos
 
 - creating a git repo
@@ -91,7 +92,8 @@ aws codecommit update-repository-description --repository-name MyTestRepo --repo
 aws codecommit delete-repository --repository-name MyTestRepo
 #+END_SRC
 
-** Cloning a repo
+
+*** Cloning a repo
 
 - cloning a repo from codecommit
 #+BEGIN_SRC sh
@@ -100,11 +102,727 @@ git clone https://git-codecommit.us-east-1.amazonaws.com/v1/repo/MyTestRepo loca
 #+END_SRC
 this first cmd will retrieve the required url to clone the repo
 
+*** Migrate a git repo to codecommit 
+    
+- Should I Migrate Icrementally?
+  - Does the repo you want to migrate have more than 5yrs of history
+  - Isn't your internet connection subject to intermittent outages, dropped packets, slow response or other interruptions in service
+  - Is the overall size of the repo greater than 2GB
+  - Does the repo contain large artifacts or binaries that od not compress well, such as large image files with more than five tracked versions
+  - Have you previously attempted a migration to AWS CodeCommit and received an "Internal Service Error" message
+    
+- Create a new repository in AWS CodeCommit
+#+BEGIN_SRC sh
+aws codecommit create-repository --repository-name my_migrated_repo --repository-description "my migrated repo"
+#+END_SRC
+
+- Clone the repo we want to migrate to our llocal machine
+#+BEGIN_SRC sh
+cd /tmp
+git clone https://github.com/test/example_repo.git example_repo
+#+END_SRC
+
+- Push the cloned repo on our local machine to the repo we created in AWS
+#+BEGIN_SRC sh
+cd example_repo
+git push https://git-codecommit.us-east-1.amazonaws.com/v1/repos/my_migrated_repo --all
+#+END_SRC
+confirm in the aws console that the repo is now present in CodeCommit
+
+- delete the temp directory
+#+BEGIN_SRC sh
+cd ..
+rm -rf example_repo
+#+END_SRC
+
+- clone the aws CodeCommit repo that we migrated to our local machine
+#+BEGIN_SRC sh
+git clone https://git-codecommit.us-east-1.amazonaws.com/v1/repos/my_migrated_repo my_local_migrated_repo
+#+END_SRC
+
+*** Create, Push and View an SNS Trigger from the cli
+
+- create a JSON that will hold our Trigger infromation
+#+BEGIN_EXAMPLE
+{
+	"repositoryName": "TriggerRepo",
+	"triggers": [
+		{
+			"name": "deleteTrigger",
+			"destinationArn": "<arn:aws:sns:us-east-1:80398EXAMPLE:TriggerTopic>",
+			"customData": "",
+			"branches": [
+			],
+			"events": [
+				"deleteReference"
+			]
+		},
+	]
+}
+#+END_EXAMPLE
+arn can be found in the SNS section of the AWS console, under the Topics 
+
+- test trigger before pushing it
+#+BEGIN_SRC sh
+aws codecommit test-repository-triggers --cli-input-json file://example_trigger.json
+#+END_SRC
+
+- push the trigger to the repo
+#+BEGIN_SRC sh
+aws codecommit put-repository-triggers --cli-input-json file://example_trigger.json
+#+END_SRC
+
+- to view triggers in the repo
+#+BEGIN_SRC sh
+aws codecommit get-repository-triggers --repository-name my_example_repo
+#+END_SRC
 
 ** CodeDeploy
 A code deployment automation service to EC2 or on-premise instances
+
+CodeDeploy is an AWS service for automating the deployment process of your applications, from Git-based version control systems or S3 buckets to Amazon EC2 instances, on-premise instances or both
+
+[[file://home/crito/Pictures/org/codedeploy_workflow.png]]
+
+*** Files
+/etc/codedeploy/conf - this is the agent configuration file
+*** CodeDeploy Setup and Configuration
+- Provision an IAM user wit ha a custom CodeDeploy Policy
+  - gives a non-admin user the rights to manage all the elements needed to use CodeDeploy
+    
+- Create an Instance Profile
+  - this allows you to laounch EC2 instances that are configured for use with CodeDeploy
+    
+- Create a Service Role
+  - This will allow CodeDeploy to communicate and interact with other AWS Services
+    
+- Install the AWS Cmd line
+
+*** Using the CodeDeploy Agent
+- view current status of agent
+#+BEGIN_SRC sh
+service codedeploy status
+#+END_SRC
+
+- restart the service
+#+BEGIN_SRC sh
+service codedeploy start
+#+END_SRC
+
+*** Creating an Application, Deployment Group and Deployment Configuration
+    
+Deployment Group
+  - The deployment group is the instance/s you want to target and deploy code to
+    
+Deployment Configuration
+  - Select how many instances in your deployment group your code will deploy to at any given time
+    
+
+- Create a new application
+#+BEGIN_SRC sh
+aws deploy create-application --application-name test_application
+#+END_SRC
+
+- Create the deployment group, configuration and other options
+#+BEGIN_SRC sh
+aws deploy create-deployment-group --application-name test_application --deployment-group-name <NAME> --ec2-tag-filters Key=Name,Value=<EC2VALUE>,Type=KEY_AND_VALUE --deployment-config-name CodeDeployDefault.<SELECTOPTION> --service-role-arn <SERVICE-ROLE_ARN>
+#+END_SRC
+- a deployment group id will be returned in json form if there are no errors  
+  
+*** Edit and Delete an Application
+    
+- List all applications
+#+BEGIN_SRC sh
+aws deploy list-applications
+#+END_SRC
+    
+- Change the name of the application
+#+BEGIN_SRC sh
+aws deploy update-application --application-name old_application --new-application-name new_application
+#+END_SRC
+this can only be done with the awscli or the awsapi, cannot be done within the AWS console 
+
+- Delete an application
+#+BEGIN_SRC sh
+aws deploy delete-application --application-name CLIApplication
+#+END_SRC
+
+*** Edit, Add and Delete Deployment Groups and Deployment Configurations
+   
+- List all deployment-groups associated with an application
+#+BEGIN_SRC sh
+aws deploy list-deployment-groups --application-anme test_application
+#+END_SRC
+
+- change values of the deployment group
+#+BEGIN_SRC sh
+aws deploy update-deployment-group --application-name test_application --current-deployment-group-name test_deployment_groupname
+#+END_SRC
+- options that can be changed:
+  --new-deployment-group-name <NAME
+  --ec2-tag-filters
+  --on-premises-instance-tag-filters Key=Name,Value=<VALUE>,Type=KEY_AND_VALUE
+  --auto-scaling-groups <NAME>
+  --deployment-config-name CodeDeployDefault <SELECTOPTION>
+  --service-role-arn <SERVICE-ROLE_ARN>
+
+- delete a deployment group/configuration
+#+BEGIN_SRC sh
+aws deploy delete-deployment-group --application-name test_application --deployment-group-name new_deployment_groupname
+#+END_SRC
+
+*** Creating and Deleting Custom Deployment Configurations
+- Default AWS Deployment Configuratins:
+  - OneAtATime
+  - AllAtOnce
+  - HalfAtATime
+
+- list deployment configs
+#+BEGIN_SRC sh
+aws deploy list-deployment-configs
+#+END_SRC
+
+- if the defaultsdon't fit our need we can create a more custom configuration    
+#+BEGIN_SRC sh
+aws deploy create-deployment-config --deployment-config-name MyCustomConfig --minimum-healthy-hosts type=HOST_COUNT,value=1
+#+END_SRC
+- type: 
+    - HOST_COUNT - number of hosts that are available at any point during the deployment 
+    - FLEET_PERCENT - percentage of minimum of hosts that are available from the original number deployed
+
+- delete a custom deployment configuration
+#+BEGIN_SRC sh
+aws deploy delete-deployment-config --deployment-congig-name MyCustomConfig
+#+END_SRC
+
+*** Creating and Configuring the AppSpec file
+- the appsec file is written in yaml
+  - the file has to be placed in the root directory of the application
+
+- appsec example
+/test_application/appsec.yml
+#+BEGIN_EXAMPLE
+---
+version: 0.0 # this is arbitary
+os: linux
+files:
+  - source: /
+    destination: /test_application
+permissions: # this section only applies to linux images, must be removed for windows
+  - object: /test_application/html
+    pattern: "*.html"
+    except: [index.html]
+    mode: 400
+    type:
+      - file
+#+END_EXAMPLE
+
+**** template appsec.yml
+#+BEGIN_EXAMPLE
+# This is an appspec.yml template file for use with AWS CodeDeploy.
+# The lines in this template starting with the hashtag symbol are 
+#   instructional comments and can be safely left in the file or 
+#   ignored.
+# For help completing this file, see the "AppSpec File Reference" in the  
+#   "AWS CodeDeploy User Guide" at
+#   http://docs.aws.amazon.com/codedeploy/latest/userguide/app-spec-ref.html
+version: 0.0
+# Specify "os: linux" if this revision targets Amazon Linux, 
+#   Red Hat Enterprise Linux (RHEL), or Ubuntu Server  
+#   instances.
+# Specify "os: windows" if this revision targets Windows Server instances.
+# (You cannot specify both "os: linux" and "os: windows".)
+os: linux 
+# os: windows
+# During the Install deployment lifecycle event (which occurs between the 
+#   BeforeInstall and AfterInstall events), copy the specified files 
+#   in "source" starting from the root of the revision's file bundle 
+#   to "destination" on the Amazon EC2 instance.
+# Specify multiple "source" and "destination" pairs if you want to copy 
+#   from multiple sources or to multiple destinations.
+# If you are not copying any files to the Amazon EC2 instance, then remove the
+#   "files" section altogether. A blank or incomplete "files" section
+#   may cause associated deployments to fail.
+files:
+  - source: 
+    destination:
+  - source:
+    destination:
+# For deployments to Amazon Linux, Ubuntu Server, or RHEL instances,
+#   you can specify a "permissions" 
+#   section here that describes special permissions to apply to the files 
+#   in the "files" section as they are being copied over to 
+#   the Amazon EC2 instance.
+#   For more information, see the documentation.
+# If you are deploying to Windows Server instances,
+#   then remove the 
+#   "permissions" section altogether. A blank or incomplete "permissions"
+#   section may cause associated deployments to fail.
+permissions:
+  - object:
+    pattern:
+    except:
+    owner:
+    group:
+    mode: 
+    acls:
+      -
+    context:
+      user:
+      type:
+      range:
+    type:
+      -
+# If you are not running any commands on the Amazon EC2 instance, then remove 
+#   the "hooks" section altogether. A blank or incomplete "hooks" section
+#   may cause associated deployments to fail.
+hooks:
+# For each deployment lifecycle event, specify multiple "location" entries 
+#   if you want to run multiple scripts during that event.
+# You can specify "timeout" as the number of seconds to wait until failing the deployment 
+#   if the specified scripts do not run within the specified time limit for the 
+#   specified event. For example, 900 seconds is 15 minutes. If not specified, 
+#   the default is 1800 seconds (30 minutes).
+#   Note that the maximum amount of time that all scripts must finish executing 
+#   for each individual deployment lifecycle event is 3600 seconds (1 hour). 
+#   Otherwise, the deployment will stop and AWS CodeDeploy will consider the deployment
+#   to have failed to the Amazon EC2 instance. Make sure that the total number of seconds 
+#   that are specified in "timeout" for all scripts in each individual deployment 
+#   lifecycle event does not exceed a combined 3600 seconds (1 hour).
+# For deployments to Amazon Linux, Ubuntu Server, or RHEL instances,
+#   you can specify "runas" in an event to
+#   run as the specified user. For more information, see the documentation.
+#   If you are deploying to Windows Server instances,
+#   remove "runas" altogether.
+# If you do not want to run any commands during a particular deployment
+#   lifecycle event, remove that event declaration altogether. Blank or 
+#   incomplete event declarations may cause associated deployments to fail.
+# During the ApplicationStop deployment lifecycle event, run the commands 
+#   in the script specified in "location" starting from the root of the 
+#   revision's file bundle.
+  ApplicationStop:
+    - location: 
+      timeout:
+      runas:
+    - location: 
+      timeout:
+      runas: 
+# During the BeforeInstall deployment lifecycle event, run the commands 
+#   in the script specified in "location".
+  BeforeInstall:
+    - location: 
+      timeout:
+      runas: 
+    - location: 
+      timeout:
+      runas:
+# During the AfterInstall deployment lifecycle event, run the commands 
+#   in the script specified in "location".
+  AfterInstall:
+    - location:     
+      timeout: 
+      runas:
+    - location: 
+      timeout:
+      runas:
+# During the ApplicationInstall deployment lifecycle event, run the commands 
+#   in the script specified in "location".
+  ApplicationStart:
+    - location:     
+      timeout: 
+      runas:
+    - location: 
+      timeout:
+      runas:
+# During the ValidateService deployment lifecycle event, run the commands 
+#   in the script specified in "location".
+  ValidateService:
+    - location:     
+      timeout: 
+      runas:
+    - location: 
+      timeout:
+      runas:
+#+END_EXAMPLE
+
+*** Creating and Uploading a Revision
+    
+- a revision is simply the bundle (zip/tar file) containing the current group of files that you want to deploy.
+  
+- available repository types:
+  - AWS S3 Bucket
+  - GitHub
+  - BitBucket
+    
+- bundle and upload the source files to the S3 bucket
+#+BEGIN_SRC sh
+aws deploy push --application-name test_application --description "my test application" --ignore-hidden-files --s3-location s3://test_application/test_application.zip --source .
+#+END_SRC
+
+*** Monitoring Deployments via SNS Triggers
+- Trigger must be setup before the deployment    
+
+- get the deployment configuration that you would like to add the trigger to
+#+BEGIN_SRC sh
+aws deploy get-deployment-group --application-name test_application --deployment-group-name test_application_groupname
+#+END_SRC
+copy the out put of this cmd
+
+- create a new .json file with the output of the previous cmd and add the triggers
+#+BEGIN_EXAMPLE
+"triggerConfigurations": [
+{
+	"triggerEvents":[
+		"DeploymentStart",
+		"DeploymentFailure"	
+	],
+	"triggerTargetArn": "arn:aws:sns:us-east1:273953087024:Tri$",
+	"triggerName": "CLICreatedTrigger"
+}
+#+END_EXAMPLE
+
+- push the json file
+#+BEGIN_SRC sh
+aws deploy update-deployment-group --current-deployment-group-name test_deployment_groupname --cli-input-json file://cli_trigger.json
+#+END_SRC
+
+- view the trigger to confirm that the triggers have been added
+#+BEGIN_SRC sh
+aws deploy get-deployment-group --application-name test_application --deployment-group-name test_deployment_groupname
+#+END_SRC
+
+*** Viewing Deployment Details and Error Logs
+
+- What we can view?
+  - Deployment details
+  - Instane details
+  - Application details
+  - Deployment Group details
+  - Application Revision details
+  - Deployment Configuration details
+    
+- list deployment id numbers
+#+BEGIN_SRC sh
+aws deploy list-deployments --application-name test_application --deployment-group-name test_application_groupname
+#+END_SRC
+- options
+  - include-only-statueses<failed or succeeded>
+  - create-time-range start=<2018-05-19T00:00:00>,end=<2018-06-19T00:00:00>
+    
+- list detailed deployment info
+#+BEGIN_SRC sh
+aws deploy get-deployment --deployment-id <ID #>
+#+END_SRC
+
+- list instance details
+#+BEGIN_SRC sh
+aws deploy list-deployment-instances --deployment-id <deployment ID #>
+#+END_SRC
+
+- list detailed information about an instance
+#+BEGIN_SRC sh
+aws deploy get-deployment-instance --deployment-id <deployment id> --instance-id <instance id>
+#+END_SRC
+
+- list applications
+#+BEGIN_SRC sh
+aws deploy list-applications
+#+END_SRC
+
+- list detailed view of an application
+#+BEGIN_SRC sh
+aws deploy get-application --application-name test_application
+#+END_SRC
+
+- list deployment groups
+#+BEGIN_SRC sh
+aws deploy list-deployment-groups --application-name
+#+END_SRC
+
+- list detailed view of deployment group
+#+BEGIN_SRC sh
+aws deploy get-deployment-group --application-name test_appication --deployment-group-name test_deployment_groupname
+#+END_SRC
+
+- list revision details
+#+BEGIN_SRC sh
+aws deploy list-application-revisions --application-name test_application
+#+END_SRC
+
+- list detailed view of an application revision
+#+BEGIN_SRC sh
+aws deploy get-application-revision --application-name test_application --s3-location bucket=<S3-bucket>,bundleType=<github,bitbucket,s3>,eTag=<Tag-Value>,key=<Filename>
+#+END_SRC
+
+- list deployment configurations
+#+BEGIN_SRC sh
+aws deploy list-deployment-configs
+#+END_SRC
+
+- list detailed view of deployment configuration
+#+BEGIN_SRC sh
+aws deploy get-deployment-config --deployment-config-name test_deploy.OneAtATime
+#+END_SRC
+
+*** Stopping, Rolling-Back and Redploying a Revision
+
+    
+- stopping a deployment
+#+BEGIN_SRC sh
+stop-deployment --deployment-id <deployment-id-#>
+#+END_SRC
+
+- CodeDeploy treats a "Redloyment" as just a deployment of an already deployed Revision.
+- CodeDeploy doesn't have an automaticd "roll-back" feature
+  
+- "Cleanup" file
+  - this is where CodeDeploy stores infromation about the last installed files, so that in the sase of a redeployment, CodeDeploy can try to delete those files.
+  - Linux - /opt/codedeploy-agent/deployment-root/deployment-instructions/<deployment-group-id>-cleanup
+  - Windows - C:\ProgramData\Amazon\CodeDeploy\deployment-instructions\<deployment-group-id>-cleanup
+
+*** Lamda CodeDeploy Automation
+**** Lambda Code
+#+BEGIN_EXAMPLE
+var aws = require('aws-sdk');
+var s3 = new aws.S3({apiVersion: '2006-03-01'});
+var codedeploy = new aws.CodeDeploy();
+ 
+exports.handler = function(event, context) {
+    var artifact_type;
+    var bucket;
+    var key;
+ 
+    /* runtime functions */
+    function getS3ObjectAndCreateDeployment() {
+    // Get the s3 object to fetch application-name and deploymentgroup-name metadata.
+	    s3.headObject({
+		    Bucket: bucket,
+		    Key: key
+	    }, function(err, data) {
+            if (err) {
+                context.done('Error', 'Error getting s3 object: ' + err);
+            } else {
+                console.log('Creating deployment');
+                createDeployment(data);
+            }
+        });
+    }
+ 
+ 
+    function createDeployment(data) {
+        if (!data.Metadata['application-name'] || !data.Metadata['deploymentgroup-name']) {
+            console.error('application-name and deploymentgroup-name object metadata must be set.');
+            context.done();
+        }
+        var params = {
+            applicationName: data.Metadata['application-name'],
+            deploymentGroupName: data.Metadata['deploymentgroup-name'],
+            description: 'Lambda invoked codedeploy deployment',
+            ignoreApplicationStopFailures: false,
+            revision: {
+                revisionType: 'S3',
+                s3Location: {
+                    bucket: bucket,
+                    bundleType: artifact_type,
+                    key: key
+                }
+            }
+        };
+        codedeploy.createDeployment(params, 
+            function (err, data) {
+                if (err) {
+                    context.done('Error','Error creating deployment: ' + err);
+                }
+                else {
+                    console.log(data);           // successful response
+                    console.log('Finished executing lambda function');
+                    context.done();
+                }
+        });
+    }
+ 
+    console.log('Received event:');
+    console.log(JSON.stringify(event, null, '  '));
+ 
+    // Get the object from the event
+    bucket = event.Records[0].s3.bucket.name;
+    key = event.Records[0].s3.object.key;
+ 
+    tokens = key.split('.');
+    artifact_type = tokens[tokens.length - 1];
+    if (artifact_type == 'gz') {
+        artifact_type = 'tgz';
+    } else if (['zip', 'tar', 'tgz'].indexOf(artifact_type) < 0) {
+        artifact_type = 'tar';
+    }
+ 
+    getS3ObjectAndCreateDeployment();
+};
+#+END_EXAMPLE
+
+    
+**** Lambda Execution Role Policy Template
+#+BEGIN_EXAMPLE
+{
+ "Version": "2012-10-17",
+ "Statement": [
+  {
+    "Effect": "Allow",
+    "Action": [
+      "logs:*"
+    ],
+    "Resource": "arn:aws:logs:*:*:*"
+  },
+  {
+    "Effect": "Allow",
+    "Action": [
+      "s3:GetObject"
+    ],
+    "Resource": [
+      "arn:aws:s3:::<BUCKET_NAME>/*"
+    ]
+  },
+  {
+    "Effect": "Allow",
+    "Action": "codedeploy:GetDeploymentConfig",
+    "Resource": "arn:aws:codedeploy:<REGION>:<ACCOUNTID>:deploymentconfig:*"
+  },
+  {
+    "Effect": "Allow",
+    "Action": "codedeploy:RegisterApplicationRevision",
+    "Resource": "arn:aws:codedeploy:<REGION>:<ACCOUNTID>:application:*"
+  },
+  {
+    "Effect": "Allow",
+    "Action": "codedeploy:GetApplicationRevision",
+    "Resource": "arn:aws:codedeploy:<REGION>:<ACCOUNTID>:application:*"
+  },
+  {
+    "Effect": "Allow",
+    "Action": "codedeploy:CreateDeployment",
+    "Resource": "arn:aws:codedeploy:<REGION>:<ACCOUNTID>:deploymentgroup:*"
+   }
+ ]
+}
+#+END_EXAMPLE
+
 ** CodePipeline
 A continous delivery service that provides tools to model, visualize and automate the software release process
+
+[[file://home/crito/Pictures/org/codepipeline01.png]]
+
+- pipelines must be in one of the following regions:
+  - us-east-1
+  - us-west-2
+  - eu-west-1
+    
+- you can have 20 pipelines per AWS account
+
+*** Creating a Pipeline in the AWS Console
+
+[[file://home/crito/Pictures/org/codepipeline02.png]]
+
+
+- Navigate to CodePipeline and click on "Get Started" or "Create a Pipeline"
+  
+[[file://home/crito/Pictures/org/codepipeline03.png]]
+
+- Give the pipeline a name
+
+[[file://home/crito/Pictures/org/codepipeline04.png]]
+
+- Select a source (codecommit)
+
+[[file://home/crito/Pictures/org/codepipeline05.png]]
+
+
+- Select a build provider (though in this simple example "No Build" is selected we do have the option of selecting Jenkins or Solano)
+  
+[[file://home/crito/Pictures/org/codepipeline06.png]]
+
+
+- Select a deployment provider (CodeDeploy, but OpsWorks or ElasticBeanstalk are also options)
+  
+[[file://home/crito/Pictures/org/codepipeline07.png]]
+
+
+- Create/Select an AWS Service Role (permissions)
+
+[[file://home/crito/Pictures/org/codepipeline08.png]]
+
+
+- Review the Pipeline and create it
+
+[[file://home/crito/Pictures/org/codepipeline09.png]]
+
+- On creation the pipeline is immediately run
+
+[[file://home/crito/Pictures/org/codepipeline10.png]]
+
+*** Creating a Pipeline with the awscli
+    
+- Generate a CodePipeline JSON Template
+  - the easiest way is to use an exsiting pipeline as a template
+#+BEGIN_SRC sh
+aws codepipeline get-pipeline -name test_pipeline > cli_test_pipeline.json
+#+END_SRC
+
+- make the releavent changes to the file in favourite editor
+  
+- upload the new pipeline
+#+BEGIN_SRC sh
+aws codepipeline create-pipeline --cli-input-json file://cli_test_pipeline.json
+#+END_SRC
+
+*** Manage the CodePipeline from the awscli
+    
+- view all pipelines
+#+BEGIN_SRC sh
+aws codepipeline list-pipelines
+#+END_SRC
+
+- view detailed information about a specific pipeline
+#+BEGIN_SRC sh
+aws codepipeline get-pipeline --name test_pipeline
+#+END_SRC
+
+- view status of pipelines
+#+BEGIN_SRC sh
+aws codepipeline get-pipeline-state --name test_pipeline
+#+END_SRC
+
+- delete a pipeline
+#+BEGIN_SRC sh
+aws codepipeline delete-pipeline --name test_pipeline
+#+END_SRC
+
+**** Editing a pipeline
+- first pull the json of the pipeline
+#+BEGIN_SRC sh
+aws codepipeline get-pipeline --name test_pipeline > test_pipeline_edit.json
+#+END_SRC
+
+- now edit the file in your favourite editor
+
+- push the edited file to CodePipeline
+#+BEGIN_SRC sh
+aws codepipeline update-pipeline --clie-input-json file://test_pipeline_edit.json
+#+END_SRC
+
+**** Disable/Enable Transitions
+- if currently enabled:
+#+BEGIN_SRC sh
+aws codepipeline disable-state-transition --pipeline-name test_pipeline --stage-name build --transition-type inbound --reason "test"
+#+END_SRC
+- stage after the transition that we want to disable
+
+- if currently disabled:
+#+BEGIN_SRC sh
+aws codepipeline enable-state-transition --pipeline-name test_pipeline --stage-name build --transition-type inbound
+#+END_SRC
+- stage after the transition that we want to enable
+
+
 ** Dynamo
 Docs: https://aws.amazon.com/dynamodb/
 ** EBS
