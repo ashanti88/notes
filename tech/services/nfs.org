@@ -27,6 +27,28 @@ systemctl enable nfs-server
 exportfs -r
 #+END_SRC
 
+** fstab options
+  - defaults - rw,suid,dev,exec,auto,nouser,async
+  - ro     - read-only
+  - rw     - read-write
+  - auto   - the device will be mounted automatically at boot
+  - noauto - device will only be mounted explicitly, (mount -a won't mount the device)
+  - sync   - immediately written to the system
+  - async  - saved in buffer, before being pushed
+  - soft   - try but die if unavailable (intr is usually a better option, less chance of data corruption)
+  - hard   - keep trying until timeout
+  - intr   - this allows the nfs request to be interrupted if the server goes down or cannot be reached.
+  - bg     - run in the background
+  - timeo  - stop trying to mount after set time
+  - rsize  - defines the maximum number of bytes in a read request that the client can recive when communicating with the server.
+  - wsize  - defines the maximum number of bytes in a write request that the client can send when communicating with the server.
+  - exec   - allow executables to be run on the mount
+  - noexec - don't allow executables to be run on the mount
+  - user   - allows a normal user the ability to mount the device
+  - nouser - this means that only root has the ability to mount the device
+  - root_squash - requests from root clients are mapped to the nobody user and gid so they will only have file privs associated with the share
+  - no_root_squash - this allows a remote root user to have root privs on the share(no advised) [[https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/4/html/Security_Guide/s2-server-nfs-noroot.html][Do Not Use the no_root_squash Option - redhat]] 
+
 ** Install and configure NFS server for sysvinit(RHEL6)
 #+BEGIN_SRC sh
 yum install nfs-utils nfs-utils-lib
@@ -127,6 +149,118 @@ mount 192.168.1.131:/var/share /mnt/nfs_share/
 192.168.1.131:/var/share 	/mnt/nfs_share	nfs	rw,sync,hard,intr 0 0
 #+END_EXAMPLE
 though /var/share is read only, the abouve rw will have no effect
+
+** NFSv3 Server Configuration LPIC2
+
+- install the required pkgs
+#+BEGIN_SRC sh
+yum install nfs-utils nfs-utils-lib rpcbind
+#+END_SRC
+
+- create the export directory
+#+BEGIN_SRC sh
+mkdir /nfsshare
+chmod 777 /nfsshare
+#+END_SRC
+- setting 777 means that the share controls access control, and that the server permissions aren't impeading any settings
+
+- create the export
+/etc/exports
+#+BEGIN_EXAMPLE
+/nfsshare frank1.mylabserver.com(rw,root_squash,sync) 192.168.0.0/24(rw,no_root_sqash,async) (ro)
+#+END_EXAMPLE
+      
+- create an nfsuser
+#+BEGIN_SRC sh
+useradd -u 1101 -m nfsuser1
+useradd -u 1102 -m nfsuser1
+passwd nfsuser1
+passwd nfsuser2
+#+END_SRC
+
+- create the same users on the client-side
+#+BEGIN_SRC sh
+useradd -u 1101 -m nfsuser1
+useradd -u 1102 -m nfsuser1
+passwd nfsuser1
+passwd nfsuser2
+#+END_SRC
+
+- start and enable the nfs service
+#+BEGIN_SRC sh
+systemctl start rpcbind
+systemctl start nfs
+#+END_SRC
+
+- edit the tcp-wrapper
+/etc/hosts.allow
+#+BEGIN_EXAMPLE
+# provide portmap access for this client on nfs
+portmap: 172.31.24.1
+#+END_EXAMPLE
+/etc/hosts.deny
+#+BEGIN_EXAMPLE
+# deny access to the following network except to thoses set in hosts.allow
+portmap: 172.31.24.0/24
+portmap: ALL # this would deny everyone that isn't set in hosts.allow
+#+END_EXAMPLE
+by default tcp-wrappers allow
+
+- restart the nfs and rpc services
+#+BEGIN_SRC sh
+systemctl restart rpcbind
+systemctl restart nfs
+#+END_SRC
+
+- test the configuration
+#+BEGIN_SRC sh
+exportfs
+#+END_SRC
+this will printout the available shares
+
+- to view connects to nfs
+#+BEGIN_SRC sh
+nfsstat -m
+#+END_SRC
+
+
+** NFSv3 Client Configuration LPIC2 
+   
+- install the required pkgs
+#+BEGIN_SRC sh
+yum -y install nfs-utils nfs-utils-lib rpcbind
+#+END_SRC
+
+- create the mount point
+#+BEGIN_SRC sh
+mkdir /mnt/nfsshare
+#+END_SRC
+
+- manually mount the share
+#+BEGIN_SRC sh
+mount -t nfs 172.31.131.89:/nfsshare /mnt/nfsshare
+#+END_SRC
+as root_squash is being used this would cause any files that were created to have the owner nfsnobody
+
+- change to nfsuser1 and create a file in the share
+#+BEGIN_SRC sh
+su - nfsuser1
+cd /mnt/nfsshare
+touch testfile.txt
+#+END_SRC
+testfile.txt instead of having the nfsnobody owner, will have nfsuser1 as both server and client have the same user with corresponding uid and gid
+
+- add the mount to fstab
+/etc/fstab
+#+BEGIN_EXAMPLE
+172.31.131.89:/nfsshare /mnt/nfsshare nfs hard,bg,timeo=300,rsize=2048,wsize=4096 0 0
+#+END_EXAMPLE
+
+- confirm the mount
+#+BEGIN_SRC sh
+mount -a
+df -h
+#+END_SRC
 
 ** Setting up a simple nfs share
 - create a mount on the client side

@@ -157,7 +157,7 @@ find -P /home/user/ -name
 #+BEGIN_SRC sh
 find . -xtype l
 #+END_SRC
-This is not available on versions of find, but tends to be the best
+This is not available on all versions of find, but tends to be the best
 
 - using test
 #+BEGIN_SRC sh
@@ -167,6 +167,12 @@ find . -type l ! -exec text e {} \; -print
 - using rm
 #+BEGIN_SRC sh
 rm $(find . -type l -exec sh -c "file -b {} | grep -q ^broken" \; -print)
+#+END_SRC
+
+** Finding hard links
+- find any files that have the same inode as testfile.txt
+#+BEGIN_SRC sh
+find /hame/frank -samefile testfile.txt
 #+END_SRC
 
 * Lecture

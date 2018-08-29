@@ -1,0 +1,16 @@
+#+TAGS: rpc rpcbind rpcinfo
+
+
+* rpcinfo
+* Description
+* Usage
+- view the current portmap status
+#+BEGIN_SRC sh
+rpcinfo -p
+#+END_SRC
+this will provide a list of all service that are using rpc and their ports
+
+* Lecture
+* Tutorial
+* Books
+* Links

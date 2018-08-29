@@ -1,26 +1,185 @@
-#+TAGS: file_server samba cifs smb
+#+TAGS: file_server samba cifs smb nmb smbd
 
 
 * Samba
 HomePage: [[https://wiki.samba.org/index.php/Main_Page][wiki.samba.org/Main_Page]]
-* Cmds
-- testparm
-- nmblookup
-- pdbedit
-
 * Files
 /etc/samba/smb.conf - the main configuration file for Samba
 /etc/nsswitch.conf - this file contains options for what protocols to use to lookup shares (wins for a windows server share)
 /etc/fstab - this is the file you would edit to make a share permanent
 /var/lib/samba/private/smbpasswd - this file holds hashes of the samba users passwords
 
+* Cmds
+- testparm - this is used to check the samba config
+- nmblookup
+- pdbedit
+
 * Description
 * Usage
-** Mounting samba share (temporary)
+- mount a share
 #+BEGIN_SRC sh
 mount -t cifs -o username=frank //10.0.0.100/public_files /mnt/mount_point
 #+END_SRC
-this will not be mounted on reboot
+this is not persistent and will not be present on reboot
+
+** SAMBA Server Configuration (Server Installation and Share Configuration) - RHEL7 LPIC2
+   
+- install required pkgs
+#+BEGIN_SRC sh
+yum install samba samba-client samba-common cifs-utils
+#+END_SRC
+cifs-utils - this is for samba v4
+
+- edit the the samba configuration 
+/etc/smb.conf
+#+BEGIN_EXAMPLE
+[global]
+	workgroup = SAMBA
+	security = user
+	
+	passdb backen = tdbsam
+	
+	printing = cups
+	printcap name = cups
+	load printers = no
+	cups options = raw
+	
+[homes]
+	comment = Home Directories
+	valid users = %S, %D%w%S
+	read only = No
+	inherit acls = Yes
+	
+[printers]
+	comment = All Printers
+	path = /var/tmp
+	printable = Yes
+	create mask = 0600
+	directory mask = 0775
+	
+[myshare]
+	comment = This is our test share
+	path = /myshare
+	guest ok = no
+	writeable = yes
+#+END_EXAMPLE
+- though write permissions might be given in the samba config, if not present on the filesystem it will not be allowed
+
+- create the /myshare directory
+#+BEGIN_SRC sh
+mkdir /myshare
+chmod 777 /myshare
+echo "test file" > /myshare/testfile.txt
+#+END_SRC
+
+- test that our configuration is correct
+#+BEGIN_SRC sh
+testparm
+#+END_SRC
+
+- make the share available
+#+BEGIN_SRC sh
+systemctl start nmb
+systemctl start smb
+systemctl enable smb
+systemctl enable nmb
+#+END_SRC
+on earlier distributions it was smbd and nmbd
+
+- confirm that the service is running
+#+BEGIN_SRC sh
+nmblookup SAMBA
+#+END_SRC
+
+- add samba password
+#+BEGIN_SRC sh
+smbpasswd -a frank
+#+END_SRC
+this will prompt for a password for the user, frank has to be a user on the system
+
+- create a usermap file for windows users that don't have a system user account
+/etc/samba/usermap
+#+BEGIN_EXAMPLE
+barney = user
+user@hotmail.com = user
+#+END_EXAMPLE
+we can map users to a default user on the system
+
+- edit smb.conf
+#+BEGIN_EXAMPLE
+[global]
+	username map = /etc/samba/usermap
+#+END_EXAMPLE
+
+- test the configuration
+#+BEGIN_SRC sh
+testparm
+#+END_SRC
+
+- confirm that you can access the samba shares
+#+BEGIN_SRC sh
+smbclient -U frank -L 172.31.110.52
+#+END_SRC
+this will prompt for a password, then print available shares
+
+- access the share
+#+BEGIN_SRC sh
+smbclient -U frank //172.31.110.52/myshare
+#+END_SRC
+this will drop you into an interactive session with samba
+
+- view who is connected to the server
+#+BEGIN_SRC sh
+smbstatus
+#+END_SRC
+
+** SAMBA Client Configuration - RHEL7 LPIC2
+   
+- install required pkgs
+#+BEGIN_SRC sh
+yum install samba samba-client samba-common cifs-utils
+#+END_SRC
+
+- test connection with Samba server
+#+BEGIN_SRC sh
+smbclient -U frank -L 172.31.110.53
+#+END_SRC
+
+- open an interactive session with the server
+#+BEGIN_SRC sh
+smbclient -U frank //172.31.110.53/myshare
+#+END_SRC
+
+- create a mount point on the client
+#+BEGIN_SRC sh
+mkdir /mnt/shares
+#+END_SRC
+
+- mount the samba shares
+#+BEGIN_SRC sh
+mount -t cifs -o username=frank //172.31.110.53/myshare /mnt/shares
+#+END_SRC
+with samba3 username= becomes user=
+
+- confirm the mount
+#+BEGIN_SRC sh
+df -hT
+#+END_SRC
+
+- add the share to fstab (unsecure)
+#+BEGIN_EXAMPLE
+//172.31.110.53/myshare /mnt/shares cifs username=frank,password=p@$$w0rd 0 0
+#+END_EXAMPLE
+
+- add the share to fstab (secure)
+#+BEGIN_EXAMPLE
+//172.31.110.53/myshare /mnt/shares cifs credentials=/etc/samba/creds.txt 0 0
+#+END_EXAMPLE
+/etc/samba/creds.txt root:root(0600)
+#+BEGIN_EXAMPLE
+username=frank
+password=p@$$w0rd
+#+END_EXAMPLE
 
 ** Configuring a Samba Share
 - scan to find what shares are available
@@ -400,8 +559,6 @@ mount //172.31.125.229/smbgroup /sharepoint -t cifs -o username=user5
 #+BEGIN_SRC sh
 df -hT
 #+END_SRC
-
-
 
 * Tutorial
 ** Linux Academy - Samba4 with Windows and Linux Client and Server

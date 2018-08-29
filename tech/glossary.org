@@ -29,7 +29,11 @@ flannel
 Microsoft: https://www.msembedded.biz/en/licensing/license-sticker/
 * CORS - Cross Origin Resource Sharing
 Wiki: https://en.wikipedia.org/wiki/Cross-origin_resource_sharing
+* CP/M - Control Program for Microcomputers
+DigitalReseach: http://www.digitalresearch.biz/CPM.HTM
 * CRUD - Create Read Update Delete
+* CTSS - Compatible Time Sharing System
+Wiki: https://en.wikipedia.org/wiki/Compatible_Time-Sharing_System
 * CVE  - Common Vulnerabilities and Exposures
 HomePage: https://cve.mitre.org/
 * DCCP - Datagram Congestion Control Protocol
@@ -85,6 +89,9 @@ Wiki: https://en.wikipedia.org/wiki/Integrated_Services_Digital_Network
 wiki: https://en.wikipedia.org/wiki/ISCSI
 * IIO  - Industrial I/O Subsystem
 https://wiki.analog.com/software/linux/docs/iio/iio
+* IPC  - Inter-Process Communication
+Book: [[file://home/crito/Documents/Computer_Science/Operating_Sys/Operating_Systems-Design_and_Implementations.pdf][Operating Systems - Design and Implementation - Tanenbaum - Chp 2]]
+
 * JSON - JavaScript Object Notation
 Wiki: https://en.wikipedia.org/wiki/JSON
 
@@ -115,6 +122,8 @@ Wiki: https://en.wikipedia.org/wiki/Linux_Standard_Base
 Wiki: https://en.wikipedia.org/wiki/Multiprotocol_Label_Switching
 * MTU  - Maximum Transmission Unit
 Wiki: https://en.wikipedia.org/wiki/Maximum_transmission_unit
+* MULTICS - MULTiplexed Information and Computing Service
+Wiki: https://en.wikipedia.org/wiki/Multics
 * MVC  - Model View Controller
 Wiki: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller
 * NACL - Network Access Control Lists
@@ -187,6 +196,7 @@ Server Name Indication (SNI) is an extension to the TLS computer networking prot
 * SOA  - Start of Authority (DNS record)
 Wiki: https://en.wikipedia.org/wiki/SOA_record
 * SPI  - Serial Peripheral Interface bus
+* SPOOL - Simultaneous Peripheral Operation On Line  
 * SRE  - Site Reliability Engineering/Engineer
 Google: https://landing.google.com/sre/
 * SSSD - System Security Services Daemon
