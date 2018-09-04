@@ -1,10 +1,40 @@
 #+TAGS: shell ms
 
 
-* PowerShell 							   :shell:ms:
+* PowerShell
 Github: [[https://github.com/PowerShell/PowerShell][github.com/Powershell]]
 * Description
 * Usage
+
+- installation on CentOS7
+#+BEGIN_SRC sh
+cd /tmp
+wget https://github.com/PowerShell/PowerShell/releases/download/v6.0.4/powershell-6.0.4-1.rhel.7.x86_64.rpm
+rpm -ihv powershell-6.0.4-1
+#+END_SRC
+check incase that a new stable is available
+
+- installation on Debian9
+#+BEGIN_SRC sh
+cd /tmp
+wget https://github.com/PowerShell/PowerShell/releases/download/v6.0.4/powershell_6.0.4-1.debian.9_amd64.deb
+dpkg -i powershell-6.0.4-1
+apt-get install -f # this is only required if any dependencies aren't met
+#+END_SRC
+check incase that a new stable is available
+
+** Basic Admin
+- enter the powershell   
+#+BEGIN_SRC sh
+pwsh
+#+END_SRC
+
+- update the help system
+#+BEGIN_SRC sh
+update-help -force
+#+END_SRC
+
+
 * Lecture
 * Tutorial
 * Books

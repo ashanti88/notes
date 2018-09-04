@@ -5,6 +5,9 @@
 * Files
 /etc/ssh/ssh_config             - the config file for the ssh client
 /etc/ssh/sshd_config            - the config file for the ssh daemon
+  - DenyUsers  - this sets who can't login
+  - AllowUsers - this sets who can login
+  - PermitEmptyPasswords - user without a set password will be allowed to ssh in if set to "yes"
 /home/user/.ssh/authorized_keys - this holds remote hosts public keys
 /home/user/.ssh/known_hosts     - this file holds hashes for all known hosts, hosts that we have previously connected to and authorize that we trust them to be the correct machine.
 /home/user/.ssh/id_rsa          - this is the default private key, it needs privs of 600
@@ -61,27 +64,10 @@ ssh-keygen
 #+END_SRC
 This will then prompt for a name for the new key
 
-** Check an ssh keys password
-#+BEGIN_SRC sh
-eval $(ssh-agent)
-ssh-add .ssh/id_rsa
-#+END_SRC
-If this key has a passphrase you will be challenged. 
-To unload the key
-#+BEGIN_SRC sh
-ssh-add -d .ssh/id_rsa
-#+END_SRC
 ** Generate public key from private key
 #+BEGIN_SRC sh
 ssh-keygen -y -f .ssh/private_key > .ssh/private_key.public
 #+END_SRC
-
-** Enable key only auth
-- this will allow only key auth, no password auth
-#+BEGIN_EXAMPLE
-PasswordAuthentication no
-#+END_EXAMPLE
-this is the only variable that needs to be changed
 
 ** Secure Configuration
 *** Network Options
@@ -297,8 +283,35 @@ ssh-copy-id frank@78.87.56.34
     source ~/.keychain/hostname-sh
     #+END_EXAMPLE
     hostname should correspond with the machines hostname
-  
-** Setting up ssh-agent as a sysd service
+
+*** Using ssh-agent
+#+BEGIN_SRC sh
+eval $(ssh-agent)
+ssh-add .ssh/id_rsa
+#+END_SRC
+If this key has a passphrase you will be challenged. 
+
+- unload the key
+#+BEGIN_SRC sh
+ssh-add -d .ssh/id_rsa
+#+END_SRC
+
+- remove all keys/identities
+#+BEGIN_SRC sh
+ssh-add -D
+#+END_SRC
+
+- add key/identity
+#+BEGIN_SRC sh
+ssh-add .ssh/id_rsa
+#+END_SRC
+
+- Check what identities are currently set
+#+BEGIN_SRC sh
+ssh-add -l
+#+END_SRC
+
+*** Setting up ssh-agent as a sysd service
 #+BEGIN_EXAMPLE
 [Unit]
 Description=SSH key agent
@@ -312,30 +325,10 @@ ExecStart=/usr/bin/ssh-agent -a $SSH_AUTH_SOCK
 WantedBy=default.target
 #+END_EXAMPLE
 
-** Adding to zshrc
-- add this line to .zshrc
+- adding to zshrc
 #+BEGIN_EXAMPLE
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 #+END_EXAMPLE
-** add key/identity
-#+BEGIN_SRC sh
-ssh-add $KEY
-#+END_SRC
-
-** Check what identities are currently set
-#+BEGIN_SRC sh
-ssh-add -l
-#+END_SRC
-
-** remove key/identity
-#+BEGIN_SRC sh
-ssh-add -d $KEY
-#+END_SRC
-
-** remove all keys/identities
-#+BEGIN_SRC sh
-ssh-add -D
-#+END_SRC
 
 ** Changing SSH port
 
@@ -387,7 +380,19 @@ KerberosOrLocalPasswd yes
 GSSAPIAuthentication yes
 
 #+END_EXAMPLE
+** Enable key only auth
+/etc/ssh/sshd_config
+- this will allow only key auth, no password auth
+#+BEGIN_EXAMPLE
+PasswordAuthentication no
+PubkeyAuthentication yes # the default is yes if commented out
+AuthorizedKeysFile .ssh/authorized_keys
+#+END_EXAMPLE
+this is the only variable that needs to be changed
+
 ** Configure Key-Based Authentication
+
++ On Client
 - install the required packages
 RHEL7
 #+BEGIN_SRC sh
@@ -409,6 +414,21 @@ this will prompt you for a location and passphrase
 ssh-copy-id user@alickmitchell2.mylabserver.com
 #+END_SRC
 you will be prompted for user's password, then will copy the file to ~/.ssh/ on the remote server
+
++ On Server
+/etc/ssh/sshd_config
+- this will allow only key auth, no password auth
+#+BEGIN_EXAMPLE
+PasswordAuthentication no
+PubkeyAuthentication yes # the default is yes if commented out
+AuthorizedKeysFile .ssh/authorized_keys
+#+END_EXAMPLE
+this is the only variable that needs to be changed
+
+- reload the service
+#+BEGIN_SRC sh
+systemctl reload sshd
+#+END_SRC
 
 ** Setting the Banner
 - edit /etc/issue.net
@@ -434,6 +454,10 @@ systemctl restart sshd
 restorecon -R -v /home/user/.ssh
 #+END_SRC
 otherwise the password will continue to be asked for
+
+** X Forwarding
+   
+- there is no requirement for an X-server on the server-side (no desktop need to be installed)
 
 * Lecture
 * Tutorial

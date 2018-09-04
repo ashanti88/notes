@@ -1,0 +1,21 @@
+#+TAGS: courier pop3 pop imap
+
+
+* Courier
+HomePage: http://www.courier-mta.org/imap/
+* Description
+* Usage
+  
+** Installation and Configuration on Ubuntu 14.04LTS
+   
+- install the required pkgs
+#+BEGIN_SRC sh
+sudo apt-get install courier-imap courier-imap-ssl courier-pop courier-pop-ssl
+#+END_SRC
+
+
+
+* Lecture
+* Tutorial
+* Books
+* Links

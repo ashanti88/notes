@@ -2,8 +2,143 @@
 
 
 * OpenVPN
+* Files
+/etc/openvpn/
 * Description
 * Usage
+** Server Configuration CentOS7 LPIC2
+   
++ Certificate Autority
+- install the required pkgs
+#+BEGIN_SRC sh
+yum install openvpn
+#+END_SRC
+
+- create certificates
+#+BEGIN_SRC sh
+openssl genrsa -out /etc/openvpn/ca.key 2048
+chmod 0600 /etc/openvpn/ca.key
+#+END_SRC
+
+- create certificate request and sign
+#+BEGIN_SRC sh
+openssl req -new -key ca.key -out ca.csr -subj /CN=OpenVPN-CA/
+openssl x509 -req -new -in ca.csr -out ca.crt -signkey ca.key -days 365
+#+END_SRC
+
+- set serial number
+#+BEGIN_SRC sh
+echo 01 > ca.srl
+#+END_SRC
+
++Server Certificates
+- create certificate
+#+BEGIN_SRC sh
+openssl genrsa -out /etc/openvpn/server.key 2048
+chmod 0600 /etc/openvpn/server.key
+#+END_SRC
+
+- create certificate request and sign
+#+BEGIN_SRC sh
+openssl req -new -key server.key -out server.csr -subj /CN=OpenVPN-CA/
+openssl x509 -req -new -in server.csr -out server.crt -CA ca.crt -CAkey ca.key -days 365
+#+END_SRC
+
++ Server Config
+- copy the example
+#+BEGIN_SRC sh
+cp /usr/share/doc/openvpn-2.4.6/sample/sample-config-files/server.conf /etc/openvpn
+#+END_SRC
+
+- main variables
+#+BEGIN_EXAMPLE
+port 1194
+ca ca.crt       # set this to the name of the server key that was created
+cert server.crt # set this to the name of the server key that was created
+key server.key  # set this to the name of the server key that was created
+
+topology subnet
+#+END_EXAMPLE
+
+- generate the diffie helman file
+#+BEGIN_SRC sh
+openssl dhparam -out /etc/openpndh2048.pem 2048
+#+END_SRC
+
+- start and enable the service
+#+BEGIN_SRC sh
+systemctl enable openvpn@server
+systemctl start openvpn@server
+systemctl status openvpn@server
+#+END_SRC
+
+- add firewall rules
+#+BEGIN_SRC sh
+iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE
+#+END_SRC
+
+- set ip forwarding
+#+BEGIN_SRC sh
+sysctl -w net.ipv4.ip_forward=1
+#+END_SRC
+
+** Client Configuration CentOS7 LPIC2
+   
++ Server
+- generate key
+#+BEGIN_SRC sh
+openssl genras -out client.key 2048
+chmod 0600 client.key
+#+END_SRC
+
+- create cetficate request and sign
+#+BEGIN_SRC sh
+openssl req -new -key client.key -out client.csr -subj /CN-OpenVPN/
+openssl x509 -req -in client.csr -out client.crt -CA ca.crt -CAkey ca.key -days 365
+#+END_SRC
+
+- copy the files to the client
+#+BEGIN_SRC sh
+scp ca.crt fred1@mylabserver.com:/tmp
+scp client.crt fred@mylabserver.com:/tmp
+scp client.key fred@mylabserver.com:/tmp
+#+END_SRC
+
++ Client
+- install the required pkgs
+#+BEGIN_SRC sh
+yum install openvpn
+#+END_SRC
+
+- move the copied files to openvpn directory
+#+BEGIN_SRC sh
+cp /tmp/*crt /etc/openvpn
+cp /tmp/client.key /etc/openvpn
+#+END_SRC
+
+- copy the client config
+#+BEGIN_SRC sh
+cp /usr/share/doc/openvpn-2.4.6/sample/sample-config-files/client.conf /etc/openvpn
+#+END_SRC
+
+- verify the config
+/etc/openvpn/client.conf
+#+BEGIN_EXAMPLE
+remote server-name.com 1194
+
+ca ca.crt
+cert client.crt
+key client.key
+#+END_EXAMPLE
+
+- start the client
+#+BEGIN_SRC sh
+systemctl enable openvpn@client
+systemctl start openvpn@client
+systemctl status openvpn@client
+#+END_SRC
+
+
 * Lecture
 * Tutorial
 * Books

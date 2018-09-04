@@ -223,6 +223,13 @@ this will printout the available shares
 nfsstat -m
 #+END_SRC
 
+- firewalld configuration
+#+BEGIN_SRC sh
+firewall-cmd --permanent --add-service=nfs
+firewall-cmd --permanent --add-service=mountd
+firewall-cmd --permanent --add-service=rpc-bind
+firewall-cmd --reload
+#+END_SRC
 
 ** NFSv3 Client Configuration LPIC2 
    
@@ -296,7 +303,7 @@ this will mount the available share
 
 - Setting the options on the shares
 #+BEGIN_EXAMPLE
-/media *[rw,no_root_squash]
+/media *(rw,no_root_squash)
 #+END_EXAMPLE
 rw - read and writer permissions
 no_root_squash - no one will be allowed root privs
@@ -742,6 +749,80 @@ systemctl status nfs-client.target
 #+BEGIN_SRC sh
 mkdir /mnt/krbtest
 mount -t nfs4 -o sec=krb5 alickmitchell2.mylabserver.com:/krbdata /mnt/krbtest
+#+END_SRC
+
+** Setting the nfs version at mount
+- tis will specify which version to use
+#+BEGIN_SRC sh
+mount -t nfs -o vers=2 192.168.0.9:/home/crito /home/crito/mtp1
+mount -t nfs -o vers=3 192.168.0.9:/home/crito /home/crito/mtp1
+mount -t nfs -o vers=4 192.168.0.9:/home/crito /home/crito/mtp1
+#+END_SRC
+
+** Installing and Configuring NFS Server on Debian 9
+   
+- install required pkgs
+#+BEGIN_SRC sh
+apt-get install nfs-kernel-server
+#+END_SRC
+
+- start and enable the service
+#+BEGIN_SRC sh
+systemctl start nfs-kernel-server
+systemctl enable nfs-kernel-server
+#+END_SRC
+
+- create the share
+#+BEGIN_SRC sh
+mkdir /nfsshare
+#+END_SRC
+
+- create the export
+/etc/exports
+#+BEGIN_EXAMPLE
+/nfsshare frank1.mylabserver.com(rw,sync,no_subtree,root_squash)
+#+END_EXAMPLE
+
+- reload the exports
+#+BEGIN_SRC sh
+exportfs -a
+#+END_SRC
+
+- firewalld configuration
+#+BEGIN_SRC sh
+firewall-cmd --permanent --add-service=nfs
+firewall-cmd --permanent --add-service=mountd
+firewall-cmd --permanent --add-service=rpc-bind
+firewall-cmd --reload
+#+END_SRC
+
+** Install and Configuring NFS Client on Debian 9
+
+- install required pkgs
+#+BEGIN_SRC sh
+apt-get install nfs-common
+#+END_SRC
+
+- test that mount is avaialble
+#+BEGIN_SRC sh
+mount -t nfs 172.168.101.158:/nfsshare /mnt/nfsshare
+#+END_SRC
+
+- confirm mount
+#+BEGIN_SRC sh
+df -hT
+umount /mnt/nfsshare
+#+END_SRC
+
+- make the mount persistent
+/etc/fstab
+#+BEGIN_EXAMPLE
+172.31.101.158:/nfsshare /mnt/nfsshare nfs hard,bg,timeo=300,rsize=2048,wsize=4096 0 0
+#+END_EXAMPLE
+
+- mount the change to fstab
+#+BEGIN_SRC sh
+mount -a
 #+END_SRC
 
 * Lecture

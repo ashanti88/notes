@@ -393,6 +393,10 @@ firewall-cmd --permanent --add-forward-port=port433:proto=tcp:toport=5901
 firewall-cmd --reload
 #+END_SRC
 
+*** Configuring dhcp on CentOS7
+    
+
+
 ** RHEL7 Logging
 Service - Direct write ---> /so/log/.log
         - systemctl    ---> journald

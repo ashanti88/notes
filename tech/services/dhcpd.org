@@ -4,6 +4,10 @@
 * dhcpd
 Arch: [[https://wiki.archlinux.org/index.php/Dhcpd][archlinux.org/dhcpd]]
 
+* Files
+/var/log/message    - rhel will use this file for logging
+/var/log/daemon.log - debian will use this file for logging
+/etc/dhcpd.conf     - this is the main configuration file
 * Cmds
 - dhclient
 

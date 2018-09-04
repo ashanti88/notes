@@ -2,15 +2,6 @@
 
 
 * Bash
-* Built-in-cmds
-- exit    - this will exit from the shell
-- [[file://home/crito/org/tech/cmds/export.org][export]]  - this will create or append to shell variables (but isn't persistent 
-- [[file://home/crito/org/tech/cmds/history.org][history]] - this will show the users history, the limit is set in the .bashrc
-- [[file://home/crito/org/tech/cmds/shopt.org][shopt]]   - this will list the bash options and their current stat
-- [[file://home/crito/org/tech/cmds/set.org][set]]     - this cmd will set shell options to on(-) or off(+)
-- [[file://home/crito/org/tech/cmds/test.org][test]]    - Evaluate a conditional expression expr and return a status of 0 (true) or 1 (false).
-- [[file://home/crito/org/tech/cmds/time.org][time]]    - this will return timing statistics about a specific program
-
 * Files
 /etc/profile - 
 ~/.bash_logout - this is run when loging out of shell window
@@ -31,6 +22,15 @@
   - ~/.bashrc
   - /etc/bashrc
     
+* Built-in-cmds
+- exit    - this will exit from the shell
+- [[file://home/crito/org/tech/cmds/export.org][export]]  - this will create or append to shell variables (but isn't persistent 
+- [[file://home/crito/org/tech/cmds/history.org][history]] - this will show the users history, the limit is set in the .bashrc
+- [[file://home/crito/org/tech/cmds/shopt.org][shopt]]   - this will list the bash options and their current stat
+- [[file://home/crito/org/tech/cmds/set.org][set]]     - this cmd will set shell options to on(-) or off(+)
+- [[file://home/crito/org/tech/cmds/test.org][test]]    - Evaluate a conditional expression expr and return a status of 0 (true) or 1 (false).
+- [[file://home/crito/org/tech/cmds/time.org][time]]    - this will return timing statistics about a specific program
+
 * Description
 Borne Again Shell is the GNU's shell, and builds upon a lot of the Borne Shell (sh).
 
@@ -267,6 +267,7 @@ Guide: file://home/crito/Documents/Linux/Labs/command-line-variables-lab.pdf
    Guide: file://home/crito/Documents/Linux/Labs/process-text-streams-lab.pdf
 ** Linux Academy - Writing a Script to Perform Conditional Input Testing
 Guide: [[file://home/crito/Documents/Linux/Labs/write-a-script-lab.pdf][Writing a Script to Perform Conditional Input Testing]]
+
 * Books
 ** [[file://home/crito/Documents/Linux/Shell/Bash/bash-Cookbook.pdf][bash Cookbook - O'Reilly]]
 ** [[file://home/crito/Documents/Linux/Shell/Bash/bash-Pocket_Reference.pdf][Bash - Pocket Reference]]

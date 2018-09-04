@@ -1,0 +1,19 @@
+#+TAGS: apparmor firewall
+
+
+* apparmor
+* Description
+* Usage
+** Install on Debian 9
+
+- install required pkgs 
+#+BEGIN_SRC sh
+apt-get install apparmor apparmor-profiles apparmor-utils
+#+END_SRC
+
+
+
+* Lecture
+* Tutorial
+* Books
+* Links

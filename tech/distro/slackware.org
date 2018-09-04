@@ -291,3 +291,4 @@ unmount -l /mnt
 * Tutorial
 * Books
 * Links
+[[https://linuxhint.com/install-slackware-linux/][Install Slackware Linux Distribution - linuxhint]]

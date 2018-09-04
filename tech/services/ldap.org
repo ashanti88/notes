@@ -4,6 +4,11 @@
 * LDAP
 OpenLDAP: [[https://www.openldap.org/][openldap.org]]
 
+* Files
+/etc/openldap   - the main ldap configuration file
+/etc/slapd.conf - this is the openldap server configuration file
+/var/lib/ldap   - this is the default location for the ldap db
+
 * Cmds
 ** Client Utils
 - ldapadd     - Allows you to add entries to an LDaP directory, wither from a file, or fromm standard input. It is a symbolic link to ldapmodify -a
@@ -47,6 +52,10 @@ rpm -ivh epel-release-7-9.noarch.rpm
 3. set appropriate /etc/sysctl.conf
 
 * Overview
+OpenLDAP is a distributed directory service. It stores information associated with users that can be used to authenticate them for login and provide other informatin about those users(home directories, roles within the organization, etc).
+
+OpenLDAP is most commonly used in Linux, but can be compared to Active Directory on Windows as a service provided hierarchical based user information much the same as OpenLDAP.
+
 LDAP uses the Sleepycat Berkley DB, 
 
 String X.500 AttributeType
@@ -61,6 +70,165 @@ street - street name
 dc     - domain component
 uid    - userid
 mail   - email address
+
+* Usage
+** Install OpenLDAP on CentOS5 LPIC2 (this is Legacy)
+OpenLDAP V2.3.x
+
+- install the required pkgs
+#+BEGIN_SRC sh
+yum install openldap openldap-servers openldap-clients
+#+END_SRC
+
+- makesure that the database directory has been set in /etc/slapd.conf
+#+BEGIN_EXAMPLE
+directory	/var/lib/ldap
+#+END_EXAMPLE
+
+- set the correct domain settings
+/etc/slapd.conf
+#+BEGIN_EXAMPLE
+database	bdb
+suffix		"dc=mydomain,dc=com"
+rootdn		"cn=admin,dc=mydomain,dc=com"
+#+END_EXAMPLE
+rootdn - this has the authority to query, change passwords, add objects
+
+- add the rootdn password
+/etc/slapd.conf
+#+BEGIN_EXAMPLE
+rootpw		p@$$w0rd
+#+END_EXAMPLE
+this would set the password in plain text(not recommended) 
+
+- add logging
+/etc/slapd.conf
+#+BEGIN_EXAMPLE
+loglevel	2048
+#+END_EXAMPLE
+
+- test the configuration
+#+BEGIN_SRC sh
+slaptest -u -v
+#+END_SRC
+
+- makesure that ldap owns the /var/lib/ldap directory
+#+BEGIN_SRC sh
+chown ldap:ldap -R /var/lib/ldap
+#+END_SRC
+
+- start and enable the service
+#+BEGIN_SRC sh
+service ldap start
+chkconfig ldap on
+#+END_SRC
+
+*** Adding a hashed password
+- created the hashed password
+#+BEGIN_SRC sh
+slappasswd
+#+END_SRC
+this will prompt you for the a password and will output a hash
+
+- take the hash and replace the plaintext passwd in /etc/slapd.conf
+#+BEGIN_EXAMPLE
+rootpw		{SSHA}KdsV4isxGUWSVYyaUiCgD1KFsJPI9ldc
+#+END_EXAMPLE
+
+** LDIF Creation for Adding Objects on CentOS5 LPIC2 (this is Legacy)
+OpenLDAP V2.3.x
+
+- create an ldif file
+/etc/openldap/mydc.ldif
+#+BEGIN_EXAMPLE
+dn: dc=mydomain,dc=com
+dc: mydomain
+description: creating my dc
+objectClass: dcObject
+objectClass: organizaton
+o: mydomain,brq.
+#+END_EXAMPLE
+
+- add our ldif file
+#+BEGIN_SRC sh
+ldapadd -x -D "cn=admin,dc=mydomain,dc=com" -W -f mydc.ldif
+#+END_SRC
+
+- create an ldif file that will contain all our employees
+/etc/openldap/myou.ldif
+#+BEGIN_EXAMPLE
+dn: ou=employees,dc=mydomain,dc=com
+ou: employees
+description: Everyon in the company
+objectclass: organizationalunit
+#+END_EXAMPLE
+
+- add our employee ldif file
+#+BEGIN_SRC sh
+ldapadd -x -D "cn=admin,dc=mydomain,dc=com" -W -f myou.ldif
+#+END_SRC
+
+- adding a record
+myperson.ldif
+#+BEGIN_EXAMPLE
+dn: cn=Robert Smith,ou=employee,dc=mydomain,dc=com
+objectclass: inetOrgPerson
+cn: Robert Smith
+cn: Robert J Smith
+cn: bob smith
+sn: smith
+uid: rjsmith
+userpassword: p@ssw0rd
+carlicense: ABC 123
+homephone: 555-222-3232
+mail: r.smith@mydomain.com
+mail: rsmith@mydomain.com
+mail: bob.smith@mydomain.com
+description: Accountant
+ou: Accounts
+#+END_EXAMPLE
+
+- add the new record
+#+BEGIN_SRC sh
+ldapadd -x -D "cn=admin,dc=mydomain,dc=com" -W -f myperson.ldif
+#+END_SRC
+
+- confirm that the record was added
+#+BEGIN_SRC sh
+slapcat
+#+END_SRC
+this will print out the current ldap structure with the newest record at the bottom
+
+** Client tools for Searching, Adding and Deleting Records on CentOS5 LPIC2 (this is Legacy)
+OpenLDAP V2.3.x
+
+- search for a specific record
+#+BEGIN_SRC sh
+ldapsearch -x -b 'ou=employee,dc=mydomain,dc=com' '(objectclass=inetOrgPerson)' uid
+#+END_SRC
+this will retrieve all the uid's of the records in the "employee" organizational unit
+
+- search for a record with cn
+#+BEGIN_SRC sh
+ldapsearch -x -b 'ou=employee,dc=mydomain,dc=com' '(cn=Bruce Wayne)' uid
+ldapsearch -L -x -b 'ou=employee,dc=mydomain,dc=com' '(cn=Bruce Wayne)' uid
+ldapsearch -LL-x -b 'ou=employee,dc=mydomain,dc=com' '(cn=Bruce Wayne)' uid
+ldapsearch -LLL-x -b 'ou=employee,dc=mydomain,dc=com' '(cn=Bruce Wayne)' uid
+#+END_SRC
+the -L increment will limit the amount of output that is returned
+
+- change the users password
+#+BEGIN_SRC sh
+ldappasswd -x -D "cn=admin,dc=mydomain,dc=com" -s IHateSuperman -W 'cn=bwayne,ou=employee,dc=mydomain,dc=com'
+ldappasswd -x -D "cn=admin,dc=mydomain,dc=com" -S -W 'cn=bwayne,ou=employee,dc=mydomain,dc=com'
+#+END_SRC
+the second cmd will prompt for the new password
+
+- deletign a record
+#+BEGIN_SRC sh
+ldapdelete "cn=Bruce Wayne,ou=employee,dc=mydomain,dc=com" -x -D "cn=admin,dc=mydomain,dc=com" -W
+#+END_SRC
+if successful there will be no returned output
 
 * Lecture
 ** [[https://www.youtube.com/watch?v%3DjZs4p_e6H1c][What about the LDAP directory life after Sun?]]

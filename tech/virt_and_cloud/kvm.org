@@ -11,7 +11,6 @@ HomePage: https://www.linux-kvm.org/page/Main_Page
 - [[file://home/crito/org/tech/virt_and_cloud/virt-viewer.org][virt-viewer]]
 
 
-
 * Description
 This is an overview of how linux implements virtualization
 [[file://home/crito/Pictures/org/kvm_arch_overview.jpg]]
@@ -138,7 +137,6 @@ polkit.addAdminRule(function(action, subject) {
 #+END_EXAMPLE
 - adding the user to the kvm group means that you won't be prompted for a password  
 
-
 ** Configure a Hypervisor to Host Virtual Guests (Ubuntu 15.04)
 - installation
 #+BEGIN_SRC sh
@@ -153,9 +151,9 @@ any number greater than 0 means that virtulization is possible
 
 - check the module is installed
 #+BEGIN_SRC sh
-lsmod | grepvhost
+lsmod | grep vhost
 modprobe vhost_net
-lsmod | grepvhost
+lsmod | grep vhost
 #+END_SRC
 if not intalled then run the modprobe cmd
 

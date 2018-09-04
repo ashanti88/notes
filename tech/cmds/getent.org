@@ -4,10 +4,16 @@
 * getent
 * Description
 Get enteries from the Name Service Switch libraries
-* usage
+Get entries from the /etc/nsswitch.conf file
+* Usage
 - get passwd entry for a user
 #+BEGIN_SRC sh
-getent testuser passwd
+getent passwd user
+#+END_SRC
+
+- get the groups of a user
+#+BEGIN_SRC sh
+getent group user
 #+END_SRC
 
 - get the ip address of a domain

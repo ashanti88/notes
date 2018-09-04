@@ -27,6 +27,13 @@ COMMIT
 - system-config-firewall - this is a gui configration tool
 * Description
 * Usage
+
+- Options
+  -D - allows you to delete rules
+  -F - flushes all(or indiected chain) of rules (--flush)
+  -P - changes the default policy for the chain (can be set to DROP or ACCEPT)
+  -v - typically used with -F(or --flush) to provice additional output
+
 ** List current rules
 - this may take a while as it will attempt to resolve all the ip addresses
 #+BEGIN_SRC sh
@@ -38,7 +45,12 @@ iptables -L
 iptables -nL
 #+END_SRC
 
-** Flush currnt rule set
+- list all rules for filter-chain
+#+BEGIN_SRC sh
+iptables -t filter -L INPUT
+#+END_SRC
+
+** Flush current rule set
 #+BEGIN_SRC sh
 iptables -F
 iptables --flush

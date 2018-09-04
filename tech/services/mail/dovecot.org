@@ -4,8 +4,11 @@
 * Dovecot
 HomePage: [[https://wiki.dovecot.org/FrontPage][wiki.dovecot.org]]
 * Files
-/etc/dovecot/dovecot.conf
-/etc/dovecot/conf.d
+/etc/dovecot/dovecot.conf - this is the main configuration that pullsin the conf.d config files
+/etc/dovecot/conf.d       - this holds all the individual config files
+
+* Cmds
+- [[file://home/crito/org/tech/cmds/doveadm.org][doveadm]]
 
 * Description
 * Usage
@@ -69,6 +72,7 @@ in centos7 imaps and pop3s no longer need to be specified
 #+BEGIN_EXAMPLE
 ssl_cert = </etc/pki/dovecot/certs/dovecot.pem
 ssl_key = </etc/pki/dovecot/private/dovecot.pem
+ssl_protocols = !SSLv2 !SSLv3 # this will ensure that dovecot avoids using V2 V3 which are known to be insecure
 #+END_EXAMPLE
 
 - start dovecot
@@ -128,6 +132,109 @@ You have new mail in /var/spool/mail/user
 [user@alickmitchell1 ~]$ mutt
 3 kept, 0 deleted.
 #+END_EXAMPLE
+
+** Managin Remote Email Delivery with Dovecot - CentOS6 LPIC2
+   
+- install required pkgs
+#+BEGIN_SRC sh
+yum install dovecot
+#+END_SRC
+
+- edit protocols in /etc/dovecot/dovecot.conf
+#+BEGIN_EXAMPLE
+protocols = imap pop3 lmtp
+#+END_EXAMPLE
+
+- listening interface
+#+BEGIN_EXAMPLE
+listen *, ::
+#+END_EXAMPLE
+this will listen on all ipv4 and ipv6 interfaces
+
+- set the runtime data directory
+#+BEGIN_EXAMPLE
+base_dir = /var/run/dovecot
+#+END_EXAMPLE
+
+- confirm that the include conf.d line is at the end of the config
+#+BEGIN_EXAMPLE
+!include conf.d/*.conf
+#+END_EXAMPLE
+with dovecot the "!" means to include, unlike most other configs where a ! indicates don't
+
+- conf.d/10-mail.conf
+#+BEGIN_EXAMPLE
+mail_location = maildir:~/Maildir
+#+END_EXAMPLE
+this would put mail into each users home directory
+
+- start the dovecot service
+#+BEGIN_SRC sh
+service dovecot start
+service dovecot status
+#+END_SRC
+
+- test ssl
+#+BEGIN_SRC sh
+openssl s_client -connect localhost:995 # pop3s
+openssl s_client -connect localhost:993 # imaps
+#+END_SRC
+
+
+
+
+
+
+
+** Managing E-mail Devlivery - Sieve and Dovecot
+Sieve - is a language for filtering e-mail messages
+
+Actions
+  - discard  - deletes the message
+  - reject   - deletes the message with a bounce reply
+  - redirect - usually used at the server level, can be used to intercept messages and forward to a different address
+  - fileinto - move to specific folder - can be used to archive sort into folders.
+  - stop     - stop processing Sieve rules. Typically used after the delete action. It can also be used to whitelist an address by placing this before any spam filtering is done
+  - keep     - keep processing Sieve rules.
+    
+- install pkgs
+#+BEGIN_SRC sh
+yum install dovecot-pigeonhole
+#+END_SRC
+   
+- enable the sieve plugin for dovecot
+/etc/dovecot/conf.d/20-lmtp.conf
+#+BEGIN_SRC sh
+mail_plugins = $mail_plugins autocreate quota sieve
+#+END_SRC
+just add to the end of the mail_plugins line
+
+- create a users sieve rules file
+~/.dovecot.sieve - this locations is set in 90-sieve.conf
+#+BEGIN_EXAMPLE
+require ["fileinto"];
+
+#If it is spam, file it there
+if header :contains "subject" "Spam"
+{
+	fileinto "Spam";
+}
+
+# The cmd "keep" is executed automatically, if no other action is taken
+#+END_EXAMPLE
+
+- restart the service
+#+BEGIN_SRC sh
+systemctl restart dovecot
+systemctl status dovecot
+#+END_SRC
+
+- test the rule that was set
+#+BEGIN_SRC sh
+date | mail -s Spam user
+tail /var/log/maillog
+#+END_SRC
+we should see a message in the maillog that indicates that the message was moved to the "Spam" directory
 
 * Lecture
 * Tutorial

@@ -1,12 +1,15 @@
 #+TAGS: mail mta mail_transport_agent postfix
 
 
-* postfix
+* Postfix
 * Files
 /etc/postfix/main.cf - the main configuration file
-/etc/postfix/aliases - this holds aliases mail on the system
+/etc/postfix/aliases - this is where mail aliases can be set  
 /etc/postfix/main.cf - the main configuration (myorign and mydestination)
 /etc/postfix/transport
+/var/spool/postfix   - this is where mail is held before delivery
+/var/log/mail.log    - this logs messages regarding senting mail and mail server actions(errors, starts, stops etc)
+/etc/aliases - this holds aliases on the system, we can add mail aliases here (if aliases are added the "newaliases" cmd need to be run)
 
 * Cmds
 - postalias
@@ -283,6 +286,76 @@ EOT
 tail -f /var/log/maillog
 #+END_SRC
 
+** Configuration and Installation of Postfix - CentOS6 (LPIC2)
+   
+- usually installed by default, but if a minimal install
+#+BEGIN_SRC sh
+yum install postfix telnet mailx
+#+END_SRC
+
+- edit our myhostname on the main.cf to reflect our machine
+#+BEGIN_EXAMPLE
+myhostname = fred1.mylabserver.com
+#+END_EXAMPLE
+
+- edit the mydomain 
+#+BEGIN_EXAMPLE
+mydomain = mylabserver.com
+#+END_EXAMPLE
+
+- if this was a public available mail server
+#+BEGIN_EXAMPLE
+disable_vrfy_command =yes
+#+END_EXAMPLE
+this will mitigate email server mining
+
+- set the inet_interfaces
+#+BEGIN_EXAMPLE
+inet_interfaces = all
+#+END_EXAMPLE
+- options:
+  - all
+  - localhost
+  - $myhostname
+multiple options can be set with comma seperation
+
+- set the mydestination(what domains will the server accept mail for)
+#+BEGIN_EXAMPLE
+mydestination = $myhostname, localhost.$mydomain, localhost
+#mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain
+#+END_EXAMPLE
+if using $mydomain makesure that an MX record has been created
+
+- set the relay_domains(what mail will we forward)
+#+BEGIN_EXAMPLE
+relay_domains = $mydestination
+#+END_EXAMPLE
+
+- start the postfix service
+#+BEGIN_SRC sh
+service postfix start
+service postfix status
+#+END_SRC
+
+- confirm that it's listening
+#+BEGIN_SRC sh
+telnet localhost 25
+#+END_SRC
+
+- test sending mail with mailx
+#+BEGIN_SRC sh
+mailx -s "This is a test email to a local USER account" user
+This a test message
+Some more text
+Now I am done
+.
+#+END_SRC
+- in the /var/spool/mail there should now be mail under the user directory
+  
+- to read switch to "user" and read with the mail cmd
+#+BEGIN_SRC sh
+mail
+#+END_SRC
 
 * Lecture
 * Tutorial

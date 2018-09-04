@@ -4,6 +4,8 @@
 * whatis
 * Description
 This command with return all the man pages that a command has.
+Display one-line man page description of queried term
+
 * Usage
 - get a short definition of what an application does
 #+BEGIN_SRC sh

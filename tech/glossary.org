@@ -21,10 +21,14 @@ wiki: https://en.wikipedia.org/wiki/Border_Gateway_Protocol
 * BOFH - Bastard Operator From Hell
 * CAM  - Content Addressable Memory
 Wiki: https://en.wikipedia.org/wiki/Content-addressable_memory
+* CERT - Computer Emergency Response Team
+Coordination Center or Cert-CC located at Carnegie Mellon University
 * CIDR - Classless Inter-Domain Routing
 Wiki: https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing
 * CNI  - Container Network Interface
 flannel 
+* CMS  - Conversational Monitor System
+Wiki: https://en.wikipedia.org/wiki/Conversational_Monitor_System
 * COA  - Certificate of Authenticity
 Microsoft: https://www.msembedded.biz/en/licensing/license-sticker/
 * CORS - Cross Origin Resource Sharing
@@ -65,6 +69,8 @@ Wiki: https://en.wikipedia.org/wiki/Extract,_transform,_load
 Homepage: https://fd.io/
 * FPU  - Floating Point Unit
 Wiki: https://en.wikipedia.org/wiki/Floating-point_unit
+* FQDN - Fully Qualified Domain Name
+Indiana Uni: https://kb.iu.edu/d/aiuv
 * GA   - General Availability (Software Cycle)
 Wiki: https://en.wikipedia.org/wiki/Software_release_life_cycle
 * GIMP - GNU Image Manipulation Program
@@ -81,6 +87,9 @@ Wiki: https://en.wikipedia.org/wiki/Supercomputer
 Wiki: https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security
 * IAM  - Identity and Access Management (AWS)
 Docs: https://aws.amazon.com/iam/
+* IMAP - Internet Message Access Protocol
+Book: [[file://home/crito/Documents/SysAdmin/Mail/The_Book_of_IMAP.pdf][The Book of IMAP]]
+
 * ISA  - Instruction Set Architecture
 Wiki: https://en.wikipedia.org/wiki/Instruction_set_architecture
 * ISDN - Integrated Services Digital Network
@@ -100,6 +109,8 @@ Wiki: https://en.wikipedia.org/wiki/JSON_Web_Token
 * KDC  - Key Distribution Centre
 * LDAP - Lightweight Directory Access Protocol
 - setting the daemon to i
+* LDIP - LDAP Interchange Format
+It is used to create objects within the OpenLDAP directory. These values are placed into a file and can be loaded into the directory with the slapadd command.
 * LDPD - Label Distributed Protocol Daemon
 ManPage: https://man.openbsd.org/ldpd
 * LDA  - Local Delivery Agent
@@ -128,6 +139,8 @@ Wiki: https://en.wikipedia.org/wiki/Multics
 Wiki: https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller
 * NACL - Network Access Control Lists
 AWS_Docs: https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_ACLs.html
+* NAT  - Network Address Translation
+Wiki: https://en.wikipedia.org/wiki/Network_address_translation
 * NIDS - Network Intrusion Detection System
 Wiki: https://en.wikipedia.org/wiki/Intrusion_detection_system
 * NIS  - Network Information Service
@@ -158,6 +171,8 @@ wiki: https://en.wikipedia.org/wiki/Open_Shortest_Path_First
 Wiki: https://en.wikipedia.org/wiki/Pluggable_authentication_module
 Red hat: https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/managing_smart_cards/pluggable_authentication_modules
 
+* POP  - Post Office Protocol
+Wiki: https://en.wikipedia.org/wiki/Post_Office_Protocol
 * PNDA - Platform for Network Data Analysis
 Homepage: http://pnda.io/
 * RAC  - Real Application Clustering (oracle)
@@ -202,6 +217,7 @@ Google: https://landing.google.com/sre/
 * SSSD - System Security Services Daemon
 Fedora - https://fedoraproject.org/wiki/Features/SSSD
 RHEL: [[https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/5/html/5.7_Release_Notes/sssd.html][redhat.com/5/sssd]]
+This provices authentication of user accounts for OpenLDAP
 * SSO  - Single Sign On
 * STS  - Security Token Service
 Doc: https://docs.aws.amazon.com/STS/latest/APIReference/Welcome.html
@@ -219,6 +235,8 @@ Wiki: https://en.wikipedia.org/wiki/Twm
 * UEFI - Unified Extensible Firmware Interface
 HomePage: http://www.uefi.org/
 Wiki: https://en.wikipedia.org/wiki/Unified_Extensible_Firmware_Interface
+* US-CERT - United States - Computer Emergency Response Team
+HomePage: https://www.us-cert.gov/
 * UUCP - Unix-to-Unix Copy
 Wiki: https://en.wikipedia.org/wiki/UUCP
 * UUID - Universal Unique ID

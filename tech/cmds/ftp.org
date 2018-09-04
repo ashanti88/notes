@@ -8,39 +8,69 @@
 * Server
 ** Pure-ftpd
 RL: [[https://www.pureftpd.org/project/pure-ftpd][Home Page]]
+
+*** Files
+- /etc/pure-ftpd
+
+*** Installation and Configuration LPIC2 - CentOS7
+
+- install the required pkgs
+#+BEGIN_SRC sh
+yum install pure-ftpd ftp
+#+END_SRC
+
+- start the service
+#+BEGIN_SRC sh
+pure-ftpd -B -S localhost,21 -c 5 -C 2 -e
+#+END_SRC
+B - run in the background as a daemon
+S - bind to specified ip or host and port
+c - limit of concurrent connections
+C - limit of connections from the same host
+e - allow anonymous access
+E - disable anonymous access
+
+- confirm it's running
+#+BEGIN_SRC sh
+ps aux | grep pure-ftp 
+#+END_SRC
+
 ** vsftpd
 RL: [[https://security.appspot.com/vsftpd.html][Home Page]]
-** Configuration
- File - /etc/vsftpd.conf
- examples can be found in /usr/share/doc/vsftpd/EXAMPLES
- there are three types in the configuration files
- - BOOLEAN OPTIONS
- - NUMERIC OPTIONS
- - STRING OPTIONS
-   
-** Anonymous Options
- Anonymous access - by default this is turned off
- anonymous_enable=YES
- if this option is enabled only /srv/ftp/ is allowed to be accessed
- anon_mkdir_write_enable - allow directory creation
- anon_root=/path/to/new/dir - change the default root directory
- 
-** User Access Control
-y default local users are authorized
- local_enable=NO - this disables their access
- write_enable=YES - this enables write access
- 
-** User Management
- Containment of Users
- chroot_local_user=YES
-his will mean that users are locked into there home directories
 
 o makesure that ftp user only use ftp and not have shell access
  echo /bin/false >> /etc/shells/
  usermod -s /bin/false <login>
 
-** Scripts
-*** vsftpd Virtual Config with TLS
+*** Files 
+- /etc/vsftpd/vsftpd.conf
+  examples can be found in /usr/share/doc/vsftpd/EXAMPLES
+  - Anonymous Options
+   - Anonymous access - by default this is turned off
+   - anonymous_enable=YES/NO - if this option is enabled only /srv/ftp/ is allowed to be accessed
+   - anon_mkdir_write_enable - allow directory creation
+   - anon_root=/path/to/new/dir - change the default root directory
+   - anon_max_rate=1000 - the limit in bytes that anon can upload or download
+  - by default local users are authorized
+    - local_enable=NO - this disables their access
+    - write_enable=YES - this enables write access
+  - chroot_local_user=YES - this will mean that users are locked into there home directories
+  - userlist_enable=YES/NO - is the userlist to be used for auth
+  - userlist_deny=YES/NO - if set to "yes", all will be denied, but if set to "no", they will be allowed access
+
+- /etc/vsftpd/userlist
+  - userlist_enable - this variable in vsftpd.conf is used to set this file
+  - this list by defualt contains the names of users that are denied by the service
+    
+- /etc/vsftpd/ftpusers
+  - this file is set by /etc/pam.d/vsftpd
+  - names that are in this list are denied access by the service
+    
+- /var/ftp
+  - this is the default directory for anonymous users
+   
+*** Scripts
+**** vsftpd Virtual Config with TLS
 vsftpd_virtual_config_withTLS.sh
 #+BEGIN_EXAMPLE
 #!/bin/sh
@@ -184,7 +214,7 @@ printf "Done.\n"
 ${LOCALPATH}/vsftpd_virtualuser_add.sh
 
 #+END_EXAMPLE
-*** vsftpd virtualuser config
+**** vsftpd virtualuser config
 vsftpf_virtualuser_config.tpl
 #+BEGIN_EXAMPLE
 dirlist_enable=YES
@@ -192,7 +222,7 @@ download_enable=YES
 local_root=/var/ftp/virtual_users/USERNAME
 write_enable=YES
 #+END_EXAMPLE
-*** vsftpd add user
+**** vsftpd add user
 vsftpd_virtualuser_add.sh
 #+BEGIN_EXAMPLE
 #!/bin/sh
@@ -376,7 +406,7 @@ echo '-------------------------------------------------------------------'
 /sbin/service vsftpd reload
 echo '-------------------------------------------------------------------'
 #+END_EXAMPLE
-*** vsftpd update virtual user info
+**** vsftpd update virtual user info
 vsftpd_virtualuser_update.sh
 #+BEGIN_EXAMPLE
 #!/bin/sh
@@ -522,7 +552,7 @@ echo '-------------------------------------------------------------------'
 /sbin/service vsftpd reload
 echo '-------------------------------------------------------------------'
 #+END_EXAMPLE
-*** vsftpd remove virtual user
+**** vsftpd remove virtual user
 vsftpd_virtualuser_remove.sh
 #+BEGIN_EXAMPLE
 #!/bin/sh
@@ -689,7 +719,7 @@ else
        echo '-------------------------------------------------------------------'
 fi
 #+END_EXAMPLE
-*** vsftpd get user user info
+**** vsftpd get user user info
 sftpd_virtualuser_info.sh
 +BEGIN_EXAMPLE
 !/bin/sh
@@ -843,10 +873,29 @@ howTotals;
 
 *** Trouble-Shooting
 00 OOPS: vsftpd: Refusing to run with writable root inside chroot()
-** Solution
-. remove writability to the directory
-r
-. allow_writeable_chroot=YES - add to /etc/vsftpd.conf
+*** Installation and Configuration of vsftpd
+    
+- install the required pkgs
+#+BEGIN_SRC sh
+yum install vsftpd
+#+END_SRC
+
+- start and enable the service
+#+BEGIN_SRC sh
+systemctl start vsftpd
+systemctl status vsftpd
+#+END_SRC
+
+** pro-ftp
+*** Files
+/etc/proftpd.conf
+   
+*** Installation and Configuration LPIC2 - CentOS7
+
+- install required pkgs
+#+BEGIN_SRC sh
+yum install proftpd ftp
+#+END_SRC
 
 * Usage
 ** Adding FTP user
@@ -937,7 +986,6 @@ get filename.txt
 #+BEGIN_SRC sh
 mput *.txt
 #+END_SRC
-
 
 ** Navigating local machine directories
 - move directory on local machine
