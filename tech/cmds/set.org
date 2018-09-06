@@ -5,6 +5,7 @@
 * Description
 This command outputs all environment variables in alphabetical order.
 
+This will print all the currently set shell variables
 * Usage
 - show all currently set system variables
 #+BEGIN_SRC sh

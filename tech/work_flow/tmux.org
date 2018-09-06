@@ -260,20 +260,22 @@ prefix + [hljk] # vi key-bindings
 [pre-fix] + [jkhl]
 #+END_EXAMPLE
 
-** Copying to Clipboard
+** Copying and paste
 I was having problems with tmux-yank and found this as a work around
 
-- pull selection with tmux copy paste
+- pull selection with tmux copy
 #+BEGIN_EXAMPLE
 Prefix + [
 Space
 Enter
 #+END_EXAMPLE
 
-- then paste to cmd line and echo to xsel
-#+BEGIN_SRC sh
-echo "the tmux selection" | xsel -b
-#+END_SRC
+- paste with
+#+BEGIN_EXAMPLE
+Prefix + [
+return
+Prefix + ]
+#+END_EXAMPLE
 
 ** tmux-yank
 this plugin provides a more straight forward way to copy to clipboard than using xsel

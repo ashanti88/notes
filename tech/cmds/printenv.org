@@ -3,7 +3,9 @@
 
 * printenv
 * Description
+Print the current environment variables
 * Usage
+
 * Lecture
 * Tutorial
 * Books

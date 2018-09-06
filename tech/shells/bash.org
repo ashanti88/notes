@@ -82,6 +82,108 @@ ls [0-9][0-9]script - list any file names script that is prefixed with two numbe
 ** History
 allows for the looking up of complex cmds previously used, and to audit what actions have been called
 
+** Read
+this allows interactive script creation
+
+#+BEGIN_EXAMPLE
+#!/bin/bash
+# interactive script for user input
+
+echo "Enter Your First Name: "
+read FIRSTNAME
+
+echo "Enter Your Last Name: "
+read LASTNAME
+
+echo "Enter Your Age $FIRSTNAME $LASTNAME: "
+read USERAGE
+
+echo "In 10 Years, You'll be $(expr $USERAGE + 10) years old."
+#+END_EXAMPLE
+
+
+** Shell expansion
+- print multiple words with a common group of letters
+#+BEGIN_SRC sh
+echo sh{ot,ort,oot}
+echo st{il,al}l
+#+END_SRC
+
+- home shortcut
+#+BEGIN_SRC sh
+cd ~
+#+END_SRC
+the tilda expands to /home/$USER
+
+** Setting Variable Types
+- display the type of a variable
+#+BEGIN_SRC sh
+MYVAR=4
+declare -p MYVAR 
+#+END_SRC
+this will show that the variable is a string as it wasn't explicitly set
+
+- set a variable as an int
+#+BEGIN_SRC sh
+declare -i VAR1=10
+#+END_SRC
+this will set that the variable is an int
+
+- reassign a different type to a variable
+#+BEGIN_SRC sh
+declare +i VAR1
+#+END_SRC
+this will unset the explicit setting of int, and will leave it unassigned
+
+- set a readonly variable
+#+BEGIN_SRC sh
+declare -r READONLY="this is read only"
+#+END_SRC
+this variable can't not be changed after creation, it rrequires the leaving of the session
+
+
+** Arrays
+   
+- create an array
+#+BEGIN_SRC sh
+MYARRAY=("First" "Second" "Third")
+#+END_SRC
+if commas are used to delimit, it will cause each element to be concatenated into a single element
+
+- echo out each element of the array
+#+BEGIN_SRC sh
+echo ${MYARRAY[0]}
+echo ${MYARRAY[1]}
+echo ${MYARRAY[2]}
+#+END_SRC
+counting starts at 0
+
+- print out all the array
+#+BEGIN_SRC sh
+echo ${MYARRAY[*]}
+#+END_SRC
+
+- adding an element to an array
+#+BEGIN_SRC sh
+ARRAY[3]="Fourth"
+#+END_SRC
+
+- loop through an array
+#+BEGIN_EXAMPLE
+#!/bin/bash
+
+SERVERLIST=("web01" "web02" "web03" "web04")
+COUNT=0
+
+
+for INDEX in ${SERVERLIST[@]}; do
+  echo "Processing Server: ${SERVERLIST[COUNT]}"
+  COUNT=$(expr $COUNT + 1)
+done
+#+END_EXAMPLE
+
+
+
 * Scripting
 ** Check for the correct number of arguments
 - check that at least one argument has been passed

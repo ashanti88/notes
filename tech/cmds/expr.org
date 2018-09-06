@@ -1,9 +1,26 @@
-#+TAGS: expr coreutils
+#+TAGS: expr coreutils bash_builtin
 
 
 * expr
 * Description
 * Usage
+- simple calculation
+#+BEGIN_SRC sh
+expr 2 + 2
+#+END_SRC
+space is required on each side of the operator
+
+- multiplication
+#+BEGIN_SRC sh
+expr 10 \* 2
+#+END_SRC
+the asterisk for multipliction has to be escaped
+
+- using brackets
+#+BEGIN_SRC sh
+expr \( 10 / 5 \) + 1
+#+END_SRC
+
 * Lecture
 * Tutorial
 * Books

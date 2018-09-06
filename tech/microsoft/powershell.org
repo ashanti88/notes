@@ -1,4 +1,4 @@
-#+TAGS: shell ms
+#+TAGS: powershell pwsh shell ms
 
 
 * PowerShell
@@ -33,6 +33,45 @@ pwsh
 #+BEGIN_SRC sh
 update-help -force
 #+END_SRC
+
+- view all available cmdlets
+#+BEGIN_SRC sh
+get-command
+#+END_SRC
+this will print to the screen all available cmds with a description
+
+- view all alias
+#+BEGIN_SRC sh
+get-alias
+#+END_SRC
+
+** Unix to MS
+- cd
+#+BEGIN_SRC sh
+set-location /var
+sl /var
+#+END_SRC
+
+- ps
+#+BEGIN_SRC sh
+get-process
+#+END_SRC
+
+** Installing modules
+- install powershell module
+#+BEGIN_SRC sh
+install-package azurerm.netcore.preview -source https://www.powershellgallery.com/api/v2 -providername nuget -excludeversion
+#+END_SRC
+this had to be installed as root, using sudo caused the cmdlet not to be recognized
+
+** File Manipulation
+   
+- output to a file
+#+BEGIN_SRC sh
+Get-Process | out-file /home/user/processes1.csv
+#+END_SRC
+this will create a file will the output of the "Get-Process" cmd
+
 
 
 * Lecture
