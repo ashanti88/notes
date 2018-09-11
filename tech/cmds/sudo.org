@@ -58,13 +58,21 @@ sudo !!
 #+END_SRC
 ** Give user sudo privileges
 #+BEGIN_SRC sh
-usermod -a -G sudo frank
+usermod -a -G sudo frank #debian
+usermod -a -G wheel frank # rhel
 #+END_SRC
 
 or add user manually to the /etc/group file
 #+BEGIN_EXAMPLE
 sudo:x:27:carol,frank
 #+END_EXAMPLE
+
+or use visudo and add the user individually
+#+BEGIN_EXAMPLE
+user	ALL=(ALL:ALL)	ALL
+user	ALL=(ALL:ALL)	NOPASSWD: ALL
+#+END_EXAMPLE
+the second example means that sudo can be called without the user entering their password
 
 ** Using sudo with multiple cmds
 url: [[https://www.cyberciti.biz/faq/how-to-run-multiple-commands-in-sudo-under-linux-or-unix/][cyberciti.biz/multiple_sudo_cmds]]

@@ -39,6 +39,139 @@ man docker-network-create
 #+END_SRC
 docker network create
 
+** Installation on CentOS 7
+- first create a repo file to /etc/yum.repos.d/docker.repo
+#+BEGIN_EXAMPLE
+[dockerrepo]
+name=Docker Repository
+baseurl=https://yum.dockerproject.org/repo/main/centos/7/
+enabled=1
+gpgcheck=1
+gpgkey=https://yum.dockerproject.org/gpg
+#+END_EXAMPLE
+
+- now update the system
+#+BEGIN_SRC sh
+yum update
+#+END_SRC
+care should be taken if this is a production server as it will update the whole system
+
+- install the docker-engine
+#+BEGIN_SRC sh
+yum install docker-engine
+#+END_SRC
+
+- enable, start, and confirm status of docker
+#+BEGIN_SRC sh
+systemctl enable docker
+systemctl start docker
+systemctl status docker
+#+END_SRC
+
+- check that you are able to connect to the docker deamon
+#+BEGIN_SRC sh
+docker --version
+#+END_SRC
+
+- any users that are to use docker will need to be part of the docker group
+#+BEGIN_SRC sh
+usermod -a -G docker user
+#+END_SRC
+this is due to the user will need access to /var/run/docker.socket that has privs of root:docker
+
+- confirm that the user can connect to the daemon
+#+BEGIN_SRC sh
+docker --version
+#+END_SRC
+if this fails exit the session and re-enter, this should resolve the problem
+
+- good quick test is to pull in a simple image to docker as user
+#+BEGIN_SRC sh
+docker run hello-world
+#+END_SRC
+this will pull the hello-world image from docker hub, print a blurb and exit
+
+** Complete Docker Installation on RHEL7
+- install required packages
+#+BEGIN_SRC sh
+yum install -y device-mapper-persistent-data lvm2 yum-utils
+#+END_SRC
+yum-utils is for yum-config-manager
+
+- add the stable repo
+#+BEGIN_SRC sh
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+yum update
+#+END_SRC
+
+- for bledding edge
+#+BEGIN_SRC sh
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo --enable docker-ce-edge.repo
+yum update
+#+END_SRC
+
+- install docker
+#+BEGIN_SRC sh
+yum install -y docker-ce
+#+END_SRC
+
+- add users that require to access docker to the docker group 
+#+BEGIN_SRC sh
+usermod -aG docker user1
+usermod -aG docker user2
+usermod -aG docker user3
+#+END_SRC
+access is required to the /var/run/docker.sock file that has perms root:docker
+
+- enable docker service
+#+BEGIN_SRC sh
+systemctl enable docker.service
+systemctl start docker.service
+systemctl status docker.service
+#+END_SRC
+
+** Complete Debian Installation on Debian
+- add required packages
+#+BEGIN_SRC sh
+apt-get install apt-transport-https ca-certificates curl software-properties-common
+#+END_SRC
+
+- add the gpg key for docker repo
+#+BEGIN_SRC sh
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+#+END_SRC
+
+- add the repo for Debian
+#+BEGIN_SRC sh
+add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
+apt-get update
+#+END_SRC
+
+- for ubuntu
+#+BEGIN_SRC sh
+add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+apt-get update
+#+END_SRC
+
+- install the docker community edition
+#+BEGIN_SRC sh
+apt-get install docker-ce
+#+END_SRC
+
+- add the required users to the docker group
+#+BEGIN_SRC sh
+usermod -aG docker user1
+usermod -aG docker user2
+usermod -aG docker user3
+#+END_SRC
+
+- enable and start the service
+#+BEGIN_SRC sh
+systemctl enable docker.service
+systemctl start docker.service
+systemctl status docker.service
+#+END_SRC
+
 ** Show Docker information
 - show version short
 #+BEGIN_SRC sh
@@ -302,9 +435,15 @@ docker image inspect centos:6 --format '{{json .ContainerConfig}}'
 
 ** Get logs from container
 #+BEGIN_SRC sh
-docker logs $DOCKER_ID
+docker logs test1-container
 #+END_SRC
 this will provide a print out of the activity in the container
+
+- follow the log output
+#+BEGIN_SRC sh
+docker logs -f test1-container
+#+END_SRC
+this is the equivalent of `tail -f` on a log
 
 ** Info on a Containerss
 - overview
@@ -524,10 +663,36 @@ docker run -it --dns=8.8.8.8 --name mycontainer1 ubuntu:latest /bin/bash
 docker run -it --dns=8.8.8.8 --dns-serach="mydomain.local" --name="mycontainer1" ubuntu:latest /bin/bash
 #+END_SRC
 
-** Mounting Volumes
+- expose wordpress on port 80 to 8080 on host machine
+#+BEGIN_SRC sh
+docker run --name test1-wordpress --link test1-mariadb:mariadb -p 8080:80 -d wordpress
+#+END_SRC
+this will allow the wordpress container to be accessed with the host ip on port 8080
+
+** Volumes
 - mount a volume that is on the host on the container
 #+BEGIN_SRC sh
 docker run -it --name="local_vol" -v /home/user/docker/mydata:/mydata centos:latest /bin/bash
+#+END_SRC
+
+- create a volume
+#+BEGIN_SRC sh
+docker volume create --name test-vol
+#+END_SRC
+
+- viewed detailed information on a volume
+#+BEGIN_SRC sh
+docker volume inspect --name test-vol
+#+END_SRC
+
+- list all volumes
+#+BEGIN_SRC sh
+docker volume ls
+#+END_SRC
+
+- delete volume
+#+BEGIN_SRC sh
+docker volume rm test-vol 
 #+END_SRC
 
 ** Naming Containers
@@ -643,138 +808,49 @@ docker info | grp -i logging
 docker container run -d --name testcontainer --log-driver json-file httpd
 #+END_SRC
 
-* Installation on CentOS 7
-- first create a repo file to /etc/yum.repos.d/docker.repo
+** Linking Wordpress and Mariadb containers
+   
+- create the mariadb container
+#+BEGIN_SRC sh
+docker run -d --name test1-mariadb -e MYSQL_ROOT_PASSWORD=p@ssw0rd mariadb
+#+END_SRC
+
+- create the wordpress database and user
+#+BEGIN_SRC sh
+mysql -h 172.17.0.2 -p
+CREATE DATABASE wordpress
+CREATE USER 'wp-user'@'172.17.0.3' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON wordpress.* to 'wp-user'@'172.17.0.3';
+FLUSH PRIVILEGES;
+#+END_SRC
+
+- create and link wordpress container to the mariadb container
+#+BEGIN_SRC sh
+docker run --name test1-wordpress --link test1-mariadb:mariadb -p 8080:80 wordpress
+#+END_SRC
+--link [name of container]:[container]
+
+- we can now connect to the container with our browser to setup wordpress http://localhost:8080
+
+* TB
+** Container error AH00534: apache2: Configuration error: No MPM loaded.
+this turned out to be due to docker using overlay2 not devicemapper as the storage option
+
+- stop docker
+#+BEGIN_SRC sh
+systemctl stop docker
+#+END_SRC
+
+- backup the /var/lib/docker directory
+#+BEGIN_SRC sh
+cp -r /var/lib/docker docker.bakup
+#+END_SRC
+
+- edit storage
+/etc/sysconfig/docker-storage
 #+BEGIN_EXAMPLE
-[dockerrepo]
-name=Docker Repository
-baseurl=https://yum.dockerproject.org/repo/main/centos/7/
-enabled=1
-gpgcheck=1
-gpgkey=https://yum.dockerproject.org/gpg
+DOCKER_STORAGE_OPTIONS="--storage-driver devicemapper"
 #+END_EXAMPLE
-
-- now update the system
-#+BEGIN_SRC sh
-yum update
-#+END_SRC
-care should be taken if this is a production server as it will update the whole system
-
-- install the docker-engine
-#+BEGIN_SRC sh
-yum install docker-engine
-#+END_SRC
-
-- enable, start, and confirm status of docker
-#+BEGIN_SRC sh
-systemctl enable docker
-systemctl start docker
-systemctl status docker
-#+END_SRC
-
-- check that you are able to connect to the docker deamon
-#+BEGIN_SRC sh
-docker --version
-#+END_SRC
-
-- any users that are to use docker will need to be part of the docker group
-#+BEGIN_SRC sh
-usermod -a -G docker user
-#+END_SRC
-this is due to the user will need access to /var/run/docker.socket that has privs of root:docker
-
-- confirm that the user can connect to the daemon
-#+BEGIN_SRC sh
-docker --version
-#+END_SRC
-if this fails exit the session and re-enter, this should resolve the problem
-
-- good quick test is to pull in a simple image to docker as user
-#+BEGIN_SRC sh
-docker run hello-world
-#+END_SRC
-this will pull the hello-world image from docker hub, print a blurb and exit
-
-* Complete Docker Installation on RHEL7
-- install required packages
-#+BEGIN_SRC sh
-yum install -y device-mapper-persistent-data lvm2 yum-utils
-#+END_SRC
-yum-utils is for yum-config-manager
-
-- add the stable repo
-#+BEGIN_SRC sh
-yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-yum update
-#+END_SRC
-
-- for bledding edge
-#+BEGIN_SRC sh
-yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo --enable docker-ce-edge.repo
-yum update
-#+END_SRC
-
-- install docker
-#+BEGIN_SRC sh
-yum install -y docker-ce
-#+END_SRC
-
-- add users that require to access docker to the docker group 
-#+BEGIN_SRC sh
-usermod -aG docker user1
-usermod -aG docker user2
-usermod -aG docker user3
-#+END_SRC
-access is required to the /var/run/docker.sock file that has perms root:docker
-
-- enable docker service
-#+BEGIN_SRC sh
-systemctl enable docker.service
-systemctl start docker.service
-systemctl status docker.service
-#+END_SRC
-
-* Complete Debian Installation on Debian
-- add required packages
-#+BEGIN_SRC sh
-apt-get install apt-transport-https ca-certificates curl software-properties-common
-#+END_SRC
-
-- add the gpg key for docker repo
-#+BEGIN_SRC sh
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-#+END_SRC
-
-- add the repo for Debian
-#+BEGIN_SRC sh
-add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
-apt-get update
-#+END_SRC
-
-- for ubuntu
-#+BEGIN_SRC sh
-add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-apt-get update
-#+END_SRC
-
-- install the docker community edition
-#+BEGIN_SRC sh
-apt-get install docker-ce
-#+END_SRC
-
-- add the required users to the docker group
-#+BEGIN_SRC sh
-usermod -aG docker user1
-usermod -aG docker user2
-usermod -aG docker user3
-#+END_SRC
-
-- enable and start the service
-#+BEGIN_SRC sh
-systemctl enable docker.service
-systemctl start docker.service
-systemctl status docker.service
-#+END_SRC
 
 * Dockerfiles
 - using a different name than "Dockerfile"
@@ -852,9 +928,9 @@ RUN cd ~ && echo "export JAVA_HOME=/usr/java/jdk1.8.0_131/jre" >> /home/user/.ba
 ENV JAVA_BIN /usr/java/jdk1.8.0_131/jre/bin
 #+END_EXAMPLE
 
-** Difference between CDM and RUN
+** Difference between CMD and RUN
 RUN is used during container build
-CDM is run when the container is started
+CMD is run when the container is started
 #+BEGIN_EXAMPLE
 # Dockerfile based on the latest CentOS 7 images - non-privileged user entry
 # FROM always needs to be at the top
@@ -869,7 +945,7 @@ USER user
 #+END_EXAMPLE
 everytime this container is started the message "This is a custome container" will be printed to the screen
 
-** ENTRY difference to CDM
+** ENTRY difference to CMD
 #+BEGIN_EXAMPLE
 # Dockerfile based on the latest CentOS 7 images - non-privileged user entry
 # FROM always needs to be at the top
@@ -882,7 +958,7 @@ ENTRYPOINT echo "This command will display this message on EVERY container that 
 
 USER user
 #+END_EXAMPLE
-We used CDM before to echo a message to screen, the difference is that we can change the behaviour of CDM, but will always print this message.
+We used CMD before to echo a message to screen, the difference is that we can change the behaviour of CDM, but will always print this message.
 
 ** EXPOSE
 #+BEGIN_EXAMPLE

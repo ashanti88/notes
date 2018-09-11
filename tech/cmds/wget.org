@@ -19,11 +19,16 @@ a - append to specified file
 wget http://file.com
 #+END_SRC
 
-** Download file and change file name
+** Download file and change filename or specifiy directory
 #+BEGIN_SRC sh
 wget -o newfilename http://file.com
 #+END_SRC
 o - output filename
+
+- download dropbox deb file to /tmp directory
+#+BEGIN_SRC sh
+wget -O /tmp/dropbox.deb https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2015.10.28_amd64.deb
+#+END_SRC
 
 ** Download file at specific speed
 #+BEGIN_SRC sh

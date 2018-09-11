@@ -3337,7 +3337,6 @@ we could delegate to any server other than the localhost though
 ** Loops
 
 ** Conditionals
-
 ** Until
 This will continue to check the remote server until it response the the service is running
 #+BEGIN_EXAMPLE

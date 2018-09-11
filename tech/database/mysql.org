@@ -135,6 +135,28 @@ REVOKE ALL PRIVILEGES, GRANT OPTION FROM 'fred'@'localhost';
 #+END_SRC
 
 *** Create new user
+- create a new user for wordpress
+#+BEGIN_EXAMPLE
+CREATE USER 'wp-user'@'172.17.0.3' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON wordpress.* to 'wp-user'@'172.17.0.3';
+FLUSH PRIVILEGES;
+#+END_EXAMPLE
+this would only allow the wp-user to access the server from '172.17.0.3'
+
+- add localhost
+#+BEGIN_EXAMPLE
+CREATE USER 'wp-user'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON wordpress.* to 'wp-user'@'localhost';
+#+END_EXAMPLE
+
+- allow the user to connect from any ip
+#+BEGIN_SRC sh
+CREATE USER 'wp-user'@'%' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON wordpress.* to 'wp-user'@'%';
+#+END_SRC
+not advised, security implications
+
+
 *** Delete a User
 #+BEGIN_SRC sh
 DROP USER 'fred'@'localhost';

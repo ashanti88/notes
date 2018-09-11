@@ -6,6 +6,12 @@
 Domain Information Groper is used to inspect a domains DNS records
 
 * Usage
+
+- install on Debian
+#+BEGIN_SRC sh
+apt install dnsutils
+#+END_SRC
+
 - use specified dns server
 #+BEGIN_SRC sh
 dig google.com @ns.123-reg.co.uk

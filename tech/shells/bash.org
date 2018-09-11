@@ -2,6 +2,7 @@
 
 
 * Bash
+tldp: http://tldp.org/LDP/abs/html/index.html
 * Files
 /etc/profile - 
 ~/.bash_logout - this is run when loging out of shell window
@@ -101,7 +102,6 @@ read USERAGE
 echo "In 10 Years, You'll be $(expr $USERAGE + 10) years old."
 #+END_EXAMPLE
 
-
 ** Shell expansion
 - print multiple words with a common group of letters
 #+BEGIN_SRC sh
@@ -140,7 +140,6 @@ this will unset the explicit setting of int, and will leave it unassigned
 declare -r READONLY="this is read only"
 #+END_SRC
 this variable can't not be changed after creation, it rrequires the leaving of the session
-
 
 ** Arrays
    
@@ -183,6 +182,35 @@ done
 #+END_EXAMPLE
 
 
+** Debugging a bash script
+- debugging the whole script
+#+BEGIN_SRC sh
+bash -x scritp.sh
+#+END_SRC
+this will produce extra information to aid in debugging
+
+adding debugging to a scritp section
+#+BEGIN_EXAMPLE
+#!/bin/bash
+
+echo "Enter a filename to read: "
+
+# DEBUG START
+set -x
+
+read FILE
+
+while read -r SUPERHERO; do
+        echo "Superhero Name: $SUPERHERO"
+done < "$FILE"
+
+set +x
+#+END_EXAMPLE
+-x - this starts debugging
++x - this ends debugging
+
+** Error Handling
+   
 
 * Scripting
 ** Check for the correct number of arguments

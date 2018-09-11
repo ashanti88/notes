@@ -1227,7 +1227,6 @@ notice the increase in replicas due to the increase in cpu load
 
 
 
-
 * Lecture
 * Tutorial
 * Books

@@ -1,0 +1,15 @@
+#+TAGS: screen_resolution xrandr
+
+
+* xrandr
+* Description
+* Usage
+- change the resolution to 1920x1080
+#+BEGIN_SRC sh
+xrandr --output eDP-1 --mode 1920x1080
+#+END_SRC
+
+* Lecture
+* Tutorial
+* Books
+* Links
